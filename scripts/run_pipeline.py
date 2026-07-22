@@ -11,6 +11,7 @@ from __future__ import annotations
 import os
 import re
 import sys
+from collections import defaultdict
 
 from fetch_rss import collect_candidates
 from generate_report import process_video
@@ -36,10 +37,28 @@ def main() -> int:
     candidates = collect_candidates()
     seen = _seen_video_ids()
     fresh = [c for c in candidates if c["video_id"] not in seen]
-    # 최신 발행순으로 정렬 후 무료 티어 쿼터를 고려해 상한만큼만 처리
-    fresh.sort(key=lambda c: c.get("published", ""), reverse=True)
-    fresh = fresh[:MAX_CANDIDATES_PER_RUN]
+
+    # 채널별로 묶어 각 채널 내 최신순 정렬
+    by_ch: dict[str, list] = defaultdict(list)
+    for c in fresh:
+        by_ch[c["channel"]].append(c)
+    for lst in by_ch.values():
+        lst.sort(key=lambda c: c.get("published", ""), reverse=True)
+
+    # 라운드로빈: 채널을 번갈아 뽑아 특정 채널 독점 방지 (슈카월드 등 공정 포함)
+    selected: list = []
+    while len(selected) < MAX_CANDIDATES_PER_RUN and any(by_ch.values()):
+        for ch in list(by_ch):
+            if by_ch[ch]:
+                selected.append(by_ch[ch].pop(0))
+                if len(selected) >= MAX_CANDIDATES_PER_RUN:
+                    break
+    fresh = selected
+
+    dist = ", ".join(f"{k} {sum(1 for c in fresh if c['channel'] == k)}"
+                     for k in dict.fromkeys(c["channel"] for c in fresh))
     print(f"1차 후보 {len(candidates)}건 · 신규 {len(fresh)}건 처리 (상한 {MAX_CANDIDATES_PER_RUN})")
+    print(f"  처리 분배: {dist or '없음'}")
 
     new_reports = []
     for meta in fresh:

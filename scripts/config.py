@@ -71,5 +71,6 @@ CATEGORIES = ["global-policy", "global-market", "korea-policy", "korea-market"]
 # 아래 값은 목록 조회 실패 시의 최종 폴백입니다.
 GEMINI_MODEL = "gemini-2.5-flash"
 
-# 무료 티어(분당 5회) 쿼터를 고려한 1회 실행당 신규 처리 상한
-MAX_CANDIDATES_PER_RUN = 5
+# 1회 실행당 신규 처리 상한 (채널 라운드로빈으로 공정 분배)
+# 무료 티어 분당 5회는 429 재시도로 자동 스로틀되므로 상한을 넉넉히.
+MAX_CANDIDATES_PER_RUN = 12
