@@ -34,9 +34,10 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           if [ -n "$(git status --porcelain site/)" ]; then
             git add site/
-            git commit -m "chore: update battery report archive [skip ci]"
+            git commit -m "chore: update battery report archive"
             git push
           else
             echo "변경 사항 없음"
           fi
       # main 에 커밋이 push 되면 pages.yml 이 자동으로 재배포합니다.
+      # (archive.yml 은 push 로 트리거되지 않으므로 [skip ci] 불필요)
