@@ -29,6 +29,11 @@ def match_keywords(text: str) -> list[str]:
     return hits
 
 
+# YouTube 가 feedparser 기본 UA 를 차단하는 경우가 있어 브라우저 UA 지정
+USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+              "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
+
+
 def fetch_channel(channel: dict[str, str]) -> list[dict[str, Any]]:
     """단일 채널 RSS 를 파싱해 영상 엔트리 리스트 반환."""
     import feedparser  # 런타임 의존성
@@ -38,7 +43,10 @@ def fetch_channel(channel: dict[str, str]) -> list[dict[str, Any]]:
         print(f"  [skip] {channel['name']}: channel_id 미설정", file=sys.stderr)
         return []
 
-    feed = feedparser.parse(RSS_URL.format(channel_id=cid))
+    feed = feedparser.parse(RSS_URL.format(channel_id=cid), agent=USER_AGENT)
+    status = getattr(feed, "status", "?")
+    print(f"  [rss] {channel['name']}: entries={len(feed.entries)} "
+          f"status={status} bozo={getattr(feed, 'bozo', '?')}")
     videos = []
     for e in feed.entries:
         videos.append({
