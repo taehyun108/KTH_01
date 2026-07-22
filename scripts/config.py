@@ -23,13 +23,13 @@ DRAFTS_DIR = ROOT / "drafts"          # 애매한 건 수동 확인용
 #   RSS URL 패턴: https://www.youtube.com/feeds/videos.xml?channel_id=<ID>
 # ---------------------------------------------------------------------------
 CHANNELS = [
-    {"name": "삼프로TV",            "channel_id": "TODO_CHANNEL_ID"},
-    {"name": "슈카월드",            "channel_id": "TODO_CHANNEL_ID"},
-    {"name": "언더스탠딩",          "channel_id": "TODO_CHANNEL_ID"},
-    {"name": "소수몽키",            "channel_id": "TODO_CHANNEL_ID"},
-    {"name": "전인구경제연구소",     "channel_id": "TODO_CHANNEL_ID"},
-    {"name": "슈퍼개미 이세무사TV",  "channel_id": "TODO_CHANNEL_ID"},
-    # {"name": "조선비즈", "channel_id": "TODO_CHANNEL_ID"},  # 있으면 추가
+    {"name": "삼프로TV",            "channel_id": "UChlv4GSd7OQl3js-jkLOnFA"},
+    {"name": "슈카월드",            "channel_id": "UCsJ6RuBiTVWRX156FVbeaGg"},
+    {"name": "언더스탠딩",          "channel_id": "UCIUni4ScRp4mqPXsxy62L5w"},
+    {"name": "소수몽키",            "channel_id": "UCC3yfxS5qC6PCwDzetUuEWg"},
+    {"name": "전인구경제연구소",     "channel_id": "UCznImSIaxZR7fdLCICLdgaQ"},
+    {"name": "슈퍼개미 이세무사TV",  "channel_id": "UCowHl0BGalL433P6bCBgeKA"},
+    # 필요 시 채널 추가: {"name": "조선비즈", "channel_id": "UC..."},
 ]
 
 RSS_URL = "https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
