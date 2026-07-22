@@ -294,7 +294,9 @@ def process_video(meta: dict[str, Any]) -> dict[str, Any] | None:
             json.dumps({"meta": meta, "reason": "무관"}, ensure_ascii=False, indent=2))
         return None
 
-    the_date = date.today().isoformat()
+    # 리포트 날짜는 영상 실제 게시일 기준(누적 타임라인 정확화), 없으면 오늘
+    pub = (meta.get("published") or "")[:10]
+    the_date = pub if re.fullmatch(r"\d{4}-\d{2}-\d{2}", pub) else date.today().isoformat()
     slug = f"{the_date}-{slugify(data['title'])}"
     NEWS_DIR.mkdir(parents=True, exist_ok=True)
     (NEWS_DIR / f"{slug}.html").write_text(render_html(data, meta, the_date), encoding="utf-8")
@@ -305,6 +307,7 @@ def process_video(meta: dict[str, Any]) -> dict[str, Any] | None:
         "category": data["category"], "relation": data["relation"],
         "url": f"{slug}.html",
         "video": meta.get("link") or f"https://www.youtube.com/watch?v={meta['video_id']}",
+        "video_id": meta["video_id"],  # 중복 방지용 (모든 URL 형식 무관)
     }
 
 

@@ -19,13 +19,23 @@ from build_index import merge, load_existing
 from config import MAX_CANDIDATES_PER_RUN
 
 
+def _extract_video_id(url: str) -> str | None:
+    """watch?v=ID · shorts/ID · youtu.be/ID · embed/ID 모두에서 영상 id 추출."""
+    for pat in (r"[?&]v=([\w-]{6,})", r"/shorts/([\w-]{6,})",
+                r"youtu\.be/([\w-]{6,})", r"/embed/([\w-]{6,})"):
+        m = re.search(pat, url or "")
+        if m:
+            return m.group(1)
+    return None
+
+
 def _seen_video_ids() -> set[str]:
-    """이미 리포트가 만들어진 영상 id (중복 생성 방지)."""
+    """이미 리포트가 만들어진 영상 id (중복 생성 방지). video_id 필드 우선, 없으면 URL 파싱."""
     seen = set()
     for r in load_existing():
-        m = re.search(r"[?&]v=([\w-]+)", r.get("video", ""))
-        if m:
-            seen.add(m.group(1))
+        vid = r.get("video_id") or _extract_video_id(r.get("video", ""))
+        if vid:
+            seen.add(vid)
     return seen
 
 
