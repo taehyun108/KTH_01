@@ -1,12 +1,16 @@
 name: Deploy to GitHub Pages
 
-# main 에 push 되거나 파이프라인이 새 리포트를 커밋할 때마다 site/ 를 Pages 로 배포
+# main 에 push 되거나, 파이프라인(Build report archive) 실행이 끝나면 site/ 를 Pages 로 배포.
+# ※ archive 의 봇 커밋은 GITHUB_TOKEN 이라 push 트리거를 못 하므로 workflow_run 으로 배포.
 on:
   push:
     branches: [main]
     paths:
       - "site/**"
       - ".github/workflows/pages.yml"
+  workflow_run:
+    workflows: ["Build report archive"]
+    types: [completed]
   workflow_dispatch:
 
 permissions:
