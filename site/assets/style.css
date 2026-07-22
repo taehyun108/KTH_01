@@ -168,67 +168,107 @@ a { color: inherit; text-decoration: none; }
 .site-footer .wrap > div { margin: 2px 0; }
 
 /* ==========================================================================
-   리포트 상세 (아티클)
+   리포트 상세 — 인포그래픽 카드 레이아웃
    ========================================================================== */
-.report { max-width: var(--readw); padding: 30px 0 80px; }
-.report .backlink {
-  display: inline-block; color: var(--text-dim); font-size: 0.88rem;
-  font-weight: 500; margin-bottom: 20px;
+.report-hero {
+  background: linear-gradient(105deg, var(--accent-deep) 0%, var(--accent-strong) 55%, var(--accent) 100%);
+  color: #fff; padding: 30px 0 34px;
 }
-.report .backlink:hover { color: var(--accent-strong); }
-.report-head {
-  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
-  font-size: 0.82rem; color: var(--text-faint); margin-bottom: 14px;
+.report-hero .hero-meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  font-size: 0.8rem; color: rgba(255,255,255,.88); margin-bottom: 13px;
 }
-.report h1 {
-  font-size: 1.9rem; line-height: 1.32; letter-spacing: -0.03em;
-  font-weight: 800; margin: 0 0 26px; color: #0f172a;
+.report-hero .hero-tag {
+  background: rgba(255,255,255,.2); padding: 2px 10px; border-radius: 999px; font-weight: 700;
 }
-.report h2 {
-  font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em;
-  margin: 40px 0 14px; padding-left: 14px;
-  border-left: 4px solid var(--accent); color: #0f172a;
+.report-hero h1 {
+  margin: 0; font-size: 1.7rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.32;
 }
-.report p { color: #35404f; margin: 12px 0; }
-.report ul { color: #35404f; padding-left: 20px; }
+
+.report { max-width: 1080px; padding: 26px 0 70px; }
+
+.infographic {
+  display: block; width: 100%; border-radius: var(--radius);
+  border: 1px solid var(--border); box-shadow: var(--shadow); margin-bottom: 22px;
+}
+
+.section-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.sec-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 22px; box-shadow: var(--shadow);
+}
+.sec-card.full { margin-top: 16px; }
+.sec-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.sec-num {
+  flex: none; width: 30px; height: 30px; border-radius: 8px;
+  background: var(--accent); color: #fff; font-weight: 800; font-size: 0.82rem;
+  display: flex; align-items: center; justify-content: center; letter-spacing: -0.02em;
+}
+.sec-head h2 { margin: 0; font-size: 1.12rem; font-weight: 700; letter-spacing: -0.02em; color: #0f172a; }
+.sec-card p { margin: 10px 0; color: #35404f; }
+.sec-card p:first-of-type { margin-top: 0; }
+.sec-card p:last-child { margin-bottom: 0; }
+.sec-card ul { color: #35404f; padding-left: 20px; margin: 8px 0; }
+
+/* 표 (컬러 헤더 행) */
 .report table {
-  width: 100%; border-collapse: separate; border-spacing: 0; margin: 14px 0;
-  font-size: 0.92rem; border: 1px solid var(--border); border-radius: 10px;
-  overflow: hidden; box-shadow: var(--shadow);
+  width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.9rem;
+  border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
 }
-.report th, .report td {
-  padding: 11px 14px; text-align: left; vertical-align: top;
-  border-bottom: 1px solid var(--border);
+.report thead th {
+  background: var(--accent); color: #fff; font-weight: 700; text-align: left;
+  padding: 9px 13px; font-size: 0.85rem; white-space: nowrap;
 }
-.report tr:last-child th, .report tr:last-child td { border-bottom: none; }
-.report th { background: var(--surface-2); color: var(--text); width: 28%; white-space: nowrap; font-weight: 600; }
-.report td { color: #35404f; background: var(--surface); }
+.report tbody td {
+  padding: 9px 13px; border-top: 1px solid var(--border);
+  color: #35404f; vertical-align: top; background: var(--surface);
+}
+.report tbody td.k {
+  font-weight: 600; color: var(--text); white-space: nowrap;
+  width: 30%; background: var(--surface-2);
+}
+.report .glossary td.k { width: 24%; white-space: normal; }
+
 .callout {
   border: 1px solid #bae6fd; background: linear-gradient(180deg, #f0f9ff, #e0f2fe);
-  border-radius: var(--radius); padding: 18px 20px; margin: 14px 0;
+  border-radius: 10px; padding: 16px 18px; margin: 0;
 }
 .callout .callout-title { color: var(--accent-strong); font-weight: 700; margin: 0 0 8px; font-size: 0.95rem; }
 .callout p { color: #1e3a5f; }
+.callout p:last-child { margin-bottom: 0; }
 .callout strong { color: var(--accent-strong); }
+
 .video-embed {
-  position: relative; width: 100%; padding-top: 56.25%; margin: 24px 0;
+  position: relative; width: 100%; padding-top: 56.25%; margin: 22px 0 0;
   border-radius: var(--radius); overflow: hidden; background: #000; box-shadow: var(--shadow);
 }
 .video-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-.disclaimer {
-  margin-top: 36px; padding: 14px 16px; border: 1px solid var(--border);
-  border-radius: var(--radius); background: var(--surface); color: var(--text-faint); font-size: 0.82rem;
-}
-.report-footer {
-  margin-top: 26px; display: flex; justify-content: space-between; flex-wrap: wrap;
-  gap: 10px; color: var(--text-faint); font-size: 0.85rem; padding-top: 18px; border-top: 1px solid var(--border);
-}
-.report-footer a:hover { color: var(--accent-strong); }
 
+.report-foot {
+  margin-top: 28px; padding-top: 22px; text-align: center;
+  color: var(--text-faint); font-size: 0.85rem; border-top: 1px solid var(--border);
+}
+.report-foot .dot { color: var(--accent); }
+.back-btn {
+  display: inline-block; margin-top: 14px; border: 1px solid var(--border-strong);
+  background: var(--surface); color: var(--text-dim); padding: 9px 22px; border-radius: 999px;
+  font-size: 0.88rem; font-weight: 500; box-shadow: var(--shadow);
+}
+.back-btn:hover { border-color: var(--accent); color: var(--accent-strong); }
+
+.disclaimer {
+  margin-top: 22px; padding: 13px 16px; border: 1px solid var(--border);
+  border-radius: var(--radius); background: var(--surface); color: var(--text-faint);
+  font-size: 0.8rem; text-align: center;
+}
+
+@media (max-width: 720px) {
+  .section-grid { grid-template-columns: 1fr; }
+}
 @media (max-width: 640px) {
   body { font-size: 15px; }
   .site-header h1 { font-size: 1.3rem; }
   .stats { gap: 16px; }
-  .report h1 { font-size: 1.5rem; }
-  .report th { width: 36%; }
+  .report-hero h1 { font-size: 1.4rem; }
 }

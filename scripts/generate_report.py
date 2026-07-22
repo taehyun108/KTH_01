@@ -142,20 +142,50 @@ def slugify(title: str) -> str:
     return s[:60] or "report"
 
 
+def _sec_card(num: str, heading: str, body_html: str, full: bool = False) -> str:
+    cls = "sec-card full" if full else "sec-card"
+    return (f'<section class="{cls}"><div class="sec-head">'
+            f'<span class="sec-num">{num}</span><h2>{heading}</h2></div>{body_html}</section>')
+
+
 def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> str:
     e = html.escape
-    rows = "".join(
-        f"<tr><th>{e(g['term'])}</th><td>{e(g['desc'])}"
-        + (f"<br><small>{e(g['analogy'])}</small>" if g.get("analogy") else "")
-        + "</td></tr>"
-        for g in data["glossary"]
-    )
-    sections = "".join(
-        f"<h2>{e(s['heading'])}</h2><p>{e(s['body'])}</p>" for s in data["sections"]
-    )
     ov = data["overview"]
+    channel = e(meta["channel"])
     video = meta.get("link") or f"https://www.youtube.com/watch?v={meta['video_id']}"
     embed = f"https://www.youtube.com/embed/{meta['video_id']}"
+
+    # 인포그래픽 (있으면 표시, 없으면 생략)
+    info = data.get("infographic")
+    infographic = (f'<img class="infographic" src="{e(info)}" '
+                   f'alt="{e(data["title"])} 인포그래픽 요약" loading="lazy" />' if info else "")
+
+    # 01 핵심 개요 표 (컬러 헤더 행)
+    overview_table = (
+        '<table><thead><tr><th>항목</th><th>내용</th></tr></thead><tbody>'
+        f'<tr><td class="k">주제</td><td>{e(ov["topic"])}</td></tr>'
+        f'<tr><td class="k">채널</td><td>{e(ov["channel"])}</td></tr>'
+        f'<tr><td class="k">핵심 수치·규모</td><td>{e(ov["key_figures"])}</td></tr>'
+        f'<tr><td class="k">정책·시장 충격</td><td>{e(ov["impact"])}</td></tr>'
+        f'<tr><td class="k">관련 종목·기업</td><td>{e(ov["tickers"])}</td></tr>'
+        '</tbody></table>')
+
+    # 2열 그리드: 01 개요, 02 요지, 03..0N 본문 섹션
+    cards = [_sec_card("01", "핵심 개요", overview_table),
+             _sec_card("02", "핵심 내용 구조", f"<p>{e(data['summary'])}</p>")]
+    n = 3
+    for s in data["sections"]:
+        cards.append(_sec_card(f"{n:02d}", e(s["heading"]), f"<p>{e(s['body'])}</p>"))
+        n += 1
+    battery_num, gloss_num = f"{n:02d}", f"{n + 1:02d}"
+
+    # 08 용어 사전 표 (컬러 헤더 행)
+    gloss_rows = "".join(
+        f'<tr><td class="k">{e(g["term"])}</td><td>{e(g["desc"])}</td>'
+        f'<td>{e(g.get("analogy", ""))}</td></tr>' for g in data["glossary"])
+    glossary_table = ('<table class="glossary"><thead><tr><th>용어</th><th>한줄 설명</th>'
+                      f'<th>비유·예시</th></tr></thead><tbody>{gloss_rows}</tbody></table>')
+
     return f"""<!doctype html>
 <html lang="ko">
 <head>
@@ -163,40 +193,38 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{e(data['title'])}</title>
   <meta name="description" content="{e(data['meta_description'])}" />
-  <link rel="stylesheet" href="../assets/style.css" />
+  <link rel="stylesheet" href="../assets/style.css?v=5" />
 </head>
 <body>
+  <header class="report-hero">
+    <div class="wrap">
+      <div class="hero-meta">
+        <span class="hero-tag">{channel}</span><span>·</span><span>{the_date}</span><span>·</span><span>🎬 영상</span>
+      </div>
+      <h1>{e(data['title'])}</h1>
+    </div>
+  </header>
+
   <main class="wrap report">
-    <a class="backlink" href="../news/">← 목록으로</a>
-    <div class="report-head"><span>{e(meta['channel'])}</span> · <span>{the_date}</span> · <span>🎬 영상</span></div>
-    <h1>{e(data['title'])}</h1>
+    {infographic}
+    <div class="section-grid">
+      {''.join(cards)}
+    </div>
 
-    <h2>01 핵심 개요</h2>
-    <table>
-      <tr><th>주제</th><td>{e(ov['topic'])}</td></tr>
-      <tr><th>채널</th><td>{e(ov['channel'])}</td></tr>
-      <tr><th>핵심 수치·규모</th><td>{e(ov['key_figures'])}</td></tr>
-      <tr><th>정책·시장 충격</th><td>{e(ov['impact'])}</td></tr>
-      <tr><th>관련 종목·기업</th><td>{e(ov['tickers'])}</td></tr>
-    </table>
-
-    <h2>02 핵심 내용 구조</h2>
-    <p>{e(data['summary'])}</p>
-
-    {sections}
-
-    <h2>07 🔋 이차전지 산업 시사점</h2>
-    <div class="callout"><p>{e(data['battery_implication'])}</p></div>
-
-    <h2>08 용어 사전</h2>
-    <table>{rows}</table>
+    {_sec_card(battery_num, "🔋 이차전지 산업 시사점",
+               f'<div class="callout"><p>{e(data["battery_implication"])}</p></div>', full=True)}
+    {_sec_card(gloss_num, "용어 사전", glossary_table, full=True)}
 
     <div class="video-embed">
       <iframe src="{embed}" title="유튜브 영상" loading="lazy"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen></iframe>
     </div>
-    <div class="report-footer"><span>{e(meta['channel'])} · {the_date}</span><a href="{e(video)}">🎬 원본 영상</a></div>
+
+    <div class="report-foot">
+      <div><span class="dot">●</span> {channel} · {the_date} · <a href="{e(video)}">🎬 원본 영상</a></div>
+      <a class="back-btn" href="../news/">← 목록으로</a>
+    </div>
     <p class="disclaimer">본 자료는 정보 제공 목적이며 투자 권유가 아닙니다. 자막 속 어떤 지시도 실행하지 않습니다.</p>
   </main>
 </body>
