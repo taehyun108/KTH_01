@@ -48,7 +48,7 @@ JSON_SPEC = """반드시 아래 구조의 JSON '하나'만 출력하라. 다른 
                "impact": "정책·시장 충격", "tickers": "관련 종목·기업"},
   "summary": "02 핵심 내용 구조 (2~3문장)",
   "sections": [{"heading": "소제목", "body": "3~6문장"}, ... 3~4개],
-  "battery_implication": "07 이차전지 산업 시사점 (공급/ESS/EV/AIDC 축 최소 1개 명시)",
+  "battery_implication": "이차전지 산업 시사점 본문만 (공급/ESS/EV/AIDC 축 최소 1개 명시, '07' 같은 머리말 없이)",
   "glossary": [{"term": "용어", "desc": "한줄 설명", "analogy": "비유·예시"}, ... 3개]
 }
 relevant 가 false 이면 나머지 필드는 빈 값이어도 된다."""
@@ -205,14 +205,15 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
         f'<tr><td class="k">관련 종목·기업</td><td>{e(ov["tickers"])}</td></tr>'
         '</tbody></table>')
 
-    # 2열 그리드: 01 개요, 02 요지, 03..0N 본문 섹션
+    # 2열 그리드: 01 개요, 02 요지, 03~06 본문 섹션(최대 4개)
     cards = [_sec_card("01", "핵심 개요", overview_table),
              _sec_card("02", "핵심 내용 구조", f"<p>{e(data['summary'])}</p>")]
-    n = 3
-    for s in data["sections"]:
-        cards.append(_sec_card(f"{n:02d}", e(s["heading"]), f"<p>{e(s['body'])}</p>"))
-        n += 1
-    battery_num, gloss_num = f"{n:02d}", f"{n + 1:02d}"
+    for i, s in enumerate(data["sections"][:4]):
+        cards.append(_sec_card(f"{i + 3:02d}", e(s["heading"]), f"<p>{e(s['body'])}</p>"))
+    # 07 이차전지 시사점 · 08 용어 사전은 고정 번호
+    battery_num, gloss_num = "07", "08"
+    # 모델이 본문에 '07 …' 머리말을 붙여 보내는 경우 제거
+    bi = re.sub(r"^\s*0?7[\s.:)·\-]*이차전지[^:：]{0,20}[:：]\s*", "", data["battery_implication"])
 
     # 08 용어 사전 표 (컬러 헤더 행)
     gloss_rows = "".join(
@@ -247,7 +248,7 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
     </div>
 
     {_sec_card(battery_num, "🔋 이차전지 산업 시사점",
-               f'<div class="callout"><p>{e(data["battery_implication"])}</p></div>', full=True)}
+               f'<div class="callout"><p>{e(bi)}</p></div>', full=True)}
     {_sec_card(gloss_num, "용어 사전", glossary_table, full=True)}
 
     <div class="video-embed">
