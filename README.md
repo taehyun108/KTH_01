@@ -11,7 +11,7 @@
 ## 🌐 배포 URL
 
 ```
-https://taehyun108.github.io/kth_01/
+https://taehyun108.github.io/KTH_01/
 ```
 
 > 아래 **배포 활성화(최초 1회)** 를 완료하면 위 URL 로 누구나 접속할 수 있습니다.
@@ -65,7 +65,7 @@ GitHub Pages 소스 설정은 저장소 설정에서 한 번만 켜면 됩니다
 2. **Settings → Pages → Build and deployment → Source = "GitHub Actions"** 선택.
 3. `pages.yml` 워크플로가 실행되며 `site/` 를 배포합니다.
    (또는 Actions 탭에서 **Deploy to GitHub Pages** 를 수동 실행 `workflow_dispatch`)
-4. 완료되면 `https://taehyun108.github.io/kth_01/` 로 접속됩니다.
+4. 완료되면 `https://taehyun108.github.io/KTH_01/` 로 접속됩니다.
 
 이후 `archive.yml` 이 새 리포트를 `main` 에 커밋할 때마다 Pages 도 자동 재배포됩니다.
 
