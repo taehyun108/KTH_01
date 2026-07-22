@@ -17,8 +17,8 @@ from build_index import merge
 
 
 def main() -> int:
-    if not os.getenv("ANTHROPIC_API_KEY"):
-        print("ANTHROPIC_API_KEY 미설정 — 리포트 생성 단계를 건너뜁니다.", file=sys.stderr)
+    if not os.getenv("GEMINI_API_KEY"):
+        print("GEMINI_API_KEY 미설정 — 리포트 생성 단계를 건너뜁니다.", file=sys.stderr)
         return 0
 
     candidates = collect_candidates()

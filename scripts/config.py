@@ -66,5 +66,5 @@ ALL_KEYWORDS = KW_DIRECT + KW_APPLICATION + KW_MACRO
 # 카테고리 정의 (LLM 분류가 이 중 하나를 반환)
 CATEGORIES = ["global-policy", "global-market", "korea-policy", "korea-market"]
 
-# Claude 모델
-CLAUDE_MODEL = "claude-opus-4-8"
+# Gemini 모델 (시크릿 KTH_01_GEMINI_API_KEY → 환경변수 GEMINI_API_KEY)
+GEMINI_MODEL = "gemini-2.5-flash"

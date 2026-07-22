@@ -1,7 +1,7 @@
 # 🔋 이차전지 리포트 아카이브
 
 대형 경제·시사 유튜브 채널의 영상 중 **이차전지 산업(공급망 + 응용분야: ESS·EV·AIDC)** 과
-연결되는 내용을 골라, 자막을 추출 → Claude API 로 구조화된 텍스트 리포트로 재작성 → 정적
+연결되는 내용을 골라, 자막을 추출 → Gemini API 로 구조화된 텍스트 리포트로 재작성 → 정적
 아카이브 페이지로 쌓고 **GitHub Pages** 로 배포하는 프로젝트입니다.
 
 배터리 직접 뉴스뿐 아니라 금리·관세·전력망·산업안전·지정학 같은 **간접 이슈**까지 폭넓게
@@ -73,14 +73,14 @@ GitHub Pages 소스 설정은 저장소 설정에서 한 번만 켜면 됩니다
 
 1. `scripts/config.py` 의 `CHANNELS[].channel_id` 를 실제 유튜브 채널 ID 로 채웁니다.
    - 채널 페이지 → "정보" 탭 또는 페이지 소스에서 `channel_id` 확인
-2. 저장소 **Settings → Secrets → Actions** 에 `ANTHROPIC_API_KEY` 등록.
+2. 저장소 **Settings → Secrets → Actions** 에 `KTH_01_GEMINI_API_KEY` 등록.
 3. Actions 탭에서 **Build report archive** 수동 실행하거나 스케줄(하루 2회) 대기.
 
 ## 🧪 로컬 실행
 
 ```bash
 pip install -r requirements.txt
-export ANTHROPIC_API_KEY=sk-ant-...
+export GEMINI_API_KEY=...   # Google AI Studio 에서 발급
 python scripts/run_pipeline.py
 ```
 
