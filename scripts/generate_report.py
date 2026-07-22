@@ -17,6 +17,8 @@ import html
 import json
 import os
 import re
+import sys
+import time
 from datetime import date
 from typing import Any
 
@@ -71,36 +73,97 @@ def get_transcript(video_id: str) -> tuple[str, str]:
 # ---------------------------------------------------------------------------
 def _strip_fences(text: str) -> str:
     """모델이 ```json ... ``` 로 감싸 보내는 경우 코드펜스 제거."""
-    t = text.strip()
+    t = (text or "").strip()
     if t.startswith("```"):
         t = t.split("\n", 1)[1] if "\n" in t else t
         t = t.rsplit("```", 1)[0]
     return t.strip()
 
 
+_CLIENT = None
+_MODEL = None
+# 모델 선호 순서 (앞쪽 우선). 새 API 키에서 2.5-flash 가 막힌 경우 최신 모델로 폴백.
+_MODEL_PREFS = ("flash-latest", "2.5-flash", "flash", "pro-latest", "2.5-pro", "pro")
+
+
+def _get_client():
+    global _CLIENT
+    if _CLIENT is None:
+        from google import genai
+        _CLIENT = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    return _CLIENT
+
+
+def _resolve_model(client) -> str:
+    """generateContent 지원 모델 중 사용 가능한 것을 자동 선택(캐시)."""
+    global _MODEL
+    if _MODEL:
+        return _MODEL
+    try:
+        avail = []
+        for m in client.models.list():
+            methods = (getattr(m, "supported_actions", None)
+                       or getattr(m, "supported_generation_methods", None) or [])
+            if "generateContent" in methods:
+                avail.append(m.name.split("/")[-1])
+    except Exception as exc:  # noqa: BLE001
+        print(f"  [model] 목록 조회 실패({exc}) → 기본값 {GEMINI_MODEL}", file=sys.stderr)
+        _MODEL = GEMINI_MODEL
+        return _MODEL
+
+    def bad(n: str) -> bool:
+        return any(x in n for x in ("vision", "image", "tts", "audio", "embedding",
+                                    "live", "thinking", "exp", "learnlm"))
+
+    cands = [n for n in avail if not bad(n)]
+    for pref in _MODEL_PREFS:
+        for n in cands:
+            if pref in n:
+                _MODEL = n
+                print(f"  [model] 선택: {_MODEL}")
+                return _MODEL
+    _MODEL = cands[0] if cands else GEMINI_MODEL
+    print(f"  [model] 선택(fallback): {_MODEL}")
+    return _MODEL
+
+
+def _retry_delay(msg: str, default: float) -> float:
+    m = re.search(r"retry(?:Delay)?['\":\s]+([\d.]+)s", msg, re.IGNORECASE)
+    return min(float(m.group(1)) + 1.0, 30.0) if m else default
+
+
+def _generate(client, model: str, types, prompt: str, max_retries: int = 5):
+    """429(레이트리밋)는 서버 제안 대기 후 재시도. 무료 티어(분당 5회) 대응."""
+    cfg = types.GenerateContentConfig(
+        response_mime_type="application/json", temperature=0.4, max_output_tokens=8192)
+    delay = 8.0
+    for attempt in range(max_retries):
+        try:
+            return client.models.generate_content(model=model, contents=prompt, config=cfg)
+        except Exception as exc:  # noqa: BLE001
+            msg = str(exc)
+            if ("RESOURCE_EXHAUSTED" in msg or "429" in msg) and attempt < max_retries - 1:
+                wait = _retry_delay(msg, delay)
+                print(f"  [429] 쿼터 대기 {wait:.0f}s 후 재시도 ({attempt + 1})", file=sys.stderr)
+                time.sleep(wait)
+                delay *= 1.4
+                continue
+            raise
+
+
 def analyze(meta: dict[str, Any], transcript: str, transcript_source: str) -> dict[str, Any]:
     """자막을 Gemini 에 넘겨 관련성 판단 + 리포트 구조화."""
-    from google import genai
     from google.genai import types
 
-    # 시크릿 KTH_01_GEMINI_API_KEY 를 워크플로에서 GEMINI_API_KEY 로 주입
-    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    client = _get_client()               # 시크릿 KTH_01_GEMINI_API_KEY → GEMINI_API_KEY
+    model = _resolve_model(client)
     source_note = "" if transcript else "\n(자막 없음 — 제목·설명 기반으로 작성하고 리포트에 그 사실을 명시)"
     prompt = (
         f"{SYSTEM_PROMPT}\n\n{JSON_SPEC}\n\n"
         f"--- 분석 대상 ---\n채널: {meta['channel']}\n제목: {meta['title']}\n"
         f"설명: {meta.get('description', '')}\n자막:\n{transcript[:40000]}{source_note}"
     )
-
-    resp = client.models.generate_content(
-        model=GEMINI_MODEL,
-        contents=prompt,
-        config=types.GenerateContentConfig(
-            response_mime_type="application/json",
-            temperature=0.4,
-            max_output_tokens=8192,
-        ),
-    )
+    resp = _generate(client, model, types, prompt)
     data = json.loads(_strip_fences(resp.text))
     data["_transcript_source"] = transcript_source
     return data

@@ -67,4 +67,9 @@ ALL_KEYWORDS = KW_DIRECT + KW_APPLICATION + KW_MACRO
 CATEGORIES = ["global-policy", "global-market", "korea-policy", "korea-market"]
 
 # Gemini 모델 (시크릿 KTH_01_GEMINI_API_KEY → 환경변수 GEMINI_API_KEY)
+# 실제 사용 모델은 런타임에 generateContent 지원 목록에서 자동 선택되며,
+# 아래 값은 목록 조회 실패 시의 최종 폴백입니다.
 GEMINI_MODEL = "gemini-2.5-flash"
+
+# 무료 티어(분당 5회) 쿼터를 고려한 1회 실행당 신규 처리 상한
+MAX_CANDIDATES_PER_RUN = 5

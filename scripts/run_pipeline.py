@@ -9,11 +9,23 @@
 from __future__ import annotations
 
 import os
+import re
 import sys
 
 from fetch_rss import collect_candidates
 from generate_report import process_video
-from build_index import merge
+from build_index import merge, load_existing
+from config import MAX_CANDIDATES_PER_RUN
+
+
+def _seen_video_ids() -> set[str]:
+    """이미 리포트가 만들어진 영상 id (중복 생성 방지)."""
+    seen = set()
+    for r in load_existing():
+        m = re.search(r"[?&]v=([\w-]+)", r.get("video", ""))
+        if m:
+            seen.add(m.group(1))
+    return seen
 
 
 def main() -> int:
@@ -22,10 +34,15 @@ def main() -> int:
         return 0
 
     candidates = collect_candidates()
-    print(f"1차 후보 {len(candidates)}건")
+    seen = _seen_video_ids()
+    fresh = [c for c in candidates if c["video_id"] not in seen]
+    # 최신 발행순으로 정렬 후 무료 티어 쿼터를 고려해 상한만큼만 처리
+    fresh.sort(key=lambda c: c.get("published", ""), reverse=True)
+    fresh = fresh[:MAX_CANDIDATES_PER_RUN]
+    print(f"1차 후보 {len(candidates)}건 · 신규 {len(fresh)}건 처리 (상한 {MAX_CANDIDATES_PER_RUN})")
 
     new_reports = []
-    for meta in candidates:
+    for meta in fresh:
         try:
             result = process_video(meta)
             if result:
