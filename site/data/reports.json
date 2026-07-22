@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-22T01:35:44",
+  "generated_at": "2026-07-22T04:54:10",
   "reports": [
     {
       "id": "2026-07-22-ess-fire-safety-standard",
@@ -11,6 +11,39 @@
       "relation": "direct",
       "url": "2026-07-22-ess-fire-safety-standard.html",
       "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
+    {
+      "id": "2026-07-22-뉴욕증시-반도체-반등과-관세-중동-변수-분석-이차전지-산업의-간접-시사점",
+      "date": "2026-07-22",
+      "channel": "삼프로TV",
+      "title": "뉴욕증시 반도체 반등과 관세·중동 변수 분석: 이차전지 산업의 간접 시사점",
+      "summary": "뉴욕증시 반도체주 반등 및 관세·중동 정세 변수가 이차전지 공급망과 EV·AIDC 수요에 미치는 영향 분석",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-22-뉴욕증시-반도체-반등과-관세-중동-변수-분석-이차전지-산업의-간접-시사점.html",
+      "video": "https://www.youtube.com/watch?v=f688-fHKGK4"
+    },
+    {
+      "id": "2026-07-22-코스피-반등-가능성과-ai-반도체-사이클이-이차전지-및-aidc-인프라에-미치는-시사점",
+      "date": "2026-07-22",
+      "channel": "전인구경제연구소",
+      "title": "코스피 반등 가능성과 AI 반도체 사이클이 이차전지 및 AIDC 인프라에 미치는 시사점",
+      "summary": "코스피 변동성 확대 속 AI 반도체 사이클 진단 및 이차전지·AIDC 산업 수혜 분석",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-07-22-코스피-반등-가능성과-ai-반도체-사이클이-이차전지-및-aidc-인프라에-미치는-시사점.html",
+      "video": "https://www.youtube.com/watch?v=7J3a-lIimx0"
+    },
+    {
+      "id": "2026-07-22-현대차-실적-우려와-로보틱스-전환이-이차전지-ev-생태계에-주는-시사점",
+      "date": "2026-07-22",
+      "channel": "삼프로TV",
+      "title": "현대차 실적 우려와 로보틱스 전환이 이차전지·EV 생태계에 주는 시사점",
+      "summary": "현대차의 영업이익 변동성 우려와 로보틱스 신사업 모멘텀이 배터리 및 EV 생태계에 미치는 파급효과 분석",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-07-22-현대차-실적-우려와-로보틱스-전환이-이차전지-ev-생태계에-주는-시사점.html",
+      "video": "https://www.youtube.com/watch?v=z8yK6y0xUiM"
     },
     {
       "id": "2026-07-21-fed-hawkish-rate",
