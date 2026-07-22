@@ -13,7 +13,9 @@
 """
 from __future__ import annotations
 
+import random
 import sys
+import time
 from typing import Any
 
 from config import CHANNELS, RSS_URL, ALL_KEYWORDS
@@ -29,9 +31,33 @@ def match_keywords(text: str) -> list[str]:
     return hits
 
 
-# YouTube 가 feedparser 기본 UA 를 차단하는 경우가 있어 브라우저 UA 지정
+# YouTube 가 datacenter IP / 기본 UA 요청을 간헐 차단(404/500/429)하므로
+# 브라우저 헤더 + 재시도로 안정화한다.
 USER_AGENT = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
               "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
+RSS_HEADERS = {
+    "User-Agent": USER_AGENT,
+    "Accept": "application/atom+xml,application/xml,text/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "ko,en-US;q=0.9,en;q=0.8",
+}
+RSS_MAX_TRIES = 5
+
+
+def _fetch_rss_bytes(url: str) -> tuple[bytes | None, Any]:
+    """비-200 응답이면 백오프하며 재시도. (content, last_status)"""
+    import requests
+
+    last = None
+    for attempt in range(RSS_MAX_TRIES):
+        try:
+            r = requests.get(url, headers=RSS_HEADERS, timeout=15)
+            last = r.status_code
+            if r.status_code == 200 and r.content:
+                return r.content, last
+        except Exception as exc:  # noqa: BLE001
+            last = f"err:{exc.__class__.__name__}"
+        time.sleep(2 * (attempt + 1) + random.random())
+    return None, last
 
 
 def fetch_channel(channel: dict[str, str]) -> list[dict[str, Any]]:
@@ -43,10 +69,14 @@ def fetch_channel(channel: dict[str, str]) -> list[dict[str, Any]]:
         print(f"  [skip] {channel['name']}: channel_id 미설정", file=sys.stderr)
         return []
 
-    feed = feedparser.parse(RSS_URL.format(channel_id=cid), agent=USER_AGENT)
-    status = getattr(feed, "status", "?")
-    print(f"  [rss] {channel['name']}: entries={len(feed.entries)} "
-          f"status={status} bozo={getattr(feed, 'bozo', '?')}")
+    content, status = _fetch_rss_bytes(RSS_URL.format(channel_id=cid))
+    if content is None:
+        print(f"  [rss] {channel['name']}: 실패 status={status} (재시도 {RSS_MAX_TRIES}회 소진)",
+              file=sys.stderr)
+        return []
+
+    feed = feedparser.parse(content)
+    print(f"  [rss] {channel['name']}: entries={len(feed.entries)} status={status}")
     videos = []
     for e in feed.entries:
         videos.append({
@@ -63,7 +93,9 @@ def fetch_channel(channel: dict[str, str]) -> list[dict[str, Any]]:
 def collect_candidates() -> list[dict[str, Any]]:
     """모든 채널을 돌며 1차 키워드 필터를 통과한 후보를 모은다."""
     candidates = []
-    for ch in CHANNELS:
+    for i, ch in enumerate(CHANNELS):
+        if i:
+            time.sleep(1.0 + random.random())  # 채널 간 간격 (throttle 회피)
         try:
             for v in fetch_channel(ch):
                 hits = match_keywords(v["title"] + " " + v["description"])
