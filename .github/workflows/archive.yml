@@ -1,0 +1,42 @@
+name: Build report archive
+
+# 하루 2회(09:00, 21:00 KST = 00:00, 12:00 UTC) 실행 + 수동 실행
+on:
+  schedule:
+    - cron: "0 0 * * *"
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write   # 새 리포트/인덱스를 main 에 커밋
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run pipeline (RSS → 키워드 필터 → Claude 요약 → HTML → 인덱스)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/run_pipeline.py
+
+      - name: Commit new reports
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain site/)" ]; then
+            git add site/
+            git commit -m "chore: update battery report archive [skip ci]"
+            git push
+          else
+            echo "변경 사항 없음"
+          fi
+      # main 에 커밋이 push 되면 pages.yml 이 자동으로 재배포합니다.

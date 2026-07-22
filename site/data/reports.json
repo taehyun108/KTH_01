@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-07-21T09:00:00",
+  "reports": [
+    {
+      "id": "2026-07-21-fed-hawkish-rate",
+      "date": "2026-07-21",
+      "channel": "삼프로TV",
+      "title": "케빈 워시 신임 연준의장 매파 발언 — 배터리 3사 증설 투자에 미칠 압력",
+      "summary": "매파적 통화 기조로 고금리가 장기화되면 배터리 3사의 북미·유럽 대규모 증설 투자 자금조달 비용이 오르고, EV 할부금리 상승으로 캐즘 회복도 지연될 수 있다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-07-21-fed-hawkish-rate.html",
+      "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
+    {
+      "id": "2026-07-20-lg-ensol-ess-earnings",
+      "date": "2026-07-20",
+      "channel": "언더스탠딩",
+      "title": "LG에너지솔루션 2분기 실적 — ESS가 EV 캐즘 공백 메운다",
+      "summary": "EV용 배터리는 캐즘으로 둔화됐지만 북미 전력망·데이터센터 수요를 등에 업은 ESS 부문이 빠르게 성장하며 실적을 방어했다. 수요처가 EV에서 ESS·AIDC로 다변화되는 직접 사례.",
+      "category": "korea-market",
+      "relation": "direct",
+      "url": "2026-07-20-lg-ensol-ess-earnings.html",
+      "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
+    {
+      "id": "2026-07-19-aidc-power-bottleneck",
+      "date": "2026-07-19",
+      "channel": "소수몽키",
+      "title": "AI 데이터센터 전력 병목 — 그리드 접속 지연이 낳는 BESS 반사이익",
+      "summary": "빅테크 AIDC 투자 급증으로 전력망 접속 대기가 길어지는 가운데, 계통을 기다리지 않는 현장형 BESS 수요가 오히려 늘어나는 반사이익 시나리오가 부각된다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-19-aidc-power-bottleneck.html",
+      "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    }
+  ]
+}
