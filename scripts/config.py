@@ -72,5 +72,9 @@ CATEGORIES = ["global-policy", "global-market", "korea-policy", "korea-market"]
 GEMINI_MODEL = "gemini-2.5-flash"
 
 # 1회 실행당 신규 처리 상한 (채널 라운드로빈으로 공정 분배)
-# 무료 티어 분당 5회는 429 재시도로 자동 스로틀되므로 상한을 넉넉히.
-MAX_CANDIDATES_PER_RUN = 12
+# 무료 티어 분당 5회는 429 재시도로 자동 스로틀됨. 실제 후보는 RSS 최근분(채널당 ~15)으로
+# 제한되므로, 이 값은 사실상 "가용한 신규 영상을 최대 N건까지 처리".
+MAX_CANDIDATES_PER_RUN = 300
+
+# 아카이브 보관 상한 (최신순 이 개수까지 유지, 초과분은 목록·페이지에서 제거)
+MAX_REPORTS = 300

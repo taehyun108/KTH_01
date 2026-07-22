@@ -2,17 +2,6 @@
   "generated_at": "2026-07-22T05:23:00",
   "reports": [
     {
-      "id": "2026-07-22-ess-fire-safety-standard",
-      "date": "2026-07-22",
-      "channel": "언더스탠딩",
-      "title": "정부, ESS 화재 안전기준 대폭 강화 — 셀 안전인증 부담 커진다",
-      "summary": "잇단 ESS 화재 이후 정부가 안전기준을 대폭 강화. 셀·시스템 안전인증 요건이 높아지며 국내 배터리사의 ESS 사업에 단기 비용 부담과 장기 진입장벽 효과가 동시에 나타난다.",
-      "category": "korea-policy",
-      "relation": "direct",
-      "url": "2026-07-22-ess-fire-safety-standard.html",
-      "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-    },
-    {
       "id": "2026-07-22-뉴욕증시-반도체-반등과-관세-중동-변수-분석-이차전지-산업의-간접-시사점",
       "date": "2026-07-22",
       "channel": "삼프로TV",
@@ -121,61 +110,6 @@
       "relation": "indirect",
       "url": "2026-07-22-코스피-하락-요인-분석-및-이차전지-등-주요-산업-리스크-점검.html",
       "video": "https://www.youtube.com/watch?v=rV9xWu5JQw4"
-    },
-    {
-      "id": "2026-07-21-fed-hawkish-rate",
-      "date": "2026-07-21",
-      "channel": "삼프로TV",
-      "title": "케빈 워시 신임 연준의장 매파 발언 — 배터리 3사 증설 투자에 미칠 압력",
-      "summary": "매파적 통화 기조로 고금리가 장기화되면 배터리 3사의 북미·유럽 대규모 증설 투자 자금조달 비용이 오르고, EV 할부금리 상승으로 캐즘 회복도 지연될 수 있다.",
-      "category": "global-policy",
-      "relation": "indirect",
-      "url": "2026-07-21-fed-hawkish-rate.html",
-      "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-    },
-    {
-      "id": "2026-07-20-lg-ensol-ess-earnings",
-      "date": "2026-07-20",
-      "channel": "언더스탠딩",
-      "title": "LG에너지솔루션 2분기 실적 — ESS가 EV 캐즘 공백 메운다",
-      "summary": "EV용 배터리는 캐즘으로 둔화됐지만 북미 전력망·데이터센터 수요를 등에 업은 ESS 부문이 빠르게 성장하며 실적을 방어했다. 수요처가 EV에서 ESS·AIDC로 다변화되는 직접 사례.",
-      "category": "korea-market",
-      "relation": "direct",
-      "url": "2026-07-20-lg-ensol-ess-earnings.html",
-      "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-    },
-    {
-      "id": "2026-07-19-aidc-power-bottleneck",
-      "date": "2026-07-19",
-      "channel": "소수몽키",
-      "title": "AI 데이터센터 전력 병목 — 그리드 접속 지연이 낳는 BESS 반사이익",
-      "summary": "빅테크 AI 데이터센터 투자 급증으로 전력망 접속 대기가 길어지는 가운데, 현장형 BESS(배터리 에너지저장) 수요가 오히려 늘어나는 반사이익 시나리오.",
-      "category": "global-market",
-      "relation": "indirect",
-      "url": "2026-07-19-aidc-power-bottleneck.html",
-      "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-    },
-    {
-      "id": "2026-07-18-us-graphite-antidumping",
-      "date": "2026-07-18",
-      "channel": "삼프로TV",
-      "title": "미국, 중국산 흑연 반덤핑 예비판정 — 음극재 공급망 재편 신호",
-      "summary": "미국이 중국산 흑연 음극재에 반덤핑 예비관세를 부과. 중국 의존도가 높은 음극재 공급망이 재편되며, 미국·한국의 비중국 음극재 투자에 반사이익 가능성.",
-      "category": "global-policy",
-      "relation": "direct",
-      "url": "2026-07-18-us-graphite-antidumping.html",
-      "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-    },
-    {
-      "id": "2026-07-17-ecopro-cathode-earnings",
-      "date": "2026-07-17",
-      "channel": "전인구경제연구소",
-      "title": "에코프로 실적 — 양극재 재고평가손실 축소, 하이니켈 회복 신호",
-      "summary": "리튬 가격 안정으로 재고평가손실이 축소되고 가동률이 반등. EV 캐즘 속에서도 하이니켈 양극재 수요의 바닥 통과 신호가 관찰된다.",
-      "category": "korea-market",
-      "relation": "direct",
-      "url": "2026-07-17-ecopro-cathode-earnings.html",
-      "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
     }
   ]
 }
