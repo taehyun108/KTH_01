@@ -79,7 +79,7 @@ function escapeHtml(s) {
 
 async function init() {
   try {
-    const res = await fetch('data/reports.json', { cache: 'no-cache' });
+    const res = await fetch('../data/reports.json', { cache: 'no-cache' });
     const data = await res.json();
     ALL_REPORTS = Array.isArray(data.reports) ? data.reports : [];
     const stamp = document.getElementById('generated');

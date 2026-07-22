@@ -1,6 +1,17 @@
 {
-  "generated_at": "2026-07-21T09:00:00",
+  "generated_at": "2026-07-22T10:00:00",
   "reports": [
+    {
+      "id": "2026-07-22-ess-fire-safety-standard",
+      "date": "2026-07-22",
+      "channel": "언더스탠딩",
+      "title": "정부, ESS 화재 안전기준 대폭 강화 — 셀 안전인증 부담 커진다",
+      "summary": "잇단 ESS 화재 이후 SOC 상한·이격거리·안전인증이 강화된다. 단기 설치비용 부담이지만, 안전성을 검증한 대형 셀사에는 품질 프리미엄·진입장벽으로 작용한다.",
+      "category": "korea-policy",
+      "relation": "direct",
+      "url": "2026-07-22-ess-fire-safety-standard.html",
+      "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
     {
       "id": "2026-07-21-fed-hawkish-rate",
       "date": "2026-07-21",
@@ -32,6 +43,28 @@
       "category": "global-market",
       "relation": "indirect",
       "url": "2026-07-19-aidc-power-bottleneck.html",
+      "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
+    {
+      "id": "2026-07-18-us-graphite-antidumping",
+      "date": "2026-07-18",
+      "channel": "삼프로TV",
+      "title": "미국, 중국산 흑연 반덤핑 예비판정 — 음극재 공급망 재편 신호",
+      "summary": "미국이 중국산 흑연 음극재에 반덤핑 예비관세를 부과. 단기 원가 상승 요인이지만, IRA·FEOC와 맞물려 포스코퓨처엠 등 비중국 음극재 투자를 자극하는 촉매가 된다.",
+      "category": "global-policy",
+      "relation": "direct",
+      "url": "2026-07-18-us-graphite-antidumping.html",
+      "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
+    {
+      "id": "2026-07-17-ecopro-cathode-earnings",
+      "date": "2026-07-17",
+      "channel": "전인구경제연구소",
+      "title": "에코프로 실적 — 양극재 재고평가손실 축소, 하이니켈 회복 신호",
+      "summary": "리튬 가격 안정으로 재고평가손실이 축소되고 가동률이 반등 조짐. EV 캐즘 속에서도 하이니켈 양극재 수요의 바닥 통과 신호가 관찰되는 소재 사이클 리포트.",
+      "category": "korea-market",
+      "relation": "direct",
+      "url": "2026-07-17-ecopro-cathode-earnings.html",
       "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
     }
   ]
