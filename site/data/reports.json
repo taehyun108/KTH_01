@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-22T05:12:12",
+  "generated_at": "2026-07-22T05:23:00",
   "reports": [
     {
       "id": "2026-07-22-ess-fire-safety-standard",
@@ -77,6 +77,50 @@
       "relation": "indirect",
       "url": "2026-07-22-빅테크의-대규모-ai-투자-경쟁과-전력-ess-인프라-수혜-전망.html",
       "video": "https://www.youtube.com/watch?v=iGGze3WT83s"
+    },
+    {
+      "id": "2026-07-22-금리-변동과-증시-매크로-영향-분석-고금리-환경이-이차전지-투자-및-ev-수요에-미치는-간접-파급효과",
+      "date": "2026-07-22",
+      "channel": "슈카월드",
+      "title": "금리 변동과 증시 매크로 영향 분석: 고금리 환경이 이차전지 투자 및 EV 수요에 미치는 간접 파급효과",
+      "summary": "금리 상승이 주가 및 기업 가치 산정에 미치는 거시경제적 메커니즘과 자본집약적 산업에 미치는 간접 파급효과 분석",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-22-금리-변동과-증시-매크로-영향-분석-고금리-환경이-이차전지-투자-및-ev-수요에-미치는-간접-파급효과.html",
+      "video": "https://www.youtube.com/shorts/DbDZi0k5mj0"
+    },
+    {
+      "id": "2026-07-22-매크로-불확실성-확대와-거시경제-변동성이-이차전지-산업에-미치는-영향",
+      "date": "2026-07-22",
+      "channel": "전인구경제연구소",
+      "title": "매크로 불확실성 확대와 거시경제 변동성이 이차전지 산업에 미치는 영향",
+      "summary": "트럼프 변수, 고환율·고금리 등 매크로 불확실성 심화에 따른 증시 변동성 및 산업 영향 분석",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-22-매크로-불확실성-확대와-거시경제-변동성이-이차전지-산업에-미치는-영향.html",
+      "video": "https://www.youtube.com/watch?v=yV_ZDjG8Rl0"
+    },
+    {
+      "id": "2026-07-22-국내-시황-한국-금리-인상-우려-및-증시-하락-국면에서의-투자-전략과-이차전지-산업-여파",
+      "date": "2026-07-22",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "[국내 시황] 한국 금리 인상 우려 및 증시 하락 국면에서의 투자 전략과 이차전지 산업 여파",
+      "summary": "국내 금리 상승 가능성 및 하락장에 따른 은행주 분석과 이차전지 기업의 자금조달 및 EV 수요 영향",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-07-22-국내-시황-한국-금리-인상-우려-및-증시-하락-국면에서의-투자-전략과-이차전지-산업-여파.html",
+      "video": "https://www.youtube.com/watch?v=lI5tGSihCJg"
+    },
+    {
+      "id": "2026-07-22-코스피-하락-요인-분석-및-이차전지-등-주요-산업-리스크-점검",
+      "date": "2026-07-22",
+      "channel": "전인구경제연구소",
+      "title": "코스피 하락 요인 분석 및 이차전지 등 주요 산업 리스크 점검",
+      "summary": "코스피 하락을 유발하는 글로벌 매크로 변수(환율·미국 정책)와 국내 산업 및 증시 영향 점검",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-07-22-코스피-하락-요인-분석-및-이차전지-등-주요-산업-리스크-점검.html",
+      "video": "https://www.youtube.com/watch?v=rV9xWu5JQw4"
     },
     {
       "id": "2026-07-21-fed-hawkish-rate",
