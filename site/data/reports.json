@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-22T04:54:10",
+  "generated_at": "2026-07-22T05:12:12",
   "reports": [
     {
       "id": "2026-07-22-ess-fire-safety-standard",
@@ -44,6 +44,39 @@
       "relation": "indirect",
       "url": "2026-07-22-현대차-실적-우려와-로보틱스-전환이-이차전지-ev-생태계에-주는-시사점.html",
       "video": "https://www.youtube.com/watch?v=z8yK6y0xUiM"
+    },
+    {
+      "id": "2026-07-22-미국-데이터센터-반대-시위-확산과-ai-전력-인프라-ess-시장의-시사점",
+      "date": "2026-07-22",
+      "channel": "소수몽키",
+      "title": "미국 데이터센터 반대 시위 확산과 AI 전력 인프라·ESS 시장의 시사점",
+      "summary": "미국 데이터센터 건설 반대 시위 확산이 AI 전력 인프라 및 ESS 산업에 미치는 영향 분석",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-22-미국-데이터센터-반대-시위-확산과-ai-전력-인프라-ess-시장의-시사점.html",
+      "video": "https://www.youtube.com/watch?v=KJ7x1q1INpI"
+    },
+    {
+      "id": "2026-07-22-빅테크의-ai-capex-대전환과-aidc-전력-인프라-및-ess-이차전지-시장-시사점",
+      "date": "2026-07-22",
+      "channel": "소수몽키",
+      "title": "빅테크의 AI CapEx 대전환과 AIDC 전력 인프라 및 ESS 이차전지 시장 시사점",
+      "summary": "빅테크 기업들의 AI 투자가 가속화됨에 따라 AIDC 전력망 인프라 및 ESS 배터리 수요가 확대되는 현상을 분석한 리포트",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-22-빅테크의-ai-capex-대전환과-aidc-전력-인프라-및-ess-이차전지-시장-시사점.html",
+      "video": "https://www.youtube.com/watch?v=exEIt8fdnLM"
+    },
+    {
+      "id": "2026-07-22-빅테크의-대규모-ai-투자-경쟁과-전력-ess-인프라-수혜-전망",
+      "date": "2026-07-22",
+      "channel": "소수몽키",
+      "title": "빅테크의 대규모 AI 투자 경쟁과 전력·ESS 인프라 수혜 전망",
+      "summary": "빅테크 기업들의 AI 인프라 확장을 위한 대규모 차입 투자와 유동성 폭발이 전력망 및 ESS 수요에 미치는 영향 분석",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-22-빅테크의-대규모-ai-투자-경쟁과-전력-ess-인프라-수혜-전망.html",
+      "video": "https://www.youtube.com/watch?v=iGGze3WT83s"
     },
     {
       "id": "2026-07-21-fed-hawkish-rate",
