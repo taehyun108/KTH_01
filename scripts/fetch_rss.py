@@ -39,8 +39,10 @@ RSS_HEADERS = {
     "User-Agent": USER_AGENT,
     "Accept": "application/atom+xml,application/xml,text/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "ko,en-US;q=0.9,en;q=0.8",
+    # 서버 요청 시 동의(consent) 리다이렉트/소프트 404 회피용 쿠키
+    "Cookie": "CONSENT=YES+cb.20210328-17-p0.en+FX+000; SOCS=CAISEwgDEgk0ODE3Nzk3MjQaAmVuIAEaBgiA_LyaBg",
 }
-RSS_MAX_TRIES = 5
+RSS_MAX_TRIES = 6
 
 
 def _fetch_rss_bytes(url: str) -> tuple[bytes | None, Any]:
@@ -50,13 +52,13 @@ def _fetch_rss_bytes(url: str) -> tuple[bytes | None, Any]:
     last = None
     for attempt in range(RSS_MAX_TRIES):
         try:
-            r = requests.get(url, headers=RSS_HEADERS, timeout=15)
+            r = requests.get(url, headers=RSS_HEADERS, timeout=20)
             last = r.status_code
             if r.status_code == 200 and r.content:
                 return r.content, last
         except Exception as exc:  # noqa: BLE001
             last = f"err:{exc.__class__.__name__}"
-        time.sleep(2 * (attempt + 1) + random.random())
+        time.sleep(2.5 * (attempt + 1) + random.random() * 1.5)
     return None, last
 
 
