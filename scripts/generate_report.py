@@ -142,13 +142,21 @@ def _resolve_model(client) -> str:
     return _MODEL
 
 
+class QuotaExhausted(Exception):
+    """일일(또는 지속) 쿼터 소진 — 이번 실행은 조기 종료해야 함."""
+
+
 def _retry_delay(msg: str, default: float) -> float:
     m = re.search(r"retry(?:Delay)?['\":\s]+([\d.]+)s", msg, re.IGNORECASE)
     return min(float(m.group(1)) + 1.0, 30.0) if m else default
 
 
-def _generate(client, model: str, types, prompt: str, max_retries: int = 5):
-    """429(레이트리밋)는 서버 제안 대기 후 재시도. 무료 티어(분당 5회) 대응."""
+def _is_daily_quota(msg: str) -> bool:
+    return "PerDay" in msg or "per day" in msg.lower() or "RequestsPerDay" in msg
+
+
+def _generate(client, model: str, types, prompt: str, max_retries: int = 4):
+    """429(레이트리밋)는 서버 제안 대기 후 재시도. 일일 쿼터 소진이면 즉시 중단 신호."""
     cfg = types.GenerateContentConfig(
         response_mime_type="application/json", temperature=0.4, max_output_tokens=8192)
     delay = 8.0
@@ -157,12 +165,19 @@ def _generate(client, model: str, types, prompt: str, max_retries: int = 5):
             return client.models.generate_content(model=model, contents=prompt, config=cfg)
         except Exception as exc:  # noqa: BLE001
             msg = str(exc)
-            if ("RESOURCE_EXHAUSTED" in msg or "429" in msg) and attempt < max_retries - 1:
+            is_429 = "RESOURCE_EXHAUSTED" in msg or "429" in msg
+            # 일일 쿼터 소진: 재시도해도 무의미 → 조기 종료
+            if is_429 and _is_daily_quota(msg):
+                raise QuotaExhausted(msg)
+            if is_429 and attempt < max_retries - 1:
                 wait = _retry_delay(msg, delay)
                 print(f"  [429] 쿼터 대기 {wait:.0f}s 후 재시도 ({attempt + 1})", file=sys.stderr)
                 time.sleep(wait)
                 delay *= 1.4
                 continue
+            # 재시도까지 소진된 429 는 지속 스로틀로 보고 조기 종료
+            if is_429:
+                raise QuotaExhausted(msg)
             raise
 
 

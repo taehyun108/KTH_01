@@ -14,7 +14,7 @@ import sys
 from collections import defaultdict
 
 from fetch_rss import collect_candidates
-from generate_report import process_video
+from generate_report import process_video, QuotaExhausted
 from build_index import merge, load_existing
 from config import MAX_CANDIDATES_PER_RUN
 
@@ -85,6 +85,10 @@ def main() -> int:
                 new_reports.append(result)
             else:
                 print(f"  – drafts: {meta['title'][:30]}")
+        except QuotaExhausted:
+            print(f"  ! 일일 쿼터 소진 — 이번 실행 조기 종료 (성공 {len(new_reports)}건 저장)",
+                  file=sys.stderr)
+            break
         except Exception as exc:  # noqa: BLE001
             print(f"  ! 실패 {meta.get('video_id')}: {exc}", file=sys.stderr)
 
