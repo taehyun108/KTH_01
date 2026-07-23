@@ -78,3 +78,6 @@ MAX_CANDIDATES_PER_RUN = 300
 
 # 아카이브 보관 상한 (최신순 이 개수까지 유지, 초과분은 목록·페이지에서 제거)
 MAX_REPORTS = 300
+
+# 백필(과거 영상 열거) 시 채널당 최대 열거 개수 (yt-dlp)
+CHANNEL_LOOKBACK = 400

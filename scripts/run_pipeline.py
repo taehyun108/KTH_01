@@ -44,7 +44,13 @@ def main() -> int:
         print("GEMINI_API_KEY 미설정 — 리포트 생성 단계를 건너뜁니다.", file=sys.stderr)
         return 0
 
-    candidates = collect_candidates()
+    since = os.getenv("BACKFILL_SINCE", "").strip()
+    if since:
+        from fetch_history import collect_history
+        candidates = collect_history(since)
+        print(f"[백필] {since} 이후 1차 후보 {len(candidates)}건 (yt-dlp)")
+    else:
+        candidates = collect_candidates()
     seen = _seen_video_ids()
     fresh = [c for c in candidates if c["video_id"] not in seen]
 
