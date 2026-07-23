@@ -44,7 +44,8 @@ def main() -> int:
         print("GEMINI_API_KEY 미설정 — 리포트 생성 단계를 건너뜁니다.", file=sys.stderr)
         return 0
 
-    since = os.getenv("BACKFILL_SINCE", "").strip()
+    from config import BACKFILL_SINCE_DEFAULT
+    since = os.getenv("BACKFILL_SINCE", "").strip() or BACKFILL_SINCE_DEFAULT
     if since:
         from fetch_history import collect_history
         candidates = collect_history(since)

@@ -81,3 +81,7 @@ MAX_REPORTS = 300
 
 # 백필(과거 영상 열거) 시 채널당 최대 열거 개수 (yt-dlp)
 CHANNEL_LOOKBACK = 400
+
+# 스케줄 실행의 기본 백필 시작일. 이 날짜 이후 영상을 yt-dlp 로 소급 수집한다.
+# (빈 문자열이면 RSS 최신분만) — 백로그가 매일 쿼터만큼 자동 소진됨.
+BACKFILL_SINCE_DEFAULT = "2026-07-01"
