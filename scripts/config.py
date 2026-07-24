@@ -27,9 +27,10 @@ CHANNELS = [
     {"name": "슈카월드",            "channel_id": "UCsJ6RuBiTVWRX156FVbeaGg"},
     {"name": "언더스탠딩",          "channel_id": "UCIUni4ScRp4mqPXsxy62L5w"},
     {"name": "소수몽키",            "channel_id": "UCC3yfxS5qC6PCwDzetUuEWg"},
-    {"name": "전인구경제연구소",     "channel_id": "UCznImSIaxZR7fdLCICLdgaQ"},
     {"name": "슈퍼개미 이세무사TV",  "channel_id": "UCowHl0BGalL433P6bCBgeKA"},
-    # 필요 시 채널 추가: {"name": "조선비즈", "channel_id": "UC..."},
+    {"name": "손석희의 12시",        "channel_id": "UCSb2WFb8m73erqFmP04Mokw"},
+    {"name": "손에 잡히는 경제",      "channel_id": "UCiYbaVEODktcsh09454Grow"},
+    # 전인구경제연구소는 사용자 요청으로 제외됨.
 ]
 
 RSS_URL = "https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
