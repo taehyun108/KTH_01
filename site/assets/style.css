@@ -24,6 +24,7 @@
   --c-global-market: #ea8a0b;
   --c-korea-policy:  #7c3aed;
   --c-korea-market:  #0891b2;
+  --c-macro:         #e11d48;
 
   --rel-direct:   var(--accent);
   --rel-indirect: #94a3b8;

@@ -64,8 +64,8 @@ KW_MACRO = [  # (C) 거시/산업 간접
 
 ALL_KEYWORDS = KW_DIRECT + KW_APPLICATION + KW_MACRO
 
-# 카테고리 정의 (LLM 분류가 이 중 하나를 반환)
-CATEGORIES = ["global-policy", "global-market", "korea-policy", "korea-market"]
+# 카테고리 정의 (LLM 분류가 이 중 하나를 반환). macro=거시경제(금리·환율·유가·증시 전반)
+CATEGORIES = ["global-policy", "global-market", "korea-policy", "korea-market", "macro"]
 
 # Gemini 모델 (시크릿 KTH_01_GEMINI_API_KEY → 환경변수 GEMINI_API_KEY)
 # 실제 사용 모델은 런타임에 generateContent 지원 목록에서 자동 선택되며,

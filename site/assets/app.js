@@ -2,6 +2,7 @@
    /data/reports.json 기반: 헤더 통계 + 검색 + 카테고리 필터 + 즐겨찾기/숨김 */
 
 const CATEGORIES = {
+  'macro':        { label: '거시경제',         short: '거시경제',   emoji: '📈' },
   'global-policy':{ label: '글로벌 정책·시사', short: '글로벌정책', emoji: '🌍' },
   'global-market':{ label: '글로벌 산업·시황', short: '글로벌산업', emoji: '📊' },
   'korea-policy': { label: '국내 정책·시사',   short: '국내정책',   emoji: '🇰🇷' },

@@ -30,19 +30,20 @@ SYSTEM_PROMPT = """당신은 대외협력 담당자를 위해 경제·시사 유
 1. 먼저 이 콘텐츠가 배터리 셀/소재의 공급(원자재·정책·안전) 또는 수요(ESS·EV·AIDC)와
    실질적으로 연결되는지 판단한다(relevant). 단순 날씨·연예 등 무관하면 relevant=false.
 
-2. 관련이 있으면 4개 카테고리 중 하나로 분류한다. 반드시 두 축을 각각 판별해 조합한다.
-   [축 A] 정책·시사(policy) vs 산업·시황(market):
-     · policy = 핵심 동인이 정부/중앙은행/규제당국/외교의 '제도·정책·규제·정치' 인 경우.
-       예) 관세·수출규제·무역분쟁, 연준/한국은행 금리결정·통화정책(FOMC), IRA/45X·보조금,
-           인허가·안전기준·환경규제, 지정학·제재·선거, 데이터센터 규제/반대 시위 등.
-     · market = 핵심 동인이 '기업 실적·주가·원자재 가격·판매량·수급·설비투자(CapEx)' 등
-       시장/기업 지표인 경우. 예) 셀·소재사 실적, EV 판매량, 리튬 가격, 빅테크 AI 투자, 증시 시황.
-   [축 B] 글로벌(global) vs 국내(korea): 주된 무대가 한국(코스피·국내 기업·정부)이면 korea,
-       해외(미국·중국·글로벌)이면 global.
-   → global-policy / global-market / korea-policy / korea-market 중 하나.
-   ※ 경계가 모호하면 '핵심 트리거'를 기준으로 한다. 관세·금리결정·규제·보조금·지정학이
-     이야기의 발단이면 시장 여파를 다루더라도 policy 로 분류한다. 매 실행이 market 으로만
-     쏠리지 않도록, 정책이 원인인 콘텐츠는 반드시 policy 로 분류할 것.
+2. 관련이 있으면 5개 카테고리 중 하나로 분류한다.
+   [먼저] 거시경제(macro) 여부: 리포트의 핵심 주제가 '금리·환율·유가·인플레이션·통화정책
+     (연준/한국은행/FOMC)·증시 전반 방향·경기·경제지표' 등 거시 지표/시장 전체 흐름이면 macro.
+   [아니면] 두 축을 조합한다.
+     [축 A] 정책·시사(policy) vs 산업·시황(market):
+       · policy = 핵심 동인이 정부/규제당국/외교의 '제도·정책·규제·정치'.
+         예) 관세·수출규제·무역분쟁, IRA/45X·보조금, 인허가·안전기준·환경규제,
+             지정학·제재·선거, 데이터센터 규제/반대 시위 등.
+       · market = '기업 실적·주가·원자재 가격·판매량·수급·설비투자(CapEx)' 등 시장/기업 지표.
+         예) 셀·소재사 실적, EV 판매량, 리튬 가격, 빅테크 AI 투자.
+     [축 B] 글로벌(global) vs 국내(korea): 주된 무대가 한국이면 korea, 해외면 global.
+   → macro / global-policy / global-market / korea-policy / korea-market 중 하나.
+   ※ 우선순위: 금리·환율·유가·증시 전반이 발단이면 macro. 관세·규제·보조금·지정학이 발단이면
+     policy. 특정 기업/산업 지표가 핵심이면 market. 매 실행이 한 카테고리로만 쏠리지 않게 한다.
 
 3. direct/indirect: 배터리 셀·양극재·음극재·리튬 등 소재/셀을 직접 다루면 direct,
    금리·관세·전력망·거시 등 전방·간접 경로로 연결되면 indirect.
@@ -55,7 +56,7 @@ SYSTEM_PROMPT = """당신은 대외협력 담당자를 위해 경제·시사 유
 JSON_SPEC = """반드시 아래 구조의 JSON '하나'만 출력하라. 다른 텍스트/마크다운은 금지한다.
 {
   "relevant": true 또는 false (배터리 공급/수요와 실질 연결 여부),
-  "category": "global-policy" | "global-market" | "korea-policy" | "korea-market",
+  "category": "macro" | "global-policy" | "global-market" | "korea-policy" | "korea-market",
   "relation": "direct" | "indirect",
   "meta_description": "한줄요약(카드·목록용)",
   "title": "리포트 제목",
