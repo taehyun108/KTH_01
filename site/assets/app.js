@@ -104,7 +104,7 @@ function renderChannels() {
   for (const n of Object.keys(counts)) if (!names.includes(n)) names.push(n);
   const items = [['all', '전체 채널', total], ...names.map(n => [n, n, counts[n] || 0])];
 
-  el.innerHTML = '<span class="chan-label">📺 채널</span>';
+  el.innerHTML = '';
   for (const [key, label, n] of items) {
     const b = document.createElement('button');
     b.className = 'chip' + (key === activeChannel ? ' active' : '') + (n === 0 && key !== 'all' ? ' empty' : '');
@@ -112,6 +112,14 @@ function renderChannels() {
     b.innerHTML = `${esc(label)}<span class="n">${n}</span>`;
     b.onclick = () => { activeChannel = key; render(); };
     el.appendChild(b);
+  }
+
+  // 토글 버튼 라벨: 선택된 채널을 표시
+  const toggle = document.getElementById('chan-toggle');
+  if (toggle) {
+    const sel = activeChannel !== 'all'
+      ? ` · <span class="sel">${esc(activeChannel)}</span>` : '';
+    toggle.innerHTML = `📺 채널 필터${sel} <span class="caret">▾</span>`;
   }
 }
 
@@ -191,6 +199,17 @@ async function init() {
 
   const search = document.getElementById('search');
   search.addEventListener('input', () => { searchTerm = search.value.trim(); renderCards(); });
+
+  // 채널 필터 접기/펼치기 토글
+  const toggle = document.getElementById('chan-toggle');
+  const list = document.getElementById('channels');
+  if (toggle && list) {
+    toggle.addEventListener('click', () => {
+      const nowHidden = list.hasAttribute('hidden');
+      if (nowHidden) { list.removeAttribute('hidden'); toggle.classList.add('open'); toggle.setAttribute('aria-expanded', 'true'); }
+      else { list.setAttribute('hidden', ''); toggle.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
+    });
+  }
 
   render();
 }

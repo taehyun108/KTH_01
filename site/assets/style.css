@@ -98,25 +98,36 @@ a { color: inherit; text-decoration: none; }
 }
 .pill.active .n { background: rgba(255,255,255,.25); color: #fff; }
 
-/* ---------- 채널 필터 ---------- */
-.chan-bar {
-  display: flex; flex-wrap: wrap; gap: 7px; align-items: center;
-  padding: 12px 0 2px;
+/* ---------- 채널 필터 (접기/펼치기) ---------- */
+.chan-filter { padding: 12px 0 2px; }
+.chan-toggle {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-dim);
+  padding: 7px 15px; border-radius: 999px; font-size: 0.85rem; line-height: 1.4;
+  cursor: pointer; transition: all .14s ease;
 }
-.chan-bar .chan-label { font-size: 0.8rem; color: var(--text-faint); margin-right: 2px; }
+.chan-toggle:hover { color: var(--text); border-color: var(--accent); }
+.chan-toggle.open { color: var(--text); border-color: var(--accent); }
+.chan-toggle .caret { font-size: 0.7rem; transition: transform .18s ease; }
+.chan-toggle.open .caret { transform: rotate(180deg); }
+.chan-toggle .sel { color: var(--accent-strong); font-weight: 700; }
+
+.chan-list { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; margin-top: 10px; }
+.chan-list[hidden] { display: none; }
 .chip {
-  border: 1px solid var(--border-strong); background: var(--surface);
-  color: var(--text-dim); padding: 5px 11px; border-radius: 999px;
-  font-size: 0.8rem; cursor: pointer; transition: all .14s ease; white-space: nowrap;
+  display: inline-flex; align-items: center; line-height: 1.4; white-space: nowrap;
+  border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-dim);
+  padding: 5px 12px; border-radius: 999px; font-size: 0.8rem; cursor: pointer;
+  transition: all .14s ease;
 }
 .chip:hover { color: var(--text); border-color: var(--tag, var(--accent)); }
 .chip.active {
   color: #fff; background: var(--tag, var(--accent-strong));
   border-color: var(--tag, var(--accent-strong));
 }
-.chip .n { margin-left: 4px; font-size: 0.7rem; opacity: 0.85; font-variant-numeric: tabular-nums; }
-.chip.empty { opacity: 0.5; border-style: dashed; }        /* 0건 채널: 흐리게(선택은 가능) */
-.chip.empty.active { opacity: 1; border-style: solid; }
+.chip .n { margin-left: 5px; font-size: 0.7rem; opacity: 0.85; font-variant-numeric: tabular-nums; }
+.chip.empty { opacity: 0.55; }        /* 0건 채널: 흐리게(선택은 가능) */
+.chip.empty.active { opacity: 1; }
 
 /* ---------- 섹션 헤더 ---------- */
 .section-head {
@@ -179,7 +190,7 @@ a { color: inherit; text-decoration: none; }
 .badge-rel-direct   { color: var(--accent-ink); background: var(--rel-direct); }
 .badge-rel-indirect { color: #475569; background: #eef2f7; border: 1px solid var(--border-strong); }
 
-.empty { grid-column: 1 / -1; text-align: center; color: var(--text-faint); padding: 60px 0; }
+#cards .empty { grid-column: 1 / -1; text-align: center; color: var(--text-faint); padding: 60px 0; }
 
 /* ---------- 사이트 푸터 ---------- */
 .site-footer {
