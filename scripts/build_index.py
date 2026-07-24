@@ -10,7 +10,7 @@ import json
 from datetime import datetime
 from typing import Any
 
-from config import REPORTS_JSON, DATA_DIR, NEWS_DIR, MAX_REPORTS
+from config import REPORTS_JSON, DATA_DIR, NEWS_DIR, MAX_REPORTS, CHANNELS
 
 
 def load_existing() -> list[dict[str, Any]]:
@@ -36,7 +36,11 @@ def merge(new_reports: list[dict[str, Any]]) -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     REPORTS_JSON.write_text(
         json.dumps(
-            {"generated_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"), "reports": reports},
+            {
+                "generated_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                "channels": [c["name"] for c in CHANNELS],  # 설정된 전체 채널(0건 포함 표시용)
+                "reports": reports,
+            },
             ensure_ascii=False, indent=2,
         ),
         encoding="utf-8",

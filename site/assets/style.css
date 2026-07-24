@@ -115,6 +115,8 @@ a { color: inherit; text-decoration: none; }
   border-color: var(--tag, var(--accent-strong));
 }
 .chip .n { margin-left: 4px; font-size: 0.7rem; opacity: 0.85; font-variant-numeric: tabular-nums; }
+.chip.empty { opacity: 0.5; border-style: dashed; }        /* 0건 채널: 흐리게(선택은 가능) */
+.chip.empty.active { opacity: 1; border-style: solid; }
 
 /* ---------- 섹션 헤더 ---------- */
 .section-head {

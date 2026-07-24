@@ -18,6 +18,7 @@ const TAG_COLORS = ['#0ea5e9','#6366f1','#0891b2','#7c3aed','#ea8a0b','#e11d48',
 const LS_FAV = 'bra_fav', LS_HIDE = 'bra_hidden';
 
 let ALL = [];
+let CHANNEL_ROSTER = [];    // 설정된 전체 채널명(0건 채널도 칩으로 표시)
 let activeFilter = 'all';   // all | <category> | fav | hidden
 let activeChannel = 'all';  // all | <channel name>
 let searchTerm = '';
@@ -96,13 +97,17 @@ function renderChannels() {
   const counts = {};
   for (const r of ALL) if (!hidden.has(r.id)) counts[r.channel] = (counts[r.channel] || 0) + 1;
   const total = ALL.filter(r => !hidden.has(r.id)).length;
-  const names = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
-  const items = [['all', '전체 채널', total], ...names.map(n => [n, n, counts[n]])];
+
+  // 설정된 전체 채널(로스터) + 데이터에 존재하는 채널의 합집합 → 0건도 표시
+  const names = [];
+  for (const n of CHANNEL_ROSTER) if (!names.includes(n)) names.push(n);
+  for (const n of Object.keys(counts)) if (!names.includes(n)) names.push(n);
+  const items = [['all', '전체 채널', total], ...names.map(n => [n, n, counts[n] || 0])];
 
   el.innerHTML = '<span class="chan-label">📺 채널</span>';
   for (const [key, label, n] of items) {
     const b = document.createElement('button');
-    b.className = 'chip' + (key === activeChannel ? ' active' : '');
+    b.className = 'chip' + (key === activeChannel ? ' active' : '') + (n === 0 && key !== 'all' ? ' empty' : '');
     b.style.setProperty('--tag', key === 'all' ? 'var(--accent-strong)' : tagColor(key));
     b.innerHTML = `${esc(label)}<span class="n">${n}</span>`;
     b.onclick = () => { activeChannel = key; render(); };
@@ -179,6 +184,7 @@ async function init() {
     const res = await fetch('../data/reports.json', { cache: 'no-cache' });
     const data = await res.json();
     ALL = Array.isArray(data.reports) ? data.reports : [];
+    CHANNEL_ROSTER = Array.isArray(data.channels) ? data.channels : [];
     const stamp = document.getElementById('generated');
     if (stamp && data.generated_at) stamp.textContent = '최근 갱신: ' + data.generated_at.replace('T', ' ').slice(0, 16);
   } catch (e) { ALL = []; console.error('reports.json 로드 실패', e); }
