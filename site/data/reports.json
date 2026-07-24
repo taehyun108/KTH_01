@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-24T02:26:06",
+  "generated_at": "2026-07-24T13:55:46",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -21,6 +21,126 @@
       "url": "2026-07-24-미국-301조-관세-확정과-빅테크-테슬라-capex-향방이-이차전지-산업에-미치는-영향.html",
       "video": "https://www.youtube.com/watch?v=OUMM_Stje-8",
       "video_id": "OUMM_Stje-8"
+    },
+    {
+      "id": "2026-07-24-macro-호재-선반영-과-주가-하락-메커니즘-이차전지-섹터-투심-및-ir-시사점",
+      "date": "2026-07-24",
+      "channel": "삼프로TV",
+      "title": "[Macro] '호재 선반영'과 주가 하락 메커니즘: 이차전지 섹터 투심 및 IR 시사점",
+      "summary": "호재 선반영 메커니즘과 실적 발표 후 주가 하락 현상을 통한 이차전지 섹터 투심 및 기대치 관리 전략 분석",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-24-macro-호재-선반영-과-주가-하락-메커니즘-이차전지-섹터-투심-및-ir-시사점.html",
+      "video": "https://www.youtube.com/watch?v=xLCrEU4NHSk",
+      "video_id": "xLCrEU4NHSk"
+    },
+    {
+      "id": "2026-07-24-트럼프-2기-ai-규제-파장과-동맹국-여파-aidc-및-ess-공급망-시사점",
+      "date": "2026-07-24",
+      "channel": "소수몽키",
+      "title": "트럼프 2기 AI 규제 파장과 동맹국 여파: AIDC 및 ESS 공급망 시사점",
+      "summary": "트럼프의 동맹국 대상 AI 수출 규제 가능성과 글로벌 AIDC 전력 인프라 및 배터리 공급망 영향 분석",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-07-24-트럼프-2기-ai-규제-파장과-동맹국-여파-aidc-및-ess-공급망-시사점.html",
+      "video": "https://www.youtube.com/watch?v=a7UJq7JCyU4",
+      "video_id": "a7UJq7JCyU4"
+    },
+    {
+      "id": "2026-07-24-증시-시황-국내-증시-서프라이즈-반등과-이차전지-섹터-영향-분석",
+      "date": "2026-07-24",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "[증시 시황] 국내 증시 서프라이즈 반등과 이차전지 섹터 영향 분석",
+      "summary": "국내 증시의 이례적 강세 반등과 이차전지 기업의 투자 심리 및 자금 조달 여건 영향 분석",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-07-24-증시-시황-국내-증시-서프라이즈-반등과-이차전지-섹터-영향-분석.html",
+      "video": "https://www.youtube.com/watch?v=trD-z4_smmw",
+      "video_id": "trD-z4_smmw"
+    },
+    {
+      "id": "2026-07-24-인도네시아-외환위기-우려와-이차전지-핵심-원자재-공급망-영향-분석",
+      "date": "2026-07-24",
+      "channel": "언더스탠딩",
+      "title": "인도네시아 외환위기 우려와 이차전지 핵심 원자재 공급망 영향 분석",
+      "summary": "인도네시아 루피아화 환율의 외환위기 수준 급하락과 외국인 자금 이탈 현상을 분석하고, 니켈 등 배터리 핵심 원자재 공급망 및 현지 투자가 받는 파급 효과를 점검합니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-24-인도네시아-외환위기-우려와-이차전지-핵심-원자재-공급망-영향-분석.html",
+      "video": "https://www.youtube.com/watch?v=P_mtkEBS3oM",
+      "video_id": "P_mtkEBS3oM"
+    },
+    {
+      "id": "2026-07-24-ai-수요-폭증과-빅테크-투자-확대가-이차전지-ess-산업에-미치는-영향",
+      "date": "2026-07-24",
+      "channel": "소수몽키",
+      "title": "AI 수요 폭증과 빅테크 투자 확대가 이차전지·ESS 산업에 미치는 영향",
+      "summary": "앤스로픽 등 AI 수요 폭발에 따른 빅테크 인프라 투자 확대 및 AI 데이터센터(AIDC) 전력 공급용 ESS 이차전지 시장 영향 분석",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-24-ai-수요-폭증과-빅테크-투자-확대가-이차전지-ess-산업에-미치는-영향.html",
+      "video": "https://www.youtube.com/watch?v=1QPGDu_SePo",
+      "video_id": "1QPGDu_SePo"
+    },
+    {
+      "id": "2026-07-24-거시-증시-분석-반등시-매도-전략-전환과-이차전지-섹터-수급-및-투자심리-시사점",
+      "date": "2026-07-24",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "[거시·증시 분석] 반등시 매도 전략 전환과 이차전지 섹터 수급 및 투자심리 시사점",
+      "summary": "증시 기술적 반등 경계 및 시장 기조 변화에 따른 대형 성장주·이차전지 투자 전략 재점검",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-24-거시-증시-분석-반등시-매도-전략-전환과-이차전지-섹터-수급-및-투자심리-시사점.html",
+      "video": "https://www.youtube.com/watch?v=r4GnhWT9uC4",
+      "video_id": "r4GnhWT9uC4"
+    },
+    {
+      "id": "2026-07-24-시장-비관론의-정점에서-찾는-반등-기회-거시경제-환경과-배터리-산업-투심-복원-전략",
+      "date": "2026-07-24",
+      "channel": "삼프로TV",
+      "title": "시장 비관론의 정점에서 찾는 반등 기회: 거시경제 환경과 배터리 산업 투심 복원 전략",
+      "summary": "증시 극단적 비관론 국면에서의 역발상 투자 전략과 거시경제적 시장 진단 및 이차전지 업종 영향 분석",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-24-시장-비관론의-정점에서-찾는-반등-기회-거시경제-환경과-배터리-산업-투심-복원-전략.html",
+      "video": "https://www.youtube.com/watch?v=rqjR3XFvD00",
+      "video_id": "rqjR3XFvD00"
+    },
+    {
+      "id": "2026-07-24-신임-연준-의장의-첫-fomc-충격-발언과-거시-통화정책이-이차전지-산업에-미치는-파급-효과",
+      "date": "2026-07-24",
+      "channel": "슈카월드",
+      "title": "신임 연준 의장의 첫 FOMC 충격 발언과 거시 통화정책이 이차전지 산업에 미치는 파급 효과",
+      "summary": "신임 연준 의장의 첫 FOMC 발언 분석과 고금리 기조 지속 시 이차전지 자본비용 및 EV 수요에 미치는 영향",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-24-신임-연준-의장의-첫-fomc-충격-발언과-거시-통화정책이-이차전지-산업에-미치는-파급-효과.html",
+      "video": "https://www.youtube.com/watch?v=knP57QdvQic",
+      "video_id": "knP57QdvQic"
+    },
+    {
+      "id": "2026-07-24-글로벌-마켓-ai-메모리-반도체-재평가-붐과-aidc-전력-인프라-ess-영향-분석",
+      "date": "2026-07-24",
+      "channel": "소수몽키",
+      "title": "[글로벌 마켓] AI 메모리 반도체 재평가 붐과 AIDC 전력 인프라·ESS 영향 분석",
+      "summary": "AI 시대 메모리 반도체 재평가와 AI 데이터센터(AIDC) 확장에 따른 전력·ESS 산업 영향 분석",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-24-글로벌-마켓-ai-메모리-반도체-재평가-붐과-aidc-전력-인프라-ess-영향-분석.html",
+      "video": "https://www.youtube.com/watch?v=ei3xMptOhlA",
+      "video_id": "ei3xMptOhlA"
+    },
+    {
+      "id": "2026-07-24-중국-정부의-대규모-국채-발행과-거시경제-부양책이-이차전지-산업에-미치는-시사점",
+      "date": "2026-07-24",
+      "channel": "손에 잡히는 경제",
+      "title": "중국 정부의 대규모 국채 발행과 거시경제 부양책이 이차전지 산업에 미치는 시사점",
+      "summary": "중국 정부의 파격적 국채 발행과 경기 부양책이 거시경제 및 이차전지 공급망·수요에 미치는 영향 분석",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-24-중국-정부의-대규모-국채-발행과-거시경제-부양책이-이차전지-산업에-미치는-시사점.html",
+      "video": "https://www.youtube.com/watch?v=1aydjBSvJ50",
+      "video_id": "1aydjBSvJ50"
     },
     {
       "id": "2026-07-23-미국-ai-데이터센터-전력-인프라-혁신-사례와-ess-전력망-산업-시사점",
