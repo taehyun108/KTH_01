@@ -19,6 +19,7 @@ const LS_FAV = 'bra_fav', LS_HIDE = 'bra_hidden';
 
 let ALL = [];
 let activeFilter = 'all';   // all | <category> | fav | hidden
+let activeChannel = 'all';  // all | <channel name>
 let searchTerm = '';
 
 const load = (k) => { try { return new Set(JSON.parse(localStorage.getItem(k) || '[]')); } catch { return new Set(); } };
@@ -80,6 +81,7 @@ function currentItems() {
     items = items.filter(r => !hidden.has(r.id));
     if (activeFilter !== 'all') items = items.filter(r => r.category === activeFilter);
   }
+  if (activeChannel !== 'all') items = items.filter(r => r.channel === activeChannel);
   if (searchTerm) {
     const q = searchTerm.toLowerCase();
     items = items.filter(r =>
@@ -88,12 +90,34 @@ function currentItems() {
   return items.sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
+function renderChannels() {
+  const el = document.getElementById('channels');
+  if (!el) return;
+  const counts = {};
+  for (const r of ALL) if (!hidden.has(r.id)) counts[r.channel] = (counts[r.channel] || 0) + 1;
+  const total = ALL.filter(r => !hidden.has(r.id)).length;
+  const names = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+  const items = [['all', '전체 채널', total], ...names.map(n => [n, n, counts[n]])];
+
+  el.innerHTML = '<span class="chan-label">📺 채널</span>';
+  for (const [key, label, n] of items) {
+    const b = document.createElement('button');
+    b.className = 'chip' + (key === activeChannel ? ' active' : '');
+    b.style.setProperty('--tag', key === 'all' ? 'var(--accent-strong)' : tagColor(key));
+    b.innerHTML = `${esc(label)}<span class="n">${n}</span>`;
+    b.onclick = () => { activeChannel = key; render(); };
+    el.appendChild(b);
+  }
+}
+
 function sectionLabel() {
-  if (activeFilter === 'all') return '전체 리포트';
-  if (activeFilter === 'fav') return '⭐ 즐겨찾기';
-  if (activeFilter === 'hidden') return '🗑 숨긴 리포트';
-  const m = CATEGORIES[activeFilter];
-  return `${m.emoji} ${m.label}`;
+  let base;
+  if (activeFilter === 'all') base = '전체 리포트';
+  else if (activeFilter === 'fav') base = '⭐ 즐겨찾기';
+  else if (activeFilter === 'hidden') base = '🗑 숨긴 리포트';
+  else { const m = CATEGORIES[activeFilter]; base = `${m.emoji} ${m.label}`; }
+  if (activeChannel !== 'all') base += ` · ${activeChannel}`;
+  return base;
 }
 
 function renderCards() {
@@ -148,7 +172,7 @@ function renderCards() {
   }
 }
 
-function render() { renderStats(); renderPills(); renderCards(); }
+function render() { renderStats(); renderPills(); renderChannels(); renderCards(); }
 
 async function init() {
   try {
