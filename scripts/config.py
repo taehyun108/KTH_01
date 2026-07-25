@@ -23,6 +23,7 @@ DRAFTS_DIR = ROOT / "drafts"          # 애매한 건 수동 확인용
 #   RSS URL 패턴: https://www.youtube.com/feeds/videos.xml?channel_id=<ID>
 # ---------------------------------------------------------------------------
 CHANNELS = [
+    # 국내 경제·시사 채널
     {"name": "삼프로TV",            "channel_id": "UChlv4GSd7OQl3js-jkLOnFA"},
     {"name": "슈카월드",            "channel_id": "UCsJ6RuBiTVWRX156FVbeaGg"},
     {"name": "언더스탠딩",          "channel_id": "UCIUni4ScRp4mqPXsxy62L5w"},
@@ -31,6 +32,14 @@ CHANNELS = [
     {"name": "손석희의 12시",        "channel_id": "UCSb2WFb8m73erqFmP04Mokw"},
     {"name": "손에 잡히는 경제",      "channel_id": "UCiYbaVEODktcsh09454Grow"},
     # 전인구경제연구소는 사용자 요청으로 제외됨.
+    # 해외 거시경제·시사 채널 (영어) — 자막/키워드는 영문 처리
+    {"name": "Patrick Boyle",       "channel_id": "UCASM0cgfkJxQ1ICmRilfHLw"},
+    {"name": "Economics Explained", "channel_id": "UCZ4AMrDcNrfy3X6nsU8-rPg"},
+    {"name": "ColdFusion",          "channel_id": "UC4QZ_LsYcvcq7qOsOhpAX4A"},
+    {"name": "Money & Macro",       "channel_id": "UCCKpicnIwBP3VPxBAZWDeNA"},
+    {"name": "The Plain Bagel",     "channel_id": "UCFCEuCsyWP0YkP3CZ3Mr01Q"},
+    {"name": "CNBC International",   "channel_id": "UCo7a6riBFJ3tkeHjvkXPn1g"},
+    {"name": "The Wall Street Journal", "channel_id": "UCK7tptUDHh-RYDsdxO1-5QQ"},
 ]
 
 RSS_URL = "https://www.youtube.com/feeds/videos.xml?channel_id={channel_id}"
@@ -62,7 +71,32 @@ KW_MACRO = [  # (C) 거시/산업 간접
     "공급망", "지정학", "중국 산업정책",
 ]
 
-ALL_KEYWORDS = KW_DIRECT + KW_APPLICATION + KW_MACRO
+# ---------------------------------------------------------------------------
+# 영문 키워드 (해외 채널: Patrick Boyle, Economics Explained, WSJ 등)
+#   match_keywords 가 영문 키워드는 '단어 경계'로 매칭하므로 짧은 약어(EV, ESS)도
+#   development·business 같은 단어에 오검출되지 않는다.
+# ---------------------------------------------------------------------------
+KW_EN_DIRECT = [  # (A) 배터리 직접
+    "battery", "batteries", "lithium", "nickel", "cobalt", "graphite",
+    "solid-state", "cathode", "anode", "gigafactory", "CATL", "LFP", "rare earth",
+]
+KW_EN_APPLICATION = [  # (B) 응용분야: EV / ESS / AIDC
+    "electric vehicle", "electric vehicles", "electric car", "electric cars",
+    "EV", "EVs", "Tesla", "BYD", "energy storage", "grid storage", "power grid",
+    "data center", "data centre", "data centers", "data centres", "charging",
+]
+KW_EN_MACRO = [  # (C) 거시/산업 간접
+    "interest rate", "interest rates", "Federal Reserve", "rate cut", "rate hike",
+    "inflation", "recession", "tariff", "tariffs", "trade war",
+    "supply chain", "supply chains", "semiconductor", "semiconductors",
+    "geopolitics", "renewable energy", "energy transition",
+    "oil price", "bond market", "China economy",
+]
+
+ALL_KEYWORDS = (
+    KW_DIRECT + KW_APPLICATION + KW_MACRO
+    + KW_EN_DIRECT + KW_EN_APPLICATION + KW_EN_MACRO
+)
 
 # 카테고리 정의 (LLM 분류가 이 중 하나를 반환). macro=거시경제(금리·환율·유가·증시 전반)
 CATEGORIES = ["global-policy", "global-market", "korea-policy", "korea-market", "macro"]

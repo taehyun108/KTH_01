@@ -14,19 +14,31 @@
 from __future__ import annotations
 
 import random
+import re
 import sys
 import time
 from typing import Any
 
 from config import CHANNELS, RSS_URL, ALL_KEYWORDS
 
+# 영문/숫자·공백·하이픈으로만 이루어진 키워드 판별 (단어 경계 매칭 대상)
+_ASCII_KW = re.compile(r"^[a-z0-9][a-z0-9 \-]*$")
+
 
 def match_keywords(text: str) -> list[str]:
-    """제목+설명에서 걸린 키워드 목록 반환 (1차 필터)."""
+    """제목+설명에서 걸린 키워드 목록 반환 (1차 필터).
+
+    영문 키워드는 단어 경계로 매칭해 짧은 약어(EV, ESS)가 development·business
+    같은 일반 단어에 오검출되는 것을 막는다. 한글 키워드는 부분 문자열 매칭.
+    """
     text_l = (text or "").lower()
     hits = []
     for kw in ALL_KEYWORDS:
-        if kw.lower() in text_l:
+        k = kw.lower()
+        if _ASCII_KW.match(k):
+            if re.search(r"(?<![a-z0-9])" + re.escape(k) + r"(?![a-z0-9])", text_l):
+                hits.append(kw)
+        elif k in text_l:
             hits.append(kw)
     return hits
 
