@@ -129,6 +129,26 @@ a { color: inherit; text-decoration: none; }
 .chip.empty { opacity: 0.55; }        /* 0건 채널: 흐리게(선택은 가능) */
 .chip.empty.active { opacity: 1; }
 
+/* ---------- 즐겨찾기 탭: URL 직접 요약 ---------- */
+.fav-tools {
+  margin: 18px 0 4px; padding: 18px 18px 16px; border-radius: 14px;
+  background: var(--surface); border: 1px solid var(--border-strong);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.fav-tools[hidden] { display: none; }
+.fav-tools h3 { margin: 0 0 4px; font-size: 1.05rem; }
+.fav-tools .fav-desc { margin: 0 0 12px; color: var(--text-dim); font-size: 0.9rem; }
+.fav-input-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.fav-input-row .search { flex: 1 1 240px; margin: 0; }
+.yt-btn {
+  flex: 0 0 auto; border: 0; cursor: pointer; white-space: nowrap;
+  padding: 0 20px; border-radius: 999px; font-size: 0.9rem; font-weight: 700;
+  color: #fff; background: var(--accent-strong);
+}
+.yt-btn:hover { filter: brightness(1.06); }
+.fav-hint { margin: 10px 0 0; font-size: 0.82rem; color: var(--text-faint); line-height: 1.5; }
+.fav-hint.err { color: var(--c-macro, #e11d48); }
+
 /* ---------- 섹션 헤더 ---------- */
 .section-head {
   display: flex; align-items: center; gap: 10px;

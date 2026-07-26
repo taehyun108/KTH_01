@@ -1,0 +1,70 @@
+name: Summarize submitted URL
+
+# 즐겨찾기 탭의 URL 입력창이 "[요약]" 제목의 이슈를 생성하면 실행된다.
+# 저장소 소유자가 연 이슈만 처리(무단 요청으로 Gemini 쿼터 소진 방지).
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write   # 새 리포트/인덱스를 main 에 커밋
+  issues: write     # 결과를 이슈에 댓글로 남기고 닫기
+
+jobs:
+  summarize:
+    if: >-
+      startsWith(github.event.issue.title, '[요약]') &&
+      github.event.issue.user.login == github.repository_owner
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Summarize the submitted URL
+        id: summarize
+        env:
+          GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: python scripts/summarize_url.py
+
+      - name: Commit new report
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain site/)" ]; then
+            git add site/
+            git commit -m "chore: add on-demand report (issue #${{ github.event.issue.number }})"
+            git push
+          else
+            echo "변경 사항 없음"
+          fi
+
+      - name: Comment result and close issue
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const status = `${{ steps.summarize.outputs.status }}`;
+            const message = `${{ steps.summarize.outputs.message }}`;
+            const reportUrl = `${{ steps.summarize.outputs.report_url }}`;
+            const site = 'https://taehyun108.github.io/KTH_01';
+            const icon = { ok: '✅', exists: 'ℹ️', quota: '⏳', error: '⚠️' }[status] || '⚠️';
+            let body = `${icon} ${message || '처리 결과를 확인할 수 없습니다.'}`;
+            if (reportUrl) {
+              body += `\n\n🔗 리포트: ${site}/${reportUrl}`;
+              body += `\n(배포까지 1~2분 걸릴 수 있습니다.)`;
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: context.issue.number, body,
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: context.issue.number, state: 'closed',
+            });

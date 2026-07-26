@@ -182,20 +182,31 @@ def _generate(client, model: str, types, prompt: str, max_retries: int = 4):
             raise
 
 
-def analyze(meta: dict[str, Any], transcript: str, transcript_source: str) -> dict[str, Any]:
-    """자막을 Gemini 에 넘겨 관련성 판단 + 리포트 구조화."""
+def analyze(meta: dict[str, Any], transcript: str, transcript_source: str,
+            force: bool = False) -> dict[str, Any]:
+    """자막을 Gemini 에 넘겨 관련성 판단 + 리포트 구조화.
+
+    force=True 는 사용자가 URL 로 직접 요청한 경우로, 무관 판정 없이 완전한 리포트를 강제한다.
+    """
     from google.genai import types
 
     client = _get_client()               # 시크릿 KTH_01_GEMINI_API_KEY → GEMINI_API_KEY
     model = _resolve_model(client)
     source_note = "" if transcript else "\n(자막 없음 — 제목·설명 기반으로 작성하고 리포트에 그 사실을 명시)"
+    force_note = (
+        "\n\n[사용자 직접 요청] 이 영상은 사용자가 URL 로 직접 요약을 요청한 것이다. "
+        "relevant 를 반드시 true 로 두고 완전한 리포트를 작성하라. 배터리 직접 연관이 약하면 "
+        "07 시사점에서 거시·전방(금리/관세/전력망/AIDC 등) 경로로의 연결고리를 명시적으로 서술하라."
+    ) if force else ""
     prompt = (
         f"{SYSTEM_PROMPT}\n\n{JSON_SPEC}\n\n"
         f"--- 분석 대상 ---\n채널: {meta['channel']}\n제목: {meta['title']}\n"
-        f"설명: {meta.get('description', '')}\n자막:\n{transcript[:40000]}{source_note}"
+        f"설명: {meta.get('description', '')}\n자막:\n{transcript[:40000]}{source_note}{force_note}"
     )
     resp = _generate(client, model, types, prompt)
     data = json.loads(_strip_fences(resp.text))
+    if force:
+        data["relevant"] = True
     data["_transcript_source"] = transcript_source
     return data
 
@@ -299,10 +310,13 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
 """
 
 
-def process_video(meta: dict[str, Any]) -> dict[str, Any] | None:
-    """단일 영상 처리. 관련 있으면 HTML 생성 후 리포트 메타 반환, 무관하면 drafts 로."""
+def process_video(meta: dict[str, Any], force: bool = False) -> dict[str, Any] | None:
+    """단일 영상 처리. 관련 있으면 HTML 생성 후 리포트 메타 반환, 무관하면 drafts 로.
+
+    force=True(사용자 URL 직접 요청)면 무관 판정을 건너뛰고 항상 리포트를 생성한다.
+    """
     transcript, source = get_transcript(meta["video_id"])
-    data = analyze(meta, transcript, source)
+    data = analyze(meta, transcript, source, force=force)
 
     if not data.get("relevant"):
         DRAFTS_DIR.mkdir(exist_ok=True)

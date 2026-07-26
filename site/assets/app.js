@@ -185,7 +185,39 @@ function renderCards() {
   }
 }
 
-function render() { renderStats(); renderPills(); renderChannels(); renderCards(); }
+// 즐겨찾기 탭에서만 'URL 직접 요약' 도구를 노출
+function renderFavTools() {
+  const el = document.getElementById('fav-tools');
+  if (!el) return;
+  if (activeFilter === 'fav') el.removeAttribute('hidden');
+  else el.setAttribute('hidden', '');
+}
+
+// 유튜브 URL → 사전 작성된 GitHub 이슈 생성 페이지로 이동 (Actions 워크플로가 요약)
+const REPO = 'taehyun108/KTH_01';
+const YT_RE = /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|shorts\/|embed\/)|youtu\.be\/)[\w-]{6,}/i;
+
+function requestSummary() {
+  const input = document.getElementById('yt-url');
+  const hint = document.getElementById('yt-hint');
+  let url = (input.value || '').trim();
+  if (!url) { input.focus(); return; }
+  if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+  if (!YT_RE.test(url)) {
+    hint.innerHTML = '⚠️ 올바른 유튜브 주소가 아닙니다. 예) https://www.youtube.com/watch?v=...';
+    hint.classList.add('err');
+    return;
+  }
+  hint.classList.remove('err');
+  const title = encodeURIComponent('[요약] ' + url);
+  const body = encodeURIComponent(
+    '아래 유튜브 영상을 이차전지 리포트로 요약해 주세요.\n\n' + url + '\n');
+  window.open(`https://github.com/${REPO}/issues/new?title=${title}&body=${body}`, '_blank', 'noopener');
+  hint.innerHTML = '↗️ GitHub 페이지에서 <b>‘Submit new issue’</b>를 눌러 주세요. ' +
+    '제출 후 1~3분 뒤 이 목록에 리포트가 추가됩니다.';
+}
+
+function render() { renderStats(); renderPills(); renderChannels(); renderFavTools(); renderCards(); }
 
 async function init() {
   try {
@@ -199,6 +231,12 @@ async function init() {
 
   const search = document.getElementById('search');
   search.addEventListener('input', () => { searchTerm = search.value.trim(); renderCards(); });
+
+  // 즐겨찾기 탭: URL 직접 요약 요청
+  const ytBtn = document.getElementById('yt-submit');
+  const ytUrl = document.getElementById('yt-url');
+  if (ytBtn) ytBtn.addEventListener('click', requestSummary);
+  if (ytUrl) ytUrl.addEventListener('keydown', (e) => { if (e.key === 'Enter') requestSummary(); });
 
   // 채널 필터 접기/펼치기 토글
   const toggle = document.getElementById('chan-toggle');
