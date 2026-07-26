@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-25T13:46:38",
+  "generated_at": "2026-07-26T02:30:29",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -17,6 +17,18 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-07-26-빅테크-실적-개막과-반도체-기술주-향방-ai-capex-지속성과-이차전지-산업-시사점",
+      "date": "2026-07-26",
+      "channel": "삼프로TV",
+      "title": "빅테크 실적 개막과 반도체·기술주 향방: AI CapEx 지속성과 이차전지 산업 시사점",
+      "summary": "빅테크 실적 시즌 개막에 따른 반도체·기술주 전망과 AI 데이터센터(AIDC) 전력·ESS 연계 시사점",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-26-빅테크-실적-개막과-반도체-기술주-향방-ai-capex-지속성과-이차전지-산업-시사점.html",
+      "video": "https://www.youtube.com/watch?v=rbAiV7TKqAk",
+      "video_id": "rbAiV7TKqAk"
+    },
     {
       "id": "2026-07-25-유가-상승과-금리-인상-우려-대이란-지정학적-리스크가-이차전지-산업에-미치는-파급효과",
       "date": "2026-07-25",
