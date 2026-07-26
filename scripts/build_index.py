@@ -25,8 +25,8 @@ def merge(new_reports: list[dict[str, Any]]) -> None:
         by_id[r["id"]] = r
     reports = sorted(by_id.values(), key=lambda r: r["date"], reverse=True)  # 최신순
 
-    # 보관 상한: 최신 MAX_REPORTS 건만 유지, 초과분 HTML 은 삭제
-    if len(reports) > MAX_REPORTS:
+    # 보관 상한: 최신 MAX_REPORTS 건만 유지, 초과분 HTML 은 삭제 (None = 무제한)
+    if MAX_REPORTS is not None and len(reports) > MAX_REPORTS:
         for r in reports[MAX_REPORTS:]:
             f = NEWS_DIR / r.get("url", "")
             if r.get("url") and f.exists():

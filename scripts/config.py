@@ -106,13 +106,13 @@ CATEGORIES = ["global-policy", "global-market", "korea-policy", "korea-market", 
 # 아래 값은 목록 조회 실패 시의 최종 폴백입니다.
 GEMINI_MODEL = "gemini-2.5-flash"
 
-# 1회 실행당 신규 처리 상한 (채널 라운드로빈으로 공정 분배)
-# 무료 티어 분당 5회는 429 재시도로 자동 스로틀됨. 실제 후보는 RSS 최근분(채널당 ~15)으로
-# 제한되므로, 이 값은 사실상 "가용한 신규 영상을 최대 N건까지 처리".
-MAX_CANDIDATES_PER_RUN = 300
+# 1회 실행당 신규 처리 상한 (채널 라운드로빈으로 공정 분배). None = 무제한.
+# 무료 티어 분당 5회는 429 재시도로 자동 스로틀되고, 일일 쿼터 소진 시 조기 종료되므로
+# 무제한이어도 실제 처리량은 그날 가용 쿼터가 자연스럽게 결정한다.
+MAX_CANDIDATES_PER_RUN = None
 
-# 아카이브 보관 상한 (최신순 이 개수까지 유지, 초과분은 목록·페이지에서 제거)
-MAX_REPORTS = 300
+# 아카이브 보관 상한 (최신순 이 개수까지 유지, 초과분은 목록·페이지에서 제거). None = 무제한.
+MAX_REPORTS = None
 
 # 백필(과거 영상 열거) 시 채널당 최대 열거 개수 (yt-dlp)
 CHANNEL_LOOKBACK = 400

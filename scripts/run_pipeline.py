@@ -63,18 +63,20 @@ def main() -> int:
         lst.sort(key=lambda c: c.get("published", ""), reverse=True)
 
     # 라운드로빈: 채널을 번갈아 뽑아 특정 채널 독점 방지 (슈카월드 등 공정 포함)
+    cap = float("inf") if MAX_CANDIDATES_PER_RUN is None else MAX_CANDIDATES_PER_RUN
     selected: list = []
-    while len(selected) < MAX_CANDIDATES_PER_RUN and any(by_ch.values()):
+    while len(selected) < cap and any(by_ch.values()):
         for ch in list(by_ch):
             if by_ch[ch]:
                 selected.append(by_ch[ch].pop(0))
-                if len(selected) >= MAX_CANDIDATES_PER_RUN:
+                if len(selected) >= cap:
                     break
     fresh = selected
 
     dist = ", ".join(f"{k} {sum(1 for c in fresh if c['channel'] == k)}"
                      for k in dict.fromkeys(c["channel"] for c in fresh))
-    print(f"1차 후보 {len(candidates)}건 · 신규 {len(fresh)}건 처리 (상한 {MAX_CANDIDATES_PER_RUN})")
+    cap_label = "무제한" if MAX_CANDIDATES_PER_RUN is None else MAX_CANDIDATES_PER_RUN
+    print(f"1차 후보 {len(candidates)}건 · 신규 {len(fresh)}건 처리 (상한 {cap_label})")
     print(f"  처리 분배: {dist or '없음'}")
 
     new_reports = []
