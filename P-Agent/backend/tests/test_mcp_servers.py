@@ -258,7 +258,6 @@ async def test_input_schema_validation_over_rpc(mcp_client: MCPClient) -> None:
 @pytest.mark.parametrize(
     ("server", "tool", "arguments", "expected_step"),
     [
-        ("rag", "search_internal_docs", {"query": "소듐이온배터리"}, "STEP 7"),
         ("report", "create_word_report", {"title": "t", "sections": []}, "STEP 8"),
     ],
 )
@@ -273,7 +272,7 @@ async def test_stub_tools_report_planned_step(
     아직 구현되지 않은 도구는 서버를 죽이지 않고,
     '어느 STEP 에서 구현 예정인지' 한글로 안내해야 한다.
 
-    (screen/automation 은 STEP 6 에서 구현되었으므로 아래 테스트에서 별도 검증)
+    (screen/automation 은 STEP 6, rag 는 STEP 7 에서 구현되어 별도 검증)
     """
     result = await mcp_client.call_tool(server, tool, arguments)
     assert result.is_error is True
@@ -309,6 +308,77 @@ async def test_environment_dependent_tools_give_guidance(
     else:
         # 화면이 있는 환경이면 정상 동작해야 한다.
         assert result.structured is not None
+
+
+async def test_rag_search_works_without_model(mcp_client: MCPClient) -> None:
+    """
+    🔴 폐쇄망 대비: 임베딩 모델이 없어도 사내 문서 검색이 동작해야 한다.
+    (키워드 검색으로 자동 대체되며, 어떤 방식인지 결과에 표시된다)
+    """
+    result = await mcp_client.call_tool(
+        "rag", "search_internal_docs", {"query": "소듐이온배터리 정책"}
+    )
+
+    assert result.is_error is False, result.text
+    assert result.structured is not None
+    # 색인이 비어 있어도 오류가 아니라 안내를 반환해야 한다.
+    assert "method" in result.structured
+    assert result.structured["method"] in {"vector", "keyword"}
+
+
+async def test_rag_add_document_and_search(mcp_client: MCPClient) -> None:
+    """문서를 색인에 추가한 뒤 검색으로 찾을 수 있어야 한다."""
+    doc_path = PROJECT_ROOT / "data" / "_test_rag_doc.md"
+    doc_path.parent.mkdir(parents=True, exist_ok=True)
+    doc_path.write_text(
+        "소듐이온배터리는 리튬이온 대비 원가가 낮아 ESS 분야에서 주목받는다.",
+        encoding="utf-8",
+    )
+
+    try:
+        added = await mcp_client.call_tool(
+            "rag", "add_document", {"path": "./data/_test_rag_doc.md"}
+        )
+        assert added.is_error is False, added.text
+        assert (added.structured or {}).get("chunks_added", 0) >= 1
+
+        found = await mcp_client.call_tool(
+            "rag", "search_internal_docs", {"query": "소듐이온배터리 원가"}
+        )
+        assert found.is_error is False, found.text
+        sources = [item["source"] for item in (found.structured or {}).get("results", [])]
+        assert any("_test_rag_doc.md" in source for source in sources)
+    finally:
+        doc_path.unlink(missing_ok=True)
+        (PROJECT_ROOT / "data" / "rag_index.json").unlink(missing_ok=True)
+
+
+async def test_rag_masks_personal_info(mcp_client: MCPClient) -> None:
+    """🔴 보안: 검색 결과의 개인정보가 가려져야 한다."""
+    doc_path = PROJECT_ROOT / "data" / "_test_rag_privacy.md"
+    doc_path.parent.mkdir(parents=True, exist_ok=True)
+    doc_path.write_text(
+        "담당자 연락처는 010-1234-5678 이고 이메일은 hong@posco.com 입니다.",
+        encoding="utf-8",
+    )
+
+    try:
+        await mcp_client.call_tool(
+            "rag", "add_document", {"path": "./data/_test_rag_privacy.md"}
+        )
+        found = await mcp_client.call_tool(
+            "rag", "search_internal_docs", {"query": "담당자 연락처"}
+        )
+
+        combined = " ".join(
+            item["content"] for item in (found.structured or {}).get("results", [])
+        )
+        if combined:  # 검색 결과가 있을 때만 검증
+            assert "010-1234-5678" not in combined
+            assert "hong@posco.com" not in combined
+    finally:
+        doc_path.unlink(missing_ok=True)
+        (PROJECT_ROOT / "data" / "rag_index.json").unlink(missing_ok=True)
 
 
 async def test_unknown_server_raises(mcp_client: MCPClient) -> None:
