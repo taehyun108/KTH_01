@@ -38,6 +38,8 @@ from app.agents.runtime import AgentRuntime
 from app.config.settings import get_settings
 from app.llm.base import LLMError
 from app.mcp_client.client import MCPClient
+from app.safety.kill_switch import KillSwitch
+from app.safety.undo_manager import UndoError
 
 logger = logging.getLogger("p-agent.main")
 
@@ -63,6 +65,12 @@ class ApproveRequest(BaseModel):
     approved: bool = Field(..., description="승인하면 true, 거절하면 false")
 
 
+class UndoRequest(BaseModel):
+    """되돌리기 요청."""
+
+    run_id: str | None = Field(default=None, description="기록에 남길 실행 ID")
+
+
 class KillRequest(BaseModel):
     """실행 중단 요청. run_id 를 생략하면 모든 실행을 중단한다."""
 
@@ -80,6 +88,7 @@ class AppState:
     mcp_client: MCPClient | None = None
     runtime: AgentRuntime | None = None
     run_manager: RunManager | None = None
+    kill_switch: KillSwitch | None = None
     startup_error: str = ""
 
 
@@ -136,7 +145,22 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         try:
             runtime = AgentRuntime.create(mcp_client, settings=settings)
             app_state.runtime = runtime
-            app_state.run_manager = RunManager(runtime)
+            run_manager = RunManager(runtime)
+            app_state.run_manager = run_manager
+
+            # --- 전역 Kill Switch (ESC) 등록 ---
+            # 등록에 실패해도 앱은 정상 기동한다. (화면의 정지 버튼으로 대체)
+            kill_switch = KillSwitch(
+                key=settings.kill_switch_key,
+                on_trigger=run_manager.kill_all,
+            )
+            kill_switch.start()
+            app_state.kill_switch = kill_switch
+            if kill_switch.available:
+                logger.info("비상 정지 단축키 준비 완료: %s", settings.kill_switch_key.upper())
+            else:
+                logger.warning("전역 단축키 사용 불가: %s", kill_switch.unavailable_reason)
+
             logger.info(
                 "준비 완료: MCP 도구 %d개 / LLM %s",
                 mcp_client.total_tool_count(),
@@ -151,6 +175,9 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
 
     finally:
         logger.info("P-Agent 백엔드를 종료합니다")
+        if app_state.kill_switch is not None:
+            app_state.kill_switch.stop()
+            app_state.kill_switch = None
         if app_state.run_manager is not None:
             await app_state.run_manager.shutdown()
         await mcp_client.aclose()
@@ -225,6 +252,7 @@ def _register_routes(application: FastAPI) -> None:
                 for tool in runtime.registry.tools
             ]
 
+        kill_switch = app_state.kill_switch
         return {
             "ready": app_state.run_manager is not None,
             "startup_error": app_state.startup_error,
@@ -232,6 +260,18 @@ def _register_routes(application: FastAPI) -> None:
             "llm_model": runtime.llm.model if runtime else "",
             "require_approval": settings.require_approval,
             "kill_switch_key": settings.kill_switch_key,
+            "kill_switch": (
+                kill_switch.status()
+                if kill_switch
+                else {
+                    "key": settings.kill_switch_key,
+                    "global_hook_available": False,
+                    "reason": "전역 단축키가 등록되지 않았습니다. 화면의 정지 버튼을 사용하세요.",
+                    "trigger_count": 0,
+                }
+            ),
+            "can_undo": runtime.undo_manager.can_undo if runtime else False,
+            "undo_stack": runtime.undo_manager.list_actions() if runtime else [],
             "mcp_servers": client.connected_servers if client else [],
             "mcp_failed": client.failed_servers if client else {},
             "tools": tools,
@@ -293,6 +333,35 @@ def _register_routes(application: FastAPI) -> None:
 
         count = manager.kill_all()
         return {"killed_count": count}
+
+    @application.post("/api/agent/undo")
+    async def undo(request: UndoRequest) -> dict[str, Any]:
+        """
+        가장 최근에 되돌릴 수 있는 작업을 취소한다.
+
+        되돌릴 수 있는 것: 파일 저장 (이전 내용 복원)
+        되돌릴 수 없는 것: 마우스 클릭, 키 입력 (이미 발생한 조작)
+        """
+        manager = get_run_manager()
+        try:
+            description = await manager.runtime.undo_last(request.run_id or "")
+        except UndoError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        return {"undone": description, "can_undo": manager.runtime.undo_manager.can_undo}
+
+    @application.get("/api/agent/actions")
+    async def actions(run_id: str | None = None, limit: int = 200) -> dict[str, Any]:
+        """
+        액션 기록(./logs/actions.jsonl)을 조회한다.
+
+        Args:
+            run_id: 특정 실행만 조회하려면 지정
+            limit: 최근 몇 건을 볼지
+        """
+        manager = get_run_manager()
+        logger_ = manager.runtime.action_logger
+        records = logger_.read_run(run_id) if run_id else logger_.read_all()
+        return {"count": len(records), "actions": records[-limit:]}
 
     @application.websocket("/ws/agent/{run_id}")
     async def agent_events(websocket: WebSocket, run_id: str) -> None:

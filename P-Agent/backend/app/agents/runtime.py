@@ -24,7 +24,6 @@ from __future__ import annotations
 import asyncio
 import contextvars
 import logging
-import uuid
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Any
@@ -38,12 +37,20 @@ from app.mcp_client.tool_registry import (
     RegisteredTool,
     ToolRegistry,
 )
+from app.safety.action_logger import ActionLogger, ActionRecord
+from app.safety.approval_gate import ApprovalGate, PendingApproval
+from app.safety.undo_manager import UndoManager, make_file_undo_action
 
 logger = logging.getLogger("p-agent.runtime")
 
 #: 현재 실행 중인 run_id (승인 콜백에서 실행을 식별하기 위해 사용)
 current_run_id: contextvars.ContextVar[str] = contextvars.ContextVar(
     "current_run_id", default=""
+)
+
+#: 현재 실행 중인 Agent 단계 (액션 기록에 남긴다)
+current_step: contextvars.ContextVar[str] = contextvars.ContextVar(
+    "current_step", default=""
 )
 
 #: 사용자 승인 대기 제한 시간(초). 초과 시 자동 거절한다.
@@ -124,17 +131,6 @@ class EventBus:
         self._subscribers.pop(run_id, None)
 
 
-@dataclass
-class PendingApproval:
-    """사용자 승인을 기다리는 요청."""
-
-    approval_id: str
-    run_id: str
-    tool_display: str
-    arguments: dict[str, Any]
-    future: asyncio.Future[bool]
-
-
 class AgentRuntime:
     """
     Agent 실행에 필요한 모든 자원을 묶은 런타임.
@@ -151,6 +147,9 @@ class AgentRuntime:
         registry: ToolRegistry,
         event_bus: EventBus | None = None,
         settings: Settings | None = None,
+        approval_gate: ApprovalGate | None = None,
+        undo_manager: UndoManager | None = None,
+        action_logger: ActionLogger | None = None,
     ) -> None:
         self.llm = llm
         self.registry = registry
@@ -158,7 +157,15 @@ class AgentRuntime:
         self.settings = settings or get_settings()
 
         self._kill_events: dict[str, asyncio.Event] = {}
-        self._approvals: dict[str, PendingApproval] = {}
+
+        # --- 안전장치 (STEP 5) ---
+        self.approval_gate = approval_gate or ApprovalGate(
+            emit=self.emit, timeout=APPROVAL_TIMEOUT
+        )
+        self.undo_manager = undo_manager or UndoManager()
+        self.action_logger = action_logger or ActionLogger(
+            self.settings.action_log_path
+        )
 
         # 레지스트리에 승인/기록 콜백을 연결한다.
         registry.approval_callback = self._on_approval_required
@@ -222,10 +229,10 @@ class AgentRuntime:
         if event is None:
             return False
         event.set()
-        # 대기 중인 승인 요청도 모두 거절 처리한다.
-        for approval in list(self._approvals.values()):
-            if approval.run_id == run_id and not approval.future.done():
-                approval.future.set_result(False)
+        # 대기 중인 승인 요청도 모두 거절 처리한다. (무단 실행 방지)
+        denied = self.approval_gate.deny_all_for_run(run_id)
+        if denied:
+            logger.info("중단으로 승인 요청 %d건을 거절했습니다", denied)
         return True
 
     def is_killed(self, run_id: str) -> bool:
@@ -241,17 +248,15 @@ class AgentRuntime:
     def cleanup_run(self, run_id: str) -> None:
         """실행 관련 자원을 정리한다."""
         self._kill_events.pop(run_id, None)
-        for approval_id, approval in list(self._approvals.items()):
-            if approval.run_id == run_id:
-                self._approvals.pop(approval_id, None)
+        self.approval_gate.clear_run(run_id)
 
     # ------------------------------------------------------------
-    # 승인 게이트
+    # 승인 게이트 (app/safety/approval_gate.py 로 위임)
     # ------------------------------------------------------------
     @property
     def pending_approvals(self) -> list[PendingApproval]:
         """승인 대기 중인 요청 목록."""
-        return list(self._approvals.values())
+        return self.approval_gate.pending
 
     def resolve_approval(self, approval_id: str, approved: bool) -> bool:
         """
@@ -260,63 +265,14 @@ class AgentRuntime:
         Returns:
             처리되었으면 True, 없는 요청이면 False
         """
-        approval = self._approvals.pop(approval_id, None)
-        if approval is None or approval.future.done():
-            return False
-        approval.future.set_result(approved)
-        return True
+        return self.approval_gate.resolve(approval_id, approved)
 
     async def _on_approval_required(
         self, tool: RegisteredTool, arguments: dict[str, Any]
     ) -> bool:
-        """
-        ToolRegistry 가 위험 도구 실행 전에 호출하는 승인 콜백.
-
-        프론트엔드에 승인 요청 이벤트를 보내고 응답을 기다린다.
-        제한 시간을 넘기면 **자동 거절**한다. (안전 우선)
-        """
+        """ToolRegistry 가 위험 도구 실행 전에 호출하는 승인 콜백."""
         run_id = current_run_id.get()
-        approval_id = uuid.uuid4().hex[:12]
-        future: asyncio.Future[bool] = asyncio.get_running_loop().create_future()
-
-        approval = PendingApproval(
-            approval_id=approval_id,
-            run_id=run_id,
-            tool_display=tool.display_name,
-            arguments=arguments,
-            future=future,
-        )
-        self._approvals[approval_id] = approval
-
-        await self.emit(
-            run_id,
-            "approval_required",
-            approval_id=approval_id,
-            tool=tool.display_name,
-            arguments=arguments,
-        )
-
-        try:
-            approved = await asyncio.wait_for(future, timeout=APPROVAL_TIMEOUT)
-        except TimeoutError:
-            approved = False
-            await self.emit(
-                run_id,
-                "approval_timeout",
-                approval_id=approval_id,
-                tool=tool.display_name,
-            )
-        finally:
-            self._approvals.pop(approval_id, None)
-
-        await self.emit(
-            run_id,
-            "approval_resolved",
-            approval_id=approval_id,
-            tool=tool.display_name,
-            approved=approved,
-        )
-        return approved
+        return await self.approval_gate.request(run_id, tool.display_name, arguments)
 
     async def _on_action_logged(
         self,
@@ -328,13 +284,24 @@ class AgentRuntime:
         """
         도구 실행 기록 콜백.
 
-        STEP 5 에서 여기에 `./logs/actions.jsonl` 파일 기록을 추가한다.
+        모든 도구 실행을 `./logs/actions.jsonl` 에 남긴다.
         """
         logger.info(
             "도구 실행 %s %s -> %s",
             tool.display_name,
             arguments,
             "성공" if ok else "실패",
+        )
+        await self.action_logger.log(
+            ActionRecord(
+                run_id=current_run_id.get(),
+                step=current_step.get(),
+                action="tool_call",
+                tool=tool.display_name,
+                arguments=arguments,
+                ok=ok,
+                detail=output[:SUMMARY_LIMIT],
+            )
         )
 
     # ------------------------------------------------------------
@@ -359,12 +326,16 @@ class AgentRuntime:
         """
         active_run = run_id or current_run_id.get()
         args = arguments or {}
+        current_step.set(step)
 
         try:
             tool = self.registry.get(qualified_name)
             display = tool.display_name
         except Exception:  # noqa: BLE001 - 없는 도구도 기록만 남기고 진행
             display = qualified_name
+
+        # 되돌릴 수 있는 액션이면 실행 **전에** 현재 상태를 저장해 둔다.
+        undo_snapshot = self._snapshot_for_undo(qualified_name, args)
 
         await self.emit(
             active_run, "tool_call", step=step, tool=display, arguments=args
@@ -386,6 +357,10 @@ class AgentRuntime:
             ok = False
             text = str(exc)
 
+        # 성공한 경우에만 되돌리기 스택에 올린다.
+        if ok and undo_snapshot is not None:
+            self.undo_manager.push(undo_snapshot(active_run))
+
         summary = text if len(text) <= SUMMARY_LIMIT else text[:SUMMARY_LIMIT] + "…"
         log_entry = {
             "step": step,
@@ -405,6 +380,68 @@ class AgentRuntime:
         )
 
         return {"ok": ok, "text": text, "structured": structured, "log": log_entry}
+
+    def _snapshot_for_undo(
+        self, qualified_name: str, arguments: dict[str, Any]
+    ) -> Any:
+        """
+        되돌리기용 스냅샷을 만든다.
+
+        현재는 파일 쓰기만 되돌릴 수 있다.
+        (마우스 클릭·키 입력은 되돌릴 수 없으므로 스택에 넣지 않는다)
+
+        Returns:
+            run_id 를 받아 UndoAction 을 만드는 함수, 되돌릴 수 없으면 None
+        """
+        if qualified_name != "filesystem__write_file":
+            return None
+
+        raw_path = arguments.get("path")
+        if not raw_path:
+            return None
+
+        try:
+            from app.mcp_servers.base_server import safe_project_path
+
+            target = safe_project_path(str(raw_path))
+        except Exception:  # noqa: BLE001 - 경로가 잘못되면 되돌리기 대상이 아니다
+            return None
+
+        previous = None
+        if target.is_file():
+            try:
+                previous = target.read_text(encoding="utf-8")
+            except (OSError, UnicodeDecodeError):
+                # 읽을 수 없는 파일은 되돌리기를 제공하지 않는다.
+                return None
+
+        def _make(active_run: str) -> Any:
+            return make_file_undo_action(target, previous, run_id=active_run)
+
+        return _make
+
+    async def undo_last(self, run_id: str = "") -> str:
+        """
+        가장 최근 액션을 되돌린다.
+
+        Returns:
+            되돌린 액션 설명
+
+        Raises:
+            UndoError: 되돌릴 것이 없거나 실패한 경우
+        """
+        description = await self.undo_manager.undo_last()
+        await self.action_logger.log(
+            ActionRecord(
+                run_id=run_id,
+                step="undo",
+                action="undo",
+                detail=description,
+                ok=True,
+            )
+        )
+        await self.emit(run_id, "undo_performed", description=description)
+        return description
 
     def has_tool(self, qualified_name: str) -> bool:
         """해당 도구가 등록되어 있는지 확인한다."""

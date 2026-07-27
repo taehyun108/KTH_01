@@ -674,3 +674,146 @@ async def test_report_saved_inside_project(runtime: AgentRuntime) -> None:
     assert Path(report_path).parts[0] == "output"
 
     _cleanup_reports([report_path])
+
+
+# ============================================================
+# 8. 안전장치 통합 (STEP 5)
+# ============================================================
+
+
+async def test_file_write_is_undoable(runtime: AgentRuntime) -> None:
+    """
+    🔴 되돌리기 통합: 에이전트가 저장한 파일을 되돌리면
+    파일이 삭제(신규) 또는 이전 내용으로 복원되어야 한다.
+    """
+    run_id = "test-undo"
+    runtime.register_run(run_id)
+    current_run_id.set(run_id)
+    runtime.undo_manager.clear()
+
+    rel_path = "./data/_undo_test.md"
+    target = PROJECT_ROOT / "data" / "_undo_test.md"
+    target.unlink(missing_ok=True)
+
+    # 1) 신규 파일 저장 → 되돌리면 삭제되어야 한다.
+    result = await runtime.call_tool(
+        "generator",
+        "filesystem__write_file",
+        {"path": rel_path, "content": "첫 번째 내용"},
+        run_id=run_id,
+    )
+    assert result["ok"] is True
+    assert target.is_file()
+    assert runtime.undo_manager.can_undo is True
+
+    description = await runtime.undo_last(run_id)
+    assert "파일 생성" in description
+    assert not target.exists(), "되돌렸는데 파일이 남아 있습니다"
+
+    # 2) 기존 파일 수정 → 되돌리면 이전 내용이 복원되어야 한다.
+    target.write_text("원래 내용", encoding="utf-8")
+    await runtime.call_tool(
+        "generator",
+        "filesystem__write_file",
+        {"path": rel_path, "content": "덮어쓴 내용"},
+        run_id=run_id,
+    )
+    assert target.read_text(encoding="utf-8") == "덮어쓴 내용"
+
+    await runtime.undo_last(run_id)
+    assert target.read_text(encoding="utf-8") == "원래 내용"
+
+    target.unlink(missing_ok=True)
+
+
+async def test_dangerous_tools_are_not_undoable(runtime: AgentRuntime) -> None:
+    """
+    🔴 마우스/키보드 조작은 되돌릴 수 없으므로 스택에 쌓이지 않아야 한다.
+    ("되돌릴 수 있다"는 잘못된 안내를 막기 위함)
+    """
+    run_id = "test-undo-2"
+    runtime.register_run(run_id)
+    current_run_id.set(run_id)
+    runtime.undo_manager.clear()
+
+    # 승인 게이트를 통과시키고 automation 도구를 호출한다.
+    async def approve(tool: Any, arguments: dict[str, Any]) -> bool:
+        return True
+
+    runtime.registry.approval_callback = approve
+    await runtime.call_tool(
+        "executor", "automation__click", {"x": 1, "y": 2}, run_id=run_id
+    )
+
+    assert runtime.undo_manager.can_undo is False
+
+
+async def test_tool_calls_written_to_action_log(
+    runtime: AgentRuntime, tmp_path: Path
+) -> None:
+    """모든 도구 호출이 actions.jsonl 에 기록되어야 한다."""
+    from app.safety.action_logger import ActionLogger
+
+    # 테스트용 임시 로그 파일로 교체
+    runtime.action_logger = ActionLogger(tmp_path / "actions.jsonl")
+
+    run_id = "test-log"
+    runtime.register_run(run_id)
+    current_run_id.set(run_id)
+
+    await runtime.call_tool(
+        "retriever", "filesystem__list_dir", {"path": "."}, run_id=run_id
+    )
+
+    records = runtime.action_logger.read_run(run_id)
+    assert len(records) == 1
+    assert records[0]["tool"] == "filesystem.list_dir"
+    assert records[0]["step"] == "retriever"
+    assert records[0]["ok"] is True
+
+
+async def test_api_undo_and_actions(api_client: Any, runtime: AgentRuntime) -> None:
+    """되돌리기 / 액션 조회 API 가 동작해야 한다."""
+    runtime.undo_manager.clear()
+
+    # 되돌릴 것이 없으면 400 + 한글 안내
+    response = await api_client.post("/api/agent/undo", json={})
+    assert response.status_code == 400
+    assert "되돌릴 작업이 없습니다" in response.json()["detail"]
+
+    # 파일을 저장한 뒤 되돌리기
+    run_id = "test-api-undo"
+    runtime.register_run(run_id)
+    current_run_id.set(run_id)
+    target = PROJECT_ROOT / "data" / "_api_undo_test.md"
+    target.unlink(missing_ok=True)
+
+    await runtime.call_tool(
+        "generator",
+        "filesystem__write_file",
+        {"path": "./data/_api_undo_test.md", "content": "내용"},
+        run_id=run_id,
+    )
+    assert target.is_file()
+
+    response = await api_client.post("/api/agent/undo", json={"run_id": run_id})
+    assert response.status_code == 200
+    assert "파일 생성" in response.json()["undone"]
+    assert not target.exists()
+
+    # 액션 기록 조회
+    actions = await api_client.get("/api/agent/actions")
+    assert actions.status_code == 200
+    assert actions.json()["count"] >= 1
+
+
+async def test_api_status_reports_safety(api_client: Any) -> None:
+    """상태 API 가 안전장치 상태를 보고해야 한다."""
+    response = await api_client.get("/api/status")
+    data = response.json()
+
+    assert "kill_switch" in data
+    assert data["kill_switch"]["key"] == "esc"
+    assert isinstance(data["kill_switch"]["global_hook_available"], bool)
+    assert data["require_approval"] is True
+    assert "can_undo" in data
