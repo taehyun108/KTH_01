@@ -30,14 +30,18 @@ dependencies = [
     # --- 문서 생성 (STEP 8) ---
     "python-docx>=1.1",
     "python-pptx>=1.0",
+    # --- 안전장치: ESC 전역 단축키 (STEP 5) ---
     "keyboard>=0.13.5",
+    # --- 화면 캡처 / PC 자동화 (STEP 6) ---
+    "mss>=10.2.0",
+    "pillow>=12.3.0",
+    "pyautogui>=0.9.54",
 ]
 
 [project.optional-dependencies]
-dev = [
-    "pytest>=8.3",
-    "pytest-asyncio>=0.24",
-    "ruff>=0.8",
+vision = [
+    "numpy>=2.4.6",
+    "paddleocr>=2.10.0",
 ]
 
 [build-system]

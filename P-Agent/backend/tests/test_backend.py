@@ -445,8 +445,9 @@ async def test_approval_grant_reaches_server(runtime: AgentRuntime) -> None:
     assert runtime.resolve_approval(approval.approval_id, True) is True
 
     result = await call_task
-    # automation 은 아직 스텁이므로 '미구현' 오류가 나오면 서버에 도달한 것
-    assert "구현되지 않았습니다" in result["text"]
+    # 승인 게이트를 통과해 automation 서버까지 도달했는지 확인한다.
+    # (이 환경은 화면이 없어 실패하지만, 실패 사유가 '승인 거절'이면 안 된다)
+    assert "거절" not in result["text"]
 
 
 async def test_kill_auto_denies_pending_approval(runtime: AgentRuntime) -> None:

@@ -256,32 +256,59 @@ async def test_input_schema_validation_over_rpc(mcp_client: MCPClient) -> None:
 
 
 @pytest.mark.parametrize(
-    ("server", "tool", "expected_step"),
+    ("server", "tool", "arguments", "expected_step"),
     [
-        ("screen", "capture_screen", "STEP 6"),
-        ("automation", "click", "STEP 6"),
-        ("rag", "search_internal_docs", "STEP 7"),
-        ("report", "create_word_report", "STEP 8"),
+        ("rag", "search_internal_docs", {"query": "소듐이온배터리"}, "STEP 7"),
+        ("report", "create_word_report", {"title": "t", "sections": []}, "STEP 8"),
     ],
 )
 async def test_stub_tools_report_planned_step(
-    mcp_client: MCPClient, server: str, tool: str, expected_step: str
+    mcp_client: MCPClient,
+    server: str,
+    tool: str,
+    arguments: dict[str, Any],
+    expected_step: str,
 ) -> None:
     """
-    미구현 스텁 도구는 서버를 죽이지 않고,
+    아직 구현되지 않은 도구는 서버를 죽이지 않고,
     '어느 STEP 에서 구현 예정인지' 한글로 안내해야 한다.
-    """
-    arguments: dict[str, Any] = {
-        "capture_screen": {},
-        "click": {"x": 10, "y": 20},
-        "search_internal_docs": {"query": "소듐이온배터리"},
-        "create_word_report": {"title": "t", "sections": []},
-    }[tool]
 
+    (screen/automation 은 STEP 6 에서 구현되었으므로 아래 테스트에서 별도 검증)
+    """
     result = await mcp_client.call_tool(server, tool, arguments)
     assert result.is_error is True
     assert "구현되지 않았습니다" in result.text
     assert expected_step in result.text
+
+
+@pytest.mark.parametrize(
+    ("server", "tool", "arguments"),
+    [
+        ("screen", "capture_screen", {}),
+        ("automation", "click", {"x": 10, "y": 20}),
+    ],
+)
+async def test_environment_dependent_tools_give_guidance(
+    mcp_client: MCPClient, server: str, tool: str, arguments: dict[str, Any]
+) -> None:
+    """
+    화면이 필요한 도구(STEP 6 구현 완료)는 이 환경(화면 없음)에서 실패하되,
+    **왜 안 되는지 한글로 안내**해야 한다. 서버는 계속 살아 있어야 한다.
+
+    (배포 대상인 Windows PC 에서는 정상 동작한다)
+    """
+    result = await mcp_client.call_tool(server, tool, arguments)
+
+    if result.is_error:
+        assert any(
+            word in result.text for word in ("화면", "설치", "환경", "실패")
+        ), f"안내 문구가 불충분합니다: {result.text}"
+        # 서버가 살아 있는지 확인 (다음 호출이 정상 동작해야 함)
+        follow_up = await mcp_client.call_tool(server, tool, arguments)
+        assert follow_up is not None
+    else:
+        # 화면이 있는 환경이면 정상 동작해야 한다.
+        assert result.structured is not None
 
 
 async def test_unknown_server_raises(mcp_client: MCPClient) -> None:
@@ -416,8 +443,10 @@ async def test_registry_proceeds_on_user_approval(mcp_client: MCPClient) -> None
     registry.refresh()
 
     result = await registry.call("automation__click", {"x": 1, "y": 2})
-    assert result.is_error is True
-    assert "구현되지 않았습니다" in result.text  # 승인 게이트를 통과해 서버에 도달함
+    # 승인 게이트를 통과해 automation 서버까지 도달했는지 확인한다.
+    # (이 환경은 화면이 없어 실패하지만, 실패 사유가 '승인'이 아니어야 한다)
+    assert "승인" not in result.text
+    assert "거절" not in result.text
 
 
 async def test_registry_global_approval_switch(mcp_client: MCPClient) -> None:
@@ -426,8 +455,9 @@ async def test_registry_global_approval_switch(mcp_client: MCPClient) -> None:
     registry.refresh()
 
     result = await registry.call("automation__click", {"x": 1, "y": 2})
-    # 승인 없이 서버까지 도달 → 스텁 오류
-    assert "구현되지 않았습니다" in result.text
+    # 승인 요청 없이 서버까지 도달해야 한다.
+    assert "승인" not in result.text
+    assert "거절" not in result.text
 
 
 async def test_registry_logs_actions(mcp_client: MCPClient) -> None:
