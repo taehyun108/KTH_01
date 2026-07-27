@@ -1,6 +1,7 @@
 @echo off
 REM ============================================================
 REM  P-Agent 백엔드 단독 실행 (FastAPI + LangGraph)
+REM  화면 없이 API 만 사용하거나 문제를 진단할 때 사용합니다.
 REM ============================================================
 chcp 65001 >nul
 cd /d "%~dp0"
@@ -17,7 +18,8 @@ if not exist backend\.venv (
 )
 
 echo P-Agent 백엔드를 시작합니다...
+echo   API 문서: http://127.0.0.1:8756/docs
+echo.
 cd backend
-call .venv\Scripts\activate.bat
 uv run uvicorn app.main:app --host 127.0.0.1 --port 8756 --reload
 pause
