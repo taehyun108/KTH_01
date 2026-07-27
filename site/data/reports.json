@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-26T23:14:48",
+  "generated_at": "2026-07-27T02:38:31",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -17,6 +17,18 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-07-27-삼프로tv-분석-반도체-산업의-핵심-우려-요인과-ai-전력-인프라-연계-배터리-산업-시사점",
+      "date": "2026-07-27",
+      "channel": "삼프로TV",
+      "title": "[삼프로TV 분석] 반도체 산업의 핵심 우려 요인과 AI·전력 인프라 연계 배터리 산업 시사점",
+      "summary": "삼프로TV 소현철 교수의 반도체 산업 우려 요인 진단을 바탕으로, AI 데이터센터(AIDC) 전력 병목 및 ESS 배터리 수요 영향 분석 리포트.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-27-삼프로tv-분석-반도체-산업의-핵심-우려-요인과-ai-전력-인프라-연계-배터리-산업-시사점.html",
+      "video": "https://www.youtube.com/watch?v=XmAtm6L7c6c",
+      "video_id": "XmAtm6L7c6c"
+    },
     {
       "id": "2026-07-26-빅테크-실적-개막과-반도체-기술주-향방-ai-capex-지속성과-이차전지-산업-시사점",
       "date": "2026-07-26",
