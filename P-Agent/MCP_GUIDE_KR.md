@@ -89,33 +89,32 @@ LLM API 는 도구 이름에 **`^[a-zA-Z0-9_-]{1,64}$` 만 허용**한다. **점
 
 ## 3. MCP 서버별 제공 도구 목록
 
-**상태** 열: ✅ 구현 완료 / 🚧 스키마만 정의됨(해당 STEP 에서 구현)
+**상태** 열: ✅ 구현 완료 / \* 선택 의존성·로컬 모델 필요
 
 | 서버 | 도구 | 설명 | 승인 필요 | 상태 |
 |---|---|---|:---:|:---:|
 | **filesystem** | `read_file(path)` | 파일 읽기 (프로젝트 루트 하위로 제한) | — | ✅ |
 | | `write_file(path, content)` | 파일 쓰기 | — | ✅ |
 | | `list_dir(path)` | 디렉터리 목록 | — | ✅ |
-| **screen** | `capture_screen()` | 전체 화면 캡처 | — | 🚧 STEP 6 |
-| | `find_ui_element(description)` | 자연어로 UI 요소 위치 탐지 (OmniParser) | — | 🚧 STEP 6 |
-| | `ocr_region(bbox)` | 지정 영역 텍스트 인식 (PaddleOCR) | — | 🚧 STEP 6 |
-| **automation** | `click(x, y)` | 마우스 클릭 | ✅ | 🚧 STEP 6 |
-| | `type_text(text)` | 텍스트 입력 | ✅ | 🚧 STEP 6 |
-| | `key_press(key)` | 키 입력 | ✅ | 🚧 STEP 6 |
-| | `open_browser(url)` | 브라우저 열기 (화이트리스트 검사) | ✅ | 🚧 STEP 6 |
-| **rag** | `search_internal_docs(query, top_k)` | 사내 문서 벡터 검색 | — | 🚧 STEP 7 |
-| | `add_document(path)` | 문서 색인 추가 | — | 🚧 STEP 7 |
-| **report** | `create_word_report(title, sections, citations)` | Word 보고서 생성 | — | 🚧 STEP 8 |
-| | `create_ppt_report(title, slides, citations)` | PPT 보고서 생성 | — | 🚧 STEP 8 |
+| **screen** | `capture_screen(region)` | 화면 캡처 → PNG 저장 | — | ✅ |
+| | `find_ui_element(description)` | 자연어로 UI 요소 위치 탐지 (OCR 기반) | — | ✅ * |
+| | `ocr_region(bbox)` | 지정 영역 텍스트 인식 (PaddleOCR) | — | ✅ * |
+| **automation** | `click(x, y)` | 마우스 클릭 | ✅ | ✅ |
+| | `type_text(text)` | 텍스트 입력 | ✅ | ✅ |
+| | `key_press(key)` | 키 입력 | ✅ | ✅ |
+| | `open_browser(url)` | 브라우저 열기 (화이트리스트 검사) | ✅ | ✅ |
+| **rag** | `search_internal_docs(query, top_k)` | 사내 문서 검색 (의미/키워드) | — | ✅ |
+| | `add_document(path)` | 문서 색인 추가 | — | ✅ |
+| **report** | `create_word_report(title, sections, citations)` | Word 보고서 생성 | — | ✅ |
+| | `create_ppt_report(title, slides, citations)` | PPT 보고서 생성 | — | ✅ |
 
 > ⚠️ **automation** 서버의 도구는 `require_approval: true` 로 지정되어,
 > 실행 전 **Approval Gate**(사용자 승인)를 반드시 통과해야 합니다.
 > 승인 콜백이 등록되어 있지 않으면 도구는 **실행되지 않고 차단**됩니다. (안전 우선 기본값)
 
-> 🚧 표시된 도구는 **스키마가 이미 확정**되어 있어 레지스트리·LLM 연결은 완료된 상태입니다.
-> 해당 STEP 에서는 각 서버의 `handle_call()` 본문만 채우면 되며,
-> MCP 클라이언트/레지스트리/Agent 코드는 수정할 필요가 없습니다.
-> 현재는 호출 시 "STEP N 에서 구현 예정" 안내와 함께 실패합니다.
+> \* 표시된 도구는 **선택 의존성**(`uv sync --extra vision`)과 로컬 모델이 필요합니다.
+> 설치되지 않았거나 화면이 없는 환경에서는 "왜 안 되는지 + 어떻게 해결하는지"를
+> 한글로 안내하며 실패하고, 서버와 나머지 도구는 정상 동작합니다.
 
 ---
 
