@@ -59,29 +59,63 @@ backend/app/
 5. 서버가 실행 결과를 JSON-RPC 응답으로 반환 → Agent 에 전달
 ```
 
+### ⚠️ 도구 이름 규칙 (구현 시 반드시 지킬 것)
+
+LLM API 는 도구 이름에 **`^[a-zA-Z0-9_-]{1,64}$` 만 허용**한다. **점(.)은 쓸 수 없다.**
+따라서 P-Agent 는 두 가지 이름을 구분해서 사용한다.
+
+| 용도 | 형식 | 예 |
+|---|---|---|
+| LLM 전달 / 내부 식별자 | `서버명__도구명` (밑줄 2개) | `filesystem__read_file` |
+| 사용자 화면 표시 | `서버명.도구명` | `filesystem.read_file` |
+
+변환은 `tool_registry.py` 의 `RegisteredTool.qualified_name` / `display_name` 이 담당하므로
+도구를 추가할 때 신경 쓸 필요는 없다. 다만 **로그나 UI 에 표시할 때는 `display_name` 을 쓸 것.**
+
+### 🔒 서버 프로세스 실행 방식 (포터블)
+
+`mcp_config.json` 의 `"command": "python"` 은 실행 시 **현재 가상환경의 파이썬**
+(`sys.executable`)으로 자동 치환된다. 시스템 PATH 에 어떤 python 이 있든 무관하게 동작한다.
+
+또한 서버 프로세스에는 다음 환경변수가 강제로 주입된다.
+
+| 환경변수 | 이유 |
+|---|---|
+| `PYTHONPATH=backend/` | `-m app.mcp_servers.xxx` 가 항상 해석되도록 |
+| `PYTHONUTF8=1`, `PYTHONIOENCODING=utf-8` | **한글 Windows(cp949)에서 JSON-RPC 깨짐 방지** |
+| `PYTHONDONTWRITEBYTECODE=1` | USB 에 `__pycache__` 를 남기지 않음 |
+
 ---
 
 ## 3. MCP 서버별 제공 도구 목록
 
-| 서버 | 도구 | 설명 | 승인 필요 |
-|---|---|---|:---:|
-| **filesystem** | `read_file(path)` | 파일 읽기 (프로젝트 루트 하위로 제한) | — |
-| | `write_file(path, content)` | 파일 쓰기 | — |
-| | `list_dir(path)` | 디렉터리 목록 | — |
-| **screen** | `capture_screen()` | 전체 화면 캡처 | — |
-| | `find_ui_element(description)` | 자연어로 UI 요소 위치 탐지 (OmniParser) | — |
-| | `ocr_region(bbox)` | 지정 영역 텍스트 인식 (PaddleOCR) | — |
-| **automation** | `click(x, y)` | 마우스 클릭 | ✅ |
-| | `type_text(text)` | 텍스트 입력 | ✅ |
-| | `key_press(key)` | 키 입력 | ✅ |
-| | `open_browser(url)` | 브라우저 열기 (화이트리스트 검사) | ✅ |
-| **rag** | `search_internal_docs(query, top_k)` | 사내 문서 벡터 검색 | — |
-| | `add_document(path)` | 문서 색인 추가 | — |
-| **report** | `create_word_report(title, sections, citations)` | Word 보고서 생성 | — |
-| | `create_ppt_report(title, slides, citations)` | PPT 보고서 생성 | — |
+**상태** 열: ✅ 구현 완료 / 🚧 스키마만 정의됨(해당 STEP 에서 구현)
+
+| 서버 | 도구 | 설명 | 승인 필요 | 상태 |
+|---|---|---|:---:|:---:|
+| **filesystem** | `read_file(path)` | 파일 읽기 (프로젝트 루트 하위로 제한) | — | ✅ |
+| | `write_file(path, content)` | 파일 쓰기 | — | ✅ |
+| | `list_dir(path)` | 디렉터리 목록 | — | ✅ |
+| **screen** | `capture_screen()` | 전체 화면 캡처 | — | 🚧 STEP 6 |
+| | `find_ui_element(description)` | 자연어로 UI 요소 위치 탐지 (OmniParser) | — | 🚧 STEP 6 |
+| | `ocr_region(bbox)` | 지정 영역 텍스트 인식 (PaddleOCR) | — | 🚧 STEP 6 |
+| **automation** | `click(x, y)` | 마우스 클릭 | ✅ | 🚧 STEP 6 |
+| | `type_text(text)` | 텍스트 입력 | ✅ | 🚧 STEP 6 |
+| | `key_press(key)` | 키 입력 | ✅ | 🚧 STEP 6 |
+| | `open_browser(url)` | 브라우저 열기 (화이트리스트 검사) | ✅ | 🚧 STEP 6 |
+| **rag** | `search_internal_docs(query, top_k)` | 사내 문서 벡터 검색 | — | 🚧 STEP 7 |
+| | `add_document(path)` | 문서 색인 추가 | — | 🚧 STEP 7 |
+| **report** | `create_word_report(title, sections, citations)` | Word 보고서 생성 | — | 🚧 STEP 8 |
+| | `create_ppt_report(title, slides, citations)` | PPT 보고서 생성 | — | 🚧 STEP 8 |
 
 > ⚠️ **automation** 서버의 도구는 `require_approval: true` 로 지정되어,
 > 실행 전 **Approval Gate**(사용자 승인)를 반드시 통과해야 합니다.
+> 승인 콜백이 등록되어 있지 않으면 도구는 **실행되지 않고 차단**됩니다. (안전 우선 기본값)
+
+> 🚧 표시된 도구는 **스키마가 이미 확정**되어 있어 레지스트리·LLM 연결은 완료된 상태입니다.
+> 해당 STEP 에서는 각 서버의 `handle_call()` 본문만 채우면 되며,
+> MCP 클라이언트/레지스트리/Agent 코드는 수정할 필요가 없습니다.
+> 현재는 호출 시 "STEP N 에서 구현 예정" 안내와 함께 실패합니다.
 
 ---
 
@@ -169,9 +203,37 @@ backend/app/
 
 ```bash
 # backend/ 디렉터리에서
-python -m app.mcp_servers.filesystem_server     # stdio 대기 상태로 실행
-python -m pytest tests/test_mcp_servers.py -v    # 전체 도구 자동 테스트
+
+# 1) 전체 서버 헬스체크 (가장 먼저 확인할 것)
+python -m app.mcp_client --healthcheck
+
+# 2) 전체 도구 자동 테스트 (실제 프로세스를 띄워 검증)
+python -m pytest tests/test_mcp_servers.py -v
+
+# 3) 서버 하나만 stdio 모드로 실행 (입력 대기 상태가 됨)
+python -m app.mcp_servers.filesystem_server
 ```
 
-> MCP 서버는 stdio로 통신하므로, 직접 실행하면 입력 대기 상태가 됩니다.
-> 실제 호출 검증은 `test_mcp_servers.py`(MCP Client를 통한 호출)로 수행하세요.
+헬스체크 정상 출력 예:
+```
+  [OK] filesystem   도구 3개
+         - filesystem.read_file
+  ...
+  ✅ 정상: 서버 5개 / 도구 14개
+```
+
+> MCP 서버는 stdio 로 통신하므로 직접 실행하면 입력 대기 상태가 됩니다.
+> 실제 호출 검증은 헬스체크나 `test_mcp_servers.py` 로 수행하세요.
+
+### 🚫 서버 코드에서 절대 하면 안 되는 것
+
+**`print()` 금지.** stdout 은 JSON-RPC 통신 전용이라 출력이 섞이면 통신이 깨집니다.
+로그가 필요하면 반드시 `self.logger` (stderr 로 출력됨)를 사용하세요.
+
+```python
+# ❌ 통신이 깨집니다
+print("파일 읽는 중...")
+
+# ✅ 올바른 방법
+self.logger.info("파일 읽는 중: %s", path)
+```

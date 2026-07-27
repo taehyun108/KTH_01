@@ -31,7 +31,7 @@ REM --- [2/3] MCP 서버 헬스체크 ---
 echo [2/3] 내부 도구 서버(MCP) 헬스체크 중...
 cd backend
 call .venv\Scripts\activate.bat
-python -m app.mcp_client.client --healthcheck
+python -m app.mcp_client --healthcheck
 if errorlevel 1 (
     echo   [!] 일부 MCP 서버가 정상 시작되지 않았습니다. logs\ 폴더를 확인하세요.
     echo       (계속 진행하지만 일부 기능이 제한될 수 있습니다)
