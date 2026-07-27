@@ -208,8 +208,8 @@ def test_rule_based_score_bounds() -> None:
 
 async def test_full_pipeline_produces_report(runtime: AgentRuntime) -> None:
     """
-    6개 Agent 파이프라인이 끝까지 실행되어 **실제 보고서 파일**을 만들어야 한다.
-    (report 서버는 아직 스텁이므로 Markdown 으로 저장된다)
+    6개 Agent 파이프라인이 끝까지 실행되어 **실제 Word 보고서**를 만들어야 한다.
+    (STEP 8 에서 report 서버가 구현되어 .docx 로 생성된다)
     """
     state = initial_state("test-run-1", "소듐이온배터리 정책동향 보고서를 만들어줘")
     current_run_id.set("test-run-1")
@@ -228,9 +228,15 @@ async def test_full_pipeline_produces_report(runtime: AgentRuntime) -> None:
     full_path = PROJECT_ROOT / report_path
     assert full_path.is_file()
 
-    content = full_path.read_text(encoding="utf-8")
-    assert "소듐이온배터리" in content
-    assert "신뢰도" in content
+    assert full_path.suffix == ".docx", f"Word 문서가 아닙니다: {full_path.suffix}"
+
+    # 실제 Word 문서로 열리고 내용이 들어 있는지 확인한다.
+    from docx import Document
+
+    document = Document(full_path)
+    text = "\n".join(paragraph.text for paragraph in document.paragraphs)
+    assert "소듐이온배터리" in text
+    assert "P-Agent" in text  # 자동 생성 안내 문구
 
     _cleanup_reports([report_path])
 
@@ -255,9 +261,9 @@ async def test_pipeline_records_tool_calls(runtime: AgentRuntime) -> None:
         # 표시용 이름은 점 표기여야 한다.
         assert "." in entry["tool"]
 
-    # Generator 가 실제 파일 저장 도구를 사용했는지 확인
+    # Generator 가 보고서 생성 도구를 사용했는지 확인
     used_tools = {entry["tool"] for entry in tool_log}
-    assert "filesystem.write_file" in used_tools
+    assert "report.create_word_report" in used_tools
 
     _cleanup_reports([result.get("report_path", "")])
 
@@ -289,10 +295,12 @@ async def test_pipeline_survives_llm_failure(
     _cleanup_reports([result["report_path"]])
 
 
-async def test_stub_tools_do_not_break_pipeline(runtime: AgentRuntime) -> None:
+async def test_unavailable_tools_do_not_break_pipeline(runtime: AgentRuntime) -> None:
     """
-    미구현 스텁 도구(screen/rag/report)를 만나도
+    🔴 사용할 수 없는 도구(이 환경에서는 화면 인식)를 만나도
     파이프라인이 중단되지 않고 사유를 기록해야 한다.
+
+    (배포 환경에서 OCR 모델 미설치 등으로 도구가 빠져도 보고서는 나와야 한다)
     """
     state = initial_state("test-run-4", "화면을 보고 자료를 정리해줘")
     current_run_id.set("test-run-4")
@@ -302,8 +310,13 @@ async def test_stub_tools_do_not_break_pipeline(runtime: AgentRuntime) -> None:
 
     assert result["finished"] is True
     assert result["finish_reason"] == "completed"
-    notes_text = " ".join(result["notes"])
-    assert "구현되지 않았습니다" in notes_text or "사용할 수 없" in notes_text
+    assert result["report_path"], "도구를 못 써도 보고서는 생성되어야 합니다"
+
+    # 왜 못 했는지 사유가 남아야 한다.
+    notes_text = " ".join(result["notes"]) + " ".join(result["observations"])
+    assert any(
+        word in notes_text for word in ("화면", "사용할 수 없", "구현되지 않았습니다")
+    ), f"사유가 기록되지 않았습니다: {notes_text}"
 
     _cleanup_reports([result.get("report_path", "")])
 

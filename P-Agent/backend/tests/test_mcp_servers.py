@@ -256,31 +256,6 @@ async def test_input_schema_validation_over_rpc(mcp_client: MCPClient) -> None:
 
 
 @pytest.mark.parametrize(
-    ("server", "tool", "arguments", "expected_step"),
-    [
-        ("report", "create_word_report", {"title": "t", "sections": []}, "STEP 8"),
-    ],
-)
-async def test_stub_tools_report_planned_step(
-    mcp_client: MCPClient,
-    server: str,
-    tool: str,
-    arguments: dict[str, Any],
-    expected_step: str,
-) -> None:
-    """
-    아직 구현되지 않은 도구는 서버를 죽이지 않고,
-    '어느 STEP 에서 구현 예정인지' 한글로 안내해야 한다.
-
-    (screen/automation 은 STEP 6, rag 는 STEP 7 에서 구현되어 별도 검증)
-    """
-    result = await mcp_client.call_tool(server, tool, arguments)
-    assert result.is_error is True
-    assert "구현되지 않았습니다" in result.text
-    assert expected_step in result.text
-
-
-@pytest.mark.parametrize(
     ("server", "tool", "arguments"),
     [
         ("screen", "capture_screen", {}),

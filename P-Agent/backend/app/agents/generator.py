@@ -34,8 +34,59 @@ SYSTEM_PROMPT = """당신은 정부 부처 대응 보고서를 작성하는 담�
 규칙:
 - 근거에 없는 내용을 지어내지 마세요.
 - 근거를 인용한 문장 끝에는 [출처: 파일명] 형태로 표기하세요.
-- '개요 / 주요 내용 / 시사점' 순서의 소제목을 사용하세요.
+- 아래 소제목을 '## 제목' 형식으로 순서대로 사용하세요.
+    ## 개요
+    ## 주요 내용
+    ## 시사점
 - 한국어로 작성하세요."""
+
+#: 본문을 나눌 기본 소제목
+DEFAULT_HEADINGS: tuple[str, ...] = ("개요", "주요 내용", "시사점")
+
+
+#: 요청문에서 제거할 지시 표현 (보고서 제목에는 어울리지 않음)
+_REQUEST_SUFFIXES = (
+    "해줘", "해 줘", "해주세요", "해 주세요", "만들어줘", "만들어 줘",
+    "작성해줘", "작성해 줘", "정리해줘", "부탁해", "부탁드립니다",
+)
+
+
+def clean_title(user_request: str) -> str:
+    """
+    사용자 요청문에서 보고서 제목을 뽑아낸다.
+
+    요청문을 그대로 제목에 넣으면 '~해줘' 같은 구어체가 남아
+    정부 부처 대응 문서로는 어색하다. 첫 문장만 취하고 지시 표현을 제거한다.
+
+    예) "소듐이온배터리 정책 동향을 조사해서 보고서를 작성해줘. 출처도 표기해줘."
+        → "소듐이온배터리 정책 동향"
+    """
+    text = user_request.strip()
+    if not text:
+        return "자동 생성 보고서"
+
+    # 첫 문장만 사용한다.
+    first = re.split(r"[.\n]", text)[0].strip()
+
+    # '~를 조사해서 보고서를 작성해줘' 같은 뒷부분을 잘라낸다.
+    first = re.split(
+        r"\s*(?:을|를|에 대해|에 대한)?\s*(?:조사|정리|분석|작성|만들)\S*", first
+    )[0].strip()
+
+    # 남은 지시 표현 제거
+    for suffix in _REQUEST_SUFFIXES:
+        if first.endswith(suffix):
+            first = first[: -len(suffix)].strip()
+
+    first = first.rstrip(" ,")
+    if not first:
+        first = text[:40]
+
+    # 제목이 명사로 끝나지 않으면 '보고서' 를 붙여 문서답게 만든다.
+    if not first.endswith(("보고서", "자료", "동향", "현황", "분석")):
+        first = f"{first} 보고서"
+
+    return first[:60]
 
 
 def safe_filename(title: str) -> str:
@@ -43,6 +94,36 @@ def safe_filename(title: str) -> str:
     cleaned = re.sub(r"[^\w가-힣 _-]", "", title).strip()
     cleaned = re.sub(r"\s+", "_", cleaned)
     return (cleaned or "보고서")[:50]
+
+
+def split_into_sections(body: str) -> list[dict[str, str]]:
+    """
+    LLM 이 만든 마크다운 본문을 Word 섹션 목록으로 변환한다.
+
+    '## 개요' 같은 소제목을 기준으로 나눈다.
+    소제목이 없으면 전체를 '본문' 한 덩어리로 처리한다.
+    """
+    lines = body.strip().splitlines()
+    sections: list[dict[str, str]] = []
+    heading = ""
+    buffer: list[str] = []
+
+    def flush() -> None:
+        text = "\n".join(buffer).strip()
+        if heading or text:
+            sections.append({"heading": heading or "본문", "body": text})
+
+    for line in lines:
+        match = re.match(r"^\s*#{1,4}\s*(.+?)\s*$", line)
+        if match:
+            flush()
+            heading = match.group(1).strip()
+            buffer = []
+        else:
+            buffer.append(line)
+
+    flush()
+    return sections or [{"heading": "본문", "body": body.strip()}]
 
 
 def build_markdown(
@@ -134,17 +215,21 @@ async def run(state: AgentState, runtime: AgentRuntime) -> dict[str, Any]:
     notes: list[str] = []
     tool_log: list[dict[str, Any]] = []
 
-    title = state["user_request"].strip().splitlines()[0][:60] or "자동 생성 보고서"
+    title = clean_title(state["user_request"])
     body, body_notes = await _write_body(state, runtime)
     notes.extend(body_notes)
 
     timestamp = datetime.now().astimezone().strftime("%Y%m%d_%H%M%S")
     stem = f"{timestamp}_{safe_filename(title)}"
 
-    # --- 1) Word 보고서 시도 (STEP 8 에서 동작) ---
-    sections = [{"heading": "본문", "body": body}]
+    # --- 1) Word 보고서 생성 ---
+    sections = split_into_sections(body)
     citations = [
-        {"label": item["source"], "source": item["source"]}
+        {
+            "label": item["source"],
+            "source": item["source"],
+            "quote": item["content"][:200],
+        }
         for item in state.get("evidences", [])
     ]
     word_result = await runtime.call_tool(
@@ -177,8 +262,7 @@ async def run(state: AgentState, runtime: AgentRuntime) -> dict[str, Any]:
 
     # --- 2) Markdown 대체 저장 (현재 경로) ---
     notes.append(
-        f"Word 보고서 생성을 사용할 수 없어 Markdown 으로 저장했습니다. "
-        f"({word_result['text']})"
+        f"Word 보고서를 만들지 못해 Markdown 으로 저장했습니다. ({word_result['text']})"
     )
     markdown = build_markdown(title, body, state)
     md_path = f"{OUTPUT_DIR}/{stem}.md"
