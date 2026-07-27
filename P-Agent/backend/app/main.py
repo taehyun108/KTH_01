@@ -1,0 +1,331 @@
+"""
+P-Agent 백엔드 진입점 (FastAPI + WebSocket).
+
+기동 순서
+---------
+1. `.env` 설정 로드 및 런타임 폴더 생성 (data/logs/output)
+2. 내부 MCP 서버 기동 → 도구 수집
+3. LLM 클라이언트 생성 (LLM_PROVIDER 에 따라 자동 선택)
+4. Agent 런타임 + 실행 관리자 준비
+
+API
+---
+  POST /api/agent/run       실행 시작
+  POST /api/agent/approve   위험 도구 승인/거절
+  POST /api/agent/kill      실행 중단 (Kill Switch)
+  GET  /api/agent/runs      실행 목록
+  GET  /api/agent/run/{id}  실행 상태 조회
+  GET  /api/status          서버/도구 상태
+  WS   /ws/agent/{run_id}   실시간 진행 상황 (MCP 도구 로그 포함)
+
+실행:
+    uv run uvicorn app.main:app --host 127.0.0.1 --port 8756
+"""
+
+from __future__ import annotations
+
+import logging
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
+from typing import Any
+
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
+
+from app.agents.run_manager import RunManager
+from app.agents.runtime import AgentRuntime
+from app.config.settings import get_settings
+from app.llm.base import LLMError
+from app.mcp_client.client import MCPClient
+
+logger = logging.getLogger("p-agent.main")
+
+#: WebSocket 이벤트 대기 간격(초) — 연결 유지 확인용
+WS_POLL_INTERVAL = 30.0
+
+
+# ============================================================
+# 요청/응답 모델
+# ============================================================
+
+
+class RunRequest(BaseModel):
+    """실행 시작 요청."""
+
+    message: str = Field(..., min_length=1, description="사용자 자연어 요청")
+
+
+class ApproveRequest(BaseModel):
+    """승인 응답 요청."""
+
+    approval_id: str = Field(..., description="승인 요청 식별자")
+    approved: bool = Field(..., description="승인하면 true, 거절하면 false")
+
+
+class KillRequest(BaseModel):
+    """실행 중단 요청. run_id 를 생략하면 모든 실행을 중단한다."""
+
+    run_id: str | None = Field(default=None, description="중단할 실행 ID")
+
+
+# ============================================================
+# 애플리케이션 상태
+# ============================================================
+
+
+class AppState:
+    """앱 전역에서 공유하는 객체들."""
+
+    mcp_client: MCPClient | None = None
+    runtime: AgentRuntime | None = None
+    run_manager: RunManager | None = None
+    startup_error: str = ""
+
+
+app_state = AppState()
+
+
+def get_run_manager() -> RunManager:
+    """실행 관리자를 반환한다. 준비되지 않았으면 503."""
+    if app_state.run_manager is None:
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "백엔드가 아직 준비되지 않았습니다. "
+                f"{app_state.startup_error or '잠시 후 다시 시도하세요.'}"
+            ),
+        )
+    return app_state.run_manager
+
+
+# ============================================================
+# 생명주기
+# ============================================================
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    """
+    서버 기동/종료 시 자원을 관리한다.
+
+    ⚠️ MCP 클라이언트의 연결/해제는 각 서버 전용 task 가 담당하므로
+       lifespan 의 진입/종료 task 가 달라도 안전하다. (STEP 3 설계)
+    """
+    settings = get_settings()
+    settings.ensure_runtime_dirs()
+
+    logging.basicConfig(
+        level=getattr(logging, settings.log_level, logging.INFO),
+        format="[%(asctime)s] %(name)s %(levelname)s: %(message)s",
+    )
+    logger.info("P-Agent 백엔드를 시작합니다 (LLM_PROVIDER=%s)", settings.llm_provider)
+
+    # --- MCP 서버 기동 ---
+    mcp_client = MCPClient.from_config()
+    try:
+        await mcp_client.connect()
+        app_state.mcp_client = mcp_client
+
+        if mcp_client.failed_servers:
+            logger.warning(
+                "일부 MCP 서버가 시작되지 않았습니다: %s", mcp_client.failed_servers
+            )
+
+        # --- LLM + 런타임 준비 ---
+        try:
+            runtime = AgentRuntime.create(mcp_client, settings=settings)
+            app_state.runtime = runtime
+            app_state.run_manager = RunManager(runtime)
+            logger.info(
+                "준비 완료: MCP 도구 %d개 / LLM %s",
+                mcp_client.total_tool_count(),
+                runtime.llm.provider,
+            )
+        except LLMError as exc:
+            # LLM 설정이 잘못돼도 서버는 뜨게 하고, 요청 시 안내한다.
+            app_state.startup_error = exc.message
+            logger.error("LLM 준비 실패: %s", exc.message)
+
+        yield
+
+    finally:
+        logger.info("P-Agent 백엔드를 종료합니다")
+        if app_state.run_manager is not None:
+            await app_state.run_manager.shutdown()
+        await mcp_client.aclose()
+        app_state.mcp_client = None
+        app_state.runtime = None
+        app_state.run_manager = None
+
+
+def create_app() -> FastAPI:
+    """FastAPI 앱을 만든다. (테스트에서도 사용)"""
+    settings = get_settings()
+
+    application = FastAPI(
+        title="P-Agent Backend",
+        description="GUI 기반 AI Agent 백엔드 (FastAPI + LangGraph + 자체 MCP 서버)",
+        version="0.1.0",
+        lifespan=lifespan,
+    )
+
+    # 프론트엔드(Tauri/Vite)에서의 접근 허용 — 로컬 전용
+    application.add_middleware(
+        CORSMiddleware,
+        allow_origins=[
+            f"http://localhost:{settings.frontend_port}",
+            f"http://127.0.0.1:{settings.frontend_port}",
+            "tauri://localhost",
+            "http://tauri.localhost",
+        ],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    _register_routes(application)
+    return application
+
+
+# ============================================================
+# 라우트
+# ============================================================
+
+
+def _register_routes(application: FastAPI) -> None:
+    """API 라우트를 등록한다."""
+
+    @application.get("/")
+    async def root() -> dict[str, Any]:
+        """서버 기본 정보."""
+        return {
+            "name": "P-Agent Backend",
+            "version": "0.1.0",
+            "docs": "/docs",
+            "ready": app_state.run_manager is not None,
+        }
+
+    @application.get("/api/status")
+    async def status() -> dict[str, Any]:
+        """서버/도구 상태를 반환한다. (프론트엔드 초기 표시용)"""
+        settings = get_settings()
+        client = app_state.mcp_client
+        runtime = app_state.runtime
+
+        tools: list[dict[str, Any]] = []
+        if runtime is not None:
+            tools = [
+                {
+                    "name": tool.display_name,
+                    "server": tool.server,
+                    "require_approval": tool.require_approval,
+                    "description": tool.description,
+                }
+                for tool in runtime.registry.tools
+            ]
+
+        return {
+            "ready": app_state.run_manager is not None,
+            "startup_error": app_state.startup_error,
+            "llm_provider": settings.llm_provider,
+            "llm_model": runtime.llm.model if runtime else "",
+            "require_approval": settings.require_approval,
+            "kill_switch_key": settings.kill_switch_key,
+            "mcp_servers": client.connected_servers if client else [],
+            "mcp_failed": client.failed_servers if client else {},
+            "tools": tools,
+        }
+
+    @application.post("/api/agent/run")
+    async def start_run(request: RunRequest) -> dict[str, Any]:
+        """실행을 시작하고 run_id 를 반환한다."""
+        manager = get_run_manager()
+        record = manager.start(request.message)
+        return {"run_id": record.run_id, "status": record.status}
+
+    @application.get("/api/agent/runs")
+    async def list_runs() -> dict[str, Any]:
+        """실행 목록을 반환한다."""
+        manager = get_run_manager()
+        return {"runs": [record.to_dict() for record in manager.list_runs()]}
+
+    @application.get("/api/agent/run/{run_id}")
+    async def get_run(run_id: str) -> dict[str, Any]:
+        """실행 상태를 조회한다."""
+        manager = get_run_manager()
+        record = manager.get(run_id)
+        if record is None:
+            raise HTTPException(status_code=404, detail=f"실행을 찾을 수 없습니다: {run_id}")
+        return record.to_dict()
+
+    @application.post("/api/agent/approve")
+    async def approve(request: ApproveRequest) -> dict[str, Any]:
+        """위험 도구 실행을 승인하거나 거절한다."""
+        manager = get_run_manager()
+        handled = manager.approve(request.approval_id, request.approved)
+        if not handled:
+            raise HTTPException(
+                status_code=404,
+                detail=(
+                    "이미 처리되었거나 존재하지 않는 승인 요청입니다: "
+                    f"{request.approval_id}"
+                ),
+            )
+        return {"approval_id": request.approval_id, "approved": request.approved}
+
+    @application.post("/api/agent/kill")
+    async def kill(request: KillRequest) -> dict[str, Any]:
+        """
+        실행을 중단한다. (Kill Switch)
+
+        run_id 를 주면 해당 실행만, 생략하면 진행 중인 모든 실행을 중단한다.
+        """
+        manager = get_run_manager()
+
+        if request.run_id:
+            if not manager.kill(request.run_id):
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"실행을 찾을 수 없습니다: {request.run_id}",
+                )
+            return {"killed": [request.run_id]}
+
+        count = manager.kill_all()
+        return {"killed_count": count}
+
+    @application.websocket("/ws/agent/{run_id}")
+    async def agent_events(websocket: WebSocket, run_id: str) -> None:
+        """
+        실행 진행 상황을 실시간으로 전송한다.
+
+        전송되는 이벤트 종류:
+          run_started / step_started / tool_call / tool_result /
+          approval_required / approval_resolved / step_finished /
+          run_killed / run_finished
+        """
+        await websocket.accept()
+
+        if app_state.runtime is None:
+            await websocket.send_json(
+                {"type": "error", "payload": {"message": "백엔드가 준비되지 않았습니다."}}
+            )
+            await websocket.close()
+            return
+
+        bus = app_state.runtime.event_bus
+        queue = bus.subscribe(run_id)
+
+        try:
+            while True:
+                event = await queue.get()
+                await websocket.send_json(event.to_dict())
+                if event.type == "run_finished":
+                    break
+        except WebSocketDisconnect:
+            logger.debug("WebSocket 연결이 끊어졌습니다: %s", run_id)
+        finally:
+            bus.unsubscribe(run_id, queue)
+
+
+app = create_app()
