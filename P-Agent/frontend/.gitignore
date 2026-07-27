@@ -1,0 +1,8 @@
+# 프론트엔드 빌드 산출물 / 의존성 (프로젝트 폴더 내부에 두되 git 추적은 제외)
+node_modules/
+dist/
+.vite/
+
+# Tauri 빌드 산출물 (용량이 매우 큼)
+src-tauri/target/
+src-tauri/gen/

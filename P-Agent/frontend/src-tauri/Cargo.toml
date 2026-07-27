@@ -1,0 +1,23 @@
+[package]
+name = "p-agent"
+version = "0.1.0"
+description = "P-Agent - GUI 기반 AI Agent 데스크톱 앱"
+authors = ["POSCO FUTURE M"]
+edition = "2021"
+rust-version = "1.77"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-global-shortcut = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# 비상 정지를 백엔드에 직접 요청하기 위해 사용 (화면이 멈춰도 동작해야 함)
+reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+tokio = { version = "1", features = ["rt-multi-thread"] }
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
