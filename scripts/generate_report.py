@@ -24,6 +24,10 @@ from typing import Any
 
 from config import GEMINI_MODEL, NEWS_DIR, DRAFTS_DIR, CATEGORIES
 
+# 리포트 말투/프롬프트 버전. 이 값이 바뀌면 regenerate.py 가 옛 버전 리포트를 새로 만든다.
+#   1 = 초기 문어체, 2 = 친근한 ~해요체(2026-07 도입)
+PROMPT_VERSION = 2
+
 SYSTEM_PROMPT = """당신은 경제·시사 유튜브 영상을 '이차전지(배터리) 산업 관점의 쉬운 브리핑'으로
 다시 써 주는 사람이다. 읽는 사람은 배터리·경제 전문가가 아니라, 관심은 있지만 배경지식은
 많지 않은 보통 사람이다. 그래서 '누구나 편하게 읽고 바로 이해할 수 있게' 쓰는 것이 가장 중요하다.
@@ -354,6 +358,7 @@ def process_video(meta: dict[str, Any], force: bool = False) -> dict[str, Any] |
         "url": f"{slug}.html",
         "video": meta.get("link") or f"https://www.youtube.com/watch?v={meta['video_id']}",
         "video_id": meta["video_id"],  # 중복 방지용 (모든 URL 형식 무관)
+        "pv": PROMPT_VERSION,          # 말투/프롬프트 버전 (regenerate 추적용)
     }
 
 

@@ -28,6 +28,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # 옛 말투(프롬프트 v1) 리포트를 새 말투(v2)로 먼저 교체 — 할당량 허용만큼, 며칠에 걸쳐 완료
+      - name: Regenerate old reports with the new tone
+        env:
+          GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
+        run: python scripts/regenerate.py
+
       - name: Run pipeline (RSS/yt-dlp → 키워드 필터 → Gemini 요약 → HTML → 인덱스)
         env:
           GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
