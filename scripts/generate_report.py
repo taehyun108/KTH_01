@@ -93,15 +93,99 @@ relevant 가 false 이면 나머지 필드는 빈 값이어도 된다."""
 # ---------------------------------------------------------------------------
 # 자막 추출
 # ---------------------------------------------------------------------------
+def _parse_json3(raw: str) -> str:
+    """유튜브 json3 자막 → 평문."""
+    data = json.loads(raw)
+    out = []
+    for ev in data.get("events", []):
+        for seg in ev.get("segs", []) or []:
+            t = seg.get("utf8", "")
+            if t and t != "\n":
+                out.append(t)
+    return re.sub(r"\s+", " ", "".join(out)).strip()
+
+
+def _parse_vtt(raw: str) -> str:
+    """WebVTT/SRT 자막 → 평문(타임스탬프·태그·중복 제거)."""
+    lines, prev = [], None
+    for ln in raw.splitlines():
+        s = ln.strip()
+        if (not s or s == "WEBVTT" or "-->" in s or s.isdigit()
+                or s.startswith(("Kind:", "Language:", "NOTE"))):
+            continue
+        s = re.sub(r"<[^>]+>", "", s)          # <c>, <00:00:00.000> 등 제거
+        s = re.sub(r"\s+", " ", s).strip()
+        if s and s != prev:
+            lines.append(s)
+            prev = s
+    return " ".join(lines).strip()
+
+
+def _ytdlp_transcript(video_id: str) -> tuple[str, str]:
+    """youtube-transcript-api 실패 시 yt-dlp 로 (자동)자막→설명 순으로 확보."""
+    try:
+        import yt_dlp
+        import requests
+    except Exception:  # noqa: BLE001
+        return "", "unavailable"
+
+    url = f"https://www.youtube.com/watch?v={video_id}"
+    opts = {
+        "quiet": True, "no_warnings": True, "skip_download": True, "ignoreerrors": True,
+        "writesubtitles": True, "writeautomaticsub": True, "subtitleslangs": ["ko", "en"],
+    }
+    try:
+        with yt_dlp.YoutubeDL(opts) as ydl:
+            info = ydl.extract_info(url, download=False) or {}
+    except Exception:  # noqa: BLE001
+        return "", "unavailable"
+
+    ua = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+
+    def _pick(caption_map: dict) -> str:
+        for lang in ("ko", "en", "ko-KR", "en-US", "a.ko", "a.en"):
+            tracks = caption_map.get(lang)
+            if not tracks:
+                continue
+            for ext in ("json3", "srv3", "vtt", "srv1"):
+                tr = next((t for t in tracks if t.get("ext") == ext), None)
+                if not tr or not tr.get("url"):
+                    continue
+                try:
+                    raw = requests.get(tr["url"], headers=ua, timeout=20).text
+                except Exception:  # noqa: BLE001
+                    continue
+                text = _parse_json3(raw) if ext in ("json3", "srv3") else _parse_vtt(raw)
+                if len(text) > 40:
+                    return text
+        return ""
+
+    # 수동 자막 우선, 없으면 자동 생성 자막
+    text = _pick(info.get("subtitles") or {}) or _pick(info.get("automatic_captions") or {})
+    if len(text) > 40:
+        return text, "yt-dlp-captions"
+
+    # 자막이 전혀 없으면 영상 설명을 대체 컨텍스트로 사용
+    desc = (info.get("description") or "").strip()
+    if len(desc) > 80:
+        return desc, "video-description"
+    return "", "unavailable"
+
+
 def get_transcript(video_id: str) -> tuple[str, str]:
-    """자막 텍스트와 소스 표기를 반환. (text, source)"""
+    """자막 텍스트와 소스 표기를 반환. (text, source)
+
+    1) youtube-transcript-api → 2) yt-dlp 자막(수동/자동) → 3) 영상 설명 순으로 시도.
+    """
     try:
         from youtube_transcript_api import YouTubeTranscriptApi
         chunks = YouTubeTranscriptApi.get_transcript(video_id, languages=["ko", "en"])
-        return " ".join(c["text"] for c in chunks), "youtube-transcript-api"
+        text = " ".join(c["text"] for c in chunks).strip()
+        if len(text) > 40:
+            return text, "youtube-transcript-api"
     except Exception:  # noqa: BLE001
-        # TODO: whisper STT 폴백 → 그것도 안 되면 제목·설명 기반
-        return "", "unavailable"
+        pass
+    return _ytdlp_transcript(video_id)
 
 
 # ---------------------------------------------------------------------------
@@ -212,7 +296,13 @@ def analyze(meta: dict[str, Any], transcript: str, transcript_source: str,
 
     client = _get_client()               # 시크릿 KTH_01_GEMINI_API_KEY → GEMINI_API_KEY
     model = _resolve_model(client)
-    source_note = "" if transcript else "\n(자막 없음 — 제목·설명 기반으로 작성하고 리포트에 그 사실을 명시)"
+    if not transcript:
+        source_note = "\n(자막·설명을 확보하지 못함 — 제목·핵심 주제만으로 작성하고 그 사실을 리포트에 명시)"
+    elif transcript_source == "video-description":
+        source_note = ("\n(상세 자막이 없어 영상 '설명글'을 바탕으로 작성 — 세부 수치는 제한적일 수 있음을 "
+                       "부드럽게 한 줄 언급)")
+    else:
+        source_note = ""  # 정식 자막 확보 → 별도 안내 불필요
     force_note = (
         "\n\n[사용자 직접 요청] 이 영상은 사용자가 URL 로 직접 요약을 요청한 것이다. "
         "relevant 를 반드시 true 로 두고 완전한 리포트를 작성하라. 배터리 직접 연관이 약하면 "
