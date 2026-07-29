@@ -28,17 +28,20 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # 옛 말투(프롬프트 v1) 리포트를 새 말투(v2)로 먼저 교체 — 할당량 허용만큼, 며칠에 걸쳐 완료
-      - name: Regenerate old reports with the new tone
-        env:
-          GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
-        run: python scripts/regenerate.py
-
-      - name: Run pipeline (RSS/yt-dlp → 키워드 필터 → Gemini 요약 → HTML → 인덱스)
+      # ※ 순서 중요: '최신 영상 수집'이 먼저 쿼터를 쓰고, 남은 쿼터로 옛 리포트를 재생성한다.
+      #   (반대로 하면 재생성이 일일 쿼터를 다 써버려 최신 영상이 계속 밀린다)
+      - name: Run pipeline (RSS → 키워드 필터 → Gemini 요약 → HTML → 인덱스)
         env:
           GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
           BACKFILL_SINCE: ${{ github.event.inputs.since }}
         run: python scripts/run_pipeline.py
+
+      # 남은 쿼터로 옛 말투(v1) 리포트를 새 말투(v2)로 교체 — 며칠에 걸쳐 점진 완료
+      - name: Regenerate old reports with the new tone (leftover quota)
+        env:
+          GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
+          REGEN_MAX: "8"   # 최신 수집 몫을 남기기 위해 1회 실행당 상한
+        run: python scripts/regenerate.py
 
       - name: Commit new reports
         run: |

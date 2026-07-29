@@ -17,9 +17,10 @@ import random
 import re
 import sys
 import time
+from datetime import date
 from typing import Any
 
-from config import CHANNELS, RSS_URL, ALL_KEYWORDS
+from config import CHANNELS, RSS_URL, ALL_KEYWORDS, MAX_AGE_DAYS
 
 # 영문/숫자·공백·하이픈으로만 이루어진 키워드 판별 (단어 경계 매칭 대상)
 _ASCII_KW = re.compile(r"^[a-z0-9][a-z0-9 \-]*$")
@@ -104,20 +105,40 @@ def fetch_channel(channel: dict[str, str]) -> list[dict[str, Any]]:
     return videos
 
 
+def _is_recent(published: str, max_age_days: int) -> bool:
+    """published(예: '2026-07-28T10:00:00+00:00')가 최근 N일 이내인지. 날짜 불명이면 통과."""
+    if not max_age_days:
+        return True
+    day = (published or "")[:10]
+    try:
+        pub = date(int(day[:4]), int(day[5:7]), int(day[8:10]))
+    except (ValueError, IndexError):
+        return True  # 날짜를 못 읽으면 굳이 버리지 않는다
+    return (date.today() - pub).days <= max_age_days
+
+
 def collect_candidates() -> list[dict[str, Any]]:
-    """모든 채널을 돌며 1차 키워드 필터를 통과한 후보를 모은다."""
+    """모든 채널을 돌며 1차 키워드 필터를 통과한 '최근' 후보를 모은다."""
     candidates = []
+    stale = 0
     for i, ch in enumerate(CHANNELS):
         if i:
             time.sleep(1.0 + random.random())  # 채널 간 간격 (throttle 회피)
         try:
             for v in fetch_channel(ch):
+                if not _is_recent(v.get("published", ""), MAX_AGE_DAYS):
+                    stale += 1
+                    continue  # 오래된 영상은 쿼터를 쓰지 않는다
                 hits = match_keywords(v["title"] + " " + v["description"])
                 if hits:
                     v["matched_keywords"] = hits
                     candidates.append(v)
         except Exception as exc:  # noqa: BLE001
             print(f"  [error] {ch['name']}: {exc}", file=sys.stderr)
+    if stale:
+        print(f"  [rss] 최근 {MAX_AGE_DAYS}일 초과로 제외: {stale}건")
+    # 최신순 정렬 — 쿼터가 부족해도 가장 새로운 영상부터 처리되도록
+    candidates.sort(key=lambda v: v.get("published", ""), reverse=True)
     return candidates
 
 
