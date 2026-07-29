@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-29T02:22:12",
+  "generated_at": "2026-07-29T02:42:41",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -54,6 +54,19 @@
       "url": "2026-07-28-새-연준-의장은-금리를-내릴까-마크로-경제-변화와-배터리-시장-이야기.html",
       "video": "https://www.youtube.com/watch?v=OPd5iWd-Sq8",
       "video_id": "OPd5iWd-Sq8",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-28-금리가-올라도-괜찮은-이유가-있다고요-배터리-시장에-미치는-영향-정리해요",
+      "date": "2026-07-28",
+      "channel": "삼프로TV",
+      "title": "금리가 올라도 괜찮은 이유가 있다고요? 배터리 시장에 미치는 영향 정리해요",
+      "summary": "금리 인상이 무조건 증시와 산업에 악재일까요? 배터리 산업 관점에서 아주 쉽게 알려드려요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-28-금리가-올라도-괜찮은-이유가-있다고요-배터리-시장에-미치는-영향-정리해요.html",
+      "video": "https://www.youtube.com/watch?v=-f9_GdxWYDQ",
+      "video_id": "-f9_GdxWYDQ",
       "pv": 2
     },
     {
