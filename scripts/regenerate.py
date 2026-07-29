@@ -50,13 +50,15 @@ def regenerate() -> int:
         vid = r.get("video_id") or _extract_video_id(r.get("video", ""))
         if not vid:
             continue
+        # 자막을 못 받는 환경(데이터센터 IP 차단)에서는 기존 요약이 유일한 본문 컨텍스트다.
+        # 이를 비워 보내면 재생성할수록 내용이 빈약해지므로 반드시 넘겨준다.
         meta = {
             "video_id": vid,
             "title": r.get("title", ""),
             "channel": r.get("channel", ""),
             "published": r.get("date", ""),
             "link": r.get("video", ""),
-            "description": "",
+            "description": r.get("summary", ""),
         }
         try:
             transcript, source = get_transcript(vid)
