@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-29T02:42:41",
+  "generated_at": "2026-07-29T14:25:29",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -17,6 +17,45 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-07-29-실적은-좋은데-왜-불안할까-미국-금리와-중국-추격이-배터리에-주는-신호",
+      "date": "2026-07-29",
+      "channel": "손석희의 12시",
+      "title": "실적은 좋은데 왜 불안할까? 미국 금리와 중국 추격이 배터리에 주는 신호",
+      "summary": "미국 금리 향방과 중국 기업들의 매서운 추격 속에서 한국 배터리와 주요 산업이 살아남는 법을 쉽게 풀어드려요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-29-실적은-좋은데-왜-불안할까-미국-금리와-중국-추격이-배터리에-주는-신호.html",
+      "video": "https://www.youtube.com/shorts/lQTA16MDUG4",
+      "video_id": "lQTA16MDUG4",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-29-금리가-올라가는데-주가가-오른다고요-양극화-속에-숨은-경제의-반전",
+      "date": "2026-07-29",
+      "channel": "손석희의 12시",
+      "title": "금리가 올라가는데 주가가 오른다고요? 양극화 속에 숨은 경제의 반전",
+      "summary": "금리가 올라가도 특정 주가는 왜 오르는지, 경제 양극화 현상과 배터리 산업에 미치는 영향을 쉽게 정리해 드려요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-29-금리가-올라가는데-주가가-오른다고요-양극화-속에-숨은-경제의-반전.html",
+      "video": "https://www.youtube.com/shorts/2pGqmQMsfws",
+      "video_id": "2pGqmQMsfws",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-29-출렁이는-증시와-미국-금리-향방-배터리-시장엔-어떤-영향을-줄까요",
+      "date": "2026-07-29",
+      "channel": "손석희의 12시",
+      "title": "출렁이는 증시와 미국 금리 향방, 배터리 시장엔 어떤 영향을 줄까요?",
+      "summary": "요즘 주식 시장이 왜 이렇게 출렁이는지, 미국 금리와 거시경제 흐름을 통해 쉽게 풀어서 설명해 드려요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-29-출렁이는-증시와-미국-금리-향방-배터리-시장엔-어떤-영향을-줄까요.html",
+      "video": "https://www.youtube.com/watch?v=9tDJLvcC2QU",
+      "video_id": "9tDJLvcC2QU",
+      "pv": 2
+    },
     {
       "id": "2026-07-28-7월-주춤했던-증시-8월엔-웃을-수-있을까-반도체와-시장-이야기",
       "date": "2026-07-28",
@@ -67,6 +106,84 @@
       "url": "2026-07-28-금리가-올라도-괜찮은-이유가-있다고요-배터리-시장에-미치는-영향-정리해요.html",
       "video": "https://www.youtube.com/watch?v=-f9_GdxWYDQ",
       "video_id": "-f9_GdxWYDQ",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-28-테슬라는-왜-로봇에-올인할까요-휴머노이드-로봇-시대와-배터리의-만남",
+      "date": "2026-07-28",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "테슬라는 왜 로봇에 올인할까요? 휴머노이드 로봇 시대와 배터리의 만남",
+      "summary": "테슬라가 미래 먹거리로 점찍은 휴머노이드 로봇 시장과 국내 관련주 흐름을 배터리 관점에서 쉽게 풀어드려요.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-28-테슬라는-왜-로봇에-올인할까요-휴머노이드-로봇-시대와-배터리의-만남.html",
+      "video": "https://www.youtube.com/watch?v=DfIFUJvMfX8",
+      "video_id": "DfIFUJvMfX8",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-28-ai-전력-대란-막으려면-데이터센터-옆에-거대한-배터리-가-꼭-필요한-이유",
+      "date": "2026-07-28",
+      "channel": "손에 잡히는 경제",
+      "title": "AI 전력 대란 막으려면? 데이터센터 옆에 '거대한 배터리'가 꼭 필요한 이유",
+      "summary": "AI 데이터센터 폭증으로 전력망이 부족해지는 상황에서, 이를 해결할 핵심 열쇠로 배터리 기반 에너지저장장치(ESS)가 왜 필요한지 알기 쉽게 풀어드려요.",
+      "category": "korea-policy",
+      "relation": "indirect",
+      "url": "2026-07-28-ai-전력-대란-막으려면-데이터센터-옆에-거대한-배터리-가-꼭-필요한-이유.html",
+      "video": "https://www.youtube.com/watch?v=65L5Zqjv9uY",
+      "video_id": "65L5Zqjv9uY",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-28-요즘-젊은-사람들은-왜-차를-안-살까요-배터리-시장에-켜진-신호탄",
+      "date": "2026-07-28",
+      "channel": "슈카월드",
+      "title": "요즘 젊은 사람들은 왜 차를 안 살까요? 배터리 시장에 켜진 신호탄",
+      "summary": "젊은 층이 차를 안 사기 시작하면서 테슬라와 글로벌 자동차 시장, 나아가 배터리 동네까지 고민이 깊어지고 있어요.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-28-요즘-젊은-사람들은-왜-차를-안-살까요-배터리-시장에-켜진-신호탄.html",
+      "video": "https://www.youtube.com/watch?v=nHR1WLyz8QE",
+      "video_id": "nHR1WLyz8QE",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-28-방산-혁신기업-안두릴-ceo의-경고-무인-무기와-배터리-공급망-이대로-괜찮을까요",
+      "date": "2026-07-28",
+      "channel": "CNBC International",
+      "title": "방산 혁신기업 안두릴 CEO의 경고: 무인 무기와 배터리 공급망, 이대로 괜찮을까요?",
+      "summary": "미국 방산 스타트업 안두릴 CEO가 말하는 AI 무기와 배터리·희토류 공급망의 중국 의존도 위험을 쉽게 풀어드려요.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-07-28-방산-혁신기업-안두릴-ceo의-경고-무인-무기와-배터리-공급망-이대로-괜찮을까요.html",
+      "video": "https://www.youtube.com/watch?v=tbgXKn7R2-E",
+      "video_id": "tbgXKn7R2-E",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-28-반도체-fomc-중동-불안까지-거시경제-요동-속에-배터리-시장은-어떻게-될까요",
+      "date": "2026-07-28",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "반도체·FOMC·중동 불안까지, 거시경제 요동 속에 배터리 시장은 어떻게 될까요?",
+      "summary": "반도체 기술 경쟁과 FOMC 금리, 중동 정세가 배터리와 거시경제에 미치는 영향을 쉽게 풀어드려요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-28-반도체-fomc-중동-불안까지-거시경제-요동-속에-배터리-시장은-어떻게-될까요.html",
+      "video": "https://www.youtube.com/watch?v=rZ2XRIJY7So",
+      "video_id": "rZ2XRIJY7So",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-28-중국-반도체-자립과-엔비디아-네이버-결합-배터리-산업엔-어떤-의미일까요",
+      "date": "2026-07-28",
+      "channel": "손에 잡히는 경제",
+      "title": "중국 반도체 자립과 엔비디아·네이버 결합, 배터리 산업엔 어떤 의미일까요?",
+      "summary": "중국의 반도체 자립 움직임과 엔비디아의 네이버 투자 소식이 배터리와 전력 시장에 어떤 영향을 주는지 쉽게 알려드려요.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-28-중국-반도체-자립과-엔비디아-네이버-결합-배터리-산업엔-어떤-의미일까요.html",
+      "video": "https://www.youtube.com/watch?v=E1Bl-5bZPDQ",
+      "video_id": "E1Bl-5bZPDQ",
       "pv": 2
     },
     {
@@ -310,6 +427,32 @@
       "video_id": "Skx9Q4s1JSY"
     },
     {
+      "id": "2026-07-27-fomc-금리와-성장주-투자-전략-배터리-시장엔-어떤-영향이-있을까요",
+      "date": "2026-07-27",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "FOMC 금리와 성장주 투자 전략, 배터리 시장엔 어떤 영향이 있을까요?",
+      "summary": "FOMC 금리 소식과 코스닥 성장주 흐름을 통해 배터리 투자 환경을 쉽게 알아봐요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-27-fomc-금리와-성장주-투자-전략-배터리-시장엔-어떤-영향이-있을까요.html",
+      "video": "https://www.youtube.com/watch?v=JBPzluaIRwU",
+      "video_id": "JBPzluaIRwU",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-27-40년-만의-엔저와-중국-ai-규제-우리-배터리-산업엔-어떤-영향이-있을까요",
+      "date": "2026-07-27",
+      "channel": "손에 잡히는 경제",
+      "title": "40년 만의 엔저와 중국 AI 규제, 우리 배터리 산업엔 어떤 영향이 있을까요?",
+      "summary": "엔화 약세 현상과 미·중 AI 규제 갈등이 우리 경제와 배터리 시장에 가져올 변화를 쉽게 풀어서 알려드려요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-27-40년-만의-엔저와-중국-ai-규제-우리-배터리-산업엔-어떤-영향이-있을까요.html",
+      "video": "https://www.youtube.com/watch?v=6mzLvYus4wo",
+      "video_id": "6mzLvYus4wo",
+      "pv": 2
+    },
+    {
       "id": "2026-07-26-빅테크-실적-개막과-반도체-기술주-향방-ai-capex-지속성과-이차전지-산업-시사점",
       "date": "2026-07-26",
       "channel": "삼프로TV",
@@ -541,13 +684,14 @@
       "id": "2026-07-25-유가-상승과-금리-인상-우려-대이란-지정학적-리스크가-이차전지-산업에-미치는-파급효과",
       "date": "2026-07-25",
       "channel": "삼프로TV",
-      "title": "유가 상승과 금리 인상 우려: 대이란 지정학적 리스크가 이차전지 산업에 미치는 파급효과",
-      "summary": "중동 지정학적 리스크에 따른 유가 상승과 금리 재인상 우려가 거시경제 및 이차전지 산업에 미치는 영향 분석",
+      "title": "유가 올랐는데 배터리도 영향? 중동 리스크와 금리가 배터리에 미치는 영향",
+      "summary": "중동 정세 불안으로 유가와 금리가 오르면 우리 배터리 산업에 어떤 영향이 올지 쉽게 풀어드릴게요.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-25-유가-상승과-금리-인상-우려-대이란-지정학적-리스크가-이차전지-산업에-미치는-파급효과.html",
       "video": "https://www.youtube.com/watch?v=Plz9XAsEGjk",
-      "video_id": "Plz9XAsEGjk"
+      "video_id": "Plz9XAsEGjk",
+      "pv": 2
     },
     {
       "id": "2026-07-25-대한민국-대인플레이션-시대-도래와-거시경제-및-산업-파급효과",
@@ -873,37 +1017,79 @@
       "id": "2026-07-24-신임-연준-의장의-첫-fomc-충격-발언과-거시-통화정책이-이차전지-산업에-미치는-파급-효과",
       "date": "2026-07-24",
       "channel": "슈카월드",
-      "title": "신임 연준 의장의 첫 FOMC 충격 발언과 거시 통화정책이 이차전지 산업에 미치는 파급 효과",
-      "summary": "신임 연준 의장의 첫 FOMC 발언 분석과 고금리 기조 지속 시 이차전지 자본비용 및 EV 수요에 미치는 영향",
+      "title": "연준 의장의 깜짝 금리 발언! 배터리 시장에는 어떤 영향을 줄까요?",
+      "summary": "새 연준 의장의 첫 금리 발언이 배터리 산업과 전기차 시장에 어떤 영향을 주는지 아주 쉽게 풀어드려요.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-24-신임-연준-의장의-첫-fomc-충격-발언과-거시-통화정책이-이차전지-산업에-미치는-파급-효과.html",
       "video": "https://www.youtube.com/watch?v=knP57QdvQic",
-      "video_id": "knP57QdvQic"
+      "video_id": "knP57QdvQic",
+      "pv": 2
     },
     {
       "id": "2026-07-24-글로벌-마켓-ai-메모리-반도체-재평가-붐과-aidc-전력-인프라-ess-영향-분석",
       "date": "2026-07-24",
       "channel": "소수몽키",
-      "title": "[글로벌 마켓] AI 메모리 반도체 재평가 붐과 AIDC 전력 인프라·ESS 영향 분석",
-      "summary": "AI 시대 메모리 반도체 재평가와 AI 데이터센터(AIDC) 확장에 따른 전력·ESS 산업 영향 분석",
+      "title": "AI 반도체 붐이 불러온 전력 대란, 배터리 ESS가 구원투수로 떠오른 이유",
+      "summary": "AI 데이터센터가 늘어나면서 메모리 반도체와 함께 대용량 배터리 저장장치(ESS) 시장이 크게 주목받고 있어요.",
       "category": "global-market",
-      "relation": "indirect",
+      "relation": "direct",
       "url": "2026-07-24-글로벌-마켓-ai-메모리-반도체-재평가-붐과-aidc-전력-인프라-ess-영향-분석.html",
       "video": "https://www.youtube.com/watch?v=ei3xMptOhlA",
-      "video_id": "ei3xMptOhlA"
+      "video_id": "ei3xMptOhlA",
+      "pv": 2
     },
     {
       "id": "2026-07-24-중국-정부의-대규모-국채-발행과-거시경제-부양책이-이차전지-산업에-미치는-시사점",
       "date": "2026-07-24",
       "channel": "손에 잡히는 경제",
-      "title": "중국 정부의 대규모 국채 발행과 거시경제 부양책이 이차전지 산업에 미치는 시사점",
-      "summary": "중국 정부의 파격적 국채 발행과 경기 부양책이 거시경제 및 이차전지 공급망·수요에 미치는 영향 분석",
+      "title": "중국의 초대형 경기 부양책! 과연 우리 배터리 산업에 호재일까요?",
+      "summary": "중국이 돈을 대규모로 풀어 경기를 살리려고 해요. 이게 우리 배터리 시장에 어떤 영향을 줄지 쉽게 풀어드릴게요!",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-24-중국-정부의-대규모-국채-발행과-거시경제-부양책이-이차전지-산업에-미치는-시사점.html",
       "video": "https://www.youtube.com/watch?v=1aydjBSvJ50",
-      "video_id": "1aydjBSvJ50"
+      "video_id": "1aydjBSvJ50",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-24-환율이-또-1-400원대-서학개미-탓이-아니라-미국-달러가-강해서예요",
+      "date": "2026-07-24",
+      "channel": "언더스탠딩",
+      "title": "환율이 또 1,400원대? 서학개미 탓이 아니라 미국 달러가 강해서예요!",
+      "summary": "원·달러 환율이 오르는 진짜 원인은 서학개미 때문이 아니라 미국 달러 자체가 강하기 때문이에요. 배터리 기업에 주는 영향까지 함께 살펴봐요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-24-환율이-또-1-400원대-서학개미-탓이-아니라-미국-달러가-강해서예요.html",
+      "video": "https://www.youtube.com/watch?v=A8b4NUit_4U",
+      "video_id": "A8b4NUit_4U",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-24-로봇과-ai가-바꿀-미래-배터리-시장에는-어떤-기회가-될까요",
+      "date": "2026-07-24",
+      "channel": "손에 잡히는 경제",
+      "title": "로봇과 AI가 바꿀 미래, 배터리 시장에는 어떤 기회가 될까요?",
+      "summary": "휴머노이드 로봇과 AI 기술 발전이 배터리 산업에 가져올 새로운 기회를 쉽게 풀어서 설명해 드려요.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-24-로봇과-ai가-바꿀-미래-배터리-시장에는-어떤-기회가-될까요.html",
+      "video": "https://www.youtube.com/watch?v=d-E2W7oZ8dg",
+      "video_id": "d-E2W7oZ8dg",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-24-미국-관세-폭풍과-빅테크-ai-투자-우리-배터리엔-어떤-신호일까요",
+      "date": "2026-07-24",
+      "channel": "손에 잡히는 경제",
+      "title": "미국 관세 폭풍과 빅테크 AI 투자, 우리 배터리엔 어떤 신호일까요?",
+      "summary": "미국의 강제노동 관세 부과와 빅테크 기업의 AI 투자가 우리 배터리 및 전력망 시장에 미칠 영향을 쉽게 풀어해쳐 드려요.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-07-24-미국-관세-폭풍과-빅테크-ai-투자-우리-배터리엔-어떤-신호일까요.html",
+      "video": "https://www.youtube.com/watch?v=jMgdu5ZdK5Y",
+      "video_id": "jMgdu5ZdK5Y",
+      "pv": 2
     },
     {
       "id": "2026-07-23-미국-ai-데이터센터-전력-인프라-혁신-사례와-ess-전력망-산업-시사점",
@@ -1111,6 +1297,19 @@
       "url": "2026-07-22-국내-시황-외국인-양방향-수급과-국내-증시-횡보-속-이차전지-업종-향방.html",
       "video": "https://www.youtube.com/watch?v=pepM8s3c6xs",
       "video_id": "pepM8s3c6xs",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-15-ai-사용료가-출장비처럼-쓰인다고요-기업의-ai-도입-확대가-배터리-시장에-주는-영향",
+      "date": "2026-07-15",
+      "channel": "CNBC International",
+      "title": "AI 사용료가 출장비처럼 쓰인다고요? 기업의 AI 도입 확대가 배터리 시장에 주는 영향",
+      "summary": "기업들이 AI 토큰 비용을 출장비처럼 예산에 넣기 시작하면, AI 데이터센터와 대형 배터리(ESS) 수요도 함께 늘어날 수 있어요.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-15-ai-사용료가-출장비처럼-쓰인다고요-기업의-ai-도입-확대가-배터리-시장에-주는-영향.html",
+      "video": "https://www.youtube.com/shorts/VG0s-8uSBHE",
+      "video_id": "VG0s-8uSBHE",
       "pv": 2
     }
   ]
