@@ -1,5 +1,5 @@
 feedparser>=6.0
-youtube-transcript-api>=0.6
+youtube-transcript-api>=1.0   # 1.0 에서 정적 get_transcript 제거 → 인스턴스 fetch() 사용
 google-genai>=1.0
 requests>=2.31
 yt-dlp>=2025.1.1

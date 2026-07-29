@@ -1,0 +1,36 @@
+name: Check transcript availability
+
+# 자막 확보 경로를 '실제 실행 환경'에서 점검한다 (Gemini 미사용 = 쿼터 소비 0).
+# 로컬에서는 유튜브 접근이 불가해 검증할 수 없으므로, 자막 관련 코드를 고친 뒤에는
+# 반드시 이 워크플로를 돌려 본문 확보율을 실측할 것.
+on:
+  workflow_dispatch:
+    inputs:
+      sample:
+        description: "표본 영상 수 (기본 8)"
+        required: false
+        default: "8"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Show installed transcript library version
+        run: pip show youtube-transcript-api | head -3
+
+      - name: Run transcript diagnostics
+        env:
+          SAMPLE_N: ${{ github.event.inputs.sample }}
+        run: python scripts/check_transcripts.py

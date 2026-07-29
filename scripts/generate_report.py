@@ -130,14 +130,27 @@ def _ytdlp_transcript(video_id: str) -> tuple[str, str]:
         return "", "unavailable"
 
     url = f"https://www.youtube.com/watch?v={video_id}"
-    opts = {
+    base = {
         "quiet": True, "no_warnings": True, "skip_download": True, "ignoreerrors": True,
         "writesubtitles": True, "writeautomaticsub": True, "subtitleslangs": ["ko", "en"],
     }
-    try:
-        with yt_dlp.YoutubeDL(opts) as ydl:
-            info = ydl.extract_info(url, download=False) or {}
-    except Exception:  # noqa: BLE001
+    # 데이터센터 IP(GitHub Actions)는 기본 web 클라이언트에서 "Sign in to confirm you're not a bot"
+    # 차단을 받는다. 차단이 덜한 플레이어 클라이언트를 순차 시도한다.
+    client_sets = [["android"], ["ios"], ["tv_embedded"], ["web_safari"], []]
+    info: dict = {}
+    for clients in client_sets:
+        opts = dict(base)
+        if clients:
+            opts["extractor_args"] = {"youtube": {"player_client": clients}}
+        try:
+            with yt_dlp.YoutubeDL(opts) as ydl:
+                got = ydl.extract_info(url, download=False)
+        except Exception:  # noqa: BLE001
+            continue
+        if got:
+            info = got
+            break
+    if not info:
         return "", "unavailable"
 
     ua = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
@@ -172,20 +185,42 @@ def _ytdlp_transcript(video_id: str) -> tuple[str, str]:
     return "", "unavailable"
 
 
+def _transcript_api(video_id: str) -> str:
+    """youtube-transcript-api 로 자막 확보. 1.x(fetch) 우선, 0.6.x(get_transcript) 호환.
+
+    ※ 1.0 에서 정적 get_transcript 가 제거되어 예전 코드는 AttributeError 로 전부 실패했다.
+      실패 사유는 반드시 로그로 남겨 조용히 묻히지 않게 한다.
+    """
+    from youtube_transcript_api import YouTubeTranscriptApi
+
+    if hasattr(YouTubeTranscriptApi, "fetch"):          # 1.x 인스턴스 API
+        fetched = YouTubeTranscriptApi().fetch(video_id, languages=["ko", "en"])
+        rows = fetched.to_raw_data() if hasattr(fetched, "to_raw_data") else fetched
+        return " ".join(r["text"] for r in rows).strip()
+
+    chunks = YouTubeTranscriptApi.get_transcript(video_id, languages=["ko", "en"])  # 0.6.x
+    return " ".join(c["text"] for c in chunks).strip()
+
+
 def get_transcript(video_id: str) -> tuple[str, str]:
     """자막 텍스트와 소스 표기를 반환. (text, source)
 
     1) youtube-transcript-api → 2) yt-dlp 자막(수동/자동) → 3) 영상 설명 순으로 시도.
+    각 단계의 실패 사유를 로그로 남긴다(원인 없는 '자막 부재'를 방지).
     """
     try:
-        from youtube_transcript_api import YouTubeTranscriptApi
-        chunks = YouTubeTranscriptApi.get_transcript(video_id, languages=["ko", "en"])
-        text = " ".join(c["text"] for c in chunks).strip()
+        text = _transcript_api(video_id)
         if len(text) > 40:
             return text, "youtube-transcript-api"
-    except Exception:  # noqa: BLE001
-        pass
-    return _ytdlp_transcript(video_id)
+        print(f"  [자막] {video_id}: transcript-api 결과가 너무 짧음({len(text)}자)", file=sys.stderr)
+    except Exception as exc:  # noqa: BLE001
+        print(f"  [자막] {video_id}: transcript-api 실패 — {exc.__class__.__name__}: {exc}",
+              file=sys.stderr)
+
+    text, source = _ytdlp_transcript(video_id)
+    if source == "unavailable":
+        print(f"  [자막] {video_id}: yt-dlp 폴백도 실패 — 제목·설명 기반으로 작성", file=sys.stderr)
+    return text, source
 
 
 # ---------------------------------------------------------------------------
