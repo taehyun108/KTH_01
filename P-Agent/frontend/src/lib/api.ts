@@ -32,6 +32,10 @@ export interface RunDetail {
   plan: string[];
   confidence: number;
   verification: string;
+  /** 근거 수집 회차 (1 = 재검색 없음, 2 이상 = 재검색이 일어남) */
+  iteration: number;
+  /** 실제로 시도한 검색어 목록 */
+  tried_queries: string[];
   report_path: string;
   summary: string;
   notes: string[];

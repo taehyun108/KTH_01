@@ -56,6 +56,9 @@ class RunRecord:
             "plan": state.get("plan", []),
             "confidence": state.get("confidence", 0),
             "verification": state.get("verification", ""),
+            # 피드백 루프 결과 (몇 회차까지 재검색했는지)
+            "iteration": state.get("iteration", 1),
+            "tried_queries": state.get("tried_queries", []),
             "report_path": state.get("report_path", ""),
             "summary": state.get("summary", ""),
             "notes": state.get("notes", []),
@@ -105,7 +108,11 @@ class RunManager:
         )
 
         try:
-            state = initial_state(run_id, record.user_request)
+            state = initial_state(
+                run_id,
+                record.user_request,
+                max_iterations=self.runtime.settings.agent_max_iterations,
+            )
             result = await run_graph(self.runtime, state)
             record.state = result
 

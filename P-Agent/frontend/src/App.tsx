@@ -122,7 +122,21 @@ export default function App() {
     switch (event.type) {
       case "step_started": {
         const step = String(payload.step ?? "");
-        setProgress((prev) => [...prev, `${STEP_LABELS[step] ?? step} 시작`]);
+        const label = STEP_LABELS[step] ?? step;
+        // 재검색 회차(2회차 이상)면 몇 번째인지 함께 보여준다.
+        const iteration = Number(payload.iteration ?? 1);
+        const suffix = iteration > 1 ? ` (${iteration}회차)` : "";
+        setProgress((prev) => [...prev, `${label} 시작${suffix}`]);
+        break;
+      }
+      case "retry_requested": {
+        // 피드백 루프: 근거가 부족해 Retriever 로 되돌아간다.
+        const queries = (payload.queries ?? []) as string[];
+        setProgress((prev) => [
+          ...prev,
+          `근거가 부족해 다시 찾습니다 (신뢰도 ${String(payload.confidence ?? "")}점) ` +
+            `→ 검색어: ${queries.join(", ")}`,
+        ]);
         break;
       }
       case "tool_call": {
@@ -304,7 +318,17 @@ export default function App() {
               <h2>결과</h2>
               <p className="result-status">
                 상태: <b>{result.status}</b> · 신뢰도 <b>{result.confidence}</b>점
+                {/* 재검색이 일어났을 때만 회차를 표시한다. */}
+                {result.iteration > 1 && (
+                  <> · 자료 재검색 <b>{result.iteration}</b>회차</>
+                )}
               </p>
+
+              {result.tried_queries?.length > 1 && (
+                <p className="result-queries">
+                  🔍 시도한 검색어: {result.tried_queries.join(" / ")}
+                </p>
+              )}
 
               {result.report_path && (
                 <p className="result-path">

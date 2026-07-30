@@ -528,6 +528,66 @@ def check_mcp_guide(checklist: Checklist) -> None:
     )
 
 
+def check_feedback_loop(checklist: Checklist) -> None:
+    """12. 피드백 루프가 동작하고 무한 루프에 빠지지 않음"""
+    from app.agents.feedback import (
+        fallback_queries,
+        merge_evidences,
+        select_new_queries,
+        should_retry,
+    )
+    from app.agents.graph import RETRY_SOURCE, RETRY_TARGET, recursion_limit_for
+    from app.agents.state import Evidence
+    from app.config.settings import MAX_AGENT_ITERATIONS
+
+    problems: list[str] = []
+
+    # (1) 루프 엣지가 Verifier → Retriever 로 연결되어 있는가
+    if (RETRY_SOURCE, RETRY_TARGET) != ("verifier", "retriever"):
+        problems.append("되돌아가기 엣지가 verifier → retriever 가 아님")
+
+    # (2) 안전장치 1 — 회차 상한에서 반드시 멈추는가
+    if should_retry(confidence=0, threshold=50, iteration=2, max_iterations=2):
+        problems.append("회차 상한에서 멈추지 않음 (무한 루프 위험)")
+    if should_retry(confidence=0, threshold=50, iteration=1, max_iterations=1):
+        problems.append("max_iterations=1 인데도 재검색을 시도함")
+
+    # (3) 안전장치 2 — 같은 검색어를 다시 고르지 않는가
+    if select_new_queries(["소듐이온배터리"], ["소듐이온배터리"]):
+        problems.append("이미 시도한 검색어를 다시 고름 (무한 루프 위험)")
+
+    # (4) 안전장치 3 — LLM 없이도 대체 검색어를 만들 수 있는가 (폐쇄망)
+    queries = fallback_queries("소듐이온배터리 최근 정책동향을 조사해서 보고서로 만들어줘")
+    if not queries:
+        problems.append("LLM 없이 대체 검색어를 만들지 못함")
+
+    # (5) 재검색이 이전 근거를 버리지 않는가
+    merged = merge_evidences(
+        [Evidence(source="a.md", content="A", origin="rag")],
+        [Evidence(source="b.md", content="B", origin="rag")],
+    )
+    if len(merged) != 2:
+        problems.append("재검색이 이전 회차 근거를 잃어버림")
+
+    # (6) recursion_limit 이 회차 수를 감당하는가
+    if recursion_limit_for(MAX_AGENT_ITERATIONS) <= 6 + (MAX_AGENT_ITERATIONS - 1) * 3:
+        problems.append("recursion_limit 이 최대 회차를 감당하지 못함")
+
+    checklist.add(
+        CheckItem(
+            name="피드백 루프 동작 + 무한 루프 방지",
+            passed=not problems,
+            detail=(
+                f"되돌아가기 엣지 확인, 3중 안전장치 통과, "
+                f"대체 검색어 {len(queries)}개 생성 "
+                f"(최대 {MAX_AGENT_ITERATIONS}회차)"
+                if not problems
+                else "; ".join(problems)
+            ),
+        )
+    )
+
+
 # ============================================================
 # 실행
 # ============================================================
@@ -554,6 +614,7 @@ def main() -> int:
         check_no_system_env_dependency,
         check_setup_guide,
         check_mcp_guide,
+        check_feedback_loop,
     )
 
     for check in checks:

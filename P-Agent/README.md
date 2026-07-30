@@ -26,6 +26,7 @@ flowchart TB
             P3 --> P4["Retriever"]
             P4 --> P5["Verifier"]
             P5 --> P6["Generator"]
+            P5 -.->|"신뢰도 미달 시 재검색<br/>(피드백 루프)"| P4
         end
         MC["🔌 MCP Client<br/>(JSON-RPC over stdio)"]
         subgraph MS["🛠 Internal MCP Servers (도구 계층)"]
@@ -83,7 +84,36 @@ Agent는 **직접 함수를 호출하지 않고** 반드시 MCP 클라이언트�
 
 자세한 내용은 [`MCP_GUIDE_KR.md`](./MCP_GUIDE_KR.md) 참고.
 
-### 4. 안전장치 (Safety)
+### 4. 피드백 루프 (오케스트레이션)
+
+Agent 파이프라인은 **한 방향으로만 흐르지 않는다.** Verifier 가 근거의 신뢰도를
+기준치 미만으로 판단하면 Generator 로 가지 않고 **Retriever 로 되돌아가**
+다른 검색어로 자료를 다시 모은다.
+
+```
+Retriever ──▶ Verifier ──(신뢰도 ≥ 기준)──▶ Generator
+    ▲             │
+    └─────────────┘  신뢰도 < 기준 → 대체 검색어로 재검색 (근거는 누적)
+```
+
+- 대체 검색어는 LLM 이 제안하고, **LLM 이 죽으면 규칙 기반**(조사 제거 + 범위 확대)으로 만든다 → 폐쇄망에서도 동작
+- 재검색은 **누적**이다. 이전 회차에서 찾은 근거를 버리지 않는다.
+- `.env` 로 조절: `AGENT_MAX_ITERATIONS`(기본 2 = 최대 1회 재검색), `AGENT_CONFIDENCE_THRESHOLD`(기본 50)
+- `AGENT_MAX_ITERATIONS=1` 로 두면 루프가 비활성화되어 기존 단방향 동작이 된다.
+
+**무한 루프 방지 (3중 + 그래프 상한)**
+
+| # | 안전장치 | 구현 |
+|:-:|---|---|
+| 1 | 회차 상한 | `should_retry()` — `iteration >= max_iterations` 면 중단 (하드 상한 5) |
+| 2 | 검색어 중복 금지 | `select_new_queries()` — 이미 시도한 검색어는 제외 |
+| 3 | 새 검색어 없으면 재검색 안 함 | 같은 조건 반복은 결과가 같으므로 진행 |
+| + | 그래프 상한 | Retriever 진입 시 `retry_reason` 초기화 + `recursion_limit` 회차 비례 계산 |
+
+> 재검색해도 신뢰도가 낮으면 보고서를 **만들되** "사람이 반드시 검토하라"는
+> 경고를 남긴다. 근거가 부족하다는 이유로 결과를 내놓지 않는 일은 없다.
+
+### 5. 안전장치 (Safety)
 - **Human-in-the-loop**: 위험 액션은 사용자 승인(Approval Gate) 후 실행
 - **Kill Switch(ESC)**: 어떤 상황에서도 전역 단축키로 즉시 중단
 - **Undo**: 액션 스택 기반 되돌리기
@@ -106,7 +136,8 @@ P-Agent/
 │   ├── pyproject.toml
 │   └── app/
 │       ├── main.py            ← FastAPI + WebSocket 엔트리
-│       ├── agents/            ← Planner/Perception/Executor/Retriever/Verifier/Generator + graph
+│       ├── agents/            ← Planner/Perception/Executor/Retriever/Verifier/Generator
+│       │                        + graph(StateGraph) + feedback(재검색 판단)
 │       ├── mcp_servers/       ← ★ 자체 MCP 서버 (filesystem/screen/automation/rag/report)
 │       ├── mcp_client/        ← ★ MCP 클라이언트 + LangGraph tool 자동 등록
 │       ├── llm/               ← LLM Adapter (pgpt/anthropic/openai + factory)
@@ -137,13 +168,15 @@ P-Agent/
 | 8 | Report Generator (Word / PPT) | ✅ |
 | 9 | Frontend (Tauri + React) | ✅ |
 | 10 | USB 배포 스크립트 + 모델 다운로드 | ✅ |
-| 11 | 최종 검증 체크리스트 (11항목) | ✅ |
+| 11 | 최종 검증 체크리스트 (12항목) | ✅ |
+| 12 | 피드백 루프 (Verifier → Retriever 재검색) | ✅ |
 
 검증 명령:
 ```bash
 cd backend
-uv run pytest tests -q                      # 단위/통합 테스트
-uv run python ../scripts/final_check.py     # 최종 체크리스트 11항목
+uv run pytest tests -q                      # 단위/통합 테스트 (267개)
+uv run pytest tests/test_feedback_loop.py -q # 피드백 루프 / 무한 루프 방지 (34개)
+uv run python ../scripts/final_check.py     # 최종 체크리스트 12항목
 uv run python -m app.mcp_client --healthcheck   # 도구 서버 상태
 ```
 
@@ -195,6 +228,7 @@ run_all.bat  더블클릭
 | 의미 기반 문서 검색 | `./models/bge-m3` | **키워드 검색으로 자동 전환** |
 | ESC 전역 단축키 | Windows(권장) | 화면의 정지 버튼으로 대체 |
 | 웹 검색 | 인터넷 + 화이트리스트 | 사내 RAG 만으로 동작 |
+| 재검색 검색어 제안 | LLM(P-GPT) 응답 | **규칙 기반 검색어로 자동 전환** |
 
 ## ⚠️ 디스클레이머
 - 본 앱은 사내 업무 보조 목적이며, 생성된 보고서의 **최종 검토 책임은 사용자**에게 있습니다.

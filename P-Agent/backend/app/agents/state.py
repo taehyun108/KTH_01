@@ -89,6 +89,35 @@ class AgentState(TypedDict, total=False):
     verification: str
     """검증 결과 설명"""
 
+    # --- 피드백 루프 (Verifier → Retriever 재검색) ---
+    iteration: int
+    """현재 근거 수집 회차. 1 부터 시작하며 재검색할 때마다 1 증가한다."""
+
+    max_iterations: int
+    """
+    근거 수집 최대 회차. (1 = 재검색 없음)
+
+    0 이면 `settings.agent_max_iterations` 값을 사용한다.
+    """
+
+    search_queries: list[str]
+    """
+    Retriever 가 이번 회차에 사용할 검색어.
+
+    비어 있으면 `user_request` 를 그대로 검색어로 쓴다.
+    재검색 시에는 Verifier 가 제안한 대체 검색어가 채워진다.
+    """
+
+    tried_queries: Annotated[list[str], operator.add]
+    """이미 시도한 검색어 (같은 검색어를 반복하지 않기 위한 기록)"""
+
+    retry_reason: str
+    """
+    재검색 사유. 값이 있으면 그래프가 Retriever 로 되돌아간다.
+
+    Retriever 가 다시 실행되면 반드시 빈 문자열로 초기화한다. (무한 루프 방지)
+    """
+
     # --- Generator ---
     report_path: str
     """생성된 보고서 파일 경로 (프로젝트 폴더 기준 상대경로)"""
@@ -109,8 +138,17 @@ class AgentState(TypedDict, total=False):
     error: str
 
 
-def initial_state(run_id: str, user_request: str) -> AgentState:
-    """새 실행을 위한 초기 상태를 만든다."""
+def initial_state(
+    run_id: str, user_request: str, *, max_iterations: int = 0
+) -> AgentState:
+    """
+    새 실행을 위한 초기 상태를 만든다.
+
+    Args:
+        run_id: 실행 식별자
+        user_request: 사용자가 입력한 자연어 요청
+        max_iterations: 근거 수집 최대 회차. 0 이면 설정값을 따른다.
+    """
     return AgentState(
         run_id=run_id,
         user_request=user_request,
@@ -120,6 +158,11 @@ def initial_state(run_id: str, user_request: str) -> AgentState:
         evidences=[],
         confidence=0,
         verification="",
+        iteration=1,
+        max_iterations=max_iterations,
+        search_queries=[],
+        tried_queries=[],
+        retry_reason="",
         report_path="",
         summary="",
         tool_log=[],

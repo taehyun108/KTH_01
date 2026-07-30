@@ -85,6 +85,12 @@ def _as_bool(raw: str | None, default: bool = False) -> bool:
     return raw.strip().lower() in {"true", "1", "yes", "on", "y"}
 
 
+#: 근거 수집 반복 회차의 하드 상한.
+#: 사용자가 `.env` 에 큰 값을 넣어도 이 값으로 잘린다.
+#: (반복 1회당 노드 3개를 더 방문하므로 LangGraph recursion_limit 을 고려한 값)
+MAX_AGENT_ITERATIONS: int = 5
+
+
 def _as_int(raw: str | None, default: int) -> int:
     """문자열 설정값을 int 로 변환한다. 변환 실패 시 기본값."""
     try:
@@ -144,6 +150,18 @@ class Settings:
     # --- [8] 실행 모드 ---
     app_env: str = "development"
     log_level: str = "INFO"
+
+    # --- [9] Agent 오케스트레이션 (피드백 루프) ---
+    agent_max_iterations: int = 2
+    """
+    근거 수집 최대 회차. (1 = 재검색 없음, 2 = 최대 1회 재검색)
+
+    Verifier 가 신뢰도를 기준치 미달로 판단하면 Retriever 로 되돌아가
+    다른 검색어로 자료를 다시 모은다. 이 값이 그 반복 상한이다.
+    """
+
+    agent_confidence_threshold: int = 50
+    """재검색을 유발하는 신뢰도 기준치 (이 점수 미만이면 재검색)."""
 
     # --- 메타 ---
     project_root: Path = PROJECT_ROOT
@@ -208,6 +226,15 @@ def load_settings() -> Settings:
         # [8] 실행 모드
         app_env=get("APP_ENV", "development"),
         log_level=get("LOG_LEVEL", "INFO").upper(),
+        # [9] Agent 오케스트레이션
+        #   반복 상한은 1~MAX_AGENT_ITERATIONS 로 강제한다.
+        #   (LangGraph 의 recursion_limit 을 넘겨 실행이 죽는 것을 막기 위함)
+        agent_max_iterations=min(
+            MAX_AGENT_ITERATIONS, max(1, _as_int(env.get("AGENT_MAX_ITERATIONS"), 2))
+        ),
+        agent_confidence_threshold=min(
+            100, max(0, _as_int(env.get("AGENT_CONFIDENCE_THRESHOLD"), 50))
+        ),
     )
 
 

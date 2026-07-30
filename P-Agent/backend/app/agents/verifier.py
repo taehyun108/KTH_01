@@ -10,7 +10,13 @@ Verifier Agent — 수집한 근거의 신뢰도를 평가한다. (STEP 7 구현
 3. **개인정보**     : 근거에 개인정보가 있으면 마스킹하고 경고
 4. **LLM 검토**     : 근거가 질문에 답하기 충분한지 판단 (가능한 경우)
 
-신뢰도가 낮으면 보고서에 "사람이 반드시 검토하라"는 경고를 남긴다.
+피드백 루프 (오케스트레이션)
+----------------------------
+Verifier 는 이 그래프의 **유일한 되돌아가기 결정 지점**이다.
+신뢰도가 기준치(`AGENT_CONFIDENCE_THRESHOLD`) 미만이고 회차가 남아 있으면,
+다른 검색어를 제안한 뒤 `retry_reason` 을 채워 **Retriever 로 되돌린다.**
+회차를 다 썼거나 새로 시도할 검색어가 없으면 그대로 진행하고,
+보고서에 "사람이 반드시 검토하라"는 경고를 남긴다.
 """
 
 from __future__ import annotations
@@ -18,6 +24,13 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from app.agents.feedback import (
+    MAX_RETRY_QUERIES,
+    fallback_queries,
+    parse_query_response,
+    select_new_queries,
+    should_retry,
+)
 from app.agents.runtime import AgentRuntime
 from app.agents.state import AgentState, Evidence
 from app.llm.base import ChatMessage, LLMError
@@ -47,6 +60,15 @@ SYSTEM_PROMPT = """당신은 보고서 근거를 검토하는 검증 담당자�
 반드시 아래 형식으로만 답하세요:
 점수: <0에서 100 사이 정수>
 사유: <한 문장>"""
+
+RETRY_SYSTEM_PROMPT = """당신은 사내 문서 검색을 돕는 검색어 제안 담당자입니다.
+방금 수행한 검색으로는 근거가 부족했습니다. 다른 각도의 대체 검색어를 제안하세요.
+
+규칙:
+- 이미 시도한 검색어와 같거나 비슷한 것은 제안하지 마세요.
+- 검색어는 1~4개 단어의 짧은 명사구로 만드세요. (문장으로 쓰지 마세요)
+- 범위를 조금씩 넓히는 방향으로 제안하세요.
+- 최대 {max_queries}개, 반드시 JSON 배열로만 답하세요. 예: ["검색어1", "검색어2"]"""
 
 
 def rule_based_score(evidence_count: int, has_local_only: bool) -> int:
@@ -141,8 +163,109 @@ def _parse_llm_score(raw: str) -> tuple[int | None, str]:
     return score, reason
 
 
+async def _suggest_queries(
+    state: AgentState, runtime: AgentRuntime, tried: list[str]
+) -> list[str]:
+    """
+    재검색에 쓸 대체 검색어 후보를 만든다.
+
+    LLM 을 먼저 시도하고, 실패하면 규칙 기반 검색어로 대체한다.
+    (폐쇄망에서 LLM 이 죽어도 피드백 루프는 계속 동작해야 한다)
+
+    Returns:
+        후보 검색어 목록 (중복 제거는 호출부에서 수행)
+    """
+    user_request = state["user_request"]
+    candidates: list[str] = []
+
+    system = RETRY_SYSTEM_PROMPT.format(max_queries=MAX_RETRY_QUERIES)
+    prompt = (
+        f"사용자 요청:\n{user_request}\n\n"
+        f"이미 시도한 검색어:\n" + "\n".join(f"- {item}" for item in tried)
+    )
+    try:
+        response = await runtime.llm.chat(
+            [ChatMessage(role="user", content=prompt)],
+            system=system,
+            max_tokens=500,
+        )
+        candidates.extend(parse_query_response(response.content))
+    except LLMError:
+        # 사유는 아래 규칙 기반 대체로 흡수되므로 별도 경고를 남기지 않는다.
+        pass
+
+    # LLM 제안이 없거나 모두 중복이어도 진행할 수 있도록 규칙 기반 후보를 덧붙인다.
+    candidates.extend(fallback_queries(user_request))
+    return candidates
+
+
+async def _plan_retry(
+    state: AgentState, runtime: AgentRuntime, score: int, notes: list[str]
+) -> dict[str, Any]:
+    """
+    재검색 여부를 결정한다. (피드백 루프의 판단부)
+
+    되돌아가야 하면 `retry_reason` / `search_queries` / `iteration` 을 채워
+    반환한다. 진행해야 하면 `retry_reason` 을 빈 값으로 반환해 그래프가
+    Generator 로 넘어가게 한다.
+
+    Args:
+        notes: 사용자 안내 문구를 덧붙일 리스트 (제자리 수정)
+    """
+    run_id = state["run_id"]
+    settings = runtime.settings
+    threshold = settings.agent_confidence_threshold
+    iteration = state.get("iteration") or 1
+    # 상태에 값이 없으면(0) 설정값을 따른다.
+    max_iterations = state.get("max_iterations") or settings.agent_max_iterations
+
+    if not should_retry(score, threshold, iteration, max_iterations):
+        # 회차를 다 쓰고도 기준에 못 미쳤다면 그 사실을 분명히 남긴다.
+        if score < threshold and iteration > 1:
+            notes.append(
+                f"근거를 {iteration}회 찾아봤지만 신뢰도가 {score}점에 머물렀습니다. "
+                f"사내 자료가 부족할 수 있으니 보고서를 반드시 사람이 검토하세요."
+            )
+        return {"retry_reason": ""}
+
+    tried = state.get("tried_queries") or [state["user_request"]]
+    candidates = await _suggest_queries(state, runtime, tried)
+    new_queries = select_new_queries(candidates, tried, limit=MAX_RETRY_QUERIES)
+
+    if not new_queries:
+        notes.append(
+            "신뢰도가 낮지만 새로 시도할 검색어를 찾지 못해 재검색을 건너뜁니다."
+        )
+        return {"retry_reason": ""}
+
+    next_iteration = iteration + 1
+    reason = (
+        f"신뢰도 {score}점이 기준({threshold}점)에 미달해 "
+        f"다른 검색어로 자료를 다시 찾습니다."
+    )
+    notes.append(
+        f"[재검색 {next_iteration}/{max_iterations}회차] {reason} "
+        f"검색어: {', '.join(new_queries)}"
+    )
+    await runtime.emit(
+        run_id,
+        "retry_requested",
+        step=STEP_NAME,
+        iteration=next_iteration,
+        max_iterations=max_iterations,
+        confidence=score,
+        queries=new_queries,
+    )
+    return {
+        "retry_reason": reason,
+        "search_queries": new_queries,
+        "iteration": next_iteration,
+        "max_iterations": max_iterations,
+    }
+
+
 async def run(state: AgentState, runtime: AgentRuntime) -> dict[str, Any]:
-    """근거를 검증하고 신뢰도 점수를 매긴다."""
+    """근거를 검증하고 신뢰도 점수를 매긴다. (필요하면 재검색을 요청한다)"""
     run_id = state["run_id"]
     runtime.ensure_alive(run_id)
     await runtime.emit(run_id, "step_started", step=STEP_NAME)
@@ -204,12 +327,21 @@ async def run(state: AgentState, runtime: AgentRuntime) -> dict[str, Any]:
             "근거가 부족해 신뢰도가 낮습니다. 보고서 내용을 반드시 사람이 검토하세요."
         )
 
+    # --- 5) 피드백 루프: 신뢰도가 낮으면 Retriever 로 되돌린다 ---
+    retry = await _plan_retry(state, runtime, score, notes)
+
     await runtime.emit(
-        run_id, "step_finished", step=STEP_NAME, confidence=score, reason=reason
+        run_id,
+        "step_finished",
+        step=STEP_NAME,
+        confidence=score,
+        reason=reason,
+        retrying=bool(retry.get("retry_reason")),
     )
     return {
         "evidences": evidences,  # 필터링·마스킹된 근거로 교체
         "confidence": score,
         "verification": verification,
         "notes": notes,
+        **retry,
     }
