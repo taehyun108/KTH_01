@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-29T14:25:29",
+  "generated_at": "2026-07-30T02:05:43",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -17,6 +17,45 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-07-30-금리-전쟁-수급-3중고-꼬여버린-증시에서-배터리-산업은-괜찮을까요",
+      "date": "2026-07-30",
+      "channel": "삼프로TV",
+      "title": "금리·전쟁·수급 3중고! 꼬여버린 증시에서 배터리 산업은 괜찮을까요?",
+      "summary": "금리와 전쟁 여파로 복잡해진 시장에서 배터리 산업이 어떤 영향을 받는지 쉽게 풀어드려요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-30-금리-전쟁-수급-3중고-꼬여버린-증시에서-배터리-산업은-괜찮을까요.html",
+      "video": "https://www.youtube.com/watch?v=Hy8hRsJxKqU",
+      "video_id": "Hy8hRsJxKqU",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-30-미국-연준의-기준금리-동결-배터리와-전기차-시장엔-어떤-신호일까요",
+      "date": "2026-07-30",
+      "channel": "The Wall Street Journal",
+      "title": "미국 연준의 기준금리 동결, 배터리와 전기차 시장엔 어떤 신호일까요?",
+      "summary": "미국 연준(미국의 중앙은행)이 기준금리를 동결했어요! 고금리가 배터리와 전기차 시장에 어떤 영향을 주는지 쉽게 풀어서 알려드릴게요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-30-미국-연준의-기준금리-동결-배터리와-전기차-시장엔-어떤-신호일까요.html",
+      "video": "https://www.youtube.com/shorts/dTPWPXBqL6w",
+      "video_id": "dTPWPXBqL6w",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-30-미국-금리-동결과-요동치는-증시-배터리와-ai-데이터센터엔-어떤-영향이-있을까요",
+      "date": "2026-07-30",
+      "channel": "손에 잡히는 경제",
+      "title": "미국 금리 동결과 요동치는 증시! 배터리와 AI 데이터센터엔 어떤 영향이 있을까요?",
+      "summary": "미국의 금리 동결과 증시 흔들림, 그리고 로봇 규제 뉴스가 전기차와 배터리 시장에 어떤 영향을 줄지 쉽게 풀어드려요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-30-미국-금리-동결과-요동치는-증시-배터리와-ai-데이터센터엔-어떤-영향이-있을까요.html",
+      "video": "https://www.youtube.com/watch?v=48LXC_Z7NzU",
+      "video_id": "48LXC_Z7NzU",
+      "pv": 2
+    },
     {
       "id": "2026-07-29-실적은-좋은데-왜-불안할까-미국-금리와-중국-추격이-배터리에-주는-신호",
       "date": "2026-07-29",
