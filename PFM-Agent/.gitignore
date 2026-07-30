@@ -1,0 +1,45 @@
+# ============================================================
+# PFM-Agent .gitignore
+# ============================================================
+
+# --- 비밀/설정 ---
+.env
+*.env.local
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+backend/.venv/
+.venv/
+
+# --- Node / Frontend ---
+node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/src-tauri/target/
+
+# --- 로컬 모델 (용량 큼, USB로 별도 전달) ---
+models/bge-m3/*
+models/omniparser/*
+!models/**/.gitkeep
+
+# --- 런타임 산출물 (프로젝트 폴더 내부 저장) ---
+data/*
+logs/*
+output/*
+!data/.gitkeep
+!logs/.gitkeep
+!output/.gitkeep
+
+# --- 개발용 MCP 설정 (USB에 포함 금지) ---
+claude_desktop_config.json
+
+# --- OS / IDE ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,32 @@
+{
+  "_comment": [
+    "PFM-Agent 가 접속을 허용하는 도메인 목록입니다.",
+    "여기에 없는 주소는 브라우저로 열 수 없고, 근거 자료로도 채택되지 않습니다.",
+    "",
+    "규칙:",
+    "  - 'example.go.kr' 은 하위 도메인(www.example.go.kr)도 함께 허용합니다.",
+    "  - 회사 정책에 맞게 담당자가 자유롭게 추가/삭제하세요.",
+    "  - allow_all 을 true 로 바꾸면 모든 도메인이 허용됩니다 (권장하지 않음)."
+  ],
+  "allow_all": false,
+  "allowed_domains": [
+    "go.kr",
+    "or.kr",
+    "re.kr",
+    "korea.kr",
+    "motie.go.kr",
+    "me.go.kr",
+    "msit.go.kr",
+    "moef.go.kr",
+    "law.go.kr",
+    "kipris.or.kr",
+    "ntis.go.kr",
+    "keit.re.kr",
+    "kistep.re.kr",
+    "posco.co.kr",
+    "poscofuturem.com",
+    "localhost",
+    "127.0.0.1"
+  ],
+  "blocked_domains": []
+}
