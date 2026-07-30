@@ -78,6 +78,13 @@ class AgentState(TypedDict, total=False):
     executions: list[str]
     """PC 조작 수행 결과"""
 
+    gui_steps: int
+    """
+    GUI 자동 조작 루프에서 실제로 수행한 조작 수.
+
+    0 이면 조작이 필요 없었거나 화면을 볼 수 없어 조작하지 않은 것이다.
+    """
+
     # --- Retriever ---
     evidences: list[Evidence]
     """수집한 근거 자료"""
@@ -155,6 +162,7 @@ def initial_state(
         plan=[],
         observations=[],
         executions=[],
+        gui_steps=0,
         evidences=[],
         confidence=0,
         verification="",

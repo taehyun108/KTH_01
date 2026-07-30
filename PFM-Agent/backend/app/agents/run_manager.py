@@ -59,6 +59,8 @@ class RunRecord:
             # 피드백 루프 결과 (몇 회차까지 재검색했는지)
             "iteration": state.get("iteration", 1),
             "tried_queries": state.get("tried_queries", []),
+            # GUI 자동 조작 루프에서 실제로 수행한 조작 수
+            "gui_steps": state.get("gui_steps", 0),
             "report_path": state.get("report_path", ""),
             "summary": state.get("summary", ""),
             "notes": state.get("notes", []),

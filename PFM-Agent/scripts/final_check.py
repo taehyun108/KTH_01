@@ -231,7 +231,7 @@ def check_tool_collection(checklist: Checklist) -> None:
 
     try:
         count, server_count, servers = asyncio.run(collect())
-        passed = count == 14 and server_count == 5
+        passed = count == 15 and server_count == 5
         detail = f"도구 {count}개 / 서버 {server_count}개 ({', '.join(servers)})"
     except Exception as exc:  # noqa: BLE001
         passed, detail = False, f"오류: {exc}"
@@ -588,6 +588,78 @@ def check_feedback_loop(checklist: Checklist) -> None:
     )
 
 
+def check_gui_loop(checklist: Checklist) -> None:
+    """13. GUI 자동 조작 루프가 동작하고 폭주하지 않음"""
+    import json
+
+    from app.agents import gui_loop
+    from app.agents.gui_loop import ActionDecision
+    from app.config.settings import MAX_GUI_STEPS, Settings
+
+    problems: list[str] = []
+
+    # (1) 조작 결정을 파싱할 수 있는가
+    decision = gui_loop.parse_action(
+        '{"action": "click", "target": "검색", "reason": "검색 시작"}'
+    )
+    if decision is None or decision.action != "click":
+        problems.append("조작 결정(JSON) 을 파싱하지 못함")
+
+    # (2) 모르는 조작을 거부하는가 (엉뚱한 동작 방지)
+    if gui_loop.parse_action('{"action": "format_disk"}') is not None:
+        problems.append("허용되지 않은 조작을 걸러내지 못함")
+
+    # (3) 화면에 없는 대상을 누르려 할 때 막는가 (오클릭 방지)
+    elements = [{"text": "검색", "x": 10, "y": 20}]
+    blocked = gui_loop.validate_decision(
+        ActionDecision(action="click", target="없는버튼"), elements
+    )
+    if blocked is None:
+        problems.append("화면에 없는 대상 클릭을 막지 못함")
+
+    # (4) 화면에 있는 대상은 통과하는가
+    allowed = gui_loop.validate_decision(
+        ActionDecision(action="click", target="검색"), elements
+    )
+    if allowed is not None:
+        problems.append("정상 대상을 잘못 차단함")
+
+    # (5) 제자리(같은 조작 반복) 를 감지하는가
+    same = ActionDecision(action="click", target="검색").signature()
+    if not gui_loop.is_stuck([same] * gui_loop.STUCK_THRESHOLD):
+        problems.append("같은 조작 반복을 감지하지 못함 (폭주 위험)")
+    if gui_loop.is_stuck([same, "type|가", same]):
+        problems.append("정상 진행을 제자리로 잘못 판단함")
+
+    # (6) 조작 횟수 상한이 걸려 있는가
+    defaults = Settings()
+    if not 1 <= defaults.gui_max_steps <= MAX_GUI_STEPS:
+        problems.append("조작 횟수 기본값이 상한 범위를 벗어남")
+
+    # (7) automation 도구가 승인 필요로 등록되어 있는가
+    config_path = BACKEND_DIR / "app" / "mcp_servers" / "mcp_config.json"
+    try:
+        servers = json.loads(config_path.read_text(encoding="utf-8"))["servers"]
+        if not servers.get("automation", {}).get("require_approval"):
+            problems.append("automation 서버가 승인 필요로 설정되지 않음 (위험)")
+    except (OSError, KeyError, json.JSONDecodeError) as exc:
+        problems.append(f"mcp_config.json 확인 실패: {exc}")
+
+    checklist.add(
+        CheckItem(
+            name="GUI 자동 조작 루프 동작 + 폭주 방지",
+            passed=not problems,
+            detail=(
+                f"조작 판단·검증·제자리 감지 통과, "
+                f"승인 게이트 필수, 조작 상한 {defaults.gui_max_steps}회 "
+                f"(하드 상한 {MAX_GUI_STEPS}회)"
+                if not problems
+                else "; ".join(problems)
+            ),
+        )
+    )
+
+
 # ============================================================
 # 실행
 # ============================================================
@@ -615,6 +687,7 @@ def main() -> int:
         check_setup_guide,
         check_mcp_guide,
         check_feedback_loop,
+        check_gui_loop,
     )
 
     for check in checks:

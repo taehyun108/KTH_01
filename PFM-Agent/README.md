@@ -27,6 +27,7 @@ flowchart TB
             P4 --> P5["Verifier"]
             P5 --> P6["Generator"]
             P5 -.->|"신뢰도 미달 시 재검색<br/>(피드백 루프)"| P4
+            P3 -.->|"화면 다시 보고 다음 조작<br/>(GUI 자동 조작 루프)"| P2
         end
         MC["🔌 MCP Client<br/>(JSON-RPC over stdio)"]
         subgraph MS["🛠 Internal MCP Servers (도구 계층)"]
@@ -84,7 +85,50 @@ Agent는 **직접 함수를 호출하지 않고** 반드시 MCP 클라이언트�
 
 자세한 내용은 [`MCP_GUIDE_KR.md`](./MCP_GUIDE_KR.md) 참고.
 
-### 4. 피드백 루프 (오케스트레이션)
+### 4. GUI 자동 조작 루프 (핵심 기능)
+
+**자연어로 지시하면 앱이 스스로 화면을 보고 PC 를 조작한다.** 미리 만든 대본을
+밀어붙이지 않고, 사람이 PC 를 쓰는 방식과 같은 순서를 반복한다.
+
+```
+        ┌─────────────────────────────────────────┐
+        ▼                                         │
+  화면 인식 ──▶ 판단(LLM) ──▶ 조작 1회 ──▶ 결과 관찰 ┘
+ list_ui_elements   다음 한 걸음    automation.*    (다시 화면 인식)
+                         │
+                         └──▶ done / give_up ──▶ 종료
+```
+
+한 걸음마다 화면을 **다시** 읽으므로 화면이 예상과 달라도 판단을 바꿀 수 있다.
+LLM 은 매번 **조작 하나만** JSON 으로 답한다.
+
+```json
+{"action": "click", "target": "검색", "reason": "검색을 시작하려면 눌러야 함"}
+{"action": "type",  "text": "소듐이온배터리", "reason": "검색어 입력"}
+{"action": "done",  "reason": "결과 목록이 표시됨"}
+```
+
+판단 로직은 [`gui_loop.py`](./backend/app/agents/gui_loop.py), 실행은
+[`executor.py`](./backend/app/agents/executor.py) 에 있다.
+
+**🔴 폭주 방지 (4중 안전장치)**
+
+| # | 안전장치 | 구현 |
+|:-:|---|---|
+| 1 | 조작 수 상한 | `GUI_MAX_STEPS`(기본 15, 하드 상한 50)를 넘으면 중단 |
+| 2 | 제자리 감지 | 같은 조작이 3번 반복되면 중단 (`is_stuck`) |
+| 3 | 승인 게이트 | 모든 조작은 사용자 승인 후 실행 (레지스트리가 강제) |
+| 4 | Kill Switch | 매 조작 전 ESC 확인 (`ensure_alive`) |
+
+추가로 **화면 요소 목록에 없는 대상은 클릭하지 않는다**(`validate_decision`).
+LLM 이 엉뚱한 좌표를 찍어 잘못된 곳을 누르는 것을 코드로 막는다.
+화면 인식이 실패하면 **조작을 아예 시도하지 않는다.**
+
+**폐쇄망 대비:** LLM 을 쓸 수 없으면 Planner 의 계획 문장을 키워드로 해석해
+순서대로 실행하는 방식으로 자동 전환된다. 적응력은 없지만 멈추지는 않는다.
+`GUI_LOOP_ENABLED=false` 로 자동 조작을 완전히 끌 수도 있다.
+
+### 5. 피드백 루프 (오케스트레이션)
 
 Agent 파이프라인은 **한 방향으로만 흐르지 않는다.** Verifier 가 근거의 신뢰도를
 기준치 미만으로 판단하면 Generator 로 가지 않고 **Retriever 로 되돌아가**
@@ -113,7 +157,7 @@ Retriever ──▶ Verifier ──(신뢰도 ≥ 기준)──▶ Generator
 > 재검색해도 신뢰도가 낮으면 보고서를 **만들되** "사람이 반드시 검토하라"는
 > 경고를 남긴다. 근거가 부족하다는 이유로 결과를 내놓지 않는 일은 없다.
 
-### 5. 성능 / 자원 관리
+### 6. 성능 / 자원 관리
 
 측정 도구를 함께 넣어 두었다. 회사 PC 에서 직접 확인할 수 있다.
 
@@ -122,7 +166,7 @@ cd backend
 uv run python ../scripts/benchmark.py     # LLM 없이 동작 (폐쇄망 OK)
 ```
 
-적용된 최적화와 실측값(컨테이너 기준, 서버 5개 / 도구 14개):
+적용된 최적화와 실측값(컨테이너 기준, 서버 5개 / 도구 15개):
 
 | 항목 | 개선 전 | 개선 후 | 효과 |
 |---|---:|---:|---|
@@ -139,7 +183,7 @@ uv run python ../scripts/benchmark.py     # LLM 없이 동작 (폐쇄망 OK)
 | 이벤트 보관 실행 수 | 50건 | 가장 오래된 실행 기록 버림 |
 | 실행 기록(RunManager) | 50건 | **끝난** 실행부터 버림 (진행 중인 실행은 보존) |
 
-### 6. 안전장치 (Safety)
+### 7. 안전장치 (Safety)
 - **Human-in-the-loop**: 위험 액션은 사용자 승인(Approval Gate) 후 실행
 - **Kill Switch(ESC)**: 어떤 상황에서도 전역 단축키로 즉시 중단
 - **Undo**: 액션 스택 기반 되돌리기
@@ -163,7 +207,8 @@ PFM-Agent/
 │   └── app/
 │       ├── main.py            ← FastAPI + WebSocket 엔트리
 │       ├── agents/            ← Planner/Perception/Executor/Retriever/Verifier/Generator
-│       │                        + graph(StateGraph) + feedback(재검색 판단)
+│       │                        + graph(StateGraph)
+│       │                        + gui_loop(GUI 조작 판단) + feedback(재검색 판단)
 │       ├── mcp_servers/       ← ★ 자체 MCP 서버 (filesystem/screen/automation/rag/report)
 │       ├── mcp_client/        ← ★ MCP 클라이언트 + LangGraph tool 자동 등록
 │       ├── llm/               ← LLM Adapter (pgpt/anthropic/openai + factory)
@@ -186,7 +231,7 @@ PFM-Agent/
 |---|---|:---:|
 | 1 | 프로젝트 세팅 + 문서화 | ✅ |
 | 2 | LLM Adapter (P-GPT / Claude / GPT) | ✅ |
-| 3 | 자체 MCP 서버 인프라 (5개 서버 / 14개 도구) | ✅ |
+| 3 | 자체 MCP 서버 인프라 (5개 서버 / 15개 도구) | ✅ |
 | 4 | Backend + LangGraph 6개 Agent | ✅ |
 | 5 | 안전장치 (Kill Switch / 승인 / Undo / 기록) | ✅ |
 | 6 | Perception & Executor (화면 인식 / PC 조작) | ✅ |
@@ -194,16 +239,17 @@ PFM-Agent/
 | 8 | Report Generator (Word / PPT) | ✅ |
 | 9 | Frontend (Tauri + React) | ✅ |
 | 10 | USB 배포 스크립트 + 모델 다운로드 | ✅ |
-| 11 | 최종 검증 체크리스트 (12항목) | ✅ |
+| 11 | 최종 검증 체크리스트 (13항목) | ✅ |
 | 12 | 피드백 루프 (Verifier → Retriever 재검색) | ✅ |
+| 13 | **GUI 자동 조작 루프** (화면 인식 → 판단 → 조작 반복) | ✅ |
 
 검증 명령:
 ```bash
 cd backend
-uv run python -m pytest tests -q             # 단위/통합 테스트 (282개)
+uv run python -m pytest tests -q             # 단위/통합 테스트 (312개)
 uv run python -m pytest tests/test_feedback_loop.py -q  # 피드백 루프 / 무한 루프 방지
 uv run python -m pytest tests/test_performance.py -q    # 성능·메모리 상한
-uv run python ../scripts/final_check.py      # 최종 체크리스트 12항목
+uv run python ../scripts/final_check.py      # 최종 체크리스트 13항목
 uv run python ../scripts/benchmark.py        # 성능 측정 (LLM 불필요)
 uv run python -m app.mcp_client --healthcheck   # 도구 서버 상태
 ```

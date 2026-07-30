@@ -98,6 +98,7 @@ LLM API 는 도구 이름에 **`^[a-zA-Z0-9_-]{1,64}$` 만 허용**한다. **점
 | | `list_dir(path)` | 디렉터리 목록 | — | ✅ |
 | **screen** | `capture_screen(region)` | 화면 캡처 → PNG 저장 | — | ✅ |
 | | `find_ui_element(description)` | 자연어로 UI 요소 위치 탐지 (OCR 기반) | — | ✅ * |
+| | `list_ui_elements(limit)` | **화면의 모든 요소+좌표 목록** (GUI 자동 조작 루프의 눈) | — | ✅ * |
 | | `ocr_region(bbox)` | 지정 영역 텍스트 인식 (PaddleOCR) | — | ✅ * |
 | **automation** | `click(x, y)` | 마우스 클릭 | ✅ | ✅ |
 | | `type_text(text)` | 텍스트 입력 | ✅ | ✅ |
@@ -218,7 +219,7 @@ python -m app.mcp_servers.filesystem_server
   [OK] filesystem   도구 3개
          - filesystem.read_file
   ...
-  ✅ 정상: 서버 5개 / 도구 14개
+  ✅ 정상: 서버 5개 / 도구 15개
 ```
 
 > MCP 서버는 stdio 로 통신하므로 직접 실행하면 입력 대기 상태가 됩니다.

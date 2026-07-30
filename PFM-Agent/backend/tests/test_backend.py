@@ -572,7 +572,7 @@ async def test_api_status(api_client: Any) -> None:
 
     data = response.json()
     assert data["ready"] is True
-    assert len(data["tools"]) == 14
+    assert len(data["tools"]) == 15
     assert set(data["mcp_servers"]) == {
         "filesystem",
         "screen",

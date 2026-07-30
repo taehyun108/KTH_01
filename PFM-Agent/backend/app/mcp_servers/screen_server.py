@@ -47,6 +47,13 @@ SCREENSHOT_DIR: Path = PROJECT_ROOT / "data" / "screenshots"
 #: 보관할 최대 캡처 파일 수 (USB 용량 보호)
 MAX_SCREENSHOTS: int = 50
 
+#: list_ui_elements 가 기본으로 반환하는 요소 수.
+#: (Agent 프롬프트에 들어가므로 너무 많으면 토큰을 낭비한다)
+DEFAULT_ELEMENT_LIMIT: int = 60
+
+#: list_ui_elements 가 반환할 수 있는 요소 수 상한
+MAX_ELEMENT_LIMIT: int = 200
+
 #: OCR 모델 경로 (STEP 10 에서 다운로드)
 OCR_MODEL_DIR: Path = PROJECT_ROOT / "models" / "omniparser"
 
@@ -345,6 +352,29 @@ class ScreenMCPServer(BaseMCPServer):
                 },
             ),
             Tool(
+                name="list_ui_elements",
+                description=(
+                    "현재 화면에서 인식되는 **모든** UI 요소(글자)와 클릭 좌표를 "
+                    "목록으로 반환합니다. 무엇을 눌러야 할지 아직 모를 때, "
+                    "화면 전체를 훑어보고 다음 조작을 결정하기 위해 사용하세요. "
+                    "찾을 대상이 이미 정해져 있다면 find_ui_element 가 더 적합합니다."
+                ),
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "limit": {
+                            "type": "integer",
+                            "description": (
+                                f"반환할 최대 요소 수 (기본 {DEFAULT_ELEMENT_LIMIT}, "
+                                f"최대 {MAX_ELEMENT_LIMIT})"
+                            ),
+                            "minimum": 1,
+                        }
+                    },
+                    "required": [],
+                },
+            ),
+            Tool(
                 name="ocr_region",
                 description=(
                     "화면의 지정한 영역에서 텍스트를 인식해 반환합니다. "
@@ -372,6 +402,8 @@ class ScreenMCPServer(BaseMCPServer):
             return self._capture_screen(arguments.get("region"))
         if name == "find_ui_element":
             return self._find_ui_element(arguments["description"])
+        if name == "list_ui_elements":
+            return self._list_ui_elements(arguments.get("limit"))
         if name == "ocr_region":
             return self._ocr_region(arguments["bbox"])
         raise MCPToolError(f"screen 서버에 '{name}' 도구가 없습니다.")
@@ -438,6 +470,55 @@ class ScreenMCPServer(BaseMCPServer):
             "y": y,
             "match_score": round(best_score, 3),
             "message": f"'{best['text']}' 을(를) ({x}, {y}) 위치에서 찾았습니다.",
+        }
+
+    def _list_ui_elements(self, limit: int | None) -> dict[str, Any]:
+        """
+        화면의 모든 UI 요소와 클릭 좌표를 목록으로 반환한다.
+
+        GUI 자동 조작 루프에서 **"지금 화면에 무엇이 있는지"** 를 Agent 에게
+        보여주기 위한 도구다. 요소가 지나치게 많으면 프롬프트가 커지므로
+        위쪽(화면 상단) 순서로 정렬해 상한만큼만 돌려준다.
+        """
+        count = DEFAULT_ELEMENT_LIMIT if limit is None else int(limit)
+        count = max(1, min(MAX_ELEMENT_LIMIT, count))
+
+        image = grab_screen(None)
+        items = run_ocr(image)
+
+        if not items:
+            raise MCPToolError(
+                "화면에서 글자를 찾지 못했습니다. "
+                "창이 열려 있는지, 화면이 잠겨 있지 않은지 확인하세요."
+            )
+
+        elements: list[dict[str, Any]] = []
+        for item in items:
+            x, y = bbox_center(tuple(item["bbox"]))  # type: ignore[arg-type]
+            elements.append(
+                {
+                    "text": item["text"],
+                    "x": x,
+                    "y": y,
+                    "confidence": item.get("confidence", 0.0),
+                }
+            )
+
+        # 화면 위 → 아래, 왼쪽 → 오른쪽 순서로 정렬해 사람이 보는 순서와 맞춘다.
+        elements.sort(key=lambda element: (element["y"], element["x"]))
+        truncated = len(elements) > count
+
+        return {
+            "count": len(elements[:count]),
+            "total": len(elements),
+            "truncated": truncated,
+            "width": image.width,
+            "height": image.height,
+            "elements": elements[:count],
+            "message": (
+                f"화면에서 요소 {len(elements)}개를 인식했습니다"
+                + (f" (상위 {count}개만 반환)" if truncated else "")
+            ),
         }
 
     def _ocr_region(self, bbox: list[int]) -> dict[str, Any]:

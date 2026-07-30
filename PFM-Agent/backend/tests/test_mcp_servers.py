@@ -194,8 +194,8 @@ async def test_all_servers_start_successfully(mcp_client: MCPClient) -> None:
 
 
 async def test_all_tools_collected(mcp_client: MCPClient) -> None:
-    """모든 서버의 도구가 수집되어야 한다. (3+3+4+2+2 = 14)"""
-    assert mcp_client.total_tool_count() == 14
+    """모든 서버의 도구가 수집되어야 한다. (3+4+4+2+2 = 15)"""
+    assert mcp_client.total_tool_count() == 15
 
 
 async def test_filesystem_write_then_read(mcp_client: MCPClient, tmp_path: Path) -> None:
@@ -392,10 +392,12 @@ async def test_registry_collects_all_tools(mcp_client: MCPClient) -> None:
     """레지스트리가 모든 서버의 도구를 수집해야 한다."""
     registry = ToolRegistry(mcp_client)
     count = registry.refresh()
-    assert count == 14
+    assert count == 15
     names = {tool.qualified_name for tool in registry.tools}
     assert "filesystem__read_file" in names
     assert "automation__click" in names
+    # GUI 자동 조작 루프가 화면 상태를 읽는 데 쓰는 도구
+    assert "screen__list_ui_elements" in names
 
 
 async def test_registry_converts_to_llm_tool_specs(mcp_client: MCPClient) -> None:
@@ -404,7 +406,7 @@ async def test_registry_converts_to_llm_tool_specs(mcp_client: MCPClient) -> Non
     registry.refresh()
     specs = registry.to_tool_specs()
 
-    assert len(specs) == 14
+    assert len(specs) == 15
     assert all(isinstance(spec, ToolSpec) for spec in specs)
 
     # LLM API 의 도구 이름 규칙 검증: ^[a-zA-Z0-9_-]{1,64}$
@@ -538,6 +540,6 @@ async def test_registry_summary_is_readable(mcp_client: MCPClient) -> None:
     registry.refresh()
 
     summary = registry.summary()
-    assert "MCP 도구 14개 등록됨" in summary
+    assert "MCP 도구 15개 등록됨" in summary
     assert "automation (승인 필요)" in summary
     assert NAME_SEPARATOR not in summary  # 표시용은 점 표기를 사용

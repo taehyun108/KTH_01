@@ -36,6 +36,8 @@ export interface RunDetail {
   iteration: number;
   /** 실제로 시도한 검색어 목록 */
   tried_queries: string[];
+  /** GUI 자동 조작 루프에서 수행한 조작 수 (0 = 조작하지 않음) */
+  gui_steps: number;
   report_path: string;
   summary: string;
   notes: string[];

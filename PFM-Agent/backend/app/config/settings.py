@@ -90,6 +90,10 @@ def _as_bool(raw: str | None, default: bool = False) -> bool:
 #: (반복 1회당 노드 3개를 더 방문하므로 LangGraph recursion_limit 을 고려한 값)
 MAX_AGENT_ITERATIONS: int = 5
 
+#: GUI 조작 횟수의 하드 상한.
+#: 실제로 마우스/키보드를 움직이는 동작이므로 `.env` 값이 커도 이 값으로 잘린다.
+MAX_GUI_STEPS: int = 50
+
 
 def _as_int(raw: str | None, default: int) -> int:
     """문자열 설정값을 int 로 변환한다. 변환 실패 시 기본값."""
@@ -163,6 +167,22 @@ class Settings:
     agent_confidence_threshold: int = 50
     """재검색을 유발하는 신뢰도 기준치 (이 점수 미만이면 재검색)."""
 
+    # --- [10] GUI 자동 조작 루프 ---
+    gui_loop_enabled: bool = True
+    """
+    화면을 보며 판단하는 GUI 자동 조작 루프 사용 여부.
+
+    False 면 Planner 의 계획 문장을 순서대로 실행하는 방식만 사용한다.
+    (LLM 을 쓸 수 없거나, 자동 조작을 아예 막고 싶을 때)
+    """
+
+    gui_max_steps: int = 15
+    """
+    한 실행에서 수행할 GUI 조작 최대 횟수. (폭주 방지 하드 상한)
+
+    화면 인식 → 판단 → 조작 1회를 한 걸음으로 센다.
+    """
+
     # --- 메타 ---
     project_root: Path = PROJECT_ROOT
 
@@ -234,6 +254,12 @@ def load_settings() -> Settings:
         ),
         agent_confidence_threshold=min(
             100, max(0, _as_int(env.get("AGENT_CONFIDENCE_THRESHOLD"), 50))
+        ),
+        # [10] GUI 자동 조작 루프
+        #   조작 횟수는 1~MAX_GUI_STEPS 로 강제한다. (PC 를 건드리는 동작이므로 상한 필수)
+        gui_loop_enabled=_as_bool(env.get("GUI_LOOP_ENABLED"), True),
+        gui_max_steps=min(
+            MAX_GUI_STEPS, max(1, _as_int(env.get("GUI_MAX_STEPS"), 15))
         ),
     )
 

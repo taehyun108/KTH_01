@@ -129,6 +129,18 @@ export default function App() {
         setProgress((prev) => [...prev, `${label} 시작${suffix}`]);
         break;
       }
+      case "gui_action": {
+        // GUI 자동 조작 루프: 조작 한 걸음마다 무엇을 왜 하는지 보여준다.
+        const index = String(payload.index ?? "");
+        const max = String(payload.max_steps ?? "");
+        const summary = String(payload.summary ?? "");
+        const reason = String(payload.reason ?? "");
+        setProgress((prev) => [
+          ...prev,
+          `🖱 화면 조작 ${index}/${max}: ${summary}${reason ? ` — ${reason}` : ""}`,
+        ]);
+        break;
+      }
       case "retry_requested": {
         // 피드백 루프: 근거가 부족해 Retriever 로 되돌아간다.
         const queries = (payload.queries ?? []) as string[];
@@ -321,6 +333,9 @@ export default function App() {
                 {/* 재검색이 일어났을 때만 회차를 표시한다. */}
                 {result.iteration > 1 && (
                   <> · 자료 재검색 <b>{result.iteration}</b>회차</>
+                )}
+                {result.gui_steps > 0 && (
+                  <> · 화면 조작 <b>{result.gui_steps}</b>회</>
                 )}
               </p>
 
