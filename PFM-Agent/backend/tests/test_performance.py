@@ -329,3 +329,100 @@ async def test_concurrent_tool_calls_do_not_interfere(mcp_client: MCPClient) -> 
         assert not result.is_error
         assert result.server == "filesystem"
         assert result.tool == "list_dir"
+
+
+# ============================================================
+# 7. 실제 화면 환경 대응 (실제 디스플레이에서 확인된 문제들)
+# ============================================================
+
+
+def test_gui_env_vars_are_passed_to_servers(monkeypatch: pytest.MonkeyPatch) -> None:
+    """
+    화면 관련 환경변수가 MCP 서버 프로세스로 전달되어야 한다.
+
+    MCP SDK 의 기본 환경변수 허용 목록은 DISPLAY 를 걸러낸다.
+    그대로 두면 부모에서는 캡처가 되는데 **screen 서버에서만 실패**한다.
+    (실제 가상 디스플레이에서 확인된 문제)
+    """
+    from app.mcp_client.client import GUI_ENV_VARS, build_server_env
+
+    monkeypatch.setenv("DISPLAY", ":99")
+    monkeypatch.setenv("XAUTHORITY", "/tmp/xauth-test")
+
+    env = build_server_env()
+
+    assert env.get("DISPLAY") == ":99", "DISPLAY 가 서버로 전달되지 않았다"
+    assert env.get("XAUTHORITY") == "/tmp/xauth-test"
+    # 목록에 X11 / Wayland / Windows 세션 변수가 모두 들어 있어야 한다.
+    assert "DISPLAY" in GUI_ENV_VARS
+    assert "WAYLAND_DISPLAY" in GUI_ENV_VARS
+    assert "SESSIONNAME" in GUI_ENV_VARS
+
+
+def test_gui_env_vars_absent_are_not_injected(monkeypatch: pytest.MonkeyPatch) -> None:
+    """설정되지 않은 환경변수를 빈 값으로 넣지 않아야 한다."""
+    from app.mcp_client.client import build_server_env
+
+    monkeypatch.delenv("DISPLAY", raising=False)
+    monkeypatch.delenv("WAYLAND_DISPLAY", raising=False)
+
+    env = build_server_env()
+
+    assert "DISPLAY" not in env
+    assert "WAYLAND_DISPLAY" not in env
+    # 기본 주입 변수는 그대로 있어야 한다.
+    assert env["PYTHONUTF8"] == "1"
+    assert env["PYTHONDONTWRITEBYTECODE"] == "1"
+
+
+def test_pyautogui_systemexit_becomes_tool_error(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """
+    PyAutoGUI 로드가 sys.exit() 로 죽어도 MCP 서버가 살아 있어야 한다.
+
+    리눅스에서 tkinter 가 없으면 pyautogui 는 ImportError 가 아니라
+    SystemExit 를 낸다. 이것을 놓치면 **서버 프로세스가 종료**되어
+    도구 하나가 아니라 전체 기능이 사라진다.
+    """
+    import builtins
+
+    from app.mcp_servers.automation_server import _load_pyautogui
+    from app.mcp_servers.base_server import MCPToolError
+
+    real_import = builtins.__import__
+
+    def fake_import(name: str, *args: Any, **kwargs: Any) -> Any:
+        if name == "pyautogui":
+            raise SystemExit("tkinter 없음")
+        return real_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", fake_import)
+
+    with pytest.raises(MCPToolError) as exc_info:
+        _load_pyautogui()
+
+    message = str(exc_info.value)
+    assert "화면이 없는 환경" in message
+    assert "SystemExit" in message
+
+
+def test_pyautogui_keyboard_interrupt_is_not_swallowed(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """사용자 중단(Ctrl+C)은 삼키지 않고 그대로 전달해야 한다."""
+    import builtins
+
+    from app.mcp_servers.automation_server import _load_pyautogui
+
+    real_import = builtins.__import__
+
+    def fake_import(name: str, *args: Any, **kwargs: Any) -> Any:
+        if name == "pyautogui":
+            raise KeyboardInterrupt
+        return real_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", fake_import)
+
+    with pytest.raises(KeyboardInterrupt):
+        _load_pyautogui()

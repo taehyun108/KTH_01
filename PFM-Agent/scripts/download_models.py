@@ -39,6 +39,9 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 MODELS_DIR = PROJECT_ROOT / "models"
 
+# screen_server 의 실제 모델 경로를 재사용하기 위해 backend 를 import 경로에 넣는다.
+sys.path.insert(0, str(PROJECT_ROOT / "backend"))
+
 #: 다운로드 캐시도 프로젝트 안에 둔다. (USB 이동 시 함께 따라가도록)
 CACHE_DIR = MODELS_DIR / ".cache"
 
@@ -46,8 +49,8 @@ CACHE_DIR = MODELS_DIR / ".cache"
 EMBEDDING_MODEL_ID = "BAAI/bge-m3"
 EMBEDDING_DIR = MODELS_DIR / "bge-m3"
 
-#: OCR 모델 저장 위치
-OCR_DIR = MODELS_DIR / "omniparser"
+#: OCR 모델 저장 위치 (screen_server.OCR_MODEL_DIR 과 반드시 일치해야 한다)
+OCR_DIR = MODELS_DIR / "ocr"
 
 #: 모델이 준비된 것으로 판단할 파일 확장자
 MODEL_SUFFIXES = (".bin", ".safetensors", ".onnx", ".pdmodel", ".pdiparams")
@@ -156,10 +159,16 @@ def download_embedding_model() -> bool:
 
 def download_ocr_model() -> bool:
     """
-    PaddleOCR 한국어 모델을 내려받는다.
+    PaddleOCR 한국어 모델을 **프로젝트 폴더 안으로** 내려받는다.
 
-    PaddleOCR 은 최초 호출 시 모델을 자동으로 받으므로,
-    여기서 한 번 호출해 캐시를 프로젝트 안에 채워둔다.
+    ⚠️ 경로를 명시해야 하는 이유
+    ---------------------------
+    PaddleOCR 은 모델 경로를 지정하지 않으면 사용자 홈 폴더(`~/.paddleocr`)에
+    저장한다. 그러면 USB 로 프로젝트를 옮겨도 모델이 따라오지 않아,
+    폐쇄망 PC 에서 화면 인식이 동작하지 않는다.
+
+    그래서 `screen_server.ocr_model_dirs()` 가 실제로 사용하는 것과
+    **똑같은 경로**를 넘겨 그 자리에 받도록 한다.
 
     Returns:
         성공 여부
@@ -171,23 +180,29 @@ def download_ocr_model() -> bool:
     print("  글자 인식(OCR) 모델을 내려받습니다. (약 20MB)")
 
     try:
-        from paddleocr import PaddleOCR
-    except ImportError:
-        print("  [!] paddleocr 가 설치되어 있지 않습니다.")
-        print("      해결: uv sync --extra vision 을 먼저 실행하세요.")
+        # 실행 시점에 실제로 쓰이는 경로를 그대로 가져온다.
+        # (두 곳에 경로를 따로 적어 두면 어긋나기 쉽다)
+        from app.mcp_servers.screen_server import build_ocr_engine, ocr_model_dirs
+    except ImportError as exc:
+        print(f"  [!] 화면 인식 모듈을 불러오지 못했습니다: {exc}")
         return False
 
     try:
-        OCR_DIR.mkdir(parents=True, exist_ok=True)
-        # PaddleOCR 의 모델 저장 위치를 프로젝트 안으로 지정한다.
-        os.environ["PADDLE_OCR_BASE_DIR"] = str(OCR_DIR)
-        PaddleOCR(lang="korean", show_log=False)
+        for path in ocr_model_dirs().values():
+            Path(path).mkdir(parents=True, exist_ok=True)
+        # 엔진을 한 번 만들면 지정한 경로로 모델을 내려받는다.
+        build_ocr_engine("korean")
     except Exception as exc:  # noqa: BLE001
         print(f"  [!] 글자 인식 모델을 내려받지 못했습니다: {exc}")
         print("      인터넷 연결을 확인하세요. (사내망에서는 실패가 정상입니다)")
         return False
 
-    print("  [완료]")
+    if not has_model_files(OCR_DIR):
+        print(f"  [!] 모델이 {OCR_DIR} 에 저장되지 않았습니다.")
+        print("      PaddleOCR 버전이 모델 경로 지정을 지원하는지 확인하세요.")
+        return False
+
+    print(f"  [완료] {OCR_DIR} 에 저장했습니다.")
     return True
 
 

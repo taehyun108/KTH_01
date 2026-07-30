@@ -252,7 +252,7 @@ def check_models(result: CheckResult) -> None:
             "키워드 검색으로 동작하며 정확도가 낮을 수 있습니다."
         )
 
-    if not has_model(PROJECT_ROOT / "models" / "omniparser"):
+    if not has_model(PROJECT_ROOT / "models" / "ocr"):
         result.warn(
             "글자 인식(OCR) 모델이 없습니다. 화면 인식 기능을 쓸 수 없습니다."
         )

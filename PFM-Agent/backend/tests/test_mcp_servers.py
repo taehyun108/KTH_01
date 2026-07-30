@@ -543,3 +543,70 @@ async def test_registry_summary_is_readable(mcp_client: MCPClient) -> None:
     assert "MCP 도구 15개 등록됨" in summary
     assert "automation (승인 필요)" in summary
     assert NAME_SEPARATOR not in summary  # 표시용은 점 표기를 사용
+
+
+# ============================================================
+# stdout 보호 (JSON-RPC 채널 오염 방지)
+# ============================================================
+
+
+def test_protect_stdout_redirects_prints(capsys: pytest.CaptureFixture[str]) -> None:
+    """
+    보호 구간 안의 stdout 출력이 stderr 로 가야 한다.
+
+    MCP 의 stdout 은 JSON-RPC 전용 통신선이다. 외부 라이브러리(PaddleOCR 등)가
+    여기에 진행 상황을 찍으면 **연결 자체가 깨진다.**
+    (실제로 "Failed to parse JSONRPC message from server" 로 확인된 문제)
+    """
+    from app.mcp_servers.base_server import protect_stdout
+
+    with protect_stdout():
+        print("download https://example.com/model.tar")
+
+    captured = capsys.readouterr()
+    assert captured.out == "", "stdout 이 오염되었다 (JSON-RPC 깨짐)"
+    assert "download https://example.com/model.tar" in captured.err
+
+
+def test_protect_stdout_restores_after_exit(capsys: pytest.CaptureFixture[str]) -> None:
+    """보호 구간을 벗어나면 stdout 이 원래대로 돌아와야 한다."""
+    from app.mcp_servers.base_server import protect_stdout
+
+    with protect_stdout():
+        print("안쪽")
+    print("바깥쪽")
+
+    captured = capsys.readouterr()
+    assert "바깥쪽" in captured.out
+    assert "안쪽" not in captured.out
+
+
+def test_protect_stdout_restores_on_exception(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """예외가 나도 stdout 을 반드시 복구해야 한다."""
+    from app.mcp_servers.base_server import protect_stdout
+
+    with pytest.raises(RuntimeError), protect_stdout():
+        print("실패 직전 출력")
+        raise RuntimeError("도구 실패")
+
+    print("복구 확인")
+    captured = capsys.readouterr()
+    assert "복구 확인" in captured.out
+    assert "실패 직전 출력" not in captured.out
+
+
+async def test_tool_call_output_does_not_pollute_protocol(
+    mcp_client: MCPClient,
+) -> None:
+    """
+    도구가 실제로 stdout 에 출력해도 JSON-RPC 응답이 정상이어야 한다.
+
+    보호막이 실제 서버 프로세스에서 동작하는지 확인한다.
+    (filesystem 도구를 연달아 호출해 통신이 계속 살아 있는지 본다)
+    """
+    for _ in range(3):
+        result = await mcp_client.call_tool("filesystem", "list_dir", {"path": "."})
+        assert not result.is_error
+        assert result.structured is not None

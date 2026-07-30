@@ -25,6 +25,7 @@ import argparse
 import asyncio
 import json
 import logging
+import os
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -145,6 +146,35 @@ def load_mcp_config(config_path: Path | None = None) -> dict[str, MCPServerConfi
     return configs
 
 
+#: 화면/입력 기능에 필요해 **반드시 서버 프로세스로 물려줘야 하는** 환경변수.
+#:
+#: ⚠️ 왜 필요한가 (실제 화면에서 확인된 문제)
+#: MCP SDK 의 `get_default_environment()` 는 보안을 위해 환경변수를 좁은
+#: 허용 목록(POSIX: HOME/LOGNAME/PATH/SHELL/TERM/USER)으로 걸러 넘긴다.
+#: 그 결과 `DISPLAY` 가 사라져 **screen / automation 서버가 화면을 볼 수 없다.**
+#: (부모 프로세스에서는 캡처가 되는데 MCP 서버에서만 실패하는 형태로 나타난다)
+#:
+#: 값이 실제로 설정되어 있는 것만 물려주므로, 해당 OS 에 없는 변수는 무시된다.
+GUI_ENV_VARS: tuple[str, ...] = (
+    # --- Linux / macOS (X11 · Wayland) ---
+    "DISPLAY",
+    "XAUTHORITY",
+    "WAYLAND_DISPLAY",
+    "XDG_RUNTIME_DIR",
+    "XDG_SESSION_TYPE",
+    "DBUS_SESSION_BUS_ADDRESS",
+    # --- Windows (세션/시스템 경로 — 일부 GUI 라이브러리가 참조한다) ---
+    "SESSIONNAME",
+    "windir",
+    "COMSPEC",
+    "PROGRAMFILES",
+    "PROGRAMFILES(X86)",
+    "PROGRAMDATA",
+    "NUMBER_OF_PROCESSORS",
+    "OS",
+)
+
+
 def build_server_env() -> dict[str, str]:
     """
     MCP 서버 프로세스에 전달할 환경변수를 만든다.
@@ -152,8 +182,16 @@ def build_server_env() -> dict[str, str]:
     - PYTHONPATH: `-m app.mcp_servers.xxx` 해석용
     - PYTHONUTF8 / PYTHONIOENCODING: 한글 Windows 에서 인코딩 깨짐 방지
     - PYTHONDONTWRITEBYTECODE: USB 에 __pycache__ 를 남기지 않음
+    - GUI_ENV_VARS: 화면 캡처 / 마우스 조작에 필요한 세션 환경변수
     """
     env = dict(get_default_environment())
+
+    # 화면 관련 변수를 되살린다. (기본 허용 목록에서 걸러지기 때문)
+    for name in GUI_ENV_VARS:
+        value = os.environ.get(name)
+        if value:
+            env[name] = value
+
     env.update(
         {
             "PYTHONPATH": str(BACKEND_DIR),

@@ -51,7 +51,7 @@ flowchart TB
     subgraph LOCAL["📦 로컬 리소스 (오프라인)"]
         R1["ChromaDB<br/>(임베디드)"]
         R2["BGE-M3<br/>(로컬 임베딩)"]
-        R3["OmniParser / PaddleOCR<br/>(로컬 비전)"]
+        R3["PaddleOCR<br/>(로컬 글자 인식)"]
     end
     S4 --> R1 & R2
     S2 --> R3
@@ -183,7 +183,32 @@ uv run python ../scripts/benchmark.py     # LLM 없이 동작 (폐쇄망 OK)
 | 이벤트 보관 실행 수 | 50건 | 가장 오래된 실행 기록 버림 |
 | 실행 기록(RunManager) | 50건 | **끝난** 실행부터 버림 (진행 중인 실행은 보존) |
 
-### 7. 안전장치 (Safety)
+### 7. 실제 화면 환경에서 확인된 결함 (수정 완료)
+
+개발 컨테이너에 **가상 디스플레이(Xvfb)를 띄워 실제로 화면을 캡처하며** 검증한
+결과, 코드만 읽어서는 드러나지 않는 결함 4건을 찾아 고쳤다.
+모두 **회사 PC 에서 실제로 기능이 죽는** 문제였다.
+
+| # | 증상 | 원인 | 수정 |
+|:-:|---|---|---|
+| 1 | 부모 프로세스는 캡처되는데 **screen 서버만 실패** | MCP SDK 가 환경변수를 좁은 허용 목록으로 걸러 `DISPLAY` 를 제거 | `GUI_ENV_VARS` 를 명시적으로 서버에 전달 (`client.py`) |
+| 2 | OCR 실행 순간 **MCP 연결 자체가 끊김** (`Failed to parse JSONRPC message`) | PaddleOCR 이 진행 상황을 **stdout(=JSON-RPC 통신선)** 에 출력 | 도구 실행 구간에 `protect_stdout()` 보호막 (`base_server.py`) |
+| 3 | 폐쇄망에서 **OCR 이 영구히 동작 불가** | 모델이 홈 폴더(`~/.paddleocr`)에 저장 → USB 로 안 따라옴. `PADDLE_OCR_BASE_DIR` 는 **존재하지 않는 환경변수**였음 | det/rec/cls 경로를 **프로젝트 내부**로 명시 (`ocr_model_dirs()`) |
+| 4 | 리눅스에서 조작 시도 시 **서버 프로세스가 종료** | PyAutoGUI 가 tkinter 없으면 `ImportError` 가 아니라 `sys.exit()` → `except Exception` 으로 못 잡음 | `BaseException` 까지 붙잡아 한글 안내로 변환 |
+
+추가로 **성능 결함 1건**: OCR 엔진을 호출마다 새로 생성(모델 재적재, 수 초)하던
+것을 캐시하도록 고쳤다. 또 `vision` 확장에 `paddlepaddle` 이 빠져 있어
+`uv sync --extra vision` 이 **설치는 성공하고 실행만 실패**하던 문제도 수정했다.
+
+회사 PC 에서 화면 관련 기능을 한 번에 점검하려면:
+
+```bash
+cd backend
+uv run python ../scripts/verify_display.py               # 읽기 전용 점검
+uv run python ../scripts/verify_display.py --allow-input # 마우스 실제 이동까지 확인
+```
+
+### 8. 안전장치 (Safety)
 - **Human-in-the-loop**: 위험 액션은 사용자 승인(Approval Gate) 후 실행
 - **Kill Switch(ESC)**: 어떤 상황에서도 전역 단축키로 즉시 중단
 - **Undo**: 액션 스택 기반 되돌리기
@@ -219,7 +244,7 @@ PFM-Agent/
 │       └── config/            ← settings.py + whitelist.json
 │
 ├── frontend/                  ← Tauri + React + shadcn/ui
-├── models/                    ← bge-m3 / omniparser (로컬 모델)
+├── models/                    ← bge-m3 / ocr (로컬 모델, 프로젝트 내부)
 ├── data/  logs/  output/      ← 런타임 산출물 (git 미추적)
 ```
 
@@ -239,18 +264,20 @@ PFM-Agent/
 | 8 | Report Generator (Word / PPT) | ✅ |
 | 9 | Frontend (Tauri + React) | ✅ |
 | 10 | USB 배포 스크립트 + 모델 다운로드 | ✅ |
-| 11 | 최종 검증 체크리스트 (13항목) | ✅ |
+| 11 | 최종 검증 체크리스트 (14항목) | ✅ |
 | 12 | 피드백 루프 (Verifier → Retriever 재검색) | ✅ |
 | 13 | **GUI 자동 조작 루프** (화면 인식 → 판단 → 조작 반복) | ✅ |
+| 14 | 실제 화면(가상 디스플레이) 검증 + 결함 4건 수정 | ✅ |
 
 검증 명령:
 ```bash
 cd backend
-uv run python -m pytest tests -q             # 단위/통합 테스트 (312개)
+uv run python -m pytest tests -q             # 단위/통합 테스트 (325개)
 uv run python -m pytest tests/test_feedback_loop.py -q  # 피드백 루프 / 무한 루프 방지
 uv run python -m pytest tests/test_performance.py -q    # 성능·메모리 상한
-uv run python ../scripts/final_check.py      # 최종 체크리스트 13항목
+uv run python ../scripts/final_check.py      # 최종 체크리스트 14항목
 uv run python ../scripts/benchmark.py        # 성능 측정 (LLM 불필요)
+uv run python ../scripts/verify_display.py   # 실제 화면 기능 검증 (회사 PC 에서)
 uv run python -m app.mcp_client --healthcheck   # 도구 서버 상태
 ```
 
@@ -287,7 +314,7 @@ run_all.bat  더블클릭
 |:---:|:---|
 | LLM | P-GPT / Claude / GPT-4o (Adapter로 스위칭) |
 | **도구 프로토콜** | **MCP (JSON-RPC over stdio) — 자체 서버 구현** |
-| Vision/OCR | OmniParser, PaddleOCR (로컬 모델) |
+| Vision/OCR | PaddleOCR (로컬 모델, 프로젝트 내부 저장) |
 | RAG | ChromaDB + BGE-M3 (로컬) |
 | PC 자동화 | PyAutoGUI, Playwright, pywinauto |
 | Frontend | Tauri + React + TypeScript + shadcn/ui |

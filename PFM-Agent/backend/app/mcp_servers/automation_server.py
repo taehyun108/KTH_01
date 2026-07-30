@@ -182,6 +182,15 @@ def _load_pyautogui() -> Any:
     """
     PyAutoGUI 를 지연 로드한다.
 
+    ⚠️ BaseException 까지 잡는 이유 (실제 환경에서 확인된 문제)
+    ---------------------------------------------------------
+    PyAutoGUI 는 리눅스에서 tkinter 가 없으면 **ImportError 가 아니라
+    `sys.exit()` 로 죽는다.** (내부 의존 모듈 mouseinfo 의 동작)
+    `except Exception` 만 두면 SystemExit 가 그대로 위로 전파되어
+    **MCP 서버 프로세스 자체가 종료된다.**
+    도구 하나를 못 쓰는 것과 서버가 죽는 것은 전혀 다른 문제이므로,
+    여기서 반드시 붙잡아 안내 메시지로 바꾼다.
+
     Raises:
         MCPToolError: 설치되지 않았거나 화면이 없는 환경인 경우
     """
@@ -192,11 +201,14 @@ def _load_pyautogui() -> Any:
             "PC 자동화 라이브러리(PyAutoGUI)가 설치되어 있지 않습니다.\n"
             "  해결: first_time_setup.bat 를 다시 실행하세요."
         ) from exc
-    except Exception as exc:
+    except KeyboardInterrupt:
+        raise  # 사용자 중단은 그대로 전달한다.
+    except BaseException as exc:  # noqa: BLE001 - SystemExit 포함해 반드시 붙잡는다
         raise MCPToolError(
             "화면이 없는 환경에서는 PC 조작을 할 수 없습니다.\n"
             "  (원격 접속이나 서버 환경에서는 마우스/키보드 조작이 불가능합니다)\n"
-            f"  (상세: {exc})"
+            "  리눅스라면 화면 라이브러리(python3-tk)가 필요할 수 있습니다.\n"
+            f"  (상세: {type(exc).__name__}: {exc})"
         ) from exc
 
     # 화면 좌상단으로 마우스를 옮기면 자동화가 즉시 중단된다. (비상 탈출)

@@ -132,9 +132,15 @@ class Settings:
     rag_top_k: int = 5
 
     # --- [4] Vision / OCR ---
-    omniparser_model_path: Path = field(
-        default_factory=lambda: PROJECT_ROOT / "models" / "omniparser"
+    ocr_model_path: Path = field(
+        default_factory=lambda: PROJECT_ROOT / "models" / "ocr"
     )
+    """
+    OCR 모델 경로. 하위에 det / rec / cls 폴더가 들어간다.
+
+    ⚠️ 반드시 프로젝트 폴더 내부여야 한다. PaddleOCR 기본값은 사용자 홈
+    폴더(~/.paddleocr)라서 USB 로 옮기면 모델이 따라오지 않는다.
+    """
     ocr_lang: str = "korean"
 
     # --- [5] 웹 검색 (선택 기능) ---
@@ -230,7 +236,7 @@ def load_settings() -> Settings:
         chroma_db_dir=_resolve_path(get("CHROMA_DB_DIR", "./data/chroma")),
         rag_top_k=_as_int(env.get("RAG_TOP_K"), 5),
         # [4] Vision / OCR
-        omniparser_model_path=_resolve_path(get("OMNIPARSER_MODEL_PATH", "./models/omniparser")),
+        ocr_model_path=_resolve_path(get("OCR_MODEL_PATH", "./models/ocr")),
         ocr_lang=get("OCR_LANG", "korean"),
         # [5] 웹 검색
         web_search_enabled=_as_bool(env.get("WEB_SEARCH_ENABLED"), False),

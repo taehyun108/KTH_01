@@ -660,6 +660,57 @@ def check_gui_loop(checklist: Checklist) -> None:
     )
 
 
+def check_stdout_protection(checklist: Checklist) -> None:
+    """14. 외부 라이브러리 출력이 JSON-RPC 통신을 깨뜨리지 않음"""
+    import contextlib
+    import io
+
+    from app.mcp_client.client import GUI_ENV_VARS, build_server_env
+    from app.mcp_servers.base_server import protect_stdout
+
+    problems: list[str] = []
+
+    # (1) 보호 구간의 stdout 출력이 stderr 로 가는가
+    out, err = io.StringIO(), io.StringIO()
+    with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+        with protect_stdout():
+            print("download https://example.com/model.tar")
+    if out.getvalue().strip():
+        problems.append("stdout 이 오염됨 (JSON-RPC 깨짐 위험)")
+    if "model.tar" not in err.getvalue():
+        problems.append("출력이 stderr 로 전달되지 않음")
+
+    # (2) 보호 구간을 벗어나면 복구되는가
+    out2 = io.StringIO()
+    with contextlib.redirect_stdout(out2):
+        with protect_stdout():
+            pass
+        print("복구")
+    if "복구" not in out2.getvalue():
+        problems.append("보호 구간 종료 후 stdout 이 복구되지 않음")
+
+    # (3) 화면 환경변수가 서버로 전달되는가 (DISPLAY 가 걸러지면 캡처 불가)
+    os.environ["DISPLAY"] = os.environ.get("DISPLAY", ":0")
+    if build_server_env().get("DISPLAY") != os.environ["DISPLAY"]:
+        problems.append("DISPLAY 가 MCP 서버로 전달되지 않음 (화면 캡처 불가)")
+    for required in ("DISPLAY", "WAYLAND_DISPLAY", "SESSIONNAME"):
+        if required not in GUI_ENV_VARS:
+            problems.append(f"{required} 가 전달 목록에 없음")
+
+    checklist.add(
+        CheckItem(
+            name="외부 출력이 JSON-RPC 통신을 깨뜨리지 않음",
+            passed=not problems,
+            detail=(
+                "stdout 보호막 동작, 종료 후 복구 확인, "
+                "화면 환경변수 전달 확인"
+                if not problems
+                else "; ".join(problems)
+            ),
+        )
+    )
+
+
 # ============================================================
 # 실행
 # ============================================================
@@ -688,6 +739,7 @@ def main() -> int:
         check_mcp_guide,
         check_feedback_loop,
         check_gui_loop,
+        check_stdout_protection,
     )
 
     for check in checks:

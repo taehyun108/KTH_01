@@ -237,3 +237,37 @@ print("파일 읽는 중...")
 # ✅ 올바른 방법
 self.logger.info("파일 읽는 중: %s", path)
 ```
+
+#### ⚠️ 외부 라이브러리의 출력도 위험하다 (실제로 겪은 문제)
+
+내 코드에서 `print()` 를 안 쓰는 것만으로는 부족하다. **호출하는 라이브러리가
+stdout 에 출력하면 똑같이 통신이 깨진다.**
+
+실제로 PaddleOCR 이 모델 다운로드 진행 상황을 stdout 에 찍어서 이런 오류가 났다.
+
+```
+Failed to parse JSONRPC message from server
+Invalid JSON: expected value at line 1 column 1
+(input_value='download https://paddleocr...tar')
+```
+
+도구 하나가 실패하는 게 아니라 **서버와의 연결 전체가 끊긴다.**
+
+그래서 `base_server.py` 가 도구 실행 구간을 `protect_stdout()` 으로 감싸
+stdout 출력을 자동으로 stderr 로 돌린다. 새 도구를 추가할 때 따로 신경 쓸
+필요는 없지만, **이 보호막을 제거하면 안 된다.**
+
+```python
+# base_server.py — 모든 도구 호출에 자동 적용됨
+with protect_stdout():
+    result = await self.handle_call(name, arguments)
+```
+
+#### ⚠️ 화면/입력이 필요한 서버는 환경변수를 확인할 것
+
+MCP SDK 는 보안을 위해 환경변수를 좁은 허용 목록만 서버로 넘긴다
+(POSIX: `HOME/LOGNAME/PATH/SHELL/TERM/USER`). 그래서 `DISPLAY` 가 사라지고,
+**부모 프로세스에서는 화면 캡처가 되는데 MCP 서버에서만 실패**한다.
+
+`client.py` 의 `GUI_ENV_VARS` 에 필요한 변수를 넣어 두었다.
+새로 필요한 세션 변수가 생기면 이 목록에 추가한다.

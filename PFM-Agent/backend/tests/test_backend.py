@@ -19,6 +19,7 @@ LLM 은 네트워크 없이 검증하기 위해 가짜(Fake) 클라이언트를 
 from __future__ import annotations
 
 import asyncio
+import contextlib
 from collections.abc import AsyncIterator
 from pathlib import Path
 from typing import Any
@@ -388,24 +389,52 @@ async def test_kill_unknown_run_returns_false(runtime: AgentRuntime) -> None:
 # ============================================================
 
 
-async def test_executor_blocked_without_approval(runtime: AgentRuntime) -> None:
+async def test_executor_never_acts_without_approval(runtime: AgentRuntime) -> None:
     """
-    🔴 안전 검증: 화면 인식이 불가능한 상태에서는
-    Executor 가 PC 조작을 시도조차 하지 않아야 한다.
-    (엉뚱한 좌표 클릭 방지)
+    🔴 안전 검증: 승인 없이는 PC 조작이 **성공하지 않아야** 한다.
+
+    이 검증은 실행 환경에 의존하지 않아야 한다.
+      - 화면이 없는 PC  → 조작을 시도조차 하지 않는다
+      - 화면이 있는 PC  → 시도해도 승인 게이트가 막는다
+    두 경우 모두 결론은 같다: **조작이 실제로 일어나지 않는다.**
+
+    (이전에는 화면 없는 환경의 안내 문구를 그대로 검증해서,
+     화면이 있는 회사 PC 에서는 실패하는 테스트였다)
     """
-    state = initial_state("test-approval-1", "브라우저를 열고 검색해줘")
-    current_run_id.set("test-approval-1")
-    runtime.register_run("test-approval-1")
+    run_id = "test-approval-1"
+    state = initial_state(run_id, "브라우저를 열고 검색해줘")
+    current_run_id.set(run_id)
+    runtime.register_run(run_id)
 
-    result = await run_graph(runtime, state)
+    # 승인 요청이 오면 **즉시 거절**한다.
+    # (아무도 응답하지 않으면 승인 대기 타임아웃까지 5분간 멈추므로,
+    #  화면이 있는 환경에서도 테스트가 빠르고 결정적으로 끝나게 한다)
+    async def deny_everything() -> None:
+        while True:
+            await asyncio.sleep(0.02)
+            for approval in runtime.pending_approvals:
+                runtime.resolve_approval(approval.approval_id, False)
 
+    denier = asyncio.create_task(deny_everything())
+    try:
+        result = await run_graph(runtime, state)
+    finally:
+        denier.cancel()
+        with contextlib.suppress(asyncio.CancelledError):
+            await denier
+
+    # 승인 없이 성공한 조작이 하나도 없어야 한다.
+    automation_calls = [
+        entry for entry in result["tool_log"] if entry["tool"].startswith("automation.")
+    ]
+    assert all(not entry["ok"] for entry in automation_calls), (
+        f"승인 없이 조작이 성공했습니다: {automation_calls}"
+    )
+
+    # 화면을 볼 수 없는 환경이라면 조작을 시도조차 하지 않아야 한다.
     executions_text = " ".join(result["executions"])
-    assert "화면 상태를 확인할 수 없어" in executions_text
-
-    # automation 도구가 호출되지 않았어야 한다.
-    used_tools = {entry["tool"] for entry in result["tool_log"]}
-    assert not any(tool.startswith("automation.") for tool in used_tools)
+    if "화면 상태를 확인할 수 없어" in executions_text:
+        assert not automation_calls, "화면을 못 보는데 조작을 시도했습니다"
 
     _cleanup_reports([result.get("report_path", "")])
 

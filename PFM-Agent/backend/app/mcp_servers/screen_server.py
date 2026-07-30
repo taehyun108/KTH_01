@@ -55,7 +55,9 @@ DEFAULT_ELEMENT_LIMIT: int = 60
 MAX_ELEMENT_LIMIT: int = 200
 
 #: OCR 모델 경로 (STEP 10 에서 다운로드)
-OCR_MODEL_DIR: Path = PROJECT_ROOT / "models" / "omniparser"
+#: 하위에 det / rec / cls 폴더가 들어간다. **반드시 프로젝트 내부**여야 한다.
+#: (홈 폴더에 두면 USB 로 옮길 때 따라오지 않아 폐쇄망에서 OCR 이 죽는다)
+OCR_MODEL_DIR: Path = PROJECT_ROOT / "models" / "ocr"
 
 
 # ============================================================
@@ -247,15 +249,34 @@ def grab_screen(region: tuple[int, int, int, int] | None = None) -> Any:
         raise _capture_error(exc) from exc
 
 
-def run_ocr(image: Any, lang: str = "korean") -> list[dict[str, Any]]:
+def ocr_model_dirs() -> dict[str, str]:
     """
-    이미지에서 텍스트를 인식한다. (PaddleOCR)
+    PaddleOCR 에 넘길 **프로젝트 내부** 모델 경로를 만든다.
 
-    Returns:
-        [{"text": str, "bbox": [x1, y1, x2, y2], "confidence": float}, ...]
+    ⚠️ 왜 명시적으로 넘기는가 (포터블 / 폐쇄망 필수)
+    ------------------------------------------------
+    PaddleOCR 은 모델 경로를 지정하지 않으면 **사용자 홈 폴더**(`~/.paddleocr`)
+    에서 모델을 찾고, 없으면 **인터넷에서 내려받으려 한다.**
+    그러면 두 가지가 깨진다.
+
+      1. USB 로 폴더째 옮겨도 모델이 따라오지 않는다. (홈 폴더에 있으므로)
+      2. 폐쇄망 PC 에서는 다운로드가 막혀 화면 인식이 아예 동작하지 않는다.
+
+    그래서 det / rec / cls 모델 경로를 **항상 프로젝트 폴더 하위로 명시**한다.
+    """
+    return {
+        "det_model_dir": str(OCR_MODEL_DIR / "det"),
+        "rec_model_dir": str(OCR_MODEL_DIR / "rec"),
+        "cls_model_dir": str(OCR_MODEL_DIR / "cls"),
+    }
+
+
+def build_ocr_engine(lang: str = "korean") -> Any:
+    """
+    PaddleOCR 엔진을 만든다. (모델 경로를 프로젝트 내부로 고정)
 
     Raises:
-        MCPToolError: OCR 을 사용할 수 없는 경우
+        MCPToolError: OCR 라이브러리를 쓸 수 없는 경우
     """
     try:
         from paddleocr import PaddleOCR
@@ -266,15 +287,47 @@ def run_ocr(image: Any, lang: str = "korean") -> list[dict[str, Any]]:
             "  (폐쇄망에서는 담당자가 모델이 포함된 USB 를 전달해야 합니다)"
         ) from exc
 
+    return PaddleOCR(lang=lang, show_log=False, **ocr_model_dirs())
+
+
+#: 언어별 OCR 엔진 캐시.
+#: PaddleOCR 생성은 **모델 파일을 읽어 들이는 무거운 작업**(수 초)이므로
+#: 호출마다 새로 만들면 화면 인식이 극단적으로 느려진다. 한 번만 만들어 재사용한다.
+_ocr_engines: dict[str, Any] = {}
+
+
+def get_ocr_engine(lang: str = "korean") -> Any:
+    """캐시된 OCR 엔진을 반환한다. (없으면 만들어 캐시)"""
+    engine = _ocr_engines.get(lang)
+    if engine is None:
+        engine = build_ocr_engine(lang)
+        _ocr_engines[lang] = engine
+    return engine
+
+
+def run_ocr(image: Any, lang: str = "korean") -> list[dict[str, Any]]:
+    """
+    이미지에서 텍스트를 인식한다. (PaddleOCR)
+
+    Returns:
+        [{"text": str, "bbox": [x1, y1, x2, y2], "confidence": float}, ...]
+
+    Raises:
+        MCPToolError: OCR 을 사용할 수 없는 경우
+    """
+    engine = get_ocr_engine(lang)
+
     try:
         import numpy as np
 
-        engine = PaddleOCR(lang=lang, show_log=False)
         result = engine.ocr(np.array(image), cls=True)
     except Exception as exc:
         raise MCPToolError(
             f"글자 인식에 실패했습니다: {exc}\n"
-            f"  모델 파일이 {to_relative(OCR_MODEL_DIR)} 에 있는지 확인하세요."
+            f"  모델 파일이 {to_relative(OCR_MODEL_DIR)} 아래 "
+            f"det / rec / cls 폴더에 있는지 확인하세요.\n"
+            f"  (인터넷 되는 PC 에서 `python scripts/download_models.py` 로 받아 "
+            f"models 폴더째 USB 로 옮기면 됩니다)"
         ) from exc
 
     items: list[dict[str, Any]] = []

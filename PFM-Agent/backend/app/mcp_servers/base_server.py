@@ -27,15 +27,53 @@ PFM-Agent 내부 MCP 서버 베이스 클래스.
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import logging
 import sys
 from abc import ABC, abstractmethod
+from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
 
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import TextContent, Tool
+
+
+@contextlib.contextmanager
+def protect_stdout() -> Iterator[None]:
+    """
+    실행 중 `stdout` 출력을 `stderr` 로 돌린다. (JSON-RPC 채널 보호)
+
+    ⚠️ 왜 필요한가 (실제 OCR 실행에서 확인된 문제)
+    ----------------------------------------------
+    MCP 서버의 stdout 은 **JSON-RPC 전용 통신선**이다. 여기에 다른 글자가
+    섞이면 통신이 깨진다. 우리 코드는 `print()` 를 쓰지 않지만,
+    **외부 라이브러리는 마음대로 stdout 에 출력한다.**
+
+    실제로 PaddleOCR 은 모델 다운로드 진행 상황과 로그를 stdout 에 찍고,
+    그 결과 클라이언트에서 이런 오류가 발생했다.
+
+        Failed to parse JSONRPC message from server
+        Invalid JSON: expected value at line 1 column 1
+        (input_value='download https://paddleocr...tar')
+
+    즉 도구 하나가 실패하는 게 아니라 **서버와의 연결 자체가 깨진다.**
+    그래서 도구 실행 구간에는 이 보호막을 반드시 씌운다.
+
+    안전성
+    ------
+    `sys.stdout` **객체만** 바꾸고 파일 디스크립터(fd 1)는 건드리지 않는다.
+    MCP SDK 는 시작 시점에 원래 stdout 스트림을 붙잡아 두므로, 응답 전송은
+    영향을 받지 않는다. (fd 를 바꾸면 동시 응답 전송과 충돌할 수 있다)
+    """
+    try:
+        with contextlib.redirect_stdout(sys.stderr):
+            yield
+    finally:
+        # 버퍼에 남은 내용이 엉뚱한 곳으로 새지 않도록 정리한다.
+        with contextlib.suppress(Exception):
+            sys.stderr.flush()
 
 # ------------------------------------------------------------
 # 프로젝트 루트 (절대경로 하드코딩 금지)
@@ -203,7 +241,10 @@ class BaseMCPServer(ABC):
         @self.server.call_tool()
         async def _call_tool(name: str, arguments: dict[str, Any]) -> Any:
             self.logger.info("도구 호출: %s(%s)", name, arguments)
-            result = await self.handle_call(name, arguments)
+            # 도구 실행 중 발생하는 모든 stdout 출력을 stderr 로 돌린다.
+            # (JSON-RPC 채널 보호 — 아래 protect_stdout 주석 참고)
+            with protect_stdout():
+                result = await self.handle_call(name, arguments)
             return self._normalize_result(result)
 
     @staticmethod

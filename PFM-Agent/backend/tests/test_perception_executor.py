@@ -429,3 +429,110 @@ async def test_unknown_tool_rejected() -> None:
     with pytest.raises(MCPToolError) as excinfo:
         await server.handle_call("shutdown_pc", {})
     assert "도구가 없습니다" in str(excinfo.value)
+
+
+# ============================================================
+# OCR 모델 경로 / 엔진 캐시 (폐쇄망 포터블 검증)
+# ============================================================
+
+
+def test_ocr_model_dirs_are_inside_project() -> None:
+    """
+    OCR 모델 경로가 **프로젝트 폴더 내부**를 가리켜야 한다.
+
+    PaddleOCR 기본값은 사용자 홈 폴더(~/.paddleocr)라서, 경로를 넘기지 않으면
+    USB 로 폴더를 옮길 때 모델이 따라오지 않아 폐쇄망에서 OCR 이 죽는다.
+    """
+    from app.config.settings import PROJECT_ROOT
+    from app.mcp_servers.screen_server import ocr_model_dirs
+
+    dirs = ocr_model_dirs()
+    assert set(dirs) == {"det_model_dir", "rec_model_dir", "cls_model_dir"}
+
+    for key, raw in dirs.items():
+        path = Path(raw).resolve()
+        assert path.is_relative_to(PROJECT_ROOT), (
+            f"{key} 가 프로젝트 밖을 가리킵니다: {path}"
+        )
+        # 홈 폴더를 쓰면 USB 이동 시 모델이 따라오지 않는다.
+        assert ".paddleocr" not in str(path)
+
+
+def test_ocr_model_dirs_match_settings() -> None:
+    """설정값(OCR_MODEL_PATH)과 실제 사용 경로가 어긋나지 않아야 한다."""
+    from app.config.settings import load_settings
+    from app.mcp_servers.screen_server import ocr_model_dirs
+
+    expected = load_settings().ocr_model_path.resolve()
+    for raw in ocr_model_dirs().values():
+        assert Path(raw).resolve().parent == expected
+
+
+def test_ocr_engine_is_cached(monkeypatch: pytest.MonkeyPatch) -> None:
+    """
+    OCR 엔진은 한 번만 만들어 재사용해야 한다.
+
+    PaddleOCR 생성은 모델 파일을 읽는 무거운 작업(수 초)이라,
+    호출마다 새로 만들면 화면 인식이 극단적으로 느려진다.
+    """
+    from app.mcp_servers import screen_server
+
+    built: list[str] = []
+
+    def fake_build(lang: str = "korean") -> object:
+        built.append(lang)
+        return object()
+
+    monkeypatch.setattr(screen_server, "build_ocr_engine", fake_build)
+    monkeypatch.setattr(screen_server, "_ocr_engines", {})
+
+    first = screen_server.get_ocr_engine("korean")
+    second = screen_server.get_ocr_engine("korean")
+
+    assert first is second, "엔진이 매번 새로 만들어지고 있다"
+    assert built == ["korean"], f"엔진 생성이 {len(built)}회 발생했다"
+
+
+def test_ocr_engine_cached_per_language(monkeypatch: pytest.MonkeyPatch) -> None:
+    """언어가 다르면 별도 엔진을 만들어야 한다."""
+    from app.mcp_servers import screen_server
+
+    built: list[str] = []
+    monkeypatch.setattr(
+        screen_server,
+        "build_ocr_engine",
+        lambda lang="korean": (built.append(lang), object())[1],
+    )
+    monkeypatch.setattr(screen_server, "_ocr_engines", {})
+
+    screen_server.get_ocr_engine("korean")
+    screen_server.get_ocr_engine("en")
+    screen_server.get_ocr_engine("korean")
+
+    assert built == ["korean", "en"]
+
+
+def test_ocr_error_message_points_to_project_folder() -> None:
+    """
+    OCR 실패 안내가 **프로젝트 내부 경로**를 알려줘야 한다.
+
+    엉뚱한 폴더를 안내하면 담당자가 모델을 잘못된 곳에 넣게 된다.
+    """
+    from app.mcp_servers import screen_server
+    from app.mcp_servers.base_server import MCPToolError
+
+    class BoomEngine:
+        def ocr(self, *args: object, **kwargs: object) -> None:
+            raise RuntimeError("모델 없음")
+
+    screen_server._ocr_engines["korean"] = BoomEngine()
+    try:
+        with pytest.raises(MCPToolError) as exc_info:
+            screen_server.run_ocr(object())
+    finally:
+        screen_server._ocr_engines.pop("korean", None)
+
+    message = str(exc_info.value)
+    assert "models" in message
+    assert "det" in message and "rec" in message
+    assert "download_models.py" in message
