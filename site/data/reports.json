@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-30T14:14:15",
+  "generated_at": "2026-07-31T02:32:34",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -17,6 +17,19 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-07-31-배터리-3사의-반전-드라마-전기차가-주춤할-때-ess가-구원투수로-나섰어요",
+      "date": "2026-07-31",
+      "channel": "손에 잡히는 경제",
+      "title": "배터리 3사의 반전 드라마! 전기차가 주춤할 때 ESS가 구원투수로 나섰어요",
+      "summary": "한국 배터리 3사가 ESS(에너지저장장치) 시장 활성화 덕분에 2년 만에 동반 흑자를 기록했다는 기분 좋은 소식을 전해드려요.",
+      "category": "korea-market",
+      "relation": "direct",
+      "url": "2026-07-31-배터리-3사의-반전-드라마-전기차가-주춤할-때-ess가-구원투수로-나섰어요.html",
+      "video": "https://www.youtube.com/watch?v=a3AXKSGw_UY",
+      "video_id": "a3AXKSGw_UY",
+      "pv": 2
+    },
     {
       "id": "2026-07-30-금리-전쟁-수급-3중고-꼬여버린-증시에서-배터리-산업은-괜찮을까요",
       "date": "2026-07-30",
@@ -96,6 +109,19 @@
       "pv": 2
     },
     {
+      "id": "2026-07-30-k-배터리-3사-2분기-동반-흑자-드디어-긴-어둠의-터널을-다-빠져나왔을까요",
+      "date": "2026-07-30",
+      "channel": "삼프로TV",
+      "title": "K-배터리 3사 2분기 동반 흑자! 드디어 긴 어둠의 터널을 다 빠져나왔을까요?",
+      "summary": "한국 배터리 3사가 2분기에 함께 흑자를 내며 길었던 실적 부진을 털어내고 있어요.",
+      "category": "korea-market",
+      "relation": "direct",
+      "url": "2026-07-30-k-배터리-3사-2분기-동반-흑자-드디어-긴-어둠의-터널을-다-빠져나왔을까요.html",
+      "video": "https://www.youtube.com/watch?v=hemYb9rYnpI",
+      "video_id": "hemYb9rYnpI",
+      "pv": 2
+    },
+    {
       "id": "2026-07-29-실적은-좋은데-왜-불안할까-미국-금리와-중국-추격이-배터리에-주는-신호",
       "date": "2026-07-29",
       "channel": "손석희의 12시",
@@ -145,6 +171,19 @@
       "url": "2026-07-29-fomc-금리-동결과-반도체-보고서-배터리-시장에는-어떤-신호일까요.html",
       "video": "https://www.youtube.com/watch?v=VbtPedDsQz4",
       "video_id": "VbtPedDsQz4",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-29-스페이스x의-화성-도전과-머스크의-빅처리는-배터리-산업에-어떤-의미일까요",
+      "date": "2026-07-29",
+      "channel": "언더스탠딩",
+      "title": "스페이스X의 화성 도전과 머스크의 빅처리는 배터리 산업에 어떤 의미일까요?",
+      "summary": "일론 머스크의 화성 탐사와 우주 데이터센터 구상이 배터리·에너지 산업과 어떻게 연결되는지 아주 쉽게 풀어서 전해드려요.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-29-스페이스x의-화성-도전과-머스크의-빅처리는-배터리-산업에-어떤-의미일까요.html",
+      "video": "https://www.youtube.com/watch?v=XacJl7ljjRg",
+      "video_id": "XacJl7ljjRg",
       "pv": 2
     },
     {
