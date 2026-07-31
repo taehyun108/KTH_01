@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-31T02:32:34",
+  "generated_at": "2026-07-31T14:18:20",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -28,6 +28,45 @@
       "url": "2026-07-31-배터리-3사의-반전-드라마-전기차가-주춤할-때-ess가-구원투수로-나섰어요.html",
       "video": "https://www.youtube.com/watch?v=a3AXKSGw_UY",
       "video_id": "a3AXKSGw_UY",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-31-미국-데이터센터-반대-뒤에-중국이-ai-전력-전쟁이-배터리에-가져올-변화",
+      "date": "2026-07-31",
+      "channel": "언더스탠딩",
+      "title": "미국 데이터센터 반대 뒤에 중국이? AI 전력 전쟁이 배터리에 가져올 변화",
+      "summary": "미·중 AI 데이터센터 패권 싸움과 전기 부족 논란이 배터리 ESS 시장에 어떤 영향을 주는지 아주 쉽게 풀어드려요.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-07-31-미국-데이터센터-반대-뒤에-중국이-ai-전력-전쟁이-배터리에-가져올-변화.html",
+      "video": "https://www.youtube.com/watch?v=GRY2vwHRb0I",
+      "video_id": "GRY2vwHRb0I",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-31-불안한-시대에-원자재가-뜨는-이유와-배터리-시장의-속사정",
+      "date": "2026-07-31",
+      "channel": "손에 잡히는 경제",
+      "title": "불안한 시대에 원자재가 뜨는 이유와 배터리 시장의 속사정",
+      "summary": "지정학적 위기와 물가 상승 시대에 왜 원자재 투자가 주목받는지, 배터리 산업에는 어떤 영향을 미치는지 쉽게 풀어드려요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-31-불안한-시대에-원자재가-뜨는-이유와-배터리-시장의-속사정.html",
+      "video": "https://www.youtube.com/watch?v=Bj4x5_qEufk",
+      "video_id": "Bj4x5_qEufk",
+      "pv": 2
+    },
+    {
+      "id": "2026-07-31-미국-하반기-금리는-어디로-갈까요-배터리-시장에-미치는-영향까지-쉽게-풀어봐요",
+      "date": "2026-07-31",
+      "channel": "삼프로TV",
+      "title": "미국 하반기 금리는 어디로 갈까요? 배터리 시장에 미치는 영향까지 쉽게 풀어봐요!",
+      "summary": "미국 하반기 금리 방향을 결정짓는 핵심 지표와 금리 변동이 배터리·전기차 시장에 미칠 영향을 쉽게 풀어 드려요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-07-31-미국-하반기-금리는-어디로-갈까요-배터리-시장에-미치는-영향까지-쉽게-풀어봐요.html",
+      "video": "https://www.youtube.com/watch?v=VtAUM2xAdlE",
+      "video_id": "VtAUM2xAdlE",
       "pv": 2
     },
     {
@@ -879,13 +918,14 @@
       "id": "2026-07-25-캐나다의-50-관세-조치와-북미-전기차-배터리-공급망-리스크-분석",
       "date": "2026-07-25",
       "channel": "손석희의 12시",
-      "title": "캐나다의 50% 관세 조치와 북미 전기차·배터리 공급망 리스크 분석",
-      "summary": "캐나다의 우방국 대상 50% 관세 부과 및 보호무역 강화 기조가 북미 이차전지·전기차 공급망에 미치는 파급효과 분석",
+      "title": "캐나다의 50% 관세 폭탄! 북미 전기차·배터리 공급망에 어떤 불똥이 튈까요?",
+      "summary": "캐나다가 50% 고율 관세를 다루면서 북미 전기차와 배터리 공급망에 비상이 걸렸어요.",
       "category": "global-policy",
-      "relation": "indirect",
+      "relation": "direct",
       "url": "2026-07-25-캐나다의-50-관세-조치와-북미-전기차-배터리-공급망-리스크-분석.html",
       "video": "https://www.youtube.com/watch?v=9unOW9ymCwk",
-      "video_id": "9unOW9ymCwk"
+      "video_id": "9unOW9ymCwk",
+      "pv": 2
     },
     {
       "id": "2026-07-25-리포트-데이터센터-열풍-뒤에-숨은-투기-현상과-bess-전력망-산업-영향",
@@ -943,85 +983,92 @@
       "id": "2026-07-25-트럼프-관세-위법-판결의-파장과-글로벌-이차전지-공급망-영향",
       "date": "2026-07-25",
       "channel": "The Plain Bagel",
-      "title": "트럼프 관세 위법 판결의 파장과 글로벌 이차전지 공급망 영향",
-      "summary": "트럼프 관세 조치의 위법 판결에 따른 글로벌 무역 정책 및 이차전지 공급망 영향 분석",
+      "title": "트럼프 관세에 제동이 걸렸다? 글로벌 배터리 공급망이 받게 될 영향",
+      "summary": "트럼프 전 대통령의 관세 조치가 법원에서 위법 판결을 받으면서, 우리나라 배터리 기업들의 수출 환경과 글로벌 공급망에 어떤 변화가 생길지 쉽게 정리해 드려요.",
       "category": "global-policy",
-      "relation": "indirect",
+      "relation": "direct",
       "url": "2026-07-25-트럼프-관세-위법-판결의-파장과-글로벌-이차전지-공급망-영향.html",
       "video": "https://www.youtube.com/watch?v=iOkLFrTjbho",
-      "video_id": "iOkLFrTjbho"
+      "video_id": "iOkLFrTjbho",
+      "pv": 2
     },
     {
       "id": "2026-07-25-uae의-대미-1조-달러-투자가-시사하는-ai-에너지-동맹과-이차전지-산업-파급효과",
       "date": "2026-07-25",
       "channel": "CNBC International",
-      "title": "UAE의 대미 1조 달러 투자가 시사하는 AI·에너지 동맹과 이차전지 산업 파급효과",
-      "summary": "UAE의 대미 1조 달러 투자 행보와 AI·에너지 인프라 확장 및 배터리 산업 영향 분석",
+      "title": "UAE의 1조 달러 빅딜! AI와 전력망 투자가 배터리 시장을 흔드는 이유",
+      "summary": "아랍에미리트(UAE)가 미국에 무려 1조 달러를 투자해 AI와 에너지 동맹을 맺는 이유와 배터리 시장에 미칠 영향을 쉽게 정리해 드려요.",
       "category": "global-policy",
       "relation": "indirect",
       "url": "2026-07-25-uae의-대미-1조-달러-투자가-시사하는-ai-에너지-동맹과-이차전지-산업-파급효과.html",
       "video": "https://www.youtube.com/watch?v=_lz7oA9TpQU",
-      "video_id": "_lz7oA9TpQU"
+      "video_id": "_lz7oA9TpQU",
+      "pv": 2
     },
     {
       "id": "2026-07-25-spacex-우주-데이터센터-궤도-투입-구상과-ai-전력-난제-이차전지-산업-관점-분석",
       "date": "2026-07-25",
       "channel": "The Wall Street Journal",
-      "title": "SpaceX 우주 데이터센터 궤도 투입 구상과 AI 전력 난제: 이차전지 산업 관점 분석",
-      "summary": "SpaceX의 우주 데이터센터 구상과 실현 가능성을 분석하고, 지상 AI 데이터센터 전력 난제 해결 모색이 이차전지 및 ESS 산업에 주는 시사점을 검토합니다.",
+      "title": "우주로 가는 데이터센터? AI 전력 난제와 배터리 산업의 새로운 기회",
+      "summary": "SpaceX의 우주 데이터센터 아이디어와 AI 전력 부족 문제가 우리 배터리·ESS 산업에 어떤 기회가 될지 쉽게 정리했어요.",
       "category": "global-market",
       "relation": "indirect",
       "url": "2026-07-25-spacex-우주-데이터센터-궤도-투입-구상과-ai-전력-난제-이차전지-산업-관점-분석.html",
       "video": "https://www.youtube.com/watch?v=ul3t-RSQPv0",
-      "video_id": "ul3t-RSQPv0"
+      "video_id": "ul3t-RSQPv0",
+      "pv": 2
     },
     {
       "id": "2026-07-25-8월-증시-패러다임-변화-시장-참여-폭-market-breadth-확산과-거시-환경이-이차전지-산업에-미치는",
       "date": "2026-07-25",
       "channel": "삼프로TV",
-      "title": "8월 증시 패러다임 변화: '시장 참여 폭(Market Breadth)' 확산과 거시 환경이 이차전지 산업에 미치는 시사점",
-      "summary": "8월 증시의 '시장 참여 폭(Market Breadth)' 확산과 반도체 쏠림 완화가 이차전지 산업 및 자금 시장에 미치는 거시적 영향 분석",
+      "title": "빅테크 쏠림 완화! 증시 온기가 배터리 산업으로 퍼질까요?",
+      "summary": "8월 증시에서 일부 대형주 쏠림이 줄어들고 여러 업종으로 온기가 퍼지면서, 배터리 산업으로 투자금이 들어올지 핵심만 쉽게 알려드려요.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-25-8월-증시-패러다임-변화-시장-참여-폭-market-breadth-확산과-거시-환경이-이차전지-산업에-미치는.html",
       "video": "https://www.youtube.com/watch?v=MQmhpvm2DPo",
-      "video_id": "MQmhpvm2DPo"
+      "video_id": "MQmhpvm2DPo",
+      "pv": 2
     },
     {
       "id": "2026-07-25-금리-급등-surge-in-interest-rates-발-거시경제-변동성과-이차전지-산업-영향",
       "date": "2026-07-25",
       "channel": "슈카월드",
-      "title": "금리 급등(Surge in Interest Rates) 발 거시경제 변동성과 이차전지 산업 영향",
-      "summary": "글로벌 금리 급등이 거시경제 및 자산시장에 미치는 영향과 고금리 장기화에 따른 이차전지 산업 전방 수요 위축 가능성 분석",
+      "title": "금리가 무섭게 오르면 배터리 시장은 어떻게 될까요?",
+      "summary": "갑자기 치솟은 금리 때문에 배터리와 전기차 시장에 어떤 바람이 불고 있는지 쉽게 정리해 드려요.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-25-금리-급등-surge-in-interest-rates-발-거시경제-변동성과-이차전지-산업-영향.html",
       "video": "https://www.youtube.com/watch?v=RdmbJa9u9C0",
-      "video_id": "RdmbJa9u9C0"
+      "video_id": "RdmbJa9u9C0",
+      "pv": 2
     },
     {
       "id": "2026-07-25-국민연금-포트폴리오-운용-정책과-국내-주요-제조업-수급-및-자금조달-시사점",
       "date": "2026-07-25",
       "channel": "언더스탠딩",
-      "title": "국민연금 포트폴리오 운용 정책과 국내 주요 제조업 수급 및 자금조달 시사점",
-      "summary": "국민연금의 기계적 국내 주식 비중 축소 정책이 반도체 및 핵심 제조업 주가와 증시 수급에 미친 영향 분석",
+      "title": "국민연금의 주식 비중 줄이기, 우리 배터리·제조업 기업에는 어떤 영향을 줄까요?",
+      "summary": "국민연금이 국내 주식 비중을 기계적으로 줄이면서 국내 핵심 제조업체들의 자금 조달과 주가에 어떤 영향을 주었는지 쉽게 풀어서 알려드릴게요.",
       "category": "korea-policy",
       "relation": "indirect",
       "url": "2026-07-25-국민연금-포트폴리오-운용-정책과-국내-주요-제조업-수급-및-자금조달-시사점.html",
       "video": "https://www.youtube.com/watch?v=-KZ0h04I5Zw",
-      "video_id": "-KZ0h04I5Zw"
+      "video_id": "-KZ0h04I5Zw",
+      "pv": 2
     },
     {
       "id": "2026-07-25-ai-피크아웃-우려와-반도체-거주들의-전망-ai-데이터센터-전력망-및-ess-산업-파급-분석",
       "date": "2026-07-25",
       "channel": "소수몽키",
-      "title": "AI 피크아웃 우려와 반도체 거주들의 전망: AI 데이터센터 전력망 및 ESS 산업 파급 분석",
-      "summary": "AI 고점론 우려 속 반도체 거두들의 전망과 AI 데이터센터 전력망 및 ESS 수요 파급효과 분석",
+      "title": "AI 열풍 벌써 끝? 데이터센터 전력 난제와 ESS 배터리의 반전 기회!",
+      "summary": "AI 피크아웃 우려 속에서 데이터센터 전력 부족을 해결할 핵심 열쇠로 떠오른 ESS 배터리 시장의 기회를 쉽게 정리해 드려요!",
       "category": "global-market",
-      "relation": "indirect",
+      "relation": "direct",
       "url": "2026-07-25-ai-피크아웃-우려와-반도체-거주들의-전망-ai-데이터센터-전력망-및-ess-산업-파급-분석.html",
       "video": "https://www.youtube.com/watch?v=ykHOjL6vkyw",
-      "video_id": "ykHOjL6vkyw"
+      "video_id": "ykHOjL6vkyw",
+      "pv": 2
     },
     {
       "id": "2026-07-25-반도체-착시와-한국-경제의-외풍-약점-이차전지-산업에-주는-경고와-시사점",
