@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-01T02:33:11",
+  "generated_at": "2026-08-01T13:30:28",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -17,6 +17,19 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-01-연준의-금리-결정과-시장-파장-배터리-산업에는-어떤-의미일까요",
+      "date": "2026-08-01",
+      "channel": "삼프로TV",
+      "title": "연준의 금리 결정과 시장 파장, 배터리 산업에는 어떤 의미일까요?",
+      "summary": "미국 연준의 금리 방향이 전기차 구매 심리와 배터리 기업 투자에 미치는 영향을 쉽게 풀어 설명해 드려요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-08-01-연준의-금리-결정과-시장-파장-배터리-산업에는-어떤-의미일까요.html",
+      "video": "https://www.youtube.com/watch?v=ISWK5UlyU0w",
+      "video_id": "ISWK5UlyU0w",
+      "pv": 2
+    },
     {
       "id": "2026-07-31-배터리-3사의-반전-드라마-전기차가-주춤할-때-ess가-구원투수로-나섰어요",
       "date": "2026-07-31",
@@ -690,97 +703,105 @@
       "id": "2026-07-26-미국-반도체주-약세장-진입과-ai-데이터센터-aidc-전력-ess-수요-전망",
       "date": "2026-07-26",
       "channel": "손석희의 12시",
-      "title": "미국 반도체주 약세장 진입과 AI 데이터센터(AIDC) 전력·ESS 수요 전망",
-      "summary": "중국 AI 부상으로 인한 미국 반도체주 약세장 진입 및 AI 데이터센터(AIDC) 전력·ESS 시장 영향 분석",
+      "title": "미국 반도체주 주춤! 하지만 AI 데이터센터와 ESS 배터리엔 큰 기회가 오고 있어요",
+      "summary": "미국 반도체 주가 흐름과 AI 데이터센터 전력 난제를 해결할 ESS 배터리 수요 전망을 쉽게 풀어드려요.",
       "category": "global-market",
-      "relation": "indirect",
+      "relation": "direct",
       "url": "2026-07-26-미국-반도체주-약세장-진입과-ai-데이터센터-aidc-전력-ess-수요-전망.html",
       "video": "https://www.youtube.com/watch?v=KOHQelQrf80",
-      "video_id": "KOHQelQrf80"
+      "video_id": "KOHQelQrf80",
+      "pv": 2
     },
     {
       "id": "2026-07-26-분석-2027년-ai-데이터센터의-병목은-이차전지-ess-가-된다",
       "date": "2026-07-26",
       "channel": "손에 잡히는 경제",
-      "title": "[분석] 2027년 AI 데이터센터의 병목은 이차전지(ESS)가 된다",
-      "summary": "2027년 AI 데이터센터 전력 병목 현상을 해결할 핵심 솔루션으로 이차전지(ESS)가 부상할 것이라는 유안타증권 이안나 연구원의 분석 리포트.",
+      "title": "AI 시대의 전력 부족, 배터리(ESS)가 구원투수로 나서는 이유!",
+      "summary": "2027년 AI 데이터센터의 전력 부족 문제를 해결할 핵심 구원투수로 왜 이차전지(ESS)가 떠오르는지 쉽게 알려드려요.",
       "category": "global-market",
       "relation": "direct",
       "url": "2026-07-26-분석-2027년-ai-데이터센터의-병목은-이차전지-ess-가-된다.html",
       "video": "https://www.youtube.com/watch?v=kue4JvbcUEI",
-      "video_id": "kue4JvbcUEI"
+      "video_id": "kue4JvbcUEI",
+      "pv": 2
     },
     {
       "id": "2026-07-26-인플레이션-재발-우려와-거시경제-불확실성에-따른-배터리-산업-영향-분석",
       "date": "2026-07-26",
       "channel": "Patrick Boyle",
-      "title": "인플레이션 재발 우려와 거시경제 불확실성에 따른 배터리 산업 영향 분석",
-      "summary": "인플레이션 재발 우려와 고금리 장기화 가능성이 이차전지 공급망 및 전기차 수요에 미치는 거시적 영향 분석",
+      "title": "물가가 또 오르면 배터리 시장은 어떻게 될까요? 인플레이션과 배터리의 관계!",
+      "summary": "물가가 다시 오르고 금리가 오랫동안 높게 유지되면 배터리와 전기차 시장에 어떤 일이 생기는지 쉽게 풀어드릴게요.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-26-인플레이션-재발-우려와-거시경제-불확실성에-따른-배터리-산업-영향-분석.html",
       "video": "https://www.youtube.com/watch?v=rnW3Bq6_-6k",
-      "video_id": "rnW3Bq6_-6k"
+      "video_id": "rnW3Bq6_-6k",
+      "pv": 2
     },
     {
       "id": "2026-07-26-관세-정책의-경제적-실효성-분석-및-이차전지-산업에의-시사점",
       "date": "2026-07-26",
       "channel": "Economics Explained",
-      "title": "관세 정책의 경제적 실효성 분석 및 이차전지 산업에의 시사점",
-      "summary": "관세 정책의 경제적 실효성과 한계를 분석하고 글로벌 이차전지 공급망 및 EV 시장에 미치는 파급효과를 조망한 리포트",
+      "title": "관세 폭탄의 진짜 속사정! 배터리와 전기차 가격에 어떤 영향을 줄까요?",
+      "summary": "관세 정책이 세계 경제와 배터리·전기차 시장에 어떤 영향을 미치는지 쉽고 친근하게 풀어드려요.",
       "category": "global-policy",
       "relation": "indirect",
       "url": "2026-07-26-관세-정책의-경제적-실효성-분석-및-이차전지-산업에의-시사점.html",
       "video": "https://www.youtube.com/watch?v=K0V8kZyl1T0",
-      "video_id": "K0V8kZyl1T0"
+      "video_id": "K0V8kZyl1T0",
+      "pv": 2
     },
     {
       "id": "2026-07-26-2024년-휴머노이드-로봇-상용화-원년과-이차전지-산업의-새로운-수요-기회",
       "date": "2026-07-26",
       "channel": "ColdFusion",
-      "title": "2024년 휴머노이드 로봇 상용화 원년과 이차전지 산업의 새로운 수요 기회",
-      "summary": "테슬라·피규어·엔비디아 등 글로벌 테크 기업의 휴머노이드 로봇 상용화 경쟁과 이차전지 산업의 신규 수요 기회 분석",
+      "title": "휴머노이드 로봇이 걸어다닌다! 이차전지가 만난 새로운 대박 기회",
+      "summary": "테슬라와 엔비디아 같은 빅테크 기업들이 개발하는 휴머노이드 로봇이 배터리 산업의 새로운 시장으로 떠오르고 있어요.",
       "category": "global-market",
-      "relation": "indirect",
+      "relation": "direct",
       "url": "2026-07-26-2024년-휴머노이드-로봇-상용화-원년과-이차전지-산업의-새로운-수요-기회.html",
       "video": "https://www.youtube.com/watch?v=QwAYJPjW2gI",
-      "video_id": "QwAYJPjW2gI"
+      "video_id": "QwAYJPjW2gI",
+      "pv": 2
     },
     {
       "id": "2026-07-26-미국-관세-정책-재편-liberation-day-2-0-tariffs-과-이차전지-공급망-불확실성",
       "date": "2026-07-26",
       "channel": "The Plain Bagel",
-      "title": "미국 관세 정책 재편(Liberation Day 2.0 Tariffs)과 이차전지 공급망 불확실성",
-      "summary": "미국 관세 정책 강화 공약(Liberation Day 2.0 Tariffs)이 글로벌 무역 통상 및 이차전지 공급망 비용 구조에 미치는 파장 분석",
+      "title": "미국 관세 폭탄이 우리 배터리 동네에 가져올 변화, 한눈에 알아봐요!",
+      "summary": "미국의 새로운 관세 정책이 배터리 만드는 비용에 어떤 영향을 주는지 아주 쉽게 풀어드려요.",
       "category": "global-policy",
-      "relation": "indirect",
+      "relation": "direct",
       "url": "2026-07-26-미국-관세-정책-재편-liberation-day-2-0-tariffs-과-이차전지-공급망-불확실성.html",
       "video": "https://www.youtube.com/watch?v=YgbbI_nRF2A",
-      "video_id": "YgbbI_nRF2A"
+      "video_id": "YgbbI_nRF2A",
+      "pv": 2
     },
     {
       "id": "2026-07-26-유럽-데이터센터의-메가-허브-이탈-현상과-전력망-한계-aidc-및-ess-시장-영향",
       "date": "2026-07-26",
       "channel": "CNBC International",
-      "title": "유럽 데이터센터의 메가 허브 이탈 현상과 전력망 한계: AIDC 및 ESS 시장 영향",
-      "summary": "유럽 핵심 데이터센터 거점(FLAP-D)의 전력망 한계 및 규제로 인한 입지 분산 현상과 AIDC·ESS 산업 시사점 분석",
+      "title": "데이터센터가 유럽 구석구석으로 퍼진다? 전력 난항이 불러온 ESS 배터리의 신기원!",
+      "summary": "유럽에서 데이터센터가 전력 부족과 규제 때문에 주변 지역으로 퍼지면서, 전기를 저장하는 ESS 배터리 시장에 큰 기회가 열리고 있어요.",
       "category": "global-policy",
       "relation": "indirect",
       "url": "2026-07-26-유럽-데이터센터의-메가-허브-이탈-현상과-전력망-한계-aidc-및-ess-시장-영향.html",
       "video": "https://www.youtube.com/watch?v=uFctOUvy3Hw",
-      "video_id": "uFctOUvy3Hw"
+      "video_id": "uFctOUvy3Hw",
+      "pv": 2
     },
     {
       "id": "2026-07-26-고유가-국면이-완성차-수요와-전기차-ev-전환-및-배터리-산업에-미치는-영향",
       "date": "2026-07-26",
       "channel": "The Wall Street Journal",
-      "title": "고유가 국면이 완성차 수요와 전기차(EV) 전환 및 배터리 산업에 미치는 영향",
-      "summary": "유가 상승이 닛산 등 완성차 업체, 전기차(EV) 수요 및 배터리 산업에 미치는 영향 분석",
+      "title": "기름값 오르면 전기차 대박? 고유가가 배터리 시장에 가져올 진짜 변화",
+      "summary": "기름값이 오르면 과연 전기차와 배터리 동네에는 무슨 일이 벌어질까요? 유가 상승과 전기차 시장의 관계를 쉽게 풀어드려요!",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-26-고유가-국면이-완성차-수요와-전기차-ev-전환-및-배터리-산업에-미치는-영향.html",
       "video": "https://www.youtube.com/watch?v=22Adp8cEfbg",
-      "video_id": "22Adp8cEfbg"
+      "video_id": "22Adp8cEfbg",
+      "pv": 2
     },
     {
       "id": "2026-07-26-반도체-상승장-도래-여부와-주요-체크포인트-ai-데이터센터-전력-수요와-이차전지-연계-분석",
