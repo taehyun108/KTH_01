@@ -33,8 +33,21 @@ export interface PipelineDeps {
 
 export async function runPipeline(query: TripQuery, deps: PipelineDeps): Promise<Itinerary> {
   const notes: string[] = [];
-  const ctx = await deps.resolveContext(query);
   const nDays = dayCount(query.start_date, query.end_date);
+
+  // 목적지 컨텍스트(좌표/통화) 조회 실패는 치명적이지 않게 처리한다(§0-4).
+  let ctx;
+  try {
+    ctx = await deps.resolveContext(query);
+  } catch (e) {
+    return emptyItinerary(
+      query,
+      nDays,
+      `목적지 컨텍스트(좌표/통화)를 조회하지 못해 일정을 생성할 수 없습니다: ${
+        e instanceof Error ? e.message : String(e)
+      }. (이 환경은 외부 API 접근이 차단되어 있습니다)`,
+    );
+  }
 
   // 수집 에이전트 병렬 실행 (§9 실행 순서)
   const [pois, food, currency, weather, flights, logistics] = await Promise.all([
@@ -109,6 +122,34 @@ export async function runPipeline(query: TripQuery, deps: PipelineDeps): Promise
     flights,
     verification_summary: summarize(allFacts),
     notes,
+  };
+}
+
+/** 컨텍스트조차 못 구했을 때의 정직한 빈 일정(§0-4). */
+function emptyItinerary(query: TripQuery, nDays: number, note: string): Itinerary {
+  const days: ItineraryDay[] = [];
+  for (let d = 0; d < nDays; d++) {
+    const date = addDays(query.start_date, d);
+    days.push({
+      date,
+      weekday: new Date(date + "T00:00:00Z").getUTCDay(),
+      items: [],
+      total_activity_minutes: 0,
+      total_travel_minutes: 0,
+      travel_ratio: 0,
+      warnings: [],
+    });
+  }
+  return {
+    query,
+    destination_center: { lat: 0, lng: 0 },
+    days,
+    currency: null,
+    weather: [],
+    logistics: null,
+    flights: [],
+    verification_summary: { high: 0, medium: 0, low: 0, total: 0, high_ratio: 0 },
+    notes: [note],
   };
 }
 

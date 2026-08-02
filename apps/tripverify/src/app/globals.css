@@ -17,3 +17,9 @@ body {
   color: var(--foreground);
   font-family: ui-sans-serif, system-ui, sans-serif;
 }
+
+@layer components {
+  .input {
+    @apply rounded border border-black/15 bg-transparent px-2 py-1 text-sm outline-none focus:border-blue-500 dark:border-white/20;
+  }
+}
