@@ -221,7 +221,9 @@ def get_transcript(video_id: str) -> tuple[str, str]:
             return text, "youtube-transcript-api"
         print(f"  [자막] {video_id}: transcript-api 결과가 너무 짧음({len(text)}자)", file=sys.stderr)
     except Exception as exc:  # noqa: BLE001
-        print(f"  [자막] {video_id}: transcript-api 실패 — {exc.__class__.__name__}: {exc}",
+        # 라이브러리 예외 본문이 12줄이라 그대로 찍으면 로그가 파묻힌다 → 한 줄로 축약
+        brief = " ".join(str(exc).split())[:120]
+        print(f"  [자막] {video_id}: transcript-api 실패 — {exc.__class__.__name__}: {brief}",
               file=sys.stderr)
 
     text, source = _ytdlp_transcript(video_id)
