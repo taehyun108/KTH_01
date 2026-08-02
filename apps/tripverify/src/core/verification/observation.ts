@@ -39,6 +39,18 @@ export function geoWithin(maxMeters: number): Comparator<GeoPoint> {
   };
 }
 
+/** 객체에서 수치 필드를 뽑아 상대오차로 비교 (환율 CurrencyInfo.krw_per_unit 등). */
+export function numericRatioOn<T>(
+  tolerance: number,
+  select: (t: T) => number,
+): Comparator<T> {
+  const base = numericRatio(tolerance);
+  return {
+    agree: (a, b) => base.agree(select(a), select(b)),
+    deviation: (adopted, other) => base.deviation(select(adopted), select(other)),
+  };
+}
+
 /** 완전 일치 비교자 (영업시간·문자열·불리언). 불일치 시 편차 1. */
 export function exact<T>(): Comparator<T> {
   return {

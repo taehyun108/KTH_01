@@ -59,6 +59,37 @@ export function verified<T>(args: {
 }
 
 /**
+ * 검증 메타(confidence/sources/verification)는 보존한 채 value 만 변환한다.
+ * 예: VerifiedFact<number>(환율) → VerifiedFact<CurrencyInfo>.
+ * value 가 null 이면 그대로 unverified 를 유지한다.
+ */
+export function mapFact<A, B>(
+  fact: VerifiedFact<A>,
+  fn: (value: A) => B,
+): VerifiedFact<B> {
+  if (fact.value === null) {
+    return brand<B>({
+      value: null,
+      confidence: fact.confidence,
+      sources: fact.sources,
+      verification: fact.verification,
+      ...(fact.unverified_reason !== undefined
+        ? { unverified_reason: fact.unverified_reason }
+        : {}),
+    });
+  }
+  return brand<B>({
+    value: fn(fact.value),
+    confidence: fact.confidence,
+    sources: fact.sources,
+    verification: fact.verification,
+    ...(fact.unverified_reason !== undefined
+      ? { unverified_reason: fact.unverified_reason }
+      : {}),
+  });
+}
+
+/**
  * 외부(캐시/DB/네트워크)에서 들어온 평문 객체를 값 스키마로 검증하며 복원한다.
  * 브랜드가 벗겨진 JSON 을 다시 타입 안전한 VerifiedFact 로 승격시키는 유일한 통로.
  */
