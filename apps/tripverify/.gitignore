@@ -1,0 +1,33 @@
+# deps
+node_modules/
+.pnpm-store/
+
+# next
+.next/
+out/
+next-env.d.ts
+
+# env — 절대 커밋 금지 (§5)
+.env
+.env.local
+.env.*.local
+
+# db
+*.sqlite
+*.sqlite-journal
+*.sqlite-shm
+*.sqlite-wal
+*.db
+
+# ts build cache
+*.tsbuildinfo
+
+# test / build
+coverage/
+playwright-report/
+test-results/
+.turbo/
+
+# editor / os
+.DS_Store
+*.log
