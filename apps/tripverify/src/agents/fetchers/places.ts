@@ -124,3 +124,25 @@ export const livePoiReaders: SourceReader<PlaceArgs, Poi>[] = [
   wikipediaPoiReader,
 ];
 export const liveFoodReaders: SourceReader<PlaceArgs, Restaurant>[] = [overpassFoodReader];
+
+/** Overpass 로 후보 명소/식당 이름을 발굴한다(교차검증 전 단계). */
+export async function discoverNames(
+  center: GeoPoint,
+  kind: "poi" | "food",
+  radius_m = 8000,
+  limit = 20,
+): Promise<string[]> {
+  const filter =
+    kind === "poi"
+      ? `nwr["tourism"~"attraction|museum|viewpoint|artwork|zoo|theme_park"]["name"]`
+      : `nwr["amenity"~"restaurant|cafe"]["name"]["cuisine"]`;
+  const q =
+    `[out:json][timeout:25];${filter}(around:${radius_m},${center.lat},${center.lng});out center ${limit};`;
+  const data = await fetchJson<OverpassResp>(
+    `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(q)}`,
+  );
+  const names = data.elements
+    .map((e) => e.tags?.["name:en"] ?? e.tags?.["name"])
+    .filter((n): n is string => typeof n === "string");
+  return [...new Set(names)].slice(0, limit);
+}

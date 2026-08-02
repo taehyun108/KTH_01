@@ -13,6 +13,8 @@ export interface RoutePlanInput {
 export interface DayRoute {
   day_index: number;
   ordered_place_ids: string[];
+  /** 각 정류지 진입 이동시간(초). ordered_place_ids 와 정렬. [0]=0(일과 시작 기준). */
+  leg_seconds: number[];
   /** 순서대로 이동한 총 소요시간(초). */
   total_travel_seconds: number;
 }
@@ -41,17 +43,27 @@ export async function routeAgent(
     const ids = clusters[d]!;
     const pts: GeoPoint[] = ids.map((id) => byId(input.places, id).location);
     if (pts.length <= 1) {
-      days.push({ day_index: d, ordered_place_ids: ids, total_travel_seconds: 0 });
+      days.push({
+        day_index: d,
+        ordered_place_ids: ids,
+        leg_seconds: ids.map(() => 0),
+        total_travel_seconds: 0,
+      });
       continue;
     }
     const mat: MatrixResult = await provider(pts, input.mode);
     estimated = estimated || mat.estimated;
     source_name = mat.source.name;
-    const order = optimizeOrder(mat.durations as Matrix, 0);
+    const matrix = mat.durations as Matrix;
+    const order = optimizeOrder(matrix, 0);
+    const leg_seconds = order.map((idx, k) =>
+      k === 0 ? 0 : matrix[order[k - 1]!]![idx]!,
+    );
     days.push({
       day_index: d,
       ordered_place_ids: order.map((i) => ids[i]!),
-      total_travel_seconds: pathCost(mat.durations as Matrix, order),
+      leg_seconds,
+      total_travel_seconds: pathCost(matrix, order),
     });
   }
 
