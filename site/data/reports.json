@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-02T13:31:31",
+  "generated_at": "2026-08-02T14:43:24",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -476,25 +476,27 @@
       "id": "2026-07-27-리포트-짐바브웨-리튬-원광-수출-금지와-배터리-소재-공급망-지형-변화",
       "date": "2026-07-27",
       "channel": "Economics Explained",
-      "title": "[리포트] 짐바브웨 리튬 원광 수출 금지와 배터리 소재 공급망 지형 변화",
-      "summary": "짐바브웨의 리튬 원광 수출 금지 정책과 자국 내 가공 의무화가 글로벌 배터리 원자재 공급망에 미치는 영향 분석",
+      "title": "짐바브웨의 리튬 원광 수출 금지, 배터리 시장에 어떤 파장을 불러올까요?",
+      "summary": "짐바브웨가 리튬 원자재 수출을 막고 자국 내 가공을 의무화하면서, 글로벌 배터리 소재 공급망에 큰 변화가 생기고 있어요.",
       "category": "global-policy",
       "relation": "direct",
       "url": "2026-07-27-리포트-짐바브웨-리튬-원광-수출-금지와-배터리-소재-공급망-지형-변화.html",
       "video": "https://www.youtube.com/watch?v=geptr8DRNxs",
-      "video_id": "geptr8DRNxs"
+      "video_id": "geptr8DRNxs",
+      "pv": 2
     },
     {
       "id": "2026-07-27-산업-분석-byd의-테슬라-추격-전략과-배터리-수직계열화가-이차전지-산업에-주는-시사점",
       "date": "2026-07-27",
       "channel": "ColdFusion",
-      "title": "[산업 분석] BYD의 테슬라 추격 전략과 배터리 수직계열화가 이차전지 산업에 주는 시사점",
-      "summary": "BYD의 테슬라 추격 동인과 수직계열화 기반 LFP 배터리 경쟁력이 글로벌 이차전지 시장에 미치는 영향 분석",
+      "title": "BYD는 어떻게 테슬라를 턱밑까지 추격했을까? 배터리 수직계열화의 비밀!",
+      "summary": "BYD가 테슬라를 턱밑까지 추격하며 배터리 자체 생산(수직계열화)으로 가격 경쟁력을 확보한 전략을 쉽게 설명해 드려요.",
       "category": "global-market",
       "relation": "direct",
       "url": "2026-07-27-산업-분석-byd의-테슬라-추격-전략과-배터리-수직계열화가-이차전지-산업에-주는-시사점.html",
       "video": "https://www.youtube.com/watch?v=EbafKwhPt0c",
-      "video_id": "EbafKwhPt0c"
+      "video_id": "EbafKwhPt0c",
+      "pv": 2
     },
     {
       "id": "2026-07-27-미-중-무역전쟁의-구조적-향방과-글로벌-이차전지-공급망-재편-전망",
@@ -526,73 +528,79 @@
       "id": "2026-07-27-일본의-반도체-재건-전략과-첨단-칩-내재화-ai-데이터센터-및-배터리-공급망-시사점",
       "date": "2026-07-27",
       "channel": "CNBC International",
-      "title": "일본의 반도체 재건 전략과 첨단 칩 내재화: AI 데이터센터 및 배터리 공급망 시사점",
-      "summary": "일본의 첨단 반도체(마이크로칩) 부활 정책과 산업 재편이 글로벌 AI 데이터센터(AIDC) 전력망 및 이차전지 공급망에 미치는 간접적 영향을 분석합니다.",
+      "title": "일본의 반도체 부활 도전! AI 데이터센터와 배터리 시장엔 어떤 바람이 불까요?",
+      "summary": "일본이 반도체를 다시 일으키려고 막대한 투자를 시작했어요. 이게 AI 데이터센터와 배터리 시장에 어떤 영향을 줄지 쉽게 풀어드릴게요!",
       "category": "global-policy",
       "relation": "indirect",
       "url": "2026-07-27-일본의-반도체-재건-전략과-첨단-칩-내재화-ai-데이터센터-및-배터리-공급망-시사점.html",
       "video": "https://www.youtube.com/watch?v=N3G__TEPHUE",
-      "video_id": "N3G__TEPHUE"
+      "video_id": "N3G__TEPHUE",
+      "pv": 2
     },
     {
       "id": "2026-07-27-트럼프-관세-정책의-경제적-파급효과와-이차전지-공급망-시사점",
       "date": "2026-07-27",
       "channel": "The Wall Street Journal",
-      "title": "트럼프 관세 정책의 경제적 파급효과와 이차전지 공급망 시사점",
-      "summary": "트럼프 행정부의 관세 정책이 미국 경제, 일자리, 기업 매출 및 글로벌 공급망에 미친 영향을 분석한 리포트",
+      "title": "트럼프의 관세 폭탄, 배터리 산업에는 어떤 영향을 줄까요?",
+      "summary": "트럼프 관세 정책이 미국 경제와 글로벌 공급망, 그리고 우리 이차전지 산업에 미칠 영향을 쉽게 풀어 드려요.",
       "category": "global-policy",
       "relation": "indirect",
       "url": "2026-07-27-트럼프-관세-정책의-경제적-파급효과와-이차전지-공급망-시사점.html",
       "video": "https://www.youtube.com/watch?v=hZ4TPNzGbno",
-      "video_id": "hZ4TPNzGbno"
+      "video_id": "hZ4TPNzGbno",
+      "pv": 2
     },
     {
       "id": "2026-07-27-반도체주-주가-정체-원인과-증시-지형-재편이-이차전지-aidc-산업에-주는-시사점",
       "date": "2026-07-27",
       "channel": "삼프로TV",
-      "title": "반도체주 주가 정체 원인과 증시 지형 재편이 이차전지·AIDC 산업에 주는 시사점",
-      "summary": "호재에도 불고한 반도체주 정체 원인과 증시 지형 변화를 분석하고, AIDC 및 ESS 전방 산업에 미치는 시사점 도출.",
+      "title": "반도체주가 주춤할 때, 이차전지와 ESS 시장은 어디로 갈까요?",
+      "summary": "반도체주 정체와 증시 변화 속에서 이차전지, ESS, AI 데이터센터 산업이 받을 영향을 알기 쉽게 정리해 드려요.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-27-반도체주-주가-정체-원인과-증시-지형-재편이-이차전지-aidc-산업에-주는-시사점.html",
       "video": "https://www.youtube.com/watch?v=L4pjFmIuuA8",
-      "video_id": "L4pjFmIuuA8"
+      "video_id": "L4pjFmIuuA8",
+      "pv": 2
     },
     {
       "id": "2026-07-27-트럼프의-관세-환급-압박과-대미-통상-불확실성-확대의-파급력",
       "date": "2026-07-27",
       "channel": "슈카월드",
-      "title": "트럼프의 관세 환급 압박과 대미 통상 불확실성 확대의 파급력",
-      "summary": "트럼프 전 대통령의 관세 환급 신청 압박 발언과 대미 통상 불확실성이 이차전지 공급망 및 기업 경영에 미치는 영향 분석",
+      "title": "트럼프의 관세 압박! 불확실해진 미국 시장, 우리 배터리는 괜찮을까요?",
+      "summary": "트럼프의 관세 환급 압박과 미국의 통상 정책 변화가 우리 배터리 산업에 미칠 영향을 쉽게 풀어 드려요.",
       "category": "global-policy",
       "relation": "indirect",
       "url": "2026-07-27-트럼프의-관세-환급-압박과-대미-통상-불확실성-확대의-파급력.html",
       "video": "https://www.youtube.com/watch?v=NuPa3gcdn1c",
-      "video_id": "NuPa3gcdn1c"
+      "video_id": "NuPa3gcdn1c",
+      "pv": 2
     },
     {
       "id": "2026-07-27-ai-에이전트-확산이-가져올-반도체-지형-변화와-이차전지-aidc-ess-산업-시사점",
       "date": "2026-07-27",
       "channel": "소수몽키",
-      "title": "AI 에이전트 확산이 가져올 반도체 지형 변화와 이차전지(AIDC·ESS) 산업 시사점",
-      "summary": "AI 에이전트 부상에 따른 반도체 지형 변화와 AI 데이터센터(AIDC) 전력·ESS 전방 수요 영향 분석",
+      "title": "AI 에이전트 부상이 반도체를 넘어 배터리·ESS 시장까지 흔드는 이유",
+      "summary": "AI 에이전트 확산으로 데이터센터 전력이 부족해지면서 ESS 배터리가 왜 새로운 기회인지 쉽게 풀어드려요.",
       "category": "global-market",
       "relation": "indirect",
       "url": "2026-07-27-ai-에이전트-확산이-가져올-반도체-지형-변화와-이차전지-aidc-ess-산업-시사점.html",
       "video": "https://www.youtube.com/watch?v=B-fSbAaFH6c",
-      "video_id": "B-fSbAaFH6c"
+      "video_id": "B-fSbAaFH6c",
+      "pv": 2
     },
     {
       "id": "2026-07-27-7월-3주차-국내-반도체-섹터-동향과-이차전지-aidc-수요-시사점",
       "date": "2026-07-27",
       "channel": "슈퍼개미 이세무사TV",
-      "title": "7월 3주차 국내 반도체 섹터 동향과 이차전지·AIDC 수요 시사점",
-      "summary": "7월 3주차 코스피·코스닥 반도체 관심주 점검 및 AI 데이터센터(AIDC) 전력·ESS 배터리 수요와의 간접 연계성 분석",
+      "title": "7월 3주차 반도체 시장과 AI 데이터센터가 끌어당길 배터리의 미래",
+      "summary": "7월 3주차 국내 반도체 시장 동향과 AI 데이터센터 확장에 따른 ESS 배터리 수요 연결고리를 쉽게 풀어드려요.",
       "category": "korea-market",
       "relation": "indirect",
       "url": "2026-07-27-7월-3주차-국내-반도체-섹터-동향과-이차전지-aidc-수요-시사점.html",
       "video": "https://www.youtube.com/watch?v=BPyJdWD1VvU",
-      "video_id": "BPyJdWD1VvU"
+      "video_id": "BPyJdWD1VvU",
+      "pv": 2
     },
     {
       "id": "2026-07-27-손석희의-12시-게임-cd와-반도체-호황의-연관성-분석-및-it-aidc-생태계-시사점",
