@@ -102,4 +102,18 @@ describe("runPipeline", () => {
     expect(it.days.every((d) => d.items.filter((i) => i.kind === "poi").length === 0)).toBe(true);
     expect(it.notes.some((n) => n.includes("일정을 생성할 수 없"))).toBe(true);
   });
+
+  it("컨텍스트 조회 실패 시 500 대신 빈 일정+notes (§0-4)", async () => {
+    const failing: PipelineDeps = {
+      ...deps([]),
+      resolveContext: async () => {
+        throw new Error("fetch failed");
+      },
+    };
+    const it = await runPipeline(query, failing);
+    expect(it.days.length).toBe(2); // 날짜 골격은 유지
+    expect(it.days.every((d) => d.items.length === 0)).toBe(true);
+    expect(it.verification_summary.total).toBe(0);
+    expect(it.notes[0]).toContain("컨텍스트");
+  });
 });

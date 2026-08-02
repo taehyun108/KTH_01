@@ -25,10 +25,37 @@ API 키가 하나도 없어도 폴백 소스(Open-Meteo / OSM·Overpass / OSRM /
 - `.claude/agents/` — 도메인별 수집 서브에이전트 + verifier + planner (§2).
 - `src/app/` — Next.js App Router UI (Phase 7).
 
-## 개발 단계
-- **Phase 0 (완료)**: 리포 구조, `.env.example`, `VerifiedFact` 타입/스키마, 감사 로그 테이블, 헬스체크.
-- Phase 1: verifier-agent 코어 + 검증 프로토콜 단위 테스트.
-- Phase 2~8: 수집 에이전트 → 최적화 → planner → UI → E2E.
+## 개발 단계 (전체 완료)
+- **Phase 0**: 리포 구조, `.env.example`, `VerifiedFact` 타입/스키마, 감사 로그, 헬스체크.
+- **Phase 1**: 3중 검증 프로토콜 코어(verifier) + 단위 테스트.
+- **Phase 2**: currency/weather 에이전트(키불필요 소스) + 프록시 HTTP.
+- **Phase 3**: poi/food 에이전트 + 캐시 계층(도메인별 TTL, 감사 로그).
+- **Phase 4**: route 에이전트 + 클러스터링/2-opt 동선 최적화.
+- **Phase 5**: flight/logistics 에이전트.
+- **Phase 6**: planner + 파이프라인 오케스트레이션 + `/api/plan`.
+- **Phase 7**: UI 전체(타임라인·출처패널·지도·예산·날씨·검증리포트).
+- **Phase 8**: E2E(Playwright) + 레이트리밋 + 에러 핸들링 + 배포 설정.
+
+## 테스트
+```bash
+pnpm test        # 71개 단위/통합 (검증·에이전트·캐시·최적화·조립·파이프라인·레이트리밋)
+pnpm test:e2e    # Playwright 3개 (UI 흐름 + API 422/health)
+pnpm typecheck   # tsc --noEmit
+pnpm build       # next build (standalone)
+```
+
+## 배포
+- Docker: `docker build -t tripverify . && docker run -p 3000:3000 -v tv:/data tripverify`
+- CI: `.github/workflows/tripverify-ci.yml` (typecheck→test→build, apps/tripverify 변경 시).
+- 운영 DB 는 `DATABASE_URL` 로 Postgres 전환(현재 개발은 SQLite).
+
+## ⚠ 이 실행 환경에서의 동작(중요)
+현재 샌드박스의 **네트워크 정책이 외부 데이터 API(Open-Meteo/OSM/OSRM/환율 등)를
+프록시 게이트웨이에서 403 으로 차단**한다. 따라서 이 환경에서 `/api/plan` 을 호출하면
+앱은 **거짓 데이터를 지어내지 않고**(§0-1) 빈 일정 + 안내(notes)로 정직하게 응답한다(§0-4).
+검증·최적화·조립 등 모든 로직은 결정론적 단위/통합 테스트(주입식 소스)로 검증되며,
+**네트워크가 허용된 환경에서는 동일 코드가 실제 검증된 일정을 생성**한다. 합성 데이터는
+테스트 전용이며 UI 로 전달되지 않는다.
 
 ## 검증 프로토콜 (§3)
 | agree_count | 편차 | confidence | UI |

@@ -1,0 +1,32 @@
+name: TripVerify CI
+
+on:
+  push:
+    paths:
+      - "apps/tripverify/**"
+      - ".github/workflows/tripverify-ci.yml"
+  pull_request:
+    paths:
+      - "apps/tripverify/**"
+
+defaults:
+  run:
+    working-directory: apps/tripverify
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: apps/tripverify/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build

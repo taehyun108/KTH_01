@@ -1,0 +1,10 @@
+node_modules
+.next
+.git
+*.sqlite
+*.sqlite-*
+.env
+.env.*
+coverage
+playwright-report
+test-results
