@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-02T02:31:35",
+  "generated_at": "2026-08-02T13:31:31",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -398,73 +398,79 @@
       "id": "2026-07-27-ai-반도체-슈퍼사이클-도래와-전방-생태계-확산-이차전지-aidc-ess-에-주는-시사점",
       "date": "2026-07-27",
       "channel": "슈카월드",
-      "title": "AI 반도체 슈퍼사이클 도래와 전방 생태계 확산: 이차전지(AIDC·ESS)에 주는 시사점",
-      "summary": "AI 반도체 슈퍼사이클 및 전방 IT 수요 회복에 따른 반도체·전력 인프라 산업 활성화와 이차전지(AIDC·ESS) 산업 시사점 분석",
+      "title": "AI 반도체 슈퍼사이클이 가져온 대반전! 배터리 시장은 어떻게 웃을까요?",
+      "summary": "AI 반도체 붐으로 데이터센터 전력이 부족해지면서 배터리 저장장치(ESS) 시장이 새로운 기회를 맞이하고 있어요.",
       "category": "global-market",
       "relation": "indirect",
       "url": "2026-07-27-ai-반도체-슈퍼사이클-도래와-전방-생태계-확산-이차전지-aidc-ess-에-주는-시사점.html",
       "video": "https://www.youtube.com/watch?v=dwY_s50Hw3g",
-      "video_id": "dwY_s50Hw3g"
+      "video_id": "dwY_s50Hw3g",
+      "pv": 2
     },
     {
       "id": "2026-07-27-반도체-투자-전망과-부분-매도-전략-ai-설비투자-속도-조절이-이차전지-ess-산업에-주는-시사점",
       "date": "2026-07-27",
       "channel": "언더스탠딩",
-      "title": "반도체 투자 전망과 부분 매도 전략: AI 설비투자 속도 조절이 이차전지·ESS 산업에 주는 시사점",
-      "summary": "반도체 투자 부분 매도 전략 전환과 AI CapEx 피크론이 AIDC 및 ESS 배터리 시장에 미치는 간접적 영향 분석",
+      "title": "AI 투자 숨고르기 들어가나? 반도체 전략 변화와 ESS 배터리의 미래",
+      "summary": "빅테크 기업들의 AI 설비투자 속도 조절이 ESS 배터리와 이차전지 시장에 미칠 영향을 알기 쉽게 정리해 드려요.",
       "category": "global-market",
       "relation": "indirect",
       "url": "2026-07-27-반도체-투자-전망과-부분-매도-전략-ai-설비투자-속도-조절이-이차전지-ess-산업에-주는-시사점.html",
       "video": "https://www.youtube.com/watch?v=yLuDA6Sx4ig",
-      "video_id": "yLuDA6Sx4ig"
+      "video_id": "yLuDA6Sx4ig",
+      "pv": 2
     },
     {
       "id": "2026-07-27-삼성전자-sk하이닉스-슈퍼사이클-재개와-aidc-인프라-확장에-따른-연쇄파급-효과",
       "date": "2026-07-27",
       "channel": "소수몽키",
-      "title": "삼성전자·SK하이닉스 슈퍼사이클 재개와 AIDC 인프라 확장에 따른 연쇄파급 효과",
-      "summary": "삼성전자·SK하이닉스 중심의 반도체 슈퍼사이클과 현금 흐름 창출 전략 분석 및 이차전지 AIDC·ESS 연계 시사점",
+      "title": "반도체 슈퍼사이클과 AI 데이터센터 폭발! 배터리 시장엔 어떤 기회가 올까요?",
+      "summary": "삼성전자와 SK하이닉스의 반도체 호황이 AI 데이터센터 확충으로 이어지면서, ESS(에너지저장장치) 배터리 시장에 가져올 기회를 쉽게 풀어서 설명해 드려요.",
       "category": "korea-market",
       "relation": "indirect",
       "url": "2026-07-27-삼성전자-sk하이닉스-슈퍼사이클-재개와-aidc-인프라-확장에-따른-연쇄파급-효과.html",
       "video": "https://www.youtube.com/watch?v=vAGGVtkk5Z8",
-      "video_id": "vAGGVtkk5Z8"
+      "video_id": "vAGGVtkk5Z8",
+      "pv": 2
     },
     {
       "id": "2026-07-27-한국은행-금리-인상-주기-및-환율-변동성이-이차전지-산업에-미치는-거시경제적-파급효과",
       "date": "2026-07-27",
       "channel": "손석희의 12시",
-      "title": "한국은행 금리 인상 주기 및 환율 변동성이 이차전지 산업에 미치는 거시경제적 파급효과",
-      "summary": "한국은행 금리 인상 기조와 환율 정상화 전망이 이차전지 산업 자금 조달 및 원자재 수입 비용에 미치는 영향 분석",
+      "title": "한국은행 금리 올리고 환율 출렁이면? 배터리 공장 투자와 원료 값에 비상이 걸려요!",
+      "summary": "한국은행의 금리 인상과 환율 변화가 우리 배터리 기업들에 어떤 영향을 주는지 아주 쉽게 풀어드려요.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-27-한국은행-금리-인상-주기-및-환율-변동성이-이차전지-산업에-미치는-거시경제적-파급효과.html",
       "video": "https://www.youtube.com/watch?v=AscAGQhSlfo",
-      "video_id": "AscAGQhSlfo"
+      "video_id": "AscAGQhSlfo",
+      "pv": 2
     },
     {
       "id": "2026-07-27-외식-소비-지표로-본-경기침체-신호와-이차전지-전방-수요-영향-분석",
       "date": "2026-07-27",
       "channel": "손에 잡히는 경제",
-      "title": "외식 소비 지표로 본 경기침체 신호와 이차전지 전방 수요 영향 분석",
-      "summary": "햄버거 소비 지표에서 감지된 경기침체 신호와 가계 실질 구매력 약화가 이차전지 전방 산업(EV) 수요에 미치는 영향 분석",
+      "title": "햄버거 소비로 본 경기 침체! 전기차와 배터리 시장에는 어떤 영향을 줄까요?",
+      "summary": "외식 소비 감소로 본 경기 침체 신호가 전기차와 이차전지 배터리 수요에 미치는 영향을 쉽게 정리해 드려요.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-27-외식-소비-지표로-본-경기침체-신호와-이차전지-전방-수요-영향-분석.html",
       "video": "https://www.youtube.com/watch?v=mqX4nS1LDAg",
-      "video_id": "mqX4nS1LDAg"
+      "video_id": "mqX4nS1LDAg",
+      "pv": 2
     },
     {
       "id": "2026-07-27-트럼프-신규-관세-정책의-승자와-패자-글로벌-통상-환경-변화와-이차전지-산업-영향",
       "date": "2026-07-27",
       "channel": "Patrick Boyle",
-      "title": "트럼프 신규 관세 정책의 승자와 패자: 글로벌 통상 환경 변화와 이차전지 산업 영향",
-      "summary": "트럼프 신규 관세 정책에 따른 글로벌 산업별 승자와 패자 분석 및 이차전지 공급망·수요 파급 효과",
+      "title": "트럼프의 관세 폭탄, 과연 배터리 시장에는 독이 될까요 약이 될까요?",
+      "summary": "트럼프의 새로운 관세 정책이 세계 경제와 배터리 시장에 어떤 영향을 주는지 아주 쉽게 정리해 드릴게요.",
       "category": "global-policy",
       "relation": "indirect",
       "url": "2026-07-27-트럼프-신규-관세-정책의-승자와-패자-글로벌-통상-환경-변화와-이차전지-산업-영향.html",
       "video": "https://www.youtube.com/watch?v=ChdQciz1gns",
-      "video_id": "ChdQciz1gns"
+      "video_id": "ChdQciz1gns",
+      "pv": 2
     },
     {
       "id": "2026-07-27-리포트-짐바브웨-리튬-원광-수출-금지와-배터리-소재-공급망-지형-변화",
@@ -494,25 +500,27 @@
       "id": "2026-07-27-미-중-무역전쟁의-구조적-향방과-글로벌-이차전지-공급망-재편-전망",
       "date": "2026-07-27",
       "channel": "Money & Macro",
-      "title": "미·중 무역전쟁의 구조적 향방과 글로벌 이차전지 공급망 재편 전망",
-      "summary": "미·중 무역전쟁의 거시적 요인과 글로벌 공급망 분편화가 배터리 산업에 미치는 간접적 영향 분석",
+      "title": "미·중 무역전쟁 속에서 한국 배터리가 살아남는 법",
+      "summary": "미국과 중국의 무역 싸움이 깊어지면서 우리 배터리 기업들이 공급망을 어떻게 다시 짜야 할지 쉽게 풀어드려요.",
       "category": "global-policy",
       "relation": "indirect",
       "url": "2026-07-27-미-중-무역전쟁의-구조적-향방과-글로벌-이차전지-공급망-재편-전망.html",
       "video": "https://www.youtube.com/watch?v=gm4xYLWPVZY",
-      "video_id": "gm4xYLWPVZY"
+      "video_id": "gm4xYLWPVZY",
+      "pv": 2
     },
     {
       "id": "2026-07-27-중앙은행의-2-물가상승률-목표제-유래와-거시경제-및-배터리-산업-영향",
       "date": "2026-07-27",
       "channel": "The Plain Bagel",
-      "title": "중앙은행의 2% 물가상승률 목표제 유래와 거시경제 및 배터리 산업 영향",
-      "summary": "중앙은행의 2% 물가 목표제 설정 배경과 통화정책 향방이 배터리 자본비용 및 EV·ESS 전방 수요에 미치는 영향 분석",
+      "title": "왜 하필 2%일까? 중앙은행의 물가 목표와 배터리 시장 이야기",
+      "summary": "중앙은행이 왜 물가상승률 2%를 목표로 삼는지, 그리고 이 기준금리 흐름이 우리 배터리 산업에 어떤 영향을 주는지 아주 쉽게 설명해 드려요.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-27-중앙은행의-2-물가상승률-목표제-유래와-거시경제-및-배터리-산업-영향.html",
       "video": "https://www.youtube.com/watch?v=CnoDKqlcR4Y",
-      "video_id": "CnoDKqlcR4Y"
+      "video_id": "CnoDKqlcR4Y",
+      "pv": 2
     },
     {
       "id": "2026-07-27-일본의-반도체-재건-전략과-첨단-칩-내재화-ai-데이터센터-및-배터리-공급망-시사점",
