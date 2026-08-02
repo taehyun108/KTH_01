@@ -130,9 +130,16 @@ def _ytdlp_transcript(video_id: str) -> tuple[str, str]:
         return "", "unavailable"
 
     url = f"https://www.youtube.com/watch?v={video_id}"
+    class _Hush:  # yt-dlp 의 반복 ERROR 출력을 삼켜 로그 가독성을 지킨다(사유는 우리가 따로 기록)
+        def debug(self, m): pass
+        def info(self, m): pass
+        def warning(self, m): pass
+        def error(self, m): pass
+
     base = {
         "quiet": True, "no_warnings": True, "skip_download": True, "ignoreerrors": True,
         "writesubtitles": True, "writeautomaticsub": True, "subtitleslangs": ["ko", "en"],
+        "logger": _Hush(),
     }
     # 데이터센터 IP(GitHub Actions)는 기본 web 클라이언트에서 "Sign in to confirm you're not a bot"
     # 차단을 받는다. 차단이 덜한 플레이어 클라이언트를 순차 시도한다.
@@ -306,6 +313,15 @@ def _generate(client, model: str, types, prompt: str, max_retries: int = 4):
         except Exception as exc:  # noqa: BLE001
             msg = str(exc)
             is_429 = "RESOURCE_EXHAUSTED" in msg or "429" in msg
+            # 503(모델 과부하)는 일시적 → 429 와 동일하게 재시도한다.
+            # (재시도하지 않으면 영상이 그냥 버려져 '오늘 업데이트 0건'의 원인이 됨)
+            is_503 = "503" in msg or "UNAVAILABLE" in msg or "overloaded" in msg.lower()
+            if is_503 and attempt < max_retries - 1:
+                wait = _retry_delay(msg, delay)
+                print(f"  [503] 모델 과부하 — {wait:.0f}s 후 재시도 ({attempt + 1})", file=sys.stderr)
+                time.sleep(wait)
+                delay *= 1.4
+                continue
             # 일일 쿼터 소진: 재시도해도 무의미 → 조기 종료
             if is_429 and _is_daily_quota(msg):
                 raise QuotaExhausted(msg)

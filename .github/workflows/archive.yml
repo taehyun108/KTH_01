@@ -18,6 +18,8 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PYTHONUNBUFFERED: "1"   # 로그가 버퍼링돼 순서가 뒤섞이면 원인 추적이 어려워짐
     steps:
       - uses: actions/checkout@v4
 

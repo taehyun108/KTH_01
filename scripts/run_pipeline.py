@@ -54,6 +54,14 @@ def main() -> int:
         candidates = collect_candidates()
     seen = _seen_video_ids()
     fresh = [c for c in candidates if c["video_id"] not in seen]
+    # 신규 0건일 때 원인(수집 실패인지 / 이미 처리된 것인지)을 즉시 알 수 있게 남긴다
+    if not fresh:
+        if not candidates:
+            print("  [진단] 1차 후보 0건 — RSS 수집 실패 또는 키워드 미매치 (위 [rss] 줄 확인)",
+                  file=sys.stderr)
+        else:
+            print(f"  [진단] 후보 {len(candidates)}건이 모두 처리 완료된 영상 — 신규 없음",
+                  file=sys.stderr)
 
     # 채널별로 묶어 각 채널 내 최신순 정렬
     by_ch: dict[str, list] = defaultdict(list)
