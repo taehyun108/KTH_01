@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-01T13:30:28",
+  "generated_at": "2026-08-02T02:31:35",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -372,25 +372,27 @@
       "id": "2026-07-27-삼프로tv-분석-반도체-산업의-핵심-우려-요인과-ai-전력-인프라-연계-배터리-산업-시사점",
       "date": "2026-07-27",
       "channel": "삼프로TV",
-      "title": "[삼프로TV 분석] 반도체 산업의 핵심 우려 요인과 AI·전력 인프라 연계 배터리 산업 시사점",
-      "summary": "삼프로TV 소현철 교수의 반도체 산업 우려 요인 진단을 바탕으로, AI 데이터센터(AIDC) 전력 병목 및 ESS 배터리 수요 영향 분석 리포트.",
+      "title": "AI 반도체 열풍과 전력 부족 문제, 그리고 ESS 배터리의 새로운 기회",
+      "summary": "AI 데이터센터의 전력 부족 문제를 해결하기 위해 대용량 에너지 저장 장치인 ESS 배터리 수요가 크게 늘어날 수 있다는 소식을 전해드려요.",
       "category": "global-market",
       "relation": "indirect",
       "url": "2026-07-27-삼프로tv-분석-반도체-산업의-핵심-우려-요인과-ai-전력-인프라-연계-배터리-산업-시사점.html",
       "video": "https://www.youtube.com/watch?v=XmAtm6L7c6c",
-      "video_id": "XmAtm6L7c6c"
+      "video_id": "XmAtm6L7c6c",
+      "pv": 2
     },
     {
       "id": "2026-07-27-중국-반도체-굴기의-역설과-메모리-반도체-수요-aidc-인프라-및-이차전지-산업-연계성",
       "date": "2026-07-27",
       "channel": "삼프로TV",
-      "title": "중국 반도체 굴기의 역설과 메모리 반도체 수요: AIDC 인프라 및 이차전지 산업 연계성",
-      "summary": "중국의 반도체 자립화 추구 속 삼성전자·SK하이닉스 메모리 수요 영향 및 AI 데이터센터(AIDC) 전력·배터리 인프라 파급 효과 분석",
+      "title": "중국 반도체 굴기의 역설! AI 데이터센터 폭발이 배터리 산업에 호재인 이유",
+      "summary": "중국의 반도체 자립 시도와 AI 데이터센터 확장이 한국 반도체와 배터리 산업에 가져올 기회를 쉽게 풀어드려요.",
       "category": "global-market",
       "relation": "indirect",
       "url": "2026-07-27-중국-반도체-굴기의-역설과-메모리-반도체-수요-aidc-인프라-및-이차전지-산업-연계성.html",
       "video": "https://www.youtube.com/watch?v=J9rOW46geb4",
-      "video_id": "J9rOW46geb4"
+      "video_id": "J9rOW46geb4",
+      "pv": 2
     },
     {
       "id": "2026-07-27-ai-반도체-슈퍼사이클-도래와-전방-생태계-확산-이차전지-aidc-ess-에-주는-시사점",
@@ -807,73 +809,79 @@
       "id": "2026-07-26-반도체-상승장-도래-여부와-주요-체크포인트-ai-데이터센터-전력-수요와-이차전지-연계-분석",
       "date": "2026-07-26",
       "channel": "삼프로TV",
-      "title": "반도체 상승장 도래 여부와 주요 체크포인트: AI 데이터센터 전력 수요와 이차전지 연계 분석",
-      "summary": "반도체 업황 반등 체크포인트 분석 및 AI 데이터센터(AIDC) 확장에 따른 전력·ESS 연계 산업 시사점",
-      "category": "korea-market",
+      "title": "AI 데이터센터 폭풍 성장! 반도체 반등과 배터리 ESS의 새로운 기회",
+      "summary": "AI 데이터센터가 늘어나며 전력이 부족해지고 있어요. 반도체 반등과 배터리 ESS 시장이 왜 함께 뜨는지 쉽게 풀어드려요.",
+      "category": "global-market",
       "relation": "indirect",
       "url": "2026-07-26-반도체-상승장-도래-여부와-주요-체크포인트-ai-데이터센터-전력-수요와-이차전지-연계-분석.html",
       "video": "https://www.youtube.com/watch?v=zz7y_iThwFI",
-      "video_id": "zz7y_iThwFI"
+      "video_id": "zz7y_iThwFI",
+      "pv": 2
     },
     {
       "id": "2026-07-26-반도체-사이클-전환점-진단과-ai-데이터센터-테크-인프라-시장-전망",
       "date": "2026-07-26",
       "channel": "언더스탠딩",
-      "title": "반도체 사이클 전환점 진단과 AI 데이터센터·테크 인프라 시장 전망",
-      "summary": "반도체 업황 사이클 및 매수 타이밍 분석을 통해 AI 테크 생태계와 전방 AIDC 전력·이차전지 수요에 미치는 간접적 영향을 점검한 리포트",
+      "title": "반도체 바람이 바뀐다? AI 데이터센터와 배터리 시장의 새로운 연결고리",
+      "summary": "반도체 사이클의 변화와 AI 데이터센터 투자가 앞으로 배터리 시장과 전력 수요에 어떤 영향을 줄지 쉽게 풀어드려요.",
       "category": "global-market",
       "relation": "indirect",
       "url": "2026-07-26-반도체-사이클-전환점-진단과-ai-데이터센터-테크-인프라-시장-전망.html",
       "video": "https://www.youtube.com/watch?v=MZ5MgJwkuzI",
-      "video_id": "MZ5MgJwkuzI"
+      "video_id": "MZ5MgJwkuzI",
+      "pv": 2
     },
     {
       "id": "2026-07-26-엔비디아-발표로-본-ai-반도체-구조적-성장과-이차전지-aidc-ess-연계-시사점",
       "date": "2026-07-26",
       "channel": "소수몽키",
-      "title": "엔비디아 발표로 본 AI 반도체 구조적 성장과 이차전지(AIDC·ESS) 연계 시사점",
-      "summary": "엔비디아의 깜짝 발표와 메모리 반도체 구조적 성장이 AI 데이터센터 전력망 및 BESS(ESS) 배터리 수요에 미치는 영향 분석",
+      "title": "엔비디아 날아오르면 배터리도 웃는다? AI 데이터센터가 불러온 ESS 대박 기회!",
+      "summary": "엔비디아의 AI 성장이 전기 먹는 하마인 데이터센터를 늘리면서, 배터리 저장 장치(ESS) 시장에도 큰 기회가 열리고 있어요.",
       "category": "global-market",
       "relation": "indirect",
       "url": "2026-07-26-엔비디아-발표로-본-ai-반도체-구조적-성장과-이차전지-aidc-ess-연계-시사점.html",
       "video": "https://www.youtube.com/watch?v=JLTyoWL5t6k",
-      "video_id": "JLTyoWL5t6k"
+      "video_id": "JLTyoWL5t6k",
+      "pv": 2
     },
     {
       "id": "2026-07-26-손석희의-12시-ai-반도체-고점론과-미국-빅테크-capex-향방이-ess-전력망-배터리-산업에-주는-시사점",
       "date": "2026-07-26",
       "channel": "손석희의 12시",
-      "title": "[손석희의 12시] AI 반도체 고점론과 미국 빅테크 CapEx 향방이 ESS·전력망 배터리 산업에 주는 시사점",
-      "summary": "AI 반도체 피크아웃 논쟁과 빅테크 설비투자(CapEx) 전망이 AIDC 전력망 및 ESS 배터리 수요에 미치는 영향 분석",
+      "title": "AI 반도체 진짜 고점일까? 미국 빅테크 투자와 ESS 배터리의 연결고리",
+      "summary": "미국 빅테크의 AI 설비투자가 계속될지 피크를 찍었는지에 따라, 우리 ESS 배터리 시장이 받을 영향을 쉽게 풀어드려요.",
       "category": "global-market",
       "relation": "indirect",
       "url": "2026-07-26-손석희의-12시-ai-반도체-고점론과-미국-빅테크-capex-향방이-ess-전력망-배터리-산업에-주는-시사점.html",
       "video": "https://www.youtube.com/watch?v=y4E9keNww0M",
-      "video_id": "y4E9keNww0M"
+      "video_id": "y4E9keNww0M",
+      "pv": 2
     },
     {
       "id": "2026-07-26-거시-증시-반도체-중심-방어-전략과-이차전지-산업의-자금-수급-및-ess-수요-영향",
       "date": "2026-07-26",
       "channel": "손에 잡히는 경제",
-      "title": "[거시/증시] 반도체 중심 방어 전략과 이차전지 산업의 자금 수급 및 ESS 수요 영향",
-      "summary": "거시 경제 변동성 속 증시 방어 전략(반도체 50% 비중) 분석 및 이차전지 섹터 수급·투심과 AIDC 연계 시사점 리포트.",
+      "title": "불안한 증시 속 반도체 방어막과 이차전지 ESS의 새로운 기회",
+      "summary": "불확실한 시장에서 반도체로 중심을 잡고, 이차전지 시장의 자금 흐름과 ESS 수요가 어떻게 움직이는지 쉽게 풀어드려요.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-26-거시-증시-반도체-중심-방어-전략과-이차전지-산업의-자금-수급-및-ess-수요-영향.html",
       "video": "https://www.youtube.com/watch?v=C_iY5j1ar7M",
-      "video_id": "C_iY5j1ar7M"
+      "video_id": "C_iY5j1ar7M",
+      "pv": 2
     },
     {
       "id": "2026-07-26-글로벌-무역-정책-환경-변동과-이차전지-밸류체인-대응-전략-분석",
       "date": "2026-07-26",
       "channel": "제출된 영상",
-      "title": "글로벌 무역·정책 환경 변동과 이차전지 밸류체인 대응 전략 분석",
-      "summary": "글로벌 통상 환경 및 정책 규제 변화가 이차전지 원자재 공급망과 EV/AIDC 전방 수요에 미치는 영향 분석",
+      "title": "글로벌 관세와 정책 변화, 우리 배터리 산업은 어떻게 대비해야 할까요?",
+      "summary": "글로벌 무역 정책이 급변하는 가운데, 우리 배터리 기업들이 원자재 공급망과 수요 변화에 어떻게 대응해야 할지 알기 쉽게 풀어드려요.",
       "category": "global-policy",
-      "relation": "indirect",
+      "relation": "direct",
       "url": "2026-07-26-글로벌-무역-정책-환경-변동과-이차전지-밸류체인-대응-전략-분석.html",
       "video": "https://www.youtube.com/watch?v=eR8KXKRD88c",
-      "video_id": "eR8KXKRD88c"
+      "video_id": "eR8KXKRD88c",
+      "pv": 2
     },
     {
       "id": "2026-07-25-유가-상승과-금리-인상-우려-대이란-지정학적-리스크가-이차전지-산업에-미치는-파급효과",
