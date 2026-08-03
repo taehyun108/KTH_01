@@ -1,6 +1,9 @@
 import "server-only";
 import type { PipelineDeps } from "./run";
+import type { GeoContext, TripQuery } from "@/agents/types";
 import { resolveContextLive } from "@/agents/fetchers/context";
+import { resolveContextOffline } from "@/agents/offline/geocode";
+import { dateHolidaysReader } from "@/agents/offline/holidays";
 import { discoverNames, livePoiReaders, liveFoodReaders } from "@/agents/fetchers/places";
 import { liveCurrencyReaders } from "@/agents/fetchers/currency";
 import { liveWeatherReaders } from "@/agents/fetchers/weather";
@@ -19,9 +22,18 @@ import { CurrencyInfoSchema, LogisticsInfoSchema } from "@/core/schema/domains.s
  * 최적화: 안정적 도메인(환율/입국정보)은 cachedVerify 로 도메인별 TTL 캐시 + 감사 로그.
  * 네트워크 차단 환경에서는 각 collect 가 예외/빈값을 반환하고 파이프라인이 정직히 표기.
  */
+/** 온라인 지오코딩 우선, 실패 시 오프라인(GeoNames 번들) 폴백 — 무네트워크에서도 컨텍스트 확보. */
+async function resolveContextResilient(city: string, q: TripQuery): Promise<GeoContext> {
+  try {
+    return await resolveContextLive(city, q);
+  } catch {
+    return resolveContextOffline(city, q);
+  }
+}
+
 export function liveDeps(): PipelineDeps {
   return {
-    resolveContext: resolveContextLive,
+    resolveContext: resolveContextResilient,
 
     collectPois: async (ctx) => {
       const names = await discoverNames(ctx.center, "poi");
@@ -62,7 +74,8 @@ export function liveDeps(): PipelineDeps {
               start_date: q.start_date,
               end_date: q.end_date,
             },
-            liveLogisticsReaders,
+            // 온라인 2소스 + 오프라인 date-holidays → 독립 3소스 교차검증 가능
+            [...liveLogisticsReaders, dateHolidaysReader],
           ),
       }) as ReturnType<PipelineDeps["collectLogistics"]>,
 

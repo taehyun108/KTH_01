@@ -19,7 +19,10 @@
   "dependencies": {
     "@anthropic-ai/sdk": "0.115.0",
     "@tanstack/react-query": "5.101.4",
+    "all-the-cities": "3.1.0",
     "better-sqlite3": "13.0.2",
+    "country-to-currency": "^3.0.1",
+    "date-holidays": "3.34.1",
     "drizzle-orm": "0.45.2",
     "maplibre-gl": "6.1.0",
     "next": "16.2.12",
