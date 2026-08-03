@@ -14,20 +14,28 @@ export const dynamic = "force-dynamic";
  */
 export function GET() {
   const checks: Record<string, boolean> = {};
+  // DB 는 선택적(캐시/감사용). 서버리스 읽기전용 FS 에서는 비활성화될 수 있으며
+  // 이는 실패가 아니다 → ok 판정에서 제외하고 정보성으로만 보고한다.
+  const info: Record<string, boolean> = {};
 
-  // 1) DB 연결 + 테이블 존재 확인
+  // 1) DB 연결 + 테이블 존재 확인 (정보성)
   try {
     const db = getDb();
-    db.run(sql`SELECT 1`);
-    const tables = db.all<{ name: string }>(sql`
-      SELECT name FROM sqlite_master
-      WHERE type='table' AND name IN ('audit_log','fact_cache')
-    `);
-    checks.db_connected = true;
-    checks.tables_ready = tables.length === 2;
+    if (db) {
+      db.run(sql`SELECT 1`);
+      const tables = db.all<{ name: string }>(sql`
+        SELECT name FROM sqlite_master
+        WHERE type='table' AND name IN ('audit_log','fact_cache')
+      `);
+      info.db_connected = true;
+      info.tables_ready = tables.length === 2;
+    } else {
+      info.db_connected = false;
+      info.tables_ready = false;
+    }
   } catch {
-    checks.db_connected = false;
-    checks.tables_ready = false;
+    info.db_connected = false;
+    info.tables_ready = false;
   }
 
   // 2) 팩토리로 정상 FACT 생성 (환율 예시)
@@ -83,9 +91,10 @@ export function GET() {
   });
   checks.schema_rejects_sourceless = !bad.success;
 
+  // 핵심 정합성(팩토리·스키마)만 ok 판정. DB 는 info 로 분리.
   const ok = Object.values(checks).every(Boolean);
   return NextResponse.json(
-    { ok, phase: 0, checks, checked_at: new Date().toISOString() },
+    { ok, phase: 0, checks, db: info, checked_at: new Date().toISOString() },
     { status: ok ? 200 : 503 },
   );
 }

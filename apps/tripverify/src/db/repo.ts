@@ -18,6 +18,7 @@ export function getCachedFact<S extends z.ZodTypeAny>(
   valueSchema: S,
 ): VerifiedFact<z.infer<S>> | null {
   const db = getDb();
+  if (!db) return null; // DB 비활성화 환경 → 캐시 미스로 취급
   const row = db.select().from(factCache).where(eq(factCache.key, key)).get();
   if (!row) return null;
   if (row.expires_at && Date.parse(row.expires_at) < Date.now()) return null;
@@ -35,6 +36,7 @@ export function putCachedFact<T>(
   fact: VerifiedFact<T>,
 ): void {
   const db = getDb();
+  if (!db) return; // DB 비활성화 → 저장 생략
   const expires_at = new Date(Date.now() + CACHE_TTL_MS[domain]).toISOString();
   const value_json = JSON.stringify(fact);
   db.insert(factCache)
@@ -54,6 +56,7 @@ export function appendAudit<T>(params: {
   fact: VerifiedFact<T>;
 }): void {
   const db = getDb();
+  if (!db) return; // DB 비활성화 → 감사 로그 생략
   const { agent, domain, fact_key, fact } = params;
   db.insert(auditLog)
     .values({

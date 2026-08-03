@@ -32,7 +32,7 @@ describe("fact_cache 저장/조회 (§7)", () => {
   it("만료된 캐시는 null", () => {
     putCachedFact("t:expired", "currency", sampleFact());
     // expires_at 을 과거로 강제 주입해 만료 상황 재현
-    getDb()
+    getDb()!
       .$client.prepare("UPDATE fact_cache SET expires_at = ? WHERE key = ?")
       .run("2000-01-01T00:00:00Z", "t:expired");
     expect(getCachedFact("t:expired", CurrencyInfoSchema)).toBeNull();
@@ -57,7 +57,7 @@ describe("fact_cache 저장/조회 (§7)", () => {
     expect(b.value?.krw_per_unit).toBe(9.31);
     expect(produced).toBe(1);
 
-    const rows = getDb().select().from(auditLog).all();
+    const rows = getDb()!.select().from(auditLog).all();
     expect(rows.some((r) => r.fact_key === "t:cv")).toBe(true);
   });
 
@@ -68,7 +68,7 @@ describe("fact_cache 저장/조회 (§7)", () => {
       fact_key: "t:unv",
       fact: unverified<number>("출처 없음"),
     });
-    const rows = getDb().select().from(auditLog).all();
+    const rows = getDb()!.select().from(auditLog).all();
     const row = rows.find((r) => r.fact_key === "t:unv");
     expect(row?.confidence).toBe("low");
   });

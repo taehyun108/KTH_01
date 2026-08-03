@@ -7,6 +7,8 @@ import type { TripQuery } from "@/agents/types";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+// 외부 무료 API 다중 호출을 고려한 함수 최대 실행시간(Vercel Hobby 상한 60초).
+export const maxDuration = 60;
 
 const MAX_BODY_BYTES = 8_192;
 
