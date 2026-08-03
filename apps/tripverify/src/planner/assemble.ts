@@ -2,7 +2,7 @@ import type { VerifiedFact } from "@/core/types/verified-fact";
 import type { Poi, Restaurant } from "@/core/types/domains";
 import type { ItineraryDay, ItineraryItem, VerificationSummary } from "@/core/types/itinerary";
 import type { TravelLeg } from "@/core/types/domains";
-import { isRenderable } from "@/core/types/verified-fact";
+import { hasSourcedValue } from "@/core/types/verified-fact";
 
 // 조립 파라미터(§6)
 export const PLAN = {
@@ -67,7 +67,7 @@ export function assembleDay(input: DayAssemblyInput): ItineraryDay {
   let dinnerPlaced = false;
 
   const placeMeal = (meal: VerifiedFact<Restaurant> | undefined, at: number, dur: number, label: string): void => {
-    if (!meal || !isRenderable(meal)) return;
+    if (!meal || !hasSourcedValue(meal)) return;
     items.push({
       kind: "food",
       name: meal.value.name,
@@ -80,8 +80,9 @@ export function assembleDay(input: DayAssemblyInput): ItineraryDay {
 
   for (let i = 0; i < input.pois.length; i++) {
     const fact = input.pois[i]!;
-    if (!isRenderable(fact)) {
-      warnings.push(`검증 미달 장소 제외(확인 필요): ${fact.value?.name ?? "미상"}`);
+    if (!hasSourcedValue(fact)) {
+      // 값·출처가 전혀 없는 완전 미확인 항목만 제외(유령 장소 0건 유지)
+      warnings.push(`출처 없는 항목 제외: ${fact.value?.name ?? "미상"}`);
       continue;
     }
     const poi = fact.value;
@@ -91,7 +92,7 @@ export function assembleDay(input: DayAssemblyInput): ItineraryDay {
     if (!lunchPlaced && cursor + leg >= PLAN.LUNCH_MIN) {
       placeMeal(input.lunch, Math.max(cursor + leg, PLAN.LUNCH_MIN), PLAN.LUNCH_DURATION, "점심");
       lunchPlaced = true;
-      if (input.lunch && isRenderable(input.lunch)) cursor = Math.max(cursor + leg, PLAN.LUNCH_MIN) + PLAN.LUNCH_DURATION;
+      if (input.lunch && hasSourcedValue(input.lunch)) cursor = Math.max(cursor + leg, PLAN.LUNCH_MIN) + PLAN.LUNCH_DURATION;
     }
 
     const startMin = cursor + leg;

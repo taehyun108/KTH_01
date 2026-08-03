@@ -46,7 +46,7 @@ export function VerificationReport({
       {failed.length > 0 && (
         <div className="rounded-lg border border-red-200 p-4 dark:border-red-900">
           <h3 className="mb-2 font-semibold text-red-700 dark:text-red-400">
-            검증 실패 항목 {failed.length}건 (표시 보류)
+            저신뢰(단일 출처) 항목 {failed.length}건 — 🔴 배지와 함께 표시됨
           </h3>
           <ul className="space-y-1 text-sm">
             {failed.map((f, i) => (

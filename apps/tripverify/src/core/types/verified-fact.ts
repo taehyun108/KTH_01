@@ -69,5 +69,17 @@ export function isRenderable<T>(
   return fact.value !== null && fact.confidence !== "low";
 }
 
+/**
+ * 실제 출처가 있는 값인지 — 일정에 '표시 가능'한지 판별한다.
+ * value 가 있고 출처가 1곳 이상이면 참(§0: 출처 있는 실제 조회 데이터).
+ * confidence 가 low 여도, 실존을 뒷받침하는 출처가 있으면 배지를 달아 노출한다.
+ * (값이 null 인 완전 미확인 항목만 숨긴다 → 유령 장소 0건은 유지)
+ */
+export function hasSourcedValue<T>(
+  fact: VerifiedFact<T>,
+): fact is VerifiedFact<T> & { value: T } {
+  return fact.value !== null && fact.sources.length > 0;
+}
+
 /** 브랜드를 제거한 순수 데이터 형태 — 직렬화(JSON 저장/전송)용. */
 export type PlainFact<T> = Omit<VerifiedFact<T>, typeof VERIFIED_BRAND>;

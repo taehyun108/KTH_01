@@ -9,7 +9,7 @@ import type {
 import type { TravelParty } from "@/agents/types";
 import { totalTravelers } from "@/agents/types";
 import { verified } from "@/core/factory/make-fact";
-import { isRenderable } from "@/core/types/verified-fact";
+import { isRenderable, hasSourcedValue } from "@/core/types/verified-fact";
 
 /**
  * 계획용 가정치(§0 정직성: '사실'이 아니라 '가정'임을 low + 추정 출처로 명시).
@@ -127,7 +127,7 @@ export function estimateBudget(input: BudgetInput): BudgetEstimate {
   // 5) 입장료 — 검증된 POI 실제 요금 × 검증 환율 (유일한 검증 라인)
   if (fx) {
     const feeLocal = input.pois.reduce((sum, p) => {
-      const fee = isRenderable(p) ? p.value.admission_fee_local : null;
+      const fee = hasSourcedValue(p) ? p.value.admission_fee_local : null;
       return sum + (typeof fee === "number" ? fee : 0);
     }, 0);
     if (feeLocal > 0) {
@@ -159,7 +159,7 @@ export function estimateBudget(input: BudgetInput): BudgetEstimate {
 
 function averageMealKrw(food: VerifiedFact<Restaurant>[]): number {
   const levels = food
-    .filter(isRenderable)
+    .filter(hasSourcedValue)
     .map((f) => f.value.price_level)
     .filter((l): l is 1 | 2 | 3 | 4 => l !== undefined);
   if (levels.length === 0) return BUDGET_ASSUMPTIONS.food_default_meal_krw;

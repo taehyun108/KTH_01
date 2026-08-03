@@ -86,7 +86,7 @@ describe("assembleDay 제약 (§6, §10)", () => {
     expect(day.warnings.some((w) => w.includes("10시간"))).toBe(true);
   });
 
-  it("검증 미달(low) POI 는 배치되지 않는다", () => {
+  it("출처가 전혀 없는(null) 미확인 POI 는 배치되지 않는다", () => {
     const low = unverified<Poi>("확인 필요");
     const day = assembleDay({
       date: "2026-09-14",
@@ -99,6 +99,28 @@ describe("assembleDay 제약 (§6, §10)", () => {
       legSource: "est",
     });
     expect(day.items.length).toBe(0);
+  });
+
+  it("단일 출처(low)라도 실존 장소는 배지를 달아 배치된다", () => {
+    const lowPoi = verified<Poi>({
+      value: { name: "OSM단일출처장소", location: loc },
+      confidence: "low",
+      sources: [{ name: "OSM", url: "https://overpass-api.de/", tier: 2, retrieved_at: nowISO() }],
+      verification: { passes_completed: 1, agree_count: 1, checked_at: nowISO() },
+    });
+    const day = assembleDay({
+      date: "2026-09-14",
+      weekday: 1,
+      city: "테스트",
+      pois: [lowPoi],
+      legMinutes: [0],
+      legMode: "walk",
+      legEstimated: true,
+      legSource: "est",
+    });
+    const item = day.items.find((i) => i.name === "OSM단일출처장소");
+    expect(item).toBeDefined();
+    expect(item!.place.confidence).toBe("low"); // 정직한 배지 유지
   });
 
   it("식당(점심/저녁)이 삽입된다", () => {

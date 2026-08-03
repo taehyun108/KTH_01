@@ -11,7 +11,7 @@ import type {
 import type { Itinerary, ItineraryDay } from "@/core/types/itinerary";
 import type { RoutePlan } from "@/agents/route-agent";
 import type { Place } from "@/planner/cluster";
-import { isRenderable } from "@/core/types/verified-fact";
+import { hasSourcedValue } from "@/core/types/verified-fact";
 import { assembleDay, summarize, type DayAssemblyInput } from "@/planner/assemble";
 import { estimateBudget } from "@/planner/budget";
 import { planTransfers, type CityNode } from "@/agents/transfer-agent";
@@ -82,7 +82,7 @@ export async function runPipeline(query: TripQuery, deps: PipelineDeps): Promise
   const allFood = bundles.flatMap((b) => b.food);
   const weather = bundles.flatMap((b) => b.weather);
 
-  if (allPois.filter(isRenderable).length === 0) {
+  if (allPois.filter(hasSourcedValue).length === 0) {
     notes.push("검증을 통과한 관광지가 없어 일부/전체 일정이 비어 있습니다. (외부 출처 조회 불가 또는 교차검증 실패)");
   }
   for (const b of bundles) {
@@ -96,8 +96,8 @@ export async function runPipeline(query: TripQuery, deps: PipelineDeps): Promise
   // 예산 (검증 통과 데이터만 사용)
   const budget = estimateBudget({
     currency,
-    pois: allPois.filter(isRenderable),
-    food: allFood.filter(isRenderable),
+    pois: allPois.filter(hasSourcedValue),
+    food: allFood.filter(hasSourcedValue),
     transfers,
     flights,
     days: nDays,
@@ -155,8 +155,8 @@ async function buildCity(
     ),
   ]);
 
-  const renderablePois = pois.filter(isRenderable);
-  const renderableFood = food.filter(isRenderable);
+  const renderablePois = pois.filter(hasSourcedValue);
+  const renderableFood = food.filter(hasSourcedValue);
   const places: Place[] = renderablePois.map((f, i) => ({ id: `${city}-poi-${i}`, location: f.value.location }));
   const route = places.length > 0
     ? await deps.buildRoute(places, block, primaryMode)

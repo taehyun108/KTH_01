@@ -4,12 +4,12 @@ import type { GeoContext, TripQuery } from "@/agents/types";
 import { resolveContextLive } from "@/agents/fetchers/context";
 import { resolveContextOffline } from "@/agents/offline/geocode";
 import { dateHolidaysReader } from "@/agents/offline/holidays";
-import { discoverNames, livePoiReaders, liveFoodReaders } from "@/agents/fetchers/places";
+import { discoverPois, discoverRestaurants, wikiNearby } from "@/agents/fetchers/osm-discovery";
+import { buildPoiFacts, buildRestaurantFacts } from "@/agents/poi-build";
 import { liveCurrencyReaders } from "@/agents/fetchers/currency";
 import { liveWeatherReaders } from "@/agents/fetchers/weather";
 import { liveLogisticsReaders } from "@/agents/fetchers/logistics";
 import { matrixWithFallback } from "@/agents/fetchers/routing";
-import { poiAgent, foodAgent } from "@/agents/poi-agent";
 import { currencyAgent } from "@/agents/currency-agent";
 import { weatherAgent } from "@/agents/weather-agent";
 import { logisticsAgent } from "@/agents/logistics-agent";
@@ -36,13 +36,17 @@ export function liveDeps(): PipelineDeps {
     resolveContext: resolveContextResilient,
 
     collectPois: async (ctx) => {
-      const names = await discoverNames(ctx.center, "poi");
-      return poiAgent(names, { center: ctx.center }, livePoiReaders);
+      // 발굴(좌표 포함) + Wikipedia 근접 교차검증을 한 번씩만 호출.
+      const [seeds, wiki] = await Promise.all([
+        discoverPois(ctx.center).catch(() => []),
+        wikiNearby(ctx.center).catch(() => []),
+      ]);
+      return buildPoiFacts(seeds, wiki);
     },
 
     collectFood: async (ctx) => {
-      const names = await discoverNames(ctx.center, "food");
-      return foodAgent(names, { center: ctx.center }, liveFoodReaders);
+      const seeds = await discoverRestaurants(ctx.center).catch(() => []);
+      return buildRestaurantFacts(seeds);
     },
 
     collectCurrency: async (ctx) =>
