@@ -19,7 +19,10 @@ const LS_FAV = 'bra_fav', LS_HIDE = 'bra_hidden';
 
 let ALL = [];
 let CHANNEL_ROSTER = [];    // 설정된 전체 채널명(0건 채널도 칩으로 표시)
-let activeFilter = 'all';   // all | <category> | fav | hidden
+// 카테고리는 여러 개를 동시에 켤 수 있는 다중 선택 필터 (비어 있으면 '전체')
+let activeCats = new Set();
+// 즐겨찾기·숨김은 카테고리 필터와 별개로 동작하는 단독 보기
+let activeView = 'all';     // all | fav | hidden
 let activeChannel = 'all';  // all | <channel name>
 let searchTerm = '';
 
@@ -65,22 +68,41 @@ function renderPills() {
   el.innerHTML = '';
   for (const [key, label, n] of items) {
     const b = document.createElement('button');
-    b.className = 'pill' + (key === activeFilter ? ' active' : '');
+    let on;
+    if (key === 'all') on = activeView === 'all' && activeCats.size === 0;
+    else if (key === 'fav' || key === 'hidden') on = activeView === key;
+    else on = activeView === 'all' && activeCats.has(key);   // 카테고리: 다중 선택
+
+    b.className = 'pill' + (on ? ' active' : '');
     b.innerHTML = `${label}<span class="n">${n}</span>`;
-    b.onclick = () => { activeFilter = key; render(); };
+    b.onclick = () => {
+      if (key === 'all') {                    // 전체: 카테고리 선택 모두 해제
+        activeCats.clear();
+        activeView = 'all';
+      } else if (key === 'fav' || key === 'hidden') {
+        // 즐겨찾기·숨김은 카테고리 필터와 별개(단독 보기) — 다시 누르면 해제
+        activeView = activeView === key ? 'all' : key;
+        activeCats.clear();
+      } else {                                // 카테고리: 켜고 끄기(중복 선택 가능)
+        activeView = 'all';
+        if (activeCats.has(key)) activeCats.delete(key); else activeCats.add(key);
+      }
+      render();
+    };
     el.appendChild(b);
   }
 }
 
 function currentItems() {
   let items = ALL.slice();
-  if (activeFilter === 'hidden') {
+  if (activeView === 'hidden') {
     items = items.filter(r => hidden.has(r.id));
-  } else if (activeFilter === 'fav') {
+  } else if (activeView === 'fav') {
     items = items.filter(r => favs.has(r.id) && !hidden.has(r.id));
   } else {
     items = items.filter(r => !hidden.has(r.id));
-    if (activeFilter !== 'all') items = items.filter(r => r.category === activeFilter);
+    // 선택된 카테고리가 하나라도 있으면 그 카테고리들만 (없으면 전체)
+    if (activeCats.size) items = items.filter(r => activeCats.has(r.category));
   }
   if (activeChannel !== 'all') items = items.filter(r => r.channel === activeChannel);
   if (searchTerm) {
@@ -125,10 +147,16 @@ function renderChannels() {
 
 function sectionLabel() {
   let base;
-  if (activeFilter === 'all') base = '전체 리포트';
-  else if (activeFilter === 'fav') base = '⭐ 즐겨찾기';
-  else if (activeFilter === 'hidden') base = '🗑 숨긴 리포트';
-  else { const m = CATEGORIES[activeFilter]; base = `${m.emoji} ${m.label}`; }
+  if (activeView === 'fav') base = '⭐ 즐겨찾기';
+  else if (activeView === 'hidden') base = '🗑 숨긴 리포트';
+  else if (activeCats.size === 0) base = '전체 리포트';
+  else {
+    // 선택된 카테고리를 모두 표기 (3개 이상이면 축약)
+    const picked = Object.keys(CATEGORIES).filter(k => activeCats.has(k));
+    base = picked.length <= 2
+      ? picked.map(k => `${CATEGORIES[k].emoji} ${CATEGORIES[k].label}`).join(' · ')
+      : `${picked.map(k => CATEGORIES[k].short).slice(0, 2).join(' · ')} 외 ${picked.length - 2}개`;
+  }
   if (activeChannel !== 'all') base += ` · ${activeChannel}`;
   return base;
 }
@@ -189,7 +217,7 @@ function renderCards() {
 function renderFavTools() {
   const el = document.getElementById('fav-tools');
   if (!el) return;
-  if (activeFilter === 'fav') el.removeAttribute('hidden');
+  if (activeView === 'fav') el.removeAttribute('hidden');
   else el.setAttribute('hidden', '');
 }
 
