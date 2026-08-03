@@ -7,15 +7,16 @@ import { fetchJson } from "@/lib/http";
  * Nominatim(OSM) 지오코딩 + REST Countries 통화. 실패 시 throw → 파이프라인이
  * notes 로 "조회 불가"를 표기한다(§0-4).
  */
-export async function resolveContextLive(query: TripQuery): Promise<GeoContext> {
+export async function resolveContextLive(city: string, query: TripQuery): Promise<GeoContext> {
+  const q = query.country ? `${city}, ${query.country}` : city;
   const geo = await fetchJson<
     { lat: string; lon: string; address?: { country_code?: string } }[]
   >(
-    `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query.destination)}` +
+    `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}` +
       `&format=json&limit=1&addressdetails=1`,
   );
   const hit = geo[0];
-  if (!hit) throw new Error(`목적지 지오코딩 실패: ${query.destination}`);
+  if (!hit) throw new Error(`목적지 지오코딩 실패: ${city}`);
   const country_code = (hit.address?.country_code ?? "").toUpperCase();
 
   let currency_code = "USD";
@@ -30,7 +31,7 @@ export async function resolveContextLive(query: TripQuery): Promise<GeoContext> 
   }
 
   return {
-    destination: query.destination,
+    destination: city,
     center: { lat: Number(hit.lat), lng: Number(hit.lon) },
     country_code,
     currency_code,

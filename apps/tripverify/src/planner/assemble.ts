@@ -19,6 +19,7 @@ export const PLAN = {
 export interface DayAssemblyInput {
   date: string;
   weekday: number; // 0=일 … 6=토
+  city: string;
   pois: VerifiedFact<Poi>[]; // 방문 순서(최적화 완료)
   legMinutes: number[]; // 각 POI 진입 이동시간(분). [0]=일과 시작→첫 POI
   legMode: TravelLeg["mode"];
@@ -142,6 +143,7 @@ export function assembleDay(input: DayAssemblyInput): ItineraryDay {
   return {
     date: input.date,
     weekday: input.weekday,
+    city: input.city,
     items,
     total_activity_minutes: activity,
     total_travel_minutes: travel,

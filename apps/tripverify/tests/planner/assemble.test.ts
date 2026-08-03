@@ -57,6 +57,7 @@ describe("assembleDay 제약 (§6, §10)", () => {
     const day = assembleDay({
       date: "2026-09-13", // 일요일
       weekday: 0,
+      city: "테스트",
       pois: [poiFact({ name: "월요일만휴무아님", location: loc, closed_days: [0] })],
       legMinutes: [0],
       legMode: "walk",
@@ -74,6 +75,7 @@ describe("assembleDay 제약 (§6, §10)", () => {
     const day = assembleDay({
       date: "2026-09-14",
       weekday: 1,
+      city: "테스트",
       pois: many,
       legMinutes: many.map(() => 0),
       legMode: "walk",
@@ -89,6 +91,7 @@ describe("assembleDay 제약 (§6, §10)", () => {
     const day = assembleDay({
       date: "2026-09-14",
       weekday: 1,
+      city: "테스트",
       pois: [low],
       legMinutes: [0],
       legMode: "walk",
@@ -102,6 +105,7 @@ describe("assembleDay 제약 (§6, §10)", () => {
     const day = assembleDay({
       date: "2026-09-14",
       weekday: 1,
+      city: "테스트",
       pois: [poiFact({ name: "A", location: loc }), poiFact({ name: "B", location: loc })],
       legMinutes: [0, 120], // B 진입 전 2시간 → 점심시간대 진입
       legMode: "transit",

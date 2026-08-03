@@ -3,17 +3,28 @@ import type { Observation } from "@/core/verification/observation";
 
 /**
  * 여행 요청 입력. Zod 스키마(schema.ts)로 런타임 검증한다.
+ * 다중 도시(destinations)와 구성원(party)을 지원한다.
  */
 export interface TripQuery {
   origin: string; // 출발지 (도시/공항 코드)
-  destination: string; // 목적지 도시
-  country?: string;
+  country?: string; // 목적지 국가(선택)
+  destinations: string[]; // 방문 도시들(순서 = 방문 순서)
   start_date: string; // YYYY-MM-DD
   end_date: string; // YYYY-MM-DD
-  travelers: number;
+  party: TravelParty; // 여행 구성원
   budget_krw?: number;
   style: TravelStyle[];
   transport: TransportMode[];
+}
+
+/** 여행 구성원 구성. */
+export interface TravelParty {
+  adults: number;
+  children: number;
+}
+
+export function totalTravelers(p: TravelParty): number {
+  return p.adults + p.children;
 }
 
 export type TravelStyle = "relax" | "food" | "history" | "activity";

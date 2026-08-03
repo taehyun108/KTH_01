@@ -23,7 +23,7 @@ export function Timeline({
             style={{ background: DAY_COLORS[di % DAY_COLORS.length] }}
           >
             <h3 className="font-semibold">
-              Day {di + 1} · {day.date} ({weekdayKo(day.weekday)})
+              Day {di + 1} · {day.city} · {day.date} ({weekdayKo(day.weekday)})
             </h3>
             <span className="text-xs opacity-90">
               활동 {minutesLabel(day.total_activity_minutes)} · 이동{" "}

@@ -30,18 +30,19 @@ const highFood = (name: string): VerifiedFact<Restaurant> =>
 
 const query: TripQuery = {
   origin: "ICN",
-  destination: "Osaka",
+  country: "Japan",
+  destinations: ["Osaka"],
   start_date: "2026-09-10",
   end_date: "2026-09-11", // 2일
-  travelers: 2,
+  party: { adults: 2, children: 0 },
   style: ["history", "food"],
   transport: ["transit"],
 };
 
 function deps(pois: VerifiedFact<Poi>[]): PipelineDeps {
   return {
-    resolveContext: async () => ({
-      destination: "Osaka",
+    resolveContext: async (city) => ({
+      destination: city,
       center: { lat: 34.6937, lng: 135.5023 },
       country_code: "JP",
       currency_code: "JPY",
@@ -100,7 +101,39 @@ describe("runPipeline", () => {
   it("검증 POI 가 없으면 notes 로 정직하게 비운다 (§0-4)", async () => {
     const it = await runPipeline(query, deps([unverified<Poi>("조회 불가")]));
     expect(it.days.every((d) => d.items.filter((i) => i.kind === "poi").length === 0)).toBe(true);
-    expect(it.notes.some((n) => n.includes("일정을 생성할 수 없"))).toBe(true);
+    expect(it.notes.some((n) => n.includes("관광지가 없어"))).toBe(true);
+  });
+
+  it("다중 도시: 도시별 일정 배분 + 도시간 이동 + 예산 산출", async () => {
+    const multi: TripQuery = {
+      ...query,
+      destinations: ["Osaka", "Kyoto"],
+      start_date: "2026-09-10",
+      end_date: "2026-09-13", // 4일 → 도시당 2일
+    };
+    // 도시별로 다른 좌표를 주는 deps
+    const base = deps([highPoi("명소", 34.6873, 135.5259)]);
+    const d: PipelineDeps = {
+      ...base,
+      resolveContext: async (city) => ({
+        destination: city,
+        center:
+          city === "Kyoto"
+            ? { lat: 35.0116, lng: 135.7681 }
+            : { lat: 34.6937, lng: 135.5023 },
+        country_code: "JP",
+        currency_code: "JPY",
+      }),
+    };
+    const it = await runPipeline(multi, d);
+    expect(it.days.length).toBe(4);
+    expect(it.cities.map((c) => c.name)).toEqual(["Osaka", "Kyoto"]);
+    expect(it.days.filter((x) => x.city === "Osaka").length).toBe(2);
+    expect(it.days.filter((x) => x.city === "Kyoto").length).toBe(2);
+    expect(it.transfers.length).toBe(1);
+    expect(it.transfers[0]).toMatchObject({ from_city: "Osaka", to_city: "Kyoto" });
+    expect(it.budget.lines.length).toBeGreaterThan(0);
+    expect(it.budget.per_person_krw).toBeGreaterThan(0);
   });
 
   it("컨텍스트 조회 실패 시 500 대신 빈 일정+notes (§0-4)", async () => {
