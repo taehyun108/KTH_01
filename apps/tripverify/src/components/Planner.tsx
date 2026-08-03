@@ -12,8 +12,7 @@ import { Transfers } from "@/components/Transfers";
 import { VerificationReport } from "@/components/VerificationReport";
 import { SourcePanel, type SourcePanelData } from "@/components/SourcePanel";
 
-const MapView = dynamic(() => import("@/components/MapView").then((m) => m.MapView), {
-  ssr: false,
+const GoogleMap = dynamic(() => import("@/components/GoogleMap").then((m) => m.GoogleMap), {
   loading: () => <div className="h-[420px] animate-pulse rounded-lg bg-black/5 dark:bg-white/5" />,
 });
 
@@ -190,7 +189,7 @@ export function Planner({
           </nav>
 
           {tab === "timeline" && <Timeline days={it.days} onSelect={select} />}
-          {tab === "map" && <MapView itinerary={it} />}
+          {tab === "map" && <GoogleMap itinerary={it} />}
           {tab === "report" && <VerificationReport itinerary={it} onSelect={select} />}
         </div>
       ) : (

@@ -1,7 +1,24 @@
 "use client";
 import type { VerifiedFact } from "@/core/types/verified-fact";
 import { ConfidenceBadge } from "./ConfidenceBadge";
-import { isoToLocalTime } from "@/lib/format";
+import {
+  isoToLocalTime,
+  googleMapsPlace,
+  googleMapsCoord,
+  naverBlogSearch,
+  naverMapSearch,
+} from "@/lib/format";
+
+/** 값이 좌표를 가진 '장소'인지 판별하고 좌표를 뽑는다. */
+function placeLoc(value: unknown): { lat: number; lng: number } | null {
+  if (value && typeof value === "object" && "location" in value) {
+    const l = (value as { location?: { lat?: number; lng?: number } }).location;
+    if (l && typeof l.lat === "number" && typeof l.lng === "number") {
+      return { lat: l.lat, lng: l.lng };
+    }
+  }
+  return null;
+}
 
 export interface SourcePanelData {
   title: string;
@@ -40,6 +57,16 @@ export function SourcePanel({
         <p className="mb-4 rounded bg-red-50 p-3 text-sm text-red-800 dark:bg-red-950/40 dark:text-red-300">
           확인 필요: {fact.unverified_reason}
         </p>
+      )}
+
+      {/* 장소면 구글지도/네이버 최신정보 바로가기 */}
+      {placeLoc(fact.value) && (
+        <div className="mb-4 grid grid-cols-2 gap-2 text-sm">
+          <LinkBtn href={googleMapsPlace(data.title)} label="🗺️ 구글지도" />
+          <LinkBtn href={googleMapsCoord(placeLoc(fact.value)!)} label="📍 정확한 위치" />
+          <LinkBtn href={naverBlogSearch(data.title)} label="📝 네이버 블로그 후기" />
+          <LinkBtn href={naverMapSearch(data.title)} label="🧭 네이버 지도" />
+        </div>
       )}
 
       <section className="mb-4">
@@ -86,5 +113,18 @@ export function SourcePanel({
         </details>
       )}
     </aside>
+  );
+}
+
+function LinkBtn({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="rounded border border-black/10 px-2 py-1.5 text-center hover:bg-black/5 dark:border-white/10 dark:hover:bg-white/5"
+    >
+      {label}
+    </a>
   );
 }

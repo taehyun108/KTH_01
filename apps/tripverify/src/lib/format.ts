@@ -35,3 +35,59 @@ export function isoToLocalTime(iso: string): string {
 export function weekdayKo(w: number): string {
   return ["일", "월", "화", "수", "목", "금", "토"][w] ?? "";
 }
+
+// ── 외부 지도/검색 링크 (키 불필요, 무료) ─────────────────────────────
+export interface LatLng {
+  lat: number;
+  lng: number;
+}
+
+/** 이름(+지역)으로 구글지도 검색 → 장소 카드(리뷰/영업시간)가 열린다. */
+export function googleMapsPlace(name: string, area?: string): string {
+  const q = area ? `${name} ${area}` : name;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+}
+
+/** 좌표 기반 정확한 핀. */
+export function googleMapsCoord(loc: LatLng): string {
+  return `https://www.google.com/maps/search/?api=1&query=${loc.lat}%2C${loc.lng}`;
+}
+
+/** 키 불필요 구글지도 iframe 임베드 URL. */
+export function googleMapsEmbed(loc: LatLng, zoom = 12): string {
+  return `https://www.google.com/maps?q=${loc.lat},${loc.lng}&z=${zoom}&output=embed`;
+}
+
+const GOOGLE_TRAVEL: Record<string, string> = {
+  walk: "walking",
+  transit: "transit",
+  car: "driving",
+};
+
+/** 여러 경유지를 포함한 구글지도 길찾기 링크(하루 동선 전체). */
+export function googleMapsDirections(stops: LatLng[], mode = "transit"): string {
+  if (stops.length === 0) return "https://www.google.com/maps";
+  const origin = stops[0]!;
+  const dest = stops[stops.length - 1]!;
+  const waypoints = stops
+    .slice(1, -1)
+    .map((s) => `${s.lat},${s.lng}`)
+    .join("|");
+  const travel = GOOGLE_TRAVEL[mode] ?? "transit";
+  return (
+    `https://www.google.com/maps/dir/?api=1&origin=${origin.lat},${origin.lng}` +
+    `&destination=${dest.lat},${dest.lng}` +
+    (waypoints ? `&waypoints=${encodeURIComponent(waypoints)}` : "") +
+    `&travelmode=${travel}`
+  );
+}
+
+/** 네이버 블로그 검색(최신 후기). */
+export function naverBlogSearch(query: string): string {
+  return `https://search.naver.com/search.naver?where=blog&query=${encodeURIComponent(query)}`;
+}
+
+/** 네이버 지도 검색. */
+export function naverMapSearch(query: string): string {
+  return `https://map.naver.com/p/search/${encodeURIComponent(query)}`;
+}
