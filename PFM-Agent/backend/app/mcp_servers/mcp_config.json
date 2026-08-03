@@ -12,38 +12,63 @@
   "servers": {
     "filesystem": {
       "command": "python",
-      "args": ["-m", "app.mcp_servers.filesystem_server"],
+      "args": [
+        "-m",
+        "app.mcp_servers.filesystem_server"
+      ],
       "enabled": true,
       "require_approval": false,
       "description": "파일 읽기/쓰기/목록"
     },
     "screen": {
       "command": "python",
-      "args": ["-m", "app.mcp_servers.screen_server"],
+      "args": [
+        "-m",
+        "app.mcp_servers.screen_server"
+      ],
       "enabled": true,
       "require_approval": false,
       "description": "화면 캡처/UI 요소 탐지/OCR"
     },
     "automation": {
       "command": "python",
-      "args": ["-m", "app.mcp_servers.automation_server"],
+      "args": [
+        "-m",
+        "app.mcp_servers.automation_server"
+      ],
       "enabled": true,
       "require_approval": true,
       "description": "마우스/키보드/브라우저 조작 (위험 - 승인 필요)"
     },
     "rag": {
       "command": "python",
-      "args": ["-m", "app.mcp_servers.rag_server"],
+      "args": [
+        "-m",
+        "app.mcp_servers.rag_server"
+      ],
       "enabled": true,
       "require_approval": false,
       "description": "사내 문서 검색"
     },
     "report": {
       "command": "python",
-      "args": ["-m", "app.mcp_servers.report_server"],
+      "args": [
+        "-m",
+        "app.mcp_servers.report_server"
+      ],
       "enabled": true,
       "require_approval": false,
       "description": "Word/PPT 보고서 생성"
+    },
+    "team": {
+      "command": "python",
+      "args": [
+        "-m",
+        "app.mcp_servers.team_server"
+      ],
+      "enabled": true,
+      "require_approval": false,
+      "description": "팀 대화방 공유 (목록/글쓰기/파일공유/회의록 저장)"
     }
   }
 }

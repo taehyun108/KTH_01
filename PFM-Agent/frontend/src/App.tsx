@@ -14,6 +14,7 @@
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { TeamPanel } from "./components/TeamPanel";
 import { ApprovalDialog } from "./components/ApprovalDialog";
 import { StatusBar } from "./components/StatusBar";
 import { ToolLogPanel } from "./components/ToolLogPanel";
@@ -64,6 +65,8 @@ export default function App() {
   const [toolLog, setToolLog] = useState<ToolLogEntry[]>([]);
   const [result, setResult] = useState<RunDetail | null>(null);
   const [approval, setApproval] = useState<PendingApproval | null>(null);
+  // 화면 전환: 에이전트 작업 / 팀 협업
+  const [tab, setTab] = useState<"agent" | "team">("agent");
   const [notice, setNotice] = useState("");
 
   const unsubscribeRef = useRef<(() => void) | null>(null);
@@ -280,10 +283,28 @@ export default function App() {
     <div className="app">
       <header>
         <h1>🤖 PFM-Agent</h1>
+        <nav className="tabs">
+          <button
+            type="button"
+            className={tab === "agent" ? "active" : ""}
+            onClick={() => setTab("agent")}
+          >
+            에이전트 작업
+          </button>
+          <button
+            type="button"
+            className={tab === "team" ? "active" : ""}
+            onClick={() => setTab("team")}
+          >
+            팀 협업
+          </button>
+        </nav>
         <StatusBar status={status} error={statusError} />
       </header>
 
-      <main>
+      {tab === "team" && <TeamPanel />}
+
+      <main hidden={tab !== "agent"}>
         <section className="panel chat">
           <h2>요청 입력</h2>
 

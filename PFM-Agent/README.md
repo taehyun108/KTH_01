@@ -37,6 +37,7 @@ flowchart TB
             S3["automation"]
             S4["rag"]
             S5["report"]
+            S6["team"]
         end
         LLM["🔀 LLM Adapter<br/>P-GPT / Claude / GPT-4o 스위칭"]
         SAFE["🛡 Safety<br/>Kill Switch · Undo · Action Logger · Approval Gate"]
@@ -166,7 +167,7 @@ cd backend
 uv run python ../scripts/benchmark.py     # LLM 없이 동작 (폐쇄망 OK)
 ```
 
-적용된 최적화와 실측값(컨테이너 기준, 서버 5개 / 도구 15개):
+적용된 최적화와 실측값(컨테이너 기준, 서버 5개 / 도구 15개 시점 측정):
 
 | 항목 | 개선 전 | 개선 후 | 효과 |
 |---|---:|---:|---|
@@ -208,7 +209,53 @@ uv run python ../scripts/verify_display.py               # 읽기 전용 점검
 uv run python ../scripts/verify_display.py --allow-input # 마우스 실제 이동까지 확인
 ```
 
-### 8. 안전장치 (Safety)
+### 8. 팀 협업 (대화 · 회의 · 파일 공유)
+
+같은 그룹 구성원끼리 **카카오톡처럼** 대화하고, 파일·이미지·영상을 주고받는다.
+주고받은 내용은 **전부 기록**되어 회의록으로 남길 수 있다.
+
+```
+[호스트 PC]  PFM-Agent 백엔드 (0.0.0.0:8756)  ◀── 사내망 ──┐
+                    │                                      │
+              data/team.db   (대화·회의·첨부)         [참여자 PC]
+              data/attachments/ (원본 파일)          [참여자 PC]
+              logs/team.jsonl  (감사 기록)
+```
+
+**연결 방식 (폐쇄망)** — 별도 서버 인프라가 필요 없다. 한 PC 가 호스트가 된다.
+
+| 구분 | `.env` 설정 |
+|---|---|
+| 호스트 PC | `TEAM_SERVER_ENABLED=true` + `BACKEND_HOST=0.0.0.0` (방화벽 8756 허용) |
+| 참여자 PC | `TEAM_SERVER_URL=http://호스트IP:8756` |
+| 혼자 사용 | 기본값 그대로 (외부 접속 차단) |
+
+**기능**
+
+| 기능 | 설명 |
+|---|---|
+| 대화방 / 회의방 | 회의는 **종료**할 수 있고, 종료 후엔 메시지가 막힌다 (기록은 유지) |
+| 파일 · 이미지 · 영상 | 이미지/영상은 대화창에서 바로 보이고, 나머지는 첨부로 표시 |
+| 실시간 수신 | WebSocket, 끊기면 주기적 재조회로 자동 대체 |
+| 회의록 | 참석자·시각·대화·첨부를 Markdown 으로 정리 |
+| Agent 연동 | Agent 가 만든 보고서를 **대화방에 바로 공유** (team MCP 서버) |
+
+**🔒 기록 보존 (감사 목적)**
+
+- 메시지를 삭제해도 **완전히 지우지 않는다.** 화면에서만 가려지고
+  `deleted_at` 만 기록되어 "언제 누가 무엇을 지웠는지" 추적할 수 있다.
+- 모든 활동이 `logs/team.jsonl` 에 **덧붙이기 전용**으로 남는다.
+- 첨부 파일은 **SHA-256 해시**를 함께 저장해 내용이 바뀌지 않았음을 확인할 수 있다.
+- 저장 위치가 전부 프로젝트 폴더 안이라 USB 로 옮기면 기록도 함께 따라간다.
+
+**보안**
+
+- 첨부 파일 이름의 경로 표기(`../../`)를 제거해 저장 폴더를 벗어날 수 없다.
+- Agent 의 `share_file` 은 **프로젝트 폴더 하위 파일만** 공유할 수 있다.
+  (사용자 PC 의 아무 파일이나 팀에 유출되지 않도록)
+- 파일 크기 상한 `TEAM_MAX_ATTACHMENT_MB` (기본 100MB, 하드 상한 2048MB)
+
+### 9. 안전장치 (Safety)
 - **Human-in-the-loop**: 위험 액션은 사용자 승인(Approval Gate) 후 실행
 - **Kill Switch(ESC)**: 어떤 상황에서도 전역 단축키로 즉시 중단
 - **Undo**: 액션 스택 기반 되돌리기
@@ -240,6 +287,7 @@ PFM-Agent/
 │       ├── rag/               ← ChromaDB 벡터 스토어
 │       ├── safety/            ← kill_switch/undo/action_logger/approval_gate
 │       ├── security/          ← 개인정보 마스킹
+│       ├── team/             ← ★ 팀 협업 (대화/회의/파일 + 기록)
 │       ├── scenarios/         ← 소듐이온배터리 정책동향 시나리오
 │       └── config/            ← settings.py + whitelist.json
 │
@@ -256,7 +304,7 @@ PFM-Agent/
 |---|---|:---:|
 | 1 | 프로젝트 세팅 + 문서화 | ✅ |
 | 2 | LLM Adapter (P-GPT / Claude / GPT) | ✅ |
-| 3 | 자체 MCP 서버 인프라 (5개 서버 / 15개 도구) | ✅ |
+| 3 | 자체 MCP 서버 인프라 (6개 서버 / 19개 도구) | ✅ |
 | 4 | Backend + LangGraph 6개 Agent | ✅ |
 | 5 | 안전장치 (Kill Switch / 승인 / Undo / 기록) | ✅ |
 | 6 | Perception & Executor (화면 인식 / PC 조작) | ✅ |
@@ -264,18 +312,19 @@ PFM-Agent/
 | 8 | Report Generator (Word / PPT) | ✅ |
 | 9 | Frontend (Tauri + React) | ✅ |
 | 10 | USB 배포 스크립트 + 모델 다운로드 | ✅ |
-| 11 | 최종 검증 체크리스트 (14항목) | ✅ |
+| 11 | 최종 검증 체크리스트 (15항목) | ✅ |
 | 12 | 피드백 루프 (Verifier → Retriever 재검색) | ✅ |
 | 13 | **GUI 자동 조작 루프** (화면 인식 → 판단 → 조작 반복) | ✅ |
 | 14 | 실제 화면(가상 디스플레이) 검증 + 결함 4건 수정 | ✅ |
+| 15 | **팀 협업** (대화 · 회의 · 파일/이미지/영상 · 기록) | ✅ |
 
 검증 명령:
 ```bash
 cd backend
-uv run python -m pytest tests -q             # 단위/통합 테스트 (325개)
+uv run python -m pytest tests -q             # 단위/통합 테스트 (366개)
 uv run python -m pytest tests/test_feedback_loop.py -q  # 피드백 루프 / 무한 루프 방지
 uv run python -m pytest tests/test_performance.py -q    # 성능·메모리 상한
-uv run python ../scripts/final_check.py      # 최종 체크리스트 14항목
+uv run python ../scripts/final_check.py      # 최종 체크리스트 15항목
 uv run python ../scripts/benchmark.py        # 성능 측정 (LLM 불필요)
 uv run python ../scripts/verify_display.py   # 실제 화면 기능 검증 (회사 PC 에서)
 uv run python -m app.mcp_client --healthcheck   # 도구 서버 상태

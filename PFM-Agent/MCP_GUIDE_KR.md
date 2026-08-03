@@ -43,6 +43,7 @@ backend/app/
 │   ├── automation_server.py     ← 마우스/키보드/브라우저 (⚠️ 승인 필요)
 │   ├── rag_server.py            ← 사내 문서 검색
 │   ├── report_server.py         ← Word/PPT 생성
+│   ├── team_server.py           ← 팀 대화방 공유 (결과 전달/회의록)
 │   └── mcp_config.json          ← 서버 등록 정보
 │
 └── mcp_client/
@@ -108,6 +109,10 @@ LLM API 는 도구 이름에 **`^[a-zA-Z0-9_-]{1,64}$` 만 허용**한다. **점
 | | `add_document(path)` | 문서 색인 추가 | — | ✅ |
 | **report** | `create_word_report(title, sections, citations)` | Word 보고서 생성 | — | ✅ |
 | | `create_ppt_report(title, slides, citations)` | PPT 보고서 생성 | — | ✅ |
+| **team** | `list_rooms()` | 팀 대화방/회의방 목록 | — | ✅ |
+| | `post_message(room_id, body)` | 대화방에 글 남기기 | — | ✅ |
+| | `share_file(room_id, path, message)` | 파일/이미지/영상 공유 (프로젝트 내부만) | — | ✅ |
+| | `export_transcript(room_id)` | 회의록을 문서로 저장 | — | ✅ |
 
 > ⚠️ **automation** 서버의 도구는 `require_approval: true` 로 지정되어,
 > 실행 전 **Approval Gate**(사용자 승인)를 반드시 통과해야 합니다.
@@ -219,7 +224,7 @@ python -m app.mcp_servers.filesystem_server
   [OK] filesystem   도구 3개
          - filesystem.read_file
   ...
-  ✅ 정상: 서버 5개 / 도구 15개
+  ✅ 정상: 서버 6개 / 도구 19개
 ```
 
 > MCP 서버는 stdio 로 통신하므로 직접 실행하면 입력 대기 상태가 됩니다.

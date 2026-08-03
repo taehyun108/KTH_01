@@ -50,10 +50,17 @@ CONNECT_TIMEOUT = 60.0
 # ============================================================
 
 
-def test_config_loads_all_five_servers() -> None:
-    """mcp_config.json 에 5개 서버가 등록되어 있어야 한다."""
+def test_config_loads_all_servers() -> None:
+    """mcp_config.json 에 6개 서버가 등록되어 있어야 한다."""
     configs = load_mcp_config()
-    assert set(configs) == {"filesystem", "screen", "automation", "rag", "report"}
+    assert set(configs) == {
+        "filesystem",
+        "screen",
+        "automation",
+        "rag",
+        "report",
+        "team",
+    }
 
 
 def test_automation_server_requires_approval() -> None:
@@ -151,6 +158,7 @@ def test_all_tools_have_meaningful_descriptions() -> None:
     from app.mcp_servers.rag_server import RagMCPServer
     from app.mcp_servers.report_server import ReportMCPServer
     from app.mcp_servers.screen_server import ScreenMCPServer
+    from app.mcp_servers.team_server import TeamMCPServer
 
     servers = [
         FilesystemMCPServer(),
@@ -158,6 +166,7 @@ def test_all_tools_have_meaningful_descriptions() -> None:
         AutomationMCPServer(),
         RagMCPServer(),
         ReportMCPServer(),
+        TeamMCPServer(),
     ]
     for server in servers:
         for tool in server.get_tools():
@@ -182,7 +191,7 @@ async def mcp_client():
 
 
 async def test_all_servers_start_successfully(mcp_client: MCPClient) -> None:
-    """5개 서버가 모두 독립 프로세스로 기동되어야 한다."""
+    """6개 서버가 모두 독립 프로세스로 기동되어야 한다."""
     assert mcp_client.failed_servers == {}, f"기동 실패: {mcp_client.failed_servers}"
     assert set(mcp_client.connected_servers) == {
         "filesystem",
@@ -190,12 +199,13 @@ async def test_all_servers_start_successfully(mcp_client: MCPClient) -> None:
         "automation",
         "rag",
         "report",
+        "team",
     }
 
 
 async def test_all_tools_collected(mcp_client: MCPClient) -> None:
-    """모든 서버의 도구가 수집되어야 한다. (3+4+4+2+2 = 15)"""
-    assert mcp_client.total_tool_count() == 15
+    """모든 서버의 도구가 수집되어야 한다. (3+4+4+2+2+4 = 19)"""
+    assert mcp_client.total_tool_count() == 19
 
 
 async def test_filesystem_write_then_read(mcp_client: MCPClient, tmp_path: Path) -> None:
@@ -392,12 +402,14 @@ async def test_registry_collects_all_tools(mcp_client: MCPClient) -> None:
     """레지스트리가 모든 서버의 도구를 수집해야 한다."""
     registry = ToolRegistry(mcp_client)
     count = registry.refresh()
-    assert count == 15
+    assert count == 19
     names = {tool.qualified_name for tool in registry.tools}
     assert "filesystem__read_file" in names
     assert "automation__click" in names
     # GUI 자동 조작 루프가 화면 상태를 읽는 데 쓰는 도구
     assert "screen__list_ui_elements" in names
+    # 팀 대화방 공유 도구 (Agent 가 결과를 팀에 전달)
+    assert "team__post_message" in names
 
 
 async def test_registry_converts_to_llm_tool_specs(mcp_client: MCPClient) -> None:
@@ -406,7 +418,7 @@ async def test_registry_converts_to_llm_tool_specs(mcp_client: MCPClient) -> Non
     registry.refresh()
     specs = registry.to_tool_specs()
 
-    assert len(specs) == 15
+    assert len(specs) == 19
     assert all(isinstance(spec, ToolSpec) for spec in specs)
 
     # LLM API 의 도구 이름 규칙 검증: ^[a-zA-Z0-9_-]{1,64}$
@@ -540,7 +552,7 @@ async def test_registry_summary_is_readable(mcp_client: MCPClient) -> None:
     registry.refresh()
 
     summary = registry.summary()
-    assert "MCP 도구 15개 등록됨" in summary
+    assert "MCP 도구 19개 등록됨" in summary
     assert "automation (승인 필요)" in summary
     assert NAME_SEPARATOR not in summary  # 표시용은 점 표기를 사용
 

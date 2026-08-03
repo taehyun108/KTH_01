@@ -231,7 +231,7 @@ def check_tool_collection(checklist: Checklist) -> None:
 
     try:
         count, server_count, servers = asyncio.run(collect())
-        passed = count == 15 and server_count == 5
+        passed = count == 19 and server_count == 6
         detail = f"도구 {count}개 / 서버 {server_count}개 ({', '.join(servers)})"
     except Exception as exc:  # noqa: BLE001
         passed, detail = False, f"오류: {exc}"
@@ -711,6 +711,115 @@ def check_stdout_protection(checklist: Checklist) -> None:
     )
 
 
+def check_team_collaboration(checklist: Checklist) -> None:
+    """15. 팀 협업(대화/회의/파일)이 동작하고 기록이 남음"""
+    import json as _json
+    import tempfile
+
+    from app.team.service import TeamService
+    from app.team.store import TeamStore, TeamStoreError, safe_filename
+
+    problems: list[str] = []
+
+    async def exercise(root: Path) -> dict[str, int]:
+        store = TeamStore(data_dir=root / "data", project_root=root)
+        service = TeamService(
+            store,
+            log_path=root / "logs" / "team.jsonl",
+            max_attachment_bytes=1024 * 1024,
+        )
+        await service.start()
+        await service.register_member("a", "구성원A")
+        await service.register_member("b", "구성원B")
+
+        room = await service.create_room(
+            "검증 회의", kind="meeting", created_by="a", member_ids=["b"]
+        )
+        await service.send_text(room.id, "a", "회의를 시작합니다")
+        await service.send_text(room.id, "b", "자료 공유합니다")
+
+        # 파일 전송
+        sample = root / "자료.txt"
+        sample.write_text("검증용", encoding="utf-8")
+        shared = await service.send_file(
+            room.id, "b", filename="자료.txt", source=sample
+        )
+        if shared.attachment is None:
+            problems.append("첨부 파일이 저장되지 않음")
+        elif not service.attachment_full_path(shared.attachment).is_file():
+            problems.append("첨부 파일 실물이 없음")
+
+        # 삭제해도 기록이 남는가
+        removed = await service.send_text(room.id, "a", "지울 메시지")
+        deleted = await service.delete_message(removed.id, "a")
+        if not deleted.is_deleted or store.get_message(removed.id) is None:
+            problems.append("삭제 후 기록이 사라짐 (감사 불가)")
+
+        # 회의 종료 후 메시지 차단
+        await service.close_room(room.id, "a")
+        try:
+            await service.send_text(room.id, "a", "종료 후")
+            problems.append("종료된 회의에 메시지가 들어감")
+        except TeamStoreError:
+            pass
+
+        # 회의록
+        transcript = await service.build_transcript(room.id)
+        for needed in ("검증 회의", "구성원A", "회의를 시작합니다", "(삭제된 메시지)"):
+            if needed not in transcript:
+                problems.append(f"회의록에 '{needed}' 누락")
+
+        stats = await service.stats()
+        await service.stop()
+        return stats
+
+    with tempfile.TemporaryDirectory() as temp:
+        root = Path(temp)
+        try:
+            stats = asyncio.run(exercise(root))
+        except Exception as exc:  # noqa: BLE001
+            checklist.add(
+                CheckItem(
+                    name="팀 협업(대화/회의/파일) 동작 + 기록 보존",
+                    passed=False,
+                    detail=f"오류: {exc}",
+                )
+            )
+            return
+
+        # 감사 기록 파일 확인
+        log_path = root / "logs" / "team.jsonl"
+        if not log_path.is_file():
+            problems.append("감사 기록 파일이 없음")
+        else:
+            actions = {
+                _json.loads(line)["action"]
+                for line in log_path.read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            }
+            for needed in ("room_created", "message_sent", "message_deleted"):
+                if needed not in actions:
+                    problems.append(f"기록에 '{needed}' 누락")
+
+    # 파일 이름으로 저장 위치를 벗어나지 못하는가 (보안)
+    if "/" in safe_filename("../../etc/passwd"):
+        problems.append("첨부 파일 이름으로 경로 탈출 가능 (보안)")
+
+    checklist.add(
+        CheckItem(
+            name="팀 협업(대화/회의/파일) 동작 + 기록 보존",
+            passed=not problems,
+            detail=(
+                f"방/메시지/첨부 저장 확인, 삭제 후에도 기록 유지, "
+                f"회의 종료 차단, 회의록 생성 "
+                f"(메시지 {stats['messages']}건 / 첨부 {stats['attachments']}건)"
+                if not problems
+                else "; ".join(problems)
+            ),
+        )
+    )
+
+
 # ============================================================
 # 실행
 # ============================================================
@@ -740,6 +849,7 @@ def main() -> int:
         check_feedback_loop,
         check_gui_loop,
         check_stdout_protection,
+        check_team_collaboration,
     )
 
     for check in checks:

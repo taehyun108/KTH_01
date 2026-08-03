@@ -35,9 +35,12 @@ from pydantic import BaseModel, Field
 
 from app.agents.run_manager import RunManager
 from app.agents.runtime import AgentRuntime
-from app.config.settings import get_settings
+from app.config.settings import Settings, get_settings
 from app.llm.base import LLMError
 from app.mcp_client.client import MCPClient
+from app.team.api import create_team_router, create_team_websocket_route, team_context
+from app.team.service import TeamService
+from app.team.store import TeamStore
 from app.safety.kill_switch import KillSwitch
 from app.safety.undo_manager import UndoError
 
@@ -89,6 +92,7 @@ class AppState:
     runtime: AgentRuntime | None = None
     run_manager: RunManager | None = None
     kill_switch: KillSwitch | None = None
+    team_service: TeamService | None = None
     startup_error: str = ""
 
 
@@ -141,6 +145,10 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
                 "일부 MCP 서버가 시작되지 않았습니다: %s", mcp_client.failed_servers
             )
 
+        # --- 팀 협업 준비 (대화 / 회의 / 파일 공유) ---
+        #     LLM 이나 MCP 가 실패해도 팀 기능은 독립적으로 동작해야 한다.
+        await _start_team_service(settings)
+
         # --- LLM + 런타임 준비 ---
         try:
             runtime = AgentRuntime.create(mcp_client, settings=settings)
@@ -180,10 +188,55 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
             app_state.kill_switch = None
         if app_state.run_manager is not None:
             await app_state.run_manager.shutdown()
+        if app_state.team_service is not None:
+            await app_state.team_service.stop()
+            app_state.team_service = None
         await mcp_client.aclose()
         app_state.mcp_client = None
         app_state.runtime = None
         app_state.run_manager = None
+
+
+async def _start_team_service(settings: Settings) -> None:
+    """
+    팀 협업 저장소를 준비한다.
+
+    실패해도 앱 전체를 멈추지 않는다. 사유를 남겨 두면 화면에서
+    "왜 안 되는지"를 한글로 안내한다.
+    """
+    if not settings.team_enabled:
+        team_context.disable(
+            "팀 협업 기능이 꺼져 있습니다. (.env 의 TEAM_ENABLED=true 로 켤 수 있습니다)"
+        )
+        logger.info("팀 협업 기능이 꺼져 있습니다.")
+        return
+
+    try:
+        store = TeamStore(data_dir=settings.data_dir, project_root=settings.project_root)
+        service = TeamService(
+            store,
+            log_path=settings.log_dir / "team.jsonl",
+            max_attachment_bytes=settings.team_max_attachment_mb * 1024 * 1024,
+        )
+        await service.start()
+
+        member_id = settings.team_member_id
+        display_name = settings.team_display_name or member_id
+        await service.register_member(member_id, display_name)
+
+        app_state.team_service = service
+        team_context.bind(service, member_id=member_id, display_name=display_name)
+
+        scope = "사내망 전체" if settings.team_server_enabled else "이 PC 만"
+        logger.info(
+            "팀 협업 준비 완료: %s (%s) / 공개 범위 %s",
+            display_name,
+            member_id,
+            scope,
+        )
+    except Exception as exc:  # noqa: BLE001 - 팀 기능 실패로 앱을 멈추지 않는다
+        team_context.disable(f"팀 협업 기능을 준비하지 못했습니다: {exc}")
+        logger.error("팀 협업 준비 실패: %s", exc)
 
 
 def create_app() -> FastAPI:
@@ -200,18 +253,26 @@ def create_app() -> FastAPI:
     # 프론트엔드(Tauri/Vite)에서의 접근 허용 — 로컬 전용
     application.add_middleware(
         CORSMiddleware,
-        allow_origins=[
+        # 팀 모드에서는 사내망의 다른 PC 화면에서도 접속하므로 출처를 넓힌다.
+        # (혼자 쓸 때는 로컬 출처만 허용 — 기본값이 더 안전하다)
+        allow_origins=["*"] if settings.team_server_enabled else [
             f"http://localhost:{settings.frontend_port}",
             f"http://127.0.0.1:{settings.frontend_port}",
             "tauri://localhost",
             "http://tauri.localhost",
         ],
-        allow_credentials=True,
+        # 출처가 "*" 일 때 자격증명 허용은 브라우저가 거부하므로 함께 조정한다.
+        allow_credentials=not settings.team_server_enabled,
         allow_methods=["*"],
         allow_headers=["*"],
     )
 
     _register_routes(application)
+
+    # 팀 협업 (대화 / 회의 / 파일 공유)
+    application.include_router(create_team_router())
+    create_team_websocket_route(application)
+
     return application
 
 

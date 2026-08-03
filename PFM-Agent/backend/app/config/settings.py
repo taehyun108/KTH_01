@@ -94,6 +94,24 @@ MAX_AGENT_ITERATIONS: int = 5
 #: 실제로 마우스/키보드를 움직이는 동작이므로 `.env` 값이 커도 이 값으로 잘린다.
 MAX_GUI_STEPS: int = 50
 
+#: 첨부 파일 크기의 하드 상한(MB).
+#: USB/사내망 용량을 지키기 위해 `.env` 값이 커도 이 값으로 잘린다.
+MAX_ATTACHMENT_MB: int = 2048
+
+
+def _default_member_id() -> str:
+    """
+    `.env` 에 식별자가 없을 때 쓸 기본값을 만든다.
+
+    PC 이름을 쓰면 같은 그룹 안에서 겹칠 가능성이 낮고,
+    사용자가 자기 PC 를 알아보기도 쉽다.
+    """
+    import socket
+
+    name = socket.gethostname().strip() or "member"
+    # 식별자에 쓰기 어려운 문자는 밑줄로 바꾼다.
+    return "".join(char if char.isalnum() or char in "-_" else "_" for char in name)[:40]
+
 
 def _as_int(raw: str | None, default: int) -> int:
     """문자열 설정값을 int 로 변환한다. 변환 실패 시 기본값."""
@@ -189,6 +207,39 @@ class Settings:
     화면 인식 → 판단 → 조작 1회를 한 걸음으로 센다.
     """
 
+    # --- [11] 팀 협업 (대화 / 회의 / 파일 공유) ---
+    team_enabled: bool = True
+    """팀 협업 기능 사용 여부."""
+
+    team_member_id: str = ""
+    """
+    이 PC 사용자의 식별자. 비워 두면 PC 이름으로 자동 생성한다.
+
+    같은 그룹 안에서 겹치지 않아야 한다.
+    """
+
+    team_display_name: str = ""
+    """대화창에 표시할 이름. 비워 두면 식별자를 그대로 쓴다."""
+
+    team_server_enabled: bool = False
+    """
+    이 PC 를 **호스트**로 쓸지 여부.
+
+    True 로 두면 백엔드가 사내망 전체(0.0.0.0)에 열려 다른 PC 가 접속할 수 있다.
+    ⚠️ 혼자 쓸 때는 False 로 두는 것이 안전하다. (외부 접속 차단)
+    """
+
+    team_max_attachment_mb: int = 100
+    """주고받을 수 있는 파일 최대 크기(MB). 영상까지 고려한 기본값."""
+
+    team_server_url: str = ""
+    """
+    접속할 호스트 주소. (참여자 PC 에서 입력)
+
+    예: http://10.20.30.40:8756
+    비워 두면 이 PC 의 백엔드를 사용한다.
+    """
+
     # --- 메타 ---
     project_root: Path = PROJECT_ROOT
 
@@ -267,6 +318,15 @@ def load_settings() -> Settings:
         gui_max_steps=min(
             MAX_GUI_STEPS, max(1, _as_int(env.get("GUI_MAX_STEPS"), 15))
         ),
+        # [11] 팀 협업
+        team_enabled=_as_bool(env.get("TEAM_ENABLED"), True),
+        team_member_id=get("TEAM_MEMBER_ID") or _default_member_id(),
+        team_display_name=get("TEAM_DISPLAY_NAME"),
+        team_server_enabled=_as_bool(env.get("TEAM_SERVER_ENABLED"), False),
+        team_max_attachment_mb=min(
+            MAX_ATTACHMENT_MB, max(1, _as_int(env.get("TEAM_MAX_ATTACHMENT_MB"), 100))
+        ),
+        team_server_url=get("TEAM_SERVER_URL").rstrip("/"),
     )
 
 

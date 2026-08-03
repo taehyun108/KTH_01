@@ -601,13 +601,14 @@ async def test_api_status(api_client: Any) -> None:
 
     data = response.json()
     assert data["ready"] is True
-    assert len(data["tools"]) == 15
+    assert len(data["tools"]) == 19
     assert set(data["mcp_servers"]) == {
         "filesystem",
         "screen",
         "automation",
         "rag",
         "report",
+        "team",
     }
 
     # 승인 필요 도구가 표시되어야 한다.
