@@ -20,27 +20,45 @@ import time
 from datetime import date
 from typing import Any
 
-from config import CHANNELS, RSS_URL, ALL_KEYWORDS, MAX_AGE_DAYS
+from config import CHANNELS, RSS_URL, ALL_KEYWORDS, SPECIFIC_KEYWORDS, MAX_AGE_DAYS
 
 # 영문/숫자·공백·하이픈으로만 이루어진 키워드 판별 (단어 경계 매칭 대상)
 _ASCII_KW = re.compile(r"^[a-z0-9][a-z0-9 \-]*$")
 
 
-def match_keywords(text: str) -> list[str]:
-    """제목+설명에서 걸린 키워드 목록 반환 (1차 필터).
+def _hits_in(text: str, keywords) -> list[str]:
+    """주어진 키워드 집합 중 text 에 걸린 것들.
 
     영문 키워드는 단어 경계로 매칭해 짧은 약어(EV, ESS)가 development·business
     같은 일반 단어에 오검출되는 것을 막는다. 한글 키워드는 부분 문자열 매칭.
     """
     text_l = (text or "").lower()
     hits = []
-    for kw in ALL_KEYWORDS:
+    for kw in keywords:
         k = kw.lower()
         if _ASCII_KW.match(k):
             if re.search(r"(?<![a-z0-9])" + re.escape(k) + r"(?![a-z0-9])", text_l):
                 hits.append(kw)
         elif k in text_l:
             hits.append(kw)
+    return hits
+
+
+def match_keywords(text: str) -> list[str]:
+    """단일 텍스트(주로 제목)에 대한 1차 키워드 필터."""
+    return _hits_in(text, ALL_KEYWORDS)
+
+
+def match_candidate(title: str, description: str = "") -> list[str]:
+    """제목·설명을 구분해 매칭한다.
+
+    설명글에는 채널 고정 상용구(해시태그·소개문)가 들어 있어, 거시 키워드
+    (금리·관세·AI 등)로 매칭하면 배터리와 무관한 영상이 대량 유입된다.
+    → 제목은 전체 키워드로, 설명은 배터리 직접·응용 키워드로만 매칭한다.
+    """
+    hits = _hits_in(title, ALL_KEYWORDS)
+    if description:
+        hits += [k for k in _hits_in(description, SPECIFIC_KEYWORDS) if k not in hits]
     return hits
 
 
@@ -129,7 +147,7 @@ def collect_candidates() -> list[dict[str, Any]]:
                 if not _is_recent(v.get("published", ""), MAX_AGE_DAYS):
                     stale += 1
                     continue  # 오래된 영상은 쿼터를 쓰지 않는다
-                hits = match_keywords(v["title"] + " " + v["description"])
+                hits = match_candidate(v["title"], v["description"])
                 if hits:
                     v["matched_keywords"] = hits
                     candidates.append(v)

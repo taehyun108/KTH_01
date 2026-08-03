@@ -12,6 +12,7 @@ import os
 import re
 import sys
 from collections import defaultdict
+from datetime import date, timedelta
 
 from fetch_rss import collect_candidates
 from generate_report import process_video, QuotaExhausted
@@ -44,14 +45,25 @@ def main() -> int:
         print("GEMINI_API_KEY 미설정 — 리포트 생성 단계를 건너뜁니다.", file=sys.stderr)
         return 0
 
-    from config import BACKFILL_SINCE_DEFAULT
+    from config import BACKFILL_SINCE_DEFAULT, MAX_AGE_DAYS
+    from fetch_history import collect_history
     since = os.getenv("BACKFILL_SINCE", "").strip() or BACKFILL_SINCE_DEFAULT
     if since:
-        from fetch_history import collect_history
         candidates = collect_history(since)
         print(f"[백필] {since} 이후 1차 후보 {len(candidates)}건 (yt-dlp)")
     else:
-        candidates = collect_candidates()
+        # RSS 는 채널당 최신 15개만 제공해 후보가 금방 고갈된다.
+        # yt-dlp 채널 목록 조회는 (자막과 달리) Actions 에서도 막히지 않으므로,
+        # 최근 MAX_AGE_DAYS 일 범위를 함께 열거해 후보 풀을 넓힌다.
+        rss = collect_candidates()
+        cutoff = (date.today() - timedelta(days=MAX_AGE_DAYS)).isoformat()
+        hist = collect_history(cutoff)
+        merged = {v["video_id"]: v for v in hist}
+        merged.update({v["video_id"]: v for v in rss})   # 설명이 있는 RSS 쪽을 우선
+        candidates = sorted(merged.values(),
+                            key=lambda v: v.get("published", ""), reverse=True)
+        print(f"1차 후보 — RSS {len(rss)}건 + 최근 {MAX_AGE_DAYS}일 열거 {len(hist)}건 "
+              f"→ 중복 제거 {len(candidates)}건")
     seen = _seen_video_ids()
     fresh = [c for c in candidates if c["video_id"] not in seen]
     # 신규 0건일 때 원인(수집 실패인지 / 이미 처리된 것인지)을 즉시 알 수 있게 남긴다

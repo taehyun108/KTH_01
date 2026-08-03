@@ -98,6 +98,11 @@ ALL_KEYWORDS = (
     + KW_EN_DIRECT + KW_EN_APPLICATION + KW_EN_MACRO
 )
 
+# 설명글 매칭에는 '배터리 직접' 키워드만 사용한다.
+# 거시(금리·관세)뿐 아니라 응용(데이터센터·전기차·AI) 키워드도 채널 고정 상용구와
+# 해시태그에 흔히 박혀 있어, 무관한 영상(예술·과학·교육)이 대량 유입되기 때문이다.
+SPECIFIC_KEYWORDS = KW_DIRECT + KW_EN_DIRECT
+
 # 카테고리 정의 (LLM 분류가 이 중 하나를 반환). macro=거시경제(금리·환율·유가·증시 전반)
 CATEGORIES = ["global-policy", "global-market", "korea-policy", "korea-market", "macro"]
 
@@ -115,7 +120,7 @@ MAX_CANDIDATES_PER_RUN = None
 MAX_REPORTS = None
 
 # 백필(과거 영상 열거) 시 채널당 최대 열거 개수 (yt-dlp)
-CHANNEL_LOOKBACK = 400
+CHANNEL_LOOKBACK = 120
 
 # 스케줄 실행의 기본 백필 시작일. 빈 문자열이면 RSS 최신분만 수집한다(권장).
 # ※ 값을 넣으면 '매 실행'이 yt-dlp 로 과거 수백 건을 다시 열거해 백로그를 만들고,
@@ -124,4 +129,4 @@ CHANNEL_LOOKBACK = 400
 BACKFILL_SINCE_DEFAULT = ""
 
 # RSS(최신) 수집 시 이 일수보다 오래된 영상은 후보에서 제외 — 최신 자료 우선 확보용.
-MAX_AGE_DAYS = 14
+MAX_AGE_DAYS = 30
