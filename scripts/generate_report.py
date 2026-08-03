@@ -434,17 +434,14 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{e(data['title'])}</title>
   <meta name="description" content="{e(data['meta_description'])}" />
-  <link rel="stylesheet" href="../assets/style.css?v=11" />
+  <link rel="stylesheet" href="../assets/style.css?v=13" />
 </head>
 <body>
-  <a class="home-btn" href="../news/" title="홈으로" aria-label="홈으로 이동">
-    <span class="ico">🏠</span><span class="label">홈</span>
-  </a>
-
   <header class="report-hero">
     <div class="wrap">
       <div class="hero-meta">
         <span class="hero-tag">{channel}</span><span>·</span><span>{the_date}</span><span>·</span><span>🎬 영상</span>
+        <a class="home-btn" href="../news/" title="홈으로" aria-label="홈으로 이동">홈</a>
       </div>
       <h1>{e(data['title'])}</h1>
     </div>

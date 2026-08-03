@@ -11,12 +11,8 @@ import re
 
 from config import NEWS_DIR
 
-CSS_VER = 11
-HOME_BTN = (
-    '\n  <a class="home-btn" href="../news/" title="홈으로" aria-label="홈으로 이동">'
-    '\n    <span class="ico">🏠</span><span class="label">홈</span>'
-    '\n  </a>\n'
-)
+CSS_VER = 13
+HOME_BTN = '\n        <a class="home-btn" href="../news/" title="홈으로" aria-label="홈으로 이동">홈</a>'
 
 
 def main() -> int:
@@ -27,8 +23,13 @@ def main() -> int:
         html = f.read_text(encoding="utf-8")
         orig = html
 
-        if 'class="home-btn"' not in html:
-            html = html.replace("<body>", "<body>" + HOME_BTN, 1)
+        # 이전 위치(플로팅/헤더 상단)의 홈 링크를 제거하고, 메타 줄 안쪽 끝에 다시 배치한다
+        html = re.sub(r'\s*<a class="home-btn".*?</a>', "", html, flags=re.DOTALL)
+        html = html.replace(
+            "<span>🎬 영상</span>\n      </div>",
+            "<span>🎬 영상</span>" + HOME_BTN + "\n      </div>",
+            1,
+        )
 
         # 새 CSS(.home-btn)를 받도록 캐시 버전 갱신
         html = re.sub(r'(assets/style\.css\?v=)\d+', rf'\g<1>{CSS_VER}', html)
