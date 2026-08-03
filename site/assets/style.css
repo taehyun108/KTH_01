@@ -38,6 +38,26 @@
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
+
+/* ---------- 홈 버튼 (우측 상단 고정) ---------- */
+.home-btn {
+  position: fixed; top: 14px; right: 14px; z-index: 100;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-width: 44px; height: 44px; padding: 0 14px;
+  border-radius: 999px; border: 1px solid rgba(255,255,255,.65);
+  background: rgba(255,255,255,.92); color: var(--accent-deep);
+  font-size: 0.88rem; font-weight: 700; text-decoration: none; cursor: pointer;
+  box-shadow: 0 2px 6px rgba(15,23,42,.12), 0 8px 20px rgba(15,23,42,.10);
+  backdrop-filter: saturate(140%) blur(6px);
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.home-btn:hover { background: #fff; transform: translateY(-1px); box-shadow: var(--shadow-hover); }
+.home-btn:active { transform: translateY(0) scale(.97); }
+.home-btn .ico { font-size: 1.02rem; line-height: 1; }
+@media (max-width: 560px) {           /* 좁은 화면에선 아이콘만 */
+  .home-btn { padding: 0; min-width: 42px; height: 42px; }
+  .home-btn .label { display: none; }
+}
 body {
   margin: 0; background: var(--bg); color: var(--text);
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI',

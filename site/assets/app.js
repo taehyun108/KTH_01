@@ -232,6 +232,16 @@ async function init() {
   const search = document.getElementById('search');
   search.addEventListener('input', () => { searchTerm = search.value.trim(); renderCards(); });
 
+  // 홈 버튼: 목록 최상단(홈) 상태로 되돌리며 새로고침
+  const homeBtn = document.getElementById('home-btn');
+  if (homeBtn) {
+    homeBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      // 캐시된 reports.json 대신 최신 데이터를 받도록 강제 새로고침
+      window.location.reload();
+    });
+  }
+
   // 즐겨찾기 탭: URL 직접 요약 요청
   const ytBtn = document.getElementById('yt-submit');
   const ytUrl = document.getElementById('yt-url');
