@@ -11,8 +11,13 @@ import re
 
 from config import NEWS_DIR
 
-CSS_VER = 13
-HOME_BTN = '\n        <a class="home-btn" href="../news/" title="홈으로" aria-label="홈으로 이동">홈</a>'
+CSS_VER = 15
+NAV = (
+    '\n        <nav class="top-nav">'
+    '\n          <a class="home-btn" href="../news/" title="홈으로" aria-label="홈으로 이동">홈</a>'
+    '\n          <a class="home-btn" href="../glossary/" title="이차전지 용어집">용어집</a>'
+    '\n        </nav>'
+)
 
 
 def main() -> int:
@@ -23,11 +28,12 @@ def main() -> int:
         html = f.read_text(encoding="utf-8")
         orig = html
 
-        # 이전 위치(플로팅/헤더 상단)의 홈 링크를 제거하고, 메타 줄 안쪽 끝에 다시 배치한다
+        # 기존 헤더 링크(단독 홈 버튼 또는 이전 nav)를 걷어내고 메타 줄 안쪽 끝에 다시 배치
+        html = re.sub(r'\s*<nav class="top-nav">.*?</nav>', "", html, flags=re.DOTALL)
         html = re.sub(r'\s*<a class="home-btn".*?</a>', "", html, flags=re.DOTALL)
         html = html.replace(
             "<span>🎬 영상</span>\n      </div>",
-            "<span>🎬 영상</span>" + HOME_BTN + "\n      </div>",
+            "<span>🎬 영상</span>" + NAV + "\n      </div>",
             1,
         )
 
