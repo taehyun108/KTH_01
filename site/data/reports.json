@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-03T23:14:45",
+  "generated_at": "2026-08-04T02:11:23",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -17,6 +17,19 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-04-금리가-높은-지금-채권-투자-진짜-괜찮을까",
+      "date": "2026-08-04",
+      "channel": "손에 잡히는 경제",
+      "title": "금리가 높은 지금, 채권 투자 진짜 괜찮을까?",
+      "summary": "고금리 시대에 채권에 투자해도 괜찮을지, 그리고 이 경제 흐름이 배터리 시장에 어떤 영향을 주는지 아주 쉽게 풀어 드려요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-08-04-금리가-높은-지금-채권-투자-진짜-괜찮을까.html",
+      "video": "https://www.youtube.com/watch?v=Uoitb70U0pE",
+      "video_id": "Uoitb70U0pE",
+      "pv": 2
+    },
     {
       "id": "2026-08-03-미-일-환율-흔들림과-중국-catl의-급부상-우리-배터리엔-어떤-영향을-줄까요",
       "date": "2026-08-03",
