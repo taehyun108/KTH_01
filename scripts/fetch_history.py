@@ -50,13 +50,16 @@ def fetch_channel_history(channel: dict[str, str], lookback: int) -> list[dict[s
             continue
         videos.append({
             "video_id": e["id"],
+            # flat 열거에도 설명이 실려 오는 경우가 있다. 빈 문자열로 버리면
+            # 근거(자막·설명) 게이트에 전부 걸려 신규 리포트가 0건이 된다.
+            "description": (e.get("description") or "").strip(),
             "title": e.get("title") or "",
-            "description": "",
             "channel": channel["name"],
             "published": _entry_date(e),
             "link": f"https://www.youtube.com/watch?v={e['id']}",
         })
-    print(f"  [hist] {channel['name']}: {len(videos)}개 열거")
+    n_desc = sum(1 for v in videos if v["description"])
+    print(f"  [hist] {channel['name']}: {len(videos)}개 열거 (설명 있음 {n_desc}개)")
     return videos
 
 

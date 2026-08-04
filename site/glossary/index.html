@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>이차전지 용어집 — 이차전지 리포트 아카이브</title>
   <meta name="description" content="양극재·음극재·전구체·전해액·분리막부터 제조공정, 셀·모듈·팩 조립, 배터리 종류, 성능 분석법까지 그림으로 쉽게 풀어 쓴 이차전지 용어집." />
-  <link rel="stylesheet" href="../assets/style.css?v=20" />
+  <link rel="stylesheet" href="../assets/style.css?v=21" />
 </head>
 <body>
   <header class="report-hero">
@@ -41,6 +41,12 @@
       <a href="#src">15 출처</a>
     </nav>
 
+    <div class="anim-note">
+      <b>🎬 그림이 움직여요</b> — 전지 그림은 <span class="pill-chg">⚡ 충전할 때</span>와
+      <span class="pill-dis">🔌 방전할 때</span>를 8초 간격으로 번갈아 보여줍니다.
+      배지 색이 바뀌면 이온이 움직이는 방향도 함께 바뀌니, 어느 쪽으로 가는지 눈으로 따라가 보세요.
+    </div>
+
     <!-- ══════════ 01 ══════════ -->
     <section class="sec-card full" id="basic">
       <div class="sec-head"><span class="sec-num">01</span><h2>배터리 기본 원리 — 리튬이 왔다 갔다 해요</h2></div>
@@ -51,6 +57,17 @@
         <svg viewBox="0 0 680 400" role="img"
              aria-label="배터리는 음극재, 분리막, 양극재로 이루어지고 충전할 때 리튬이온이 음극으로, 사용할 때 양극으로 이동합니다">
           <!-- 외부 회로 -->
+          <!-- 충전/방전 상태 배지 -->
+          <g>
+            <rect x="30" y="12" width="100" height="24" rx="12.0" fill="#fee2e2" stroke="#e11d48" stroke-width="1.5"/>
+            <text x="80.0" y="28.5" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">⚡ 충전할 때</text>
+            <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <rect x="30" y="12" width="100" height="24" rx="12.0" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
+            <text x="80.0" y="28.5" text-anchor="middle" font-size="12" fill="#0d9488" font-weight="700">🔌 방전할 때</text>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
           <path d="M140 118 L140 58 L540 58 L540 118" fill="none" stroke="#55617a" stroke-width="2.5"/>
           <circle cx="340" cy="58" r="24" fill="#fff" stroke="#55617a" stroke-width="2.5"/>
           <text x="340" y="65" text-anchor="middle" font-size="18">💡</text>
@@ -79,14 +96,25 @@
           <text x="544" y="218" text-anchor="middle" font-size="11.5" fill="#e0f2fe">(＋) 리튬 산화물</text>
 
           <!-- 이동 화살표 -->
-          <path d="M312 172 L218 172" stroke="#e11d48" stroke-width="3.5" marker-end="url(#a2)"/>
-          <text x="265" y="162" text-anchor="middle" font-size="12.5" fill="#e11d48" font-weight="700">충전할 때</text>
-          <path d="M368 252 L462 252" stroke="#0d9488" stroke-width="3.5" marker-end="url(#a3)"/>
-          <text x="415" y="242" text-anchor="middle" font-size="12.5" fill="#0d9488" font-weight="700">쓸 때</text>
-          <circle cx="270" cy="212" r="13" fill="#22c55e"/>
-          <text x="270" y="217" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">Li⁺</text>
-          <circle cx="410" cy="212" r="13" fill="#22c55e"/>
-          <text x="410" y="217" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">Li⁺</text>
+          <g>
+            <path d="M312 172 L218 172" stroke="#e11d48" stroke-width="3.5" marker-end="url(#a2)"/>
+            <text x="265" y="158" text-anchor="middle" font-size="12.5" fill="#e11d48" font-weight="700">충전할 때</text>
+            <animate attributeName="opacity" values="1;1;0.18;0.18;1"
+                     keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <path d="M368 252 L462 252" stroke="#0d9488" stroke-width="3.5" marker-end="url(#a3)"/>
+            <text x="415" y="274" text-anchor="middle" font-size="12.5" fill="#0d9488" font-weight="700">쓸 때(방전)</text>
+            <animate attributeName="opacity" values="0.18;0.18;1;1;0.18"
+                     keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <circle cx="0" cy="0" r="13" fill="#22c55e"/>
+            <text x="0" y="4" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">Li⁺</text>
+            <animateMotion dur="8s" repeatCount="indefinite" calcMode="linear"
+                           path="M410 212 L270 212"
+                           keyPoints="0;1;1;0;0" keyTimes="0;0.4;0.5;0.9;1"/>
+          </g>
           <text x="340" y="322" text-anchor="middle" font-size="12.5" fill="#0284c7">전해액 — 리튬이 헤엄쳐 다니는 물</text>
 
           <!-- 범례 -->
@@ -164,9 +192,35 @@
       <!-- 층상구조 -->
       <h3 class="t-h">① 층상구조 — 리튬이 '판과 판 사이'에 누워 있어요</h3>
       <figure class="diagram">
-        <svg viewBox="0 0 680 380" role="img"
+        <svg viewBox="0 0 680 406" role="img"
              aria-label="층상구조는 전이금속과 산소로 된 판이 겹겹이 쌓이고 그 사이 넓은 공간에 리튬이 2차원 평면으로 이동합니다">
           <!-- 판 3개 -->
+          <!-- 충전/방전 상태 배지 -->
+          <g>
+            <rect x="24" y="16" width="100" height="24" rx="12.0" fill="#fee2e2" stroke="#e11d48" stroke-width="1.5"/>
+            <text x="74.0" y="32.5" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">⚡ 충전할 때</text>
+            <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <rect x="24" y="16" width="100" height="24" rx="12.0" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
+            <text x="74.0" y="32.5" text-anchor="middle" font-size="12" fill="#0d9488" font-weight="700">🔌 방전할 때</text>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <circle cx="0" cy="0" r="11" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+            <text x="0" y="3.6" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Li⁺</text>
+            <animateMotion dur="8s" begin="0s" repeatCount="indefinite" calcMode="linear"
+                           path="M138 122 L468 122" keyPoints="0;1;1;0;0" keyTimes="0;0.4;0.5;0.9;1"/>
+          </g>
+          <g>
+            <circle cx="0" cy="0" r="11" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+            <text x="0" y="3.6" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Li⁺</text>
+            <animateMotion dur="8s" begin="0.5s" repeatCount="indefinite" calcMode="linear"
+                           path="M138 197 L468 197" keyPoints="0;1;1;0;0" keyTimes="0;0.4;0.5;0.9;1"/>
+          </g>
+          <text x="340" y="398" text-anchor="middle" font-size="12" fill="#8a96ab">
+            충전하면 리튬이 판 사이에서 <tspan font-weight="700" fill="#e11d48">빠져나가고</tspan>,
+            방전하면 <tspan font-weight="700" fill="#0d9488">되돌아와요</tspan></text>
           <g>
             <!-- 판 1 -->
             <rect x="70" y="70" width="420" height="30" rx="4" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.5"/>
@@ -220,7 +274,7 @@
       <!-- 올리빈 -->
       <h3 class="t-h">② 올리빈 구조 — 리튬이 '좁은 터널 하나'로만 다녀요</h3>
       <figure class="diagram">
-        <svg viewBox="0 0 680 360" role="img"
+        <svg viewBox="0 0 680 386" role="img"
              aria-label="올리빈 구조는 철과 인산이 단단한 골격을 이루고 리튬이 한 방향 터널로만 1차원 이동합니다">
           <rect x="70" y="60" width="440" height="190" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
           <!-- 골격: PO4 사면체 + FeO6 -->
@@ -249,6 +303,31 @@
             </g>
           </g>
           <!-- 리튬 터널 -->
+          <!-- 충전/방전 상태 배지 -->
+          <g>
+            <rect x="24" y="14" width="100" height="24" rx="12.0" fill="#fee2e2" stroke="#e11d48" stroke-width="1.5"/>
+            <text x="74.0" y="30.5" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">⚡ 충전할 때</text>
+            <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <rect x="24" y="14" width="100" height="24" rx="12.0" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
+            <text x="74.0" y="30.5" text-anchor="middle" font-size="12" fill="#0d9488" font-weight="700">🔌 방전할 때</text>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+            <text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text>
+            <animateMotion dur="8s" begin="0s" repeatCount="indefinite" calcMode="linear"
+                           path="M118 169 L462 169" keyPoints="0;1;1;0;0" keyTimes="0;0.4;0.5;0.9;1"/>
+          </g>
+          <g>
+            <circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+            <text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text>
+            <animateMotion dur="8s" begin="1.4s" repeatCount="indefinite" calcMode="linear"
+                           path="M118 169 L462 169" keyPoints="0;1;1;0;0" keyTimes="0;0.4;0.5;0.9;1"/>
+          </g>
+          <text x="340" y="378" text-anchor="middle" font-size="12" fill="#8a96ab">
+            길이 하나뿐이라 <tspan font-weight="700" fill="#e11d48">줄을 서서</tspan> 이동해요 → 급속충전이 상대적으로 느려요</text>
           <rect x="82" y="156" width="416" height="26" rx="13" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
           <g fill="#22c55e">
             <circle cx="120" cy="169" r="8"/><circle cx="190" cy="169" r="8"/><circle cx="260" cy="169" r="8"/>
@@ -278,10 +357,41 @@
       <!-- 스피넬 -->
       <h3 class="t-h">③ 스피넬 구조 — 리튬이 '사방 그물길'로 다녀요</h3>
       <figure class="diagram">
-        <svg viewBox="0 0 680 340" role="img"
+        <svg viewBox="0 0 680 364" role="img"
              aria-label="스피넬 구조는 망간과 산소가 3차원 그물망을 이루고 리튬이 상하좌우 대각선 모든 방향으로 이동합니다">
           <rect x="150" y="50" width="280" height="200" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
           <!-- 3차원 그물길 -->
+          <!-- 충전/방전 상태 배지 -->
+          <g>
+            <rect x="16" y="12" width="100" height="24" rx="12.0" fill="#fee2e2" stroke="#e11d48" stroke-width="1.5"/>
+            <text x="66.0" y="28.5" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">⚡ 충전할 때</text>
+            <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <rect x="16" y="12" width="100" height="24" rx="12.0" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
+            <text x="66.0" y="28.5" text-anchor="middle" font-size="12" fill="#0d9488" font-weight="700">🔌 방전할 때</text>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+            <text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text>
+            <animateMotion dur="8s" begin="0s" repeatCount="indefinite" calcMode="linear"
+                           path="M200 220 L290 150 L380 80" keyPoints="0;1;1;0;0" keyTimes="0;0.4;0.5;0.9;1"/>
+          </g>
+          <g>
+            <circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+            <text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text>
+            <animateMotion dur="8s" begin="0.9s" repeatCount="indefinite" calcMode="linear"
+                           path="M380 150 L290 150 L200 150" keyPoints="0;1;1;0;0" keyTimes="0;0.4;0.5;0.9;1"/>
+          </g>
+          <g>
+            <circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+            <text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text>
+            <animateMotion dur="8s" begin="1.8s" repeatCount="indefinite" calcMode="linear"
+                           path="M245 80 L245 150 L245 220" keyPoints="0;1;1;0;0" keyTimes="0;0.4;0.5;0.9;1"/>
+          </g>
+          <text x="340" y="356" text-anchor="middle" font-size="12" fill="#8a96ab">
+            길이 여러 갈래라 <tspan font-weight="700" fill="#0d9488">동시에 여러 리튬</tspan>이 움직여요 → 급속충전에 유리해요</text>
           <g stroke="#22c55e" stroke-width="12" stroke-linecap="round" opacity="0.28">
             <path d="M180 80 L400 80"/><path d="M180 150 L400 150"/><path d="M180 220 L400 220"/>
             <path d="M200 70 L200 235"/><path d="M290 70 L290 235"/><path d="M380 70 L380 235"/>
@@ -1262,7 +1372,7 @@
             <rect x="394" y="252" width="60" height="26" rx="4" fill="#f1f5f9" stroke="#cbd5e1" stroke-dasharray="4 3"/>
             <text x="424" y="269" text-anchor="middle" fill="#94a3b8">생략</text>
             <rect x="466" y="252" width="52" height="26" rx="4" fill="#0284c7"/><text x="492" y="269" text-anchor="middle" fill="#fff">팩</text>
-            <path d="M384 265 L462 265" stroke="#e11d48" stroke-width="2.5" marker-end="url(#i2)"/>
+            <path d="M384 272 Q423 302 462 272" fill="none" stroke="#e11d48" stroke-width="2.5" marker-end="url(#i2)"/>
           </g>
           <text x="580" y="262" text-anchor="middle" font-size="11" fill="#0d9488">빈 공간이 줄어</text>
           <text x="580" y="278" text-anchor="middle" font-size="11" fill="#0d9488">10~20% 더 담겨요</text>
@@ -1428,6 +1538,29 @@
         <svg viewBox="0 0 680 320" role="img"
              aria-label="바나듐 흐름전지는 두 개의 전해액 탱크에서 펌프로 액체를 스택에 보내 반응시키므로 용량은 탱크 크기가 출력은 스택 크기가 정합니다">
           <!-- 탱크 좌 -->
+          <!-- 충전/방전 상태 배지 -->
+          <g>
+            <rect x="290" y="18" width="100" height="24" rx="12.0" fill="#fee2e2" stroke="#e11d48" stroke-width="1.5"/>
+            <text x="340.0" y="34.5" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">⚡ 충전할 때</text>
+            <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <rect x="290" y="18" width="100" height="24" rx="12.0" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
+            <text x="340.0" y="34.5" text-anchor="middle" font-size="12" fill="#0d9488" font-weight="700">🔌 방전할 때</text>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <circle cx="0" cy="0" r="5" fill="#2563eb" opacity="0.85"><animateMotion dur="3.2s" begin="0.00s" repeatCount="indefinite" calcMode="linear" path="M152 130 L282 130"/></circle>
+          <circle cx="0" cy="0" r="5" fill="#60a5fa" opacity="0.85"><animateMotion dur="3.2s" begin="0.00s" repeatCount="indefinite" calcMode="linear" path="M282 190 L152 190"/></circle>
+          <circle cx="0" cy="0" r="5" fill="#a21caf" opacity="0.85"><animateMotion dur="3.2s" begin="0.00s" repeatCount="indefinite" calcMode="linear" path="M528 130 L398 130"/></circle>
+          <circle cx="0" cy="0" r="5" fill="#e879f9" opacity="0.85"><animateMotion dur="3.2s" begin="0.00s" repeatCount="indefinite" calcMode="linear" path="M398 190 L528 190"/></circle>
+          <circle cx="0" cy="0" r="5" fill="#2563eb" opacity="0.85"><animateMotion dur="3.2s" begin="1.07s" repeatCount="indefinite" calcMode="linear" path="M152 130 L282 130"/></circle>
+          <circle cx="0" cy="0" r="5" fill="#60a5fa" opacity="0.85"><animateMotion dur="3.2s" begin="1.07s" repeatCount="indefinite" calcMode="linear" path="M282 190 L152 190"/></circle>
+          <circle cx="0" cy="0" r="5" fill="#a21caf" opacity="0.85"><animateMotion dur="3.2s" begin="1.07s" repeatCount="indefinite" calcMode="linear" path="M528 130 L398 130"/></circle>
+          <circle cx="0" cy="0" r="5" fill="#e879f9" opacity="0.85"><animateMotion dur="3.2s" begin="1.07s" repeatCount="indefinite" calcMode="linear" path="M398 190 L528 190"/></circle>
+          <circle cx="0" cy="0" r="5" fill="#2563eb" opacity="0.85"><animateMotion dur="3.2s" begin="2.14s" repeatCount="indefinite" calcMode="linear" path="M152 130 L282 130"/></circle>
+          <circle cx="0" cy="0" r="5" fill="#60a5fa" opacity="0.85"><animateMotion dur="3.2s" begin="2.14s" repeatCount="indefinite" calcMode="linear" path="M282 190 L152 190"/></circle>
+          <circle cx="0" cy="0" r="5" fill="#a21caf" opacity="0.85"><animateMotion dur="3.2s" begin="2.14s" repeatCount="indefinite" calcMode="linear" path="M528 130 L398 130"/></circle>
+          <circle cx="0" cy="0" r="5" fill="#e879f9" opacity="0.85"><animateMotion dur="3.2s" begin="2.14s" repeatCount="indefinite" calcMode="linear" path="M398 190 L528 190"/></circle>
           <rect x="40" y="90" width="110" height="140" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5"/>
           <rect x="46" y="150" width="98" height="74" rx="6" fill="#60a5fa"/>
           <text x="95" y="80" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2563eb">＋ 전해액 탱크</text>
@@ -1474,23 +1607,37 @@
 
       <h3 class="t-h">납축전지 — 자동차 시동을 거는 그 배터리</h3>
       <figure class="diagram">
-        <svg viewBox="0 0 680 290" role="img"
+        <svg viewBox="0 0 680 318" role="img"
              aria-label="납축전지는 납판과 이산화납판이 황산 속에 잠겨 있고 방전하면 양쪽이 모두 황산납으로 변합니다">
           <rect x="120" y="46" width="330" height="150" rx="10" fill="#e0f2fe" stroke="#475569" stroke-width="2.5"/>
-          <text x="285" y="222" text-anchor="middle" font-size="11.5" fill="#0284c7">묽은 황산 (전해액)</text>
+          <text x="285" y="238" text-anchor="middle" font-size="11.5" fill="#0284c7">묽은 황산 (전해액)</text>
           <!-- 극판 -->
+          <!-- 충전/방전 상태 배지 -->
           <g>
-            <rect x="150" y="62" width="46" height="118" rx="4" fill="#64748b"/>
-            <rect x="230" y="62" width="46" height="118" rx="4" fill="#a16207"/>
-            <rect x="310" y="62" width="46" height="118" rx="4" fill="#64748b"/>
-            <rect x="390" y="62" width="46" height="118" rx="4" fill="#a16207"/>
+            <rect x="510" y="6" width="100" height="24" rx="12.0" fill="#fee2e2" stroke="#e11d48" stroke-width="1.5"/>
+            <text x="560.0" y="22.5" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">⚡ 충전할 때</text>
+            <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <rect x="510" y="6" width="100" height="24" rx="12.0" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
+            <text x="560.0" y="22.5" text-anchor="middle" font-size="12" fill="#0d9488" font-weight="700">🔌 방전할 때</text>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <text x="340" y="262" text-anchor="middle" font-size="11.5" fill="#8a96ab">
+            방전하면 두 극판이 모두 <tspan font-weight="700" fill="#94a3b8">흰 황산납</tspan>으로 변하고,
+            충전하면 원래 색으로 돌아와요</text>
+          <g>
+            <rect x="150" y="62" width="46" height="118" rx="4" fill="#64748b"><animate attributeName="fill" values="#64748b;#64748b;#e2e8f0;#e2e8f0;#64748b" keyTimes="0;0.42;0.55;0.92;1" dur="8s" repeatCount="indefinite"/></rect>
+            <rect x="230" y="62" width="46" height="118" rx="4" fill="#a16207"><animate attributeName="fill" values="#a16207;#a16207;#e2e8f0;#e2e8f0;#a16207" keyTimes="0;0.42;0.55;0.92;1" dur="8s" repeatCount="indefinite"/></rect>
+            <rect x="310" y="62" width="46" height="118" rx="4" fill="#64748b"><animate attributeName="fill" values="#64748b;#64748b;#e2e8f0;#e2e8f0;#64748b" keyTimes="0;0.42;0.55;0.92;1" dur="8s" repeatCount="indefinite"/></rect>
+            <rect x="390" y="62" width="46" height="118" rx="4" fill="#a16207"><animate attributeName="fill" values="#a16207;#a16207;#e2e8f0;#e2e8f0;#a16207" keyTimes="0;0.42;0.55;0.92;1" dur="8s" repeatCount="indefinite"/></rect>
             <rect x="164" y="34" width="18" height="14" rx="3" fill="#475569"/>
             <rect x="404" y="34" width="18" height="14" rx="3" fill="#a16207"/>
           </g>
           <text x="173" y="28" text-anchor="middle" font-size="12" font-weight="700" fill="#475569">－</text>
           <text x="413" y="28" text-anchor="middle" font-size="12" font-weight="700" fill="#a16207">＋</text>
-          <text x="173" y="200" text-anchor="middle" font-size="10.5" fill="#475569">납(Pb)</text>
-          <text x="413" y="200" text-anchor="middle" font-size="10.5" fill="#a16207">이산화납</text>
+          <text x="173" y="214" text-anchor="middle" font-size="10.5" fill="#475569">납(Pb)</text>
+          <text x="413" y="214" text-anchor="middle" font-size="10.5" fill="#a16207">이산화납</text>
           <!-- 반응 설명 -->
           <rect x="474" y="46" width="192" height="150" rx="10" fill="#fff7ed" stroke="#fdba74"/>
           <text x="570" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#c2410c">쓰면(방전)</text>
@@ -1500,9 +1647,9 @@
           <text x="490" y="154" font-size="11" fill="#35404f">돌아가요</text>
           <text x="490" y="180" font-size="11" fill="#e11d48">👎 오래 방치하면 굳어서</text>
           <text x="490" y="196" font-size="11" fill="#e11d48">되돌아오지 않아요</text>
-          <text x="340" y="252" text-anchor="middle" font-size="11.5" fill="#0d9488">
+          <text x="340" y="286" text-anchor="middle" font-size="11.5" fill="#0d9488">
             👍 아주 싸고 큰 전류를 잘 냄 · <tspan font-weight="700">재활용률 95% 이상</tspan></text>
-          <text x="340" y="276" text-anchor="middle" font-size="11.5" fill="#e11d48">
+          <text x="340" y="310" text-anchor="middle" font-size="11.5" fill="#e11d48">
             👎 무겁고(에너지밀도 최하) 수명이 짧아요 → 그래서 시동·비상전원에만 써요</text>
         </svg>
         <figcaption class="fig-cap">그림 17. 납축전지 — 납판과 이산화납판이 황산에 잠겨 있고, 방전하면 양쪽이 황산납으로 변해요</figcaption>
@@ -1512,6 +1659,17 @@
       <figure class="diagram">
         <svg viewBox="0 0 680 270" role="img"
              aria-label="니켈수소 전지는 수소저장합금 음극과 수산화니켈 양극 사이를 수소가 오가며 작동합니다">
+          <!-- 충전/방전 상태 배지 -->
+          <g>
+            <rect x="24" y="8" width="100" height="24" rx="12.0" fill="#fee2e2" stroke="#e11d48" stroke-width="1.5"/>
+            <text x="74.0" y="24.5" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">⚡ 충전할 때</text>
+            <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <rect x="24" y="8" width="100" height="24" rx="12.0" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
+            <text x="74.0" y="24.5" text-anchor="middle" font-size="12" fill="#0d9488" font-weight="700">🔌 방전할 때</text>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
           <rect x="90" y="50" width="420" height="140" rx="10" fill="#f0fdfa" stroke="#0d9488" stroke-width="2"/>
           <rect x="106" y="66" width="96" height="108" rx="6" fill="#64748b"/>
           <text x="154" y="116" text-anchor="middle" font-size="11.5" fill="#fff" font-weight="700">음극</text>
@@ -1523,14 +1681,25 @@
           <text x="446" y="116" text-anchor="middle" font-size="11.5" fill="#fff" font-weight="700">양극</text>
           <text x="446" y="136" text-anchor="middle" font-size="10" fill="#ccfbf1">수산화니켈</text>
           <!-- 수소 이동 -->
-          <path d="M266 92 L216 92" stroke="#e11d48" stroke-width="3" marker-end="url(#t1)"/>
-          <text x="241" y="82" text-anchor="middle" font-size="10.5" fill="#e11d48" font-weight="700">충전</text>
-          <path d="M326 152 L376 152" stroke="#0d9488" stroke-width="3" marker-end="url(#t2)"/>
-          <text x="351" y="142" text-anchor="middle" font-size="10.5" fill="#0d9488" font-weight="700">방전</text>
-          <circle cx="240" cy="124" r="11" fill="#22c55e"/>
-          <text x="240" y="128" text-anchor="middle" font-size="9.5" fill="#fff" font-weight="700">H</text>
-          <circle cx="352" cy="124" r="11" fill="#22c55e"/>
-          <text x="352" y="128" text-anchor="middle" font-size="9.5" fill="#fff" font-weight="700">H</text>
+          <g>
+            <path d="M266 92 L216 92" stroke="#e11d48" stroke-width="3" marker-end="url(#t1)"/>
+            <text x="241" y="76" text-anchor="middle" font-size="11" fill="#e11d48" font-weight="700">충전</text>
+            <animate attributeName="opacity" values="1;1;0.18;0.18;1"
+                     keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <path d="M326 152 L376 152" stroke="#0d9488" stroke-width="3" marker-end="url(#t2)"/>
+            <text x="351" y="172" text-anchor="middle" font-size="11" fill="#0d9488" font-weight="700">방전</text>
+            <animate attributeName="opacity" values="0.18;0.18;1;1;0.18"
+                     keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <circle cx="0" cy="0" r="11" fill="#22c55e"/>
+            <text x="0" y="4" text-anchor="middle" font-size="9.5" fill="#fff" font-weight="700">H</text>
+            <animateMotion dur="8s" repeatCount="indefinite" calcMode="linear"
+                           path="M352 124 L240 124"
+                           keyPoints="0;1;1;0;0" keyTimes="0;0.4;0.5;0.9;1"/>
+          </g>
           <text x="300" y="228" text-anchor="middle" font-size="11.5" fill="#55617a">
             리튬 대신 <tspan font-weight="700" fill="#22c55e">수소(H)</tspan>가 양쪽을 오가요</text>
           <text x="590" y="94" text-anchor="middle" font-size="11.5" fill="#0d9488" font-weight="700">👍 안전·튼튼</text>
@@ -1555,6 +1724,17 @@
       <figure class="diagram">
         <svg viewBox="0 0 680 290" role="img"
              aria-label="나트륨이온 전지는 리튬 대신 더 크고 무거운 나트륨 이온이 양극과 음극 사이를 오갑니다">
+          <!-- 충전/방전 상태 배지 -->
+          <g>
+            <rect x="24" y="8" width="100" height="24" rx="12.0" fill="#fee2e2" stroke="#e11d48" stroke-width="1.5"/>
+            <text x="74.0" y="24.5" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">⚡ 충전할 때</text>
+            <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <rect x="24" y="8" width="100" height="24" rx="12.0" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
+            <text x="74.0" y="24.5" text-anchor="middle" font-size="12" fill="#0d9488" font-weight="700">🔌 방전할 때</text>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
           <rect x="80" y="48" width="440" height="140" rx="10" fill="#fefce8" stroke="#ea8a0b" stroke-width="2"/>
           <rect x="96" y="64" width="100" height="108" rx="6" fill="#94a3b8"/>
           <text x="146" y="112" text-anchor="middle" font-size="11.5" fill="#fff" font-weight="700">음극</text>
@@ -1565,14 +1745,25 @@
           <rect x="404" y="64" width="100" height="108" rx="6" fill="#a16207"/>
           <text x="454" y="112" text-anchor="middle" font-size="11.5" fill="#fff" font-weight="700">양극</text>
           <text x="454" y="132" text-anchor="middle" font-size="10" fill="#fef3c7">NFPP 등</text>
-          <path d="M270 90 L206 90" stroke="#e11d48" stroke-width="3" marker-end="url(#u1)"/>
-          <text x="238" y="80" text-anchor="middle" font-size="10.5" fill="#e11d48" font-weight="700">충전</text>
-          <path d="M330 150 L394 150" stroke="#0d9488" stroke-width="3" marker-end="url(#u2)"/>
-          <text x="362" y="140" text-anchor="middle" font-size="10.5" fill="#0d9488" font-weight="700">방전</text>
-          <circle cx="240" cy="122" r="14" fill="#f59e0b"/>
-          <text x="240" y="127" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Na⁺</text>
-          <circle cx="358" cy="122" r="14" fill="#f59e0b"/>
-          <text x="358" y="127" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Na⁺</text>
+          <g>
+            <path d="M270 90 L206 90" stroke="#e11d48" stroke-width="3" marker-end="url(#u1)"/>
+            <text x="238" y="74" text-anchor="middle" font-size="11" fill="#e11d48" font-weight="700">충전</text>
+            <animate attributeName="opacity" values="1;1;0.18;0.18;1"
+                     keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <path d="M330 150 L394 150" stroke="#0d9488" stroke-width="3" marker-end="url(#u2)"/>
+            <text x="362" y="172" text-anchor="middle" font-size="11" fill="#0d9488" font-weight="700">방전</text>
+            <animate attributeName="opacity" values="0.18;0.18;1;1;0.18"
+                     keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <circle cx="0" cy="0" r="14" fill="#f59e0b"/>
+            <text x="0" y="5" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Na⁺</text>
+            <animateMotion dur="8s" repeatCount="indefinite" calcMode="linear"
+                           path="M358 122 L240 122"
+                           keyPoints="0;1;1;0;0" keyTimes="0;0.4;0.5;0.9;1"/>
+          </g>
           <!-- 크기 비교 -->
           <rect x="540" y="56" width="126" height="120" rx="10" fill="#fff7ed" stroke="#fdba74"/>
           <text x="603" y="78" text-anchor="middle" font-size="11.5" font-weight="700" fill="#c2410c">크기 비교</text>
@@ -1799,6 +1990,29 @@
         <svg viewBox="0 0 680 270" role="img"
              aria-label="전고체 배터리는 액체 전해액과 분리막을 고체 전해질 한 층이 대신하므로 더 안전하고 공간이 절약됩니다">
           <text x="170" y="26" text-anchor="middle" font-size="13.5" font-weight="700" fill="#55617a">지금의 리튬이온 배터리</text>
+          <!-- 충전/방전 상태 배지 -->
+          <g>
+            <rect x="290" y="4" width="100" height="24" rx="12.0" fill="#fee2e2" stroke="#e11d48" stroke-width="1.5"/>
+            <text x="340.0" y="20.5" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">⚡ 충전할 때</text>
+            <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <rect x="290" y="4" width="100" height="24" rx="12.0" fill="#ccfbf1" stroke="#0d9488" stroke-width="1.5"/>
+            <text x="340.0" y="20.5" text-anchor="middle" font-size="12" fill="#0d9488" font-weight="700">🔌 방전할 때</text>
+            <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.45;0.5;0.95;1" dur="8s" repeatCount="indefinite"/>
+          </g>
+          <g>
+            <circle cx="0" cy="0" r="10" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+            <text x="0" y="3.2" text-anchor="middle" font-size="9" fill="#fff" font-weight="700">Li⁺</text>
+            <animateMotion dur="8s" begin="0s" repeatCount="indefinite" calcMode="linear"
+                           path="M222 76 L120 76" keyPoints="0;1;1;0;0" keyTimes="0;0.4;0.5;0.9;1"/>
+          </g>
+          <g>
+            <circle cx="0" cy="0" r="10" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
+            <text x="0" y="3.2" text-anchor="middle" font-size="9" fill="#fff" font-weight="700">Li⁺</text>
+            <animateMotion dur="8s" begin="0s" repeatCount="indefinite" calcMode="linear"
+                           path="M568 76 L462 76" keyPoints="0;1;1;0;0" keyTimes="0;0.4;0.5;0.9;1"/>
+          </g>
           <rect x="44" y="42" width="252" height="122" rx="10" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
           <rect x="58" y="56" width="54" height="94" rx="5" fill="#94a3b8"/>
           <text x="85" y="108" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">음극</text>
@@ -1953,11 +2167,25 @@
     </section>
 
     <div class="report-foot">
-      <div><span class="dot">●</span> 이차전지 용어집 · 15개 주제 · 그림 13종</div>
+      <div><span class="dot">●</span> 이차전지 용어집 · 15개 주제 · 그림 21종(움직이는 도해 9종)</div>
       <a class="back-btn" href="../news/">← 리포트 목록으로</a>
     </div>
     <p class="disclaimer">본 자료는 정보 제공 목적이며 투자 권유가 아닙니다.
       수치는 대략적인 범위이며 제조사·조건에 따라 달라질 수 있습니다.</p>
   </main>
+
+  <script>
+    // 움직임 최소화를 선호하는 사용자에게는 도해 애니메이션(SMIL)을 정지시킨다.
+    (function () {
+      var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      function apply() {
+        document.querySelectorAll('figure.diagram svg').forEach(function (s) {
+          if (mq.matches) { s.pauseAnimations(); } else { s.unpauseAnimations(); }
+        });
+      }
+      apply();
+      if (mq.addEventListener) { mq.addEventListener('change', apply); }
+    })();
+  </script>
 </body>
 </html>

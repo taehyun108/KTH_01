@@ -15,7 +15,8 @@ from collections import defaultdict
 from datetime import date, timedelta
 
 from fetch_rss import collect_candidates
-from generate_report import process_video, QuotaExhausted, InsufficientContext
+from generate_report import (process_video, QuotaExhausted, InsufficientContext,
+                             MIN_CONTEXT_CHARS)
 from build_index import merge, load_existing
 from config import MAX_CANDIDATES_PER_RUN
 
@@ -92,6 +93,17 @@ def main() -> int:
                 if len(selected) >= cap:
                     break
     fresh = selected
+
+    # 근거(자막·설명) 게이트에 전부 걸려 '신규 0건'이 나올 때 원인을 바로 알 수 있게,
+    # 처리 전에 후보들이 들고 있는 설명글 길이 분포를 남긴다.
+    n_none = sum(1 for c in fresh if not (c.get("description") or "").strip())
+    n_thin = sum(1 for c in fresh
+                 if 0 < len((c.get("description") or "").strip()) < MIN_CONTEXT_CHARS)
+    n_ok = len(fresh) - n_none - n_thin
+    print(f"  후보 설명글: 충분({MIN_CONTEXT_CHARS}자+) {n_ok}건 · 부족 {n_thin}건 · 없음 {n_none}건")
+    if fresh and n_ok == 0:
+        print("  [진단] 설명글이 충분한 후보가 0건 — 자막까지 막히면 전부 '근거부족'으로 건너뜁니다. "
+              "RSS 수집(media:description)이 정상인지 위 [rss]/[hist] 줄을 확인하세요.", file=sys.stderr)
 
     dist = ", ".join(f"{k} {sum(1 for c in fresh if c['channel'] == k)}"
                      for k in dict.fromkeys(c["channel"] for c in fresh))

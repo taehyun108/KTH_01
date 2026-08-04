@@ -104,6 +104,21 @@ html { -webkit-text-size-adjust: 100%; }
   margin: 10px 0 0; font-size: 0.82rem; color: var(--text-faint);
   text-align: center; line-height: 1.5;
 }
+/* 도해 애니메이션 안내 */
+.anim-note {
+  margin: 14px 0 4px; padding: 12px 14px; border-radius: 12px;
+  background: linear-gradient(180deg, #fffbeb, #fff7ed);
+  border: 1px solid #fcd34d; font-size: 0.88rem; line-height: 1.7; color: #4a3c1d;
+}
+.anim-note b { color: #b45309; }
+.pill-chg, .pill-dis {
+  display: inline-block; padding: 1px 9px; border-radius: 999px;
+  font-size: 0.8rem; font-weight: 700; white-space: nowrap;
+}
+.pill-chg { background: #fee2e2; border: 1px solid #e11d48; color: #be123c; }
+.pill-dis { background: #ccfbf1; border: 1px solid #0d9488; color: #0f766e; }
+/* 도해의 움직임은 SMIL 이라 CSS 로 못 멈춘다 —
+   prefers-reduced-motion 처리는 용어집 페이지의 pauseAnimations() 스크립트가 담당 */
 
 /* 항목이 많은 비교표 — 좁은 화면에서 가로 스크롤 */
 .tbl-scroll { overflow-x: auto; margin: 10px 0; }

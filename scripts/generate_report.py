@@ -163,8 +163,19 @@ def _parse_vtt(raw: str) -> str:
     return " ".join(lines).strip()
 
 
+# GitHub Actions 의 데이터센터 IP 가 통째로 차단되면 yt-dlp 폴백은 영상마다
+# 5개 클라이언트를 모두 시도하며 ~6초씩 태우고 전부 실패한다(후보 60건 → 약 6분 낭비).
+# 연속 실패가 이 수치에 닿으면 이번 실행에서는 폴백을 포기한다(다음 실행에서 초기화).
+YTDLP_FAIL_LIMIT = 8
+_ytdlp_fails = 0
+
+
 def _ytdlp_transcript(video_id: str) -> tuple[str, str]:
     """youtube-transcript-api 실패 시 yt-dlp 로 (자동)자막→설명 순으로 확보."""
+    global _ytdlp_fails
+
+    if _ytdlp_fails >= YTDLP_FAIL_LIMIT:
+        return "", "unavailable"
     try:
         import yt_dlp
         import requests
@@ -200,7 +211,12 @@ def _ytdlp_transcript(video_id: str) -> tuple[str, str]:
             info = got
             break
     if not info:
+        _ytdlp_fails += 1
+        if _ytdlp_fails == YTDLP_FAIL_LIMIT:
+            print(f"  [자막] yt-dlp 폴백 {YTDLP_FAIL_LIMIT}회 연속 실패 — "
+                  "이 실행에서는 폴백을 중단합니다(러너 IP 차단으로 판단).", file=sys.stderr)
         return "", "unavailable"
+    _ytdlp_fails = 0   # 한 번이라도 성공하면 차단이 아니므로 카운터 초기화
 
     ua = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
 
@@ -527,7 +543,7 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{e(data['title'])}</title>
   <meta name="description" content="{e(data['meta_description'])}" />
-  <link rel="stylesheet" href="../assets/style.css?v=20" />
+  <link rel="stylesheet" href="../assets/style.css?v=21" />
 </head>
 <body>
   <header class="report-hero">
@@ -536,7 +552,7 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
         <span class="hero-tag">{channel}</span><span>·</span><span>{the_date}</span><span>·</span><span>🎬 영상</span>
         <nav class="top-nav">
           <a class="home-btn" href="../news/" title="홈으로" aria-label="홈으로 이동">홈</a>
-          <a class="home-btn" href="../glossary/?v=20" title="이차전지 용어집">용어집</a>
+          <a class="home-btn" href="../glossary/?v=21" title="이차전지 용어집">용어집</a>
         </nav>
       </div>
       <h1>{e(data['title'])}</h1>
