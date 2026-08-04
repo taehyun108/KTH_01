@@ -457,7 +457,9 @@ def analyze_video_direct(meta: dict[str, Any], force: bool = False,
     global _video_used
     from google.genai import types
 
-    url = meta.get("link") or f"https://www.youtube.com/watch?v={meta['video_id']}"
+    # Gemini 는 표준 watch URL 만 유튜브로 인식한다. /live/·youtu.be·?si= 가 붙은 링크를
+    # 그대로 넘기면 일반 웹페이지로 가져가 "Unsupported MIME type: text/html" 로 실패한다.
+    url = f"https://www.youtube.com/watch?v={meta['video_id']}"
     client = _get_client()
     model = _resolve_model(client)
 
