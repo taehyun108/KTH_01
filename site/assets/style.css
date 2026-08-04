@@ -82,18 +82,25 @@ html { -webkit-text-size-adjust: 100%; }
 }
 /* 설명용 도해(SVG) — 좁은 화면에서는 찌그러뜨리지 않고 가로 스크롤 */
 .diagram {
-  margin: 14px 0 4px; padding: 14px 10px;
+  margin: 16px 0 6px; padding: 14px 10px;
   background: #fbfdff; border: 1px solid var(--border); border-radius: 12px;
   overflow-x: auto;
 }
 .diagram svg {
   display: block; margin: 0 auto; height: auto;
-  width: 100%; min-width: 460px; max-width: 660px;
+  width: 100%; min-width: 560px; max-width: 680px;
 }
 .diagram text { font-family: inherit; }
 .fig-cap {
-  margin: 8px 0 0; font-size: 0.8rem; color: var(--text-faint); text-align: center;
+  margin: 10px 0 0; font-size: 0.82rem; color: var(--text-faint);
+  text-align: center; line-height: 1.5;
 }
+
+/* 항목이 많은 비교표 — 좁은 화면에서 가로 스크롤 */
+.tbl-scroll { overflow-x: auto; margin: 10px 0; }
+.tbl-scroll > table { min-width: 620px; margin: 0; }
+.report table.num td { font-variant-numeric: tabular-nums; }
+.report table.num th { white-space: nowrap; }
 
 /* 출처 목록 */
 .src-group { margin: 14px 0 0; }
