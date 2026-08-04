@@ -54,8 +54,8 @@ export default async function Home() {
         </p>
         <div className="mt-4 grid grid-cols-3 gap-3 text-center text-sm">
           <Stat emoji="🟢" label="검증됨(high)" sub="독립 3출처 일치" />
-          <Stat emoji="🟡" label="부분검증(medium)" sub="2출처 · 배지 표기" />
-          <Stat emoji="🔴" label="확인필요(low)" sub="값 숨김" />
+          <Stat emoji="🟡" label="부분검증(medium)" sub="2출처 교차확인" />
+          <Stat emoji="🔴" label="단일출처(low)" sub="1출처 · 참고" />
         </div>
       </section>
 

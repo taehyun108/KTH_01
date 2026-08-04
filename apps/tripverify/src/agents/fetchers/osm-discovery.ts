@@ -47,7 +47,7 @@ export async function discoverPois(center: GeoPoint, radius = 12000, limit = 60)
     `nwr["leisure"~"park|garden"]["name"]["wikidata"]`,
     `nwr["amenity"="place_of_worship"]["name"]["wikidata"]`,
   ];
-  const els = await overpass(filters.join(""), center, radius, limit);
+  const els = await overpassUnion(filters, center, radius, limit);
   return els.flatMap((el) => {
     const loc = coord(el);
     const tags = el.tags ?? {};
@@ -69,7 +69,7 @@ export async function discoverPois(center: GeoPoint, radius = 12000, limit = 60)
 
 /** 맛집 발굴 — 제대로 된 '식당'만(카페/패스트푸드/커피 배제). */
 export async function discoverRestaurants(center: GeoPoint, radius = 7000, limit = 40): Promise<RestaurantSeed[]> {
-  const els = await overpass(`nwr["amenity"="restaurant"]["name"]`, center, radius, limit);
+  const els = await overpassUnion([`nwr["amenity"="restaurant"]["name"]`], center, radius, limit);
   return els.flatMap((el) => {
     const loc = coord(el);
     const tags = el.tags ?? {};
@@ -104,8 +104,20 @@ export async function wikiNearby(center: GeoPoint, radius = 10000, limit = 200):
   }));
 }
 
-async function overpass(filter: string, center: GeoPoint, radius: number, limit: number): Promise<OverpassEl[]> {
-  const q = `[out:json][timeout:25];(${filter}(around:${radius},${center.lat},${center.lng}););out center ${limit};`;
+/**
+ * 여러 필터의 합집합(union) 쿼리를 올바르게 구성한다.
+ * 각 필터에 (around) 와 세미콜론을 붙여야 유효한 Overpass QL 이 된다.
+ */
+async function overpassUnion(
+  filters: string[],
+  center: GeoPoint,
+  radius: number,
+  limit: number,
+): Promise<OverpassEl[]> {
+  const body = filters
+    .map((f) => `${f}(around:${radius},${center.lat},${center.lng});`)
+    .join("");
+  const q = `[out:json][timeout:25];(${body});out center ${limit};`;
   const data = await fetchJson<OverpassResp>(
     `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(q)}`,
   );

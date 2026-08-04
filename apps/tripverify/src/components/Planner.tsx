@@ -10,6 +10,8 @@ import { WeatherStrip } from "@/components/WeatherStrip";
 import { BudgetBreakdown } from "@/components/BudgetBreakdown";
 import { Transfers } from "@/components/Transfers";
 import { VerificationReport } from "@/components/VerificationReport";
+import { ConceptSummary } from "@/components/ConceptSummary";
+import { FlightLinks } from "@/components/FlightLinks";
 import { SourcePanel, type SourcePanelData } from "@/components/SourcePanel";
 
 const GoogleMap = dynamic(() => import("@/components/GoogleMap").then((m) => m.GoogleMap), {
@@ -186,6 +188,8 @@ export function Planner({
               아래는 예시 일정입니다. 위 폼에서 조건을 바꿔 나만의 검증된 일정을 만들어 보세요.
             </p>
           )}
+          <ConceptSummary itinerary={it} />
+          <FlightLinks itinerary={it} />
           <WeatherStrip weather={it.weather} onSelect={select} />
           <Transfers transfers={it.transfers} onSelect={select} />
           <BudgetBreakdown budget={it.budget} onSelect={select} />

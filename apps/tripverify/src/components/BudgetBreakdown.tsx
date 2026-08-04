@@ -54,7 +54,13 @@ export function BudgetBreakdown({
                   </td>
                   <td className="py-2 pl-2 text-right">
                     <button onClick={() => onSelect(line.amount_krw, line.label)}>
-                      <ConfidenceBadge confidence={line.amount_krw.confidence} />
+                      {line.amount_krw.confidence === "low" ? (
+                        <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-800 dark:bg-amber-900/40 dark:text-amber-300">
+                          추정
+                        </span>
+                      ) : (
+                        <ConfidenceBadge confidence={line.amount_krw.confidence} />
+                      )}
                     </button>
                   </td>
                 </tr>

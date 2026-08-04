@@ -3,7 +3,7 @@ import type { Confidence } from "@/core/types/confidence";
 export const CONFIDENCE_LABEL: Record<Confidence, string> = {
   high: "검증됨",
   medium: "부분검증",
-  low: "확인 필요",
+  low: "단일출처",
 };
 
 export const CONFIDENCE_EMOJI: Record<Confidence, string> = {
@@ -114,4 +114,24 @@ export function naverBlogSearch(query: string): string {
 /** 네이버 지도 검색. */
 export function naverMapSearch(query: string): string {
   return `https://map.naver.com/p/search/${encodeURIComponent(query)}`;
+}
+
+// ── 항공편 검색 (실시간 시각/가격 확인, 키 불필요) ────────────────────
+/** 구글 항공권(자유 텍스트 검색, 프리필). */
+export function googleFlights(origin: string, dest: string, date: string): string {
+  return `https://www.google.com/travel/flights?q=${encodeURIComponent(
+    `flights from ${origin} to ${dest} on ${date}`,
+  )}`;
+}
+
+/** 스카이스캐너 검색(도시명 기반). */
+export function skyscannerSearch(origin: string, dest: string): string {
+  return `https://www.skyscanner.co.kr/transport/flights/${encodeURIComponent(
+    origin,
+  )}/${encodeURIComponent(dest)}/`;
+}
+
+/** 네이버 항공권. */
+export function naverFlight(): string {
+  return "https://flight.naver.com/";
 }

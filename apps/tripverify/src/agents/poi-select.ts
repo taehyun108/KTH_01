@@ -20,6 +20,23 @@ export type Bucket =
   | "view"
   | "shopping";
 
+export const BUCKET_LABEL: Record<Bucket, string> = {
+  history: "역사",
+  art: "예술",
+  nature: "자연",
+  activity: "액티비티",
+  food: "미식",
+  religious: "사찰·종교",
+  family: "가족",
+  view: "전망",
+  shopping: "쇼핑",
+};
+
+/** 컨셉/스타일에서 강조된 테마(한글 라벨)를 도출한다. UI 설명용. */
+export function conceptThemes(concept: string | undefined, styles: string[]): string[] {
+  return [...conceptBuckets(concept, styles)].map((b) => BUCKET_LABEL[b]);
+}
+
 /** OSM 태그 → 카테고리 버킷 분류. */
 export function classifyTags(tags: Record<string, string>): Bucket[] {
   const b = new Set<Bucket>();
