@@ -70,6 +70,16 @@ export interface BudgetEstimate {
   verified_krw: number; // 검증(medium 이상) 항목만의 합계
   per_person_krw: number;
   note: string;
+  /** 사용자 예산(있으면). */
+  budget_krw?: number;
+  /** 비용 구성 등급: standard(기본) / budget(최소비용). */
+  tier: "standard" | "budget";
+  /** 예산 초과 여부. */
+  over_budget: boolean;
+  /** 초과액(원). 초과 아니면 0. */
+  shortfall_krw: number;
+  /** 국내여행(원화 기준, 환전 불필요). */
+  domestic: boolean;
 }
 
 export interface VerificationSummary {

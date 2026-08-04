@@ -17,6 +17,8 @@ import { weatherAgent } from "@/agents/weather-agent";
 import { logisticsAgent } from "@/agents/logistics-agent";
 import { routeAgent } from "@/agents/route-agent";
 import { cachedVerify } from "@/db/repo";
+import { unverified } from "@/core/factory/make-fact";
+import type { CurrencyInfo as CurrencyInfoType } from "@/core/types/domains";
 import { CurrencyInfoSchema, LogisticsInfoSchema } from "@/core/schema/domains.schema";
 
 /**
@@ -62,14 +64,19 @@ export function liveDeps(): PipelineDeps {
       return buildRestaurantFacts(seeds);
     },
 
-    collectCurrency: async (ctx) =>
-      cachedVerify({
+    collectCurrency: async (ctx) => {
+      // 국내여행(원화)은 환전이 없으므로 환율 조회를 생략.
+      if (ctx.currency_code === "KRW") {
+        return unverified<CurrencyInfoType>("국내여행 — 원화 기준(환전 불필요)");
+      }
+      return cachedVerify({
         key: `currency:${ctx.currency_code}`,
         domain: "currency",
         agent: "currency-agent",
         valueSchema: CurrencyInfoSchema,
         produce: () => currencyAgent({ code: ctx.currency_code }, liveCurrencyReaders),
-      }) as ReturnType<PipelineDeps["collectCurrency"]>,
+      }) as ReturnType<PipelineDeps["collectCurrency"]>;
+    },
 
     collectWeather: (ctx, start, end) =>
       weatherAgent({ center: ctx.center, start_date: start, end_date: end }, liveWeatherReaders),

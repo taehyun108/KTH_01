@@ -35,6 +35,31 @@ export function BudgetBreakdown({
         )}
       </div>
 
+      {/* 예산 대비 상태 배너 */}
+      {budget.budget_krw !== undefined && budget.lines.length > 0 && (
+        <div
+          className={`mb-3 rounded-lg p-3 text-sm ${
+            budget.over_budget
+              ? "bg-red-50 text-red-800 dark:bg-red-950/40 dark:text-red-300"
+              : "bg-green-50 text-green-800 dark:bg-green-950/40 dark:text-green-300"
+          }`}
+        >
+          {budget.over_budget ? (
+            <>
+              🔴 <b>예산 부족</b> · 예산 {krw(budget.budget_krw)} 대비{" "}
+              <b>{krw(budget.shortfall_krw)} 초과</b> (총 {krw(budget.total_krw)})
+              {budget.tier === "budget" && " — 이미 최소비용으로 구성했으나 초과합니다."}
+            </>
+          ) : (
+            <>
+              🟢 <b>예산 내</b> · 예산 {krw(budget.budget_krw)} 중 {krw(budget.total_krw)} 사용
+              (여유 {krw(budget.budget_krw - budget.total_krw)})
+              {budget.tier === "budget" && " · 최소비용 구성"}
+            </>
+          )}
+        </div>
+      )}
+
       {budget.lines.length === 0 ? (
         <p className="text-sm opacity-60">{budget.note}</p>
       ) : (

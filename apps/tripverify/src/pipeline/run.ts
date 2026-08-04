@@ -96,8 +96,9 @@ export async function runPipeline(query: TripQuery, deps: PipelineDeps): Promise
   const cityNodes: CityNode[] = resolved.map((b) => ({ name: b.city, center: b.ctx!.center }));
   const transfers = planTransfers(cityNodes);
 
-  // 예산 (검증 통과 데이터만 사용)
-  const budget = estimateBudget({
+  // 예산 (검증 통과 데이터만 사용). 국내(KR)면 원화 기준.
+  const domestic = firstCtx.country_code === "KR";
+  const baseBudgetInput = {
     currency,
     pois: allPois.filter(hasSourcedValue),
     food: allFood.filter(hasSourcedValue),
@@ -106,7 +107,14 @@ export async function runPipeline(query: TripQuery, deps: PipelineDeps): Promise
     days: nDays,
     nights: Math.max(nDays - 1, 0),
     party: query.party,
-  });
+    domestic,
+    ...(query.budget_krw !== undefined ? { budget_krw: query.budget_krw } : {}),
+  };
+  let budget = estimateBudget({ ...baseBudgetInput, tier: "standard" });
+  // 예산 초과 시 최소비용으로 재구성
+  if (query.budget_krw !== undefined && budget.total_krw > query.budget_krw) {
+    budget = estimateBudget({ ...baseBudgetInput, tier: "budget" });
+  }
 
   const allFacts: VerifiedFact<unknown>[] = [
     ...allPois,
@@ -227,6 +235,10 @@ function emptyItinerary(query: TripQuery, nDays: number, cityNames: string[], no
       verified_krw: 0,
       per_person_krw: 0,
       note: "데이터 부족으로 예산을 산출하지 못했습니다.",
+      tier: "standard",
+      over_budget: false,
+      shortfall_krw: 0,
+      domestic: false,
     },
     currency: null,
     weather: [],

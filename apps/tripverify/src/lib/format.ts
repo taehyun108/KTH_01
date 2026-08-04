@@ -16,6 +16,11 @@ export function krw(n: number): string {
   return `₩${Math.round(n).toLocaleString("ko-KR")}`;
 }
 
+/** 회계식(천단위 콤마) 일반 숫자. 날짜 제외 모든 숫자에 사용. */
+export function num(n: number, digits = 0): string {
+  return n.toLocaleString("ko-KR", { maximumFractionDigits: digits });
+}
+
 export function localAmount(n: number, code: string): string {
   return `${n.toLocaleString("ko-KR", { maximumFractionDigits: 2 })} ${code}`;
 }

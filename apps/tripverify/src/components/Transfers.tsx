@@ -2,7 +2,7 @@
 import type { CityTransfer } from "@/core/types/itinerary";
 import type { VerifiedFact } from "@/core/types/verified-fact";
 import { ConfidenceBadge } from "./ConfidenceBadge";
-import { minutesLabel } from "@/lib/format";
+import { minutesLabel, num } from "@/lib/format";
 
 const MODE_LABEL: Record<string, string> = { train: "🚄 기차", car: "🚗 자동차", flight: "✈️ 항공" };
 
@@ -29,7 +29,7 @@ export function Transfers({
               className="flex items-center gap-2 text-right"
             >
               <span>
-                {MODE_LABEL[t.suggested_mode] ?? t.suggested_mode} · {t.distance_km}km ·{" "}
+                {MODE_LABEL[t.suggested_mode] ?? t.suggested_mode} · {num(t.distance_km)}km ·{" "}
                 {minutesLabel(t.fact.value?.duration_minutes ?? 0)}
               </span>
               <ConfidenceBadge confidence={t.fact.confidence} />

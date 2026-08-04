@@ -25,6 +25,15 @@ export const BUDGET_ASSUMPTIONS = {
   flight_base_krw: 120_000,
 } as const;
 
+/** 최소비용(budget) 등급 가정 — 예산 초과 시 사용. */
+export const BUDGET_ASSUMPTIONS_MIN = {
+  lodging_per_night_per_person_krw: 40_000, // 게스트하우스/저가 숙소
+  food_meal_multiplier: 0.6, // 가성비 식사
+  local_transport_per_day_per_person_krw: 8_000,
+} as const;
+
+export type BudgetTier = "standard" | "budget";
+
 function estimateSource(checkedAt: string, method: string): Source {
   return {
     name: "TripVerify 추정(계획용 가정)",
@@ -76,23 +85,40 @@ export interface BudgetInput {
   days: number;
   nights: number;
   party: TravelParty;
+  budget_krw?: number;
+  /** 비용 등급. budget=최소비용(예산 초과 시). */
+  tier?: BudgetTier;
+  /** 국내여행(원화 기준, 환전 불필요). */
+  domestic?: boolean;
   checkedAt?: string;
 }
 
 /**
- * 예산 추정 (§8-4 확장). 카테고리별로 KRW 금액을 산출하되,
- * 실제 조회된 입장료+검증 환율로 계산한 '입장료'만 검증(medium), 나머지는 추정(low).
+ * 예산 추정 (§8-4 확장). tier=budget 이면 최소비용 가정으로 재구성.
+ * 국내여행(domestic)이면 원화 기준(환율 1)으로 입장료를 계산한다.
  */
 export function estimateBudget(input: BudgetInput): BudgetEstimate {
   const checkedAt = input.checkedAt ?? new Date().toISOString();
   const heads = totalTravelers(input.party);
   const fx = input.currency && isRenderable(input.currency) ? input.currency : null;
+  const tier: BudgetTier = input.tier ?? "standard";
+  const domestic = input.domestic ?? false;
   const lines: BudgetLine[] = [];
+
+  const lodgingPerNight =
+    tier === "budget"
+      ? BUDGET_ASSUMPTIONS_MIN.lodging_per_night_per_person_krw
+      : BUDGET_ASSUMPTIONS.lodging_per_night_per_person_krw;
+  const foodMult = tier === "budget" ? BUDGET_ASSUMPTIONS_MIN.food_meal_multiplier : 1;
+  const localPerDay =
+    tier === "budget"
+      ? BUDGET_ASSUMPTIONS_MIN.local_transport_per_day_per_person_krw
+      : BUDGET_ASSUMPTIONS.local_transport_per_day_per_person_krw;
 
   const push = (category: BudgetCategory, label: string, amount_krw: VerifiedFact<number>) =>
     lines.push({ category, label, amount_krw });
 
-  // 1) 항공 — 검증값 있으면 사용, 없으면 라인 생략(추정 남발 금지)
+  // 1) 항공 — 검증값 있으면 사용
   const flightPrice = input.flights.find((f) => isRenderable(f) && f.value.price_estimate_krw);
   if (flightPrice && isRenderable(flightPrice) && flightPrice.value.price_estimate_krw) {
     const total = flightPrice.value.price_estimate_krw * heads;
@@ -104,7 +130,7 @@ export function estimateBudget(input: BudgetInput): BudgetEstimate {
     }));
   }
 
-  // 2) 도시 간 이동 — 거리×모드 단가(추정)
+  // 2) 도시 간 이동
   if (input.transfers.length > 0) {
     let intercity = 0;
     for (const t of input.transfers) {
@@ -115,35 +141,49 @@ export function estimateBudget(input: BudgetInput): BudgetEstimate {
     push("intercity", "도시 간 이동", estimateMoney(intercity, "거리×모드 단가 가정", checkedAt));
   }
 
-  // 3) 숙박 — 1인 1박 가정
-  const lodging = BUDGET_ASSUMPTIONS.lodging_per_night_per_person_krw * input.nights * heads;
-  push("lodging", `숙박(${input.nights}박)`, estimateMoney(lodging, "1인1박 9만원 가정", checkedAt));
+  // 3) 숙박
+  const lodging = lodgingPerNight * input.nights * heads;
+  push("lodging", `숙박(${input.nights}박${tier === "budget" ? "·최소비용" : ""})`, estimateMoney(lodging, `1인1박 ${Math.round(lodgingPerNight / 1000)}천원 가정`, checkedAt));
 
-  // 4) 식사 — 검증 식당의 가격대 평균으로 1식 단가 추정
-  const perMeal = averageMealKrw(input.food);
+  // 4) 식사
+  const perMeal = averageMealKrw(input.food) * foodMult;
   const food = perMeal * BUDGET_ASSUMPTIONS.meals_per_day * input.days * heads;
-  push("food", `식사(${input.days}일×3식)`, estimateMoney(food, "가격대 평균 기반 추정", checkedAt));
+  push("food", `식사(${input.days}일×3식${tier === "budget" ? "·가성비" : ""})`, estimateMoney(food, "가격대 평균 기반 추정", checkedAt));
 
-  // 5) 입장료 — 검증된 POI 실제 요금 × 검증 환율 (유일한 검증 라인)
-  if (fx) {
+  // 5) 입장료 — 조회된 POI 요금 합계(국내=원화, 해외=검증 환율)
+  const rate = domestic ? 1 : fx ? fx.value.krw_per_unit : null;
+  if (rate !== null) {
     const feeLocal = input.pois.reduce((sum, p) => {
       const fee = hasSourcedValue(p) ? p.value.admission_fee_local : null;
       return sum + (typeof fee === "number" ? fee : 0);
     }, 0);
     if (feeLocal > 0) {
-      const admissionKrw = feeLocal * fx.value.krw_per_unit * heads;
-      push("admission", "입장료(검증된 요금 합계)", verifiedMoney(admissionKrw, fx, checkedAt));
+      const admissionKrw = feeLocal * rate * heads;
+      const fact =
+        fx && !domestic
+          ? verifiedMoney(admissionKrw, fx, checkedAt)
+          : estimateMoney(admissionKrw, "입장료 합계(원화 기준)", checkedAt);
+      push("admission", "입장료(조회된 요금 합계)", fact);
     }
   }
 
-  // 6) 현지 교통 — 1인 1일 가정
-  const localTransport = BUDGET_ASSUMPTIONS.local_transport_per_day_per_person_krw * input.days * heads;
-  push("local_transport", "현지 교통", estimateMoney(localTransport, "1인1일 1.2만원 가정", checkedAt));
+  // 6) 현지 교통
+  const localTransport = localPerDay * input.days * heads;
+  push("local_transport", "현지 교통", estimateMoney(localTransport, `1인1일 ${Math.round(localPerDay / 1000)}천원 가정`, checkedAt));
 
   const total_krw = lines.reduce((s, l) => s + (l.amount_krw.value ?? 0), 0);
   const verified_krw = lines
     .filter((l) => l.amount_krw.confidence !== "low")
     .reduce((s, l) => s + (l.amount_krw.value ?? 0), 0);
+
+  const budget_krw = input.budget_krw;
+  const over_budget = budget_krw !== undefined && total_krw > budget_krw;
+  const shortfall_krw = over_budget ? total_krw - budget_krw! : 0;
+
+  const noteBase = domestic
+    ? "국내여행(원화 기준). 숙박·식사·교통은 계획용 추정이며 실제 요금은 검색 링크에서 확인하세요."
+    : "숙박·식사·교통·도시간 이동은 계획용 '추정(가정)'입니다. 실제 요금은 검색 링크에서 확인하세요.";
+  const noteTier = tier === "budget" ? " 예산에 맞춰 최소비용으로 재구성했습니다." : "";
 
   return {
     currency: input.currency,
@@ -151,9 +191,12 @@ export function estimateBudget(input: BudgetInput): BudgetEstimate {
     total_krw,
     verified_krw,
     per_person_krw: heads > 0 ? Math.round(total_krw / heads) : total_krw,
-    note:
-      "숙박·식사·교통·도시간 이동은 계획용 '추정(가정)'이며 실제 예약가가 아닙니다. " +
-      "입장료만 검증된 요금과 검증 환율로 계산했습니다.",
+    note: noteBase + noteTier,
+    ...(budget_krw !== undefined ? { budget_krw } : {}),
+    tier,
+    over_budget,
+    shortfall_krw,
+    domestic,
   };
 }
 

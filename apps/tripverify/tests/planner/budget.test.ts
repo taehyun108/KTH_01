@@ -60,6 +60,31 @@ describe("estimateBudget", () => {
     expect(b.lines.find((l) => l.category === "admission")).toBeUndefined();
     expect(b.verified_krw).toBe(0); // 검증 항목 없음
   });
+
+  it("예산 초과 감지 + 최소비용(budget) 등급은 더 저렴", () => {
+    const std = estimateBudget({ currency: fx(), ...base, budget_krw: 100_000 });
+    expect(std.over_budget).toBe(true);
+    expect(std.shortfall_krw).toBeGreaterThan(0);
+
+    const cheap = estimateBudget({ currency: fx(), ...base, tier: "budget", budget_krw: 100_000 });
+    expect(cheap.total_krw).toBeLessThan(std.total_krw); // 최소비용이 더 쌈
+    expect(cheap.tier).toBe("budget");
+  });
+
+  it("충분한 예산이면 over_budget=false", () => {
+    const b = estimateBudget({ currency: fx(), ...base, budget_krw: 100_000_000 });
+    expect(b.over_budget).toBe(false);
+    expect(b.shortfall_krw).toBe(0);
+  });
+
+  it("국내여행(domestic): 환율 없이 원화 기준으로 입장료 계산", () => {
+    const b = estimateBudget({ currency: null, ...base, domestic: true });
+    const admission = b.lines.find((l) => l.category === "admission");
+    expect(admission).toBeDefined(); // 원화 기준으로 계산됨
+    expect(admission?.amount_krw.value).toBe(Math.round(1600 * 1 * 2)); // rate=1
+    expect(b.domestic).toBe(true);
+    expect(b.note).toContain("국내여행");
+  });
 });
 
 describe("planTransfers (도시 간 이동)", () => {

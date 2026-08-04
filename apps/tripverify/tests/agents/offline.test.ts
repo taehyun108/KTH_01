@@ -25,6 +25,17 @@ describe("오프라인 지오코더 (GeoNames 번들, 무료·무네트워크)",
     expect(offlineGeocode("존재하지않는도시명xyz")).toBeNull();
     await expect(resolveContextOffline("존재하지않는도시명xyz", {} as TripQuery)).rejects.toThrow();
   });
+
+  it("국내 한글 도시(부산/제주) → KR/KRW 로 해석", () => {
+    const busan = offlineGeocode("부산");
+    expect(busan?.country_code).toBe("KR");
+    expect(busan?.currency_code).toBe("KRW");
+    expect(busan?.center.lat).toBeCloseTo(35.1, 0);
+
+    const jeju = offlineGeocode("제주");
+    expect(jeju?.country_code).toBe("KR");
+    expect(jeju?.center.lat).toBeCloseTo(33.5, 0);
+  });
 });
 
 describe("date-holidays 오프라인 공휴일 리더", () => {
