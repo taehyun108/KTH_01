@@ -160,7 +160,11 @@ async function buildCity(
 
   const renderablePois = pois.filter(hasSourcedValue);
   const renderableFood = food.filter(hasSourcedValue);
-  const places: Place[] = renderablePois.map((f, i) => ({ id: `${city}-poi-${i}`, location: f.value.location }));
+  const places: Place[] = renderablePois.map((f, i) => ({
+    id: `${city}-poi-${i}`,
+    location: f.value.location,
+    ...(f.value.time_pref ? { time_pref: f.value.time_pref } : {}),
+  }));
   const route = places.length > 0
     ? await deps.buildRoute(places, block, primaryMode)
     : { days: [], estimated: true, source_name: "" };

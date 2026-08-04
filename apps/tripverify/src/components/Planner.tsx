@@ -12,6 +12,7 @@ import { Transfers } from "@/components/Transfers";
 import { VerificationReport } from "@/components/VerificationReport";
 import { ConceptSummary } from "@/components/ConceptSummary";
 import { FlightLinks } from "@/components/FlightLinks";
+import { LodgingLinks } from "@/components/LodgingLinks";
 import { SourcePanel, type SourcePanelData } from "@/components/SourcePanel";
 
 const GoogleMap = dynamic(() => import("@/components/GoogleMap").then((m) => m.GoogleMap), {
@@ -190,6 +191,7 @@ export function Planner({
           )}
           <ConceptSummary itinerary={it} />
           <FlightLinks itinerary={it} />
+          <LodgingLinks itinerary={it} />
           <WeatherStrip weather={it.weather} onSelect={select} />
           <Transfers transfers={it.transfers} onSelect={select} />
           <BudgetBreakdown budget={it.budget} onSelect={select} />

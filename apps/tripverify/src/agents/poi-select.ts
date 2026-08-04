@@ -37,6 +37,14 @@ export function conceptThemes(concept: string | undefined, styles: string[]): st
   return [...conceptBuckets(concept, styles)].map((b) => BUCKET_LABEL[b]);
 }
 
+/** 감수성: 카테고리로 방문 권장 시간대 도출. 전망(타워/전망대)=야경(저녁). */
+export function timePrefFromCategories(cats: string[] | undefined): "morning" | "day" | "evening" {
+  const c = cats ?? [];
+  if (c.includes("view")) return "evening"; // 타워·전망대는 야경이 백미
+  if (c.includes("shopping")) return "morning"; // 시장은 오전이 활기
+  return "day";
+}
+
 /** OSM 태그 → 카테고리 버킷 분류. */
 export function classifyTags(tags: Record<string, string>): Bucket[] {
   const b = new Set<Bucket>();

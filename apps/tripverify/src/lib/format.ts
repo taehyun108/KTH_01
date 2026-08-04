@@ -142,3 +142,23 @@ export function skyscannerSearch(origin: string, dest: string): string {
 export function naverFlight(): string {
   return "https://flight.naver.com/";
 }
+
+// ── 숙박 검색 (실시간 요금, 키 불필요) ────────────────────────────────
+export function bookingSearch(city: string, checkin: string, checkout: string, adults: number): string {
+  return (
+    `https://www.booking.com/searchresults.ko.html?ss=${encodeURIComponent(city)}` +
+    `&checkin=${checkin}&checkout=${checkout}&group_adults=${adults}`
+  );
+}
+export function tripComSearch(city: string, checkin: string, checkout: string): string {
+  return (
+    `https://www.trip.com/hotels/list?city=&keyword=${encodeURIComponent(city)}` +
+    `&checkin=${checkin.replace(/-/g, "/")}&checkout=${checkout.replace(/-/g, "/")}`
+  );
+}
+export function agodaSearch(city: string): string {
+  return `https://www.agoda.com/ko-kr/search?city=&text=${encodeURIComponent(city)}`;
+}
+export function googleHotels(city: string, checkin: string): string {
+  return `https://www.google.com/travel/search?q=${encodeURIComponent(`${city} 호텔 ${checkin}`)}`;
+}

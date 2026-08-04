@@ -55,7 +55,13 @@ export async function routeAgent(
     estimated = estimated || mat.estimated;
     source_name = mat.source.name;
     const matrix = mat.durations as Matrix;
-    const order = optimizeOrder(matrix, 0);
+    const tsp = optimizeOrder(matrix, 0);
+    // 감수성: 시간대 선호로 안정 정렬(오전<주간<저녁). 동일 시간대 내 동선순 유지.
+    const rank = (idx: number): number => {
+      const pref = byId(input.places, ids[idx]!).time_pref;
+      return pref === "morning" ? 0 : pref === "evening" ? 2 : 1;
+    };
+    const order = [...tsp].sort((a, b) => rank(a) - rank(b));
     const leg_seconds = order.map((idx, k) =>
       k === 0 ? 0 : matrix[order[k - 1]!]![idx]!,
     );

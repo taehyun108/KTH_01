@@ -33,6 +33,8 @@ export interface WeatherDay {
 }
 
 // --- poi-agent → pois.json ---
+export type TimePref = "morning" | "day" | "evening";
+
 export interface Poi {
   name: string; // 현지(원어) 이름 — OSM 'name'
   name_en?: string; // 영어 이름 — OSM 'name:en'
@@ -43,6 +45,10 @@ export interface Poi {
   closed_days?: number[];
   admission_fee_local?: number | null;
   reservation_required?: boolean;
+  /** 선별/사유용 카테고리 버킷. */
+  categories?: string[];
+  /** 방문 권장 시간대(감수성): 전망대·타워 등은 evening(야경). */
+  time_pref?: TimePref;
 }
 
 // --- food-agent → restaurants.json ---

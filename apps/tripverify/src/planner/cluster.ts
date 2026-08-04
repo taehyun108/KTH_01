@@ -4,6 +4,8 @@ import { haversineMeters, centroid } from "@/lib/geo";
 export interface Place {
   id: string;
   location: GeoPoint;
+  /** 방문 권장 시간대(감수성). 동선 정렬 후 시간대 순으로 재배치. */
+  time_pref?: "morning" | "day" | "evening";
 }
 
 /**

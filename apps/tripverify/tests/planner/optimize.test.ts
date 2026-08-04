@@ -84,4 +84,15 @@ describe("route-agent (해버사인 폴백)", () => {
     const allIds = plan.days.flatMap((d) => d.ordered_place_ids).sort();
     expect(allIds).toEqual(["p1", "p2", "p3", "p4"]);
   });
+
+  it("감수성: 전망(evening) 장소는 그날 마지막에 배치된다", async () => {
+    const withPref: Place[] = [
+      { id: "day1", location: { lat: 34.69, lng: 135.5 }, time_pref: "day" },
+      { id: "tower", location: { lat: 34.7, lng: 135.51 }, time_pref: "evening" },
+      { id: "day2", location: { lat: 34.68, lng: 135.49 }, time_pref: "day" },
+    ];
+    const plan = await routeAgent({ places: withPref, days: 1, mode: "transit" }, haversineMatrix);
+    const order = plan.days[0]!.ordered_place_ids;
+    expect(order[order.length - 1]).toBe("tower"); // 야경은 맨 끝
+  });
 });

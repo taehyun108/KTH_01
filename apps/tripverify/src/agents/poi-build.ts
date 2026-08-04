@@ -4,6 +4,7 @@ import type { Comparator, Observation } from "@/core/verification/observation";
 import { verify } from "@/core/verification/verifier";
 import { TOLERANCE } from "@/core/verification/tolerance";
 import { haversineMeters } from "@/lib/geo";
+import { timePrefFromCategories } from "./poi-select";
 
 /**
  * OSM 발굴 결과(좌표 포함) → VerifiedFact 로 구성하는 순수 로직.
@@ -71,6 +72,8 @@ export function buildPoiFacts(
       location: seed.location,
       ...(seed.opening_hours ? { opening_hours: seed.opening_hours } : {}),
       ...(seed.admission_fee_local !== undefined ? { admission_fee_local: seed.admission_fee_local } : {}),
+      ...(seed.categories ? { categories: seed.categories } : {}),
+      time_pref: timePrefFromCategories(seed.categories),
     };
     const origin = seed.origin ?? "osm";
     const primary = origin === "wiki" ? WIKI_SOURCE : OSM_SOURCE;

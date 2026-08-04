@@ -32,6 +32,10 @@ export function ConceptSummary({ itinerary }: { itinerary: Itinerary }) {
         {(query.budget_krw ?? 0).toLocaleString("ko-KR")}원 — 위 테마를 우선해{" "}
         <b>검증된 출처가 있는 유명 장소</b> 위주로, 하루 관광 3곳 이상과 식사를 배치했습니다.
       </p>
+      <p className="mt-1 text-xs opacity-70">
+        🌆 감수성: <b>전망대·타워는 저녁 야경</b> 시간대에, 시장은 오전에 배치했습니다.
+        각 장소의 추천 사유와 식당 대표 메뉴도 함께 표시합니다.
+      </p>
     </div>
   );
 }
