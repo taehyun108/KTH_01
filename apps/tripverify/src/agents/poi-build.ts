@@ -22,6 +22,8 @@ export interface PoiSeed {
   categories?: string[];
   /** 위키데이터/위키백과 태그 보유(유명도). */
   notable?: boolean;
+  /** 이 후보의 1차 출처(정직한 출처 표기). 기본 osm. */
+  origin?: "osm" | "wiki";
 }
 export interface RestaurantSeed {
   name: string;
@@ -47,9 +49,15 @@ function placeComparator<T extends { location: GeoPoint }>(): Comparator<T> {
   };
 }
 
-/** OSM POI + (근접) Wikipedia 교차검증으로 VerifiedFact<Poi>[] 생성. */
+/**
+ * POI 후보를 VerifiedFact 로 구성. 각 후보의 1차 출처(origin)를 정직하게 표기하고,
+ * 반대 출처(OSM↔Wikipedia)가 100m 내에 있으면 독립 교차검증으로 medium 승격.
+ * @param osmPoints Overpass 로 확인된 지점들(위키 후보의 교차검증용)
+ * @param wiki      Wikipedia 문서들(OSM 후보의 교차검증용)
+ */
 export function buildPoiFacts(
   seeds: PoiSeed[],
+  osmPoints: GeoPoint[],
   wiki: WikiArticle[],
   now: number = Date.now(),
 ): VerifiedFact<Poi>[] {
@@ -64,19 +72,35 @@ export function buildPoiFacts(
       ...(seed.opening_hours ? { opening_hours: seed.opening_hours } : {}),
       ...(seed.admission_fee_local !== undefined ? { admission_fee_local: seed.admission_fee_local } : {}),
     };
+    const origin = seed.origin ?? "osm";
+    const primary = origin === "wiki" ? WIKI_SOURCE : OSM_SOURCE;
     const obs: Observation<Poi>[] = [
-      { value: poi, source: { ...OSM_SOURCE, retrieved_at: iso }, pass: 1 },
+      { value: poi, source: { ...primary, retrieved_at: iso }, pass: 1 },
     ];
-    const match = nearestWiki(wiki, seed.location);
-    if (match) {
-      obs.push({
-        value: { name: seed.name, location: match.location },
-        source: { ...WIKI_SOURCE, retrieved_at: iso },
-        pass: 2,
-      });
+
+    // 반대 출처로 교차검증(독립 도메인 → 일치 시 medium)
+    if (origin === "osm") {
+      const w = nearestWiki(wiki, seed.location);
+      if (w) obs.push({ value: { name: seed.name, location: w.location }, source: { ...WIKI_SOURCE, retrieved_at: iso }, pass: 2 });
+    } else {
+      const p = nearestPoint(osmPoints, seed.location);
+      if (p) obs.push({ value: { name: seed.name, location: p }, source: { ...OSM_SOURCE, retrieved_at: iso }, pass: 2 });
     }
     return verify<Poi>(obs, { comparator: cmp, tolerance: TOLERANCE.geo_distance_m });
   });
+}
+
+function nearestPoint(points: GeoPoint[], at: GeoPoint): GeoPoint | null {
+  let best: GeoPoint | null = null;
+  let bestD: number = TOLERANCE.geo_distance_m;
+  for (const p of points) {
+    const d = haversineMeters(p, at);
+    if (d <= bestD) {
+      bestD = d;
+      best = p;
+    }
+  }
+  return best;
 }
 
 /** 식당은 대개 Wikipedia 에 없으므로 OSM 단일 출처(low, 표시됨)로 구성. */

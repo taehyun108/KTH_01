@@ -5,8 +5,11 @@ import {
   notableFromTags,
   scoreSeed,
   selectPois,
+  inferCategoriesFromTitle,
+  wikiFallbackSeeds,
+  mergeByProximity,
 } from "@/agents/poi-select";
-import type { PoiSeed } from "@/agents/poi-build";
+import type { PoiSeed, WikiArticle } from "@/agents/poi-build";
 
 const loc = { lat: 34.7, lng: 135.5 };
 const seed = (over: Partial<PoiSeed>): PoiSeed => ({
@@ -71,5 +74,36 @@ describe("scoreSeed / selectPois", () => {
     expect(picked.map((p) => p.name)).toContain("유명 성");
     expect(picked.map((p) => p.name)).toContain("대형 사찰");
     expect(picked.map((p) => p.name)).not.toContain("동네 상점");
+  });
+});
+
+describe("Wikipedia 기반 POI (클라우드 안정 소스)", () => {
+  it("inferCategoriesFromTitle: 제목에서 카테고리 추론", () => {
+    expect(inferCategoriesFromTitle("Osaka Castle")).toContain("history");
+    expect(inferCategoriesFromTitle("Shitennoji Temple")).toContain("religious");
+    expect(inferCategoriesFromTitle("Tsutenkaku Tower")).toContain("view");
+    expect(inferCategoriesFromTitle("Tennoji Zoo")).toContain("family");
+  });
+
+  it("wikiFallbackSeeds: 역/학교 등 비관광 문서는 제외, 명소는 notable", () => {
+    const wiki: WikiArticle[] = [
+      { title: "Osaka Castle", location: { lat: 34.6873, lng: 135.5259 } },
+      { title: "Osaka Station", location: { lat: 34.7, lng: 135.5 } }, // 제외
+      { title: "Kyoto University", location: { lat: 35.02, lng: 135.78 } }, // 제외
+    ];
+    const seeds = wikiFallbackSeeds(wiki);
+    expect(seeds.map((s) => s.name)).toEqual(["Osaka Castle"]);
+    expect(seeds[0]!.notable).toBe(true);
+    expect(seeds[0]!.origin).toBe("wiki");
+  });
+
+  it("mergeByProximity: OSM 우선, 근접 중복 위키 제거", () => {
+    const osm: PoiSeed[] = [{ name: "성(OSM)", location: { lat: 34.6873, lng: 135.5259 }, origin: "osm" }];
+    const wikiSeeds: PoiSeed[] = [
+      { name: "성(Wiki)", location: { lat: 34.6874, lng: 135.526 }, origin: "wiki" }, // 근접 중복
+      { name: "먼 명소", location: { lat: 34.70, lng: 135.55 }, origin: "wiki" },
+    ];
+    const merged = mergeByProximity(osm, wikiSeeds);
+    expect(merged.map((m) => m.name)).toEqual(["성(OSM)", "먼 명소"]);
   });
 });

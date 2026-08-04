@@ -5,7 +5,7 @@ import { ConfidenceBadge } from "./ConfidenceBadge";
 import {
   minutesLabel,
   weekdayKo,
-  googleMapsPlace,
+  googleMapsPlaceAt,
   naverBlogSearch,
   displayName,
   searchName,
@@ -55,6 +55,10 @@ export function Timeline({
                 {(() => {
                   const disp = displayName(item.place.value) || item.name;
                   const sname = searchName(item.place.value) || item.name;
+                  const loc = item.place.value?.location;
+                  const mapHref = loc
+                    ? googleMapsPlaceAt(sname, { lat: loc.lat, lng: loc.lng })
+                    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(sname)}`;
                   return (
                     <div className="flex items-center justify-between gap-2">
                       <div className="min-w-0">
@@ -62,11 +66,11 @@ export function Timeline({
                           {item.start}–{item.end}
                         </span>
                         <a
-                          href={googleMapsPlace(sname, day.city)}
+                          href={mapHref}
                           target="_blank"
                           rel="noreferrer"
                           className="font-medium hover:underline"
-                          title="구글지도에서 보기"
+                          title="구글지도에서 보기(정확한 위치)"
                         >
                           {item.kind === "food" ? "🍽 " : "📍 "}
                           {disp}

@@ -82,8 +82,11 @@ export async function runPipeline(query: TripQuery, deps: PipelineDeps): Promise
   const allFood = bundles.flatMap((b) => b.food);
   const weather = bundles.flatMap((b) => b.weather);
 
-  if (allPois.filter(hasSourcedValue).length === 0) {
-    notes.push("검증을 통과한 관광지가 없어 일부/전체 일정이 비어 있습니다. (외부 출처 조회 불가 또는 교차검증 실패)");
+  const poiCount = allPois.filter(hasSourcedValue).length;
+  const foodCount = allFood.filter(hasSourcedValue).length;
+  notes.push(`수집 결과: 관광지 ${poiCount}곳 · 식당 ${foodCount}곳 (도시 ${resolved.length}개)`);
+  if (poiCount === 0) {
+    notes.push("관광지 출처(Overpass/Wikipedia)를 조회하지 못했습니다. 네트워크/외부 API 상태를 확인하세요.");
   }
   for (const b of bundles) {
     if (b.ctx === null) notes.push(`'${b.city}' 컨텍스트 조회 실패로 해당 도시 일정을 비웠습니다.`);

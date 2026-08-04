@@ -72,6 +72,13 @@ export function googleMapsPlace(name: string, area?: string): string {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 }
 
+/** 이름 + 정확한 좌표로 검색 → 동명이인 없이 정확한 장소로 이동. */
+export function googleMapsPlaceAt(name: string, loc: LatLng): string {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    `${name} ${loc.lat},${loc.lng}`,
+  )}`;
+}
+
 /** 좌표 기반 정확한 핀. */
 export function googleMapsCoord(loc: LatLng): string {
   return `https://www.google.com/maps/search/?api=1&query=${loc.lat}%2C${loc.lng}`;

@@ -101,7 +101,7 @@ describe("runPipeline", () => {
   it("검증 POI 가 없으면 notes 로 정직하게 비운다 (§0-4)", async () => {
     const it = await runPipeline(query, deps([unverified<Poi>("조회 불가")]));
     expect(it.days.every((d) => d.items.filter((i) => i.kind === "poi").length === 0)).toBe(true);
-    expect(it.notes.some((n) => n.includes("관광지가 없어"))).toBe(true);
+    expect(it.notes.some((n) => n.includes("관광지 0곳") || n.includes("조회하지 못"))).toBe(true);
   });
 
   it("다중 도시: 도시별 일정 배분 + 도시간 이동 + 예산 산출", async () => {

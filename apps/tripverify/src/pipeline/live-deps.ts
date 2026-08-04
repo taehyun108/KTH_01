@@ -6,7 +6,7 @@ import { resolveContextOffline } from "@/agents/offline/geocode";
 import { dateHolidaysReader } from "@/agents/offline/holidays";
 import { discoverPois, discoverRestaurants, wikiNearby } from "@/agents/fetchers/osm-discovery";
 import { buildPoiFacts, buildRestaurantFacts } from "@/agents/poi-build";
-import { selectPois } from "@/agents/poi-select";
+import { selectPois, wikiFallbackSeeds, mergeByProximity } from "@/agents/poi-select";
 import { dayCount } from "@/agents/schema";
 import { liveCurrencyReaders } from "@/agents/fetchers/currency";
 import { liveWeatherReaders } from "@/agents/fetchers/weather";
@@ -38,21 +38,23 @@ export function liveDeps(): PipelineDeps {
     resolveContext: resolveContextResilient,
 
     collectPois: async (ctx, q) => {
-      // 발굴(좌표 포함) + Wikipedia 근접 교차검증을 한 번씩만 호출.
-      const [seeds, wiki] = await Promise.all([
+      // Wikipedia(클라우드 안정) 주 소스 + Overpass 보강. 둘 다 best-effort.
+      const [overpassSeeds, wiki] = await Promise.all([
         discoverPois(ctx.center).catch(() => []),
         wikiNearby(ctx.center).catch(() => []),
       ]);
+      const merged = mergeByProximity(overpassSeeds, wikiFallbackSeeds(wiki));
       // 도시당 일수에 맞춰 상위 장소만 컨셉·유명도로 선별(무명/무관 장소 제외).
       const cities = Math.max(q.destinations.length, 1);
       const perCityDays = Math.max(1, Math.round(dayCount(q.start_date, q.end_date) / cities));
-      const limit = Math.min(Math.max(perCityDays * 6, 8), 30);
-      const selected = selectPois(seeds, wiki, {
+      const limit = Math.min(Math.max(perCityDays * 6, 8), 40);
+      const selected = selectPois(merged, wiki, {
         ...(q.concept ? { concept: q.concept } : {}),
         styles: q.style,
         limit,
       });
-      return buildPoiFacts(selected, wiki);
+      const osmPoints = overpassSeeds.map((s) => s.location);
+      return buildPoiFacts(selected, osmPoints, wiki);
     },
 
     collectFood: async (ctx) => {

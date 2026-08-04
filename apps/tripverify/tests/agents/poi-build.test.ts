@@ -11,7 +11,7 @@ describe("buildPoiFacts (라이브 POI 구성)", () => {
   ];
 
   it("OSM 단일 출처 → low 이지만 값·출처가 있어 표시 가능(§0)", () => {
-    const facts = buildPoiFacts(seeds, [], NOW);
+    const facts = buildPoiFacts(seeds, [], [], NOW);
     expect(facts.length).toBe(1);
     expect(facts[0]!.confidence).toBe("low");
     expect(hasSourcedValue(facts[0]!)).toBe(true); // 표시됨
@@ -23,7 +23,7 @@ describe("buildPoiFacts (라이브 POI 구성)", () => {
     const wiki: WikiArticle[] = [
       { title: "Osaka Castle", location: { lat: 34.6875, lng: 135.5261 } }, // ~30m
     ];
-    const facts = buildPoiFacts(seeds, wiki, NOW);
+    const facts = buildPoiFacts(seeds, [], wiki, NOW);
     expect(facts[0]!.confidence).toBe("medium");
     expect(facts[0]!.verification.agree_count).toBe(2);
   });
@@ -32,14 +32,33 @@ describe("buildPoiFacts (라이브 POI 구성)", () => {
     const wiki: WikiArticle[] = [
       { title: "Somewhere", location: { lat: 34.70, lng: 135.55 } }, // >1km
     ];
-    const facts = buildPoiFacts(seeds, wiki, NOW);
+    const facts = buildPoiFacts(seeds, [], wiki, NOW);
     expect(facts[0]!.confidence).toBe("low");
   });
 
   it("이름 재조회 버그 없음: 발굴 좌표를 그대로 사용", () => {
     const jp: PoiSeed[] = [{ name: "通天閣", location: { lat: 34.6525, lng: 135.5063 } }];
-    const facts = buildPoiFacts(jp, [], NOW);
+    const facts = buildPoiFacts(jp, [], [], NOW);
     expect(facts[0]!.value?.location.lat).toBeCloseTo(34.6525, 3);
+  });
+
+  it("위키 출처 POI: 1차 출처가 Wikipedia 로 정직하게 표기", () => {
+    const wikiSeed: PoiSeed[] = [
+      { name: "Famous Temple", location: osaka, notable: true, origin: "wiki" },
+    ];
+    const facts = buildPoiFacts(wikiSeed, [], [], NOW);
+    expect(facts[0]!.sources[0]!.url).toContain("wikipedia");
+    expect(facts[0]!.confidence).toBe("low"); // OSM 확인 없으면 단일 출처
+  });
+
+  it("위키 POI 가 OSM 지점과 근접하면 medium 승격", () => {
+    const wikiSeed: PoiSeed[] = [
+      { name: "Famous Temple", location: osaka, notable: true, origin: "wiki" },
+    ];
+    const osmPoints = [{ lat: osaka.lat + 0.0005, lng: osaka.lng }]; // ~55m
+    const facts = buildPoiFacts(wikiSeed, osmPoints, [], NOW);
+    expect(facts[0]!.confidence).toBe("medium");
+    expect(facts[0]!.verification.agree_count).toBe(2);
   });
 });
 

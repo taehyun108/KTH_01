@@ -141,3 +141,52 @@ export function selectPois(seeds: PoiSeed[], wiki: WikiArticle[], opts: SelectOp
 function hasNearWiki(wiki: WikiArticle[], at: GeoPoint): boolean {
   return wiki.some((w) => haversineMeters(w.location, at) <= TOLERANCE.geo_distance_m);
 }
+
+// ── Wikipedia 기반 POI 후보(클라우드에서 안정적인 주 소스) ─────────────
+/** 관광지가 아닌 위키 문서(역/학교/행정구역 등) 배제. */
+const WIKI_BLOCK = /station|駅|line\b|철도|역\b|university|college|school|학교|hospital|병원|prefecture|ward|district|-ku\b|구청|정류장|airport|공항|highway|expressway|국도|river\b|강\b|election|festival\s|배구|축구|野球|selebrity|singer|band|manga|anime|company|corporation|주식회사|list of/i;
+
+/** 위키 제목에서 카테고리 추론(영어/현지 키워드). */
+export function inferCategoriesFromTitle(title: string): Bucket[] {
+  const b = new Set<Bucket>();
+  const t = title.toLowerCase();
+  if (/castle|城|palace|궁|fort/.test(t)) b.add("history");
+  if (/temple|寺|shrine|神社|사원|사찰|신사/.test(t)) b.add("religious");
+  if (/museum|박물관|미술관/.test(t)) b.add("history");
+  if (/gallery|art\b|미술/.test(t)) b.add("art");
+  if (/park|公園|garden|庭園|정원|공원/.test(t)) b.add("nature");
+  if (/tower|타워|observator|전망|展望|sky\b/.test(t)) b.add("view");
+  if (/zoo|動物園|aquarium|水族館|동물원|수족관/.test(t)) {
+    b.add("family");
+    b.add("activity");
+  }
+  if (/market|市場|시장|mall|백화점/.test(t)) b.add("shopping");
+  return [...b];
+}
+
+/** Wikipedia geosearch 결과를 POI 후보로. 유명(notable) 처리, 비관광 문서 제외. */
+export function wikiFallbackSeeds(wiki: WikiArticle[]): PoiSeed[] {
+  return wiki
+    .filter((w) => !WIKI_BLOCK.test(w.title))
+    .map((w) => {
+      const cats = inferCategoriesFromTitle(w.title);
+      return {
+        name: w.title,
+        name_en: w.title,
+        location: w.location,
+        categories: cats,
+        notable: true, // 위키백과 등재 = 유명
+        origin: "wiki" as const,
+      };
+    });
+}
+
+/** OSM 후보(정보 풍부) 우선, OSM 에 없는 위키 명소를 추가 병합(근접 중복 제거). */
+export function mergeByProximity(osmSeeds: PoiSeed[], wikiSeeds: PoiSeed[]): PoiSeed[] {
+  const out: PoiSeed[] = osmSeeds.map((s) => ({ ...s, origin: "osm" }) as PoiSeed);
+  for (const w of wikiSeeds) {
+    const dup = out.some((o) => haversineMeters(o.location, w.location) <= TOLERANCE.geo_distance_m);
+    if (!dup) out.push(w);
+  }
+  return out;
+}
