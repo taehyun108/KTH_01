@@ -434,7 +434,7 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{e(data['title'])}</title>
   <meta name="description" content="{e(data['meta_description'])}" />
-  <link rel="stylesheet" href="../assets/style.css?v=18" />
+  <link rel="stylesheet" href="../assets/style.css?v=19" />
 </head>
 <body>
   <header class="report-hero">
@@ -443,7 +443,7 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
         <span class="hero-tag">{channel}</span><span>·</span><span>{the_date}</span><span>·</span><span>🎬 영상</span>
         <nav class="top-nav">
           <a class="home-btn" href="../news/" title="홈으로" aria-label="홈으로 이동">홈</a>
-          <a class="home-btn" href="../glossary/?v=18" title="이차전지 용어집">용어집</a>
+          <a class="home-btn" href="../glossary/?v=19" title="이차전지 용어집">용어집</a>
         </nav>
       </div>
       <h1>{e(data['title'])}</h1>

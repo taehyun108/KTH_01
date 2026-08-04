@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>이차전지 용어집 — 이차전지 리포트 아카이브</title>
   <meta name="description" content="양극재·음극재·전구체·전해액·분리막부터 제조공정, 셀·모듈·팩 조립, 배터리 종류, 성능 분석법까지 그림으로 쉽게 풀어 쓴 이차전지 용어집." />
-  <link rel="stylesheet" href="../assets/style.css?v=18" />
+  <link rel="stylesheet" href="../assets/style.css?v=19" />
 </head>
 <body>
   <header class="report-hero">
@@ -403,7 +403,7 @@
             <text x="115" y="172" text-anchor="middle" font-size="11.5" fill="#55617a">충전 전</text>
           </g>
           <path d="M172 100 L206 100" stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#e1)"/>
-          <text x="189" y="92" text-anchor="middle" font-size="10.5" fill="#0ea5e9">충전</text>
+          <text x="189" y="84" text-anchor="middle" font-size="10.5" fill="#0ea5e9">충전</text>
           <g>
             <rect x="218" y="46" width="90" height="9" rx="2" fill="#475569"/>
             <rect x="218" y="79" width="90" height="9" rx="2" fill="#475569"/>
@@ -423,7 +423,7 @@
           <text x="420" y="105" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">Si</text>
           <text x="420" y="150" text-anchor="middle" font-size="11.5" fill="#55617a">충전 전</text>
           <path d="M456 100 L490 100" stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#e1)"/>
-          <text x="473" y="92" text-anchor="middle" font-size="10.5" fill="#0ea5e9">충전</text>
+          <text x="473" y="84" text-anchor="middle" font-size="10.5" fill="#0ea5e9">충전</text>
           <circle cx="565" cy="100" r="52" fill="#bbf7d0" stroke="#22c55e" stroke-width="2.5"/>
           <circle cx="565" cy="100" r="22" fill="#a8a29e"/>
           <g fill="#22c55e">
@@ -438,8 +438,8 @@
           <text x="120" y="212" font-size="12.5" font-weight="700" fill="#35404f">담을 수 있는 양(이론값)</text>
           <rect x="120" y="224" width="46" height="20" rx="3" fill="#94a3b8"/>
           <text x="176" y="239" font-size="12" fill="#35404f">흑연 372 mAh/g</text>
-          <rect x="120" y="252" width="420" height="20" rx="3" fill="#22c55e"/>
-          <text x="550" y="267" font-size="12" fill="#35404f">실리콘 약 3,600~4,200</text>
+          <rect x="120" y="252" width="330" height="20" rx="3" fill="#22c55e"/>
+          <text x="462" y="267" font-size="12" fill="#35404f">실리콘 약 3,600~4,200</text>
           <text x="340" y="296" text-anchor="middle" font-size="12" fill="#8a96ab">
             실리콘은 흑연의 <tspan font-weight="700" fill="#22c55e">약 10배</tspan>를 담지만, 그만큼 부풀어서 수명이 문제예요</text>
           <text x="340" y="320" text-anchor="middle" font-size="12" fill="#55617a">
@@ -653,6 +653,335 @@
           최종 배터리 성능을 좌우해요. 그래서 전구체가 '양극재의 설계도'라고 불려요.</p>
       </div>
 
+      <h3 class="t-h">LFP·NFPP는 만드는 법이 달라요 — 갈아서 섞고 구워요</h3>
+      <p>NCM은 물에 녹여 가라앉히는 <strong>공침</strong>이 필요하지만,
+        LFP·NFPP는 가루를 <strong>곱게 갈아 섞은 뒤 굽는</strong> 단순한 방식(고상법)을 주로 써요.</p>
+      <figure class="diagram">
+        <svg viewBox="0 0 680 330" role="img"
+             aria-label="LFP와 NFPP는 원료를 곱게 갈아 섞은 뒤 산소가 없는 질소 환경에서 구워 만들며 탄소 코팅이 필수입니다">
+          <text x="24" y="30" font-size="13" font-weight="700" fill="#0d9488">LFP (리튬인산철)</text>
+          <g font-size="11">
+            <rect x="20" y="44" width="118" height="64" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="79" y="66" text-anchor="middle" font-weight="700" fill="#1a2230">원료 준비</text>
+            <text x="79" y="86" text-anchor="middle" fill="#55617a">철·인산·리튬</text>
+            <text x="79" y="102" text-anchor="middle" fill="#55617a">+ 탄소원(설탕 등)</text>
+
+            <rect x="170" y="44" width="118" height="64" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+            <text x="229" y="66" text-anchor="middle" font-weight="700" fill="#0284c7">밀링(갈기)</text>
+            <text x="229" y="86" text-anchor="middle" fill="#55617a">구슬로 몇 시간</text>
+            <text x="229" y="102" text-anchor="middle" fill="#55617a">아주 곱게</text>
+
+            <rect x="320" y="44" width="118" height="64" rx="8" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+            <text x="379" y="66" text-anchor="middle" font-weight="700" fill="#ea580c">소성(굽기)</text>
+            <text x="379" y="86" text-anchor="middle" fill="#55617a">600~750℃</text>
+            <text x="379" y="102" text-anchor="middle" fill="#c2410c">질소 채운 가마</text>
+
+            <rect x="470" y="44" width="118" height="64" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+            <text x="529" y="66" text-anchor="middle" font-weight="700" fill="#15803d">탄소 코팅</text>
+            <text x="529" y="86" text-anchor="middle" fill="#55617a">탄소원이 타면서</text>
+            <text x="529" y="102" text-anchor="middle" fill="#55617a">겉을 감싸요</text>
+
+            <rect x="612" y="56" width="54" height="40" rx="8" fill="#0d9488"/>
+            <text x="639" y="81" text-anchor="middle" font-weight="700" fill="#fff">LFP</text>
+            <g stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#n1)">
+              <path d="M142 76 L165 76"/><path d="M292 76 L315 76"/><path d="M442 76 L465 76"/><path d="M592 76 L607 76"/>
+            </g>
+          </g>
+          <text x="340" y="136" text-anchor="middle" font-size="11.5" fill="#e11d48">
+            ⚠ 산소가 있으면 철이 녹슬어요 → 반드시 <tspan font-weight="700">질소를 채운 가마</tspan>에서 구워요</text>
+
+          <line x1="20" y1="156" x2="660" y2="156" stroke="#e3e8ef" stroke-width="1.5"/>
+
+          <text x="24" y="184" font-size="13" font-weight="700" fill="#a16207">NFPP (나트륨 철 인산) — 거의 같은 방식</text>
+          <g font-size="11">
+            <rect x="20" y="198" width="118" height="64" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="79" y="220" text-anchor="middle" font-weight="700" fill="#1a2230">원료 준비</text>
+            <text x="79" y="240" text-anchor="middle" fill="#55617a">탄산나트륨</text>
+            <text x="79" y="256" text-anchor="middle" fill="#55617a">철·인산염</text>
+
+            <rect x="170" y="198" width="118" height="64" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+            <text x="229" y="220" text-anchor="middle" font-weight="700" fill="#0284c7">혼합·밀링</text>
+            <text x="229" y="240" text-anchor="middle" fill="#55617a">곱게 갈아</text>
+            <text x="229" y="256" text-anchor="middle" fill="#55617a">고르게 섞기</text>
+
+            <rect x="320" y="198" width="118" height="64" rx="8" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+            <text x="379" y="220" text-anchor="middle" font-weight="700" fill="#ea580c">소성(굽기)</text>
+            <text x="379" y="240" text-anchor="middle" fill="#55617a">450~550℃</text>
+            <text x="379" y="256" text-anchor="middle" fill="#c2410c">질소 분위기</text>
+
+            <rect x="470" y="198" width="118" height="64" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+            <text x="529" y="220" text-anchor="middle" font-weight="700" fill="#15803d">탄소 코팅</text>
+            <text x="529" y="240" text-anchor="middle" fill="#55617a">전기가 잘 통하게</text>
+            <text x="529" y="256" text-anchor="middle" fill="#55617a">겉을 감싸요</text>
+
+            <rect x="612" y="210" width="54" height="40" rx="8" fill="#a16207"/>
+            <text x="639" y="235" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">NFPP</text>
+            <g stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#n1)">
+              <path d="M142 230 L165 230"/><path d="M292 230 L315 230"/><path d="M442 230 L465 230"/><path d="M592 230 L607 230"/>
+            </g>
+          </g>
+          <text x="340" y="290" text-anchor="middle" font-size="11.5" fill="#55617a">
+            리튬 대신 <tspan font-weight="700" fill="#a16207">나트륨(소금 성분)</tspan>을 쓰고 굽는 온도가 조금 낮아요</text>
+          <text x="340" y="316" text-anchor="middle" font-size="12" fill="#0d9488">
+            👍 공침 설비가 필요 없어 <tspan font-weight="700">공장 짓는 비용이 훨씬 싸요</tspan></text>
+          <defs>
+            <marker id="n1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="#0ea5e9"/></marker>
+          </defs>
+        </svg>
+        <figcaption class="fig-cap">그림 7. LFP·NFPP 제조 — 갈아서 섞고 산소 없이 굽는 단순한 방식(고상법)</figcaption>
+      </figure>
+
+      <h3 class="t-h">음극재 — 천연흑연과 인조흑연은 출발점부터 달라요</h3>
+      <figure class="diagram">
+        <svg viewBox="0 0 680 348" role="img"
+             aria-label="천연흑연은 광석을 골라내 동그랗게 다듬어 만들고 인조흑연은 석유 코크스를 3000도로 구워 만듭니다">
+          <text x="24" y="28" font-size="13" font-weight="700" fill="#0284c7">천연흑연 — 땅에서 캐서 다듬어요</text>
+          <g font-size="10.5">
+            <rect x="20" y="42" width="106" height="58" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="73" y="66" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a2230">흑연 광석</text>
+            <text x="73" y="86" text-anchor="middle" fill="#55617a">땅에서 채굴</text>
+
+            <rect x="150" y="42" width="106" height="58" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="203" y="66" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a2230">부유 선별</text>
+            <text x="203" y="86" text-anchor="middle" fill="#55617a">물에 띄워 골라냄</text>
+
+            <rect x="280" y="42" width="118" height="58" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+            <text x="339" y="66" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0284c7">구형화</text>
+            <text x="339" y="86" text-anchor="middle" fill="#55617a">모난 걸 동글동글</text>
+
+            <rect x="422" y="42" width="112" height="58" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="478" y="66" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a2230">고순도 정제</text>
+            <text x="478" y="86" text-anchor="middle" fill="#55617a">99.95%까지</text>
+
+            <rect x="558" y="52" width="106" height="38" rx="8" fill="#0284c7"/>
+            <text x="611" y="76" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">코팅 → 완성</text>
+            <g stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#o1)">
+              <path d="M130 71 L145 71"/><path d="M260 71 L275 71"/><path d="M402 71 L417 71"/><path d="M538 71 L553 71"/>
+            </g>
+          </g>
+          <text x="340" y="128" text-anchor="middle" font-size="11.5" fill="#55617a">
+            👍 값이 싸요 &nbsp;·&nbsp; 👎 입자가 제각각이라 급속충전·수명에 조금 불리</text>
+
+          <line x1="20" y1="150" x2="660" y2="150" stroke="#e3e8ef" stroke-width="1.5"/>
+
+          <text x="24" y="180" font-size="13" font-weight="700" fill="#ea580c">인조흑연 — 석유 찌꺼기를 구워서 만들어요</text>
+          <g font-size="10.5">
+            <rect x="20" y="194" width="106" height="58" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="73" y="218" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a2230">코크스</text>
+            <text x="73" y="238" text-anchor="middle" fill="#55617a">석유 정제 부산물</text>
+
+            <rect x="150" y="194" width="106" height="58" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="203" y="218" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a2230">분쇄·성형</text>
+            <text x="203" y="238" text-anchor="middle" fill="#55617a">크기 맞춰 갈기</text>
+
+            <rect x="280" y="194" width="140" height="58" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="2.5"/>
+            <text x="350" y="218" text-anchor="middle" font-size="11.5" font-weight="700" fill="#dc2626">흑연화 (핵심)</text>
+            <text x="350" y="238" text-anchor="middle" font-weight="700" fill="#dc2626">2,800~3,000℃</text>
+
+            <rect x="444" y="194" width="106" height="58" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="497" y="218" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a2230">피치 코팅</text>
+            <text x="497" y="238" text-anchor="middle" fill="#55617a">겉면 보호막</text>
+
+            <rect x="574" y="204" width="90" height="38" rx="8" fill="#0284c7"/>
+            <text x="619" y="228" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">완성</text>
+            <g stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#o1)">
+              <path d="M130 223 L145 223"/><path d="M260 223 L275 223"/><path d="M424 223 L439 223"/><path d="M554 223 L569 223"/>
+            </g>
+          </g>
+          <text x="340" y="282" text-anchor="middle" font-size="11.5" fill="#dc2626">
+            ⚠ 3,000℃는 <tspan font-weight="700">쇠도 녹는 온도</tspan>예요. 전기를 어마어마하게 써서 원가의 큰 몫이 전기값이에요</text>
+          <text x="340" y="308" text-anchor="middle" font-size="11.5" fill="#55617a">
+            👍 입자가 고르고 단단해 <tspan font-weight="700">오래가고 급속충전에 유리</tspan> &nbsp;·&nbsp; 👎 비싸요</text>
+          <text x="340" y="334" text-anchor="middle" font-size="11.5" fill="#8a96ab">
+            그래서 전기값이 싼 지역에 인조흑연 공장을 지어요</text>
+          <defs>
+            <marker id="o1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="#0ea5e9"/></marker>
+          </defs>
+        </svg>
+        <figcaption class="fig-cap">그림 8. 천연흑연은 '캐서 다듬기', 인조흑연은 '3,000℃로 굽기'</figcaption>
+      </figure>
+
+      <h3 class="t-h">실리콘 음극재(SiOx·Si-C) — 부풀어도 안 깨지게 감싸요</h3>
+      <figure class="diagram">
+        <svg viewBox="0 0 680 300" role="img"
+             aria-label="실리콘 음극재는 산소를 섞은 SiOx나 탄소로 감싼 Si-C 형태로 만들어 부피 팽창을 완충합니다">
+          <text x="180" y="28" font-size="13" font-weight="700" fill="#0284c7" text-anchor="middle">SiOx — 산소를 섞어 완충</text>
+          <g font-size="10.5">
+            <rect x="30" y="46" width="96" height="56" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="78" y="70" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a2230">규석(모래)</text>
+            <text x="78" y="90" text-anchor="middle" fill="#55617a">실리콘 원료</text>
+            <rect x="150" y="46" width="108" height="56" rx="8" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+            <text x="204" y="70" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ea580c">증착·급랭</text>
+            <text x="204" y="90" text-anchor="middle" fill="#55617a">기체로 만들어 식힘</text>
+            <rect x="282" y="56" width="66" height="36" rx="8" fill="#0284c7"/>
+            <text x="315" y="79" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">SiOx</text>
+            <g stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#q1)">
+              <path d="M130 74 L145 74"/><path d="M262 74 L277 74"/>
+            </g>
+          </g>
+          <text x="190" y="128" text-anchor="middle" font-size="11" fill="#55617a">
+            산소가 <tspan font-weight="700">쿠션</tspan> 역할을 해 덜 부풀어요</text>
+
+          <line x1="368" y1="40" x2="368" y2="140" stroke="#e3e8ef" stroke-width="1.5"/>
+
+          <text x="524" y="28" font-size="13" font-weight="700" fill="#0284c7" text-anchor="middle">Si-C — 탄소로 감싸기</text>
+          <g font-size="10.5">
+            <rect x="390" y="46" width="96" height="56" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="438" y="70" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a2230">나노 실리콘</text>
+            <text x="438" y="90" text-anchor="middle" fill="#55617a">아주 잘게</text>
+            <rect x="510" y="46" width="106" height="56" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+            <text x="563" y="70" text-anchor="middle" font-size="11.5" font-weight="700" fill="#15803d">탄소 입히기</text>
+            <text x="563" y="90" text-anchor="middle" fill="#55617a">기체 탄소로 코팅</text>
+            <rect x="636" y="56" width="34" height="36" rx="8" fill="#0284c7"/>
+            <text x="653" y="79" text-anchor="middle" font-size="9.5" font-weight="700" fill="#fff">Si-C</text>
+            <g stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#q1)">
+              <path d="M490 74 L505 74"/><path d="M620 74 L632 74"/>
+            </g>
+          </g>
+          <text x="524" y="128" text-anchor="middle" font-size="11" fill="#55617a">
+            탄소 껍질이 <tspan font-weight="700">부풀어도 잡아 줘요</tspan></text>
+
+          <rect x="60" y="160" width="560" height="118" rx="10" fill="#fff7ed" stroke="#fdba74"/>
+          <text x="340" y="184" text-anchor="middle" font-size="12.5" font-weight="700" fill="#c2410c">왜 그냥 실리콘을 못 쓸까요?</text>
+          <circle cx="140" cy="228" r="16" fill="#a8a29e"/>
+          <text x="140" y="264" text-anchor="middle" font-size="10.5" fill="#55617a">순수 Si</text>
+          <path d="M166 228 L198 228" stroke="#e11d48" stroke-width="2.5" marker-end="url(#q2)"/>
+          <circle cx="238" cy="228" r="28" fill="#fecaca" stroke="#e11d48" stroke-width="2"/>
+          <g stroke="#dc2626" stroke-width="2"><path d="M222 210 L232 222"/><path d="M252 240 L262 250"/></g>
+          <text x="238" y="264" text-anchor="middle" font-size="10.5" fill="#e11d48">부서져요</text>
+          <text x="300" y="216" font-size="11.5" fill="#35404f">부피가 <tspan font-weight="700" fill="#e11d48">3~4배</tspan>로 늘었다 줄었다 하면</text>
+          <text x="300" y="238" font-size="11.5" fill="#35404f">알갱이가 부서지고 보호막(SEI)이 깨져요</text>
+          <text x="300" y="260" font-size="11.5" fill="#0d9488">👉 그래서 산소나 탄소로 <tspan font-weight="700">완충</tspan>해요</text>
+          <defs>
+            <marker id="q1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="#0ea5e9"/></marker>
+            <marker id="q2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="#e11d48"/></marker>
+          </defs>
+        </svg>
+        <figcaption class="fig-cap">그림 9. 실리콘 음극재 — 산소를 섞거나(SiOx) 탄소로 감싸(Si-C) 팽창을 완충해요</figcaption>
+      </figure>
+
+      <h3 class="t-h">전해액 — 물 한 방울도 안 되는 건조실에서</h3>
+      <figure class="diagram">
+        <svg viewBox="0 0 680 262" role="img"
+             aria-label="전해액은 용매를 정제하고 리튬염을 녹인 뒤 첨가제를 넣고 수분을 검사해 만듭니다">
+          <g font-size="11">
+            <rect x="16" y="50" width="112" height="64" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="72" y="72" text-anchor="middle" font-weight="700" fill="#1a2230">용매 정제</text>
+            <text x="72" y="92" text-anchor="middle" fill="#55617a">불순물·수분</text>
+            <text x="72" y="108" text-anchor="middle" fill="#55617a">완전 제거</text>
+
+            <rect x="152" y="50" width="112" height="64" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+            <text x="208" y="72" text-anchor="middle" font-weight="700" fill="#0284c7">리튬염 녹이기</text>
+            <text x="208" y="92" text-anchor="middle" fill="#55617a">LiPF₆ 를</text>
+            <text x="208" y="108" text-anchor="middle" fill="#55617a">천천히 투입</text>
+
+            <rect x="288" y="50" width="112" height="64" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+            <text x="344" y="72" text-anchor="middle" font-weight="700" fill="#15803d">첨가제 투입</text>
+            <text x="344" y="92" text-anchor="middle" fill="#55617a">1~5%</text>
+            <text x="344" y="108" text-anchor="middle" fill="#15803d">비밀 배합</text>
+
+            <rect x="424" y="50" width="112" height="64" rx="8" fill="#fee2e2" stroke="#e11d48" stroke-width="2"/>
+            <text x="480" y="72" text-anchor="middle" font-weight="700" fill="#e11d48">수분 검사</text>
+            <text x="480" y="92" text-anchor="middle" fill="#55617a">20ppm 이하</text>
+            <text x="480" y="108" text-anchor="middle" fill="#55617a">(0.002%)</text>
+
+            <rect x="560" y="62" width="104" height="40" rx="8" fill="#0284c7"/>
+            <text x="612" y="87" text-anchor="middle" font-weight="700" fill="#fff">충전·출하</text>
+            <g stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#r1)">
+              <path d="M132 82 L147 82"/><path d="M268 82 L283 82"/><path d="M404 82 L419 82"/><path d="M540 82 L555 82"/>
+            </g>
+          </g>
+          <rect x="60" y="144" width="560" height="96" rx="10" fill="#fef2f2" stroke="#fca5a5"/>
+          <text x="340" y="168" text-anchor="middle" font-size="12.5" font-weight="700" fill="#dc2626">
+            왜 그렇게 물을 무서워할까요?</text>
+          <text x="340" y="192" text-anchor="middle" font-size="11.5" fill="#35404f">
+            리튬염(LiPF₆)이 물을 만나면 분해되며 <tspan font-weight="700" fill="#dc2626">금속을 갉아먹는 물질(HF)</tspan>이 생겨요</text>
+          <text x="340" y="214" text-anchor="middle" font-size="11.5" fill="#35404f">
+            그래서 공장 전체를 <tspan font-weight="700">이슬점 −40℃ 이하</tspan>로 유지해요 — 사막보다 건조해요</text>
+          <text x="340" y="234" text-anchor="middle" font-size="11" fill="#8a96ab">
+            20ppm은 물 1톤에 20g 수준이에요</text>
+          <defs>
+            <marker id="r1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="#0ea5e9"/></marker>
+          </defs>
+        </svg>
+        <figcaption class="fig-cap">그림 10. 전해액 제조 — 정제·용해·첨가·수분검사. 수분 관리가 핵심이에요</figcaption>
+      </figure>
+
+      <h3 class="t-h">분리막 — 구멍을 '기름 빼서' 만들까, '잡아당겨서' 만들까</h3>
+      <figure class="diagram">
+        <svg viewBox="0 0 680 358" role="img"
+             aria-label="습식 분리막은 기름을 섞어 늘린 뒤 기름을 빼내 구멍을 만들고 건식은 필름을 잡아당겨 틈을 벌려 구멍을 만듭니다">
+          <text x="24" y="28" font-size="13" font-weight="700" fill="#0284c7">습식 — 기름을 빼서 구멍을 만들어요</text>
+          <g font-size="10.5">
+            <rect x="20" y="42" width="100" height="58" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="70" y="66" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a2230">반죽</text>
+            <text x="70" y="86" text-anchor="middle" fill="#55617a">PE + 기름</text>
+            <rect x="144" y="42" width="100" height="58" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="194" y="66" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a2230">필름 뽑기</text>
+            <text x="194" y="86" text-anchor="middle" fill="#55617a">얇게 압출</text>
+            <rect x="268" y="42" width="112" height="58" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+            <text x="324" y="66" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0284c7">가로세로 연신</text>
+            <text x="324" y="86" text-anchor="middle" fill="#55617a">쭉쭉 늘려요</text>
+            <rect x="404" y="42" width="112" height="58" rx="8" fill="#fee2e2" stroke="#e11d48" stroke-width="2"/>
+            <text x="460" y="66" text-anchor="middle" font-size="11.5" font-weight="700" fill="#e11d48">기름 추출</text>
+            <text x="460" y="86" text-anchor="middle" fill="#55617a">그 자리가 구멍!</text>
+            <rect x="540" y="42" width="124" height="58" rx="8" fill="#0284c7"/>
+            <text x="602" y="66" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">건조·세라믹 코팅</text>
+            <text x="602" y="86" text-anchor="middle" fill="#e0f2fe">→ 완성</text>
+            <g stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#s1)">
+              <path d="M124 71 L139 71"/><path d="M248 71 L263 71"/><path d="M384 71 L399 71"/><path d="M520 71 L535 71"/>
+            </g>
+          </g>
+          <text x="340" y="126" text-anchor="middle" font-size="11.5" fill="#0d9488">
+            👍 구멍이 고르고 촘촘, 얇아도 튼튼 → <tspan font-weight="700">전기차용</tspan> &nbsp;·&nbsp; 👎 공정이 복잡해 비싸요</text>
+
+          <line x1="20" y1="148" x2="660" y2="148" stroke="#e3e8ef" stroke-width="1.5"/>
+
+          <text x="24" y="178" font-size="13" font-weight="700" fill="#ea580c">건식 — 잡아당겨 틈을 벌려요</text>
+          <g font-size="10.5">
+            <rect x="20" y="192" width="112" height="58" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="76" y="216" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a2230">필름 압출</text>
+            <text x="76" y="236" text-anchor="middle" fill="#55617a">PP·PE(기름 없음)</text>
+            <rect x="156" y="192" width="106" height="58" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="209" y="216" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a2230">어닐링</text>
+            <text x="209" y="236" text-anchor="middle" fill="#55617a">결정 정돈</text>
+            <rect x="286" y="192" width="120" height="58" rx="8" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+            <text x="346" y="216" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ea580c">저온 연신</text>
+            <text x="346" y="236" text-anchor="middle" fill="#55617a">미세한 틈 생성</text>
+            <rect x="430" y="192" width="128" height="58" rx="8" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+            <text x="494" y="216" text-anchor="middle" font-size="11.5" font-weight="700" fill="#ea580c">고온 연신</text>
+            <text x="494" y="236" text-anchor="middle" fill="#55617a">틈을 넓혀 구멍으로</text>
+            <rect x="582" y="202" width="82" height="38" rx="8" fill="#0284c7"/>
+            <text x="623" y="226" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">완성</text>
+            <g stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#s1)">
+              <path d="M136 221 L151 221"/><path d="M266 221 L281 221"/><path d="M410 221 L425 221"/><path d="M562 221 L577 221"/>
+            </g>
+          </g>
+          <text x="340" y="276" text-anchor="middle" font-size="11.5" fill="#0d9488">
+            👍 공정이 단순해 <tspan font-weight="700">싸요</tspan> &nbsp;·&nbsp; 👎 구멍이 들쭉날쭉하고 두꺼워요 → <tspan font-weight="700">ESS·LFP용</tspan></text>
+          <text x="176" y="308" text-anchor="middle" font-size="11" fill="#55617a">습식 구멍 — 고르게</text>
+          <g fill="#0ea5e9">
+            <circle cx="106" cy="334" r="4"/><circle cx="134" cy="334" r="4"/><circle cx="162" cy="334" r="4"/>
+            <circle cx="190" cy="334" r="4"/><circle cx="218" cy="334" r="4"/><circle cx="246" cy="334" r="4"/>
+          </g>
+          <text x="480" y="308" text-anchor="middle" font-size="11" fill="#55617a">건식 구멍 — 들쭉날쭉</text>
+          <g fill="#ea8a0b">
+            <circle cx="404" cy="334" r="2.5"/><circle cx="432" cy="333" r="6"/><circle cx="460" cy="335" r="3.5"/>
+            <circle cx="490" cy="333" r="5.5"/><circle cx="518" cy="336" r="2.5"/><circle cx="548" cy="334" r="5"/>
+          </g>
+          <defs>
+            <marker id="s1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="#0ea5e9"/></marker>
+          </defs>
+        </svg>
+        <figcaption class="fig-cap">그림 11. 분리막 제조 — 습식은 '기름 빼기', 건식은 '잡아당기기'로 구멍을 만들어요</figcaption>
+      </figure>
+
       <h3 class="t-h">다른 소재는 어떻게 만드나요?</h3>
       <div class="tbl-scroll">
       <table class="glossary">
@@ -791,7 +1120,7 @@
               <path d="M0 0 L8 4 L0 8 z" fill="#ea8a0b"/></marker>
           </defs>
         </svg>
-        <figcaption class="fig-cap">그림 7. 셀 제조 3단계 — 전극 만들기, 조립하기, 첫 충전(화성)</figcaption>
+        <figcaption class="fig-cap">그림 12. 셀 제조 3단계 — 전극 만들기, 조립하기, 첫 충전(화성)</figcaption>
       </figure>
 
       <h3 class="t-h">모양마다 조립법이 달라요 — 말까? 쌓을까?</h3>
@@ -851,7 +1180,7 @@
               <path d="M0 0 L9 4.5 L0 9 z" fill="#e11d48"/></marker>
           </defs>
         </svg>
-        <figcaption class="fig-cap">그림 8. 원통형·각형은 '말아서', 파우치형은 '쌓아서' 만들어요</figcaption>
+        <figcaption class="fig-cap">그림 13. 원통형·각형은 '말아서', 파우치형은 '쌓아서' 만들어요</figcaption>
       </figure>
 
             <div class="tbl-scroll">
@@ -946,7 +1275,7 @@
               <path d="M0 0 L8 4 L0 8 z" fill="#e11d48"/></marker>
           </defs>
         </svg>
-        <figcaption class="fig-cap">그림 9. 셀을 묶어 모듈, 모듈을 묶어 팩. CTP는 가운데 모듈 단계를 생략해요</figcaption>
+        <figcaption class="fig-cap">그림 14. 셀을 묶어 모듈, 모듈을 묶어 팩. CTP는 가운데 모듈 단계를 생략해요</figcaption>
       </figure>
 
       <div class="tbl-scroll">
@@ -1021,7 +1350,7 @@
               <path d="M0 0 L8 4 L0 8 z" fill="#0ea5e9"/></marker>
           </defs>
         </svg>
-        <figcaption class="fig-cap">그림 10. 소재 → 셀 → 팩 → 응용처. 응용처가 요구 조건을 정해요</figcaption>
+        <figcaption class="fig-cap">그림 15. 소재 → 셀 → 팩 → 응용처. 응용처가 요구 조건을 정해요</figcaption>
       </figure>
 
             <div class="tbl-scroll">
@@ -1140,8 +1469,135 @@
               <path d="M0 0 L8 4 L0 8 z" fill="#a21caf"/></marker>
           </defs>
         </svg>
-        <figcaption class="fig-cap">그림 11. 바나듐 흐름전지 — 전해액을 펌프로 돌려 쓰므로 '용량'과 '출력'을 따로 설계해요</figcaption>
+        <figcaption class="fig-cap">그림 16. 바나듐 흐름전지 — 전해액을 펌프로 돌려 쓰므로 '용량'과 '출력'을 따로 설계해요</figcaption>
       </figure>
+
+      <h3 class="t-h">납축전지 — 자동차 시동을 거는 그 배터리</h3>
+      <figure class="diagram">
+        <svg viewBox="0 0 680 290" role="img"
+             aria-label="납축전지는 납판과 이산화납판이 황산 속에 잠겨 있고 방전하면 양쪽이 모두 황산납으로 변합니다">
+          <rect x="120" y="46" width="330" height="150" rx="10" fill="#e0f2fe" stroke="#475569" stroke-width="2.5"/>
+          <text x="285" y="222" text-anchor="middle" font-size="11.5" fill="#0284c7">묽은 황산 (전해액)</text>
+          <!-- 극판 -->
+          <g>
+            <rect x="150" y="62" width="46" height="118" rx="4" fill="#64748b"/>
+            <rect x="230" y="62" width="46" height="118" rx="4" fill="#a16207"/>
+            <rect x="310" y="62" width="46" height="118" rx="4" fill="#64748b"/>
+            <rect x="390" y="62" width="46" height="118" rx="4" fill="#a16207"/>
+            <rect x="164" y="34" width="18" height="14" rx="3" fill="#475569"/>
+            <rect x="404" y="34" width="18" height="14" rx="3" fill="#a16207"/>
+          </g>
+          <text x="173" y="28" text-anchor="middle" font-size="12" font-weight="700" fill="#475569">－</text>
+          <text x="413" y="28" text-anchor="middle" font-size="12" font-weight="700" fill="#a16207">＋</text>
+          <text x="173" y="200" text-anchor="middle" font-size="10.5" fill="#475569">납(Pb)</text>
+          <text x="413" y="200" text-anchor="middle" font-size="10.5" fill="#a16207">이산화납</text>
+          <!-- 반응 설명 -->
+          <rect x="474" y="46" width="192" height="150" rx="10" fill="#fff7ed" stroke="#fdba74"/>
+          <text x="570" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#c2410c">쓰면(방전)</text>
+          <text x="490" y="94" font-size="11" fill="#35404f">양쪽 판이 모두</text>
+          <text x="490" y="112" font-size="11" font-weight="700" fill="#c2410c">황산납으로 변해요</text>
+          <text x="490" y="136" font-size="11" fill="#35404f">충전하면 원래대로</text>
+          <text x="490" y="154" font-size="11" fill="#35404f">돌아가요</text>
+          <text x="490" y="180" font-size="11" fill="#e11d48">👎 오래 방치하면 굳어서</text>
+          <text x="490" y="196" font-size="11" fill="#e11d48">되돌아오지 않아요</text>
+          <text x="340" y="252" text-anchor="middle" font-size="11.5" fill="#0d9488">
+            👍 아주 싸고 큰 전류를 잘 냄 · <tspan font-weight="700">재활용률 95% 이상</tspan></text>
+          <text x="340" y="276" text-anchor="middle" font-size="11.5" fill="#e11d48">
+            👎 무겁고(에너지밀도 최하) 수명이 짧아요 → 그래서 시동·비상전원에만 써요</text>
+        </svg>
+        <figcaption class="fig-cap">그림 17. 납축전지 — 납판과 이산화납판이 황산에 잠겨 있고, 방전하면 양쪽이 황산납으로 변해요</figcaption>
+      </figure>
+
+      <h3 class="t-h">니켈수소 전지 — 수소를 머금는 합금을 써요</h3>
+      <figure class="diagram">
+        <svg viewBox="0 0 680 270" role="img"
+             aria-label="니켈수소 전지는 수소저장합금 음극과 수산화니켈 양극 사이를 수소가 오가며 작동합니다">
+          <rect x="90" y="50" width="420" height="140" rx="10" fill="#f0fdfa" stroke="#0d9488" stroke-width="2"/>
+          <rect x="106" y="66" width="96" height="108" rx="6" fill="#64748b"/>
+          <text x="154" y="116" text-anchor="middle" font-size="11.5" fill="#fff" font-weight="700">음극</text>
+          <text x="154" y="136" text-anchor="middle" font-size="10" fill="#e2e8f0">수소저장합금</text>
+          <rect x="286" y="58" width="20" height="124" rx="3" fill="#fff" stroke="#0d9488"
+                stroke-width="2" stroke-dasharray="5 3"/>
+          <text x="296" y="204" text-anchor="middle" font-size="10.5" fill="#0d9488">분리막</text>
+          <rect x="398" y="66" width="96" height="108" rx="6" fill="#0d9488"/>
+          <text x="446" y="116" text-anchor="middle" font-size="11.5" fill="#fff" font-weight="700">양극</text>
+          <text x="446" y="136" text-anchor="middle" font-size="10" fill="#ccfbf1">수산화니켈</text>
+          <!-- 수소 이동 -->
+          <path d="M266 92 L216 92" stroke="#e11d48" stroke-width="3" marker-end="url(#t1)"/>
+          <text x="241" y="82" text-anchor="middle" font-size="10.5" fill="#e11d48" font-weight="700">충전</text>
+          <path d="M326 152 L376 152" stroke="#0d9488" stroke-width="3" marker-end="url(#t2)"/>
+          <text x="351" y="142" text-anchor="middle" font-size="10.5" fill="#0d9488" font-weight="700">방전</text>
+          <circle cx="240" cy="124" r="11" fill="#22c55e"/>
+          <text x="240" y="128" text-anchor="middle" font-size="9.5" fill="#fff" font-weight="700">H</text>
+          <circle cx="352" cy="124" r="11" fill="#22c55e"/>
+          <text x="352" y="128" text-anchor="middle" font-size="9.5" fill="#fff" font-weight="700">H</text>
+          <text x="300" y="228" text-anchor="middle" font-size="11.5" fill="#55617a">
+            리튬 대신 <tspan font-weight="700" fill="#22c55e">수소(H)</tspan>가 양쪽을 오가요</text>
+          <text x="590" y="94" text-anchor="middle" font-size="11.5" fill="#0d9488" font-weight="700">👍 안전·튼튼</text>
+          <text x="590" y="116" text-anchor="middle" font-size="11" fill="#55617a">불이 잘 안 나고</text>
+          <text x="590" y="132" text-anchor="middle" font-size="11" fill="#55617a">온도에 강해요</text>
+          <text x="590" y="158" text-anchor="middle" font-size="11.5" fill="#e11d48" font-weight="700">👎 자기방전</text>
+          <text x="590" y="180" text-anchor="middle" font-size="11" fill="#55617a">가만둬도 조금씩</text>
+          <text x="590" y="196" text-anchor="middle" font-size="11" fill="#55617a">전기가 빠져요</text>
+          <text x="340" y="256" text-anchor="middle" font-size="11.5" fill="#8a96ab">
+            에너지밀도는 리튬이온의 절반 이하지만 안전해서 <tspan font-weight="700">하이브리드차</tspan>에 오래 쓰였어요</text>
+          <defs>
+            <marker id="t1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+              <path d="M0 0 L9 4.5 L0 9 z" fill="#e11d48"/></marker>
+            <marker id="t2" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+              <path d="M0 0 L9 4.5 L0 9 z" fill="#0d9488"/></marker>
+          </defs>
+        </svg>
+        <figcaption class="fig-cap">그림 18. 니켈수소 전지 — 리튬 대신 수소가 두 극 사이를 오가요</figcaption>
+      </figure>
+
+      <h3 class="t-h">나트륨이온 전지 — 리튬 자리에 소금 성분이</h3>
+      <figure class="diagram">
+        <svg viewBox="0 0 680 290" role="img"
+             aria-label="나트륨이온 전지는 리튬 대신 더 크고 무거운 나트륨 이온이 양극과 음극 사이를 오갑니다">
+          <rect x="80" y="48" width="440" height="140" rx="10" fill="#fefce8" stroke="#ea8a0b" stroke-width="2"/>
+          <rect x="96" y="64" width="100" height="108" rx="6" fill="#94a3b8"/>
+          <text x="146" y="112" text-anchor="middle" font-size="11.5" fill="#fff" font-weight="700">음극</text>
+          <text x="146" y="132" text-anchor="middle" font-size="10" fill="#eef2f7">하드카본</text>
+          <rect x="290" y="56" width="20" height="124" rx="3" fill="#fff" stroke="#ea8a0b"
+                stroke-width="2" stroke-dasharray="5 3"/>
+          <text x="300" y="202" text-anchor="middle" font-size="10.5" fill="#a16207">분리막</text>
+          <rect x="404" y="64" width="100" height="108" rx="6" fill="#a16207"/>
+          <text x="454" y="112" text-anchor="middle" font-size="11.5" fill="#fff" font-weight="700">양극</text>
+          <text x="454" y="132" text-anchor="middle" font-size="10" fill="#fef3c7">NFPP 등</text>
+          <path d="M270 90 L206 90" stroke="#e11d48" stroke-width="3" marker-end="url(#u1)"/>
+          <text x="238" y="80" text-anchor="middle" font-size="10.5" fill="#e11d48" font-weight="700">충전</text>
+          <path d="M330 150 L394 150" stroke="#0d9488" stroke-width="3" marker-end="url(#u2)"/>
+          <text x="362" y="140" text-anchor="middle" font-size="10.5" fill="#0d9488" font-weight="700">방전</text>
+          <circle cx="240" cy="122" r="14" fill="#f59e0b"/>
+          <text x="240" y="127" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Na⁺</text>
+          <circle cx="358" cy="122" r="14" fill="#f59e0b"/>
+          <text x="358" y="127" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Na⁺</text>
+          <!-- 크기 비교 -->
+          <rect x="540" y="56" width="126" height="120" rx="10" fill="#fff7ed" stroke="#fdba74"/>
+          <text x="603" y="78" text-anchor="middle" font-size="11.5" font-weight="700" fill="#c2410c">크기 비교</text>
+          <circle cx="576" cy="108" r="8" fill="#22c55e"/>
+          <text x="576" y="132" text-anchor="middle" font-size="10" fill="#55617a">Li⁺</text>
+          <circle cx="632" cy="108" r="13" fill="#f59e0b"/>
+          <text x="632" y="132" text-anchor="middle" font-size="10" fill="#55617a">Na⁺</text>
+          <text x="603" y="156" text-anchor="middle" font-size="10.5" fill="#e11d48">나트륨이 더 크고</text>
+          <text x="603" y="170" text-anchor="middle" font-size="10.5" fill="#e11d48">무거워요</text>
+          <text x="300" y="228" text-anchor="middle" font-size="11.5" fill="#55617a">
+            흑연 층 사이엔 나트륨이 안 들어가서 음극에 <tspan font-weight="700">하드카본</tspan>을 써요</text>
+          <text x="340" y="256" text-anchor="middle" font-size="11.5" fill="#0d9488">
+            👍 재료가 흔해 <tspan font-weight="700">싸고</tspan>, 추위에 강하고, 완전 방전해도 안전해요</text>
+          <text x="340" y="278" text-anchor="middle" font-size="11.5" fill="#e11d48">
+            👎 이온이 크고 무거워 <tspan font-weight="700">담기는 에너지가 적어요</tspan> → ESS·보급형 위주</text>
+          <defs>
+            <marker id="u1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+              <path d="M0 0 L9 4.5 L0 9 z" fill="#e11d48"/></marker>
+            <marker id="u2" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+              <path d="M0 0 L9 4.5 L0 9 z" fill="#0d9488"/></marker>
+          </defs>
+        </svg>
+        <figcaption class="fig-cap">그림 19. 나트륨이온 전지 — 리튬보다 크고 무거운 나트륨이 오가서 에너지는 적지만 값이 싸요</figcaption>
+      </figure>
+
 
       <div class="callout">
         <p class="callout-title">흐름전지가 특별한 이유</p>
@@ -1212,7 +1668,7 @@
               <path d="M0 0 L8 4 L0 8 z" fill="#8a96ab"/></marker>
           </defs>
         </svg>
-        <figcaption class="fig-cap">그림 12. 가루 → 전극 → 셀 → 안전성 순으로 단계마다 다른 검사를 해요</figcaption>
+        <figcaption class="fig-cap">그림 20. 가루 → 전극 → 셀 → 안전성 순으로 단계마다 다른 검사를 해요</figcaption>
       </figure>
 
       <h3 class="t-h">소재를 들여다보는 방법</h3>
@@ -1373,7 +1829,7 @@
               <path d="M0 0 L9 4.5 L0 9 z" fill="#0ea5e9"/></marker>
           </defs>
         </svg>
-        <figcaption class="fig-cap">그림 13. 액체 전해액·분리막을 고체 전해질 한 층이 대신하는 전고체 배터리</figcaption>
+        <figcaption class="fig-cap">그림 21. 액체 전해액·분리막을 고체 전해질 한 층이 대신하는 전고체 배터리</figcaption>
       </figure>
 
       <div class="tbl-scroll">
