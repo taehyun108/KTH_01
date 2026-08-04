@@ -80,6 +80,29 @@ html { -webkit-text-size-adjust: 100%; }
   display: inline-block; margin-top: 2px;
   font-size: 0.72rem; font-weight: 500; color: var(--text-faint);
 }
+/* 설명용 도해(SVG) — 좁은 화면에서는 찌그러뜨리지 않고 가로 스크롤 */
+.diagram {
+  margin: 14px 0 4px; padding: 14px 10px;
+  background: #fbfdff; border: 1px solid var(--border); border-radius: 12px;
+  overflow-x: auto;
+}
+.diagram svg {
+  display: block; margin: 0 auto; height: auto;
+  width: 100%; min-width: 460px; max-width: 660px;
+}
+.diagram text { font-family: inherit; }
+.fig-cap {
+  margin: 8px 0 0; font-size: 0.8rem; color: var(--text-faint); text-align: center;
+}
+
+/* 출처 목록 */
+.src-group { margin: 14px 0 0; }
+.src-group h3 { margin: 0 0 6px; font-size: 0.92rem; color: var(--accent-deep); }
+.src-group ul { margin: 0; padding-left: 18px; color: #35404f; font-size: 0.9rem; }
+.src-group li { margin: 4px 0; }
+.src-group a { color: var(--accent-strong); text-decoration: underline; }
+.src-group .who { color: var(--text-faint); font-size: 0.82rem; }
+
 .t-h {
   margin: 22px 0 6px; font-size: 1rem; color: var(--accent-deep);
   padding-top: 14px; border-top: 1px solid var(--border);
