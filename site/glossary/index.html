@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>이차전지 용어집 — 이차전지 리포트 아카이브</title>
   <meta name="description" content="양극재·음극재·전구체·전해액·분리막·전고체 등 이차전지(배터리) 핵심 용어를 항목별로 쉽게 풀어 설명하고, 최신 연구·산업 트렌드를 정리했습니다." />
-  <link rel="stylesheet" href="../assets/style.css?v=16" />
+  <link rel="stylesheet" href="../assets/style.css?v=17" />
 </head>
 <body>
   <header class="report-hero">
@@ -141,6 +141,285 @@
           <strong>전해액</strong>은 그중 <strong>액체 상태</strong>를 가리켜요.
           그래서 고체 형태면 '고체 전해질'이라고 하고, 그걸 쓴 배터리가 바로 <strong>전고체 배터리</strong>예요.</p>
       </div>
+
+      <!-- ── 양극재 상세 ── -->
+      <h3 class="t-h">🔎 양극재 자세히 보기 — 구조가 성격을 정해요</h3>
+      <p>양극재는 <strong>원자가 어떻게 배열돼 있느냐(결정 구조)</strong>에 따라 성격이 완전히 달라져요.
+        리튬이 드나드는 <strong>길의 모양</strong>이 구조마다 다르기 때문이에요.</p>
+
+      <div class="diagram">
+        <svg viewBox="0 0 660 290" role="img" aria-labelledby="d2t d2d">
+          <title id="d2t">양극재의 세 가지 결정 구조와 리튬 이동 경로</title>
+          <desc id="d2d">층상구조는 2차원 층 사이, 올리빈은 1차원 터널, 스피넬은 3차원 그물망으로 리튬이 이동합니다.</desc>
+          <!-- 층상 -->
+          <text x="110" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0284c7">층상구조</text>
+          <text x="110" y="42" text-anchor="middle" font-size="11.5" fill="#8a96ab">Layered</text>
+          <g>
+            <rect x="40" y="56" width="140" height="13" rx="2" fill="#64748b"/>
+            <rect x="40" y="93" width="140" height="13" rx="2" fill="#64748b"/>
+            <rect x="40" y="130" width="140" height="13" rx="2" fill="#64748b"/>
+            <rect x="40" y="167" width="140" height="13" rx="2" fill="#64748b"/>
+            <g fill="#0ea5e9">
+              <circle cx="62" cy="81" r="6"/><circle cx="94" cy="81" r="6"/><circle cx="126" cy="81" r="6"/><circle cx="158" cy="81" r="6"/>
+              <circle cx="62" cy="118" r="6"/><circle cx="94" cy="118" r="6"/><circle cx="126" cy="118" r="6"/><circle cx="158" cy="118" r="6"/>
+              <circle cx="62" cy="155" r="6"/><circle cx="94" cy="155" r="6"/><circle cx="126" cy="155" r="6"/><circle cx="158" cy="155" r="6"/>
+            </g>
+            <path d="M50 200 L170 200" stroke="#e11d48" stroke-width="2.5"
+                  marker-end="url(#c-r)" marker-start="url(#c-rs)"/>
+          </g>
+          <text x="110" y="222" text-anchor="middle" font-size="12" font-weight="700" fill="#e11d48">2차원 — 층 사이로</text>
+          <text x="110" y="242" text-anchor="middle" font-size="11.5" fill="#55617a">NCM · NCA · LCO</text>
+          <text x="110" y="262" text-anchor="middle" font-size="11.5" fill="#0d9488">에너지 많이 담김</text>
+          <text x="110" y="280" text-anchor="middle" font-size="11.5" fill="#e11d48">층이 무너지면 수명↓</text>
+
+          <!-- 올리빈 -->
+          <text x="330" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0284c7">올리빈 구조</text>
+          <text x="330" y="42" text-anchor="middle" font-size="11.5" fill="#8a96ab">Olivine</text>
+          <rect x="258" y="56" width="144" height="124" rx="6" fill="#e2e8f0" stroke="#94a3b8"/>
+          <rect x="272" y="106" width="116" height="22" rx="10" fill="#ffffff" stroke="#0ea5e9" stroke-width="2"/>
+          <g fill="#0ea5e9">
+            <circle cx="292" cy="117" r="6"/><circle cx="316" cy="117" r="6"/>
+            <circle cx="344" cy="117" r="6"/><circle cx="368" cy="117" r="6"/>
+          </g>
+          <text x="330" y="82" text-anchor="middle" font-size="11" fill="#55617a">인(P)–산소(O) 결합이 단단</text>
+          <path d="M272 200 L388 200" stroke="#e11d48" stroke-width="2.5" marker-end="url(#c-r)"/>
+          <text x="330" y="222" text-anchor="middle" font-size="12" font-weight="700" fill="#e11d48">1차원 — 좁은 터널</text>
+          <text x="330" y="242" text-anchor="middle" font-size="11.5" fill="#55617a">LFP · LMFP</text>
+          <text x="330" y="262" text-anchor="middle" font-size="11.5" fill="#0d9488">안전하고 오래 감</text>
+          <text x="330" y="280" text-anchor="middle" font-size="11.5" fill="#e11d48">담기는 에너지 적음</text>
+
+          <!-- 스피넬 -->
+          <text x="552" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0284c7">스피넬 구조</text>
+          <text x="552" y="42" text-anchor="middle" font-size="11.5" fill="#8a96ab">Spinel</text>
+          <rect x="482" y="56" width="140" height="124" rx="6" fill="#e2e8f0" stroke="#94a3b8"/>
+          <g stroke="#ffffff" stroke-width="3">
+            <path d="M482 98 L622 98"/><path d="M482 138 L622 138"/>
+            <path d="M528 56 L528 180"/><path d="M576 56 L576 180"/>
+          </g>
+          <g fill="#0ea5e9">
+            <circle cx="528" cy="98" r="6"/><circle cx="576" cy="98" r="6"/>
+            <circle cx="528" cy="138" r="6"/><circle cx="576" cy="138" r="6"/>
+          </g>
+          <g stroke="#e11d48" stroke-width="2.5">
+            <path d="M500 200 L604 200" marker-end="url(#c-r)"/>
+          </g>
+          <text x="552" y="222" text-anchor="middle" font-size="12" font-weight="700" fill="#e11d48">3차원 — 사방으로</text>
+          <text x="552" y="242" text-anchor="middle" font-size="11.5" fill="#55617a">LMO(망간계)</text>
+          <text x="552" y="262" text-anchor="middle" font-size="11.5" fill="#0d9488">힘이 세고 값이 쌈</text>
+          <text x="552" y="280" text-anchor="middle" font-size="11.5" fill="#e11d48">더위에 약해 수명 짧음</text>
+          <defs>
+            <marker id="c-r" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+              <path d="M0 0 L9 4.5 L0 9 z" fill="#e11d48"/></marker>
+            <marker id="c-rs" markerWidth="9" markerHeight="9" refX="1" refY="4.5" orient="auto">
+              <path d="M9 0 L0 4.5 L9 9 z" fill="#e11d48"/></marker>
+          </defs>
+        </svg>
+        <p class="fig-cap">그림 2. 양극재 결정 구조별 리튬 이동 경로 — 파란 점이 리튬이에요</p>
+      </div>
+
+      <table class="glossary">
+        <thead><tr><th>구조</th><th>어떻게 생겼나요</th><th>장점</th><th>단점</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="k">층상구조<br /><span class="en">NCM·NCA</span></td>
+            <td>얇은 금속 산화물 판이 <strong>겹겹이 쌓인</strong> 모양이고, 리튬은 그 <strong>층과 층 사이</strong>에
+              널찍하게 자리 잡아요.</td>
+            <td>리튬이 들어갈 공간이 넓어 <strong>에너지를 가장 많이</strong> 담을 수 있어요. 전압도 높아요.</td>
+            <td>리튬이 빠져나가면 층이 <strong>주저앉을 수</strong> 있어요. 니켈을 많이 넣을수록 더 불안정해져
+              열에 약해지고 수명이 줄어요.</td>
+          </tr>
+          <tr>
+            <td class="k">올리빈 구조<br /><span class="en">LFP·LMFP</span></td>
+            <td>인(P)과 산소(O)가 <strong>단단히 붙잡고 있는</strong> 골격 안에, 리튬이 지나가는
+              <strong>가느다란 터널 하나</strong>가 뚫려 있어요.</td>
+            <td>골격이 튼튼해서 뜨거워져도 <strong>산소를 잘 안 내놓아요</strong>. 그래서 불이 잘 안 나고
+              수천 번 충전해도 잘 버텨요.</td>
+            <td>길이 <strong>일방통행 하나뿐</strong>이라 이온이 느리게 움직여요. 담기는 에너지도 적어
+              같은 주행거리면 더 무거워져요.</td>
+          </tr>
+          <tr>
+            <td class="k">스피넬 구조<br /><span class="en">LMO</span></td>
+            <td>리튬이 다닐 수 있는 길이 <strong>사방으로 뻗은 그물망</strong>처럼 나 있어요.</td>
+            <td>길이 많으니 이온이 <strong>빠르게</strong> 오가요. 순간적인 힘(출력)이 좋고 망간이라 저렴해요.</td>
+            <td>온도가 높아지면 망간이 <strong>조금씩 녹아 나와</strong> 수명이 짧아요.
+              단독보다는 다른 소재와 섞어 쓰는 편이에요.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>같은 층상구조 안에서도 <strong>니켈을 얼마나 넣느냐</strong>로 또 갈려요.
+        숫자는 니켈·코발트·망간의 비율이에요.</p>
+      <table class="glossary">
+        <thead><tr><th>이름</th><th>니켈 비중</th><th>성격</th></tr></thead>
+        <tbody>
+          <tr><td class="k">NCM523</td><td>약 50%</td>
+            <td>균형형이에요. 안정적이지만 주행거리는 평범해요.</td></tr>
+          <tr><td class="k">NCM622</td><td>약 60%</td>
+            <td>한동안 가장 많이 쓰이던 무난한 조합이에요.</td></tr>
+          <tr><td class="k">NCM811</td><td>약 80%</td>
+            <td><strong>하이니켈</strong>의 대표예요. 주행거리가 길어지는 대신 열 관리가 까다로워요.</td></tr>
+          <tr><td class="k">울트라 하이니켈</td><td>90% 이상</td>
+            <td>코발트를 거의 안 써서 원가를 낮추고 용량은 최대로 끌어올린 최신 흐름이에요.
+              대신 <strong>수분·열에 매우 예민</strong>해 만들기 어려워요.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <p class="callout-title">요즘 뜨는 이야기 — 단결정 vs 다결정</p>
+        <p>양극재 가루 한 알을 확대해 보면, 작은 알갱이 여러 개가 뭉쳐 있는 <strong>다결정</strong>과
+          통짜 한 덩어리인 <strong>단결정</strong>이 있어요. 다결정은 충·방전을 반복하면 알갱이 사이가
+          <strong>쩍쩍 갈라져</strong> 수명이 줄어드는데, 단결정은 갈라질 틈이 없어 훨씬 오래가요.
+          그래서 하이니켈일수록 단결정으로 만들려는 흐름이 강해요.</p>
+      </div>
+
+      <!-- ── 음극재 상세 ── -->
+      <h3 class="t-h">🔎 음극재 자세히 보기 — 리튬을 '어떻게' 담느냐</h3>
+      <p>음극재는 리튬을 담는 <strong>방식</strong>이 소재마다 달라요. 이 차이가 용량과 수명을 가릅니다.</p>
+
+      <div class="diagram">
+        <svg viewBox="0 0 660 250" role="img" aria-labelledby="d3t d3d">
+          <title id="d3t">흑연과 실리콘의 리튬 저장 방식 차이</title>
+          <desc id="d3d">흑연은 층 사이에 끼워 넣어 거의 부풀지 않고, 실리콘은 결합해 크게 부풉니다.</desc>
+          <!-- 흑연 -->
+          <text x="160" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0284c7">흑연 — 층 사이에 끼워 넣기</text>
+          <g>
+            <rect x="70" y="50" width="80" height="10" rx="2" fill="#64748b"/>
+            <rect x="70" y="78" width="80" height="10" rx="2" fill="#64748b"/>
+            <rect x="70" y="106" width="80" height="10" rx="2" fill="#64748b"/>
+            <rect x="70" y="134" width="80" height="10" rx="2" fill="#64748b"/>
+            <text x="110" y="166" text-anchor="middle" font-size="11.5" fill="#55617a">충전 전</text>
+          </g>
+          <path d="M162 96 L188 96" stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#g-b)"/>
+          <g>
+            <rect x="200" y="46" width="80" height="10" rx="2" fill="#64748b"/>
+            <rect x="200" y="78" width="80" height="10" rx="2" fill="#64748b"/>
+            <rect x="200" y="110" width="80" height="10" rx="2" fill="#64748b"/>
+            <rect x="200" y="142" width="80" height="10" rx="2" fill="#64748b"/>
+            <g fill="#0ea5e9">
+              <circle cx="222" cy="67" r="5"/><circle cx="258" cy="67" r="5"/>
+              <circle cx="222" cy="99" r="5"/><circle cx="258" cy="99" r="5"/>
+              <circle cx="222" cy="131" r="5"/><circle cx="258" cy="131" r="5"/>
+            </g>
+            <text x="240" y="174" text-anchor="middle" font-size="11.5" fill="#0d9488">충전 후 — 거의 안 부풂</text>
+          </g>
+          <text x="160" y="200" text-anchor="middle" font-size="11.5" fill="#55617a">
+            층 사이에 끼웠다 뺐다 해서 구조가 안 망가져요</text>
+          <text x="160" y="220" text-anchor="middle" font-size="11.5" fill="#0d9488">→ 수명이 길어요</text>
+          <text x="160" y="240" text-anchor="middle" font-size="11.5" fill="#e11d48">→ 담는 양은 한계가 있어요</text>
+
+          <!-- 구분선 -->
+          <line x1="345" y1="34" x2="345" y2="240" stroke="#e3e8ef" stroke-width="1.5"/>
+
+          <!-- 실리콘 -->
+          <text x="505" y="24" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0284c7">실리콘 — 리튬과 직접 결합</text>
+          <circle cx="420" cy="98" r="26" fill="#94a3b8"/>
+          <text x="420" y="146" text-anchor="middle" font-size="11.5" fill="#55617a">충전 전</text>
+          <path d="M456 98 L486 98" stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#g-b)"/>
+          <circle cx="562" cy="98" r="48" fill="#7dd3fc" stroke="#0284c7" stroke-width="2"/>
+          <g stroke="#e11d48" stroke-width="2" fill="none">
+            <path d="M534 66 L546 80"/><path d="M590 122 L600 134"/><path d="M528 122 L540 112"/>
+          </g>
+          <text x="562" y="162" text-anchor="middle" font-size="11.5" fill="#e11d48">충전 후 — 크게 부풀고 갈라져요</text>
+          <text x="505" y="200" text-anchor="middle" font-size="11.5" fill="#55617a">
+            흑연의 약 10배를 담을 수 있어요(이론값)</text>
+          <text x="505" y="220" text-anchor="middle" font-size="11.5" fill="#0d9488">→ 주행거리·충전속도에 유리</text>
+          <text x="505" y="240" text-anchor="middle" font-size="11.5" fill="#e11d48">→ 부피가 3~4배로 늘어 수명이 문제</text>
+          <defs>
+            <marker id="g-b" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+              <path d="M0 0 L9 4.5 L0 9 z" fill="#0ea5e9"/></marker>
+          </defs>
+        </svg>
+        <p class="fig-cap">그림 3. 흑연은 층 사이에 '끼워 넣고', 실리콘은 '직접 결합'해서 크게 부풀어요</p>
+      </div>
+
+      <table class="glossary">
+        <thead><tr><th>소재</th><th>담는 방식과 특징</th><th>장단점</th></tr></thead>
+        <tbody>
+          <tr><td class="k">천연흑연</td>
+            <td>땅에서 캔 흑연을 가공해요. 층상 구조 사이에 리튬을 끼워 넣어요.</td>
+            <td>값이 싸고 용량이 조금 더 커요. 다만 입자 모양이 제각각이라 <strong>수명·급속충전에 약간 불리</strong>해요.</td></tr>
+          <tr><td class="k">인조흑연</td>
+            <td>석유계 원료를 <strong>3,000℃ 가까이</strong> 구워 만들어요. 입자가 고르고 단단해요.</td>
+            <td>수명이 길고 급속충전에 유리해요. 대신 <strong>전기를 많이 써서 비싸요</strong>.</td></tr>
+          <tr><td class="k">실리콘계<br /><span class="en">SiOx · Si-C</span></td>
+            <td>리튬과 <strong>직접 결합</strong>해 저장해요. 그래서 훨씬 많이 담지만 부피가 크게 늘어요.</td>
+            <td>순수 실리콘은 너무 부풀어서, 산소를 섞거나(SiOx) 탄소로 감싸(Si-C) 완충해요.
+              지금은 흑연에 <strong>few % 정도만 섞어</strong> 쓰며 비율을 조금씩 늘리는 중이에요.</td></tr>
+          <tr><td class="k">리튬메탈</td>
+            <td>리튬 <strong>금속판 자체</strong>를 음극으로 써요. 담는 그릇이 따로 필요 없는 셈이에요.</td>
+            <td>이론상 저장량이 가장 커요. 하지만 충전할 때 리튬이 <strong>나뭇가지처럼 자라</strong>(덴드라이트)
+              분리막을 찌를 수 있어, 주로 전고체와 함께 연구돼요.</td></tr>
+          <tr><td class="k">LTO<br /><span class="en">리튬티타네이트</span></td>
+            <td>충·방전해도 <strong>부피가 거의 안 변하는</strong> 특이한 소재예요.</td>
+            <td>초고속 충전이 되고 수명이 매우 길며 추위에 강해요. 대신 담기는 에너지가 적고 비싸서
+              버스·산업용에 주로 써요.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <p class="callout-title">꼭 알아두면 좋은 개념 — SEI 막</p>
+        <p>배터리를 <strong>맨 처음 충전할 때</strong>, 전해액 일부가 분해되면서 음극 표면에 아주 얇은 막이 생겨요.
+          이걸 <strong>SEI</strong>라고 해요. 이 막은 전해액이 더 분해되지 않게 막아 주는 <strong>보호막</strong>이라
+          꼭 필요하지만, 만들어지느라 리튬을 조금 잡아먹어서 <strong>첫 충전에 용량이 살짝 줄어드는</strong> 이유이기도 해요.
+          실리콘이 부풀 때 이 막이 자꾸 깨지고 다시 생기면서 리튬을 계속 소모하는 게, 실리콘 수명 문제의 핵심이에요.</p>
+      </div>
+
+      <!-- ── 전해액 상세 ── -->
+      <h3 class="t-h">🔎 전해액 자세히 보기 — 세 가지를 섞어 만들어요</h3>
+      <table class="glossary">
+        <thead><tr><th>구성</th><th>역할</th><th>특징</th></tr></thead>
+        <tbody>
+          <tr><td class="k">리튬염<br /><span class="en">LiPF₆ 등</span></td>
+            <td>전해액에 녹아 <strong>리튬이온을 공급</strong>하는 알맹이예요.</td>
+            <td>LiPF₆가 주류지만 <strong>수분과 열에 약해요</strong>. 물이 들어가면 분해되며
+              금속을 갉아먹는 물질이 생겨요. 그래서 <strong>LiFSI</strong> 같은 고성능 염을 섞는 흐름이에요(비쌈).</td></tr>
+          <tr><td class="k">유기용매</td>
+            <td>리튬염을 <strong>녹이고 실어 나르는</strong> 액체예요.</td>
+            <td>보통 <strong>두 종류를 섞어</strong> 써요. 끈적하지만 염을 잘 녹이는 것(EC)과,
+              묽어서 이온이 빨리 움직이는 것(DMC·EMC)을 조합해 균형을 맞춰요.</td></tr>
+          <tr><td class="k">첨가제</td>
+            <td>1~5% 정도만 넣는데 <strong>성능을 좌우</strong>하는 비밀 재료예요.</td>
+            <td>좋은 SEI 막을 만들어 수명을 늘리거나, 과충전을 막고, 불이 잘 안 붙게 해요.
+              회사마다 조합이 <strong>핵심 영업비밀</strong>이에요.</td></tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        <p class="callout-title">왜 용매를 섞어 쓸까요?</p>
+        <p>꿀처럼 <strong>끈적한 액체</strong>는 소금(리튬염)을 잘 녹이지만 흐름이 느려요.
+          반대로 <strong>물처럼 묽은 액체</strong>는 잘 흐르지만 소금을 많이 못 녹여요.
+          그래서 둘을 섞어 <strong>'잘 녹으면서도 잘 흐르는'</strong> 상태를 만드는 거예요.
+          겨울에 배터리 성능이 떨어지는 것도 추우면 이 액체가 끈적해져 이온이 느려지기 때문이에요.</p>
+      </div>
+
+      <!-- ── 분리막 상세 ── -->
+      <h3 class="t-h">🔎 분리막 자세히 보기 — 만드는 방법이 두 가지예요</h3>
+      <table class="glossary">
+        <thead><tr><th>구분</th><th>만드는 법</th><th>특징과 쓰임</th></tr></thead>
+        <tbody>
+          <tr><td class="k">습식<br /><span class="en">Wet</span></td>
+            <td>플라스틱에 <strong>기름을 섞어</strong> 필름을 만든 뒤, 늘리고 나서 기름을 빼내요.
+              기름이 있던 자리가 구멍이 돼요.</td>
+            <td>구멍이 <strong>고르고 촘촘하며</strong> 얇게 만들 수 있어 튼튼해요.
+              에너지밀도가 중요한 <strong>전기차용</strong>에 주로 써요. 공정이 복잡해 비싸요.</td></tr>
+          <tr><td class="k">건식<br /><span class="en">Dry</span></td>
+            <td>기름 없이 필름을 <strong>쭉 잡아당겨</strong> 억지로 틈을 벌려 구멍을 만들어요.</td>
+            <td>공정이 단순해 <strong>싸요</strong>. 대신 구멍 크기가 들쭉날쭉하고 두꺼운 편이라
+              <strong>ESS나 LFP</strong> 쪽에 많이 써요.</td></tr>
+          <tr><td class="k">세라믹 코팅<br /><span class="en">CCS</span></td>
+            <td>분리막 위에 <strong>세라믹 가루를 얇게 발라요</strong>.</td>
+            <td>열을 받아도 분리막이 <strong>쪼그라들지 않게</strong> 잡아 줘요.
+              요즘 전기차용은 대부분 이 코팅을 해요.</td></tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        <p class="callout-title">분리막의 숨은 안전장치 — 셧다운</p>
+        <p>배터리가 위험할 정도로 뜨거워지면, 분리막의 플라스틱이 살짝 녹으면서
+          <strong>구멍을 스스로 막아 버려요</strong>. 리튬이온이 못 지나가니 배터리가 멈추고, 더 이상 열이 안 나요.
+          일종의 <strong>퓨즈</strong>인 셈이에요.</p>
+        <p>그런데 여기 <strong>딜레마</strong>가 있어요. 분리막이 얇을수록 그 자리에 활물질을 더 넣어
+          <strong>주행거리가 늘어나지만</strong>, 얇으면 찢어지기 쉬워 <strong>안전에는 불리</strong>해요.
+          "에너지밀도 vs 안전" 줄다리기가 벌어지는 대표적인 지점이에요.</p>
+      </div>
     </section>
 
     <!-- 03 -->
@@ -149,9 +428,9 @@
       <p>땅에서 캔 광물이 배터리가 되기까지는 여러 단계를 거쳐요.
         <strong>전구체</strong>가 어디쯤 있는지 보면 이해가 쉬워요.</p>
       <div class="diagram">
-        <svg viewBox="0 0 660 210" role="img" aria-labelledby="d2t d2d">
-          <title id="d2t">광물에서 배터리 팩까지의 공정 흐름</title>
-          <desc id="d2d">광물, 전구체, 양극재, 전극, 셀, 팩 순서로 만들어집니다.</desc>
+        <svg viewBox="0 0 660 210" role="img" aria-labelledby="d4t d4d">
+          <title id="d4t">광물에서 배터리 팩까지의 공정 흐름</title>
+          <desc id="d4d">광물, 전구체, 양극재, 전극, 셀, 팩 순서로 만들어집니다.</desc>
           <g font-size="12.5">
             <rect x="8" y="60" width="92" height="60" rx="9" fill="#eef2f7" stroke="#cdd5e0"/>
             <text x="54" y="84" text-anchor="middle" font-weight="700" fill="#1a2230">광물</text>
@@ -190,7 +469,7 @@
               <path d="M0 0 L8 4 L0 8 z" fill="#0ea5e9"/></marker>
           </defs>
         </svg>
-        <p class="fig-cap">그림 2. 광물 → 전구체 → 양극재 → 셀 → 팩으로 이어지는 공정</p>
+        <p class="fig-cap">그림 4. 광물 → 전구체 → 양극재 → 셀 → 팩으로 이어지는 공정</p>
       </div>
       <table class="glossary">
         <thead><tr><th>용어</th><th>쉬운 설명</th><th>알아 두면 좋은 점</th></tr></thead>
@@ -254,9 +533,9 @@
     <section class="sec-card full" id="form">
       <div class="sec-head"><span class="sec-num">05</span><h2>셀 모양과 구조</h2></div>
       <div class="diagram">
-        <svg viewBox="0 0 660 250" role="img" aria-labelledby="d3t d3d">
-          <title id="d3t">셀의 세 가지 형태와 조립 단계</title>
-          <desc id="d3d">원통형, 각형, 파우치형 셀이 있고 셀을 모아 모듈, 모듈을 모아 팩을 만듭니다.</desc>
+        <svg viewBox="0 0 660 250" role="img" aria-labelledby="d5t d5d">
+          <title id="d5t">셀의 세 가지 형태와 조립 단계</title>
+          <desc id="d5d">원통형, 각형, 파우치형 셀이 있고 셀을 모아 모듈, 모듈을 모아 팩을 만듭니다.</desc>
           <!-- 원통형 -->
           <ellipse cx="90" cy="52" rx="34" ry="12" fill="#0ea5e9"/>
           <rect x="56" y="52" width="68" height="86" fill="#0284c7"/>
@@ -282,7 +561,7 @@
             셀(낱개) → 모듈(여러 셀 묶음) → 팩(차에 넣는 완성품) ·
             <tspan fill="#0284c7" font-weight="700">CTP</tspan>는 가운데 모듈 단계를 생략해요</text>
         </svg>
-        <p class="fig-cap">그림 3. 셀의 세 가지 형태와 셀 → 모듈 → 팩 조립 단계</p>
+        <p class="fig-cap">그림 5. 셀의 세 가지 형태와 셀 → 모듈 → 팩 조립 단계</p>
       </div>
       <table class="glossary">
         <thead><tr><th>용어</th><th>쉬운 설명</th><th>알아 두면 좋은 점</th></tr></thead>
@@ -342,9 +621,9 @@
       <div class="sec-head"><span class="sec-num">07</span><h2>차세대 기술</h2></div>
       <p>지금 배터리와 <strong>전고체 배터리</strong>가 어떻게 다른지 그림으로 보면 한눈에 들어와요.</p>
       <div class="diagram">
-        <svg viewBox="0 0 660 260" role="img" aria-labelledby="d4t d4d">
-          <title id="d4t">지금의 리튬이온 배터리와 전고체 배터리 비교</title>
-          <desc id="d4d">액체 전해액과 분리막을 고체 전해질 한 층이 대신합니다.</desc>
+        <svg viewBox="0 0 660 260" role="img" aria-labelledby="d6t d6d">
+          <title id="d6t">지금의 리튬이온 배터리와 전고체 배터리 비교</title>
+          <desc id="d6d">액체 전해액과 분리막을 고체 전해질 한 층이 대신합니다.</desc>
           <!-- 왼쪽: 현재 -->
           <text x="165" y="26" text-anchor="middle" font-size="13.5" font-weight="700" fill="#55617a">지금의 리튬이온 배터리</text>
           <rect x="40" y="40" width="250" height="120" rx="10" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2"/>
@@ -377,7 +656,7 @@
               <path d="M0 0 L9 4.5 L0 9 z" fill="#0ea5e9"/></marker>
           </defs>
         </svg>
-        <p class="fig-cap">그림 4. 액체 전해액·분리막을 고체 전해질 한 층이 대신하는 전고체 배터리</p>
+        <p class="fig-cap">그림 6. 액체 전해액·분리막을 고체 전해질 한 층이 대신하는 전고체 배터리</p>
       </div>
       <table class="glossary">
         <thead><tr><th>기술</th><th>쉬운 설명</th><th>기대와 숙제</th></tr></thead>

@@ -434,7 +434,7 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{e(data['title'])}</title>
   <meta name="description" content="{e(data['meta_description'])}" />
-  <link rel="stylesheet" href="../assets/style.css?v=16" />
+  <link rel="stylesheet" href="../assets/style.css?v=17" />
 </head>
 <body>
   <header class="report-hero">
