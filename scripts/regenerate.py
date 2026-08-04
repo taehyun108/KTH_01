@@ -21,6 +21,7 @@ from build_index import load_existing, merge
 from config import NEWS_DIR
 from generate_report import (
     PROMPT_VERSION, get_transcript, analyze, render_html, QuotaExhausted,
+    InsufficientContext,
 )
 from run_pipeline import _extract_video_id
 
@@ -63,6 +64,9 @@ def regenerate() -> int:
         try:
             transcript, source = get_transcript(vid)
             data = analyze(meta, transcript, source, force=True)
+        except InsufficientContext as exc:
+            print(f"  – 건너뜀(근거부족) {vid}: {exc}", file=sys.stderr)
+            continue
         except QuotaExhausted:
             print(f"  ! 일일 쿼터 소진 — 여기까지 저장하고 종료 ({len(updated)}건 갱신)",
                   file=sys.stderr)

@@ -11,11 +11,11 @@ import re
 
 from config import NEWS_DIR
 
-CSS_VER = 19
+CSS_VER = 20
 NAV = (
     '\n        <nav class="top-nav">'
     '\n          <a class="home-btn" href="../news/" title="홈으로" aria-label="홈으로 이동">홈</a>'
-    '\n          <a class="home-btn" href="../glossary/?v=19" title="이차전지 용어집">용어집</a>'
+    '\n          <a class="home-btn" href="../glossary/?v=20" title="이차전지 용어집">용어집</a>'
     '\n        </nav>'
 )
 

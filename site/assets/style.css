@@ -61,6 +61,15 @@ html { -webkit-text-size-adjust: 100%; }
 .top-nav { margin-left: auto; display: flex; gap: 7px; flex: 0 0 auto; }
 .top-nav .home-btn { margin-left: 0; }
 
+/* 마스터 모드 버튼 */
+.master-btn { cursor: pointer; font-family: inherit; }
+.master-btn.on {
+  background: rgba(255,255,255,.9); color: var(--c-macro, #e11d48);
+  border-color: #fff; font-weight: 700;
+}
+.icon-btn.del { color: var(--c-macro, #e11d48); }
+.icon-btn.del:hover { background: #fee2e2; }
+
 /* ---------- 용어집 ---------- */
 .hero-sub {
   margin: 10px 0 0; color: rgba(255,255,255,.9);

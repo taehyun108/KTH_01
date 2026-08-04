@@ -15,7 +15,7 @@ import re
 import sys
 
 from build_index import merge, load_existing
-from generate_report import process_video, QuotaExhausted
+from generate_report import process_video, QuotaExhausted, InsufficientContext
 from run_pipeline import _extract_video_id
 
 _YT_URL = re.compile(r"https?://(?:www\.)?(?:youtube\.com/\S+|youtu\.be/\S+)")
@@ -91,10 +91,15 @@ def main() -> int:
     meta = _fetch_meta(url, video_id)
     print(f"요약 시작 — [{meta['channel']}] {meta['title']} ({video_id})")
     try:
-        result = process_video(meta, force=True)
+        result = process_video(meta, force=True, scope="general")
     except QuotaExhausted:
         _emit("quota", "오늘 Gemini 일일 할당량이 소진되어 지금은 요약할 수 없습니다. "
                        "할당량 리셋 후 다시 시도해 주세요.")
+        return 0
+    except InsufficientContext as exc:
+        _emit("error", f"이 영상은 자막·설명을 확보하지 못해 요약하지 않았습니다({exc}). "
+                       "잘못된 내용이 올라가는 것을 막기 위한 조치입니다. "
+                       "자막이 있는 영상으로 다시 시도해 주세요.")
         return 0
     except Exception as exc:  # noqa: BLE001
         _emit("error", f"요약 중 오류가 발생했습니다: {exc}")

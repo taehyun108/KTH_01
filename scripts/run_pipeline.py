@@ -15,7 +15,7 @@ from collections import defaultdict
 from datetime import date, timedelta
 
 from fetch_rss import collect_candidates
-from generate_report import process_video, QuotaExhausted
+from generate_report import process_video, QuotaExhausted, InsufficientContext
 from build_index import merge, load_existing
 from config import MAX_CANDIDATES_PER_RUN
 
@@ -100,7 +100,7 @@ def main() -> int:
     print(f"  처리 분배: {dist or '없음'}")
 
     new_reports = []
-    n_drafts = n_error = 0
+    n_drafts = n_error = n_skip = 0
     for meta in fresh:
         try:
             result = process_video(meta)
@@ -110,6 +110,9 @@ def main() -> int:
             else:
                 n_drafts += 1
                 print(f"  – drafts(무관 판정): {meta['title'][:40]}")
+        except InsufficientContext as exc:
+            n_skip += 1
+            print(f"  – 건너뜀(근거부족): {meta['title'][:38]} — {exc}", file=sys.stderr)
         except QuotaExhausted:
             print(f"  ! 일일 쿼터 소진 — 이번 실행 조기 종료 (성공 {len(new_reports)}건 저장)",
                   file=sys.stderr)
@@ -122,8 +125,8 @@ def main() -> int:
     if new_reports:
         merge(new_reports)
     # 한 줄 결산 — '왜 오늘 업데이트가 적은지'를 로그 한 줄로 알 수 있게 한다
-    print(f"완료 — 신규 {len(new_reports)}건 · 무관판정(drafts) {n_drafts}건 · 오류 {n_error}건 "
-          f"(후보 {len(candidates)} → 신규후보 {len(fresh)})")
+    print(f"완료 — 신규 {len(new_reports)}건 · 무관판정 {n_drafts}건 · 근거부족 건너뜀 {n_skip}건 · "
+          f"오류 {n_error}건 (후보 {len(candidates)} → 신규후보 {len(fresh)})")
     return 0
 
 

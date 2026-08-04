@@ -188,6 +188,7 @@ function renderCards() {
           <span class="tag-channel" style="--tag:${tagColor(r.channel)}">${esc(r.channel)}</span>
           <button class="icon-btn fav${isFav ? ' on' : ''}" title="즐겨찾기">${isFav ? '★' : '☆'}</button>
           <button class="icon-btn hide" title="${isHidden ? '숨김 해제' : '숨기기'}">${isHidden ? '↩' : '✕'}</button>
+          ${isMaster() ? '<button class="icon-btn del" title="영구 삭제 (마스터)">🗑</button>' : ''}
         </div>
       </div>
       <a class="card-body" href="${esc(r.url)}">
@@ -209,6 +210,8 @@ function renderCards() {
       if (hidden.has(r.id)) hidden.delete(r.id); else hidden.add(r.id);
       save(LS_HIDE, hidden); render();
     };
+    const delBtn = card.querySelector('.del');
+    if (delBtn) delBtn.onclick = (e) => { e.preventDefault(); requestDelete(r); };
     list.appendChild(card);
   }
 }
@@ -223,6 +226,50 @@ function renderFavTools() {
 
 // 유튜브 URL → 사전 작성된 GitHub 이슈 생성 페이지로 이동 (Actions 워크플로가 요약)
 const REPO = 'taehyun108/KTH_01';
+
+// ── 마스터 모드 ─────────────────────────────────────────────
+// 주의: 이 비밀번호는 브라우저에 내려가는 값이라 '실수 방지용 잠금'이지 보안장치가 아니에요.
+// 실제 삭제 권한은 GitHub 워크플로가 '저장소 소유자가 연 이슈'만 처리하는 것으로 지켜집니다.
+const MASTER_PW = '1081';
+const LS_MASTER = 'bra_master';
+function isMaster() { return sessionStorage.getItem(LS_MASTER) === '1'; }
+
+function toggleMaster() {
+  if (isMaster()) {
+    sessionStorage.removeItem(LS_MASTER);
+    render(); renderMasterBtn();
+    return;
+  }
+  const pw = window.prompt('마스터 비밀번호를 입력하세요');
+  if (pw === null) return;
+  if (pw.trim() !== MASTER_PW) { window.alert('비밀번호가 올바르지 않습니다.'); return; }
+  sessionStorage.setItem(LS_MASTER, '1');
+  render(); renderMasterBtn();
+}
+
+function renderMasterBtn() {
+  const b = document.getElementById('master-btn');
+  if (!b) return;
+  const on = isMaster();
+  b.textContent = on ? '🔓 마스터 해제' : '🔒 마스터';
+  b.classList.toggle('on', on);
+  b.title = on ? '마스터 모드 켜짐 — 카드에서 🗑로 영구 삭제' : '마스터 모드 켜기';
+}
+
+// 영구 삭제 요청 — GitHub 이슈를 열어 워크플로가 실제로 파일을 지우게 한다
+function requestDelete(r) {
+  if (!isMaster()) return;
+  if (!window.confirm(
+      `이 리포트를 아카이브에서 영구 삭제할까요?\n\n${r.title}\n\n` +
+      '확인을 누르면 GitHub 삭제 요청 페이지가 열립니다.')) return;
+  const title = encodeURIComponent('[삭제] ' + r.id);
+  const body = encodeURIComponent(
+    '아래 리포트를 아카이브에서 삭제해 주세요.\n\n' +
+    `- id: ${r.id}\n- 제목: ${r.title}\n- 영상: ${r.video || ''}\n\n` +
+    '사유: 내용과 무관한 요약\n');
+  window.open(`https://github.com/${REPO}/issues/new?title=${title}&body=${body}`,
+              '_blank', 'noopener');
+}
 const YT_RE = /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|shorts\/|embed\/)|youtu\.be\/)[\w-]{6,}/i;
 
 function requestSummary() {
@@ -259,6 +306,10 @@ async function init() {
 
   const search = document.getElementById('search');
   search.addEventListener('input', () => { searchTerm = search.value.trim(); renderCards(); });
+
+  // 마스터 모드 토글
+  const mb = document.getElementById('master-btn');
+  if (mb) { mb.addEventListener('click', toggleMaster); renderMasterBtn(); }
 
   // 홈 버튼: 목록 최상단(홈) 상태로 되돌리며 새로고침
   const homeBtn = document.getElementById('home-btn');

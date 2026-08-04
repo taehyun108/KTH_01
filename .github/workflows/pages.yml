@@ -11,7 +11,7 @@ on:
       - "site/**"
       - ".github/workflows/pages.yml"
   workflow_run:
-    workflows: ["Build report archive", "Summarize submitted URL"]
+    workflows: ["Build report archive", "Summarize submitted URL", "Delete report"]
     types: [completed]
   workflow_dispatch:
 

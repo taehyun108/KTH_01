@@ -1,0 +1,63 @@
+name: Delete report
+
+# 사이트의 마스터 모드에서 "[삭제] <id>" 이슈가 열리면 해당 리포트를 영구 삭제한다.
+# 실제 권한은 여기서 지켜진다 — 저장소 소유자가 연 이슈만 처리한다.
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write   # 리포트 파일·인덱스 삭제 커밋
+  issues: write     # 결과 댓글 + 이슈 닫기
+
+jobs:
+  delete:
+    if: >-
+      startsWith(github.event.issue.title, '[삭제]') &&
+      github.event.issue.user.login == github.repository_owner
+    runs-on: ubuntu-latest
+    env:
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Delete the report
+        id: del
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: python scripts/delete_report.py
+
+      - name: Commit removal
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain site/)" ]; then
+            git add -A site/
+            git commit -m "chore: delete report (issue #${{ github.event.issue.number }})"
+            git push
+          else
+            echo "변경 사항 없음"
+          fi
+
+      - name: Comment result and close issue
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const status = `${{ steps.del.outputs.status }}`;
+            const message = `${{ steps.del.outputs.message }}`;
+            const icon = { ok: '🗑️', notfound: 'ℹ️', error: '⚠️' }[status] || '⚠️';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `${icon} ${message || '처리 결과를 확인할 수 없습니다.'}`,
+            });
+            await github.rest.issues.update({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: context.issue.number, state: 'closed',
+            });
