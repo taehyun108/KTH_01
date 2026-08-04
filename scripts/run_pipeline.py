@@ -22,9 +22,13 @@ from config import MAX_CANDIDATES_PER_RUN
 
 
 def _extract_video_id(url: str) -> str | None:
-    """watch?v=ID · shorts/ID · youtu.be/ID · embed/ID 모두에서 영상 id 추출."""
-    for pat in (r"[?&]v=([\w-]{6,})", r"/shorts/([\w-]{6,})",
-                r"youtu\.be/([\w-]{6,})", r"/embed/([\w-]{6,})"):
+    """watch?v=ID · shorts/ID · live/ID · youtu.be/ID · embed/ID · v/ID 에서 영상 id 추출.
+
+    ※ 라이브 다시보기 링크(youtube.com/live/ID?si=...)에는 v= 파라미터가 없어
+      예전 패턴으로는 id 를 못 뽑았다. 공유 버튼이 주는 형식이라 반드시 지원해야 한다.
+    """
+    for pat in (r"[?&]v=([\w-]{6,})", r"/shorts/([\w-]{6,})", r"/live/([\w-]{6,})",
+                r"youtu\.be/([\w-]{6,})", r"/embed/([\w-]{6,})", r"/v/([\w-]{6,})"):
         m = re.search(pat, url or "")
         if m:
             return m.group(1)

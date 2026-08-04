@@ -401,6 +401,86 @@ class InsufficientContext(Exception):
     """자막·설명이 없어 근거 없는 요약(환각)이 될 수밖에 없는 경우."""
 
 
+# ---------------------------------------------------------------------------
+# 최후의 수단 — Gemini 가 유튜브 영상을 직접 본다
+# ---------------------------------------------------------------------------
+# 러너(GitHub Actions) IP 는 유튜브에 차단되어 자막·설명을 못 가져온다. 하지만 Gemini 에
+# 유튜브 URL 을 넘기면 <구글 서버가> 영상을 가져와 처리하므로 이 차단을 우회할 수 있다.
+# 영상 토큰이 비싸므로 저해상도·저프레임·앞부분 한정으로 제한한다.
+VIDEO_FPS = 0.2                 # 5초에 1프레임
+VIDEO_MAX_MINUTES = 45          # 긴 라이브는 앞 45분까지만
+# 파이프라인(자동 수집)에서 영상 직접 분석을 허용할 최대 건수. 사용자가 URL 로 직접
+# 요청한 경우(force=True)에는 이 상한과 무관하게 항상 시도한다.
+VIDEO_ANALYSIS_MAX = int(os.getenv("VIDEO_ANALYSIS_MAX", "3"))
+_video_used = 0
+
+
+def _video_budget_left() -> bool:
+    return _video_used < VIDEO_ANALYSIS_MAX
+
+
+def _generate_from_video(client, model: str, types, prompt: str, video_url: str,
+                         max_retries: int = 3):
+    """유튜브 URL 을 그대로 Gemini 에 넘겨 영상·음성 자체를 근거로 분석한다."""
+    part = types.Part(
+        file_data=types.FileData(file_uri=video_url),
+        video_metadata=types.VideoMetadata(fps=VIDEO_FPS,
+                                           end_offset=f"{VIDEO_MAX_MINUTES * 60}s"),
+    )
+    contents = [types.Content(role="user", parts=[part, types.Part(text=prompt)])]
+    cfg = types.GenerateContentConfig(
+        response_mime_type="application/json", temperature=0.4, max_output_tokens=8192,
+        media_resolution=types.MediaResolution.MEDIA_RESOLUTION_LOW)
+    delay = 8.0
+    for attempt in range(max_retries):
+        try:
+            return client.models.generate_content(model=model, contents=contents, config=cfg)
+        except Exception as exc:  # noqa: BLE001
+            msg = str(exc)
+            is_429 = "RESOURCE_EXHAUSTED" in msg or "429" in msg
+            if is_429 and _is_daily_quota(msg):
+                raise QuotaExhausted(msg)
+            transient = is_429 or "503" in msg or "UNAVAILABLE" in msg or "500" in msg
+            if transient and attempt < max_retries - 1:
+                wait = _retry_delay(msg, delay)
+                print(f"  [영상분석] 일시 오류 — {wait:.0f}s 후 재시도 ({attempt + 1})",
+                      file=sys.stderr)
+                time.sleep(wait)
+                delay *= 1.4
+                continue
+            raise
+
+
+def analyze_video_direct(meta: dict[str, Any], force: bool = False,
+                         scope: str = "battery") -> dict[str, Any]:
+    """자막·설명이 전혀 없을 때 Gemini 에게 영상 자체를 보게 해서 리포트를 만든다."""
+    global _video_used
+    from google.genai import types
+
+    url = meta.get("link") or f"https://www.youtube.com/watch?v={meta['video_id']}"
+    client = _get_client()
+    model = _resolve_model(client)
+
+    sys_p, spec = ((SYSTEM_PROMPT_GENERAL, JSON_SPEC_GENERAL) if scope == "general"
+                   else (SYSTEM_PROMPT, JSON_SPEC))
+    prompt = (
+        f"{sys_p}\n\n{spec}\n\n"
+        f"--- 분석 대상 ---\n채널: {meta.get('channel', '')}\n제목: {meta.get('title', '')}\n\n"
+        "위 유튜브 영상을 직접 보고 들은 내용만을 근거로 작성하라. "
+        "영상에서 실제로 말한 내용만 쓰고, 화면·음성으로 확인되지 않은 사실은 절대 추가하지 마라. "
+        "영상을 열 수 없거나 내용을 파악할 수 없으면 relevant 를 false 로 두어라."
+        + ("\n\n[사용자 직접 요청] 사용자가 URL 로 직접 요약을 요청한 영상이다. "
+           "영상의 실제 주제를 그대로 요약하라(특정 산업에 끼워 맞추지 말 것)." if force else "")
+    )
+    print(f"  [영상분석] Gemini 가 영상을 직접 확인합니다 — {url}", file=sys.stderr)
+    resp = _generate_from_video(client, model, types, prompt, url)
+    _video_used += 1
+    data = json.loads(_strip_fences(resp.text))
+    data["_transcript_source"] = "gemini-video"
+    data["_scope"] = scope
+    return data
+
+
 def _context_len(transcript: str, meta: dict[str, Any]) -> int:
     """요약 근거로 쓸 수 있는 실제 본문 길이(제목은 근거로 치지 않는다)."""
     return len((transcript or "").strip()) + len((meta.get("description") or "").strip())
@@ -474,6 +554,13 @@ def verify_relevance(data: dict[str, Any], meta: dict[str, Any], transcript: str
     out = _tokens(data.get("title", "")) | _tokens(data.get("meta_description", ""))
     if not out:
         raise InsufficientContext("생성 결과가 비어 있음")
+
+    # Gemini 가 영상을 직접 본 경우, 근거는 영상 자체이고 대조할 원본 텍스트는 제목뿐이다.
+    # 제목이 "[LIVE] 1월 5일 방송"처럼 내용어가 거의 없으면 겹침 0 이 정상이므로,
+    # 비교할 만한 단어가 충분할 때만 겹침을 요구한다.
+    if data.get("_transcript_source") == "gemini-video" and len(src) < 3:
+        return
+
     overlap = len(src & out)
     if overlap == 0:
         raise InsufficientContext(
@@ -529,6 +616,12 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
     impl_title = ("📊 산업·시장 시사점" if data.get("_scope") == "general"
                   else "🔋 이차전지 산업 시사점")
 
+    # 무엇을 근거로 썼는지 헤더에 밝힌다 (자막 / 설명글 / 영상 직접 시청)
+    src_label = {
+        "gemini-video": "🎥 영상 직접 분석",
+        "video-description": "📝 영상 설명글 기반",
+    }.get(data.get("_transcript_source", ""), "🎬 영상")
+
     # 08 용어 사전 표 (컬러 헤더 행)
     gloss_rows = "".join(
         f'<tr><td class="k">{e(g["term"])}</td><td>{e(g["desc"])}</td>'
@@ -549,7 +642,7 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
   <header class="report-hero">
     <div class="wrap">
       <div class="hero-meta">
-        <span class="hero-tag">{channel}</span><span>·</span><span>{the_date}</span><span>·</span><span>🎬 영상</span>
+        <span class="hero-tag">{channel}</span><span>·</span><span>{the_date}</span><span>·</span><span>{src_label}</span>
         <nav class="top-nav">
           <a class="home-btn" href="../news/" title="홈으로" aria-label="홈으로 이동">홈</a>
           <a class="home-btn" href="../glossary/?v=21" title="이차전지 용어집">용어집</a>
@@ -595,9 +688,28 @@ def process_video(meta: dict[str, Any], force: bool = False,
     근거가 부족하거나(InsufficientContext) 원본과 무관하면 예외를 던져 생성을 막는다.
     """
     transcript, source = get_transcript(meta["video_id"])
-    data = analyze(meta, transcript, source, force=force, scope=scope)
+    try:
+        data = analyze(meta, transcript, source, force=force, scope=scope)
+    except InsufficientContext:
+        # 자막도 설명도 못 구했다(러너 IP 차단). 포기하기 전에 Gemini 에게 영상을
+        # 직접 보게 한다 — 구글 서버가 영상을 가져오므로 IP 차단의 영향을 받지 않는다.
+        if not (force or _video_budget_left()):
+            raise
+        try:
+            data = analyze_video_direct(meta, force=force, scope=scope)
+        except QuotaExhausted:
+            raise
+        except Exception as exc:  # noqa: BLE001
+            raise InsufficientContext(
+                f"영상 직접 분석도 실패: {' '.join(str(exc).split())[:120]}") from exc
+        source = "gemini-video"
 
     if not data.get("relevant"):
+        # 영상을 직접 요청받았는데 무관 판정이면, 모델이 영상을 열지 못했다는 뜻이다
+        # (프롬프트에서 '파악 불가 시 relevant=false' 로 지시). 조용히 넘기지 않는다.
+        if force and source == "gemini-video":
+            raise InsufficientContext("Gemini 가 영상 내용을 파악하지 못했습니다"
+                                      "(비공개·연령제한·진행 중인 라이브일 수 있음)")
         DRAFTS_DIR.mkdir(exist_ok=True)
         (DRAFTS_DIR / f"{meta['video_id']}.json").write_text(
             json.dumps({"meta": meta, "reason": "무관"}, ensure_ascii=False, indent=2))

@@ -26,8 +26,30 @@ def _extract_url(text: str) -> str | None:
     return m.group(0).rstrip(").,>]") if m else None
 
 
+def _oembed_meta(video_id: str) -> tuple[str, str]:
+    """유튜브 oEmbed 로 제목·채널만 조회. (title, channel)
+
+    러너 IP 가 차단돼 yt-dlp 가 실패해도 oEmbed 는 살아 있는 경우가 많다.
+    설명글은 주지 않으므로 '근거'로는 못 쓰고, 표시용 제목을 살리는 용도다.
+    """
+    try:
+        import requests
+
+        r = requests.get("https://www.youtube.com/oembed",
+                         params={"url": f"https://www.youtube.com/watch?v={video_id}",
+                                 "format": "json"}, timeout=15)
+        if r.status_code != 200:
+            print(f"  [oembed] status={r.status_code}", file=sys.stderr)
+            return "", ""
+        j = r.json()
+        return (j.get("title") or ""), (j.get("author_name") or "")
+    except Exception as exc:  # noqa: BLE001
+        print(f"  [oembed] 실패({' '.join(str(exc).split())[:80]})", file=sys.stderr)
+        return "", ""
+
+
 def _fetch_meta(url: str, video_id: str) -> dict:
-    """yt-dlp 로 단일 영상 메타(제목·채널·게시일) 조회. 실패해도 최소 메타로 진행."""
+    """yt-dlp → oEmbed 순으로 메타(제목·채널·게시일) 조회. 실패해도 최소 메타로 진행."""
     title, channel, published = "", "제출된 영상", ""
     try:
         import yt_dlp
@@ -42,8 +64,13 @@ def _fetch_meta(url: str, video_id: str) -> dict:
             published = f"{ud[:4]}-{ud[4:6]}-{ud[6:]}"
         desc = info.get("description") or ""
     except Exception as exc:  # noqa: BLE001
-        print(f"  [yt-dlp] 메타 조회 실패({exc}) — 최소 메타로 진행", file=sys.stderr)
+        print(f"  [yt-dlp] 메타 조회 실패({' '.join(str(exc).split())[:80]}) — oEmbed 시도",
+              file=sys.stderr)
         desc = ""
+    if not title:
+        title, ch = _oembed_meta(video_id)
+        if ch:
+            channel = ch
     return {
         "video_id": video_id,
         "title": title or f"영상 {video_id}",
@@ -97,9 +124,10 @@ def main() -> int:
                        "할당량 리셋 후 다시 시도해 주세요.")
         return 0
     except InsufficientContext as exc:
-        _emit("error", f"이 영상은 자막·설명을 확보하지 못해 요약하지 않았습니다({exc}). "
-                       "잘못된 내용이 올라가는 것을 막기 위한 조치입니다. "
-                       "자막이 있는 영상으로 다시 시도해 주세요.")
+        _emit("error", f"이 영상은 내용을 확인하지 못해 요약하지 않았습니다({exc}). "
+                       "자막·설명을 못 가져왔고, Gemini 가 영상을 직접 여는 것도 실패했습니다. "
+                       "비공개·연령제한·현재 진행 중인 라이브 영상이면 요약할 수 없습니다. "
+                       "잘못된 내용이 올라가는 것을 막기 위한 조치예요.")
         return 0
     except Exception as exc:  # noqa: BLE001
         _emit("error", f"요약 중 오류가 발생했습니다: {exc}")

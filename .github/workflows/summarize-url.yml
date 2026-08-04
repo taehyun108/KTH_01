@@ -5,6 +5,13 @@ name: Summarize submitted URL
 on:
   issues:
     types: [opened]
+  # 수동 검증용 — URL 을 직접 넣어 요약 경로를 점검할 수 있다
+  workflow_dispatch:
+    inputs:
+      video_url:
+        description: "요약할 유튜브 URL"
+        required: true
+        type: string
 
 permissions:
   contents: write   # 새 리포트/인덱스를 main 에 커밋
@@ -13,9 +20,11 @@ permissions:
 jobs:
   summarize:
     if: >-
-      startsWith(github.event.issue.title, '[요약]') &&
-      github.event.issue.user.login == github.repository_owner
+      github.event_name == 'workflow_dispatch' ||
+      (startsWith(github.event.issue.title, '[요약]') &&
+       github.event.issue.user.login == github.repository_owner)
     runs-on: ubuntu-latest
+    timeout-minutes: 25   # Gemini 영상 직접 분석은 몇 분 걸릴 수 있다
     steps:
       - uses: actions/checkout@v4
 
@@ -31,6 +40,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
           ISSUE_BODY: ${{ github.event.issue.body }}
+          VIDEO_URL: ${{ inputs.video_url }}
         run: python scripts/summarize_url.py
 
       - name: Commit new report
@@ -39,14 +49,14 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           if [ -n "$(git status --porcelain site/)" ]; then
             git add site/
-            git commit -m "chore: add on-demand report (issue #${{ github.event.issue.number }})"
+            git commit -m "chore: add on-demand report (${{ github.event_name == 'issues' && format('issue #{0}', github.event.issue.number) || 'manual' }})"
             git push
           else
             echo "변경 사항 없음"
           fi
 
       - name: Comment result and close issue
-        if: always()
+        if: always() && github.event_name == 'issues'
         uses: actions/github-script@v7
         with:
           script: |
