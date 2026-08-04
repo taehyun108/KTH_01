@@ -36,6 +36,30 @@ export function weekdayKo(w: number): string {
   return ["일", "월", "화", "수", "목", "금", "토"][w] ?? "";
 }
 
+// ── 다국어 이름 표기 (한국어 · 영어 · 현지어) ─────────────────────────
+export interface NamedPlace {
+  name: string; // 현지(원어)
+  name_en?: string;
+  name_ko?: string;
+}
+
+/** 한국어 · 영어 · 현지어를 함께 표기(중복 제거). 예) "오사카성 · Osaka Castle · 大阪城". */
+export function displayName(p: NamedPlace | null | undefined): string {
+  if (!p) return "";
+  const parts = [p.name_ko, p.name_en, p.name].filter(
+    (v): v is string => !!v && v.trim().length > 0,
+  );
+  const seen = new Set<string>();
+  const uniq = parts.filter((v) => (seen.has(v) ? false : (seen.add(v), true)));
+  return uniq.join(" · ");
+}
+
+/** 지도/검색에 쓸 대표 이름 — 영어 우선, 없으면 현지어(정확도). */
+export function searchName(p: NamedPlace | null | undefined): string {
+  if (!p) return "";
+  return p.name_en || p.name || p.name_ko || "";
+}
+
 // ── 외부 지도/검색 링크 (키 불필요, 무료) ─────────────────────────────
 export interface LatLng {
   lat: number;

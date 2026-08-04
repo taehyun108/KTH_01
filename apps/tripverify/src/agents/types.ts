@@ -15,6 +15,8 @@ export interface TripQuery {
   budget_krw?: number;
   style: TravelStyle[];
   transport: TransportMode[];
+  /** 여행 컨셉/느낌(자유 입력) — 장소 선별에 반영. */
+  concept?: string;
 }
 
 /** 여행 구성원 구성. */

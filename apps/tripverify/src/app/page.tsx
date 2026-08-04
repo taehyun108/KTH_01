@@ -20,6 +20,7 @@ function defaultQuery(): TripQuery {
     budget_krw: 2_000_000,
     style: ["history", "food"],
     transport: ["transit"],
+    concept: "유명 명소와 미식 위주로 느긋하게",
   };
 }
 

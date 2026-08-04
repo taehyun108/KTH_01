@@ -156,6 +156,17 @@ export function Planner({
           </div>
         </div>
 
+        <div>
+          <span className="text-xs opacity-70">여행 컨셉 / 느낌 (자유 입력)</span>
+          <textarea
+            className="input mt-1 w-full"
+            rows={2}
+            placeholder="예) 유명 명소와 미식 위주로 느긋하게 / 역사·사찰 중심 / 인스타 감성 뷰맛집"
+            value={form.concept ?? ""}
+            onChange={(e) => setForm({ ...form, concept: e.target.value })}
+          />
+        </div>
+
         <button type="submit" disabled={plan.isPending}
           className="w-full rounded-lg bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700 disabled:opacity-50">
           {plan.isPending ? "검증 중…" : "이 조건으로 다시 생성"}

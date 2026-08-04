@@ -15,6 +15,7 @@ export const TripQuerySchema = z
     budget_krw: z.number().int().positive().optional(),
     style: z.array(z.enum(["relax", "food", "history", "activity"])).min(1),
     transport: z.array(z.enum(["walk", "transit", "car"])).min(1),
+    concept: z.string().max(300).optional(),
   })
   .refine((q) => Date.parse(q.end_date) >= Date.parse(q.start_date), {
     message: "end_date 는 start_date 이후여야 함",

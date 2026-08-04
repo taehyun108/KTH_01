@@ -34,7 +34,9 @@ export interface WeatherDay {
 
 // --- poi-agent → pois.json ---
 export interface Poi {
-  name: string;
+  name: string; // 현지(원어) 이름 — OSM 'name'
+  name_en?: string; // 영어 이름 — OSM 'name:en'
+  name_ko?: string; // 한국어 이름 — OSM 'name:ko'
   location: GeoPoint;
   /** 요일별 운영시간 [0=일 … 6=토], "HH:MM-HH:MM" 또는 null(휴무). */
   opening_hours?: (string | null)[];
@@ -46,12 +48,15 @@ export interface Poi {
 // --- food-agent → restaurants.json ---
 export interface Restaurant {
   name: string;
+  name_en?: string;
+  name_ko?: string;
   location: GeoPoint;
   opening_hours?: (string | null)[];
   closed_days?: number[];
   /** 1~4 (저렴~고가). */
   price_level?: 1 | 2 | 3 | 4;
   reservation_required?: boolean;
+  cuisine?: string;
 }
 
 // --- flight-agent → flights.json ---

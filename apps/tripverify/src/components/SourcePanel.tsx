@@ -7,6 +7,7 @@ import {
   googleMapsCoord,
   naverBlogSearch,
   naverMapSearch,
+  searchName,
 } from "@/lib/format";
 
 /** 값이 좌표를 가진 '장소'인지 판별하고 좌표를 뽑는다. */
@@ -60,14 +61,18 @@ export function SourcePanel({
       )}
 
       {/* 장소면 구글지도/네이버 최신정보 바로가기 */}
-      {placeLoc(fact.value) && (
-        <div className="mb-4 grid grid-cols-2 gap-2 text-sm">
-          <LinkBtn href={googleMapsPlace(data.title)} label="🗺️ 구글지도" />
-          <LinkBtn href={googleMapsCoord(placeLoc(fact.value)!)} label="📍 정확한 위치" />
-          <LinkBtn href={naverBlogSearch(data.title)} label="📝 네이버 블로그 후기" />
-          <LinkBtn href={naverMapSearch(data.title)} label="🧭 네이버 지도" />
-        </div>
-      )}
+      {placeLoc(fact.value) &&
+        (() => {
+          const sname = searchName(fact.value as never) || data.title;
+          return (
+            <div className="mb-4 grid grid-cols-2 gap-2 text-sm">
+              <LinkBtn href={googleMapsPlace(sname)} label="🗺️ 구글지도" />
+              <LinkBtn href={googleMapsCoord(placeLoc(fact.value)!)} label="📍 정확한 위치" />
+              <LinkBtn href={naverBlogSearch(sname)} label="📝 네이버 블로그 후기" />
+              <LinkBtn href={naverMapSearch(sname)} label="🧭 네이버 지도" />
+            </div>
+          );
+        })()}
 
       <section className="mb-4">
         <h3 className="mb-2 text-sm font-semibold opacity-70">

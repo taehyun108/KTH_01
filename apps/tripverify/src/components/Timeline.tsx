@@ -6,8 +6,9 @@ import {
   minutesLabel,
   weekdayKo,
   googleMapsPlace,
-  googleMapsCoord,
   naverBlogSearch,
+  displayName,
+  searchName,
 } from "@/lib/format";
 
 const DAY_COLORS = ["#2563eb", "#db2777", "#059669", "#d97706", "#7c3aed", "#0891b2", "#dc2626"];
@@ -51,41 +52,43 @@ export function Timeline({
                     {item.travel_from_prev.estimated ? " (추정)" : ""} · {item.travel_from_prev.source_name}
                   </div>
                 )}
-                <div className="flex items-center justify-between gap-2">
-                  <div className="min-w-0">
-                    <span className="mr-2 text-sm tabular-nums opacity-70">
-                      {item.start}–{item.end}
-                    </span>
-                    <a
-                      href={
-                        item.place.value
-                          ? googleMapsPlace(item.name, day.city)
-                          : googleMapsCoord({ lat: 0, lng: 0 })
-                      }
-                      target="_blank"
-                      rel="noreferrer"
-                      className="font-medium hover:underline"
-                      title="구글지도에서 보기"
-                    >
-                      {item.kind === "food" ? "🍽 " : "📍 "}
-                      {item.name}
-                    </a>
-                  </div>
-                  <div className="flex shrink-0 items-center gap-2">
-                    <a
-                      href={naverBlogSearch(`${item.name} ${day.city}`)}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-xs opacity-60 hover:opacity-100"
-                      title="네이버 블로그 최신 후기"
-                    >
-                      📝후기
-                    </a>
-                    <button onClick={() => onSelect(item.place, item.name)} title="출처·검증 보기">
-                      <ConfidenceBadge confidence={item.place.confidence} />
-                    </button>
-                  </div>
-                </div>
+                {(() => {
+                  const disp = displayName(item.place.value) || item.name;
+                  const sname = searchName(item.place.value) || item.name;
+                  return (
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="min-w-0">
+                        <span className="mr-2 text-sm tabular-nums opacity-70">
+                          {item.start}–{item.end}
+                        </span>
+                        <a
+                          href={googleMapsPlace(sname, day.city)}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="font-medium hover:underline"
+                          title="구글지도에서 보기"
+                        >
+                          {item.kind === "food" ? "🍽 " : "📍 "}
+                          {disp}
+                        </a>
+                      </div>
+                      <div className="flex shrink-0 items-center gap-2">
+                        <a
+                          href={naverBlogSearch(`${sname} ${day.city}`)}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-xs opacity-60 hover:opacity-100"
+                          title="네이버 블로그 최신 후기"
+                        >
+                          📝후기
+                        </a>
+                        <button onClick={() => onSelect(item.place, disp)} title="출처·검증 보기">
+                          <ConfidenceBadge confidence={item.place.confidence} />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })()}
               </li>
             ))}
           </ol>

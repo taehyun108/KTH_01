@@ -12,16 +12,25 @@ import { haversineMeters } from "@/lib/geo";
  */
 
 export interface PoiSeed {
-  name: string;
+  name: string; // 현지(원어)
+  name_en?: string;
+  name_ko?: string;
   location: GeoPoint;
   opening_hours?: (string | null)[];
   admission_fee_local?: number | null;
+  /** 선별용 카테고리 버킷(poi-select). */
+  categories?: string[];
+  /** 위키데이터/위키백과 태그 보유(유명도). */
+  notable?: boolean;
 }
 export interface RestaurantSeed {
   name: string;
+  name_en?: string;
+  name_ko?: string;
   location: GeoPoint;
   opening_hours?: (string | null)[];
   price_level?: 1 | 2 | 3 | 4;
+  cuisine?: string;
 }
 export interface WikiArticle {
   title: string;
@@ -49,6 +58,8 @@ export function buildPoiFacts(
   return seeds.map((seed) => {
     const poi: Poi = {
       name: seed.name,
+      ...(seed.name_en ? { name_en: seed.name_en } : {}),
+      ...(seed.name_ko ? { name_ko: seed.name_ko } : {}),
       location: seed.location,
       ...(seed.opening_hours ? { opening_hours: seed.opening_hours } : {}),
       ...(seed.admission_fee_local !== undefined ? { admission_fee_local: seed.admission_fee_local } : {}),
@@ -78,9 +89,12 @@ export function buildRestaurantFacts(
   return seeds.map((seed) => {
     const r: Restaurant = {
       name: seed.name,
+      ...(seed.name_en ? { name_en: seed.name_en } : {}),
+      ...(seed.name_ko ? { name_ko: seed.name_ko } : {}),
       location: seed.location,
       ...(seed.opening_hours ? { opening_hours: seed.opening_hours } : {}),
       ...(seed.price_level !== undefined ? { price_level: seed.price_level } : {}),
+      ...(seed.cuisine ? { cuisine: seed.cuisine } : {}),
     };
     return verify<Restaurant>(
       [{ value: r, source: { ...OSM_SOURCE, retrieved_at: iso }, pass: 1 }],
