@@ -18,6 +18,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # GitHub 기본 한도는 6시간이다. 거기까지 가면 job 이 '취소'되면서
+    # 커밋 단계가 건너뛰어져 그때까지 만든 리포트를 통째로 잃는다.
+    # 정상 실행은 3~15분이므로 넉넉히 잡되 한참 앞에서 끊는다.
+    timeout-minutes: 60
     env:
       PYTHONUNBUFFERED: "1"   # 로그가 버퍼링돼 순서가 뒤섞이면 원인 추적이 어려워짐
     steps:
@@ -44,6 +48,8 @@ jobs:
           # 자막이 막힌 환경에서 Gemini 가 영상을 직접 보고 쓰는 리포트의 실행당 상한.
           # 무료 티어의 하루 영상 처리 한도(약 8시간)를 넘지 않도록 40분 × 5건으로 잡음.
           VIDEO_ANALYSIS_MAX: "5"
+          # 러너 한도에 닿기 전에 스스로 마무리하도록 하는 처리 시간 상한(분)
+          PIPELINE_BUDGET_MIN: "35"
         run: python scripts/run_pipeline.py
 
       # 남은 쿼터로 옛 말투(v1) 리포트를 새 말투(v2)로 교체 — 며칠에 걸쳐 점진 완료
@@ -53,7 +59,9 @@ jobs:
           REGEN_MAX: "8"   # 최신 수집 몫을 남기기 위해 1회 실행당 상한
         run: python scripts/regenerate.py
 
+      # 앞 단계가 실패하더라도 이미 생성된 리포트는 저장한다 (작업 유실 방지)
       - name: Commit new reports
+        if: always()
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

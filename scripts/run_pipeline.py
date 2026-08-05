@@ -11,6 +11,7 @@ from __future__ import annotations
 import os
 import re
 import sys
+import time
 from collections import defaultdict
 from datetime import date, timedelta
 
@@ -19,6 +20,13 @@ from generate_report import (process_video, QuotaExhausted, InsufficientContext,
                              MIN_CONTEXT_CHARS, VIDEO_ANALYSIS_MAX, video_usage)
 from build_index import merge, load_existing
 from config import MAX_CANDIDATES_PER_RUN
+
+# 실행 시간 상한(분). 이 시간을 넘기면 처리를 멈추고, 그때까지 만든 리포트를
+# 정상적으로 저장한 뒤 종료한다.
+#   ※ GitHub Actions 의 job 한도(6시간)에 걸려 '취소'되면 이후 커밋 단계가 통째로
+#     건너뛰어져, 이미 만들어 둔 리포트까지 버려진다(2026-08-05 저녁 실행에서 발생).
+#     한도에 닿기 한참 전에 우리 손으로 끝내는 것이 안전하다.
+TIME_BUDGET_MIN = int(os.getenv("PIPELINE_BUDGET_MIN", "35"))
 
 
 def _extract_video_id(url: str) -> str | None:
@@ -117,7 +125,15 @@ def main() -> int:
 
     new_reports = []
     n_drafts = n_error = n_skip = 0
-    for meta in fresh:
+    started = time.monotonic()
+    budget = TIME_BUDGET_MIN * 60
+    n_left = 0
+    for i, meta in enumerate(fresh):
+        if time.monotonic() - started > budget:
+            n_left = len(fresh) - i
+            print(f"  ! 시간 상한({TIME_BUDGET_MIN}분) 도달 — 여기서 마무리합니다 "
+                  f"(남은 후보 {n_left}건은 다음 실행에서 처리)", file=sys.stderr)
+            break
         try:
             result = process_video(meta)
             if result:
@@ -142,6 +158,8 @@ def main() -> int:
         merge(new_reports)
     # 한 줄 결산 — '왜 오늘 업데이트가 적은지'를 로그 한 줄로 알 수 있게 한다
     v_ok, v_fail = video_usage()
+    if n_left:
+        print(f"  (시간 상한으로 {n_left}건 미처리 — 다음 실행에서 이어서 처리합니다)")
     print(f"완료 — 신규 {len(new_reports)}건 · 무관판정 {n_drafts}건 · 근거부족 건너뜀 {n_skip}건 · "
           f"오류 {n_error}건 (후보 {len(candidates)} → 신규후보 {len(fresh)})")
     print(f"  영상 직접 분석: 성공 {v_ok}건 / 실패 {v_fail}건 (실행당 상한 {VIDEO_ANALYSIS_MAX}건)")

@@ -333,11 +333,23 @@ _MODEL = None
 _MODEL_PREFS = ("flash-latest", "2.5-flash", "flash", "pro-latest", "2.5-pro", "pro")
 
 
+# 한 번의 API 요청이 응답 없이 매달릴 수 있는 최대 시간(초).
+# 영상 직접 분석은 오래 걸리므로 넉넉히 잡되, 무한 대기는 반드시 막는다.
+#   ※ 이 값이 없어서 2026-08-05 저녁 실행이 한 요청에 5시간 54분을 매달렸고,
+#     GitHub 의 6시간 한도에 걸려 job 이 취소되면서 그때까지 만든 리포트까지 버려졌다.
+REQUEST_TIMEOUT_SEC = int(os.getenv("GEMINI_TIMEOUT_SEC", "300"))
+
+
 def _get_client():
     global _CLIENT
     if _CLIENT is None:
         from google import genai
-        _CLIENT = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+        from google.genai import types
+        _CLIENT = genai.Client(
+            api_key=os.environ["GEMINI_API_KEY"],
+            # HttpOptions.timeout 단위는 밀리초
+            http_options=types.HttpOptions(timeout=REQUEST_TIMEOUT_SEC * 1000),
+        )
     return _CLIENT
 
 
