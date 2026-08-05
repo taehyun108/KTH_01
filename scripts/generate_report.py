@@ -618,6 +618,52 @@ def verify_relevance(data: dict[str, Any], meta: dict[str, Any], transcript: str
 
 
 # ---------------------------------------------------------------------------
+# 말투만 다시 쓰기 (재생성용)
+# ---------------------------------------------------------------------------
+# 자막을 못 받는 환경에서 '말투 교체'를 하려고 원본 자막을 다시 받으려 하면
+# 영원히 실패한다. 하지만 말투를 바꾸는 데 필요한 것은 자막이 아니라
+# <이미 만들어 둔 리포트 본문>이다. 그것을 근거로 다시 쓰면 사실 관계도 보존된다.
+REWRITE_PROMPT = """아래는 이미 작성된 한국어 리포트다. 내용(사실·수치·주장·구성)은
+그대로 두고 <말투와 표현만> 아래 원칙에 맞게 다시 써라.
+
+[가장 중요]
+· 사실을 추가하거나 삭제하지 마라. 없는 수치를 만들지 마라.
+· 섹션 구성과 순서를 그대로 유지하라.
+· 오직 문장의 어투·표현만 바꾼다.
+
+"""
+
+
+def rewrite_tone(existing: dict[str, Any], body_text: str,
+                 scope: str = "battery") -> dict[str, Any]:
+    """기존 리포트 본문을 근거로 말투만 새 버전으로 다시 쓴다."""
+    from google.genai import types
+
+    client = _get_client()
+    model = _resolve_model(client)
+    sys_p, spec = ((SYSTEM_PROMPT_GENERAL, JSON_SPEC_GENERAL) if scope == "general"
+                   else (SYSTEM_PROMPT, JSON_SPEC))
+    # 말투 원칙만 떼어 와서 붙인다(관련성 판단·분류 지시는 다시 하지 않는다)
+    tone_rules = sys_p.split("[말투·표현 원칙")[1].split("\n1.")[0]
+    prompt = (
+        f"{REWRITE_PROMPT}[말투·표현 원칙{tone_rules}\n\n{spec}\n\n"
+        f"--- 기존 리포트 ---\n채널: {existing.get('channel','')}\n"
+        f"제목: {existing.get('title','')}\n본문:\n{body_text[:30000]}\n\n"
+        f"category 는 \"{existing.get('category','macro')}\", "
+        f"relation 은 \"{existing.get('relation','indirect')}\", relevant 는 true 로 두어라."
+    )
+    resp = _generate(client, model, types, prompt)
+    data = json.loads(_strip_fences(resp.text))
+    # 분류는 기존 값을 신뢰한다(말투만 바꾸는 작업이므로)
+    data["category"] = existing.get("category") or data.get("category")
+    data["relation"] = existing.get("relation") or data.get("relation")
+    data["relevant"] = True
+    data["_scope"] = scope
+    data["_transcript_source"] = existing.get("src", "")
+    return data
+
+
+# ---------------------------------------------------------------------------
 # HTML 렌더
 # ---------------------------------------------------------------------------
 def slugify(title: str) -> str:
