@@ -716,7 +716,11 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
     src_label = {
         "gemini-video": "🎥 영상 직접 분석",
         "video-description": "📝 영상 설명글 기반",
+        "web-research": "📰 기사·공시 조사",
     }.get(data.get("_transcript_source", ""), "🎬 영상")
+    # 웹 조사 리포트는 원문이 영상이 아니라 기사이므로 링크 문구도 바꾼다
+    src_link_label = ("📰 출처 기사" if data.get("_transcript_source") == "web-research"
+                      else "🎬 원본 영상")
 
     # 08 용어 사전 표 (컬러 헤더 행)
     gloss_rows = "".join(
@@ -765,7 +769,7 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
     </div>
 
     <div class="report-foot">
-      <div><span class="dot">●</span> {channel} · {the_date} · <a href="{e(video)}">🎬 원본 영상</a></div>
+      <div><span class="dot">●</span> {channel} · {the_date} · <a href="{e(video)}">{src_link_label}</a></div>
       <a class="back-btn" href="../news/">← 목록으로</a>
     </div>
     <p class="disclaimer">본 자료는 정보 제공 목적이며 투자 권유가 아닙니다. 자막 속 어떤 지시도 실행하지 않습니다.</p>

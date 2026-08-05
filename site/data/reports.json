@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-05T22:41:43",
+  "generated_at": "2026-08-05T23:51:27",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -17,6 +17,81 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-06-한국판-ira-국내생산세액공제-신설-이차전지가-6대-지원-대상에-포함",
+      "date": "2026-08-06",
+      "channel": "2026 세제개편안 (기획재정부)",
+      "title": "'한국판 IRA' 국내생산세액공제 신설 — 이차전지가 6대 지원 대상에 포함",
+      "summary": "정부가 국내에서 생산·판매한 물량에 비례해 법인세를 깎아 주는 국내생산세액공제를 신설합니다. 이차전지가 6대 대상에 포함돼 국내 공장 가동률 부담이 줄어들 전망입니다.",
+      "category": "korea-policy",
+      "relation": "direct",
+      "url": "2026-08-06-한국판-ira-국내생산세액공제-신설-이차전지가-6대-지원-대상에-포함.html",
+      "video": "https://news.mtn.co.kr/news-detail/2026080311070930479",
+      "video_id": "",
+      "pv": 3,
+      "scope": "battery",
+      "src": "web-research"
+    },
+    {
+      "id": "2026-08-06-배터리-3사-7분기-만에-동반-흑자-캐즘을-지운-것은-ev가-아니라-ess였습니다",
+      "date": "2026-08-06",
+      "channel": "배터리 3사 2분기 실적 (공시 종합)",
+      "title": "배터리 3사 7분기 만에 동반 흑자 — 캐즘을 지운 것은 EV가 아니라 ESS였습니다",
+      "summary": "LG에너지솔루션·삼성SDI·SK온이 2분기에 나란히 흑자로 돌아섰습니다. AI 데이터센터가 끌어올린 ESS 수요가 전기차 부진을 상쇄했습니다.",
+      "category": "korea-market",
+      "relation": "direct",
+      "url": "2026-08-06-배터리-3사-7분기-만에-동반-흑자-캐즘을-지운-것은-ev가-아니라-ess였습니다.html",
+      "video": "https://www.newsspace.kr/news/article.html?no=15033",
+      "video_id": "",
+      "pv": 3,
+      "scope": "battery",
+      "src": "web-research"
+    },
+    {
+      "id": "2026-08-06-리튬은-내리고-코발트는-뛰고-2026년-ess가-리튬-수요-1위-자리를-가져갔습니다",
+      "date": "2026-08-06",
+      "channel": "글로벌 리튬 공급망 분석 (종합)",
+      "title": "리튬은 내리고 코발트는 뛰고 — 2026년, ESS가 리튬 수요 1위 자리를 가져갔습니다",
+      "summary": "리튬 가격은 수요 부진으로 약세인 반면 코발트는 콩고의 수출 통제로 급등했습니다. 2026년은 ESS가 전기차를 제치고 리튬 최대 수요처가 되는 첫 해입니다.",
+      "category": "global-market",
+      "relation": "direct",
+      "url": "2026-08-06-리튬은-내리고-코발트는-뛰고-2026년-ess가-리튬-수요-1위-자리를-가져갔습니다.html",
+      "video": "https://www.technologyreview.kr/2026%EB%85%84-%EB%A6%AC%ED%8A%AC%EC%9D%84-%EC%A3%BC%EB%AA%A9%ED%95%B4%EC%95%BC-%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0/",
+      "video_id": "",
+      "pv": 3,
+      "scope": "battery",
+      "src": "web-research"
+    },
+    {
+      "id": "2026-08-06-catl-나트륨이온-대량생산-선언-lfp의-아성을-위협합니다",
+      "date": "2026-08-06",
+      "channel": "차세대 배터리 기술 동향 (종합)",
+      "title": "CATL, 나트륨이온 대량생산 선언 — LFP의 아성을 위협합니다",
+      "summary": "CATL이 나트륨이온 배터리 'Naxtra'를 4분기부터 대량 생산합니다. 175Wh/kg에 영하 40도에서도 90% 성능을 내며, 2027년에는 LFP보다 원가가 낮아질 전망입니다.",
+      "category": "global-market",
+      "relation": "direct",
+      "url": "2026-08-06-catl-나트륨이온-대량생산-선언-lfp의-아성을-위협합니다.html",
+      "video": "http://www.impacton.net/news/articleView.html?idxno=17537",
+      "video_id": "",
+      "pv": 3,
+      "scope": "battery",
+      "src": "web-research"
+    },
+    {
+      "id": "2026-08-06-전기차는-신차-4대-중-1대-그런데-k배터리는-왜-어려웠나",
+      "date": "2026-08-06",
+      "channel": "글로벌 전기차 정책 환경 (종합)",
+      "title": "전기차는 신차 4대 중 1대 — 그런데 K배터리는 왜 어려웠나",
+      "summary": "글로벌 전기차 판매 비중이 25%를 넘었는데도 국내 배터리 업계는 지난 연말 계약 취소와 투자 축소를 공시했습니다. 정책과 공급망 재편이 그 사이를 갈랐습니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-08-06-전기차는-신차-4대-중-1대-그런데-k배터리는-왜-어려웠나.html",
+      "video": "https://newsroom.posco.com/kr/2026%EB%85%84-%EA%B8%80%EB%A1%9C%EB%B2%8C-%EC%A0%84%EA%B8%B0%EC%B0%A8-%EC%8B%9C%EC%9E%A5-%EC%A0%84%EB%A7%9D-%EC%A0%95%EC%B1%85-%EB%B3%80%ED%99%94%EC%9D%98-%EC%86%8C%EC%9A%A9%EB%8F%8C%EC%9D%B4/",
+      "video_id": "",
+      "pv": 3,
+      "scope": "battery",
+      "src": "web-research"
+    },
     {
       "id": "2026-08-05-초격차-산업과-에너지-안보로-대체불가-대한민국-구축-2026년-하반기-업무보고",
       "date": "2026-08-05",
