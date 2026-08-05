@@ -31,6 +31,25 @@ const save = (k, s) => localStorage.setItem(k, JSON.stringify([...s]));
 let favs = load(LS_FAV);
 let hidden = load(LS_HIDE);
 
+/* 즐겨찾기·숨김은 리포트 id 를 브라우저에 저장한다. 그런데 리포트가 영구 삭제되거나
+   재생성되며 id(슬러그)가 바뀌면, 저장된 id 는 남고 대응하는 리포트는 사라진다.
+   그러면 "숨김 1건"이라고 뜨는데 목록은 비어 있는 상태가 된다.
+   → 데이터를 읽은 직후 실제로 존재하지 않는 id 를 걷어내고 저장까지 갱신한다. */
+function pruneStaleIds() {
+  const live = new Set(ALL.map(r => r.id));
+  for (const [key, set] of [[LS_FAV, favs], [LS_HIDE, hidden]]) {
+    const stale = [...set].filter(id => !live.has(id));
+    if (!stale.length) continue;
+    stale.forEach(id => set.delete(id));
+    save(key, set);
+    console.info(`[정리] 사라진 리포트 ${stale.length}건을 ${key} 에서 제거했습니다.`, stale);
+  }
+}
+
+/* 화면에 실제로 보여줄 수 있는 건수만 센다(저장된 id 개수가 아니라).
+   pruneStaleIds 가 이미 정리하지만, 계산 자체도 데이터 기준으로 두어 두 번 막는다. */
+const countLive = (set) => ALL.reduce((n, r) => n + (set.has(r.id) ? 1 : 0), 0);
+
 function catVar(cat) {
   return getComputedStyle(document.documentElement).getPropertyValue('--c-' + cat).trim() || '#64748b';
 }
@@ -61,8 +80,10 @@ function renderPills() {
 
   const items = [['all', `전체`, total]];
   for (const [k, m] of Object.entries(CATEGORIES)) items.push([k, `${m.emoji} ${m.label}`, counts[k] || 0]);
-  items.push(['fav', `⭐ 즐겨찾기`, favs.size]);
-  items.push(['hidden', `🗑 숨김`, hidden.size]);
+  // 숨긴 리포트는 즐겨찾기 목록에서도 빠지므로(아래 필터와 동일 기준) 그만큼 빼고 센다
+  const favVisible = ALL.reduce((n, r) => n + (favs.has(r.id) && !hidden.has(r.id) ? 1 : 0), 0);
+  items.push(['fav', `⭐ 즐겨찾기`, favVisible]);
+  items.push(['hidden', `🗑 숨김`, countLive(hidden)]);
 
   const el = document.getElementById('pills');
   el.innerHTML = '';
@@ -300,6 +321,7 @@ async function init() {
     const data = await res.json();
     ALL = Array.isArray(data.reports) ? data.reports : [];
     CHANNEL_ROSTER = Array.isArray(data.channels) ? data.channels : [];
+    pruneStaleIds();
     const stamp = document.getElementById('generated');
     if (stamp && data.generated_at) stamp.textContent = '최근 갱신: ' + data.generated_at.replace('T', ' ').slice(0, 16);
   } catch (e) { ALL = []; console.error('reports.json 로드 실패', e); }

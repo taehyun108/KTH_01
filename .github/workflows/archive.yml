@@ -30,12 +30,20 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # 키워드를 손댄 뒤 '국내 정책이 통째로 누락'되거나 '무관한 영상이 쏟아지는'
+      # 회귀를 즉시 잡는다. LLM·네트워크를 쓰지 않아 몇 초면 끝난다.
+      - name: Keyword matching regression test
+        run: PYTHONPATH=scripts python scripts/test_keywords.py
+
       # ※ 순서 중요: '최신 영상 수집'이 먼저 쿼터를 쓰고, 남은 쿼터로 옛 리포트를 재생성한다.
       #   (반대로 하면 재생성이 일일 쿼터를 다 써버려 최신 영상이 계속 밀린다)
       - name: Run pipeline (RSS → 키워드 필터 → Gemini 요약 → HTML → 인덱스)
         env:
           GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
           BACKFILL_SINCE: ${{ github.event.inputs.since }}
+          # 자막이 막힌 환경에서 Gemini 가 영상을 직접 보고 쓰는 리포트의 실행당 상한.
+          # 무료 티어의 하루 영상 처리 한도(약 8시간)를 넘지 않도록 40분 × 5건으로 잡음.
+          VIDEO_ANALYSIS_MAX: "5"
         run: python scripts/run_pipeline.py
 
       # 남은 쿼터로 옛 말투(v1) 리포트를 새 말투(v2)로 교체 — 며칠에 걸쳐 점진 완료

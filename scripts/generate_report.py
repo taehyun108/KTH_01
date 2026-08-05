@@ -48,20 +48,31 @@ SYSTEM_PROMPT = """당신은 경제·시사 유튜브 영상을 '이차전지(�
 1. 먼저 이 콘텐츠가 배터리 셀/소재의 공급(원자재·정책·안전) 또는 수요(ESS·EV·AIDC)와
    실질적으로 연결되는지 판단한다(relevant). 단순 날씨·연예 등 무관하면 relevant=false.
 
-2. 관련이 있으면 5개 카테고리 중 하나로 분류한다.
-   [먼저] 거시경제(macro) 여부: 리포트의 핵심 주제가 '금리·환율·유가·인플레이션·통화정책
-     (연준/한국은행/FOMC)·증시 전반 방향·경기·경제지표' 등 거시 지표/시장 전체 흐름이면 macro.
-   [아니면] 두 축을 조합한다.
-     [축 A] 정책·시사(policy) vs 산업·시황(market):
-       · policy = 핵심 동인이 정부/규제당국/외교의 '제도·정책·규제·정치'.
-         예) 관세·수출규제·무역분쟁, IRA/45X·보조금, 인허가·안전기준·환경규제,
-             지정학·제재·선거, 데이터센터 규제/반대 시위 등.
-       · market = '기업 실적·주가·원자재 가격·판매량·수급·설비투자(CapEx)' 등 시장/기업 지표.
-         예) 셀·소재사 실적, EV 판매량, 리튬 가격, 빅테크 AI 투자.
-     [축 B] 글로벌(global) vs 국내(korea): 주된 무대가 한국이면 korea, 해외면 global.
+2. 관련이 있으면 5개 카테고리 중 하나로 분류한다. 아래 순서대로 판정한다.
+
+   [1순위] 정책·제도가 발단인가? → policy
+     정부·국회·규제당국·외교가 만든 '제도/조치'가 이야기의 출발점이면 policy 다.
+     예) 관세·상호관세·수출통제·무역협상, 세액공제(국내생산세액공제·통합투자세액공제)·
+         보조금·IRA/45X·CHIPS, 특별법·시행령·인허가, 안전기준·환경규제·중대재해,
+         전력수급기본계획·전기요금 결정, 예산·추경, 지정학·제재·선거.
+     ※ 정책이 발단이면, 그 영향으로 물가·환율·증시를 함께 이야기하더라도 macro 가 아니라
+       policy 다. "관세 때문에 물가가 오른다" → policy. 이 착오가 가장 흔하니 주의하라.
+
+   [2순위] 정책이 아니라면 — 순수 거시 지표가 주제인가? → macro
+     정부 조치와 무관하게 '금리·통화정책(연준/한국은행/FOMC)·환율·유가·물가·경기지표·
+     증시 전반 방향'그 자체가 주제이면 macro.
+     예) FOMC 금리 동결 전망, 소비자물가 발표, 코스피 조정, 채권 금리 움직임.
+     ※ 중앙은행의 금리 결정은 macro 로 본다(정부의 산업정책이 아니므로).
+
+   [3순위] 둘 다 아니면 → market
+     '기업 실적·주가·원자재 가격·판매량·수급·설비투자(CapEx)' 등 시장/기업 지표가 핵심.
+     예) 셀·소재사 실적, EV 판매량, 리튬 가격, 빅테크 AI 투자.
+
+   [마지막] policy/market 으로 정했으면 무대를 붙인다.
+     주된 무대·주체가 한국(정부·국회·국내 기업·국내 시장)이면 korea, 해외면 global.
+     ※ '미국 관세가 한국 기업에 주는 영향'처럼 조치의 주체가 해외면 global 이다.
+       한국 정부가 만든 제도가 주제일 때만 korea-policy 다.
    → macro / global-policy / global-market / korea-policy / korea-market 중 하나.
-   ※ 우선순위: 금리·환율·유가·증시 전반이 발단이면 macro. 관세·규제·보조금·지정학이 발단이면
-     policy. 특정 기업/산업 지표가 핵심이면 market. 매 실행이 한 카테고리로만 쏠리지 않게 한다.
 
 3. direct/indirect: 배터리 셀·양극재·음극재·리튬 등 소재/셀을 직접 다루면 direct,
    금리·관세·전력망·거시 등 전방·간접 경로로 연결되면 indirect.
@@ -111,8 +122,12 @@ SYSTEM_PROMPT_GENERAL = """당신은 경제·시사 유튜브 영상을 '산업 
 
 [분류]
 · category 는 macro / global-policy / global-market / korea-policy / korea-market 중 하나.
-  금리·환율·유가·증시 전반이 핵심이면 macro, 정부·규제·외교가 발단이면 policy,
-  기업 실적·주가·산업 지표가 핵심이면 market. 무대가 한국이면 korea, 해외면 global.
+  아래 순서로 판정한다.
+  1) 정부·국회·규제당국·외교의 제도/조치(관세·세액공제·보조금·특별법·인허가·안전기준·
+     전기요금·예산·업무보고)가 발단이면 policy. 그 영향으로 물가·증시를 함께 다뤄도 policy 다.
+  2) 정책과 무관하게 금리·통화정책·환율·유가·물가·경기지표·증시 전반이 주제이면 macro.
+  3) 둘 다 아니면 기업 실적·주가·판매량·투자 등 시장 지표가 핵심 → market.
+  무대·주체가 한국이면 korea, 해외면 global. (미국 관세가 주제면 global-policy)
 · relation 은 이 영상이 특정 산업을 직접 다루면 direct, 거시·전방 경로로 연결되면 indirect.
 
 [07 섹션]
@@ -408,15 +423,26 @@ class InsufficientContext(Exception):
 # 유튜브 URL 을 넘기면 <구글 서버가> 영상을 가져와 처리하므로 이 차단을 우회할 수 있다.
 # 영상 토큰이 비싸므로 저해상도·저프레임·앞부분 한정으로 제한한다.
 VIDEO_FPS = 0.2                 # 5초에 1프레임
-VIDEO_MAX_MINUTES = 45          # 긴 라이브는 앞 45분까지만
+VIDEO_MAX_MINUTES = 40          # 긴 라이브는 앞 40분까지만
 # 파이프라인(자동 수집)에서 영상 직접 분석을 허용할 최대 건수. 사용자가 URL 로 직접
 # 요청한 경우(force=True)에는 이 상한과 무관하게 항상 시도한다.
-VIDEO_ANALYSIS_MAX = int(os.getenv("VIDEO_ANALYSIS_MAX", "3"))
+#   무료 티어는 하루에 처리할 수 있는 유튜브 영상 길이가 제한된다(대략 8시간).
+#   40분 × 5건 × 하루 2회 실행 ≈ 6.7시간으로 여유를 두고 잡았다.
+VIDEO_ANALYSIS_MAX = int(os.getenv("VIDEO_ANALYSIS_MAX", "5"))
+# 영상 분석이 연달아 실패하면(쿼터 소진·정책 차단 등) 남은 후보에 계속 시도해봐야
+# 시간과 쿼터만 태운다. yt-dlp 폴백과 같은 방식으로 이번 실행에서는 접는다.
+VIDEO_FAIL_LIMIT = 2
 _video_used = 0
+_video_fails = 0
 
 
 def _video_budget_left() -> bool:
-    return _video_used < VIDEO_ANALYSIS_MAX
+    return _video_used < VIDEO_ANALYSIS_MAX and _video_fails < VIDEO_FAIL_LIMIT
+
+
+def video_usage() -> tuple[int, int]:
+    """(성공 건수, 실패 건수) — 실행 요약에 남기기 위한 값."""
+    return _video_used, _video_fails
 
 
 def _generate_from_video(client, model: str, types, prompt: str, video_url: str,
@@ -638,7 +664,7 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{e(data['title'])}</title>
   <meta name="description" content="{e(data['meta_description'])}" />
-  <link rel="stylesheet" href="../assets/style.css?v=21" />
+  <link rel="stylesheet" href="../assets/style.css?v=22" />
 </head>
 <body>
   <header class="report-hero">
@@ -647,7 +673,7 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
         <span class="hero-tag">{channel}</span><span>·</span><span>{the_date}</span><span>·</span><span>{src_label}</span>
         <nav class="top-nav">
           <a class="home-btn" href="../news/" title="홈으로" aria-label="홈으로 이동">홈</a>
-          <a class="home-btn" href="../glossary/?v=21" title="이차전지 용어집">용어집</a>
+          <a class="home-btn" href="../glossary/?v=22" title="이차전지 용어집">용어집</a>
         </nav>
       </div>
       <h1>{e(data['title'])}</h1>
@@ -697,13 +723,19 @@ def process_video(meta: dict[str, Any], force: bool = False,
         # 직접 보게 한다 — 구글 서버가 영상을 가져오므로 IP 차단의 영향을 받지 않는다.
         if not (force or _video_budget_left()):
             raise
+        global _video_fails
         try:
             data = analyze_video_direct(meta, force=force, scope=scope)
         except QuotaExhausted:
             raise
         except Exception as exc:  # noqa: BLE001
+            _video_fails += 1
+            if _video_fails == VIDEO_FAIL_LIMIT:
+                print(f"  [영상분석] {VIDEO_FAIL_LIMIT}회 연속 실패 — "
+                      "이 실행에서는 영상 직접 분석을 중단합니다.", file=sys.stderr)
             raise InsufficientContext(
                 f"영상 직접 분석도 실패: {' '.join(str(exc).split())[:120]}") from exc
+        _video_fails = 0        # 한 번이라도 성공하면 연속 실패 카운터 초기화
         source = "gemini-video"
 
     if not data.get("relevant"):

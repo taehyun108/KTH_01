@@ -65,10 +65,41 @@ KW_APPLICATION = [  # (B) 응용분야(수요처): ESS / EV / AIDC
     "UPS", "백업전원", "전력조달", "PPA", "그리드 접속",
 ]
 
-KW_MACRO = [  # (C) 거시/산업 간접
-    "금리", "연준", "FOMC", "관세", "무역분쟁", "수출규제", "전력망", "정전",
-    "전기료", "화재", "폭발", "안전사고", "안전기준", "인증", "ESG",
-    "공급망", "지정학", "중국 산업정책",
+KW_TRADE = [  # (C-1) 통상·관세 — '관세'는 한 단어라 채널 상용구에도 흔해 제목 매칭 전용
+    "관세", "상호관세", "보편관세", "품목관세", "관세율", "관세 부과", "관세 인상",
+    "고율관세", "추가관세", "무역분쟁", "무역전쟁", "통상마찰", "무역협상",
+    "수출규제", "수출통제", "수입규제", "반덤핑", "상계관세", "세이프가드",
+    "무역확장법", "232조", "301조", "슈퍼 301조", "블랙리스트", "엔티티 리스트",
+    "FTA", "자유무역협정", "원산지", "우회수출", "비관세장벽", "수입 쿼터", "수출 쿼터", "수출입 규제",
+    "희토류 수출", "핵심광물 통제", "디리스킹", "공급망 재편",
+]
+
+KW_KR_POLICY = [  # (C-2) 국내 정책·제도 — 그동안 누락돼 국내정책 리포트가 거의 없었던 영역
+    # 조세·재정 지원
+    "국내생산세액공제", "생산세액공제", "세액공제", "통합투자세액공제", "조세특례",
+    "조세특례제한법", "감세", "증세 논의", "증세안", "세금 인상", "법인세",
+    "세제개편", "세제 지원", "보조금",
+    "정부 지원금", "추경", "추가경정예산", "예산안", "국가재정", "정책자금", "정책금융",
+    # 산업·전략 법제
+    "첨단전략산업", "국가첨단전략산업", "국가전략기술", "반도체특별법", "K-칩스법",
+    "특별법", "특별회계", "산업정책", "규제완화", "규제혁신", "인허가", "시행령",
+    "국무회의", "국정과제", "산업통상자원부", "기획재정부", "중소벤처기업부",
+    "산업은행", "수출입은행", "무역보험", "첨단산업기금", "마더팩토리",
+    # 에너지·전력 제도
+    "전력수급기본계획", "전기요금", "전기료", "산업용 전기", "요금 인상",
+    "탄소중립", "배출권", "배출권거래제", "RE100", "재생에너지 의무",
+    "원전", "원자력", "송배전", "계통 연계", "전력계통",
+    # 안전·인증 제도
+    "안전기준", "안전규제", "안전인증", "형식인증", "KC 인증", "화재", "폭발", "안전사고",
+    "리콜", "중대재해", "환경규제", "ESG",
+]
+
+KW_MACRO = [  # (C-3) 순수 거시 — 금리·물가·환율·증시 전반
+    "금리", "기준금리", "연준", "FOMC", "한국은행", "통화정책", "양적긴축",
+    "인플레이션", "물가상승", "물가 상승", "소비자물가", "물가안정", "물가 안정",
+    "환율", "원달러", "유가", "국채", "채권금리",
+    "경기침체", "경기둔화", "고용지표", "GDP", "증시", "코스피", "나스닥",
+    "전력망", "정전", "공급망", "지정학", "중국 산업정책",
 ]
 
 # ---------------------------------------------------------------------------
@@ -85,23 +116,74 @@ KW_EN_APPLICATION = [  # (B) 응용분야: EV / ESS / AIDC
     "EV", "EVs", "Tesla", "BYD", "energy storage", "grid storage", "power grid",
     "data center", "data centre", "data centers", "data centres", "charging",
 ]
-KW_EN_MACRO = [  # (C) 거시/산업 간접
+KW_EN_TRADE = [  # (C-1) 통상·관세
+    "tariff", "tariffs", "trade war", "trade deal", "trade talks", "export control",
+    "export controls", "export ban", "sanctions", "entity list", "anti-dumping",
+    "countervailing duty", "safeguard", "Section 232", "Section 301",
+    "de-risking", "reshoring", "friendshoring", "rare earth export",
+]
+KW_EN_POLICY = [  # (C-2) 산업정책·보조금 (해외)
+    "Inflation Reduction Act", "IRA", "CHIPS Act", "subsidy", "subsidies",
+    "tax credit", "tax credits", "45X", "industrial policy", "stimulus",
+    "carbon tax", "emissions trading", "clean energy plan", "permitting reform",
+]
+KW_EN_MACRO = [  # (C-3) 순수 거시
     "interest rate", "interest rates", "Federal Reserve", "rate cut", "rate hike",
-    "inflation", "recession", "tariff", "tariffs", "trade war",
-    "supply chain", "supply chains", "semiconductor", "semiconductors",
-    "geopolitics", "renewable energy", "energy transition",
-    "oil price", "bond market", "China economy",
+    "inflation", "recession", "supply chain", "supply chains",
+    "semiconductor", "semiconductors", "geopolitics", "renewable energy",
+    "energy transition", "oil price", "bond market", "China economy",
 ]
 
-ALL_KEYWORDS = (
-    KW_DIRECT + KW_APPLICATION + KW_MACRO
-    + KW_EN_DIRECT + KW_EN_APPLICATION + KW_EN_MACRO
+def _dedup(*groups: list[str]) -> list[str]:
+    """여러 키워드 묶음을 순서를 지키며 합치고 중복을 제거한다.
+    (중복이 남으면 같은 키워드가 매칭 결과에 두 번 잡힌다)"""
+    seen: set[str] = set()
+    out: list[str] = []
+    for g in groups:
+        for k in g:
+            if k not in seen:
+                seen.add(k)
+                out.append(k)
+    return out
+
+
+ALL_KEYWORDS = _dedup(
+    KW_DIRECT, KW_APPLICATION, KW_TRADE, KW_KR_POLICY, KW_MACRO,
+    KW_EN_DIRECT, KW_EN_APPLICATION, KW_EN_TRADE, KW_EN_POLICY, KW_EN_MACRO,
 )
 
-# 설명글 매칭에는 '배터리 직접' 키워드만 사용한다.
-# 거시(금리·관세)뿐 아니라 응용(데이터센터·전기차·AI) 키워드도 채널 고정 상용구와
-# 해시태그에 흔히 박혀 있어, 무관한 영상(예술·과학·교육)이 대량 유입되기 때문이다.
-SPECIFIC_KEYWORDS = KW_DIRECT + KW_EN_DIRECT
+# ---------------------------------------------------------------------------
+# 설명글(description) 매칭 전용 키워드
+# ---------------------------------------------------------------------------
+# 제목은 그 영상만의 문장이라 ALL_KEYWORDS 를 다 써도 안전하다. 반면 설명글에는
+# 채널 고정 소개문·해시태그·광고가 늘 붙어 있어서, '금리'·'전기차'·'관세'처럼 짧고
+# 흔한 낱말로 매칭하면 무관한 영상(예술·과학·교육)이 대량으로 딸려 들어온다.
+# → 설명글에는 '그 주제를 실제로 다루지 않으면 잘 안 쓰는 구체적 표현'만 허용한다.
+_DESC_SAFE_TRADE = [
+    "상호관세", "보편관세", "품목관세", "관세율", "관세 부과", "관세 인상",
+    "고율관세", "추가관세", "무역분쟁", "무역전쟁", "통상마찰", "무역협상",
+    "수출규제", "수출통제", "수입규제", "반덤핑", "상계관세", "세이프가드",
+    "무역확장법", "232조", "301조", "엔티티 리스트", "자유무역협정",
+    "우회수출", "비관세장벽", "희토류 수출", "핵심광물 통제", "공급망 재편",
+]
+_DESC_SAFE_KR_POLICY = [
+    "국내생산세액공제", "생산세액공제", "세액공제", "통합투자세액공제", "조세특례",
+    "조세특례제한법", "세제개편", "세제 지원", "추가경정예산", "정책금융",
+    "첨단전략산업", "국가첨단전략산업", "국가전략기술", "반도체특별법", "K-칩스법",
+    "규제완화", "규제혁신", "산업통상자원부", "기획재정부", "첨단산업기금",
+    "마더팩토리", "전력수급기본계획", "산업용 전기", "배출권거래제", "재생에너지 의무",
+    "중대재해", "환경규제", "안전규제", "KC 인증",
+]
+_DESC_SAFE_EN = [
+    "Inflation Reduction Act", "CHIPS Act", "tax credit", "tax credits", "45X",
+    "industrial policy", "export control", "export controls", "entity list",
+    "anti-dumping", "countervailing duty", "Section 232", "Section 301",
+    "trade war", "rare earth export", "energy storage", "grid storage",
+    "electric vehicle", "electric vehicles", "gigafactory", "solid-state",
+]
+SPECIFIC_KEYWORDS = _dedup(
+    KW_DIRECT, KW_EN_DIRECT, _DESC_SAFE_TRADE, _DESC_SAFE_KR_POLICY, _DESC_SAFE_EN,
+)
 
 # 카테고리 정의 (LLM 분류가 이 중 하나를 반환). macro=거시경제(금리·환율·유가·증시 전반)
 CATEGORIES = ["global-policy", "global-market", "korea-policy", "korea-market", "macro"]

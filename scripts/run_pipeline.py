@@ -16,7 +16,7 @@ from datetime import date, timedelta
 
 from fetch_rss import collect_candidates
 from generate_report import (process_video, QuotaExhausted, InsufficientContext,
-                             MIN_CONTEXT_CHARS)
+                             MIN_CONTEXT_CHARS, VIDEO_ANALYSIS_MAX, video_usage)
 from build_index import merge, load_existing
 from config import MAX_CANDIDATES_PER_RUN
 
@@ -141,8 +141,10 @@ def main() -> int:
     if new_reports:
         merge(new_reports)
     # 한 줄 결산 — '왜 오늘 업데이트가 적은지'를 로그 한 줄로 알 수 있게 한다
+    v_ok, v_fail = video_usage()
     print(f"완료 — 신규 {len(new_reports)}건 · 무관판정 {n_drafts}건 · 근거부족 건너뜀 {n_skip}건 · "
           f"오류 {n_error}건 (후보 {len(candidates)} → 신규후보 {len(fresh)})")
+    print(f"  영상 직접 분석: 성공 {v_ok}건 / 실패 {v_fail}건 (실행당 상한 {VIDEO_ANALYSIS_MAX}건)")
     return 0
 
 
