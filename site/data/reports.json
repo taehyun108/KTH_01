@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-05T04:30:53",
+  "generated_at": "2026-08-05T22:30:40",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -88,6 +88,21 @@
       "video_id": "5lL3V18j5JA",
       "pv": 2,
       "scope": "general",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-04-널뛰는-코스피-변동성-개인-투자자를-흔드는-시장-무빙",
+      "date": "2026-08-04",
+      "channel": "슈카월드",
+      "title": "널뛰는 코스피 변동성, 개인 투자자를 흔드는 시장 무빙",
+      "summary": "최근 국내 증시의 극심한 변동성과 급등락 장세가 개인 투자자들에게 미친 영향과 시장 상황을 살펴봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-08-04-널뛰는-코스피-변동성-개인-투자자를-흔드는-시장-무빙.html",
+      "video": "https://www.youtube.com/shorts/ZhA3YmvkSI0",
+      "video_id": "ZhA3YmvkSI0",
+      "pv": 3,
+      "scope": "battery",
       "src": "gemini-video"
     },
     {
