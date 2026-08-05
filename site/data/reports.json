@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-05T04:10:27",
+  "generated_at": "2026-08-05T04:14:51",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -28,6 +28,21 @@
       "url": "2026-08-05-초격차-산업과-에너지-안보로-대체불가-대한민국-구축-2026년-하반기-업무보고.html",
       "video": "https://www.youtube.com/live/hbe2bjScRZI?si=Fj1n_PaXu3Xic-Cb",
       "video_id": "hbe2bjScRZI",
+      "pv": 2,
+      "scope": "general",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-05-제34회-국무회의-주요-현안-정리-해외-순방-성과부터-폭염-대책-세제-정비까지",
+      "date": "2026-08-05",
+      "channel": "MBCNEWS",
+      "title": "제34회 국무회의 주요 현안 정리: 해외 순방 성과부터 폭염 대책·세제 정비까지",
+      "summary": "국무회의에서 남미 순방 성과부터 폭염·가뭄 대응, 형사소송법 개정과 부동산 세제 정비까지 다양한 국정 현안을 논의했어요.",
+      "category": "korea-policy",
+      "relation": "direct",
+      "url": "2026-08-05-제34회-국무회의-주요-현안-정리-해외-순방-성과부터-폭염-대책-세제-정비까지.html",
+      "video": "https://www.youtube.com/watch?v=iewc1NCRw5I",
+      "video_id": "iewc1NCRw5I",
       "pv": 2,
       "scope": "general",
       "src": "gemini-video"
