@@ -111,12 +111,14 @@ html { -webkit-text-size-adjust: 100%; }
   border: 1px solid #fcd34d; font-size: 0.88rem; line-height: 1.7; color: #4a3c1d;
 }
 .anim-note b { color: #b45309; }
-.pill-chg, .pill-dis {
+.pill-chg, .pill-dis, .pill-oc, .pill-od {
   display: inline-block; padding: 1px 9px; border-radius: 999px;
   font-size: 0.8rem; font-weight: 700; white-space: nowrap;
 }
 .pill-chg { background: #fee2e2; border: 1px solid #e11d48; color: #be123c; }
 .pill-dis { background: #ccfbf1; border: 1px solid #0d9488; color: #0f766e; }
+.pill-oc { background: #ffedd5; border: 1px solid #ea580c; color: #c2410c; }
+.pill-od { background: #ede9fe; border: 1px solid #7c3aed; color: #6d28d9; }
 /* 도해 충전/방전 전환 버튼 (그림 왼쪽 위) */
 .phase-switch { display: flex; gap: 6px; margin: 0 0 10px; flex-wrap: wrap; }
 .phase-btn {
@@ -127,16 +129,20 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .phase-btn:hover { border-color: #94a3b8; color: var(--text); }
 .phase-btn:focus-visible { outline: 2px solid #0ea5e9; outline-offset: 2px; }
-.phase-btn.charge.on    { background: #fee2e2; border-color: #e11d48; color: #be123c; }
-.phase-btn.discharge.on { background: #ccfbf1; border-color: #0d9488; color: #0f766e; }
+.phase-btn.charge.on        { background: #fee2e2; border-color: #e11d48; color: #be123c; }
+.phase-btn.discharge.on     { background: #ccfbf1; border-color: #0d9488; color: #0f766e; }
+.phase-btn.overcharge.on    { background: #ffedd5; border-color: #ea580c; color: #c2410c; }
+.phase-btn.overdischarge.on { background: #ede9fe; border-color: #7c3aed; color: #6d28d9; }
 
 /* 고른 국면에 해당하는 것만 보여 준다.
-   (SMIL 애니메이션은 계속 돌지만 숨겨진 쪽은 그려지지 않는다) */
-.diagram .ion-discharge, .diagram .only-discharge { display: none; }
-.diagram[data-phase="discharge"] .ion-charge,
-.diagram[data-phase="discharge"] .only-charge { display: none; }
-.diagram[data-phase="discharge"] .ion-discharge,
-.diagram[data-phase="discharge"] .only-discharge { display: inline; }
+   요소에 클래스를 여러 개 붙이면(예: class="ph-charge ph-discharge")
+   그 국면들에서 모두 보인다. SMIL 은 계속 돌지만 숨겨진 쪽은 그려지지 않는다. */
+.diagram .ph-charge, .diagram .ph-discharge,
+.diagram .ph-overcharge, .diagram .ph-overdischarge { display: none; }
+.diagram[data-phase="charge"]        .ph-charge,
+.diagram[data-phase="discharge"]     .ph-discharge,
+.diagram[data-phase="overcharge"]    .ph-overcharge,
+.diagram[data-phase="overdischarge"] .ph-overdischarge { display: inline; }
 /* 반대 국면의 화살표는 지우지 않고 흐리게 — 두 방향을 같이 견주어 볼 수 있게 */
 .diagram[data-phase="charge"]    .arr-discharge,
 .diagram[data-phase="discharge"] .arr-charge { opacity: 0.18; }

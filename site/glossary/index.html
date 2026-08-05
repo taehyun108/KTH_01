@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>이차전지 용어집 — 이차전지 리포트 아카이브</title>
   <meta name="description" content="양극재·음극재·전구체·전해액·분리막부터 제조공정, 셀·모듈·팩 조립, 배터리 종류, 성능 분석법까지 그림으로 쉽게 풀어 쓴 이차전지 용어집." />
-  <link rel="stylesheet" href="../assets/style.css?v=24" />
+  <link rel="stylesheet" href="../assets/style.css?v=25" />
 </head>
 <body>
   <header class="report-hero">
@@ -44,7 +44,11 @@
     <div class="anim-note">
       <b>🎬 눌러서 보는 그림</b> — 전지 그림 왼쪽 위에
       <span class="pill-chg">⚡ 충전할 때</span> <span class="pill-dis">🔌 방전할 때</span>
-      버튼이 있어요. <b>눌러 보세요.</b> 고른 쪽에 맞춰 이온이 실제로 움직이는 방향을 보여 줍니다.
+      버튼이 있어요. <b>눌러 보세요.</b> 고른 쪽에 맞춰 리튬이 활물질에서 실제로
+      빠져나가고 되돌아오는 모습을 보여 줍니다.<br />
+      양극재·음극재 그림에는 <span class="pill-oc">⚠️ 과충전</span>
+      <span class="pill-od">🪫 과방전</span> 도 있어요 —
+      <b>너무 많이 충전하거나 너무 많이 빼내면 구조가 어떻게 망가지는지</b> 볼 수 있습니다.
     </div>
 
     <!-- ══════════ 01 ══════════ -->
@@ -107,12 +111,12 @@
           <text x="340" y="390" text-anchor="middle" font-size="12" fill="#8a96ab">
             리튬이 오른쪽으로 갈 때 전자도 바깥 회로로 흘러 전기가 돼요</text>
           <!-- 이온은 맨 끝에 둬야 도형 위에 그려진다(SVG 는 z-index 가 없다) -->
-          <g class="ion ion-charge">
+          <g class="ion ph-charge">
             <circle cx="0" cy="0" r="13" fill="#22c55e"/>
             <text x="0" y="4" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">Li⁺</text>
             <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M410 212 L270 212"/>
           </g>
-          <g class="ion ion-discharge">
+          <g class="ion ph-discharge">
             <circle cx="0" cy="0" r="13" fill="#22c55e"/>
             <text x="0" y="4" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">Li⁺</text>
             <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M270 212 L410 212"/>
@@ -181,75 +185,46 @@
 
       <!-- 층상구조 -->
       <h3 class="t-h">① 층상구조 — 리튬이 '판과 판 사이'에 누워 있어요</h3>
-      <figure class="diagram" data-anim data-phase="charge">
-        <svg viewBox="0 0 680 406" role="img"
-             aria-label="층상구조는 전이금속과 산소로 된 판이 겹겹이 쌓이고 그 사이 넓은 공간에 리튬이 2차원 평면으로 이동합니다">
-          <!-- 판 3개 -->
-          <text x="340" y="398" text-anchor="middle" font-size="12" fill="#8a96ab">
-            충전하면 리튬이 판 사이에서 <tspan font-weight="700" fill="#e11d48">빠져나가고</tspan>,
-            방전하면 <tspan font-weight="700" fill="#0d9488">되돌아와요</tspan></text>
-          <g>
-            <!-- 판 1 -->
-            <rect x="70" y="70" width="420" height="30" rx="4" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.5"/>
-            <g fill="#ef4444"><circle cx="100" cy="76" r="6"/><circle cx="170" cy="76" r="6"/><circle cx="240" cy="76" r="6"/><circle cx="310" cy="76" r="6"/><circle cx="380" cy="76" r="6"/><circle cx="450" cy="76" r="6"/></g>
-            <g fill="#6366f1"><circle cx="135" cy="85" r="8"/><circle cx="205" cy="85" r="8"/><circle cx="275" cy="85" r="8"/><circle cx="345" cy="85" r="8"/><circle cx="415" cy="85" r="8"/></g>
-            <g fill="#ef4444"><circle cx="100" cy="94" r="6"/><circle cx="170" cy="94" r="6"/><circle cx="240" cy="94" r="6"/><circle cx="310" cy="94" r="6"/><circle cx="380" cy="94" r="6"/><circle cx="450" cy="94" r="6"/></g>
-            <!-- 리튬 층 -->
-            <g fill="#22c55e" opacity="0.32"><circle cx="120" cy="122" r="9"/><circle cx="190" cy="122" r="9"/><circle cx="260" cy="122" r="9"/><circle cx="330" cy="122" r="9"/><circle cx="400" cy="122" r="9"/><circle cx="450" cy="122" r="9"/></g>
-            <!-- 판 2 -->
-            <rect x="70" y="145" width="420" height="30" rx="4" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.5"/>
-            <g fill="#ef4444"><circle cx="100" cy="151" r="6"/><circle cx="170" cy="151" r="6"/><circle cx="240" cy="151" r="6"/><circle cx="310" cy="151" r="6"/><circle cx="380" cy="151" r="6"/><circle cx="450" cy="151" r="6"/></g>
-            <g fill="#6366f1"><circle cx="135" cy="160" r="8"/><circle cx="205" cy="160" r="8"/><circle cx="275" cy="160" r="8"/><circle cx="345" cy="160" r="8"/><circle cx="415" cy="160" r="8"/></g>
-            <g fill="#ef4444"><circle cx="100" cy="169" r="6"/><circle cx="170" cy="169" r="6"/><circle cx="240" cy="169" r="6"/><circle cx="310" cy="169" r="6"/><circle cx="380" cy="169" r="6"/><circle cx="450" cy="169" r="6"/></g>
-            <!-- 리튬 층 -->
-            <g fill="#22c55e" opacity="0.32"><circle cx="120" cy="197" r="9"/><circle cx="190" cy="197" r="9"/><circle cx="260" cy="197" r="9"/><circle cx="330" cy="197" r="9"/><circle cx="400" cy="197" r="9"/><circle cx="450" cy="197" r="9"/></g>
-            <!-- 판 3 -->
-            <rect x="70" y="220" width="420" height="30" rx="4" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.5"/>
-            <g fill="#ef4444"><circle cx="100" cy="226" r="6"/><circle cx="170" cy="226" r="6"/><circle cx="240" cy="226" r="6"/><circle cx="310" cy="226" r="6"/><circle cx="380" cy="226" r="6"/><circle cx="450" cy="226" r="6"/></g>
-            <g fill="#6366f1"><circle cx="135" cy="235" r="8"/><circle cx="205" cy="235" r="8"/><circle cx="275" cy="235" r="8"/><circle cx="345" cy="235" r="8"/><circle cx="415" cy="235" r="8"/></g>
-            <g fill="#ef4444"><circle cx="100" cy="244" r="6"/><circle cx="170" cy="244" r="6"/><circle cx="240" cy="244" r="6"/><circle cx="310" cy="244" r="6"/><circle cx="380" cy="244" r="6"/><circle cx="450" cy="244" r="6"/></g>
+      <figure class="diagram" data-anim data-phase="discharge" data-phases="charge,discharge,overcharge,overdischarge">
+        <svg viewBox="0 0 680 430" role="img"
+             aria-label="층상구조는 판 사이 넓은 공간을 리튬이 좌우와 앞뒤 2차원으로 이동하며, 과충전으로 리튬이 너무 빠지면 판이 주저앉고 산소가 빠져나옵니다">
+          <g class="ph-charge ph-discharge ph-overdischarge"><rect x="70" y="70.0" width="420" height="30" rx="4" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.5"/><g fill="#ef4444"><circle cx="100" cy="76.0" r="5.5"/><circle cx="170" cy="76.0" r="5.5"/><circle cx="240" cy="76.0" r="5.5"/><circle cx="310" cy="76.0" r="5.5"/><circle cx="380" cy="76.0" r="5.5"/><circle cx="450" cy="76.0" r="5.5"/></g><g fill="#6366f1"><circle cx="135" cy="85.0" r="7.5"/><circle cx="205" cy="85.0" r="7.5"/><circle cx="275" cy="85.0" r="7.5"/><circle cx="345" cy="85.0" r="7.5"/><circle cx="415" cy="85.0" r="7.5"/></g><g fill="#ef4444"><circle cx="100" cy="94.0" r="5.5"/><circle cx="170" cy="94.0" r="5.5"/><circle cx="240" cy="94.0" r="5.5"/><circle cx="310" cy="94.0" r="5.5"/><circle cx="380" cy="94.0" r="5.5"/><circle cx="450" cy="94.0" r="5.5"/></g></g><g class="ph-charge ph-discharge ph-overdischarge"><rect x="70" y="145.0" width="420" height="30" rx="4" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.5"/><g fill="#ef4444"><circle cx="100" cy="151.0" r="5.5"/><circle cx="170" cy="151.0" r="5.5"/><circle cx="240" cy="151.0" r="5.5"/><circle cx="310" cy="151.0" r="5.5"/><circle cx="380" cy="151.0" r="5.5"/><circle cx="450" cy="151.0" r="5.5"/></g><g fill="#6366f1"><circle cx="135" cy="160.0" r="7.5"/><circle cx="205" cy="160.0" r="7.5"/><circle cx="275" cy="160.0" r="7.5"/><circle cx="345" cy="160.0" r="7.5"/><circle cx="415" cy="160.0" r="7.5"/></g><g fill="#ef4444"><circle cx="100" cy="169.0" r="5.5"/><circle cx="170" cy="169.0" r="5.5"/><circle cx="240" cy="169.0" r="5.5"/><circle cx="310" cy="169.0" r="5.5"/><circle cx="380" cy="169.0" r="5.5"/><circle cx="450" cy="169.0" r="5.5"/></g></g><g class="ph-charge ph-discharge ph-overdischarge"><rect x="70" y="220.0" width="420" height="30" rx="4" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.5"/><g fill="#ef4444"><circle cx="100" cy="226.0" r="5.5"/><circle cx="170" cy="226.0" r="5.5"/><circle cx="240" cy="226.0" r="5.5"/><circle cx="310" cy="226.0" r="5.5"/><circle cx="380" cy="226.0" r="5.5"/><circle cx="450" cy="226.0" r="5.5"/></g><g fill="#6366f1"><circle cx="135" cy="235.0" r="7.5"/><circle cx="205" cy="235.0" r="7.5"/><circle cx="275" cy="235.0" r="7.5"/><circle cx="345" cy="235.0" r="7.5"/><circle cx="415" cy="235.0" r="7.5"/></g><g fill="#ef4444"><circle cx="100" cy="244.0" r="5.5"/><circle cx="170" cy="244.0" r="5.5"/><circle cx="240" cy="244.0" r="5.5"/><circle cx="310" cy="244.0" r="5.5"/><circle cx="380" cy="244.0" r="5.5"/><circle cx="450" cy="244.0" r="5.5"/></g></g>
+          <g class="ph-overcharge"><g><rect x="70" y="78" width="420" height="30" rx="4" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.5"/><g fill="#ef4444"><circle cx="100" cy="84" r="5.5"/><circle cx="170" cy="84" r="5.5"/><circle cx="240" cy="84" r="5.5"/><circle cx="310" cy="84" r="5.5"/><circle cx="380" cy="84" r="5.5"/><circle cx="450" cy="84" r="5.5"/></g><g fill="#6366f1"><circle cx="135" cy="93" r="7.5"/><circle cx="205" cy="93" r="7.5"/><circle cx="275" cy="93" r="7.5"/><circle cx="345" cy="93" r="7.5"/><circle cx="415" cy="93" r="7.5"/></g><g fill="#ef4444"><circle cx="100" cy="102" r="5.5"/><circle cx="170" cy="102" r="5.5"/><circle cx="240" cy="102" r="5.5"/><circle cx="310" cy="102" r="5.5"/><circle cx="380" cy="102" r="5.5"/><circle cx="450" cy="102" r="5.5"/></g></g><g><rect x="70" y="122" width="420" height="30" rx="4" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.5"/><g fill="#ef4444"><circle cx="100" cy="128" r="5.5"/><circle cx="170" cy="128" r="5.5"/><circle cx="240" cy="128" r="5.5"/><circle cx="310" cy="128" r="5.5"/><circle cx="380" cy="128" r="5.5"/><circle cx="450" cy="128" r="5.5"/></g><g fill="#6366f1"><circle cx="135" cy="137" r="7.5"/><circle cx="205" cy="137" r="7.5"/><circle cx="275" cy="137" r="7.5"/><circle cx="345" cy="137" r="7.5"/><circle cx="415" cy="137" r="7.5"/></g><g fill="#ef4444"><circle cx="100" cy="146" r="5.5"/><circle cx="170" cy="146" r="5.5"/><circle cx="240" cy="146" r="5.5"/><circle cx="310" cy="146" r="5.5"/><circle cx="380" cy="146" r="5.5"/><circle cx="450" cy="146" r="5.5"/></g></g><g><rect x="70" y="166" width="420" height="30" rx="4" fill="#c7d2fe" stroke="#6366f1" stroke-width="1.5"/><g fill="#ef4444"><circle cx="100" cy="172" r="5.5"/><circle cx="170" cy="172" r="5.5"/><circle cx="240" cy="172" r="5.5"/><circle cx="310" cy="172" r="5.5"/><circle cx="380" cy="172" r="5.5"/><circle cx="450" cy="172" r="5.5"/></g><g fill="#6366f1"><circle cx="135" cy="181" r="7.5"/><circle cx="205" cy="181" r="7.5"/><circle cx="275" cy="181" r="7.5"/><circle cx="345" cy="181" r="7.5"/><circle cx="415" cy="181" r="7.5"/></g><g fill="#ef4444"><circle cx="100" cy="190" r="5.5"/><circle cx="170" cy="190" r="5.5"/><circle cx="240" cy="190" r="5.5"/><circle cx="310" cy="190" r="5.5"/><circle cx="380" cy="190" r="5.5"/><circle cx="450" cy="190" r="5.5"/></g></g><g stroke="#e11d48" stroke-width="3" stroke-linecap="round"><path d="M150 112 L186 138"/><path d="M330 156 L366 182"/></g></g>
+          <g class="ph-discharge"><circle cx="120" cy="122" r="9" fill="#22c55e"/><circle cx="120" cy="197" r="9" fill="#22c55e"/><circle cx="190" cy="122" r="9" fill="#22c55e"/><circle cx="190" cy="197" r="9" fill="#22c55e"/><circle cx="260" cy="122" r="9" fill="#22c55e"/><circle cx="260" cy="197" r="9" fill="#22c55e"/><circle cx="330" cy="122" r="9" fill="#22c55e"/><circle cx="330" cy="197" r="9" fill="#22c55e"/><circle cx="400" cy="122" r="9" fill="#22c55e"/><circle cx="400" cy="197" r="9" fill="#22c55e"/><circle cx="450" cy="122" r="9" fill="#22c55e"/><circle cx="450" cy="197" r="9" fill="#22c55e"/></g><g class="ph-charge" opacity="0.85"><circle cx="120" cy="122" r="9" fill="#22c55e"/><circle cx="400" cy="122" r="9" fill="#22c55e"/><circle cx="190" cy="197" r="9" fill="#22c55e"/><circle cx="450" cy="197" r="9" fill="#22c55e"/></g><g class="ph-overdischarge"><circle cx="120" cy="122" r="9" fill="#22c55e"/><circle cx="120" cy="197" r="9" fill="#22c55e"/><circle cx="190" cy="122" r="9" fill="#22c55e"/><circle cx="190" cy="197" r="9" fill="#22c55e"/><circle cx="260" cy="122" r="9" fill="#22c55e"/><circle cx="260" cy="197" r="9" fill="#22c55e"/><circle cx="330" cy="122" r="9" fill="#22c55e"/><circle cx="330" cy="197" r="9" fill="#22c55e"/><circle cx="400" cy="122" r="9" fill="#22c55e"/><circle cx="400" cy="197" r="9" fill="#22c55e"/><circle cx="450" cy="122" r="9" fill="#22c55e"/><circle cx="450" cy="197" r="9" fill="#22c55e"/></g><g class="ph-overdischarge" fill="#f59e0b"><circle cx="95" cy="122" r="5"/><circle cx="95" cy="197" r="5"/><circle cx="480" cy="122" r="5"/><circle cx="480" cy="197" r="5"/></g>
+          <!-- 2차원 이동 표시: 좌우 + 앞뒤 -->
+          <g class="ph-charge ph-discharge">
+            <path d="M520 246 L602 246" stroke="#e11d48" stroke-width="3"
+                  marker-end="url(#b1)" marker-start="url(#b1s)"/>
+            <text x="561" y="230" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">좌우로</text>
+            <path d="M524 300 L600 262" stroke="#e11d48" stroke-width="3"
+                  marker-end="url(#b1)" marker-start="url(#b1s)"/>
+            <text x="561" y="322" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">앞뒤로도</text>
+            <text x="561" y="344" text-anchor="middle" font-size="12.5" fill="#e11d48" font-weight="700">= 2차원</text>
           </g>
-          <!-- 이동 화살표: 좌우 + 앞뒤(2차원) -->
-          <path d="M505 122 L595 122" stroke="#e11d48" stroke-width="3" marker-end="url(#b1)" marker-start="url(#b1s)"/>
-          <path d="M505 197 L595 197" stroke="#e11d48" stroke-width="3" marker-end="url(#b1)" marker-start="url(#b1s)"/>
-          <text x="550" y="104" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">좌우로 술술</text>
-          <text x="550" y="179" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">앞뒤로도 술술</text>
-          <text x="550" y="232" text-anchor="middle" font-size="12.5" fill="#e11d48" font-weight="700">= 2차원(넓은 판)</text>
-          <text x="280" y="278" text-anchor="middle" font-size="12.5" fill="#55617a">
-            리튬이 다니는 길이 <tspan font-weight="700" fill="#22c55e">넓은 마룻바닥</tspan>처럼 뚫려 있어요</text>
-
-          <!-- 범례 -->
+          <text class="ph-discharge" x="280" y="284" text-anchor="middle" font-size="12.5" fill="#0d9488">
+            방전 — 리튬이 판 사이로 <tspan font-weight="700">되돌아와 가득 찹니다</tspan></text>
+          <text class="ph-charge" x="280" y="284" text-anchor="middle" font-size="12.5" fill="#e11d48">
+            충전 — 리튬이 판 사이에서 <tspan font-weight="700">빠져나가 자리가 비어요</tspan></text>
+          <text class="ph-overcharge" x="300" y="240" text-anchor="middle" font-size="13" fill="#e11d48" font-weight="700">
+            ⚠️ 과충전 — 리튬이 너무 많이 빠져 판을 받쳐 줄 기둥이 사라졌어요</text>
+          <text class="ph-overcharge" x="300" y="262" text-anchor="middle" font-size="12" fill="#e11d48">
+            판이 폭삭 주저앉고(구조 붕괴) <tspan font-weight="700">산소가 튀어나와</tspan> 불이 날 수 있어요</text>
+          <text class="ph-overcharge" x="300" y="284" text-anchor="middle" font-size="12" fill="#8a96ab">
+            니켈 비율이 높을수록 더 위험해요 — 그래서 BMS가 전압 상한을 꼭 지킵니다</text>
+          <text class="ph-overdischarge" x="300" y="262" text-anchor="middle" font-size="13" fill="#a16207" font-weight="700">
+            ⚠️ 과방전 — 리튬이 넘치게 밀려들어 자리가 모자라요</text>
+          <text class="ph-overdischarge" x="300" y="284" text-anchor="middle" font-size="12" fill="#a16207">
+            들어가지 못한 리튬이 <tspan font-weight="700">표면에 쌓여</tspan> 저항이 커지고 용량이 줄어요</text>
           <g font-size="12.5">
-            <circle cx="100" cy="312" r="9" fill="#22c55e"/><text x="116" y="317" fill="#35404f">Li 리튬</text>
-            <circle cx="215" cy="312" r="8" fill="#6366f1"/><text x="231" y="317" fill="#35404f">Ni·Co·Mn (전이금속)</text>
-            <circle cx="430" cy="312" r="6" fill="#ef4444"/><text x="446" y="317" fill="#35404f">O 산소</text>
+            <circle cx="100" cy="352" r="9" fill="#22c55e"/><text x="116" y="357" fill="#35404f">Li 리튬</text>
+            <circle cx="215" cy="352" r="8" fill="#6366f1"/><text x="231" y="357" fill="#35404f">Ni·Co·Mn (전이금속)</text>
+            <circle cx="430" cy="352" r="6" fill="#ef4444"/><text x="446" y="357" fill="#35404f">O 산소</text>
           </g>
-          <text x="340" y="352" text-anchor="middle" font-size="12" fill="#0d9488">
+          <text x="340" y="392" text-anchor="middle" font-size="12" fill="#0d9488">
             👍 공간이 넓어 리튬을 많이 담아요 → 에너지 최고</text>
-          <text x="340" y="372" text-anchor="middle" font-size="12" fill="#e11d48">
+          <text x="340" y="414" text-anchor="middle" font-size="12" fill="#e11d48">
             👎 리튬이 다 빠지면 판이 <tspan font-weight="700">폭삭 주저앉아</tspan> 수명이 줄어요</text>
-          <!-- 이온은 맨 끝에 둬야 도형 위에 그려진다(SVG 는 z-index 가 없다) -->
-          <g class="ion ion-charge">
-            <circle cx="0" cy="0" r="11" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <text x="0" y="3.6" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Li⁺</text>
-            <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M138 122 L468 122"/>
-          </g>
-          <g class="ion ion-discharge">
-            <circle cx="0" cy="0" r="11" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <text x="0" y="3.6" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Li⁺</text>
-            <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M468 122 L138 122"/>
-          </g>
-          <g class="ion ion-charge">
-            <circle cx="0" cy="0" r="11" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <text x="0" y="3.6" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Li⁺</text>
-            <animateMotion dur="3.6s" begin="0.5s" repeatCount="indefinite" calcMode="linear" path="M138 197 L468 197"/>
-          </g>
-          <g class="ion ion-discharge">
-            <circle cx="0" cy="0" r="11" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <text x="0" y="3.6" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Li⁺</text>
-            <animateMotion dur="3.6s" begin="0.5s" repeatCount="indefinite" calcMode="linear" path="M468 197 L138 197"/>
-          </g>
-
+          <g class="ion ph-charge"><circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="2.6s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M400 122 L560 122"/></g><g class="ion ph-charge"><circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="3.0s" begin="0.4s" repeatCount="indefinite" calcMode="linear" path="M330 197 L560 197"/></g><g class="ion ph-charge"><circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="3.4s" begin="0.8s" repeatCount="indefinite" calcMode="linear" path="M260 160 L470 96"/></g><g class="ion ph-discharge"><circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="3.4s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M560 122 L200 122"/></g><g class="ion ph-discharge"><circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="3.8s" begin="0.5s" repeatCount="indefinite" calcMode="linear" path="M560 197 L260 197"/></g><g class="ion ph-discharge"><circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="3.6s" begin="0.9s" repeatCount="indefinite" calcMode="linear" path="M470 96 L240 160"/></g><g class="ion ph-overcharge"><circle cx="0" cy="0" r="8" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">O₂</text><animateMotion dur="2.2s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M200 100 L180 34"/></g><g class="ion ph-overcharge"><circle cx="0" cy="0" r="8" fill="#ef4444" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">O₂</text><animateMotion dur="2.6s" begin="0.6s" repeatCount="indefinite" calcMode="linear" path="M360 100 L392 34"/></g>
           <defs>
             <marker id="b1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
               <path d="M0 0 L9 4.5 L0 9 z" fill="#e11d48"/></marker>
@@ -257,172 +232,123 @@
               <path d="M9 0 L0 4.5 L9 9 z" fill="#e11d48"/></marker>
           </defs>
         </svg>
-        <figcaption class="fig-cap">그림 2. 층상구조(NCM·NCA·LCO) — 판 사이 넓은 공간을 리튬이 2차원으로 이동</figcaption>
+        <figcaption class="fig-cap">그림 2. 층상구조(NCM·NCA·LCO) — 넓은 판 사이를 리튬이 좌우·앞뒤 2차원으로 오가요</figcaption>
       </figure>
 
       <!-- 올리빈 -->
       <h3 class="t-h">② 올리빈 구조 — 리튬이 '좁은 터널 하나'로만 다녀요</h3>
-      <figure class="diagram" data-anim data-phase="charge">
-        <svg viewBox="0 0 680 386" role="img"
-             aria-label="올리빈 구조는 철과 인산이 단단한 골격을 이루고 리튬이 한 방향 터널로만 1차원 이동합니다">
+      <figure class="diagram" data-anim data-phase="discharge" data-phases="charge,discharge,overcharge,overdischarge">
+        <svg viewBox="0 0 680 400" role="img"
+             aria-label="올리빈 구조는 리튬이 한 방향 터널로만 한 줄로 줄서서 1차원 이동하며, 인산 골격이 튼튼해 과충전에도 잘 무너지지 않습니다">
           <rect x="70" y="60" width="440" height="190" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
-          <!-- 골격: PO4 사면체 + FeO6 -->
-          <g>
-            <polygon points="110,90 134,132 86,132" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
-            <polygon points="230,90 254,132 206,132" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
-            <polygon points="350,90 374,132 326,132" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
-            <polygon points="470,90 494,132 446,132" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/>
-            <text x="110" y="122" text-anchor="middle" font-size="11" fill="#78350f" font-weight="700">P</text>
-            <text x="230" y="122" text-anchor="middle" font-size="11" fill="#78350f" font-weight="700">P</text>
-            <text x="350" y="122" text-anchor="middle" font-size="11" fill="#78350f" font-weight="700">P</text>
-            <text x="470" y="122" text-anchor="middle" font-size="11" fill="#78350f" font-weight="700">P</text>
-            <g fill="#ef4444">
-              <circle cx="110" cy="86" r="5.5"/><circle cx="86" cy="136" r="5.5"/><circle cx="134" cy="136" r="5.5"/>
-              <circle cx="230" cy="86" r="5.5"/><circle cx="206" cy="136" r="5.5"/><circle cx="254" cy="136" r="5.5"/>
-              <circle cx="350" cy="86" r="5.5"/><circle cx="326" cy="136" r="5.5"/><circle cx="374" cy="136" r="5.5"/>
-              <circle cx="470" cy="86" r="5.5"/><circle cx="446" cy="136" r="5.5"/><circle cx="494" cy="136" r="5.5"/>
-            </g>
-            <g fill="#0891b2">
-              <circle cx="170" cy="110" r="9"/><circle cx="290" cy="110" r="9"/><circle cx="410" cy="110" r="9"/>
-              <circle cx="170" cy="228" r="9"/><circle cx="290" cy="228" r="9"/><circle cx="410" cy="228" r="9"/>
-            </g>
-            <g fill="#fbbf24" stroke="#d97706" stroke-width="1.5">
-              <polygon points="110,248 134,206 86,206"/><polygon points="230,248 254,206 206,206"/>
-              <polygon points="350,248 374,206 326,206"/><polygon points="470,248 494,206 446,206"/>
-            </g>
-          </g>
-          <!-- 리튬 터널 -->
-          <text x="340" y="378" text-anchor="middle" font-size="12" fill="#8a96ab">
-            길이 하나뿐이라 <tspan font-weight="700" fill="#e11d48">줄을 서서</tspan> 이동해요 → 급속충전이 상대적으로 느려요</text>
+          <g><polygon points="110,90 134,132 86,132" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/><text x="110" y="122" text-anchor="middle" font-size="11" fill="#78350f" font-weight="700">P</text><polygon points="230,90 254,132 206,132" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/><text x="230" y="122" text-anchor="middle" font-size="11" fill="#78350f" font-weight="700">P</text><polygon points="350,90 374,132 326,132" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/><text x="350" y="122" text-anchor="middle" font-size="11" fill="#78350f" font-weight="700">P</text><polygon points="470,90 494,132 446,132" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/><text x="470" y="122" text-anchor="middle" font-size="11" fill="#78350f" font-weight="700">P</text><g fill="#ef4444"><circle cx="110" cy="86" r="5.5"/><circle cx="86" cy="136" r="5.5"/><circle cx="134" cy="136" r="5.5"/><circle cx="230" cy="86" r="5.5"/><circle cx="206" cy="136" r="5.5"/><circle cx="254" cy="136" r="5.5"/><circle cx="350" cy="86" r="5.5"/><circle cx="326" cy="136" r="5.5"/><circle cx="374" cy="136" r="5.5"/><circle cx="470" cy="86" r="5.5"/><circle cx="446" cy="136" r="5.5"/><circle cx="494" cy="136" r="5.5"/></g><g fill="#0891b2"><circle cx="170" cy="110" r="9"/><circle cx="170" cy="228" r="9"/><circle cx="290" cy="110" r="9"/><circle cx="290" cy="228" r="9"/><circle cx="410" cy="110" r="9"/><circle cx="410" cy="228" r="9"/></g>
+             <g><polygon points="110,248 134,206 86,206" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/><polygon points="230,248 254,206 206,206" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/><polygon points="350,248 374,206 326,206" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/><polygon points="470,248 494,206 446,206" fill="#fbbf24" stroke="#d97706" stroke-width="1.5"/></g></g>
+          <!-- 리튬이 다니는 외길 터널 -->
           <rect x="82" y="156" width="416" height="26" rx="13" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
-          <g fill="#22c55e" opacity="0.32">
-            <circle cx="120" cy="169" r="8"/><circle cx="190" cy="169" r="8"/><circle cx="260" cy="169" r="8"/>
-            <circle cx="330" cy="169" r="8"/><circle cx="400" cy="169" r="8"/><circle cx="460" cy="169" r="8"/>
+          <g class="ph-discharge" opacity="0.32"><circle cx="120" cy="169" r="8" fill="#22c55e"/><circle cx="190" cy="169" r="8" fill="#22c55e"/><circle cx="260" cy="169" r="8" fill="#22c55e"/><circle cx="330" cy="169" r="8" fill="#22c55e"/><circle cx="400" cy="169" r="8" fill="#22c55e"/><circle cx="460" cy="169" r="8" fill="#22c55e"/></g>
+          <g class="ph-overdischarge" opacity="0.32"><circle cx="120" cy="169" r="8" fill="#22c55e"/><circle cx="190" cy="169" r="8" fill="#22c55e"/><circle cx="260" cy="169" r="8" fill="#22c55e"/><circle cx="330" cy="169" r="8" fill="#22c55e"/><circle cx="400" cy="169" r="8" fill="#22c55e"/><circle cx="460" cy="169" r="8" fill="#22c55e"/></g>
+          <g class="ph-charge" opacity="0.32"><circle cx="120" cy="169" r="8" fill="#22c55e"/><circle cx="460" cy="169" r="8" fill="#22c55e"/></g>
+          <!-- 과충전에도 골격은 그대로 (LFP 의 최대 장점) -->
+          <g class="ph-overcharge">
+            <rect x="70" y="60" width="440" height="190" rx="8" fill="none" stroke="#0d9488" stroke-width="3"/>
+            <text x="290" y="46" text-anchor="middle" font-size="12.5" fill="#0d9488" font-weight="700">
+              골격이 그대로 버팁니다</text>
           </g>
-          <path d="M540 169 L620 169" stroke="#e11d48" stroke-width="3" marker-end="url(#c1)"/>
-          <text x="580" y="150" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">이 방향만</text>
-          <text x="580" y="192" text-anchor="middle" font-size="12.5" fill="#e11d48" font-weight="700">= 1차원(외길)</text>
-          <text x="290" y="278" text-anchor="middle" font-size="12.5" fill="#55617a">
-            인(P)과 산소가 <tspan font-weight="700" fill="#d97706">꽉 붙잡고</tspan> 있어 뜨거워져도 산소를 안 놔줘요 → 불이 잘 안 나요</text>
+          <g class="ph-charge ph-discharge">
+            <path d="M540 169 L620 169" stroke="#e11d48" stroke-width="3" marker-end="url(#c1)"/>
+            <text x="580" y="150" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">이 방향만</text>
+            <text x="580" y="192" text-anchor="middle" font-size="12.5" fill="#e11d48" font-weight="700">= 1차원(외길)</text>
+          </g>
+          <text class="ph-charge ph-discharge" x="290" y="286" text-anchor="middle" font-size="12.5" fill="#55617a">
+            길이 <tspan font-weight="700" fill="#e11d48">하나뿐</tspan>이라 리튬이
+            <tspan font-weight="700">한 줄로 줄을 서서</tspan> 갑니다 — 추월할 수 없어요</text>
+          <text class="ph-charge" x="290" y="308" text-anchor="middle" font-size="12" fill="#e11d48">
+            충전 — 리튬이 터널을 따라 차례차례 빠져나가요 (그래서 급속충전이 느려요)</text>
+          <text class="ph-discharge" x="290" y="308" text-anchor="middle" font-size="12" fill="#0d9488">
+            방전 — 리튬이 터널로 하나씩 되돌아와 자리를 채워요</text>
+          <text class="ph-overcharge" x="290" y="286" text-anchor="middle" font-size="13" fill="#0d9488" font-weight="700">
+            ✅ 과충전 — 리튬이 다 빠져도 인산(PO₄) 골격이 산소를 꽉 붙잡고 있어요</text>
+          <text class="ph-overcharge" x="290" y="308" text-anchor="middle" font-size="12" fill="#55617a">
+            층상처럼 주저앉거나 산소를 뿜지 않아서 <tspan font-weight="700">불이 잘 안 나요</tspan> — LFP의 최대 강점</text>
+          <text class="ph-overdischarge" x="290" y="286" text-anchor="middle" font-size="13" fill="#a16207" font-weight="700">
+            ⚠️ 과방전 — 구조는 버티지만 철(Fe)이 조금씩 녹아 나올 수 있어요</text>
+          <text class="ph-overdischarge" x="290" y="308" text-anchor="middle" font-size="12" fill="#a16207">
+            녹아 나온 철이 음극에 쌓이면 <tspan font-weight="700">수명이 줄어요</tspan> — 그래도 층상보다는 훨씬 안전해요</text>
           <g font-size="12.5">
-            <circle cx="100" cy="308" r="8" fill="#22c55e"/><text x="115" y="313" fill="#35404f">Li 리튬</text>
-            <circle cx="200" cy="308" r="8" fill="#0891b2"/><text x="215" y="313" fill="#35404f">Fe 철</text>
-            <polygon points="300,300 312,318 288,318" fill="#fbbf24" stroke="#d97706"/><text x="318" y="313" fill="#35404f">PO₄ (인산)</text>
-            <circle cx="440" cy="308" r="6" fill="#ef4444"/><text x="455" y="313" fill="#35404f">O 산소</text>
+            <circle cx="100" cy="342" r="8" fill="#22c55e"/><text x="115" y="347" fill="#35404f">Li 리튬</text>
+            <circle cx="200" cy="342" r="8" fill="#0891b2"/><text x="215" y="347" fill="#35404f">Fe 철</text>
+            <polygon points="300,334 312,352 288,352" fill="#fbbf24" stroke="#d97706"/><text x="318" y="347" fill="#35404f">PO₄ (인산)</text>
+            <circle cx="440" cy="342" r="6" fill="#ef4444"/><text x="455" y="347" fill="#35404f">O 산소</text>
           </g>
-          <text x="340" y="344" text-anchor="middle" font-size="12" fill="#0d9488">
+          <text x="340" y="384" text-anchor="middle" font-size="12" fill="#0d9488">
             👍 아주 안전하고 오래 감 &nbsp;&nbsp; 👎 길이 외길이라 느리고, 담기는 양이 적어요</text>
-          <!-- 이온은 맨 끝에 둬야 도형 위에 그려진다(SVG 는 z-index 가 없다) -->
-          <g class="ion ion-charge">
-            <circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text>
-            <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M118 169 L462 169"/>
-          </g>
-          <g class="ion ion-discharge">
-            <circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text>
-            <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M462 169 L118 169"/>
-          </g>
-          <g class="ion ion-charge">
-            <circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text>
-            <animateMotion dur="3.6s" begin="1.4s" repeatCount="indefinite" calcMode="linear" path="M118 169 L462 169"/>
-          </g>
-          <g class="ion ion-discharge">
-            <circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text>
-            <animateMotion dur="3.6s" begin="1.4s" repeatCount="indefinite" calcMode="linear" path="M462 169 L118 169"/>
-          </g>
-
+          <g class="ion ph-charge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="4.2s" begin="0.0s" repeatCount="indefinite" calcMode="linear" path="M118 169 L500 169"/></g><g class="ion ph-charge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="4.2s" begin="1.4s" repeatCount="indefinite" calcMode="linear" path="M118 169 L500 169"/></g><g class="ion ph-charge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="4.2s" begin="2.8s" repeatCount="indefinite" calcMode="linear" path="M118 169 L500 169"/></g><g class="ion ph-discharge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="4.2s" begin="0.0s" repeatCount="indefinite" calcMode="linear" path="M500 169 L118 169"/></g><g class="ion ph-discharge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="4.2s" begin="1.4s" repeatCount="indefinite" calcMode="linear" path="M500 169 L118 169"/></g><g class="ion ph-discharge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="4.2s" begin="2.8s" repeatCount="indefinite" calcMode="linear" path="M500 169 L118 169"/></g>
           <defs>
             <marker id="c1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
               <path d="M0 0 L9 4.5 L0 9 z" fill="#e11d48"/></marker>
           </defs>
         </svg>
-        <figcaption class="fig-cap">그림 3. 올리빈 구조(LFP·LMFP) — 리튬이 한 방향 터널로만 1차원 이동</figcaption>
+        <figcaption class="fig-cap">그림 3. 올리빈 구조(LFP·LMFP) — 외길 터널을 리튬이 한 줄로 줄서서 1차원 이동</figcaption>
       </figure>
 
       <!-- 스피넬 -->
       <h3 class="t-h">③ 스피넬 구조 — 리튬이 '사방 그물길'로 다녀요</h3>
-      <figure class="diagram" data-anim data-phase="charge">
-        <svg viewBox="0 0 680 364" role="img"
-             aria-label="스피넬 구조는 망간과 산소가 3차원 그물망을 이루고 리튬이 상하좌우 대각선 모든 방향으로 이동합니다">
+      <figure class="diagram" data-anim data-phase="discharge" data-phases="charge,discharge,overcharge,overdischarge">
+        <svg viewBox="0 0 680 400" role="img"
+             aria-label="스피넬 구조는 리튬이 상하좌우 대각선 모든 방향으로 3차원 이동하며, 과방전하면 격자가 찌그러지고 망간이 녹아 나옵니다">
           <rect x="150" y="50" width="280" height="200" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
-          <!-- 3차원 그물길 -->
-          <text x="340" y="356" text-anchor="middle" font-size="12" fill="#8a96ab">
-            길이 여러 갈래라 <tspan font-weight="700" fill="#0d9488">동시에 여러 리튬</tspan>이 움직여요 → 급속충전에 유리해요</text>
-          <g stroke="#22c55e" stroke-width="12" stroke-linecap="round" opacity="0.28">
+          <!-- 3차원 그물길 (과방전에서는 찌그러진 버전으로 교체) -->
+          <g class="ph-charge ph-discharge ph-overcharge"
+             stroke="#22c55e" stroke-width="12" stroke-linecap="round" opacity="0.28">
             <path d="M180 80 L400 80"/><path d="M180 150 L400 150"/><path d="M180 220 L400 220"/>
             <path d="M200 70 L200 235"/><path d="M290 70 L290 235"/><path d="M380 70 L380 235"/>
             <path d="M185 70 L400 235"/><path d="M400 70 L185 235"/>
           </g>
-          <!-- Mn, O 격자점 -->
-          <g fill="#7c3aed">
-            <circle cx="200" cy="80" r="8"/><circle cx="290" cy="80" r="8"/><circle cx="380" cy="80" r="8"/>
-            <circle cx="200" cy="150" r="8"/><circle cx="290" cy="150" r="8"/><circle cx="380" cy="150" r="8"/>
-            <circle cx="200" cy="220" r="8"/><circle cx="290" cy="220" r="8"/><circle cx="380" cy="220" r="8"/>
+          <g class="ph-overdischarge" stroke="#94a3b8" stroke-width="9" stroke-linecap="round" opacity="0.3">
+            <path d="M182 86 L398 74"/><path d="M186 150 L396 158"/><path d="M180 214 L402 226"/>
+            <path d="M206 70 L194 235"/><path d="M286 70 L296 235"/><path d="M384 70 L374 235"/>
           </g>
-          <g fill="#ef4444">
-            <circle cx="245" cy="115" r="5.5"/><circle cx="335" cy="115" r="5.5"/>
-            <circle cx="245" cy="185" r="5.5"/><circle cx="335" cy="185" r="5.5"/>
-          </g>
-          <!-- 리튬 -->
-          <g fill="#22c55e" opacity="0.32">
-            <circle cx="245" cy="80" r="8"/><circle cx="335" cy="150" r="8"/><circle cx="245" cy="220" r="8"/>
-          </g>
-          <!-- 사방 화살표 -->
-          <g stroke="#e11d48" stroke-width="2.6" marker-end="url(#d1)">
+          <g fill="#7c3aed"><circle cx="200" cy="80" r="8"/><circle cx="290" cy="80" r="8"/><circle cx="380" cy="80" r="8"/><circle cx="200" cy="150" r="8"/><circle cx="290" cy="150" r="8"/><circle cx="380" cy="150" r="8"/><circle cx="200" cy="220" r="8"/><circle cx="290" cy="220" r="8"/><circle cx="380" cy="220" r="8"/></g>
+          <g fill="#ef4444"><circle cx="245" cy="115" r="5.5"/><circle cx="335" cy="115" r="5.5"/><circle cx="245" cy="185" r="5.5"/><circle cx="335" cy="185" r="5.5"/></g>
+          <g class="ph-discharge"><circle cx="245" cy="80" r="8" fill="#22c55e"/><circle cx="335" cy="150" r="8" fill="#22c55e"/><circle cx="245" cy="220" r="8" fill="#22c55e"/><circle cx="335" cy="80" r="8" fill="#22c55e"/><circle cx="245" cy="150" r="8" fill="#22c55e"/></g>
+          <g class="ph-overdischarge"><circle cx="245" cy="80" r="8" fill="#22c55e"/><circle cx="335" cy="150" r="8" fill="#22c55e"/><circle cx="245" cy="220" r="8" fill="#22c55e"/><circle cx="335" cy="80" r="8" fill="#22c55e"/><circle cx="245" cy="150" r="8" fill="#22c55e"/></g>
+          <g class="ph-charge" opacity="0.85"><circle cx="245" cy="80" r="8" fill="#22c55e"/></g>
+          <g class="ph-charge ph-discharge" stroke="#e11d48" stroke-width="2.6" marker-end="url(#d1)">
             <path d="M450 150 L540 150"/><path d="M450 150 L520 90"/><path d="M450 150 L520 210"/>
             <path d="M130 150 L60 150"/><path d="M130 150 L70 95"/><path d="M130 150 L70 205"/>
           </g>
-          <text x="560" y="120" text-anchor="middle" font-size="12.5" fill="#e11d48" font-weight="700">사방팔방</text>
-          <text x="560" y="180" text-anchor="middle" font-size="12.5" fill="#e11d48" font-weight="700">= 3차원</text>
-          <text x="290" y="278" text-anchor="middle" font-size="12.5" fill="#55617a">
-            길이 <tspan font-weight="700" fill="#22c55e">거미줄처럼 사방</tspan>으로 뚫려 있어 리튬이 아주 빨리 움직여요</text>
+          <text class="ph-charge ph-discharge" x="560" y="120" text-anchor="middle" font-size="12.5" fill="#e11d48" font-weight="700">사방팔방</text>
+          <text class="ph-charge ph-discharge" x="560" y="180" text-anchor="middle" font-size="12.5" fill="#e11d48" font-weight="700">= 3차원</text>
+          <text class="ph-charge ph-discharge" x="290" y="282" text-anchor="middle" font-size="12.5" fill="#55617a">
+            길이 <tspan font-weight="700" fill="#22c55e">거미줄처럼 사방</tspan>으로 뚫려 있어
+            <tspan font-weight="700">여러 리튬이 동시에</tspan> 빠르게 움직여요</text>
+          <text class="ph-charge" x="290" y="304" text-anchor="middle" font-size="12" fill="#e11d48">
+            충전 — 리튬이 사방 길로 흩어져 순식간에 빠져나가요 (급속충전에 유리)</text>
+          <text class="ph-discharge" x="290" y="304" text-anchor="middle" font-size="12" fill="#0d9488">
+            방전 — 리튬이 사방에서 한꺼번에 돌아와 자리를 채워요</text>
+          <text class="ph-overcharge" x="290" y="282" text-anchor="middle" font-size="13" fill="#e11d48" font-weight="700">
+            ⚠️ 과충전 — 높은 전압에서 전해액이 분해되고 망간이 약해져요</text>
+          <text class="ph-overcharge" x="290" y="304" text-anchor="middle" font-size="12" fill="#e11d48">
+            가스가 차서 <tspan font-weight="700">셀이 부풀 수 있어요</tspan> (스웰링)</text>
+          <text class="ph-overdischarge" x="290" y="282" text-anchor="middle" font-size="13" fill="#7c3aed" font-weight="700">
+            ⚠️ 과방전 — 격자가 한쪽으로 찌그러져요 (얀-텔러 왜곡)</text>
+          <text class="ph-overdischarge" x="290" y="304" text-anchor="middle" font-size="12" fill="#7c3aed">
+            <tspan font-weight="700">망간이 전해액으로 녹아 나와</tspan> 음극에 쌓이고, 용량이 뚝 떨어져요</text>
+          <text class="ph-overdischarge" x="290" y="326" text-anchor="middle" font-size="12" fill="#8a96ab">
+            특히 더울수록 심해져요 — LMO의 가장 큰 약점이에요</text>
           <g font-size="12.5">
-            <circle cx="150" cy="306" r="8" fill="#22c55e"/><text x="165" y="311" fill="#35404f">Li 리튬</text>
-            <circle cx="250" cy="306" r="8" fill="#7c3aed"/><text x="265" y="311" fill="#35404f">Mn 망간</text>
-            <circle cx="370" cy="306" r="6" fill="#ef4444"/><text x="385" y="311" fill="#35404f">O 산소</text>
-            <text x="450" y="311" fill="#0d9488">👍 힘 세고 저렴</text>
+            <circle cx="150" cy="360" r="8" fill="#22c55e"/><text x="165" y="365" fill="#35404f">Li 리튬</text>
+            <circle cx="250" cy="360" r="8" fill="#7c3aed"/><text x="265" y="365" fill="#35404f">Mn 망간</text>
+            <circle cx="370" cy="360" r="6" fill="#ef4444"/><text x="385" y="365" fill="#35404f">O 산소</text>
+            <text x="450" y="365" fill="#0d9488">👍 힘 세고 저렴</text>
           </g>
-          <!-- 이온은 맨 끝에 둬야 도형 위에 그려진다(SVG 는 z-index 가 없다) -->
-          <g class="ion ion-charge">
-            <circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text>
-            <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M200 220 L290 150 L380 80"/>
-          </g>
-          <g class="ion ion-discharge">
-            <circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text>
-            <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M380 80 L290 150 L200 220"/>
-          </g>
-          <g class="ion ion-charge">
-            <circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text>
-            <animateMotion dur="3.6s" begin="0.9s" repeatCount="indefinite" calcMode="linear" path="M380 150 L290 150 L200 150"/>
-          </g>
-          <g class="ion ion-discharge">
-            <circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text>
-            <animateMotion dur="3.6s" begin="0.9s" repeatCount="indefinite" calcMode="linear" path="M200 150 L290 150 L380 150"/>
-          </g>
-          <g class="ion ion-charge">
-            <circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text>
-            <animateMotion dur="3.6s" begin="1.8s" repeatCount="indefinite" calcMode="linear" path="M245 80 L245 150 L245 220"/>
-          </g>
-          <g class="ion ion-discharge">
-            <circle cx="0" cy="0" r="9" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <text x="0" y="3.1" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="700">Li⁺</text>
-            <animateMotion dur="3.6s" begin="1.8s" repeatCount="indefinite" calcMode="linear" path="M245 220 L245 150 L245 80"/>
-          </g>
-
+          <g class="ion ph-charge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="3.0s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M200 220 L290 150 L380 80"/></g><g class="ion ph-charge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="2.6s" begin="0.5s" repeatCount="indefinite" calcMode="linear" path="M200 150 L290 150 L380 150"/></g><g class="ion ph-charge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="2.8s" begin="1.0s" repeatCount="indefinite" calcMode="linear" path="M245 220 L245 150 L245 80"/></g><g class="ion ph-discharge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="3.0s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M380 80 L290 150 L200 220"/></g><g class="ion ph-discharge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="2.6s" begin="0.5s" repeatCount="indefinite" calcMode="linear" path="M380 150 L290 150 L200 150"/></g><g class="ion ph-discharge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="2.8s" begin="1.0s" repeatCount="indefinite" calcMode="linear" path="M245 80 L245 150 L245 220"/></g><g class="ion ph-overdischarge"><circle cx="0" cy="0" r="9" fill="#7c3aed" stroke="#fff" stroke-width="1.5"/><text x="0" y="3.1" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Mn</text><animateMotion dur="3.2s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M290 150 L470 210"/></g><g class="ion ph-overdischarge"><circle cx="0" cy="0" r="9" fill="#7c3aed" stroke="#fff" stroke-width="1.5"/><text x="0" y="3.1" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Mn</text><animateMotion dur="3.6s" begin="0.8s" repeatCount="indefinite" calcMode="linear" path="M200 150 L90 215"/></g>
           <defs>
             <marker id="d1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
               <path d="M0 0 L9 4.5 L0 9 z" fill="#e11d48"/></marker>
           </defs>
         </svg>
-        <figcaption class="fig-cap">그림 4. 스피넬 구조(LMO) — 리튬이 3차원 그물길로 모든 방향으로 이동</figcaption>
+        <figcaption class="fig-cap">그림 4. 스피넬 구조(LMO) — 사방 그물길로 3차원 이동, 과방전하면 격자가 찌그러져요</figcaption>
       </figure>
 
       <h3 class="t-h">양극재 종류 총정리 — 숫자로 비교해요</h3>
@@ -491,103 +417,108 @@
       <div class="sec-head"><span class="sec-num">04</span><h2>음극재 총정리 — 리튬을 '어떻게' 담느냐</h2></div>
       <p>음극재는 리튬을 담는 <strong>방식</strong>이 소재마다 달라요. 이 차이가 용량과 수명을 가릅니다.</p>
 
-      <figure class="diagram" data-anim data-phase="charge">
-        <svg viewBox="0 0 680 330" role="img"
-             aria-label="흑연은 층 사이에 리튬을 끼워 넣어 거의 부풀지 않고 실리콘은 리튬과 결합해 부피가 3배로 부풀며 갈라집니다">
-          <!-- 흑연 -->
-          <text x="170" y="26" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0284c7">흑연 — 층 사이에 끼워 넣기</text>
-          <g>
-            <rect x="70" y="50" width="90" height="9" rx="2" fill="#475569"/>
-            <rect x="70" y="80" width="90" height="9" rx="2" fill="#475569"/>
-            <rect x="70" y="110" width="90" height="9" rx="2" fill="#475569"/>
-            <rect x="70" y="140" width="90" height="9" rx="2" fill="#475569"/>
-            <text class="only-charge"    x="115" y="172" text-anchor="middle" font-size="11.5" fill="#55617a">충전 전 — 비어 있어요</text>
-            <text class="only-discharge" x="115" y="172" text-anchor="middle" font-size="11.5" fill="#0d9488">방전 후 — 리튬이 빠져나갔어요</text>
-          </g>
-          <g class="only-charge">
-            <path d="M172 100 L206 100" stroke="#e11d48" stroke-width="2.5" marker-end="url(#e2c)"/>
-            <text x="189" y="84" text-anchor="middle" font-size="10.5" fill="#e11d48" font-weight="700">충전</text>
-          </g>
-          <g class="only-discharge">
-            <path d="M206 100 L172 100" stroke="#0d9488" stroke-width="2.5" marker-end="url(#e2d)"/>
-            <text x="189" y="84" text-anchor="middle" font-size="10.5" fill="#0d9488" font-weight="700">방전</text>
-          </g>
-          <g>
-            <rect x="218" y="46" width="90" height="9" rx="2" fill="#475569"/>
-            <rect x="218" y="79" width="90" height="9" rx="2" fill="#475569"/>
-            <rect x="218" y="112" width="90" height="9" rx="2" fill="#475569"/>
-            <rect x="218" y="145" width="90" height="9" rx="2" fill="#475569"/>
-            <g fill="#22c55e">
-              <circle cx="243" cy="67" r="6"/><circle cx="285" cy="67" r="6"/>
-              <circle cx="243" cy="100" r="6"/><circle cx="285" cy="100" r="6"/>
-              <circle cx="243" cy="133" r="6"/><circle cx="285" cy="133" r="6"/>
+      <figure class="diagram" data-anim data-phase="charge" data-phases="charge,discharge,overcharge,overdischarge">
+        <svg viewBox="0 0 680 430" role="img"
+             aria-label="음극재는 충전하면 리튬이 흑연 층 사이로 들어가고 방전하면 빠져나오며, 과충전하면 표면에 리튬이 금속으로 쌓이고 과방전하면 구리 집전체가 녹습니다">
+          <text x="240" y="26" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0284c7">흑연 음극 — 층 사이에 끼워 넣기</text>
+
+          <!-- 구리 집전체 -->
+          <rect class="ph-charge ph-discharge ph-overcharge" x="126" y="48" width="18" height="132" rx="3" fill="#c2410c"/>
+          <rect class="ph-overdischarge" x="126" y="48" width="18" height="132" rx="3" fill="#fdba74"/>
+          <text x="135" y="196" text-anchor="middle" font-size="10" fill="#c2410c">구리</text>
+
+          <!-- 흑연 층 -->
+          <rect x="150" y="56" width="180" height="10" rx="2" fill="#475569"/><rect x="150" y="92" width="180" height="10" rx="2" fill="#475569"/><rect x="150" y="128" width="180" height="10" rx="2" fill="#475569"/><rect x="150" y="164" width="180" height="10" rx="2" fill="#475569"/>
+          <g class="ph-charge ph-overcharge ph-overdischarge"><circle cx="180" cy="76" r="7" fill="#22c55e"/><circle cx="225" cy="76" r="7" fill="#22c55e"/><circle cx="270" cy="76" r="7" fill="#22c55e"/><circle cx="310" cy="76" r="7" fill="#22c55e"/><circle cx="180" cy="112" r="7" fill="#22c55e"/><circle cx="225" cy="112" r="7" fill="#22c55e"/><circle cx="270" cy="112" r="7" fill="#22c55e"/><circle cx="310" cy="112" r="7" fill="#22c55e"/><circle cx="180" cy="148" r="7" fill="#22c55e"/><circle cx="225" cy="148" r="7" fill="#22c55e"/><circle cx="270" cy="148" r="7" fill="#22c55e"/><circle cx="310" cy="148" r="7" fill="#22c55e"/></g>
+          <g class="ph-discharge"><circle cx="180" cy="76" r="7" fill="#22c55e" opacity="0.45"/><circle cx="270" cy="148" r="7" fill="#22c55e" opacity="0.45"/></g>
+
+          <!-- 전해액 쪽 (오른쪽) -->
+          <rect x="360" y="44" width="120" height="140" rx="8" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="1.5"/>
+          <text x="420" y="120" text-anchor="middle" font-size="11.5" fill="#0284c7">전해액</text>
+
+          <!-- 과충전: 표면에 금속 리튬이 쌓이고 뾰족하게 자란다(덴드라이트) -->
+          <g class="ph-overcharge">
+            <rect x="332" y="52" width="12" height="120" rx="3" fill="#d1d5db" stroke="#6b7280"/>
+            <g stroke="#6b7280" stroke-width="3" stroke-linecap="round" fill="none">
+              <path d="M344 70 L372 60"/><path d="M344 110 L378 104"/><path d="M344 150 L368 158"/>
             </g>
-            <text class="only-charge"    x="263" y="176" text-anchor="middle" font-size="11.5" fill="#0d9488">충전 후 — 10%만 부풂</text>
-            <text class="only-discharge" x="263" y="176" text-anchor="middle" font-size="11.5" fill="#55617a">방전 전 — 리튬이 가득</text>
+            <text x="392" y="200" text-anchor="middle" font-size="11" fill="#e11d48" font-weight="700">
+              뾰족한 리튬(덴드라이트)</text>
           </g>
-          <line x1="350" y1="40" x2="350" y2="300" stroke="#e3e8ef" stroke-width="1.5"/>
-          <!-- 실리콘 -->
-          <text x="515" y="26" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0284c7">실리콘 — 리튬과 직접 붙기</text>
-          <circle cx="420" cy="100" r="26" fill="#a8a29e"/>
-          <text x="420" y="105" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">Si</text>
-          <text class="only-charge"    x="420" y="150" text-anchor="middle" font-size="11.5" fill="#55617a">충전 전</text>
-          <text class="only-discharge" x="420" y="150" text-anchor="middle" font-size="11.5" fill="#0d9488">방전 후</text>
-          <g class="only-charge">
-            <path d="M456 100 L490 100" stroke="#e11d48" stroke-width="2.5" marker-end="url(#e2c)"/>
-            <text x="473" y="84" text-anchor="middle" font-size="10.5" fill="#e11d48" font-weight="700">충전</text>
+
+          <!-- 상태 라벨 -->
+          <text class="ph-charge" x="240" y="212" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">
+            충전 — 리튬이 층 사이로 들어가 자리를 채워요</text>
+          <text class="ph-discharge" x="240" y="212" text-anchor="middle" font-size="12" fill="#0d9488" font-weight="700">
+            방전 — 리튬이 층에서 빠져나와 전해액으로 돌아가요</text>
+          <text class="ph-overcharge" x="240" y="212" text-anchor="middle" font-size="12" fill="#e11d48" font-weight="700">
+            과충전 — 층이 꽉 차 더 못 들어간 리튬이 표면에 쌓여요</text>
+          <text class="ph-overdischarge" x="240" y="212" text-anchor="middle" font-size="12" fill="#c2410c" font-weight="700">
+            과방전 — 리튬을 너무 빼내면 구리 집전체가 녹기 시작해요</text>
+
+          <line x1="500" y1="40" x2="500" y2="250" stroke="#e3e8ef" stroke-width="1.5"/>
+
+          <!-- 실리콘: 국면에 따라 부피가 달라진다 -->
+          <text x="592" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#0284c7">실리콘</text>
+          <g class="ph-discharge">
+            <circle cx="592" cy="110" r="28" fill="#a8a29e"/>
+            <text x="592" y="115" text-anchor="middle" font-size="11" fill="#fff" font-weight="700">Si</text>
+            <text x="592" y="164" text-anchor="middle" font-size="11" fill="#55617a">방전 후 — 원래 크기</text>
           </g>
-          <g class="only-discharge">
-            <path d="M490 100 L456 100" stroke="#0d9488" stroke-width="2.5" marker-end="url(#e2d)"/>
-            <text x="473" y="84" text-anchor="middle" font-size="10.5" fill="#0d9488" font-weight="700">방전</text>
+          <g class="ph-charge ph-overcharge ph-overdischarge">
+            <circle cx="592" cy="110" r="56" fill="#bbf7d0" stroke="#22c55e" stroke-width="2.5"/>
+            <circle cx="592" cy="110" r="24" fill="#a8a29e"/>
+            <g fill="#22c55e">
+              <circle cx="592" cy="68" r="6"/><circle cx="628" cy="90" r="6"/><circle cx="628" cy="130" r="6"/>
+              <circle cx="592" cy="152" r="6"/><circle cx="556" cy="130" r="6"/><circle cx="556" cy="90" r="6"/>
+            </g>
+            <g stroke="#e11d48" stroke-width="2.5" fill="none">
+              <path d="M554 66 L570 84"/><path d="M624 148 L638 162"/></g>
+            <text x="592" y="186" text-anchor="middle" font-size="11" fill="#e11d48">충전 후 — 3~4배로 부풀어요</text>
           </g>
-          <circle cx="565" cy="100" r="52" fill="#bbf7d0" stroke="#22c55e" stroke-width="2.5"/>
-          <circle cx="565" cy="100" r="22" fill="#a8a29e"/>
-          <g fill="#22c55e">
-            <circle cx="565" cy="62" r="6"/><circle cx="598" cy="82" r="6"/><circle cx="598" cy="120" r="6"/>
-            <circle cx="565" cy="140" r="6"/><circle cx="532" cy="120" r="6"/><circle cx="532" cy="82" r="6"/>
-          </g>
-          <g stroke="#e11d48" stroke-width="2.5" fill="none">
-            <path d="M530 62 L544 78"/><path d="M596 138 L608 150"/><path d="M520 132 L534 120"/>
-          </g>
-          <text class="only-charge"    x="565" y="172" text-anchor="middle" font-size="11.5" fill="#e11d48">충전 후 — 3~4배로 부풀고 갈라져요</text>
-          <text class="only-discharge" x="565" y="172" text-anchor="middle" font-size="11.5" fill="#e11d48">방전 전 — 부푼 채로 리튬이 가득</text>
-          <!-- 비교 막대 -->
-          <text x="120" y="212" font-size="12.5" font-weight="700" fill="#35404f">담을 수 있는 양(이론값)</text>
-          <rect x="120" y="224" width="46" height="20" rx="3" fill="#94a3b8"/>
-          <text x="176" y="239" font-size="12" fill="#35404f">흑연 372 mAh/g</text>
-          <rect x="120" y="252" width="330" height="20" rx="3" fill="#22c55e"/>
-          <text x="462" y="267" font-size="12" fill="#35404f">실리콘 약 3,600~4,200</text>
-          <text x="340" y="296" text-anchor="middle" font-size="12" fill="#8a96ab">
-            실리콘은 흑연의 <tspan font-weight="700" fill="#22c55e">약 10배</tspan>를 담지만, 그만큼 부풀어서 수명이 문제예요</text>
-          <text x="340" y="320" text-anchor="middle" font-size="12" fill="#55617a">
+
+          <!-- 담을 수 있는 양 비교 -->
+          <text x="120" y="256" font-size="12.5" font-weight="700" fill="#35404f">담을 수 있는 양(이론값)</text>
+          <rect x="120" y="268" width="46" height="20" rx="3" fill="#94a3b8"/>
+          <text x="176" y="283" font-size="12" fill="#35404f">흑연 372 mAh/g</text>
+          <rect x="120" y="296" width="330" height="20" rx="3" fill="#22c55e"/>
+          <text x="462" y="311" font-size="12" fill="#35404f">실리콘 약 3,600~4,200</text>
+
+          <!-- 국면별 자세한 설명 -->
+          <text class="ph-charge" x="340" y="346" text-anchor="middle" font-size="12" fill="#55617a">
+            흑연은 층 사이에 <tspan font-weight="700">끼워 넣기</tspan>라 10%만 부풀지만, 실리콘은
+            리튬과 <tspan font-weight="700">직접 붙어</tspan> 3~4배로 부풀어요</text>
+          <text class="ph-discharge" x="340" y="346" text-anchor="middle" font-size="12" fill="#55617a">
+            리튬이 빠져나가면 실리콘은 다시 오그라들어요 —
+            이 <tspan font-weight="700">부풀고 쪼그라들기가 반복</tspan>되며 입자가 갈라져요</text>
+          <text class="ph-overcharge" x="340" y="346" text-anchor="middle" font-size="12" fill="#e11d48">
+            쌓인 리튬이 <tspan font-weight="700">바늘처럼 자라 분리막을 뚫으면</tspan> 양극과 닿아 단락 → 화재로 이어져요</text>
+          <text class="ph-overcharge" x="340" y="368" text-anchor="middle" font-size="12" fill="#8a96ab">
+            추울 때 급속충전하면 특히 잘 생겨요 — 그래서 저온에서는 충전 속도를 낮춥니다</text>
+          <text class="ph-overdischarge" x="340" y="346" text-anchor="middle" font-size="12" fill="#c2410c">
+            녹아 나온 구리가 <tspan font-weight="700">다시 쌓이면 내부 단락</tspan>을 일으켜요 — 되살릴 수 없는 손상이에요</text>
+          <text class="ph-overdischarge" x="340" y="368" text-anchor="middle" font-size="12" fill="#8a96ab">
+            방전된 배터리를 오래 방치하면 생겨요 — BMS가 하한 전압을 막아 주는 이유입니다</text>
+          <text class="ph-charge ph-discharge" x="340" y="368" text-anchor="middle" font-size="12" fill="#8a96ab">
             그래서 지금은 흑연에 실리콘을 <tspan font-weight="700">5~10%만 섞어</tspan> 쓰며 비율을 조금씩 늘리는 중이에요</text>
-          <!-- 이온은 맨 끝에 둬야 도형 위에 그려진다 -->
-          <g class="ion ion-charge">
-            <circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <animateMotion dur="2.6s" repeatCount="indefinite" calcMode="linear" path="M170 100 L208 100"/>
+
+          <g font-size="12">
+            <circle cx="150" cy="402" r="8" fill="#22c55e"/><text x="166" y="407" fill="#35404f">Li 리튬</text>
+            <rect x="252" y="394" width="16" height="16" rx="2" fill="#475569"/><text x="276" y="407" fill="#35404f">흑연 층</text>
+            <rect x="366" y="394" width="16" height="16" rx="2" fill="#c2410c"/><text x="390" y="407" fill="#35404f">구리 집전체</text>
+            <circle cx="500" cy="402" r="8" fill="#d1d5db" stroke="#6b7280"/><text x="516" y="407" fill="#35404f">쌓인 금속 리튬</text>
           </g>
-          <g class="ion ion-discharge">
-            <circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <animateMotion dur="2.6s" repeatCount="indefinite" calcMode="linear" path="M208 100 L170 100"/>
-          </g>
-          <g class="ion ion-charge">
-            <circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <animateMotion dur="2.6s" repeatCount="indefinite" calcMode="linear" path="M454 100 L492 100"/>
-          </g>
-          <g class="ion ion-discharge">
-            <circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
-            <animateMotion dur="2.6s" repeatCount="indefinite" calcMode="linear" path="M492 100 L454 100"/>
-          </g>
-          <defs>
-            <marker id="e2c" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
-              <path d="M0 0 L9 4.5 L0 9 z" fill="#e11d48"/></marker>
-            <marker id="e2d" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
-              <path d="M0 0 L9 4.5 L0 9 z" fill="#0d9488"/></marker>
-            <marker id="e1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
-              <path d="M0 0 L9 4.5 L0 9 z" fill="#0ea5e9"/></marker>
-          </defs>
+
+          <g class="ion ph-charge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="2.8s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M400 76 L200 76"/></g>
+          <g class="ion ph-charge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="3.2s" begin="0.6s" repeatCount="indefinite" calcMode="linear" path="M400 148 L240 148"/></g>
+          <g class="ion ph-discharge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="2.8s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M200 76 L400 76"/></g>
+          <g class="ion ph-discharge"><circle cx="0" cy="0" r="8" fill="#22c55e" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li⁺</text><animateMotion dur="3.2s" begin="0.6s" repeatCount="indefinite" calcMode="linear" path="M240 148 L400 148"/></g>
+          <g class="ion ph-overcharge"><circle cx="0" cy="0" r="8" fill="#6b7280" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li</text><animateMotion dur="2.4s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M400 110 L350 110"/></g>
+          <g class="ion ph-overcharge"><circle cx="0" cy="0" r="8" fill="#6b7280" stroke="#fff" stroke-width="1.5"/><text x="0" y="2.8" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Li</text><animateMotion dur="2.8s" begin="0.7s" repeatCount="indefinite" calcMode="linear" path="M400 60 L352 58"/></g>
+          <g class="ion ph-overdischarge"><circle cx="0" cy="0" r="9" fill="#c2410c" stroke="#fff" stroke-width="1.5"/><text x="0" y="3.1" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Cu</text><animateMotion dur="3.4s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M136 110 L300 110"/></g>
+          <g class="ion ph-overdischarge"><circle cx="0" cy="0" r="9" fill="#c2410c" stroke="#fff" stroke-width="1.5"/><text x="0" y="3.1" text-anchor="middle" font-size="8" fill="#fff" font-weight="700">Cu</text><animateMotion dur="3.8s" begin="0.9s" repeatCount="indefinite" calcMode="linear" path="M136 150 L280 168"/></g>
         </svg>
-        <figcaption class="fig-cap">그림 5. 흑연은 '끼워 넣기'라 안 부풀고, 실리콘은 '직접 결합'이라 크게 부풀어요</figcaption>
+        <figcaption class="fig-cap">그림 5. 흑연은 층 사이에 리튬을 '끼워 넣고', 실리콘은 '직접 붙어' 크게 부풀어요 — 과충전·과방전이면 손상돼요</figcaption>
       </figure>
 
             <div class="tbl-scroll">
@@ -1579,18 +1510,18 @@
           <circle cx="0" cy="0" r="5" fill="#a21caf" opacity="0.85"><animateMotion dur="3.2s" begin="2.14s" repeatCount="indefinite" calcMode="linear" path="M528 130 L398 130"/></circle>
           <circle cx="0" cy="0" r="5" fill="#e879f9" opacity="0.85"><animateMotion dur="3.2s" begin="2.14s" repeatCount="indefinite" calcMode="linear" path="M398 190 L528 190"/></circle>
           <rect x="40" y="90" width="110" height="140" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5"/>
-          <rect class="only-charge"    x="46" y="132" width="98" height="92" rx="6" fill="#facc15"/>
-          <rect class="only-discharge" x="46" y="160" width="98" height="64" rx="6" fill="#3b82f6"/>
+          <rect class="ph-charge"    x="46" y="132" width="98" height="92" rx="6" fill="#facc15"/>
+          <rect class="ph-discharge" x="46" y="160" width="98" height="64" rx="6" fill="#3b82f6"/>
           <text x="95" y="80" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2563eb">＋ 전해액 탱크</text>
-          <text class="only-charge"    x="95" y="250" text-anchor="middle" font-size="11" fill="#a16207" font-weight="700">VO₂⁺ (노랑) — 가득 참</text>
-          <text class="only-discharge" x="95" y="250" text-anchor="middle" font-size="11" fill="#1d4ed8" font-weight="700">VO²⁺ (파랑) — 다 씀</text>
+          <text class="ph-charge"    x="95" y="250" text-anchor="middle" font-size="11" fill="#a16207" font-weight="700">VO₂⁺ (노랑) — 가득 참</text>
+          <text class="ph-discharge" x="95" y="250" text-anchor="middle" font-size="11" fill="#1d4ed8" font-weight="700">VO²⁺ (파랑) — 다 씀</text>
           <!-- 탱크 우 -->
           <rect x="530" y="90" width="110" height="140" rx="10" fill="#fae8ff" stroke="#a21caf" stroke-width="2.5"/>
-          <rect class="only-charge"    x="536" y="132" width="98" height="92" rx="6" fill="#a855f7"/>
-          <rect class="only-discharge" x="536" y="160" width="98" height="64" rx="6" fill="#22c55e"/>
+          <rect class="ph-charge"    x="536" y="132" width="98" height="92" rx="6" fill="#a855f7"/>
+          <rect class="ph-discharge" x="536" y="160" width="98" height="64" rx="6" fill="#22c55e"/>
           <text x="585" y="80" text-anchor="middle" font-size="12.5" font-weight="700" fill="#a21caf">－ 전해액 탱크</text>
-          <text class="only-charge"    x="585" y="250" text-anchor="middle" font-size="11" fill="#7e22ce" font-weight="700">V²⁺ (보라) — 가득 참</text>
-          <text class="only-discharge" x="585" y="250" text-anchor="middle" font-size="11" fill="#15803d" font-weight="700">V³⁺ (초록) — 다 씀</text>
+          <text class="ph-charge"    x="585" y="250" text-anchor="middle" font-size="11" fill="#7e22ce" font-weight="700">V²⁺ (보라) — 가득 참</text>
+          <text class="ph-discharge" x="585" y="250" text-anchor="middle" font-size="11" fill="#15803d" font-weight="700">V³⁺ (초록) — 다 씀</text>
           <!-- 스택 -->
           <rect x="284" y="110" width="112" height="100" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="2.5"/>
           <line x1="340" y1="110" x2="340" y2="210" stroke="#0d9488" stroke-width="4" stroke-dasharray="6 4"/>
@@ -1638,10 +1569,10 @@
             방전하면 두 극판이 모두 <tspan font-weight="700" fill="#94a3b8">흰 황산납</tspan>으로 변하고,
             충전하면 원래 색으로 돌아와요</text>
           <g>
-            <rect class="only-charge" x="150" y="62" width="46" height="118" rx="4" fill="#64748b"/><rect class="only-discharge" x="150" y="62" width="46" height="118" rx="4" fill="#e2e8f0"/>
-            <rect class="only-charge" x="230" y="62" width="46" height="118" rx="4" fill="#a16207"/><rect class="only-discharge" x="230" y="62" width="46" height="118" rx="4" fill="#e2e8f0"/>
-            <rect class="only-charge" x="310" y="62" width="46" height="118" rx="4" fill="#64748b"/><rect class="only-discharge" x="310" y="62" width="46" height="118" rx="4" fill="#e2e8f0"/>
-            <rect class="only-charge" x="390" y="62" width="46" height="118" rx="4" fill="#a16207"/><rect class="only-discharge" x="390" y="62" width="46" height="118" rx="4" fill="#e2e8f0"/>
+            <rect class="ph-charge" x="150" y="62" width="46" height="118" rx="4" fill="#64748b"/><rect class="ph-discharge" x="150" y="62" width="46" height="118" rx="4" fill="#e2e8f0"/>
+            <rect class="ph-charge" x="230" y="62" width="46" height="118" rx="4" fill="#a16207"/><rect class="ph-discharge" x="230" y="62" width="46" height="118" rx="4" fill="#e2e8f0"/>
+            <rect class="ph-charge" x="310" y="62" width="46" height="118" rx="4" fill="#64748b"/><rect class="ph-discharge" x="310" y="62" width="46" height="118" rx="4" fill="#e2e8f0"/>
+            <rect class="ph-charge" x="390" y="62" width="46" height="118" rx="4" fill="#a16207"/><rect class="ph-discharge" x="390" y="62" width="46" height="118" rx="4" fill="#e2e8f0"/>
             <rect x="164" y="34" width="18" height="14" rx="3" fill="#475569"/>
             <rect x="404" y="34" width="18" height="14" rx="3" fill="#a16207"/>
           </g>
@@ -1700,12 +1631,12 @@
           <text x="340" y="256" text-anchor="middle" font-size="11.5" fill="#8a96ab">
             에너지밀도는 리튬이온의 절반 이하지만 안전해서 <tspan font-weight="700">하이브리드차</tspan>에 오래 쓰였어요</text>
           <!-- 이온은 맨 끝에 둬야 도형 위에 그려진다(SVG 는 z-index 가 없다) -->
-          <g class="ion ion-charge">
+          <g class="ion ph-charge">
             <circle cx="0" cy="0" r="11" fill="#22c55e"/>
             <text x="0" y="4" text-anchor="middle" font-size="9.5" fill="#fff" font-weight="700">H</text>
             <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M352 124 L240 124"/>
           </g>
-          <g class="ion ion-discharge">
+          <g class="ion ph-discharge">
             <circle cx="0" cy="0" r="11" fill="#22c55e"/>
             <text x="0" y="4" text-anchor="middle" font-size="9.5" fill="#fff" font-weight="700">H</text>
             <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M240 124 L352 124"/>
@@ -1759,12 +1690,12 @@
           <text x="340" y="278" text-anchor="middle" font-size="11.5" fill="#e11d48">
             👎 이온이 크고 무거워 <tspan font-weight="700">담기는 에너지가 적어요</tspan> → ESS·보급형 위주</text>
           <!-- 이온은 맨 끝에 둬야 도형 위에 그려진다(SVG 는 z-index 가 없다) -->
-          <g class="ion ion-charge">
+          <g class="ion ph-charge">
             <circle cx="0" cy="0" r="14" fill="#f59e0b"/>
             <text x="0" y="5" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Na⁺</text>
             <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M358 122 L240 122"/>
           </g>
-          <g class="ion ion-discharge">
+          <g class="ion ph-discharge">
             <circle cx="0" cy="0" r="14" fill="#f59e0b"/>
             <text x="0" y="5" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">Na⁺</text>
             <animateMotion dur="3.6s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M240 122 L358 122"/>
@@ -2009,22 +1940,22 @@
           <text x="340" y="256" text-anchor="middle" font-size="12" fill="#8a96ab">
             남은 숙제: 고체끼리 닿는 면에서 이온이 잘 안 흘러요(계면 저항) · 대량생산이 어렵고 비싸요</text>
           <!-- 이온은 맨 끝에 둬야 도형 위에 그려진다(SVG 는 z-index 가 없다) -->
-          <g class="ion ion-charge">
+          <g class="ion ph-charge">
             <circle cx="0" cy="0" r="10" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
             <text x="0" y="3.2" text-anchor="middle" font-size="9" fill="#fff" font-weight="700">Li⁺</text>
             <animateMotion dur="2.4s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M222 76 L120 76"/>
           </g>
-          <g class="ion ion-discharge">
+          <g class="ion ph-discharge">
             <circle cx="0" cy="0" r="10" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
             <text x="0" y="3.2" text-anchor="middle" font-size="9" fill="#fff" font-weight="700">Li⁺</text>
             <animateMotion dur="2.4s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M120 76 L222 76"/>
           </g>
-          <g class="ion ion-charge">
+          <g class="ion ph-charge">
             <circle cx="0" cy="0" r="10" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
             <text x="0" y="3.2" text-anchor="middle" font-size="9" fill="#fff" font-weight="700">Li⁺</text>
             <animateMotion dur="7.2s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M568 76 L462 76"/>
           </g>
-          <g class="ion ion-discharge">
+          <g class="ion ph-discharge">
             <circle cx="0" cy="0" r="10" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>
             <text x="0" y="3.2" text-anchor="middle" font-size="9" fill="#fff" font-weight="700">Li⁺</text>
             <animateMotion dur="7.2s" begin="0s" repeatCount="indefinite" calcMode="linear" path="M462 76 L568 76"/>
@@ -2159,7 +2090,7 @@
     </section>
 
     <div class="report-foot">
-      <div><span class="dot">●</span> 이차전지 용어집 · 15개 주제 · 그림 21종(눌러서 보는 충전·방전 도해 10종)</div>
+      <div><span class="dot">●</span> 이차전지 용어집 · 15개 주제 · 그림 21종(눌러서 보는 충전·방전 도해 10종(양극·음극 4종은 과충전·과방전까지))</div>
       <a class="back-btn" href="../news/">← 리포트 목록으로</a>
     </div>
     <p class="disclaimer">본 자료는 정보 제공 목적이며 투자 권유가 아닙니다.
@@ -2172,22 +2103,28 @@
        통째로 멈춰 버려서 아무것도 안 움직이는 것처럼 보였다.
        이제는 사용자가 직접 눌러서 보는 방식이라 그 설정과 무관하게 항상 동작한다. */
     (function () {
-      var PHASES = [
-        { key: 'charge',    label: '⚡ 충전할 때' },
-        { key: 'discharge', label: '🔌 방전할 때' }
-      ];
+      var PHASES = {
+        charge:        { label: '⚡ 충전할 때',  cls: 'charge' },
+        discharge:     { label: '🔌 방전할 때',  cls: 'discharge' },
+        overcharge:    { label: '⚠️ 과충전',     cls: 'overcharge' },
+        overdischarge: { label: '🪫 과방전',     cls: 'overdischarge' }
+      };
       document.querySelectorAll('figure.diagram[data-anim]').forEach(function (fig) {
+        // data-phases 로 그림마다 지원 국면을 정한다 (없으면 충전/방전 두 가지)
+        var keys = (fig.getAttribute('data-phases') || 'charge,discharge')
+                     .split(',').map(function (s) { return s.trim(); })
+                     .filter(function (k) { return PHASES[k]; });
         var bar = document.createElement('div');
         bar.className = 'phase-switch';
         bar.setAttribute('role', 'group');
-        bar.setAttribute('aria-label', '충전할 때와 방전할 때 골라 보기');
+        bar.setAttribute('aria-label', '충전·방전·과충전·과방전 골라 보기');
 
-        var buttons = PHASES.map(function (p) {
+        var buttons = keys.map(function (k) {
           var b = document.createElement('button');
           b.type = 'button';
-          b.className = 'phase-btn ' + p.key;
-          b.textContent = p.label;
-          b.addEventListener('click', function () { setPhase(p.key); });
+          b.className = 'phase-btn ' + PHASES[k].cls;
+          b.textContent = PHASES[k].label;
+          b.addEventListener('click', function () { setPhase(k); });
           bar.appendChild(b);
           return b;
         });
@@ -2195,14 +2132,15 @@
         function setPhase(key) {
           fig.setAttribute('data-phase', key);
           buttons.forEach(function (b, i) {
-            var on = PHASES[i].key === key;
+            var on = keys[i] === key;
             b.classList.toggle('on', on);
             b.setAttribute('aria-pressed', on ? 'true' : 'false');
           });
         }
 
         fig.insertBefore(bar, fig.firstChild);
-        setPhase(fig.getAttribute('data-phase') || 'charge');
+        var init = fig.getAttribute('data-phase');
+        setPhase(keys.indexOf(init) >= 0 ? init : keys[0]);
       });
     })();
   </script>
