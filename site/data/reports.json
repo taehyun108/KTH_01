@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-05T04:14:51",
+  "generated_at": "2026-08-05T04:30:53",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -45,6 +45,21 @@
       "video_id": "iewc1NCRw5I",
       "pv": 2,
       "scope": "general",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-05-중국의-대대적인-ai-반도체-투자-it-생태계와-ai-데이터센터-시장을-어떻게-바꿀까요",
+      "date": "2026-08-05",
+      "channel": "삼프로TV",
+      "title": "중국의 대대적인 AI·반도체 투자, IT 생태계와 AI 데이터센터 시장을 어떻게 바꿀까요?",
+      "summary": "중국의 AI와 반도체 대규모 투자 및 설비 확장이 글로벌 IT 시장과 에너지 수요에 미칠 영향을 쉽게 풀어드려요.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-08-05-중국의-대대적인-ai-반도체-투자-it-생태계와-ai-데이터센터-시장을-어떻게-바꿀까요.html",
+      "video": "https://www.youtube.com/watch?v=mqcxepnAqjA",
+      "video_id": "mqcxepnAqjA",
+      "pv": 2,
+      "scope": "battery",
       "src": "gemini-video"
     },
     {
