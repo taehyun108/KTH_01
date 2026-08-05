@@ -117,8 +117,29 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .pill-chg { background: #fee2e2; border: 1px solid #e11d48; color: #be123c; }
 .pill-dis { background: #ccfbf1; border: 1px solid #0d9488; color: #0f766e; }
-/* 도해의 움직임은 SMIL 이라 CSS 로 못 멈춘다 —
-   prefers-reduced-motion 처리는 용어집 페이지의 pauseAnimations() 스크립트가 담당 */
+/* 도해 충전/방전 전환 버튼 (그림 왼쪽 위) */
+.phase-switch { display: flex; gap: 6px; margin: 0 0 10px; flex-wrap: wrap; }
+.phase-btn {
+  appearance: none; cursor: pointer; padding: 5px 12px; border-radius: 999px;
+  font: inherit; font-size: 0.8rem; font-weight: 700; line-height: 1.4;
+  background: #fff; color: var(--text-faint); border: 1px solid var(--border);
+  transition: background .12s, color .12s, border-color .12s;
+}
+.phase-btn:hover { border-color: #94a3b8; color: var(--text); }
+.phase-btn:focus-visible { outline: 2px solid #0ea5e9; outline-offset: 2px; }
+.phase-btn.charge.on    { background: #fee2e2; border-color: #e11d48; color: #be123c; }
+.phase-btn.discharge.on { background: #ccfbf1; border-color: #0d9488; color: #0f766e; }
+
+/* 고른 국면에 해당하는 것만 보여 준다.
+   (SMIL 애니메이션은 계속 돌지만 숨겨진 쪽은 그려지지 않는다) */
+.diagram .ion-discharge, .diagram .plate-discharge { display: none; }
+.diagram[data-phase="discharge"] .ion-charge,
+.diagram[data-phase="discharge"] .plate-charge { display: none; }
+.diagram[data-phase="discharge"] .ion-discharge,
+.diagram[data-phase="discharge"] .plate-discharge { display: inline; }
+/* 반대 국면의 화살표는 지우지 않고 흐리게 — 두 방향을 같이 견주어 볼 수 있게 */
+.diagram[data-phase="charge"]    .arr-discharge,
+.diagram[data-phase="discharge"] .arr-charge { opacity: 0.18; }
 
 /* 항목이 많은 비교표 — 좁은 화면에서 가로 스크롤 */
 .tbl-scroll { overflow-x: auto; margin: 10px 0; }
