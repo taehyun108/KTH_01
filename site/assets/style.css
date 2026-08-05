@@ -132,11 +132,11 @@ html { -webkit-text-size-adjust: 100%; }
 
 /* 고른 국면에 해당하는 것만 보여 준다.
    (SMIL 애니메이션은 계속 돌지만 숨겨진 쪽은 그려지지 않는다) */
-.diagram .ion-discharge, .diagram .plate-discharge { display: none; }
+.diagram .ion-discharge, .diagram .only-discharge { display: none; }
 .diagram[data-phase="discharge"] .ion-charge,
-.diagram[data-phase="discharge"] .plate-charge { display: none; }
+.diagram[data-phase="discharge"] .only-charge { display: none; }
 .diagram[data-phase="discharge"] .ion-discharge,
-.diagram[data-phase="discharge"] .plate-discharge { display: inline; }
+.diagram[data-phase="discharge"] .only-discharge { display: inline; }
 /* 반대 국면의 화살표는 지우지 않고 흐리게 — 두 방향을 같이 견주어 볼 수 있게 */
 .diagram[data-phase="charge"]    .arr-discharge,
 .diagram[data-phase="discharge"] .arr-charge { opacity: 0.18; }
