@@ -40,6 +40,11 @@ RENAMED: list[tuple[str, str, str, str]] = [
     # 배터리 업계 사명 변경
     ("포스코케미칼", "포스코퓨처엠", "2023-03",
      "사명 변경 공시 / 2026-08-06 확인"),
+    ("한국아트라스비엑스", "한국앤컴퍼니", "2021-04-01",
+     "한국앤컴퍼니 공식 보도자료·엠투데이·신아일보 교차 확인 / 2026-08-06 확인. "
+     "지주사 한국앤컴퍼니가 흡수합병, 납축전지 사업은 ES사업본부로 편입"),
+    ("한국아트라스BX", "한국앤컴퍼니", "2021-04-01",
+     "위와 같은 건. 영문 약칭 표기도 함께 등록"),
 ]
 
 # 옛 이름이 새 이름의 일부인 경우(예: '환경부' ⊂ '기후에너지환경부')
@@ -56,22 +61,34 @@ def outdated_names() -> list[tuple[str, str]]:
     return [(old, new) for old, new, _, _ in RENAMED]
 
 
+def _both_names_forms(old: str, new: str) -> tuple[str, ...]:
+    """옛 이름과 새 이름을 나란히 적은 '병기' 표기들.
+
+    원문이 옛 이름으로 말했을 때는 이렇게 병기하는 것이 옳다(프롬프트도 그렇게 지시하고,
+    check_names.py --fix 도 이 형태로 고친다). 그러니 병기는 오류로 잡으면 안 된다.
+    """
+    return (
+        f"{old}(현 {new})", f"{old}(현재 {new})", f"{old}(지금 {new})",
+        f"{new}(옛 {old})", f"{new}(구 {old})", f"{new}(전 {old})",
+    )
+
+
 def find_outdated(text: str) -> list[tuple[str, str]]:
     """본문에서 옛 명칭을 찾아 (옛 이름, 현재 이름) 목록으로 돌려준다."""
     hits = []
     for old, new, _, _ in RENAMED:
         if old not in text:
             continue
-        # 새 이름 안에 옛 이름이 통째로 들어 있으면, 새 이름을 쓴 자리인지 확인
-        occurrences = text.count(old)
         masked = text
+        # 1) 병기 표기는 정상이므로 먼저 지운다
+        for form in _both_names_forms(old, new):
+            masked = masked.replace(form, "")
+        # 2) 새 이름 안에 옛 이름이 통째로 들어 있는 경우(예: '환경부' ⊂ '기후에너지환경부')
         for safe in _SAFE_CONTEXT.get(old, ()) + (new,):
             if old in safe:
                 masked = masked.replace(safe, "")
-        if old in masked and masked.count(old) > 0:
+        if old in masked:
             hits.append((old, new))
-        elif occurrences and old not in masked:
-            continue      # 전부 새 이름의 일부였음 → 오탐
     return hits
 
 

@@ -96,6 +96,34 @@ SHORTS_CASES: list[tuple[object, str, bool]] = [
 ]
 
 
+# (문장, 옛 명칭으로 잡혀야 하는가)
+# 병기 표기('옛이름(현 새이름)')는 프롬프트가 지시하고 --fix 도 만들어 내는 <정상> 형태다.
+# 예전에는 이것까지 오류로 잡아서, 고치면 고칠수록 검사가 실패하는 상태였다.
+NAME_CASES: list[tuple[str, bool]] = [
+    ("기획재정부가 세제개편안을 발표했습니다", True),
+    ("기획재정부(현 재정경제부)가 세제개편안을 발표했습니다", False),
+    ("재정경제부(옛 기획재정부)가 세제개편안을 발표했습니다", False),
+    ("재정경제부가 세제개편안을 발표했습니다", False),
+    ("환경부 장관이 참석했습니다", True),
+    ("기후에너지환경부 장관이 참석했습니다", False),   # 새 이름 안에 옛 이름이 들어 있는 경우
+    ("포스코케미칼이 증설합니다", True),
+    ("포스코퓨처엠(구 포스코케미칼)이 증설합니다", False),
+    ("한국아트라스비엑스가 납축전지를 만듭니다", True),
+    ("한국앤컴퍼니(옛 한국아트라스비엑스)가 납축전지를 만듭니다", False),
+]
+
+
+def check_names() -> list[str]:
+    from org_names import find_outdated
+    out = []
+    for text, expect in NAME_CASES:
+        got = bool(find_outdated(text))
+        if got != expect:
+            want = "옛 명칭으로 잡혀야" if expect else "정상으로 통과돼야"
+            out.append(f"  [{want} 함] {text!r} → {find_outdated(text)}")
+    return out
+
+
 def check_shorts() -> list[str]:
     out = []
     for dur, title, expect in SHORTS_CASES:
@@ -116,8 +144,9 @@ def main() -> int:
             fails.append(f"  [{want} 함] {title[:46]!r} → hits={hits[:5]}")
 
     fails += check_shorts()
-    total = len(CASES) + len(SHORTS_CASES)
-    print(f"키워드·쇼츠 판정 테스트 — {total - len(fails)}/{total} 통과")
+    fails += check_names()
+    total = len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
+    print(f"키워드·쇼츠·명칭 판정 테스트 — {total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)
         for f in fails:
