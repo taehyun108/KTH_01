@@ -716,11 +716,9 @@ def render_html(data: dict[str, Any], meta: dict[str, Any], the_date: str) -> st
     src_label = {
         "gemini-video": "🎥 영상 직접 분석",
         "video-description": "📝 영상 설명글 기반",
-        "web-research": "📰 기사·공시 조사",
     }.get(data.get("_transcript_source", ""), "🎬 영상")
-    # 웹 조사 리포트는 원문이 영상이 아니라 기사이므로 링크 문구도 바꾼다
-    src_link_label = ("📰 출처 기사" if data.get("_transcript_source") == "web-research"
-                      else "🎬 원본 영상")
+    # 이 아카이브는 유튜브 영상 요약 전용이다. 기사·보고서를 리포트로 넣지 않는다.
+    src_link_label = "🎬 원본 영상"
 
     # 08 용어 사전 표 (컬러 헤더 행)
     gloss_rows = "".join(
