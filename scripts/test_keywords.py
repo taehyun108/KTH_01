@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import sys
 
+from fetch_history import is_short
 from fetch_rss import match_candidate
 
 # 채널 설명글에 늘 붙는 상용구 — 이것만으로는 절대 후보가 되면 안 된다
@@ -82,6 +83,29 @@ CASES: list[tuple[str, str, bool]] = [
 ]
 
 
+# (길이초, 제목, 쇼츠인가)
+SHORTS_CASES: list[tuple[object, str, bool]] = [
+    (45, "배터리 3사 실적 요약", True),          # 45초 → 쇼츠
+    (180, "관세 한 방에 정리", True),            # 3분 정각 → 쇼츠 상한
+    (181, "관세 완전 분석", False),              # 3분 1초 → 본편
+    (1800, "이차전지 산업 30분 심층 분석", False),
+    (None, "전고체 배터리 총정리 #shorts", True),  # 길이 모름 + 표식
+    (None, "전고체 배터리 총정리", False),         # 길이 모름 + 표식 없음 → 본편으로 봄
+    (None, "리튬 가격 정리 #쇼츠", True),
+    (0, "라이브 다시보기", False),                # 길이 0(미상) → 본편으로 봄
+]
+
+
+def check_shorts() -> list[str]:
+    out = []
+    for dur, title, expect in SHORTS_CASES:
+        got = is_short(dur, title, "")
+        if got != expect:
+            want = "쇼츠로" if expect else "본편으로"
+            out.append(f"  [{want} 판정돼야 함] dur={dur} {title!r} → {got}")
+    return out
+
+
 def main() -> int:
     fails: list[str] = []
     for title, desc, expect in CASES:
@@ -91,8 +115,9 @@ def main() -> int:
             want = "잡혀야" if expect else "걸러져야"
             fails.append(f"  [{want} 함] {title[:46]!r} → hits={hits[:5]}")
 
-    total = len(CASES)
-    print(f"키워드 매칭 테스트 — {total - len(fails)}/{total} 통과")
+    fails += check_shorts()
+    total = len(CASES) + len(SHORTS_CASES)
+    print(f"키워드·쇼츠 판정 테스트 — {total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)
         for f in fails:

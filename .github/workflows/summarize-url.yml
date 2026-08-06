@@ -43,6 +43,11 @@ jobs:
           VIDEO_URL: ${{ inputs.video_url }}
         run: python scripts/summarize_url.py
 
+      # 새로 만든 리포트에 옛 기관·기업 명칭이 없는지 확인
+      - name: Organization name check
+        if: always()
+        run: PYTHONPATH=scripts python scripts/check_names.py
+
       - name: Commit new report
         run: |
           git config user.name  "github-actions[bot]"

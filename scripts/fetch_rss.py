@@ -108,18 +108,28 @@ def fetch_channel(channel: dict[str, str]) -> list[dict[str, Any]]:
               file=sys.stderr)
         return []
 
+    from fetch_history import is_short
+
     feed = feedparser.parse(content)
-    print(f"  [rss] {channel['name']}: entries={len(feed.entries)} status={status}")
     videos = []
+    n_shorts = 0
     for e in feed.entries:
+        title, desc = e.get("title", ""), (e.get("summary") or "")
+        # RSS 는 영상 길이를 주지 않는다. 표식(#shorts)만으로 1차 제외하고,
+        # 길이 기반 제외는 yt-dlp 열거(fetch_history) 쪽에서 처리한다.
+        if is_short(None, title, desc):
+            n_shorts += 1
+            continue
         videos.append({
             "video_id": e.get("yt_videoid") or e.get("id", "").split(":")[-1],
-            "title": e.get("title", ""),
-            "description": (e.get("summary") or ""),
+            "title": title,
+            "description": desc,
             "channel": channel["name"],
             "published": e.get("published", ""),
             "link": e.get("link", ""),
         })
+    extra = f" · 쇼츠 제외 {n_shorts}개" if n_shorts else ""
+    print(f"  [rss] {channel['name']}: entries={len(feed.entries)} status={status}{extra}")
     return videos
 
 

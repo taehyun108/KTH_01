@@ -35,8 +35,9 @@ jobs:
         run: pip install -r requirements.txt
 
       # 키워드를 손댄 뒤 '국내 정책이 통째로 누락'되거나 '무관한 영상이 쏟아지는'
-      # 회귀를 즉시 잡는다. LLM·네트워크를 쓰지 않아 몇 초면 끝난다.
-      - name: Keyword matching regression test
+      # 회귀를 즉시 잡는다. 쇼츠 판정도 함께 검사한다.
+      # LLM·네트워크를 쓰지 않아 몇 초면 끝난다.
+      - name: Keyword and shorts regression test
         run: PYTHONPATH=scripts python scripts/test_keywords.py
 
       # ※ 순서 중요: '최신 영상 수집'이 먼저 쿼터를 쓰고, 남은 쿼터로 옛 리포트를 재생성한다.
@@ -60,6 +61,13 @@ jobs:
         run: python scripts/regenerate.py
 
       # 앞 단계가 실패하더라도 이미 생성된 리포트는 저장한다 (작업 유실 방지)
+      # 발행물 전체에 옛 기관·기업 명칭이 남아 있는지 확인한다.
+      # 명칭 오류는 신뢰를 크게 깎으므로, 생성 프롬프트 주의와 별개로 기계 검사를 둔다.
+      # 이번 실행에서 새로 만든 리포트까지 포함해 검사하도록 커밋 직전에 실행한다.
+      - name: Organization name check
+        if: always()
+        run: PYTHONPATH=scripts python scripts/check_names.py
+
       - name: Commit new reports
         if: always()
         run: |

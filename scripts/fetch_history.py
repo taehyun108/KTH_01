@@ -8,8 +8,19 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
-from config import CHANNELS, CHANNEL_LOOKBACK
+from config import CHANNELS, CHANNEL_LOOKBACK, SHORTS_MAX_SECONDS, SHORTS_MARKERS
 from fetch_rss import match_keywords
+
+
+def is_short(duration: Any, title: str = "", description: str = "") -> bool:
+    """쇼츠인지 판정. 길이를 알면 길이로, 모르면 제목·설명의 표식으로 본다."""
+    try:
+        if duration is not None and 0 < float(duration) <= SHORTS_MAX_SECONDS:
+            return True
+    except (TypeError, ValueError):
+        pass
+    blob = f"{title} {description}".lower()
+    return any(m.lower() in blob for m in SHORTS_MARKERS)
 
 
 def _entry_date(e: dict[str, Any]) -> str:
@@ -45,8 +56,14 @@ def fetch_channel_history(channel: dict[str, str], lookback: int) -> list[dict[s
 
     entries = (info or {}).get("entries") or []
     videos = []
+    n_shorts = 0
     for e in entries:
         if not e or not e.get("id"):
+            continue
+        # 쇼츠 제외 — 본편에서 잘라 낸 조각이라 같은 내용이 중복 생성된다.
+        # 열거 결과에 duration 이 실려 오므로 길이로 먼저 거른다.
+        if is_short(e.get("duration"), e.get("title", ""), e.get("description", "")):
+            n_shorts += 1
             continue
         videos.append({
             "video_id": e["id"],
@@ -59,7 +76,8 @@ def fetch_channel_history(channel: dict[str, str], lookback: int) -> list[dict[s
             "link": f"https://www.youtube.com/watch?v={e['id']}",
         })
     n_desc = sum(1 for v in videos if v["description"])
-    print(f"  [hist] {channel['name']}: {len(videos)}개 열거 (설명 있음 {n_desc}개)")
+    extra = f" · 쇼츠 제외 {n_shorts}개" if n_shorts else ""
+    print(f"  [hist] {channel['name']}: {len(videos)}개 열거 (설명 있음 {n_desc}개){extra}")
     return videos
 
 
