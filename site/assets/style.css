@@ -104,6 +104,11 @@ html { -webkit-text-size-adjust: 100%; }
   margin: 10px 0 0; font-size: 0.82rem; color: var(--text-faint);
   text-align: center; line-height: 1.5;
 }
+/* 표 아래 단서 — 수치·사례의 범위를 밝히는 작은 글씨 */
+.tbl-note {
+  margin: 10px 2px 0; font-size: 0.8rem; color: var(--text-faint); line-height: 1.65;
+}
+
 /* 도해 애니메이션 안내 */
 .anim-note {
   margin: 14px 0 4px; padding: 12px 14px; border-radius: 12px;
