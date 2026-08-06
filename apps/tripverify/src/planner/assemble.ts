@@ -8,6 +8,7 @@ import { hasSourcedValue } from "@/core/types/verified-fact";
 export const PLAN = {
   DAY_START_MIN: 9 * 60, // 09:00
   POI_DURATION_MIN: 90,
+  ALL_DAY_MIN: 360, // 종일 체류형(테마파크) 6시간
   LUNCH_MIN: 12 * 60 + 30, // 12:30
   LUNCH_DURATION: 60,
   DINNER_MIN: 18 * 60 + 30, // 18:30
@@ -95,20 +96,25 @@ export function assembleDay(input: DayAssemblyInput): ItineraryDay {
       if (input.lunch && hasSourcedValue(input.lunch)) cursor = Math.max(cursor + leg, PLAN.LUNCH_MIN) + PLAN.LUNCH_DURATION;
     }
 
+    // 종일 체류형(테마파크)은 긴 블록으로 배치
+    const durationMin = poi.all_day ? PLAN.ALL_DAY_MIN : PLAN.POI_DURATION_MIN;
     const startMin = cursor + leg;
-    const endMin = startMin + PLAN.POI_DURATION_MIN;
+    const endMin = startMin + durationMin;
 
     if (!fitsOpeningHours(poi, input.weekday, startMin, endMin)) {
       warnings.push(`휴무/영업시간 밖으로 제외: ${poi.name}`);
       continue; // 휴무일·시간 밖은 배치하지 않음
     }
-    if (activity + PLAN.POI_DURATION_MIN > PLAN.MAX_ACTIVITY_MIN) {
+    if (activity + durationMin > PLAN.MAX_ACTIVITY_MIN && items.some((it) => it.kind === "poi")) {
       warnings.push("하루 활동 10시간 상한 초과 → 이후 일정 다음 날 재배치 권장");
       break;
     }
     if (endMin > endCap) {
       warnings.push("공항 역산 시각 초과 → 마지막 일정 제외");
       break;
+    }
+    if (poi.all_day) {
+      warnings.push(`${poi.name}: 종일 코스 — 내부 어트랙션·식당 이용(순서·메뉴는 후기 링크 참고)`);
     }
 
     items.push({
@@ -125,7 +131,7 @@ export function assembleDay(input: DayAssemblyInput): ItineraryDay {
       },
     });
     travel += leg;
-    activity += PLAN.POI_DURATION_MIN;
+    activity += durationMin;
     cursor = endMin;
   }
 

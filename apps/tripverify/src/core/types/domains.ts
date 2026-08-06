@@ -49,6 +49,12 @@ export interface Poi {
   categories?: string[];
   /** 방문 권장 시간대(감수성): 전망대·타워 등은 evening(야경). */
   time_pref?: TimePref;
+  /** Wikipedia 요약 설명(추천 사유의 근거, 실제 출처). */
+  description?: string;
+  /** OSM 에도 존재(현존·구글지도 검색 가능성 높음). */
+  on_osm?: boolean;
+  /** 종일 체류형(테마파크 등) — 하루 코스로 안내. */
+  all_day?: boolean;
 }
 
 // --- food-agent → restaurants.json ---

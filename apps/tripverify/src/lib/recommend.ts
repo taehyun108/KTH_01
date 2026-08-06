@@ -77,11 +77,18 @@ export function recommendReason(
   const cats = (p.categories ?? [])
     .map((c) => BUCKET_LABEL[c as Bucket])
     .filter(Boolean);
-  const base = cats.length ? `${cats.join("·")} 명소` : "가볼 만한 곳";
   const hints: string[] = [];
+  if (p.all_day) hints.push("🎢 종일 코스");
   if (p.time_pref === "evening") hints.push("🌆 저녁 야경 추천");
   else if (p.time_pref === "morning") hints.push("🌅 오전 방문 추천");
   if (confidence !== "low") hints.push("독립 출처 교차검증");
+
+  // Wikipedia 설명이 있으면 그것을 '왜 추천하는지'의 근거로 사용(§0 실제 출처)
+  if (p.description) {
+    const tag = cats.length ? `[${cats.join("·")}] ` : "";
+    return `${tag}${p.description}${hints.length ? ` · ${hints.join(" · ")}` : ""}`;
+  }
+  const base = cats.length ? `${cats.join("·")} 명소` : "가볼 만한 곳";
   return [base, ...hints].join(" · ");
 }
 

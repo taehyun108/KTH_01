@@ -124,6 +124,7 @@ export function scoreSeed(seed: PoiSeed, pref: Set<Bucket>, wikiNear: boolean): 
   let score = 0;
   if (seed.notable) score += 3;
   if (wikiNear) score += 2;
+  if (seed.on_osm) score += 3; // OSM 존재 = 현존·구글지도 검색 가능성 → 강하게 우대
   const cats = seed.categories ?? [];
   const overlap = cats.filter((c) => pref.has(c as Bucket)).length;
   score += Math.min(overlap, 2) * 2;
@@ -189,12 +190,30 @@ export function wikiFallbackSeeds(wiki: WikiArticle[]): PoiSeed[] {
     });
 }
 
-/** OSM 후보(정보 풍부) 우선, OSM 에 없는 위키 명소를 추가 병합(근접 중복 제거). */
+/**
+ * OSM 후보(정보 풍부) 우선, OSM 에 없는 위키 명소를 추가 병합.
+ * 위키 명소가 OSM 지점과 근접하면 on_osm=true(현존·구글검색 가능성) 표시.
+ */
 export function mergeByProximity(osmSeeds: PoiSeed[], wikiSeeds: PoiSeed[]): PoiSeed[] {
-  const out: PoiSeed[] = osmSeeds.map((s) => ({ ...s, origin: "osm" }) as PoiSeed);
+  const out: PoiSeed[] = osmSeeds.map((s) => ({ ...s, origin: "osm", on_osm: true }) as PoiSeed);
   for (const w of wikiSeeds) {
-    const dup = out.some((o) => haversineMeters(o.location, w.location) <= TOLERANCE.geo_distance_m);
-    if (!dup) out.push(w);
+    const near = osmSeeds.some((o) => haversineMeters(o.location, w.location) <= TOLERANCE.geo_distance_m);
+    if (near) continue; // OSM 에 이미 있으면 중복 → OSM 것 사용
+    out.push({ ...w, on_osm: false });
   }
   return out;
+}
+
+/** 폐관/철거/이전 등 '현재 방문 불가/구글 미검색' 가능성이 높은 설명. */
+const DEFUNCT_RE = /\b(former|formerly|closed|defunct|demolished|no longer|abolished|disused|abandoned|relocated|ceased)\b|폐관|폐업|철거|이전함/i;
+
+export function isDefunctDescription(desc?: string): boolean {
+  return !!desc && DEFUNCT_RE.test(desc);
+}
+
+/** 종일 체류형(테마파크 등) 판별. */
+export function inferAllDay(name: string, categories: string[] | undefined): boolean {
+  const t = name.toLowerCase();
+  if (/universal|disney|studios|legoland|랜드|월드|테마파크|theme\s?park/.test(t)) return true;
+  return (categories ?? []).includes("activity") && /park|land|world/.test(t);
 }

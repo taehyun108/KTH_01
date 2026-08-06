@@ -30,6 +30,18 @@ describe("recommendReason", () => {
     expect(reason).toContain("야경");
     expect(reason).toContain("교차검증");
   });
+
+  it("POI: Wikipedia 설명이 있으면 구체적 사유로 사용", () => {
+    const p: Poi = {
+      name: "Osaka Castle",
+      location: { lat: 0, lng: 0 },
+      categories: ["history"],
+      description: "Osaka Castle is one of Japan's most famous landmarks.",
+    };
+    const reason = recommendReason(p, "poi", "medium");
+    expect(reason).toContain("most famous landmarks");
+    expect(reason).toContain("[역사]");
+  });
 });
 
 describe("timePrefFromCategories (감수성)", () => {

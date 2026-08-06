@@ -6,7 +6,8 @@ import { resolveContextOffline } from "@/agents/offline/geocode";
 import { dateHolidaysReader } from "@/agents/offline/holidays";
 import { discoverPois, discoverRestaurants, wikiNearby } from "@/agents/fetchers/osm-discovery";
 import { buildPoiFacts, buildRestaurantFacts } from "@/agents/poi-build";
-import { selectPois, wikiFallbackSeeds, mergeByProximity } from "@/agents/poi-select";
+import { selectPois, wikiFallbackSeeds, mergeByProximity, isDefunctDescription, inferAllDay } from "@/agents/poi-select";
+import { wikiDescriptions } from "@/agents/fetchers/wiki-desc";
 import { dayCount } from "@/agents/schema";
 import { liveCurrencyReaders } from "@/agents/fetchers/currency";
 import { liveWeatherReaders } from "@/agents/fetchers/weather";
@@ -46,17 +47,42 @@ export function liveDeps(): PipelineDeps {
         wikiNearby(ctx.center).catch(() => []),
       ]);
       const merged = mergeByProximity(overpassSeeds, wikiFallbackSeeds(wiki));
-      // 도시당 일수에 맞춰 상위 장소만 컨셉·유명도로 선별(무명/무관 장소 제외).
       const cities = Math.max(q.destinations.length, 1);
       const perCityDays = Math.max(1, Math.round(dayCount(q.start_date, q.end_date) / cities));
-      const limit = Math.min(Math.max(perCityDays * 6, 8), 40);
-      const selected = selectPois(merged, wiki, {
+      const limit = Math.min(Math.max(perCityDays * 7, 12), 50); // 하루 3곳+ 확보용 넉넉히
+
+      // 1차 넓게 선별(설명 조회 후 폐관·비검색 필터로 좁힘)
+      const prelim = selectPois(merged, wiki, {
         ...(q.concept ? { concept: q.concept } : {}),
         styles: q.style,
-        limit,
+        limit: limit * 2,
       });
+
+      // Wikipedia 설명 배치 조회(영어 제목 기준) → 추천 사유 근거 + defunct 판별
+      const descKey = (s: (typeof prelim)[number]) => s.name_en || s.name;
+      const descMap = await wikiDescriptions(prelim.map(descKey)).catch(() => new Map());
+      const enriched = prelim.map((s) => {
+        const d = descMap.get(descKey(s));
+        const description = d?.extract ?? d?.description;
+        return {
+          ...s,
+          ...(description ? { description } : {}),
+          all_day: inferAllDay(s.name_en || s.name, s.categories),
+        };
+      });
+
+      // 폐관/철거 제외 + OSM 없고 설명도 없는(구글 미검색 위험) 위키 단독 제외.
+      // 단, 설명 API 자체가 실패했으면(descMap 비어있음) 설명 없음으로 과도하게
+      // 버리지 않는다(빈 일정 방지).
+      const descWorked = descMap.size > 0;
+      const findable = enriched.filter((s) => {
+        if (isDefunctDescription(s.description)) return false;
+        if (descWorked && !s.on_osm && s.origin === "wiki" && !s.description) return false;
+        return true;
+      });
+      const final = findable.slice(0, limit);
       const osmPoints = overpassSeeds.map((s) => s.location);
-      return buildPoiFacts(selected, osmPoints, wiki);
+      return buildPoiFacts(final, osmPoints, wiki);
     },
 
     collectFood: async (ctx) => {

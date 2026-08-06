@@ -8,6 +8,8 @@ import {
   inferCategoriesFromTitle,
   wikiFallbackSeeds,
   mergeByProximity,
+  isDefunctDescription,
+  inferAllDay,
 } from "@/agents/poi-select";
 import type { PoiSeed, WikiArticle } from "@/agents/poi-build";
 
@@ -105,5 +107,25 @@ describe("Wikipedia 기반 POI (클라우드 안정 소스)", () => {
     ];
     const merged = mergeByProximity(osm, wikiSeeds);
     expect(merged.map((m) => m.name)).toEqual(["성(OSM)", "먼 명소"]);
+    expect(merged[0]!.on_osm).toBe(true);
+    expect(merged[1]!.on_osm).toBe(false);
+  });
+
+  it("isDefunctDescription: 폐관/철거 설명 감지", () => {
+    expect(isDefunctDescription("A former museum, closed in 2014")).toBe(true);
+    expect(isDefunctDescription("A famous castle in Osaka")).toBe(false);
+    expect(isDefunctDescription(undefined)).toBe(false);
+  });
+
+  it("inferAllDay: 테마파크 종일 판별", () => {
+    expect(inferAllDay("Universal Studios Japan", ["activity"])).toBe(true);
+    expect(inferAllDay("Osaka Castle", ["history"])).toBe(false);
+  });
+
+  it("scoreSeed: OSM 존재(구글검색 가능)를 강하게 우대", () => {
+    const pref = conceptBuckets(undefined, ["history"]);
+    const onOsm = { name: "a", location: loc, categories: ["history"], notable: true, on_osm: true };
+    const noOsm = { name: "b", location: loc, categories: ["history"], notable: true, on_osm: false };
+    expect(scoreSeed(onOsm, pref, false)).toBeGreaterThan(scoreSeed(noOsm, pref, false));
   });
 });

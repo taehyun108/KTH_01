@@ -25,6 +25,12 @@ export interface PoiSeed {
   notable?: boolean;
   /** 이 후보의 1차 출처(정직한 출처 표기). 기본 osm. */
   origin?: "osm" | "wiki";
+  /** Wikipedia 요약 설명(추천 사유 근거). */
+  description?: string;
+  /** OSM 에도 존재(현존·구글지도 검색 가능성). */
+  on_osm?: boolean;
+  /** 종일 체류형(테마파크 등). */
+  all_day?: boolean;
 }
 export interface RestaurantSeed {
   name: string;
@@ -74,6 +80,9 @@ export function buildPoiFacts(
       ...(seed.admission_fee_local !== undefined ? { admission_fee_local: seed.admission_fee_local } : {}),
       ...(seed.categories ? { categories: seed.categories } : {}),
       time_pref: timePrefFromCategories(seed.categories),
+      ...(seed.description ? { description: seed.description } : {}),
+      ...(seed.on_osm !== undefined ? { on_osm: seed.on_osm } : {}),
+      ...(seed.all_day ? { all_day: seed.all_day } : {}),
     };
     const origin = seed.origin ?? "osm";
     const primary = origin === "wiki" ? WIKI_SOURCE : OSM_SOURCE;
