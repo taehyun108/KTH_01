@@ -14,6 +14,10 @@ on:
     workflows: ["Build report archive", "Summarize submitted URL", "Delete report"]
     types: [completed]
   workflow_dispatch:
+  # 배포가 실패하면 다음 커밋이 있을 때까지 사이트가 옛 내용에 머문다.
+  # 하루 한 번(06:40 KST) 자동으로 다시 배포해 그 상태가 오래가지 않게 한다.
+  schedule:
+    - cron: "40 21 * * *"
 
 permissions:
   contents: read
@@ -29,7 +33,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -38,6 +42,19 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
+      # GitHub Pages 쪽이 붐비면 기본 대기(10분) 안에 안 끝나 'Timeout reached' 로 실패한다.
+      # (2026-08-06 21시 실행이 이 사유로 실패해 사이트가 138건에서 멈췄다)
+      # 대기 시간을 넉넉히 주고, 그래도 실패하면 한 번 더 시도한다.
       - name: Deploy
         id: deployment
+        continue-on-error: true
         uses: actions/deploy-pages@v4
+        with:
+          timeout: 1200000        # 20분 (기본 10분)
+
+      - name: Deploy (재시도)
+        if: steps.deployment.outcome == 'failure'
+        id: deployment_retry
+        uses: actions/deploy-pages@v4
+        with:
+          timeout: 1200000
