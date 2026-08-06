@@ -53,7 +53,7 @@ jobs:
           PIPELINE_BUDGET_MIN: "35"
         run: python scripts/run_pipeline.py
 
-      # 남은 쿼터로 옛 말투(v1) 리포트를 새 말투(v2)로 교체 — 며칠에 걸쳐 점진 완료
+      # 남은 쿼터로 옛 말투 리포트를 현재 말투(PROMPT_VERSION)로 교체 — 며칠에 걸쳐 점진 완료
       - name: Regenerate old reports with the new tone (leftover quota)
         env:
           GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
@@ -67,6 +67,12 @@ jobs:
       - name: Organization name check
         if: always()
         run: PYTHONPATH=scripts python scripts/check_names.py
+
+      # 말투가 한쪽 어미로 쏠렸는지(=딱딱하게 읽히는지) 기계적으로 확인한다.
+      # 이번 말투 버전으로 만들어진 리포트만 본다(옛 버전은 재생성 대기 중이라 제외).
+      - name: Tone check (어미 쏠림)
+        if: always()
+        run: PYTHONPATH=scripts python scripts/check_tone.py
 
       - name: Commit new reports
         if: always()

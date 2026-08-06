@@ -48,6 +48,11 @@ jobs:
         if: always()
         run: PYTHONPATH=scripts python scripts/check_names.py
 
+      # 어미가 한쪽으로 쏠려 딱딱하게 읽히지는 않는지 확인
+      - name: Tone check (어미 쏠림)
+        if: always()
+        run: PYTHONPATH=scripts python scripts/check_tone.py
+
       - name: Commit new report
         run: |
           git config user.name  "github-actions[bot]"
