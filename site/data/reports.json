@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-06T14:29:19",
+  "generated_at": "2026-08-07T13:15:06",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -17,6 +17,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-07-gdp-반토막-난-아이슬란드의-반전-지열-에너지가-이끈-경제-부활과-데이터센터의-미래",
+      "date": "2026-08-07",
+      "channel": "Economics Explained",
+      "title": "GDP 반토막 난 아이슬란드의 반전… 지열 에너지가 이끈 경제 부활과 데이터센터의 미래",
+      "summary": "2008년 금융위기로 경제가 폭락했던 아이슬란드가 풍부한 지열 에너지와 신재생전력을 발판 삼아 알루미늄 제련 및 AI 데이터센터 요충지로 대반전에 성공한 비결을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-08-07-gdp-반토막-난-아이슬란드의-반전-지열-에너지가-이끈-경제-부활과-데이터센터의-미래.html",
+      "video": "https://www.youtube.com/watch?v=M2LrHMKFcdU",
+      "video_id": "M2LrHMKFcdU",
+      "pv": 4,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-08-06-호르무즈-해협-통행료-협상-타결-가능성과-국제-유가-중동-정세의-향방",
       "date": "2026-08-06",
