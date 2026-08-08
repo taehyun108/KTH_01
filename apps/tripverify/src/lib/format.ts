@@ -128,6 +128,16 @@ export function naverMapSearch(query: string): string {
   return `https://map.naver.com/p/search/${encodeURIComponent(query)}`;
 }
 
+/** 네이버 통합검색(핫플·가볼만한곳 등 최신 블로그/뷰). */
+export function naverSearch(query: string): string {
+  return `https://search.naver.com/search.naver?query=${encodeURIComponent(query)}`;
+}
+
+/** 인스타그램 태그(요즘 뜨는 곳 사진). 태그는 공백 제거. */
+export function instagramTag(tag: string): string {
+  return `https://www.instagram.com/explore/tags/${encodeURIComponent(tag.replace(/\s+/g, ""))}/`;
+}
+
 // ── 항공편 검색 (실시간 시각/가격 확인, 키 불필요) ────────────────────
 /** 구글 항공권(자유 텍스트 검색, 프리필). */
 export function googleFlights(origin: string, dest: string, date: string): string {

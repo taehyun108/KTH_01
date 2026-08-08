@@ -6,7 +6,7 @@ import { resolveContextOffline } from "@/agents/offline/geocode";
 import { dateHolidaysReader } from "@/agents/offline/holidays";
 import { discoverPois, discoverRestaurants, wikiNearby } from "@/agents/fetchers/osm-discovery";
 import { buildPoiFacts, buildRestaurantFacts } from "@/agents/poi-build";
-import { selectPois, wikiFallbackSeeds, mergeByProximity, isDefunctDescription, inferAllDay, isVisitorAttraction } from "@/agents/poi-select";
+import { selectPois, wikiFallbackSeeds, mergeByProximity, isDefunctDescription, inferAllDay, isVisitorAttraction, fameScore } from "@/agents/poi-select";
 import { wikiDescriptions } from "@/agents/fetchers/wiki-desc";
 import { dayCount } from "@/agents/schema";
 import { liveCurrencyReaders } from "@/agents/fetchers/currency";
@@ -81,7 +81,8 @@ export function liveDeps(): PipelineDeps {
         if (descWorked && !s.on_osm && s.origin === "wiki" && !s.description) return false;
         return true;
       });
-      const final = findable.slice(0, limit);
+      // 유명도 순 재정렬 → 무명보다 유명 명소를 상위로
+      const final = findable.sort((a, b) => fameScore(b) - fameScore(a)).slice(0, limit);
       const osmPoints = overpassSeeds.map((s) => s.location);
       return buildPoiFacts(final, osmPoints, wiki);
     },

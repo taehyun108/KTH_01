@@ -4,8 +4,8 @@ import { runPipeline } from "@/pipeline/run";
 import { liveDeps } from "@/pipeline/live-deps";
 import { Planner } from "@/components/Planner";
 
-// 1시간마다 서버에서 예시 일정을 갱신(ISR) → 열면 바로 콘텐츠가 보이는 웹페이지.
-export const revalidate = 3600;
+// 예시 일정을 자주 갱신(ISR 2분) → 최신 코드/데이터가 빨리 반영되도록.
+export const revalidate = 120;
 
 function defaultQuery(): TripQuery {
   const d = (offset: number) =>

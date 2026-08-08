@@ -11,6 +11,7 @@ import {
   isDefunctDescription,
   inferAllDay,
   isVisitorAttraction,
+  fameScore,
 } from "@/agents/poi-select";
 import type { PoiSeed, WikiArticle } from "@/agents/poi-build";
 
@@ -143,6 +144,26 @@ describe("Wikipedia 기반 POI (클라우드 안정 소스)", () => {
     expect(
       isVisitorAttraction({ name: "Y", location: loc, origin: "wiki", description: "a famous museum" }),
     ).toBe(true);
+  });
+
+  it("fameScore: 유명 명소(긴 설명·OSM·유명키워드)가 무명보다 상위", () => {
+    const famous = {
+      name: "Osaka Castle",
+      location: loc,
+      on_osm: true,
+      notable: true,
+      categories: ["history"],
+      description:
+        "Osaka Castle is one of Japan's most famous landmarks and a major tourist attraction, playing a major role in the unification of Japan.",
+    };
+    const obscure = {
+      name: "Ikukunitama Shrine",
+      location: loc,
+      notable: true,
+      categories: ["religious"],
+      description: "A shrine in Osaka.",
+    };
+    expect(fameScore(famous)).toBeGreaterThan(fameScore(obscure));
   });
 
   it("scoreSeed: OSM 존재(구글검색 가능)를 강하게 우대", () => {

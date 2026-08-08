@@ -98,7 +98,7 @@ export async function discoverRestaurants(center: GeoPoint, radius = 7000, limit
 }
 
 /** 도시 인근 Wikipedia 문서(좌표) — POI 교차검증·유명도 판정 후보. */
-export async function wikiNearby(center: GeoPoint, radius = 10000, limit = 200): Promise<WikiArticle[]> {
+export async function wikiNearby(center: GeoPoint, radius = 12000, limit = 500): Promise<WikiArticle[]> {
   const url =
     `https://en.wikipedia.org/w/api.php?action=query&list=geosearch&format=json` +
     `&gscoord=${center.lat}%7C${center.lng}&gsradius=${radius}&gslimit=${limit}`;
@@ -113,6 +113,13 @@ export async function wikiNearby(center: GeoPoint, radius = 10000, limit = 200):
  * 여러 필터의 합집합(union) 쿼리를 올바르게 구성한다.
  * 각 필터에 (around) 와 세미콜론을 붙여야 유효한 Overpass QL 이 된다.
  */
+/** Overpass 공개 미러 — 하나가 막히면 다음으로 폴백(클라우드 안정성). */
+const OVERPASS_MIRRORS = [
+  "https://overpass-api.de/api/interpreter",
+  "https://overpass.kumi.systems/api/interpreter",
+  "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
+];
+
 async function overpassUnion(
   filters: string[],
   center: GeoPoint,
@@ -123,10 +130,16 @@ async function overpassUnion(
     .map((f) => `${f}(around:${radius},${center.lat},${center.lng});`)
     .join("");
   const q = `[out:json][timeout:25];(${body});out center ${limit};`;
-  const data = await fetchJson<OverpassResp>(
-    `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(q)}`,
-  );
-  return data.elements ?? [];
+  const enc = encodeURIComponent(q);
+  for (const mirror of OVERPASS_MIRRORS) {
+    try {
+      const data = await fetchJson<OverpassResp>(`${mirror}?data=${enc}`, { timeoutMs: 16_000 });
+      if (data.elements) return data.elements;
+    } catch {
+      // 다음 미러로 폴백
+    }
+  }
+  return [];
 }
 
 function coord(el: OverpassEl): GeoPoint | null {

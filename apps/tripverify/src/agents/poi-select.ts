@@ -206,7 +206,26 @@ export function mergeByProximity(osmSeeds: PoiSeed[], wikiSeeds: PoiSeed[]): Poi
 }
 
 /** 폐관/철거/이전 등 '현재 방문 불가/구글 미검색' 가능성이 높은 설명. */
-const DEFUNCT_RE = /\b(former|formerly|closed|defunct|demolished|no longer|abolished|disused|abandoned|relocated|ceased)\b|폐관|폐업|철거|이전함/i;
+const DEFUNCT_RE =
+  /\b(former|formerly|closed|defunct|demolished|no longer|abolished|disused|abandoned|relocated|ceased|was a|were a|used to be|permanently closed|closed in \d{4})\b|폐관|폐업|철거|이전함/i;
+
+/** 유명도 신호(위키 설명에 자주 등장). */
+const FAME_RE = /famous|popular|iconic|landmark|one of the|most (visited|famous)|major|well-known|renowned|must-see|symbol of|largest|oldest|tallest/i;
+
+/**
+ * 유명도 점수 — 무명 신사보다 오사카성 같은 유명 명소를 상위로.
+ * OSM 관광 태그(실제 명소) + 위키 설명 분량(=문서 크기=인지도) + 유명 키워드.
+ */
+export function fameScore(seed: PoiSeed): number {
+  let s = 0;
+  if (seed.on_osm) s += 4; // OSM 관광 태그 = 실제 방문 명소
+  if (seed.notable) s += 2;
+  const desc = seed.description ?? "";
+  s += Math.min(desc.length / 40, 4); // 설명 길수록 유명
+  if (FAME_RE.test(desc)) s += 3;
+  s += Math.min((seed.categories ?? []).length, 2);
+  return s;
+}
 
 export function isDefunctDescription(desc?: string): boolean {
   return !!desc && DEFUNCT_RE.test(desc);
