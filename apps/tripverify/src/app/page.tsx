@@ -27,7 +27,7 @@ function defaultQuery(): TripQuery {
 /** 서버에서 예시 일정을 생성. 느리거나 실패해도 페이지는 항상 렌더된다. */
 async function buildExample(q: TripQuery): Promise<Itinerary | null> {
   try {
-    const timeout = new Promise<null>((resolve) => setTimeout(() => resolve(null), 20_000));
+    const timeout = new Promise<null>((resolve) => setTimeout(() => resolve(null), 30_000));
     return await Promise.race([runPipeline(q, liveDeps()), timeout]);
   } catch {
     return null;

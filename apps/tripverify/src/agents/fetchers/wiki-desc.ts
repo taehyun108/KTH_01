@@ -21,7 +21,8 @@ export interface WikiDesc {
 /** 제목 목록 → 제목별 설명 맵. 배치(20개씩), 원제목 기준 매핑. */
 export async function wikiDescriptions(titles: string[]): Promise<Map<string, WikiDesc>> {
   const out = new Map<string, WikiDesc>();
-  const uniq = [...new Set(titles)].filter(Boolean);
+  // 최대 60개(3배치)만 조회 — 서버리스 시간예산 보호
+  const uniq = [...new Set(titles)].filter(Boolean).slice(0, 60);
   for (let i = 0; i < uniq.length; i += 20) {
     const chunk = uniq.slice(i, i + 20);
     try {
@@ -29,7 +30,7 @@ export async function wikiDescriptions(titles: string[]): Promise<Map<string, Wi
         `https://en.wikipedia.org/w/api.php?action=query&format=json&redirects=1` +
         `&prop=extracts|description&exintro=1&explaintext=1&exlimit=max` +
         `&titles=${encodeURIComponent(chunk.join("|"))}`;
-      const data = await fetchJson<WikiQueryResp>(url);
+      const data = await fetchJson<WikiQueryResp>(url, { timeoutMs: 6_000 });
       // 원제목 → 최종제목 매핑(정규화/리다이렉트)
       const alias = new Map<string, string>();
       for (const n of data.query?.normalized ?? []) alias.set(n.from, n.to);

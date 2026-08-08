@@ -253,9 +253,16 @@ function addDays(date: string, d: number): string {
   return new Date(Date.parse(date) + d * 86_400_000).toISOString().slice(0, 10);
 }
 
-async function safe<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
+/**
+ * 수집 함수를 실행하되 예외/시간초과 시 fallback 반환.
+ * 서버리스(60s) 한도를 넘기지 않도록 각 단계에 상한을 둔다.
+ */
+async function safe<T>(fn: () => Promise<T>, fallback: T, ms = 18_000): Promise<T> {
   try {
-    return await fn();
+    return await Promise.race([
+      fn(),
+      new Promise<T>((resolve) => setTimeout(() => resolve(fallback), ms)),
+    ]);
   } catch {
     return fallback;
   }

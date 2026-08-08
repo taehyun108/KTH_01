@@ -98,11 +98,13 @@ export async function discoverRestaurants(center: GeoPoint, radius = 7000, limit
 }
 
 /** 도시 인근 Wikipedia 문서(좌표) — POI 교차검증·유명도 판정 후보. */
-export async function wikiNearby(center: GeoPoint, radius = 12000, limit = 500): Promise<WikiArticle[]> {
+export async function wikiNearby(center: GeoPoint, radius = 12000, limit = 400): Promise<WikiArticle[]> {
   const url =
     `https://en.wikipedia.org/w/api.php?action=query&list=geosearch&format=json` +
     `&gscoord=${center.lat}%7C${center.lng}&gsradius=${radius}&gslimit=${limit}`;
-  const data = await fetchJson<{ query?: { geosearch?: { title: string; lat: number; lon: number }[] } }>(url);
+  const data = await fetchJson<{ query?: { geosearch?: { title: string; lat: number; lon: number }[] } }>(url, {
+    timeoutMs: 8_000,
+  });
   return (data.query?.geosearch ?? []).map((g) => ({
     title: g.title,
     location: { lat: g.lat, lng: g.lon },
@@ -113,11 +115,10 @@ export async function wikiNearby(center: GeoPoint, radius = 12000, limit = 500):
  * 여러 필터의 합집합(union) 쿼리를 올바르게 구성한다.
  * 각 필터에 (around) 와 세미콜론을 붙여야 유효한 Overpass QL 이 된다.
  */
-/** Overpass 공개 미러 — 하나가 막히면 다음으로 폴백(클라우드 안정성). */
+/** Overpass 공개 미러 — 하나가 막히면 다음으로 폴백(짧은 타임아웃). */
 const OVERPASS_MIRRORS = [
   "https://overpass-api.de/api/interpreter",
   "https://overpass.kumi.systems/api/interpreter",
-  "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
 ];
 
 async function overpassUnion(
@@ -129,11 +130,12 @@ async function overpassUnion(
   const body = filters
     .map((f) => `${f}(around:${radius},${center.lat},${center.lng});`)
     .join("");
-  const q = `[out:json][timeout:25];(${body});out center ${limit};`;
+  const q = `[out:json][timeout:12];(${body});out center ${limit};`;
   const enc = encodeURIComponent(q);
   for (const mirror of OVERPASS_MIRRORS) {
     try {
-      const data = await fetchJson<OverpassResp>(`${mirror}?data=${enc}`, { timeoutMs: 16_000 });
+      // 짧은 타임아웃(7s) — Overpass 는 보강용이므로 느리면 즉시 폴백/포기
+      const data = await fetchJson<OverpassResp>(`${mirror}?data=${enc}`, { timeoutMs: 7_000 });
       if (data.elements) return data.elements;
     } catch {
       // 다음 미러로 폴백

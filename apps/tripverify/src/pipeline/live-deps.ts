@@ -51,11 +51,12 @@ export function liveDeps(): PipelineDeps {
       const perCityDays = Math.max(1, Math.round(dayCount(q.start_date, q.end_date) / cities));
       const limit = Math.min(Math.max(perCityDays * 7, 12), 50); // 하루 3곳+ 확보용 넉넉히
 
-      // 1차 넓게 선별(설명 조회 후 폐관·비검색 필터로 좁힘)
+      // 1차 넓게 선별(설명 조회 후 폐관·비검색 필터로 좁힘). 설명 조회 비용을
+      // 고려해 후보를 과하지 않게(최대 45개) 제한.
       const prelim = selectPois(merged, wiki, {
         ...(q.concept ? { concept: q.concept } : {}),
         styles: q.style,
-        limit: limit * 2,
+        limit: Math.min(limit + 18, 45),
       });
 
       // Wikipedia 설명 배치 조회(영어 제목 기준) → 추천 사유 근거 + defunct 판별

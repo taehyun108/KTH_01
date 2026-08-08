@@ -47,7 +47,18 @@ export async function POST(req: Request) {
   }
 
   try {
-    const itinerary = await runPipeline(parsed.data as TripQuery, liveDeps());
+    // 서버리스 하드 리밋(60s) 전에 반드시 응답하도록 52s 가드.
+    const guard = new Promise<null>((resolve) => setTimeout(() => resolve(null), 52_000));
+    const itinerary = await Promise.race([
+      runPipeline(parsed.data as TripQuery, liveDeps()),
+      guard,
+    ]);
+    if (!itinerary) {
+      return NextResponse.json(
+        { error: "생성 시간이 초과되었습니다. 잠시 후 다시 시도해 주세요.", timeout: true },
+        { status: 504 },
+      );
+    }
     return NextResponse.json(itinerary, { status: 200 });
   } catch (e) {
     return NextResponse.json(
