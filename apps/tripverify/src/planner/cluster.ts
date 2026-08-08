@@ -1,5 +1,5 @@
 import type { GeoPoint } from "@/core/types/domains";
-import { haversineMeters, centroid } from "@/lib/geo";
+import { haversineMeters } from "@/lib/geo";
 
 export interface Place {
   id: string;
@@ -22,32 +22,35 @@ export function clusterByDay(places: Place[], k: number): string[][] {
     return distributeTrivially(places, k);
   }
 
-  let centers = seedFarthest(places, k);
-  let assignment: number[] = new Array(places.length).fill(0);
+  // 용량 균형 배정: 각 날이 비슷한 수의 장소를 갖도록(하루 편중 방지).
+  // farthest 시딩으로 대략적 지역 중심을 잡고, 용량 한도 내에서 최근접 배정.
+  const centers = seedFarthest(places, k);
+  const capacity = Math.ceil(places.length / k);
+  const counts = new Array(k).fill(0);
+  const assignment = new Array<number>(places.length).fill(-1);
 
-  for (let iter = 0; iter < 50; iter++) {
-    let changed = false;
-    // assign
-    for (let i = 0; i < places.length; i++) {
-      const best = nearestCenter(places[i]!.location, centers);
-      if (assignment[i] !== best) {
-        assignment[i] = best;
-        changed = true;
-      }
-    }
-    // update
-    const next: GeoPoint[] = [];
-    for (let c = 0; c < k; c++) {
-      const members = places.filter((_, i) => assignment[i] === c).map((p) => p.location);
-      next.push(members.length > 0 ? centroid(members) : centers[c]!);
-    }
-    centers = next;
-    if (!changed) break;
+  // '가장 확신 있는(최근접이 가까운)' 장소부터 배정
+  const order = places
+    .map((p, i) => ({ i, d: minCenterDist(p.location, centers) }))
+    .sort((a, b) => a.d - b.d);
+
+  for (const { i } of order) {
+    const ranked = centers
+      .map((c, ci) => ({ ci, d: haversineMeters(places[i]!.location, c) }))
+      .sort((a, b) => a.d - b.d);
+    // 용량이 남은 가장 가까운 군집에 배정
+    let target = ranked.find((r) => counts[r.ci] < capacity)?.ci ?? ranked[0]!.ci;
+    assignment[i] = target;
+    counts[target]++;
   }
 
   const clusters: string[][] = Array.from({ length: k }, () => []);
   places.forEach((p, i) => clusters[assignment[i]!]!.push(p.id));
-  return rebalanceEmpty(clusters, places);
+  return clusters;
+}
+
+function minCenterDist(p: GeoPoint, centers: GeoPoint[]): number {
+  return Math.min(...centers.map((c) => haversineMeters(p, c)));
 }
 
 function distributeTrivially(places: Place[], k: number): string[][] {
@@ -74,29 +77,3 @@ function seedFarthest(places: Place[], k: number): GeoPoint[] {
   return centers;
 }
 
-function nearestCenter(p: GeoPoint, centers: GeoPoint[]): number {
-  let best = 0;
-  let bestD = Infinity;
-  centers.forEach((c, i) => {
-    const d = haversineMeters(p, c);
-    if (d < bestD) {
-      bestD = d;
-      best = i;
-    }
-  });
-  return best;
-}
-
-/** 빈 군집이 생기면 가장 큰 군집에서 한 개를 이동시켜 채운다. */
-function rebalanceEmpty(clusters: string[][], places: Place[]): string[][] {
-  const byId = new Map(places.map((p) => [p.id, p.location] as const));
-  for (let c = 0; c < clusters.length; c++) {
-    if (clusters[c]!.length > 0) continue;
-    const biggest = clusters.reduce((a, b) => (b.length > a.length ? b : a), clusters[0]!);
-    if (biggest.length <= 1) continue;
-    const moved = biggest.pop()!;
-    void byId;
-    clusters[c]!.push(moved);
-  }
-  return clusters;
-}

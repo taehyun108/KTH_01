@@ -152,8 +152,9 @@ function hasNearWiki(wiki: WikiArticle[], at: GeoPoint): boolean {
 }
 
 // ── Wikipedia 기반 POI 후보(클라우드에서 안정적인 주 소스) ─────────────
-/** 관광지가 아닌 위키 문서(역/학교/행정구역 등) 배제. */
-const WIKI_BLOCK = /station|駅|line\b|철도|역\b|university|college|school|학교|hospital|병원|prefecture|ward|district|-ku\b|구청|정류장|airport|공항|highway|expressway|국도|river\b|강\b|election|festival\s|배구|축구|野球|selebrity|singer|band|manga|anime|company|corporation|주식회사|list of/i;
+/** 관광지가 아닌 위키 문서(역/학교/관공서/기업 등) 배제. */
+const WIKI_BLOCK =
+  /station|駅|\bline\b|철도|\b역\b|university|college|\bschool\b|학교|hospital|병원|clinic|prefecture|\bward\b|district|-ku\b|구청|정류장|airport|공항|highway|expressway|국도|\briver\b|\b강\b|election|festival\s|배구|축구|野球|celebrity|singer|band|manga|anime|company|corporation|주식회사|\blist of|administration|\bagency\b|ministry|government|headquarters|bureau|\bauthority\b|commission|council|department of|embassy|consulate|\bbank\b|association|federation|institute of|research center|office\b|법원|court\b|경찰|police|city hall|시청|군청|도청/i;
 
 /** 위키 제목에서 카테고리 추론(영어/현지 키워드). */
 export function inferCategoriesFromTitle(title: string): Bucket[] {
@@ -209,6 +210,25 @@ const DEFUNCT_RE = /\b(former|formerly|closed|defunct|demolished|no longer|aboli
 
 export function isDefunctDescription(desc?: string): boolean {
   return !!desc && DEFUNCT_RE.test(desc);
+}
+
+/** 관공서·기업 등 '관광 대상 아님'을 설명으로 감지. */
+const NON_ATTRACTION_DESC =
+  /government|agency|ministry|administration|company|corporation|headquarters|organization|organisation|authority|institution|정부|기관|공사|공단|본사|기업|회사|대학|학교|병원|법원|관공서/i;
+/** 실제 방문 대상(관광지) 신호. */
+const ATTRACTION_DESC =
+  /temple|shrine|museum|park|garden|castle|palace|tower|market|gallery|monument|memorial|zoo|aquarium|landmark|historic|cathedral|church|mosque|observ|waterfall|mountain|\blake\b|beach|island|bridge|\bgate\b|square|plaza|hot spring|onsen|theme park|shopping|statue|\btomb\b|ruins|\bfort\b|pagoda|pavilion|사찰|사원|신사|박물관|공원|정원|성\b|시장|미술관|기념|전망|타워|해변|폭포|유적|사당/i;
+
+/**
+ * 관광 대상인지 판정. OSM 에 있거나(현존 시설), 카테고리가 잡히거나,
+ * 설명/제목이 관광지 신호를 가지면 true. 관공서/기업 신호면 false.
+ */
+export function isVisitorAttraction(seed: PoiSeed): boolean {
+  const text = `${seed.name} ${seed.name_en ?? ""} ${seed.description ?? ""}`;
+  if (NON_ATTRACTION_DESC.test(text) && !ATTRACTION_DESC.test(text)) return false;
+  if (seed.on_osm) return true;
+  if ((seed.categories ?? []).length > 0) return true;
+  return ATTRACTION_DESC.test(text);
 }
 
 /** 종일 체류형(테마파크 등) 판별. */

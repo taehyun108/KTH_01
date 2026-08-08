@@ -23,6 +23,8 @@ const PRICE_MAP: Record<string, 1 | 2 | 3 | 4> = {
 
 /** 커피 체인 등 식사로 부적절한 이름(스타벅스 등) 배제. */
 const COFFEE_RE = /star\s*bucks|스타벅스|tully|coffee|카페|커피|doutor|excelsior|커피빈|coffee\s*bean/i;
+/** 미개업/폐업/임시휴업 등 방문 불가 식당 배제. */
+const NOT_OPEN_RE = /即將開幕|即将开业|opening soon|coming soon|準備中|준비\s*중|临时关闭|臨時休業|temporarily closed|permanently closed|폐업|closed down/i;
 
 function names(tags: Record<string, string>): Pick<PoiSeed, "name" | "name_en" | "name_ko"> {
   const local = tags["name"];
@@ -78,7 +80,10 @@ export async function discoverRestaurants(center: GeoPoint, radius = 7000, limit
     const cuisine = tags["cuisine"];
     // 커피/카페성 식당은 저녁 후보에서 제외
     if (cuisine && /coffee_shop|cafe/.test(cuisine)) return [];
-    if (COFFEE_RE.test(nm.name) || (nm.name_en && COFFEE_RE.test(nm.name_en))) return [];
+    const nameText = `${nm.name} ${nm.name_en ?? ""}`;
+    if (COFFEE_RE.test(nameText)) return [];
+    // 미개업/폐업/임시휴업 식당 제외
+    if (NOT_OPEN_RE.test(nameText) || tags["opening_hours"] === "closed" || tags["disused"] === "yes") return [];
     const oh = tags["opening_hours"];
     const price = tags["price"] ? PRICE_MAP[tags["price"]] : undefined;
     const seed: RestaurantSeed = {

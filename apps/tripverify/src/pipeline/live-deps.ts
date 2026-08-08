@@ -6,7 +6,7 @@ import { resolveContextOffline } from "@/agents/offline/geocode";
 import { dateHolidaysReader } from "@/agents/offline/holidays";
 import { discoverPois, discoverRestaurants, wikiNearby } from "@/agents/fetchers/osm-discovery";
 import { buildPoiFacts, buildRestaurantFacts } from "@/agents/poi-build";
-import { selectPois, wikiFallbackSeeds, mergeByProximity, isDefunctDescription, inferAllDay } from "@/agents/poi-select";
+import { selectPois, wikiFallbackSeeds, mergeByProximity, isDefunctDescription, inferAllDay, isVisitorAttraction } from "@/agents/poi-select";
 import { wikiDescriptions } from "@/agents/fetchers/wiki-desc";
 import { dayCount } from "@/agents/schema";
 import { liveCurrencyReaders } from "@/agents/fetchers/currency";
@@ -77,6 +77,7 @@ export function liveDeps(): PipelineDeps {
       const descWorked = descMap.size > 0;
       const findable = enriched.filter((s) => {
         if (isDefunctDescription(s.description)) return false;
+        if (!isVisitorAttraction(s)) return false; // 관공서·기업 등 비관광 제외
         if (descWorked && !s.on_osm && s.origin === "wiki" && !s.description) return false;
         return true;
       });

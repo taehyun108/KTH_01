@@ -66,6 +66,23 @@ describe("clusterByDay", () => {
     const clusters = clusterByDay(places.slice(0, 2), 5);
     expect(clusters.flat().length).toBe(2);
   });
+
+  it("용량 균형: 한 지역에 몰려도 하루 편중 없이 고르게 분배", () => {
+    // 7곳은 A 근처, 2곳은 B 근처 → 예전 K-means 는 7/2 로 편중
+    const many: Place[] = [
+      ...Array.from({ length: 7 }, (_, i) => ({
+        id: `a${i}`,
+        location: { lat: 35.68 + i * 0.001, lng: 139.76 + i * 0.001 },
+      })),
+      { id: "b0", location: { lat: 34.69, lng: 135.5 } },
+      { id: "b1", location: { lat: 34.7, lng: 135.51 } },
+    ];
+    const clusters = clusterByDay(many, 3);
+    const sizes = clusters.map((c) => c.length);
+    expect(clusters.flat().length).toBe(9);
+    expect(Math.max(...sizes)).toBeLessThanOrEqual(3); // 용량(ceil(9/3)=3) 초과 없음
+    expect(Math.min(...sizes)).toBeGreaterThanOrEqual(2); // 편중 없이 고르게
+  });
 });
 
 describe("route-agent (해버사인 폴백)", () => {
