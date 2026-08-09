@@ -88,23 +88,36 @@ def main() -> int:
             print(f"  [진단] 후보 {len(candidates)}건이 모두 처리 완료된 영상 — 신규 없음",
                   file=sys.stderr)
 
-    # 채널별로 묶어 각 채널 내 최신순 정렬
-    by_ch: dict[str, list] = defaultdict(list)
-    for c in fresh:
-        by_ch[c["channel"]].append(c)
-    for lst in by_ch.values():
-        lst.sort(key=lambda c: c.get("published", ""), reverse=True)
+    def _round_robin(items: list, cap: float) -> list:
+        """채널을 번갈아 뽑아 특정 채널 독점을 막는다 (슈카월드 등 공정 포함)."""
+        by_ch: dict[str, list] = defaultdict(list)
+        for c in items:
+            by_ch[c["channel"]].append(c)
+        for lst in by_ch.values():
+            lst.sort(key=lambda c: c.get("published", ""), reverse=True)
+        out: list = []
+        while len(out) < cap and any(by_ch.values()):
+            for ch in list(by_ch):
+                if by_ch[ch]:
+                    out.append(by_ch[ch].pop(0))
+                    if len(out) >= cap:
+                        break
+        return out
 
-    # 라운드로빈: 채널을 번갈아 뽑아 특정 채널 독점 방지 (슈카월드 등 공정 포함)
+    # 설명글이 충분한 후보를 <먼저> 처리한다.
+    # 설명이 없는 후보는 영상 직접 분석으로 넘어가는데, 영상 쿼터는 텍스트보다 훨씬
+    # 빨리 바닥난다. 순서를 섞어 두면 값싼 텍스트 후보가 뒤로 밀려, 쿼터·시간이
+    # 비싼 쪽에 먼저 쓰이고 정작 만들 수 있는 것을 못 만든다.
     cap = float("inf") if MAX_CANDIDATES_PER_RUN is None else MAX_CANDIDATES_PER_RUN
-    selected: list = []
-    while len(selected) < cap and any(by_ch.values()):
-        for ch in list(by_ch):
-            if by_ch[ch]:
-                selected.append(by_ch[ch].pop(0))
-                if len(selected) >= cap:
-                    break
-    fresh = selected
+    def _has_desc(c) -> bool:
+        return len((c.get("description") or "").strip()) >= MIN_CONTEXT_CHARS
+
+    with_desc = [c for c in fresh if _has_desc(c)]
+    without = [c for c in fresh if not _has_desc(c)]
+    fresh = _round_robin(with_desc, cap)
+    if len(fresh) < cap:
+        fresh += _round_robin(without, cap - len(fresh))
+    print(f"  처리 순서: 설명글 충분 {len(with_desc)}건 먼저 → 영상 분석 필요 {len(without)}건")
 
     # 근거(자막·설명) 게이트에 전부 걸려 '신규 0건'이 나올 때 원인을 바로 알 수 있게,
     # 처리 전에 후보들이 들고 있는 설명글 길이 분포를 남긴다.

@@ -442,6 +442,17 @@ class QuotaExhausted(Exception):
     """일일(또는 지속) 쿼터 소진 — 이번 실행은 조기 종료해야 함."""
 
 
+class VideoQuotaExhausted(Exception):
+    """<영상 분석> 쿼터만 소진 — 텍스트 생성은 아직 가능하다.
+
+    무료 티어는 유튜브 영상 입력에 별도의 하루 한도를 둔다. 이 한도는 일반 텍스트
+    생성 한도보다 훨씬 먼저 바닥나는데, 예전에는 이것을 QuotaExhausted 로 올려
+    <실행 전체>를 중단시켰다. 그 결과 설명글이 충분해 텍스트만으로 만들 수 있었던
+    후보 수십 건이 손도 못 대고 버려졌다(하루 1건만 올라오던 원인).
+    그래서 별도 예외로 분리해, 영상 분석만 접고 나머지는 계속 처리한다.
+    """
+
+
 def _retry_delay(msg: str, default: float) -> float:
     m = re.search(r"retry(?:Delay)?['\":\s]+([\d.]+)s", msg, re.IGNORECASE)
     return min(float(m.group(1)) + 1.0, 30.0) if m else default
@@ -538,8 +549,10 @@ def _generate_from_video(client, model: str, types, prompt: str, video_url: str,
         except Exception as exc:  # noqa: BLE001
             msg = str(exc)
             is_429 = "RESOURCE_EXHAUSTED" in msg or "429" in msg
+            # 영상 입력은 하루 한도가 따로 있고 텍스트보다 훨씬 빨리 바닥난다.
+            # 실행 전체를 세우지 말고 영상 분석만 접도록 별도 예외로 올린다.
             if is_429 and _is_daily_quota(msg):
-                raise QuotaExhausted(msg)
+                raise VideoQuotaExhausted(msg)
             transient = is_429 or "503" in msg or "UNAVAILABLE" in msg or "500" in msg
             if transient and attempt < max_retries - 1:
                 wait = _retry_delay(msg, delay)
@@ -847,8 +860,15 @@ def process_video(meta: dict[str, Any], force: bool = False,
         global _video_fails
         try:
             data = analyze_video_direct(meta, force=force, scope=scope)
-        except QuotaExhausted:
-            raise
+        except VideoQuotaExhausted as exc:
+            # 영상 쿼터만 소진됐다. 이 후보는 포기하되 실행은 계속한다 —
+            # 설명글이 충분한 남은 후보들은 텍스트만으로 얼마든지 만들 수 있다.
+            if _video_fails < VIDEO_FAIL_LIMIT:
+                _video_fails = VIDEO_FAIL_LIMIT
+                print("  [영상분석] 오늘 영상 분석 쿼터를 다 썼습니다 — "
+                      "이번 실행에서는 영상 분석만 중단하고 나머지는 계속 처리합니다.",
+                      file=sys.stderr)
+            raise InsufficientContext("영상 분석 쿼터 소진") from exc
         except Exception as exc:  # noqa: BLE001
             _video_fails += 1
             if _video_fails == VIDEO_FAIL_LIMIT:
