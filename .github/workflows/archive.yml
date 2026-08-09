@@ -40,6 +40,13 @@ jobs:
       - name: Keyword and shorts regression test
         run: PYTHONPATH=scripts python scripts/test_keywords.py
 
+      # 채널 id 는 사람이 못 읽는 24자라, 한 글자만 틀려도 오류 없이 '조용히 0건'이
+      # 된다. 몇 주 뒤에야 알아채는 일이 없도록 매 실행 확인한다.
+      # 실패시키지는 않는다 — 유튜브가 일시적으로 5xx 를 주는 일이 있어서,
+      # 그것 때문에 수집 자체를 멈추면 손해가 더 크다.
+      - name: Channel health check
+        run: PYTHONPATH=scripts python scripts/check_channels.py --warn
+
       # ※ 순서 중요: '최신 영상 수집'이 먼저 쿼터를 쓰고, 남은 쿼터로 옛 리포트를 재생성한다.
       #   (반대로 하면 재생성이 일일 쿼터를 다 써버려 최신 영상이 계속 밀린다)
       - name: Run pipeline (RSS → 키워드 필터 → Gemini 요약 → HTML → 인덱스)

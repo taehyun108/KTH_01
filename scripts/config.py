@@ -31,6 +31,10 @@ CHANNELS = [
     {"name": "슈퍼개미 이세무사TV",  "channel_id": "UCowHl0BGalL433P6bCBgeKA"},
     {"name": "손석희의 12시",        "channel_id": "UCSb2WFb8m73erqFmP04Mokw"},
     {"name": "손에 잡히는 경제",      "channel_id": "UCiYbaVEODktcsh09454Grow"},
+    # 박종훈의 지식한방 (@kpunch) — 2026-08-09 추가.
+    # 채널 id 는 PLAYBOARD 채널 페이지와 youtube.com/channel/<id>/videos('jisik-hanbang')
+    # 두 곳에서 교차 확인했다. scripts/check_channels.py 로 실제 응답도 확인할 수 있다.
+    {"name": "박종훈의 지식한방",     "channel_id": "UCOB62fKRT7b73X7tRxMuN2g"},
     # 전인구경제연구소는 사용자 요청으로 제외됨.
     # 해외 거시경제·시사 채널 (영어) — 자막/키워드는 영문 처리
     {"name": "Patrick Boyle",       "channel_id": "UCASM0cgfkJxQ1ICmRilfHLw"},
