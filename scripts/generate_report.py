@@ -22,6 +22,7 @@ import time
 from datetime import date
 from typing import Any
 
+import transcript_cache
 from config import GEMINI_MODEL, NEWS_DIR, DRAFTS_DIR, CATEGORIES
 from org_names import prompt_block
 
@@ -347,9 +348,19 @@ def _transcript_api(video_id: str) -> str:
 def get_transcript(video_id: str) -> tuple[str, str]:
     """자막 텍스트와 소스 표기를 반환. (text, source)
 
-    1) youtube-transcript-api → 2) yt-dlp 자막(수동/자동) → 3) 영상 설명 순으로 시도.
-    각 단계의 실패 사유를 로그로 남긴다(원인 없는 '자막 부재'를 방지).
+    0) 집 PC 가 받아 둔 캐시 → 1) youtube-transcript-api → 2) yt-dlp 자막 →
+    3) 영상 설명 순으로 시도. 각 단계의 실패 사유를 로그로 남긴다
+    (원인 없는 '자막 부재'를 방지).
+
+    캐시를 맨 앞에 두는 이유: Actions 러너 IP 는 유튜브에 차단돼 1·2 단계가
+    사실상 항상 실패한다. 가정용 IP 로 미리 받아 둔 것이 있으면 그것이 최선이다.
     """
+    cached = transcript_cache.get(video_id)
+    if cached:
+        text, src = cached
+        print(f"  [자막] {video_id}: 캐시 사용 ({len(text)}자, 출처 {src})")
+        return text, src
+
     try:
         text = _transcript_api(video_id)
         if len(text) > 40:
