@@ -16,6 +16,7 @@ from collections import defaultdict
 from datetime import date, timedelta
 
 from fetch_rss import collect_candidates
+import seen_store
 from generate_report import (process_video, QuotaExhausted, InsufficientContext,
                              MIN_CONTEXT_CHARS, VIDEO_ANALYSIS_MAX, video_usage)
 from build_index import merge, load_existing
@@ -78,7 +79,13 @@ def main() -> int:
         print(f"1차 후보 — RSS {len(rss)}건 + 최근 {MAX_AGE_DAYS}일 열거 {len(hist)}건 "
               f"→ 중복 제거 {len(candidates)}건")
     seen = _seen_video_ids()
-    fresh = [c for c in candidates if c["video_id"] not in seen]
+    # 발행된 것뿐 아니라 <이미 판정이 끝난> 것도 제외한다. 그러지 않으면 30일 후보 풀
+    # 안의 '무관' 영상을 매 실행 다시 Gemini 에 물어보며 하루치 쿼터를 거기서 다 쓴다.
+    skip_store = seen_store.load()
+    blocked = seen_store.blocked_ids(skip_store)
+    print(f"  {seen_store.summary(skip_store)} → 이번 실행 제외 {len(blocked)}건")
+    fresh = [c for c in candidates
+             if c["video_id"] not in seen and c["video_id"] not in blocked]
     # 신규 0건일 때 원인(수집 실패인지 / 이미 처리된 것인지)을 즉시 알 수 있게 남긴다
     if not fresh:
         if not candidates:
@@ -154,9 +161,13 @@ def main() -> int:
                 new_reports.append(result)
             else:
                 n_drafts += 1
+                seen_store.record(skip_store, meta["video_id"],
+                                  seen_store.REASON_IRRELEVANT, meta.get("title", ""))
                 print(f"  – drafts(무관 판정): {meta['title'][:40]}")
         except InsufficientContext as exc:
             n_skip += 1
+            seen_store.record(skip_store, meta["video_id"],
+                              seen_store.REASON_NO_CONTEXT, meta.get("title", ""))
             print(f"  – 건너뜀(근거부족): {meta['title'][:38]} — {exc}", file=sys.stderr)
         except QuotaExhausted:
             print(f"  ! 일일 쿼터 소진 — 이번 실행 조기 종료 (성공 {len(new_reports)}건 저장)",
@@ -169,6 +180,9 @@ def main() -> int:
 
     if new_reports:
         merge(new_reports)
+    # 판정 결과를 남긴다. 쿼터 소진으로 중간에 끊겼더라도 여기까지의 판정은 저장해,
+    # 다음 실행이 같은 영상을 처음부터 다시 물어보지 않게 한다.
+    seen_store.save(skip_store)
     # 한 줄 결산 — '왜 오늘 업데이트가 적은지'를 로그 한 줄로 알 수 있게 한다
     v_ok, v_fail = video_usage()
     if n_left:
