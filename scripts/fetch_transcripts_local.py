@@ -28,6 +28,15 @@ from datetime import date, timedelta
 import transcript_cache
 from config import MAX_AGE_DAYS, ROOT
 
+# 윈도우 한글 콘솔은 기본 코드페이지가 cp949 라, '✔' 같은 문자를 출력하는 순간
+# UnicodeEncodeError 로 스크립트가 통째로 죽는다. 출력만 UTF-8 로 바꿔 둔다.
+# (errors='replace' 라 혹시 표현 못 하는 글자가 있어도 멈추지 않는다)
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
+
 # 유튜브에 너무 빠르게 연달아 요청하면 가정용 IP 도 일시 차단될 수 있다.
 SLEEP_SEC = 1.5
 # 한 번에 받을 최대 건수 기본값 (오래 걸리지 않게)
@@ -57,12 +66,39 @@ def _git(*args: str) -> tuple[int, str]:
     return p.returncode, (p.stdout + p.stderr).strip()
 
 
+def _check_env() -> list[str]:
+    """실행 전에 빠진 준비물을 한 번에 알려 준다.
+
+    처음 돌릴 때 라이브러리 하나가 없어서 낯선 ImportError 만 보고 막히는 일이
+    없도록, 무엇이 없는지 사람 말로 먼저 알려 준다.
+    """
+    problems = []
+    for mod, why in (("youtube_transcript_api", "자막 받기"),
+                     ("yt_dlp", "자막 대체 경로·채널 목록"),
+                     ("feedparser", "RSS 수집")):
+        try:
+            __import__(mod)
+        except ImportError:
+            problems.append(f"  · {mod} 가 설치돼 있지 않습니다 ({why}에 필요).")
+    code, _ = _git("rev-parse", "--git-dir")
+    if code != 0:
+        problems.append("  · 이 폴더가 git 저장소가 아닙니다. "
+                        "git clone 으로 받은 폴더에서 실행해 주세요.")
+    if problems:
+        problems.append("\n해결: 저장소 폴더에서  pip install -r requirements.txt")
+    return problems
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="유튜브 자막을 받아 캐시에 넣습니다.")
     ap.add_argument("--limit", type=int, default=DEFAULT_LIMIT, help="이번에 받을 최대 건수")
     ap.add_argument("--no-push", action="store_true", help="커밋·푸시하지 않음")
     ap.add_argument("--dry-run", action="store_true", help="받지 않고 대상만 출력")
     args = ap.parse_args()
+
+    if problems := _check_env():
+        print("실행에 필요한 준비물이 빠져 있습니다:\n" + "\n".join(problems), file=sys.stderr)
+        return 1
 
     print("후보를 모으는 중입니다…")
     cands = _candidates()
