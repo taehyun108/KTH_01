@@ -40,10 +40,14 @@ export function FlightLinks({ itinerary }: { itinerary: Itinerary }) {
         </Row>
       </div>
 
-      <details className="mt-3">
-        <summary className="cursor-pointer text-xs font-medium opacity-80">
-          항공사별 편 검색 (대한항공 · 아시아나 · Air Japan 등) ▾
-        </summary>
+      <div className="mt-4 border-t border-black/10 pt-3 dark:border-white/10">
+        <div className="text-xs font-medium opacity-80">
+          항공사별 편 검색 (대한항공 · 아시아나 · Air Japan 등)
+        </div>
+        <p className="mt-0.5 text-[11px] opacity-50">
+          각 항공사로 필터한 검색입니다. 해당 항공사가 그 노선을 운항하지 않으면 결과가
+          비므로, 실제 운항 항공사를 정직하게 확인할 수 있습니다.
+        </p>
         <div className="mt-2 space-y-3">
           <AirlineGrid
             label={`가는 편  ${origin} → ${first}`}
@@ -58,7 +62,7 @@ export function FlightLinks({ itinerary }: { itinerary: Itinerary }) {
             date={query.end_date}
           />
         </div>
-      </details>
+      </div>
     </div>
   );
 }

@@ -40,6 +40,12 @@ export interface RestaurantSeed {
   opening_hours?: (string | null)[];
   price_level?: 1 | 2 | 3 | 4;
   cuisine?: string;
+  /** 미쉐린 표기(OSM 태그). */
+  michelin?: boolean;
+  /** 위키데이터/위키백과 등재(유명 맛집, 비체인). */
+  notable?: boolean;
+  /** 체인 브랜드(품질 랭킹 감점용). */
+  branded?: boolean;
 }
 export interface WikiArticle {
   title: string;

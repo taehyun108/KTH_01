@@ -139,6 +139,22 @@ describe("assembleDay 제약 (§6, §10)", () => {
     expect(day.items.some((i) => i.kind === "food" && i.name === "점심집")).toBe(true);
     expect(day.items.some((i) => i.kind === "food" && i.name === "저녁집")).toBe(true);
   });
+
+  it("POI 가 없어도 점심·저녁이 모두 배치된다(식사시간대 미도달 폴백)", () => {
+    const day = assembleDay({
+      date: "2026-09-14",
+      weekday: 1,
+      city: "테스트",
+      pois: [],
+      legMinutes: [],
+      legMode: "transit",
+      legEstimated: true,
+      legSource: "est",
+      lunch: foodFact({ name: "점심집", location: loc }),
+      dinner: foodFact({ name: "저녁집", location: loc }),
+    });
+    expect(day.items.filter((i) => i.kind === "food").map((i) => i.name)).toEqual(["점심집", "저녁집"]);
+  });
 });
 
 describe("summarize", () => {

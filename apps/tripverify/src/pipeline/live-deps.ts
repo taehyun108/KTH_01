@@ -78,18 +78,25 @@ export function liveDeps(): PipelineDeps {
         };
       });
 
-      // 폐관/철거 제외 + OSM 없고 설명도 없는(구글 미검색 위험) 위키 단독 제외.
-      // 단, 설명 API 자체가 실패했으면(descMap 비어있음) 설명 없음으로 과도하게
-      // 버리지 않는다(빈 일정 방지).
-      const descWorked = descMap.size > 0;
+      // 폐관/철거 제외 + 관공서·기업 제외. '설명 없는 위키 단독'은 카테고리(제목에서
+      // 추론한 관광 유형)조차 없을 때만 버린다 — Overpass 가 클라우드에서 실패해 모든
+      // 후보가 위키 단독이어도 유명 명소(예: 유원/사찰/타워)는 살아남게 한다(빈 일정 방지).
       const findable = enriched.filter((s) => {
         if (isDefunctDescription(s.description)) return false;
         if (!isVisitorAttraction(s)) return false; // 관공서·기업 등 비관광 제외
-        if (descWorked && !s.on_osm && s.origin === "wiki" && !s.description) return false;
+        const hasSignal = s.on_osm || !!s.description || (s.categories?.length ?? 0) > 0;
+        if (s.origin === "wiki" && !hasSignal) return false; // 정보 전무한 위키 단독만 제외
         return true;
       });
       // 유명도 순 재정렬 → 무명보다 유명 명소를 상위로
-      const final = findable.sort((a, b) => fameScore(b) - fameScore(a)).slice(0, limit);
+      const ranked = findable.sort((a, b) => fameScore(b) - fameScore(a));
+      // 안전망: 필터가 과해 비면, 폐관/비관광만 뺀 후보로라도 채운다(수집됐는데 빈 일정 방지)
+      const pool = ranked.length > 0
+        ? ranked
+        : enriched
+            .filter((s) => !isDefunctDescription(s.description) && isVisitorAttraction(s))
+            .sort((a, b) => fameScore(b) - fameScore(a));
+      const final = pool.slice(0, limit);
       const osmPoints = overpassSeeds.map((s) => s.location);
       return buildPoiFacts(final, osmPoints, wiki);
     },
