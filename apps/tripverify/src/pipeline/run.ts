@@ -9,7 +9,7 @@ import type {
   LogisticsInfo,
 } from "@/core/types/domains";
 import type { Itinerary, ItineraryDay } from "@/core/types/itinerary";
-import type { RoutePlan } from "@/agents/route-agent";
+import type { RoutePlan, DayRoute } from "@/agents/route-agent";
 import type { Place } from "@/planner/cluster";
 import { hasSourcedValue } from "@/core/types/verified-fact";
 import { assembleDay, summarize, type DayAssemblyInput } from "@/planner/assemble";
@@ -174,8 +174,10 @@ async function buildCity(
     location: f.value.location,
     ...(f.value.time_pref ? { time_pref: f.value.time_pref } : {}),
   }));
-  const route = places.length > 0
-    ? await deps.buildRoute(places, block, primaryMode)
+  // 라우팅(이동시간 매트릭스)은 외부 API(OSRM) 의존 → 느리거나 실패해도 일정이 비지
+  // 않도록 상한(12s) + 네트워크 불필요 폴백(순차 균등 배정)을 둔다.
+  const route: RoutePlan = places.length > 0
+    ? await safe(() => deps.buildRoute(places, block, primaryMode), fallbackRoute(places, block), 12_000)
     : { days: [], estimated: true, source_name: "" };
   const poiById = new Map(places.map((p, i) => [p.id, renderablePois[i]!] as const));
   const foodQueue = [...renderableFood];
@@ -201,6 +203,26 @@ async function buildCity(
   });
 
   return { city, ctx, pois, food, weather, days };
+}
+
+/**
+ * 라우팅 실패/시간초과 시의 폴백 경로 — 외부 API 없이 장소를 날짜별로 순차 균등
+ * 배정한다. 동선 최적화는 없지만 '수집된 POI 가 있는데 일정이 빈' 상황을 막는다.
+ */
+function fallbackRoute(places: Place[], days: number): RoutePlan {
+  const k = Math.max(days, 1);
+  const per = Math.ceil(places.length / k);
+  const dayRoutes: DayRoute[] = [];
+  for (let d = 0; d < k; d++) {
+    const slice = places.slice(d * per, (d + 1) * per);
+    dayRoutes.push({
+      day_index: d,
+      ordered_place_ids: slice.map((p) => p.id),
+      leg_seconds: slice.map(() => 0),
+      total_travel_seconds: 0,
+    });
+  }
+  return { days: dayRoutes, estimated: true, source_name: "순차 배정(라우팅 미조회)" };
 }
 
 function emptyDay(date: string, city: string): ItineraryDay {

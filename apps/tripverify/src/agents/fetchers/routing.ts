@@ -27,7 +27,8 @@ const OSRM_PROFILE: Record<TransportMode, string> = {
 export const osrmMatrix: MatrixProvider = async (points, mode) => {
   const coords = points.map((p) => `${p.lng},${p.lat}`).join(";");
   const url = `https://router.project-osrm.org/table/v1/${OSRM_PROFILE[mode]}/${coords}?annotations=duration`;
-  const data = await fetchJson<{ durations: number[][] }>(url);
+  // 짧은 타임아웃(5s) — 라우팅은 보강이므로 느리면 즉시 추정으로 폴백(서버리스 시간예산 보호)
+  const data = await fetchJson<{ durations: number[][] }>(url, { timeoutMs: 5_000 });
   return {
     durations: data.durations,
     source: {
@@ -70,12 +71,19 @@ export const haversineMatrix: MatrixProvider = async (points, mode) => {
   };
 };
 
-/** OSRM 실패 시 추정으로 폴백하는 결합 프로바이더. */
+/**
+ * OSRM 실패 시 추정으로 폴백하는 결합 프로바이더.
+ * '스티키' — 한 번 실패하면 같은 요청 내 이후 호출은 곧장 추정을 쓴다(재시도로
+ * 인한 시간낭비 방지 → 서버리스 60s 예산 보호).
+ */
 export function matrixWithFallback(primary: MatrixProvider = osrmMatrix): MatrixProvider {
+  let primaryDead = false;
   return async (points, mode) => {
+    if (primaryDead) return haversineMatrix(points, mode);
     try {
       return await primary(points, mode);
     } catch {
+      primaryDead = true;
       return haversineMatrix(points, mode);
     }
   };

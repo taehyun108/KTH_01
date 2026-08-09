@@ -136,6 +136,24 @@ describe("runPipeline", () => {
     expect(it.budget.per_person_krw).toBeGreaterThan(0);
   });
 
+  it("⭐ 라우팅(buildRoute) 실패해도 수집된 POI 로 일정을 채운다 (빈 일정 방지)", async () => {
+    const pois = [
+      highPoi("오사카성", 34.6873, 135.5259),
+      highPoi("도톤보리", 34.6686, 135.5011),
+      highPoi("우메다", 34.7055, 135.4983),
+      highPoi("텐노지", 34.6465, 135.5063),
+    ];
+    const brokenRouting: PipelineDeps = {
+      ...deps(pois),
+      buildRoute: async () => {
+        throw new Error("OSRM down");
+      },
+    };
+    const it = await runPipeline(query, brokenRouting);
+    const placed = it.days.flatMap((d) => d.items.filter((i) => i.kind === "poi"));
+    expect(placed.length).toBeGreaterThan(0); // 폴백 순차배정으로 채워짐
+  });
+
   it("컨텍스트 조회 실패 시 500 대신 빈 일정+notes (§0-4)", async () => {
     const failing: PipelineDeps = {
       ...deps([]),

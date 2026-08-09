@@ -153,17 +153,57 @@ export function skyscannerSearch(origin: string, dest: string): string {
   )}/${encodeURIComponent(dest)}/`;
 }
 
+/** 특정 항공사로 필터한 구글 항공권 검색. 해당 항공사가 그 노선을 운항하지 않으면
+ *  결과가 비므로(값을 지어내지 않음, §0) 정직한 '검색' 링크다. */
+export function googleFlightsByAirline(
+  origin: string,
+  dest: string,
+  date: string,
+  airline: string,
+): string {
+  return `https://www.google.com/travel/flights?q=${encodeURIComponent(
+    `flights from ${origin} to ${dest} on ${date} on ${airline}`,
+  )}`;
+}
+
+/** 한국 출발 주요 항공사(대형 + 국내 LCC + 일본계) — 항공사별 검색용. */
+export interface Airline {
+  ko: string;
+  en: string; // 구글 검색용 영문 항공사명
+}
+export const DEPARTURE_AIRLINES: Airline[] = [
+  { ko: "대한항공", en: "Korean Air" },
+  { ko: "아시아나항공", en: "Asiana Airlines" },
+  { ko: "제주항공", en: "Jeju Air" },
+  { ko: "진에어", en: "Jin Air" },
+  { ko: "티웨이항공", en: "T'way Air" },
+  { ko: "에어부산", en: "Air Busan" },
+  { ko: "에어서울", en: "Air Seoul" },
+  { ko: "Air Japan", en: "Air Japan" },
+  { ko: "일본항공(JAL)", en: "Japan Airlines" },
+  { ko: "전일본공수(ANA)", en: "All Nippon Airways" },
+  { ko: "피치항공", en: "Peach Aviation" },
+];
+
 /** 네이버 항공권. */
 export function naverFlight(): string {
   return "https://flight.naver.com/";
 }
 
 // ── 숙박 검색 (실시간 요금, 키 불필요) ────────────────────────────────
-export function bookingSearch(city: string, checkin: string, checkout: string, adults: number): string {
-  return (
+/** Booking.com — 동선 좌표 중심 + 리뷰 좋은 순 정렬(가성비 판단 용이). */
+export function bookingSearch(
+  city: string,
+  checkin: string,
+  checkout: string,
+  adults: number,
+  loc?: LatLng,
+): string {
+  const base =
     `https://www.booking.com/searchresults.ko.html?ss=${encodeURIComponent(city)}` +
-    `&checkin=${checkin}&checkout=${checkout}&group_adults=${adults}`
-  );
+    `&checkin=${checkin}&checkout=${checkout}&group_adults=${adults}` +
+    `&order=bayesian_review_score`; // 리뷰 좋은 순
+  return loc ? `${base}&latitude=${loc.lat}&longitude=${loc.lng}` : base;
 }
 export function tripComSearch(city: string, checkin: string, checkout: string): string {
   return (

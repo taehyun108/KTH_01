@@ -190,6 +190,13 @@ export function Planner({
               아래는 예시 일정입니다. 위 폼에서 조건을 바꿔 나만의 검증된 일정을 만들어 보세요.
             </p>
           )}
+          {it.notes.length > 0 && (
+            <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-xs text-amber-900 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
+              {it.notes.map((n, i) => (
+                <div key={i}>• {n}</div>
+              ))}
+            </div>
+          )}
           <ConceptSummary itinerary={it} />
           <HotspotLinks itinerary={it} />
           <FlightLinks itinerary={it} />

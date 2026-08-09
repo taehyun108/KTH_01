@@ -1,10 +1,18 @@
 "use client";
 import type { Itinerary } from "@/core/types/itinerary";
-import { googleFlights, skyscannerSearch, naverFlight } from "@/lib/format";
+import {
+  googleFlights,
+  skyscannerSearch,
+  naverFlight,
+  googleFlightsByAirline,
+  DEPARTURE_AIRLINES,
+} from "@/lib/format";
 
 /**
  * 항공편 — 무료 키 없이 실시간 시각/가격을 조회할 수 있는 검색 링크.
  * (무료로 검증 가능한 항공 스케줄 공개 API 가 없어 값을 지어내지 않고 링크로 제공, §0)
+ * 항공사별(대한항공/아시아나/Air Japan 등) 검색도 제공 — 해당 항공사가 그 노선을
+ * 운항하지 않으면 결과가 비므로 정직한 검색 링크다.
  */
 export function FlightLinks({ itinerary }: { itinerary: Itinerary }) {
   const { query } = itinerary;
@@ -30,6 +38,53 @@ export function FlightLinks({ itinerary }: { itinerary: Itinerary }) {
           <LinkChip href={skyscannerSearch(last, origin)} label="스카이스캐너" />
           <LinkChip href={naverFlight()} label="네이버항공권" />
         </Row>
+      </div>
+
+      <details className="mt-3">
+        <summary className="cursor-pointer text-xs font-medium opacity-80">
+          항공사별 편 검색 (대한항공 · 아시아나 · Air Japan 등) ▾
+        </summary>
+        <div className="mt-2 space-y-3">
+          <AirlineGrid
+            label={`가는 편  ${origin} → ${first}`}
+            origin={origin}
+            dest={first}
+            date={query.start_date}
+          />
+          <AirlineGrid
+            label={`오는 편  ${last} → ${origin}`}
+            origin={last}
+            dest={origin}
+            date={query.end_date}
+          />
+        </div>
+      </details>
+    </div>
+  );
+}
+
+function AirlineGrid({
+  label,
+  origin,
+  dest,
+  date,
+}: {
+  label: string;
+  origin: string;
+  dest: string;
+  date: string;
+}) {
+  return (
+    <div>
+      <div className="text-xs opacity-70">{label}</div>
+      <div className="mt-1 flex flex-wrap gap-1.5">
+        {DEPARTURE_AIRLINES.map((a) => (
+          <LinkChip
+            key={a.en}
+            href={googleFlightsByAirline(origin, dest, date, a.en)}
+            label={a.ko}
+          />
+        ))}
       </div>
     </div>
   );
