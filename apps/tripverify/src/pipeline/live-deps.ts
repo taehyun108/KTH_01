@@ -27,13 +27,20 @@ import { CurrencyInfoSchema, LogisticsInfoSchema } from "@/core/schema/domains.s
  * 최적화: 안정적 도메인(환율/입국정보)은 cachedVerify 로 도메인별 TTL 캐시 + 감사 로그.
  * 네트워크 차단 환경에서는 각 collect 가 예외/빈값을 반환하고 파이프라인이 정직히 표기.
  */
-/** 온라인 지오코딩 우선, 실패 시 오프라인(GeoNames 번들) 폴백 — 무네트워크에서도 컨텍스트 확보. */
+/**
+ * 온라인 지오코딩 우선, 실패/지연 시 오프라인(GeoNames 번들) 폴백.
+ * Nominatim 이 클라우드에서 느리거나 막혀도, 6초 안에 오프라인으로 확실히 컨텍스트를
+ * 확보한다(느린 Nominatim 때문에 상위 safe(8s) 캡에 걸려 빈 일정이 나오던 문제 해결).
+ */
 async function resolveContextResilient(city: string, q: TripQuery): Promise<GeoContext> {
+  const timeout = new Promise<null>((resolve) => setTimeout(() => resolve(null), 6_000));
   try {
-    return await resolveContextLive(city, q);
+    const live = await Promise.race([resolveContextLive(city, q), timeout]);
+    if (live) return live;
   } catch {
-    return resolveContextOffline(city, q);
+    // 온라인 실패 → 오프라인
   }
+  return resolveContextOffline(city, q); // 번들 데이터(무네트워크) — 주요 도시 즉시 확보
 }
 
 export function liveDeps(): PipelineDeps {
