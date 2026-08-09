@@ -392,8 +392,15 @@ def _strip_fences(text: str) -> str:
 
 _CLIENT = None
 _MODEL = None
-# 모델 선호 순서 (앞쪽 우선). 새 API 키에서 2.5-flash 가 막힌 경우 최신 모델로 폴백.
-_MODEL_PREFS = ("flash-latest", "2.5-flash", "flash", "pro-latest", "2.5-pro", "pro")
+# 모델 선호 순서 (앞쪽 우선).
+#
+# ※ 안정 버전을 먼저 고른다. 예전에는 'flash-latest'(최신 별칭)가 앞에 있었는데,
+#   이 별칭은 프리뷰 계열을 가리키는 경우가 많고 <무료 하루 한도가 훨씬 작다>.
+#   실측: gemini-flash-latest 로 하루 25~30회 만에 소진 → 후보를 122건 잡아 놓고
+#   2건만 판정하고 끝나는 상태였다(2026-08-09). 안정 버전은 한도가 훨씬 크다.
+#   해당 모델을 못 쓰는 키라면 아래 순서대로 자동 폴백하므로 손해가 없다.
+_MODEL_PREFS = ("gemini-2.5-flash", "gemini-2.0-flash", "gemini-flash-latest",
+                "2.5-flash", "flash", "gemini-2.5-pro", "pro-latest", "pro")
 
 
 # 한 번의 API 요청이 응답 없이 매달릴 수 있는 최대 시간(초).
@@ -438,11 +445,20 @@ def _resolve_model(client) -> str:
                                     "live", "thinking", "exp", "learnlm"))
 
     cands = [n for n in avail if not bad(n)]
+    # 1) 이름이 정확히 같은 것을 먼저 찾는다.
+    #    부분 일치만 쓰면 'gemini-2.5-flash' 를 원했는데 'gemini-2.5-flash-lite'
+    #    같은 다른 모델이 잡힐 수 있다.
+    for pref in _MODEL_PREFS:
+        if pref in cands:
+            _MODEL = pref
+            print(f"  [model] 선택: {_MODEL} (정확히 일치)")
+            return _MODEL
+    # 2) 정확히 같은 것이 없으면 부분 일치로 폴백
     for pref in _MODEL_PREFS:
         for n in cands:
             if pref in n:
                 _MODEL = n
-                print(f"  [model] 선택: {_MODEL}")
+                print(f"  [model] 선택: {_MODEL} ('{pref}' 부분 일치)")
                 return _MODEL
     _MODEL = cands[0] if cands else GEMINI_MODEL
     print(f"  [model] 선택(fallback): {_MODEL}")
