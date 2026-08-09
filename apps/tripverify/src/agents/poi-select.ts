@@ -156,21 +156,24 @@ function hasNearWiki(wiki: WikiArticle[], at: GeoPoint): boolean {
 const WIKI_BLOCK =
   /station|駅|\bline\b|철도|\b역\b|university|college|\bschool\b|학교|hospital|병원|clinic|prefecture|\bward\b|district|-ku\b|구청|정류장|airport|공항|highway|expressway|국도|\briver\b|\b강\b|election|festival\s|배구|축구|野球|celebrity|singer|band|manga|anime|company|corporation|주식회사|\blist of|administration|\bagency\b|ministry|government|headquarters|bureau|\bauthority\b|commission|council|department of|embassy|consulate|\bbank\b|association|federation|institute of|research center|office\b|법원|court\b|경찰|police|city hall|시청|군청|도청/i;
 
-/** 위키 제목에서 카테고리 추론(영어/현지 키워드). */
+/** 위키 제목에서 카테고리 추론(영어/일본식 로마자/현지 키워드). */
 export function inferCategoriesFromTitle(title: string): Bucket[] {
   const b = new Set<Bucket>();
   const t = title.toLowerCase();
-  if (/castle|城|palace|궁|fort/.test(t)) b.add("history");
-  if (/temple|寺|shrine|神社|사원|사찰|신사/.test(t)) b.add("religious");
-  if (/museum|박물관|미술관/.test(t)) b.add("history");
-  if (/gallery|art\b|미술/.test(t)) b.add("art");
-  if (/park|公園|garden|庭園|정원|공원/.test(t)) b.add("nature");
-  if (/tower|타워|observator|전망|展望|sky\b/.test(t)) b.add("view");
+  // 성: castle, -jo, 城
+  if (/castle|城|palace|궁|\bfort\b|[-\s]jō?\b|[-\s]jo\b/.test(t)) b.add("history");
+  // 사찰/신사: temple, -ji/-dera/-tera(절), shrine, -taisha/-jinja/-jingu/-gu(신사)
+  if (/temple|shrine|寺|神社|사원|사찰|신사|[-\s](ji|dera|tera)\b|(taisha|jinja|jingu|jingū)\b/.test(t))
+    b.add("religious");
+  if (/museum|博物館|박물관|미술관/.test(t)) b.add("history");
+  if (/gallery|\bart\b|미술/.test(t)) b.add("art");
+  if (/park|公園|garden|庭園|정원|공원|[-\s]koen\b|[-\s]kōen\b/.test(t)) b.add("nature");
+  if (/tower|타워|observator|전망|展望|\bsky\b/.test(t)) b.add("view");
   if (/zoo|動物園|aquarium|水族館|동물원|수족관/.test(t)) {
     b.add("family");
     b.add("activity");
   }
-  if (/market|市場|시장|mall|백화점/.test(t)) b.add("shopping");
+  if (/market|市場|시장|\bmall\b|백화점|shopping/.test(t)) b.add("shopping");
   return [...b];
 }
 
@@ -239,15 +242,15 @@ const ATTRACTION_DESC =
   /temple|shrine|museum|park|garden|castle|palace|tower|market|gallery|monument|memorial|zoo|aquarium|landmark|historic|cathedral|church|mosque|observ|waterfall|mountain|\blake\b|beach|island|bridge|\bgate\b|square|plaza|hot spring|onsen|theme park|shopping|statue|\btomb\b|ruins|\bfort\b|pagoda|pavilion|사찰|사원|신사|박물관|공원|정원|성\b|시장|미술관|기념|전망|타워|해변|폭포|유적|사당/i;
 
 /**
- * 관광 대상인지 판정. OSM 에 있거나(현존 시설), 카테고리가 잡히거나,
- * 설명/제목이 관광지 신호를 가지면 true. 관공서/기업 신호면 false.
+ * 관광 대상인지 판정 — '기본 허용'. 명백한 관공서·기업 신호(설명)일 때만 제외.
+ * (WIKI_BLOCK 이 제목 단계에서 이미 역/학교/관청을 걸렀고, 사찰의 일본식 이름
+ *  -ji/-taisha 처럼 관광 키워드가 이름에 없어도 유명 명소는 살려야 하므로
+ *  긍정 신호를 '요구'하지 않는다.)
  */
 export function isVisitorAttraction(seed: PoiSeed): boolean {
   const text = `${seed.name} ${seed.name_en ?? ""} ${seed.description ?? ""}`;
   if (NON_ATTRACTION_DESC.test(text) && !ATTRACTION_DESC.test(text)) return false;
-  if (seed.on_osm) return true;
-  if ((seed.categories ?? []).length > 0) return true;
-  return ATTRACTION_DESC.test(text);
+  return true;
 }
 
 /** 종일 체류형(테마파크 등) 판별. */

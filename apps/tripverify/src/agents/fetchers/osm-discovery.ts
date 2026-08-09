@@ -135,7 +135,7 @@ async function overpassUnion(
   for (const mirror of OVERPASS_MIRRORS) {
     try {
       // 짧은 타임아웃(7s) — Overpass 는 보강용이므로 느리면 즉시 폴백/포기
-      const data = await fetchJson<OverpassResp>(`${mirror}?data=${enc}`, { timeoutMs: 7_000 });
+      const data = await fetchJson<OverpassResp>(`${mirror}?data=${enc}`, { timeoutMs: 6_000 });
       if (data.elements) return data.elements;
     } catch {
       // 다음 미러로 폴백

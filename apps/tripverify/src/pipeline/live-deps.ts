@@ -59,9 +59,15 @@ export function liveDeps(): PipelineDeps {
         limit: Math.min(limit + 18, 45),
       });
 
-      // Wikipedia 설명 배치 조회(영어 제목 기준) → 추천 사유 근거 + defunct 판별
+      // Wikipedia 설명 배치 조회(영어 제목 기준) → 추천 사유 근거 + defunct 판별.
+      // 설명 조회는 '보강'이므로 10초 상한 — 느려도 POI 목록은 항상 반환된다.
       const descKey = (s: (typeof prelim)[number]) => s.name_en || s.name;
-      const descMap = await wikiDescriptions(prelim.map(descKey)).catch(() => new Map());
+      const descMap = await Promise.race([
+        wikiDescriptions(prelim.map(descKey)).catch(() => new Map()),
+        new Promise<Map<string, { description?: string; extract?: string }>>((resolve) =>
+          setTimeout(() => resolve(new Map()), 10_000),
+        ),
+      ]);
       const enriched = prelim.map((s) => {
         const d = descMap.get(descKey(s));
         const description = d?.extract ?? d?.description;

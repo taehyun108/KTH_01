@@ -124,7 +124,7 @@ describe("Wikipedia 기반 POI (클라우드 안정 소스)", () => {
     expect(inferAllDay("Osaka Castle", ["history"])).toBe(false);
   });
 
-  it("isVisitorAttraction: 관공서/기업 제외, 관광지 포함", () => {
+  it("isVisitorAttraction: 관공서/기업만 제외, 기본 허용", () => {
     // 정부기관(설명에 government/agency) → 제외
     expect(
       isVisitorAttraction({
@@ -134,16 +134,16 @@ describe("Wikipedia 기반 POI (클라우드 안정 소스)", () => {
         description: "a government agency of Taiwan",
       }),
     ).toBe(false);
-    // 사찰(카테고리 있음) → 포함
-    expect(
-      isVisitorAttraction({ name: "Xingtian Temple", location: loc, categories: ["religious"] }),
-    ).toBe(true);
-    // OSM 존재 → 포함
-    expect(isVisitorAttraction({ name: "X", location: loc, on_osm: true })).toBe(true);
-    // 설명이 관광지 신호 → 포함
-    expect(
-      isVisitorAttraction({ name: "Y", location: loc, origin: "wiki", description: "a famous museum" }),
-    ).toBe(true);
+    // 일본식 이름 사찰(설명·카테고리 없어도) → 포함(기본 허용)
+    expect(isVisitorAttraction({ name: "Kinkaku-ji", location: loc, origin: "wiki" })).toBe(true);
+    expect(isVisitorAttraction({ name: "Fushimi Inari-taisha", location: loc, origin: "wiki" })).toBe(true);
+  });
+
+  it("inferCategoriesFromTitle: 일본식 접미사(-ji/-dera/-taisha) 인식", () => {
+    expect(inferCategoriesFromTitle("Kinkaku-ji")).toContain("religious");
+    expect(inferCategoriesFromTitle("Kiyomizu-dera")).toContain("religious");
+    expect(inferCategoriesFromTitle("Fushimi Inari-taisha")).toContain("religious");
+    expect(inferCategoriesFromTitle("Nijo Castle")).toContain("history");
   });
 
   it("fameScore: 유명 명소(긴 설명·OSM·유명키워드)가 무명보다 상위", () => {

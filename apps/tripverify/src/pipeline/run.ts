@@ -72,9 +72,9 @@ export async function runPipeline(query: TripQuery, deps: PipelineDeps): Promise
 
   // 국가 단위 정보(통화/입국정보) + 출발지 항공: 한 번만
   const [currency, logistics, flights] = await Promise.all([
-    safe(() => deps.collectCurrency(firstCtx), null),
-    safe(() => deps.collectLogistics(firstCtx, query), null),
-    safe(() => deps.collectFlights(firstCtx, query), [] as VerifiedFact<FlightOption>[]),
+    safe(() => deps.collectCurrency(firstCtx), null, 12_000),
+    safe(() => deps.collectLogistics(firstCtx, query), null, 12_000),
+    safe(() => deps.collectFlights(firstCtx, query), [] as VerifiedFact<FlightOption>[], 12_000),
   ]);
 
   const days = bundles.flatMap((b) => b.days);
@@ -152,17 +152,18 @@ async function buildCity(
 ): Promise<CityBundle> {
   const dates = Array.from({ length: block }, (_, i) => addDays(query.start_date, startDayIndex + i));
 
-  const ctx = await safe(() => deps.resolveContext(city, query), null);
+  const ctx = await safe(() => deps.resolveContext(city, query), null, 8_000);
   if (!ctx) {
     return { city, ctx: null, pois: [], food: [], weather: [], days: dates.map((d) => emptyDay(d, city)) };
   }
 
   const [pois, food, weather] = await Promise.all([
-    safe(() => deps.collectPois(ctx, query), [] as VerifiedFact<Poi>[]),
-    safe(() => deps.collectFood(ctx, query), [] as VerifiedFact<Restaurant>[]),
+    safe(() => deps.collectPois(ctx, query), [] as VerifiedFact<Poi>[], 26_000), // 관광지 수집 우선(넉넉히)
+    safe(() => deps.collectFood(ctx, query), [] as VerifiedFact<Restaurant>[], 16_000),
     safe(
       () => deps.collectWeather(ctx, dates[0]!, dates[dates.length - 1]!),
       [] as VerifiedFact<WeatherDay>[],
+      10_000,
     ),
   ]);
 
