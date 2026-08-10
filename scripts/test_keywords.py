@@ -150,6 +150,31 @@ def check_evidence() -> list[str]:
     return out
 
 
+# (오류 메시지, '이 모델은 못 쓴다'로 판정해 다른 모델로 바꿔야 하는가)
+# 2026-08-10: models.list() 에 있어서 고른 모델이 정작 호출하면 404 를 냈고,
+# 그 처리가 없어 한 실행에서 19건이 전부 실패했다. 판정 로직을 고정해 둔다.
+MODEL_ERR_CASES: list[tuple[str, bool]] = [
+    ("404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model "
+     "models/gemini-2.5-flash is no longer available to new users.'}}", True),
+    ("404 NOT_FOUND models/foo not found", True),
+    ("429 RESOURCE_EXHAUSTED GenerateRequestsPerDayPerProject", False),
+    ("503 UNAVAILABLE The model is overloaded", False),
+    ("500 INTERNAL", False),
+    ("400 INVALID_ARGUMENT Unsupported MIME type: text/html", False),
+]
+
+
+def check_model_errors() -> list[str]:
+    from generate_report import _is_model_gone
+    out = []
+    for msg, expect in MODEL_ERR_CASES:
+        got = _is_model_gone(msg)
+        if got != expect:
+            want = "모델 교체" if expect else "그대로 처리"
+            out.append(f"  [{want} 이어야 함] {msg[:56]!r} → {got}")
+    return out
+
+
 def check_shorts() -> list[str]:
     out = []
     for dur, title, expect in SHORTS_CASES:
@@ -172,8 +197,10 @@ def main() -> int:
     fails += check_shorts()
     fails += check_names()
     fails += check_evidence()
-    total = len(CASES) + len(SHORTS_CASES) + len(NAME_CASES) + len(EVIDENCE_CASES)
-    print(f"키워드·쇼츠·명칭·근거 판정 테스트 — {total - len(fails)}/{total} 통과")
+    fails += check_model_errors()
+    total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
+             + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES))
+    print(f"키워드·쇼츠·명칭·근거·모델 판정 테스트 — {total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)
         for f in fails:

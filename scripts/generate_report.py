@@ -392,15 +392,45 @@ def _strip_fences(text: str) -> str:
 
 _CLIENT = None
 _MODEL = None
+# 호출해 보니 404(이 키로는 못 쓰는 모델)였던 것들 — 다시 고르지 않는다.
+_MODEL_BLOCKED: set[str] = set()
+
 # 모델 선호 순서 (앞쪽 우선).
 #
-# ※ 안정 버전을 먼저 고른다. 예전에는 'flash-latest'(최신 별칭)가 앞에 있었는데,
-#   이 별칭은 프리뷰 계열을 가리키는 경우가 많고 <무료 하루 한도가 훨씬 작다>.
-#   실측: gemini-flash-latest 로 하루 25~30회 만에 소진 → 후보를 122건 잡아 놓고
-#   2건만 판정하고 끝나는 상태였다(2026-08-09). 안정 버전은 한도가 훨씬 크다.
-#   해당 모델을 못 쓰는 키라면 아래 순서대로 자동 폴백하므로 손해가 없다.
+# ※ 목록에 있다고 쓸 수 있는 게 아니다.
+#   models.list() 는 gemini-2.5-flash 를 돌려주지만, 실제로 호출하면
+#   "no longer available to new users" 404 가 난다. 이걸 모르고 우선순위만
+#   앞으로 옮겼다가 2026-08-10 실행에서 19건이 전부 404 로 실패했다.
+#   그래서 순서에 기대지 않고, 404 가 나면 그 모델을 버리고 다음 후보로
+#   자동 폴백한다(_note_model_gone). 순서는 '되도록 이걸 먼저'라는 힌트일 뿐이다.
+#
+#   안정 버전을 앞에 두는 이유는 무료 하루 한도 때문이다. 최신 별칭
+#   (flash-latest)은 프리뷰를 가리키는 경우가 많고 한도가 작다 — 실측으로
+#   하루 25~30회에서 끊겼다. 쓸 수 있는 안정 버전이 있으면 그쪽이 낫다.
 _MODEL_PREFS = ("gemini-2.5-flash", "gemini-2.0-flash", "gemini-flash-latest",
                 "2.5-flash", "flash", "gemini-2.5-pro", "pro-latest", "pro")
+
+
+def _is_model_gone(msg: str) -> bool:
+    """'이 모델은 못 쓴다'는 응답인가 (404 / NOT_FOUND / no longer available)."""
+    m = msg.lower()
+    return ("404" in msg or "not_found" in m) and (
+        "model" in m or "no longer available" in m)
+
+
+def _note_model_gone(model: str) -> str | None:
+    """못 쓰는 모델로 판명됐다. 목록에서 빼고 다음 후보를 고른다. 없으면 None."""
+    global _MODEL
+    if model and model not in _MODEL_BLOCKED:
+        _MODEL_BLOCKED.add(model)
+        print(f"  [model] {model} 은(는) 이 키로 쓸 수 없습니다 — 다른 모델로 바꿉니다.",
+              file=sys.stderr)
+    _MODEL = None
+    try:
+        nxt = _resolve_model(_get_client())
+    except Exception:  # noqa: BLE001
+        return None
+    return None if nxt in _MODEL_BLOCKED else nxt
 
 
 # 한 번의 API 요청이 응답 없이 매달릴 수 있는 최대 시간(초).
@@ -444,7 +474,8 @@ def _resolve_model(client) -> str:
         return any(x in n for x in ("vision", "image", "tts", "audio", "embedding",
                                     "live", "thinking", "exp", "learnlm"))
 
-    cands = [n for n in avail if not bad(n)]
+    # 호출해 보니 404 였던 모델은 목록에 남아 있어도 후보에서 뺀다
+    cands = [n for n in avail if not bad(n) and n not in _MODEL_BLOCKED]
     # 1) 이름이 정확히 같은 것을 먼저 찾는다.
     #    부분 일치만 쓰면 'gemini-2.5-flash' 를 원했는데 'gemini-2.5-flash-lite'
     #    같은 다른 모델이 잡힐 수 있다.
@@ -499,6 +530,14 @@ def _generate(client, model: str, types, prompt: str, max_retries: int = 4):
             return client.models.generate_content(model=model, contents=prompt, config=cfg)
         except Exception as exc:  # noqa: BLE001
             msg = str(exc)
+            # 이 키로 못 쓰는 모델이면 다른 모델로 바꿔 곧바로 다시 시도한다.
+            # (2026-08-10: 이 처리가 없어서 404 한 종류로 19건이 전부 실패했다)
+            if _is_model_gone(msg):
+                nxt = _note_model_gone(model)
+                if nxt and nxt != model:
+                    model = nxt
+                    continue
+                raise
             is_429 = "RESOURCE_EXHAUSTED" in msg or "429" in msg
             # 503(모델 과부하)는 일시적 → 429 와 동일하게 재시도한다.
             # (재시도하지 않으면 영상이 그냥 버려져 '오늘 업데이트 0건'의 원인이 됨)
@@ -575,6 +614,12 @@ def _generate_from_video(client, model: str, types, prompt: str, video_url: str,
             return client.models.generate_content(model=model, contents=contents, config=cfg)
         except Exception as exc:  # noqa: BLE001
             msg = str(exc)
+            if _is_model_gone(msg):
+                nxt = _note_model_gone(model)
+                if nxt and nxt != model:
+                    model = nxt
+                    continue
+                raise
             is_429 = "RESOURCE_EXHAUSTED" in msg or "429" in msg
             # 영상 입력은 하루 한도가 따로 있고 텍스트보다 훨씬 빨리 바닥난다.
             # 실행 전체를 세우지 말고 영상 분석만 접도록 별도 예외로 올린다.
