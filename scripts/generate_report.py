@@ -23,7 +23,8 @@ from datetime import date
 from typing import Any
 
 import transcript_cache
-from config import GEMINI_MODEL, NEWS_DIR, DRAFTS_DIR, CATEGORIES
+from config import (GEMINI_MODEL, GEMINI_MODEL_PIN, NEWS_DIR, DRAFTS_DIR,
+                    CATEGORIES)
 from org_names import prompt_block
 
 # 리포트 말투/프롬프트 버전. 이 값이 바뀌면 regenerate.py 가 옛 버전 리포트를 새로 만든다.
@@ -455,8 +456,25 @@ _MODEL_BLOCKED: set[str] = set()
 #   있으니 남겨 두면 동작은 하지만, 스크립트가 새로 뜰 때마다(파이프라인·재생성·
 #   URL 요약) 그걸 다시 고르고 404 를 맞느라 호출을 한 번씩 버린다. 하루 한도가
 #   빠듯한 상황에서는 그 한 번도 아깝다. 그래서 뒤로 뺀다.
-_MODEL_PREFS = ("gemini-2.0-flash", "gemini-flash-latest", "gemini-2.5-flash",
-                "2.5-flash", "flash", "gemini-2.5-pro", "pro-latest", "pro")
+# 모델 선택은 '똑똑한 순서'가 아니라 <무료 한도가 큰 순서>다.
+#
+# 2026-08-10 에 429 응답이 마침내 숫자를 뱉었다:
+#     limit: 20, model: gemini-3.6-flash
+# gemini-flash-latest 가 가리키는 최신 모델의 무료 한도가 하루 20건이었다.
+# 하루 20건이면 무관 판정 몇 건만 나와도 발행이 0~1건으로 주저앉는다.
+# 실제로 '하루 한 건'의 마지막 원인이 이것이었다.
+#
+# Lite 계열은 같은 무료 티어에서 한도가 훨씬 크다. 우리가 시키는 일(자막·설명글
+# 요약과 관련성 판정)은 Lite 로도 충분하므로, 한도가 큰 쪽을 먼저 고른다.
+# 최신 모델일수록 무료 한도가 박한 경향이 있어 '최신'을 뒤로 보냈다.
+#
+# GEMINI_MODEL 환경변수로 못 박을 수 있다(코드 수정 없이 워크플로에서 교체 가능).
+# 고른 모델이 404 면 _note_model_gone 이 자동으로 다음 후보로 넘어간다.
+_MODEL_PREFS = ("gemini-flash-lite-latest", "gemini-2.0-flash-lite",
+                "gemini-2.5-flash-lite", "flash-lite",
+                "gemini-2.0-flash", "gemini-2.5-flash",
+                "gemini-flash-latest", "2.5-flash", "flash",
+                "gemini-2.5-pro", "pro-latest", "pro")
 
 
 def _is_model_gone(msg: str) -> bool:
@@ -505,6 +523,11 @@ def _resolve_model(client) -> str:
     """generateContent 지원 모델 중 사용 가능한 것을 자동 선택(캐시)."""
     global _MODEL
     if _MODEL:
+        return _MODEL
+    # 사람이 못 박아 둔 모델이 있으면 그대로 쓴다(404 나면 아래 자동 폴백으로 넘어감)
+    if GEMINI_MODEL_PIN and GEMINI_MODEL_PIN not in _MODEL_BLOCKED:
+        _MODEL = GEMINI_MODEL_PIN
+        print(f"  [model] 선택: {_MODEL} (GEMINI_MODEL 로 지정됨)")
         return _MODEL
     try:
         avail = []
@@ -610,6 +633,14 @@ def quota_detail(msg: str) -> str:
     qid = re.search(r'"?quotaId"?\s*[:=]\s*"?([\w\-]+)', msg)
     val = re.search(r'"?quotaValue"?\s*[:=]\s*"?(\d+)', msg)
     model = re.search(r'"?quotaDimensions"?.*?"?model"?\s*[:=]\s*"?([\w\.\-]+)', msg, re.S)
+    # 구글은 같은 내용을 JSON 필드가 아니라 <산문>으로도 적어 보낸다.
+    #   "Quota exceeded for metric: ..., limit: 20, model: gemini-3.6-flash"
+    # 지금까지 이 형태를 못 읽어서 정작 중요한 '하루 20건'을 놓치고
+    # '상세 미확인'만 찍고 있었다. 이 한 줄이 하루 발행량의 상한이다.
+    if not val:
+        val = re.search(r'\blimit:\s*(\d+)', msg)
+    if not model:
+        model = re.search(r'\bmodel:\s*([\w\.\-]+)', msg)
     bits = []
     if qid:
         bits.append(f"한도 종류 {qid.group(1)}")

@@ -307,6 +307,48 @@ def check_transient() -> list[str]:
     return out
 
 
+# 429 응답에서 '하루 몇 건까지인가'를 실제로 읽어 내는가.
+# 이 숫자가 곧 하루 발행량의 상한인데, 파서가 JSON 형태만 보고 있어서
+# 정작 구글이 산문으로 적어 보낸 'limit: 20' 을 놓치고 '상세 미확인'만 찍었다.
+# 그 20 을 몰라서 며칠 동안 엉뚱한 곳을 고쳤다.
+def check_quota_parse() -> list[str]:
+    from generate_report import quota_detail
+    prose = ("429 RESOURCE_EXHAUSTED ... * Quota exceeded for metric: "
+             "generativelanguage.googleapis.com/generate_content_free_tier_requests, "
+             "limit: 20, model: gemini-3.6-flash\nPlease retry in 55.1s.")
+    got = quota_detail(prose)
+    out = []
+    if "20" not in got:
+        out.append(f"  [상한 20 을 읽어야 함] → {got}")
+    if "gemini-3.6-flash" not in got:
+        out.append(f"  [모델명을 읽어야 함] → {got}")
+
+    js = ('{"quotaId": "GenerateRequestsPerDayPerProjectPerModel", '
+          '"quotaValue": "250"}')
+    got2 = quota_detail(js)
+    if "250" not in got2:
+        out.append(f"  [JSON 형태도 계속 읽어야 함] → {got2}")
+    return out
+
+
+# 모델은 '똑똑한 순서'가 아니라 <무료 한도가 큰 순서>로 골라야 한다.
+# gemini-flash-latest(=gemini-3.6-flash)는 하루 20건이라 이걸 먼저 고르면
+# 무관 판정 몇 건만 나와도 발행이 0건이 된다. Lite 계열이 앞에 와야 한다.
+def check_model_order() -> list[str]:
+    from generate_report import _MODEL_PREFS
+    out = []
+    prefs = list(_MODEL_PREFS)
+    try:
+        lite = min(i for i, m in enumerate(prefs) if "lite" in m)
+        latest = prefs.index("gemini-flash-latest")
+    except ValueError:
+        return ["  [선호 목록에 lite 계열과 gemini-flash-latest 가 모두 있어야 함]"]
+    if lite > latest:
+        out.append(f"  [Lite 계열이 gemini-flash-latest 보다 앞이어야 함] "
+                   f"lite={lite} latest={latest}")
+    return out
+
+
 def check_shorts() -> list[str]:
     out = []
     for dur, title, expect in SHORTS_CASES:
@@ -335,12 +377,14 @@ def main() -> int:
     fails += check_local_push()
     fails += check_handoff()
     fails += check_transient()
+    fails += check_quota_parse()
+    fails += check_model_order()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
              + 4     # PC 자막 수집 git 처리
-             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보·보류판정 — "
+             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보·보류판정·모델한도 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

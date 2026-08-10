@@ -5,6 +5,7 @@
 아래 CHANNELS 의 channel_id 를 채워 넣으세요. (현재는 뼈대용 placeholder)
 """
 
+import os
 from pathlib import Path
 
 # ---------------------------------------------------------------------------
@@ -195,7 +196,14 @@ CATEGORIES = ["global-policy", "global-market", "korea-policy", "korea-market", 
 # Gemini 모델 (시크릿 KTH_01_GEMINI_API_KEY → 환경변수 GEMINI_API_KEY)
 # 실제 사용 모델은 런타임에 generateContent 지원 목록에서 자동 선택되며,
 # 아래 값은 목록 조회 실패 시의 최종 폴백입니다.
-GEMINI_MODEL = "gemini-2.5-flash"
+#   ※ 예전 폴백이던 gemini-2.5-flash 는 이 키로 404('no longer available to
+#     new users')가 납니다. 폴백이 곧바로 실패하는 값이면 폴백이 아닙니다.
+GEMINI_MODEL = "gemini-flash-lite-latest"
+
+# 모델을 못 박고 싶을 때 쓰는 환경변수. 비어 있으면 자동 선택에 맡깁니다.
+# 무료 한도는 모델마다 크게 다르므로(2026-08-10 실측: gemini-3.6-flash 는 하루 20건)
+# 코드를 고치지 않고 워크플로에서 바꿔 볼 수 있어야 합니다.
+GEMINI_MODEL_PIN = os.getenv("GEMINI_MODEL", "").strip()
 
 # 1회 실행당 신규 처리 상한 (채널 라운드로빈으로 공정 분배). None = 무제한.
 # 무료 티어 분당 5회는 429 재시도로 자동 스로틀되고, 일일 쿼터 소진 시 조기 종료되므로
