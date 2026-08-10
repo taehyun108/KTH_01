@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-09T12:58:28",
+  "generated_at": "2026-08-10T12:46:15",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -90,6 +90,21 @@
       "video": "https://www.youtube.com/watch?v=knUo7QGycII",
       "video_id": "knUo7QGycII",
       "pv": 3,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-08-06-월가-전설도-무너뜨린-고금리-잔혹사-배터리-산업에-주는-경고",
+      "date": "2026-08-06",
+      "channel": "언더스탠딩",
+      "title": "월가 전설도 무너뜨린 고금리 잔혹사, 배터리 산업에 주는 경고",
+      "summary": "고금리 시기 금리와 채권의 역사적 교훈을 통해 대규모 투자가 필요한 산업의 위험관리 필요성을 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-08-06-월가-전설도-무너뜨린-고금리-잔혹사-배터리-산업에-주는-경고.html",
+      "video": "https://www.youtube.com/watch?v=Fdn5Ou3667c",
+      "video_id": "Fdn5Ou3667c",
+      "pv": 5,
       "scope": "battery",
       "src": "unavailable"
     },
