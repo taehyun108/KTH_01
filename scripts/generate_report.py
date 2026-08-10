@@ -516,8 +516,40 @@ class VideoQuotaExhausted(Exception):
 
 
 def _retry_delay(msg: str, default: float) -> float:
+    """서버가 알려 준 대기 시간. 상한을 90초로 둔다.
+
+    예전에는 30초에서 잘랐는데, 분당 한도에 걸리면 서버가 그보다 긴 대기를
+    요구하는 경우가 있다. 30초만 기다리고 포기하면 '쿼터 소진'으로 오해하게 된다.
+    """
     m = re.search(r"retry(?:Delay)?['\":\s]+([\d.]+)s", msg, re.IGNORECASE)
-    return min(float(m.group(1)) + 1.0, 30.0) if m else default
+    return min(float(m.group(1)) + 1.0, 90.0) if m else default
+
+
+# ── 요청 간격 ────────────────────────────────────────────────────────────
+# 무료 티어는 '분당 요청 수'(RPM) 제한이 따로 있다. 연달아 쏘면 금방 걸리는데,
+# 우리는 그 429 를 '하루 쿼터 소진'으로 오해해 실행 전체를 접고 있었다.
+# 애초에 걸리지 않도록 호출 사이에 최소 간격을 둔다. 4초면 분당 15회 수준이다.
+MIN_CALL_GAP_SEC = float(os.getenv("GEMINI_MIN_GAP_SEC", "4"))
+_last_call_at = 0.0
+
+
+def _pace() -> None:
+    """분당 한도에 걸리지 않도록 직전 호출과 간격을 벌린다."""
+    global _last_call_at
+    gap = MIN_CALL_GAP_SEC - (time.monotonic() - _last_call_at)
+    if gap > 0:
+        time.sleep(gap)
+    _last_call_at = time.monotonic()
+
+
+# 하루 한도가 아닌 429(분당 제한 등)로 재시도까지 소진된 횟수.
+# 한두 번은 그 건만 건너뛰고 계속 간다. 계속 이러면 그때 실행을 접는다.
+THROTTLE_GIVEUP = 3
+_throttle_fails = 0
+
+
+class Throttled(Exception):
+    """분당 제한 등으로 이 건은 실패했지만, 실행 전체를 접을 일은 아니다."""
 
 
 def _is_daily_quota(msg: str) -> bool:
@@ -547,14 +579,18 @@ def quota_detail(msg: str) -> str:
     return "상세 미확인 → 원문: " + " ".join(msg.split())[:220]
 
 
-def _generate(client, model: str, types, prompt: str, max_retries: int = 4):
-    """429(레이트리밋)는 서버 제안 대기 후 재시도. 일일 쿼터 소진이면 즉시 중단 신호."""
+def _generate(client, model: str, types, prompt: str, max_retries: int = 6):
+    """429 는 서버 제안 대기 후 재시도. <하루> 한도 소진일 때만 실행을 접는다."""
+    global _throttle_fails
     cfg = types.GenerateContentConfig(
         response_mime_type="application/json", temperature=0.4, max_output_tokens=8192)
     delay = 8.0
     for attempt in range(max_retries):
         try:
-            return client.models.generate_content(model=model, contents=prompt, config=cfg)
+            _pace()
+            resp = client.models.generate_content(model=model, contents=prompt, config=cfg)
+            _throttle_fails = 0     # 한 번이라도 성공하면 연속 실패를 지운다
+            return resp
         except Exception as exc:  # noqa: BLE001
             msg = str(exc)
             # 이 키로 못 쓰는 모델이면 다른 모델로 바꿔 곧바로 다시 시도한다.
@@ -585,10 +621,17 @@ def _generate(client, model: str, types, prompt: str, max_retries: int = 4):
                 time.sleep(wait)
                 delay *= 1.4
                 continue
-            # 재시도까지 소진된 429 는 지속 스로틀로 보고 조기 종료
+            # 재시도까지 소진된 429 — 하루 한도라는 근거는 없다(분당 제한일 수 있다).
+            # 예전에는 여기서 바로 실행 전체를 접었는데, 그러면 분당 제한 한 번에
+            # 남은 후보 100여 건을 통째로 버리게 된다. 이 건만 건너뛰고 계속 간다.
             if is_429:
-                print(f"  [쿼터] {quota_detail(msg)}", file=sys.stderr)
-                raise QuotaExhausted(msg)
+                _throttle_fails += 1
+                print(f"  [429] 재시도 소진 ({_throttle_fails}/{THROTTLE_GIVEUP}) — "
+                      f"{quota_detail(msg)}", file=sys.stderr)
+                if _throttle_fails >= THROTTLE_GIVEUP:
+                    print("  [429] 연속으로 막혀 이번 실행은 여기서 마칩니다.", file=sys.stderr)
+                    raise QuotaExhausted(msg)
+                raise Throttled(msg)
             raise
 
 
@@ -640,6 +683,7 @@ def _generate_from_video(client, model: str, types, prompt: str, video_url: str,
     delay = 8.0
     for attempt in range(max_retries):
         try:
+            _pace()
             return client.models.generate_content(model=model, contents=contents, config=cfg)
         except Exception as exc:  # noqa: BLE001
             msg = str(exc)

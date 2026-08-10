@@ -77,7 +77,11 @@ jobs:
       - name: Regenerate old reports with the new tone (leftover quota)
         env:
           GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
-          REGEN_MAX: "8"   # 최신 수집 몫을 남기기 위해 1회 실행당 상한
+          # 지금은 하루 쿼터가 빠듯해 신규 리포트조차 1~2건에 그친다.
+          # 말투 교체(141건 남음)에 쿼터를 나눠 주면 신규가 그만큼 줄어든다.
+          # 신규 발행을 우선하기 위해 당분간 0 으로 둔다.
+          # 처리량이 회복되면(자막 확보·유료 전환 등) 다시 8 정도로 올릴 것.
+          REGEN_MAX: "0"
         run: python scripts/regenerate.py
 
       # 앞 단계가 실패하더라도 이미 생성된 리포트는 저장한다 (작업 유실 방지)

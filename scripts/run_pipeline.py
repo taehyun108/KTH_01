@@ -18,7 +18,8 @@ from datetime import date, timedelta
 from fetch_rss import collect_candidates
 import seen_store
 from generate_report import (process_video, QuotaExhausted, InsufficientContext,
-                             MIN_CONTEXT_CHARS, VIDEO_ANALYSIS_MAX, video_usage)
+                             Throttled, MIN_CONTEXT_CHARS, VIDEO_ANALYSIS_MAX,
+                             video_usage)
 from build_index import merge, load_existing
 from config import MAX_CANDIDATES_PER_RUN
 
@@ -173,6 +174,10 @@ def main() -> int:
             seen_store.record(skip_store, meta["video_id"],
                               seen_store.REASON_NO_CONTEXT, meta.get("title", ""))
             print(f"  – 건너뜀(근거부족): {meta['title'][:38]} — {exc}", file=sys.stderr)
+        except Throttled:
+            # 분당 제한 등 — 이 건만 건너뛰고 계속 간다(실행 전체를 접지 않는다)
+            n_error += 1
+            print(f"  – 건너뜀(일시 제한): {meta['title'][:38]}", file=sys.stderr)
         except QuotaExhausted:
             print(f"  ! 일일 쿼터 소진 — 이번 실행 조기 종료 (성공 {len(new_reports)}건 저장)",
                   file=sys.stderr)
