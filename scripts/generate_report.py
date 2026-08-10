@@ -209,6 +209,32 @@ JSON_SPEC_GENERAL = _must_replace(
 # 근거(자막·설명)가 이만큼도 없으면 리포트를 만들지 않는다 — 환각 방지의 핵심 장치
 MIN_CONTEXT_CHARS = 200
 
+# 한 번에 Gemini 로 보낼 자막 길이 상한.
+#
+# 예전에는 40,000자를 통째로 보냈다. 한국어는 대략 글자 수만큼 토큰이 나오므로
+# 호출 한 번에 3~4만 토큰이다. 무료 티어에 하루 토큰 한도가 걸려 있다면
+# 하루 25~30건에서 끊기는 실측치와 맞아떨어진다(2026-08 관측).
+# 길이를 3분의 1로 줄이면 같은 한도로 세 배를 만들 수 있다.
+#
+# 그냥 앞부분만 자르면 영상 후반의 결론을 잃는다. 그래서 <앞 + 뒤>를 함께 보낸다.
+# 경제·시사 영상은 앞에서 주제를 세우고 뒤에서 결론을 내리는 구성이 많아,
+# 가운데를 덜어 내는 편이 손실이 가장 적다.
+MAX_TRANSCRIPT_CHARS = int(os.getenv("MAX_TRANSCRIPT_CHARS", "12000"))
+_TAIL_RATIO = 0.3      # 상한의 30% 는 끝부분에 배정
+
+
+def trim_transcript(text: str, limit: int = 0) -> str:
+    """자막을 상한에 맞춰 줄인다. 앞부분과 끝부분을 남기고 가운데를 덜어 낸다."""
+    limit = limit or MAX_TRANSCRIPT_CHARS
+    text = text or ""
+    if limit <= 0 or len(text) <= limit:
+        return text
+    tail = int(limit * _TAIL_RATIO)
+    head = limit - tail
+    return (text[:head]
+            + f"\n\n…(가운데 {len(text) - limit:,}자 생략)…\n\n"
+            + text[-tail:])
+
 
 # ---------------------------------------------------------------------------
 # 자막 추출
@@ -246,6 +272,11 @@ def _parse_vtt(raw: str) -> str:
 # 연속 실패가 이 수치에 닿으면 이번 실행에서는 폴백을 포기한다(다음 실행에서 초기화).
 YTDLP_FAIL_LIMIT = 8
 _ytdlp_fails = 0
+
+# youtube-transcript-api 도 같은 이유(러너 IP 차단)로 후보마다 똑같이 실패한다.
+# 건당 1초 남짓이라 후보 100건이면 2분 가까이 그냥 버린다. 짝을 맞춰 상한을 둔다.
+API_FAIL_LIMIT = 8
+_api_fails = 0
 
 
 def _ytdlp_transcript(video_id: str) -> tuple[str, str]:
@@ -355,22 +386,35 @@ def get_transcript(video_id: str) -> tuple[str, str]:
     캐시를 맨 앞에 두는 이유: Actions 러너 IP 는 유튜브에 차단돼 1·2 단계가
     사실상 항상 실패한다. 가정용 IP 로 미리 받아 둔 것이 있으면 그것이 최선이다.
     """
+    global _api_fails
     cached = transcript_cache.get(video_id)
     if cached:
         text, src = cached
         print(f"  [자막] {video_id}: 캐시 사용 ({len(text)}자, 출처 {src})")
         return text, src
 
-    try:
-        text = _transcript_api(video_id)
-        if len(text) > 40:
-            return text, "youtube-transcript-api"
-        print(f"  [자막] {video_id}: transcript-api 결과가 너무 짧음({len(text)}자)", file=sys.stderr)
-    except Exception as exc:  # noqa: BLE001
-        # 라이브러리 예외 본문이 12줄이라 그대로 찍으면 로그가 파묻힌다 → 한 줄로 축약
-        brief = " ".join(str(exc).split())[:120]
-        print(f"  [자막] {video_id}: transcript-api 실패 — {exc.__class__.__name__}: {brief}",
-              file=sys.stderr)
+    # 러너 IP 가 차단되면 이 호출은 후보 수백 건에 대해 전부 같은 이유로 실패한다.
+    # 건당 1초씩만 잡아도 2분 넘게 버리므로, 연속으로 막히면 이번 실행에서는 접는다.
+    # (yt-dlp 폴백에 이미 같은 장치가 있고, 그것과 짝을 맞춘 것이다)
+    if _api_fails < API_FAIL_LIMIT:
+        try:
+            text = _transcript_api(video_id)
+            if len(text) > 40:
+                _api_fails = 0        # 한 번이라도 되면 차단이 아니다
+                return text, "youtube-transcript-api"
+            print(f"  [자막] {video_id}: transcript-api 결과가 너무 짧음({len(text)}자)",
+                  file=sys.stderr)
+        except Exception as exc:  # noqa: BLE001
+            # 라이브러리 예외 본문이 12줄이라 그대로 찍으면 로그가 파묻힌다 → 한 줄로 축약
+            _api_fails += 1
+            if _api_fails == API_FAIL_LIMIT:
+                print(f"  [자막] transcript-api {API_FAIL_LIMIT}회 연속 실패 — "
+                      "이 실행에서는 더 시도하지 않습니다(러너 IP 차단으로 판단).",
+                      file=sys.stderr)
+            else:
+                brief = " ".join(str(exc).split())[:120]
+                print(f"  [자막] {video_id}: transcript-api 실패 — "
+                      f"{exc.__class__.__name__}: {brief}", file=sys.stderr)
 
     text, source = _ytdlp_transcript(video_id)
     if source == "unavailable":
@@ -788,9 +832,11 @@ def analyze(meta: dict[str, Any], transcript: str, transcript_source: str,
     prompt = (
         f"{sys_p}\n\n{spec}\n\n"
         f"--- 분석 대상 ---\n채널: {meta['channel']}\n제목: {meta['title']}\n"
-        f"설명: {meta.get('description', '')}\n자막:\n{transcript[:40000]}"
+        f"설명: {meta.get('description', '')}\n자막:\n{trim_transcript(transcript)}"
         f"{source_note}{guard}{force_note}"
     )
+    print(f"  [요청] {meta.get('video_id','')}: 프롬프트 {len(prompt):,}자"
+          f" (자막 원본 {len(transcript):,}자)")
     resp = _generate(client, model, types, prompt)
     data = json.loads(_strip_fences(resp.text))
     data["_transcript_source"] = transcript_source

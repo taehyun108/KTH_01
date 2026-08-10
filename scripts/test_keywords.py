@@ -175,6 +175,45 @@ def check_model_errors() -> list[str]:
     return out
 
 
+# 자막이 새로 생겼을 때 '다시 볼 사유'가 실제로 풀리는가.
+# 2026-08-10: 해제 로직이 '근거부족'만 보고 있어서, 정작 자막이 생기면 뒤집힐
+# '무관(설명글만 보고 판단)' 21건이 7일간 묶여 있었다. 두 사유 모두 풀려야 한다.
+UNBLOCK_CASES: list[tuple[str, bool]] = [
+    ("근거부족", True),
+    ("무관(설명글만 보고 판단)", True),
+    ("무관", False),          # 자막을 보고 내린 판단 — 영구
+]
+
+
+def check_unblock() -> list[str]:
+    import seen_store as ss
+    out = []
+    for reason, should_free in UNBLOCK_CASES:
+        got = reason in ss.RETRYABLE
+        if got != should_free:
+            want = "자막 생기면 해제" if should_free else "영구 배제"
+            out.append(f"  [{want} 여야 함] {reason!r} → RETRYABLE={got}")
+    return out
+
+
+# 처리 우선순위 — 하루 쿼터가 빠듯해 뒤쪽은 손도 못 대므로 순서가 곧 발행량이다.
+# 자막 캐시가 있는 후보(근거 최상·쿼터 최소)가 반드시 맨 앞이어야 한다.
+def check_priority() -> list[str]:
+    from run_pipeline import order_candidates
+
+    fresh = [
+        {"video_id": "NODESC", "channel": "A", "description": "", "published": "3"},
+        {"video_id": "CACHED", "channel": "B", "description": "", "published": "1"},
+        {"video_id": "DESC", "channel": "A", "description": "x" * 300, "published": "2"},
+    ]
+    got = [c["video_id"] for c in order_candidates(fresh, float("inf"),
+                                                   has_cache={"CACHED"}.__contains__)]
+    want = ["CACHED", "DESC", "NODESC"]
+    if got != want:
+        return [f"  [처리 순서가 {want} 여야 함] → {got}"]
+    return []
+
+
 def check_shorts() -> list[str]:
     out = []
     for dur, title, expect in SHORTS_CASES:
@@ -198,9 +237,12 @@ def main() -> int:
     fails += check_names()
     fails += check_evidence()
     fails += check_model_errors()
+    fails += check_unblock()
+    fails += check_priority()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
-             + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES))
-    print(f"키워드·쇼츠·명칭·근거·모델 판정 테스트 — {total - len(fails)}/{total} 통과")
+             + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
+             + 1)   # 처리 우선순위 1건
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위 테스트 — {total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)
         for f in fails:

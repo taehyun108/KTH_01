@@ -31,6 +31,59 @@ from config import MAX_CANDIDATES_PER_RUN
 TIME_BUDGET_MIN = int(os.getenv("PIPELINE_BUDGET_MIN", "35"))
 
 
+def _round_robin(items: list, cap: float) -> list:
+    """채널을 번갈아 뽑아 특정 채널 독점을 막는다 (슈카월드 등 공정 포함)."""
+    by_ch: dict[str, list] = defaultdict(list)
+    for c in items:
+        by_ch[c["channel"]].append(c)
+    for lst in by_ch.values():
+        lst.sort(key=lambda c: c.get("published", ""), reverse=True)
+    out: list = []
+    while len(out) < cap and any(by_ch.values()):
+        for ch in list(by_ch):
+            if by_ch[ch]:
+                out.append(by_ch[ch].pop(0))
+                if len(out) >= cap:
+                    break
+    return out
+
+
+def order_candidates(fresh: list, cap: float, has_cache, report: bool = False):
+    """근거가 좋은 후보부터 오도록 정렬한다.
+
+    하루 쿼터가 빠듯해 뒤쪽 후보는 손도 못 대고 실행이 끝난다.
+    즉 <어느 것을 먼저 두느냐>가 곧 그날의 발행량이다.
+
+      1) 자막 캐시 있음 — 집 PC 가 받아 둔 전체 자막. 근거가 가장 확실해 리포트가
+         실제로 나올 확률이 가장 높고, 쿼터도 텍스트 1회로 가장 싸다.
+      2) 설명글 충분   — 텍스트 1회로 처리 가능. 다만 200자 설명만 보고
+         '무관'으로 끝나는 일이 잦다(실측 21건).
+      3) 나머지        — 영상 직접 분석으로 넘어간다. 영상 쿼터는 텍스트보다
+         훨씬 빨리 바닥나므로 가장 뒤에 둔다.
+
+    예전에는 1)에 별도 순위가 없어 3)에 섞여 맨 뒤로 밀렸다. 집 PC 로 자막을 모으는
+    지금 구조에서는 가장 좋은 근거를 가장 늦게 쓰는 셈이라 순위를 앞으로 뺐다.
+
+    각 계층 안에서는 채널을 번갈아 뽑아 한 채널이 독점하지 않게 한다.
+    """
+    def _has_desc(c) -> bool:
+        return len((c.get("description") or "").strip()) >= MIN_CONTEXT_CHARS
+
+    cached = [c for c in fresh if has_cache(c["video_id"])]
+    rest = [c for c in fresh if not has_cache(c["video_id"])]
+    with_desc = [c for c in rest if _has_desc(c)]
+    without = [c for c in rest if not _has_desc(c)]
+
+    out: list = []
+    for tier in (cached, with_desc, without):
+        if len(out) >= cap:
+            break
+        out += _round_robin(tier, cap - len(out))
+    if report:
+        return out, (len(cached), len(with_desc), len(without))
+    return out
+
+
 def _extract_video_id(url: str) -> str | None:
     """watch?v=ID · shorts/ID · live/ID · youtu.be/ID · embed/ID · v/ID 에서 영상 id 추출.
 
@@ -84,12 +137,16 @@ def main() -> int:
     # 안의 '무관' 영상을 매 실행 다시 Gemini 에 물어보며 하루치 쿼터를 거기서 다 쓴다.
     skip_store = seen_store.load()
     blocked = seen_store.blocked_ids(skip_store)
-    # 집 PC 가 자막을 올려 준 영상은 '근거부족' 기록이 있어도 즉시 다시 본다.
-    # 그러지 않으면 자막을 애써 올려 놓고 재시도 기한(7일)까지 아무 일도 일어나지
-    # 않는다. 막아 둔 이유(근거가 없다)가 사라졌으니 곧바로 풀어 주는 게 맞다.
+    # 집 PC 가 자막을 올려 준 영상은 재시도 기한(7일)을 기다리지 않고 즉시 다시 본다.
+    # 그러지 않으면 자막을 애써 올려 놓고도 일주일간 아무 일이 일어나지 않는다.
+    #
+    # '근거부족'뿐 아니라 '무관(설명글만 보고 판단)'도 함께 푼다.
+    #   설명글 200자만 보고 내린 무관 판정이 바로, 자막이 생기면 뒤집힐 수 있는 판단이다
+    #   (seen_store.RETRYABLE 이 그래서 둘을 함께 묶고 있다).
+    #   여기서 '근거부족'만 풀면, 정작 되돌려야 할 쪽을 그대로 묶어 두게 된다.
     import transcript_cache
     freed = {v for v in blocked
-             if skip_store.get(v, {}).get("reason") == seen_store.REASON_NO_CONTEXT
+             if skip_store.get(v, {}).get("reason") in seen_store.RETRYABLE
              and transcript_cache.has(v)}
     blocked -= freed
     print(f"  {seen_store.summary(skip_store)} → 이번 실행 제외 {len(blocked)}건"
@@ -105,36 +162,10 @@ def main() -> int:
             print(f"  [진단] 후보 {len(candidates)}건이 모두 처리 완료된 영상 — 신규 없음",
                   file=sys.stderr)
 
-    def _round_robin(items: list, cap: float) -> list:
-        """채널을 번갈아 뽑아 특정 채널 독점을 막는다 (슈카월드 등 공정 포함)."""
-        by_ch: dict[str, list] = defaultdict(list)
-        for c in items:
-            by_ch[c["channel"]].append(c)
-        for lst in by_ch.values():
-            lst.sort(key=lambda c: c.get("published", ""), reverse=True)
-        out: list = []
-        while len(out) < cap and any(by_ch.values()):
-            for ch in list(by_ch):
-                if by_ch[ch]:
-                    out.append(by_ch[ch].pop(0))
-                    if len(out) >= cap:
-                        break
-        return out
-
-    # 설명글이 충분한 후보를 <먼저> 처리한다.
-    # 설명이 없는 후보는 영상 직접 분석으로 넘어가는데, 영상 쿼터는 텍스트보다 훨씬
-    # 빨리 바닥난다. 순서를 섞어 두면 값싼 텍스트 후보가 뒤로 밀려, 쿼터·시간이
-    # 비싼 쪽에 먼저 쓰이고 정작 만들 수 있는 것을 못 만든다.
     cap = float("inf") if MAX_CANDIDATES_PER_RUN is None else MAX_CANDIDATES_PER_RUN
-    def _has_desc(c) -> bool:
-        return len((c.get("description") or "").strip()) >= MIN_CONTEXT_CHARS
-
-    with_desc = [c for c in fresh if _has_desc(c)]
-    without = [c for c in fresh if not _has_desc(c)]
-    fresh = _round_robin(with_desc, cap)
-    if len(fresh) < cap:
-        fresh += _round_robin(without, cap - len(fresh))
-    print(f"  처리 순서: 설명글 충분 {len(with_desc)}건 먼저 → 영상 분석 필요 {len(without)}건")
+    fresh, tiers = order_candidates(fresh, cap, transcript_cache.has, report=True)
+    print(f"  처리 순서: 자막 확보 {tiers[0]}건 → 설명글 충분 {tiers[1]}건 "
+          f"→ 영상 분석 필요 {tiers[2]}건")
 
     # 근거(자막·설명) 게이트에 전부 걸려 '신규 0건'이 나올 때 원인을 바로 알 수 있게,
     # 처리 전에 후보들이 들고 있는 설명글 길이 분포를 남긴다.
