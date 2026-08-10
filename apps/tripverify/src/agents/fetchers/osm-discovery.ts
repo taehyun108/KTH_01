@@ -81,7 +81,7 @@ export async function discoverPois(center: GeoPoint, radius = 9000, limit = 60):
  * 먼저 돌려준다. 리뷰 API 는 무료가 없으므로 점수를 지어내지 않고(§0) OSM 이
  * 보유한 실제 태그만 근거로 삼는다.
  */
-export async function discoverRestaurants(center: GeoPoint, radius = 7000, limit = 60): Promise<RestaurantSeed[]> {
+export async function discoverRestaurants(center: GeoPoint, radius = 5000, limit = 60): Promise<RestaurantSeed[]> {
   const els = await overpassUnion([`nwr["amenity"="restaurant"]["name"]`], center, radius, limit);
   const seeds = els.flatMap((el) => {
     const loc = coord(el);
@@ -159,6 +159,7 @@ export async function wikiNearby(center: GeoPoint, radius = 10000, limit = 500):
 const OVERPASS_MIRRORS = [
   "https://overpass-api.de/api/interpreter",
   "https://overpass.kumi.systems/api/interpreter",
+  "https://maps.mail.ru/osm/tools/overpass/api/interpreter",
 ];
 
 async function overpassUnion(

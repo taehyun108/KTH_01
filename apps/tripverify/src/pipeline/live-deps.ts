@@ -56,7 +56,9 @@ export function liveDeps(): PipelineDeps {
       const merged = mergeByProximity(overpassSeeds, wikiFallbackSeeds(wiki));
       const cities = Math.max(q.destinations.length, 1);
       const perCityDays = Math.max(1, Math.round(dayCount(q.start_date, q.end_date) / cities));
-      const limit = Math.min(Math.max(perCityDays * 7, 12), 50); // 하루 3곳+ 확보용 넉넉히
+      // 하루 4곳 목표(3곳+ 보장 & 점심·저녁 들어갈 여유). 너무 많으면 10시간 상한에
+      // 걸려 식당이 밀려나므로 과하지 않게.
+      const limit = Math.min(Math.max(perCityDays * 4, 6), 28);
 
       // 1차 넓게 선별(설명 조회 후 폐관·비검색 필터로 좁힘). 설명 조회 비용을
       // 고려해 후보를 과하지 않게(최대 45개) 제한.
@@ -72,7 +74,7 @@ export function liveDeps(): PipelineDeps {
       const descMap = await Promise.race([
         wikiDescriptions(prelim.map(descKey)).catch(() => new Map()),
         new Promise<Map<string, { description?: string; extract?: string }>>((resolve) =>
-          setTimeout(() => resolve(new Map()), 10_000),
+          setTimeout(() => resolve(new Map()), 14_000), // 한국어 위키 조회 여유(POI 목록은 항상 반환)
         ),
       ]);
       const enriched = prelim.map((s) => {

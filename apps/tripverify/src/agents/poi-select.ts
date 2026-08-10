@@ -210,7 +210,14 @@ export function mergeByProximity(osmSeeds: PoiSeed[], wikiSeeds: PoiSeed[]): Poi
 
 /** 폐관/철거/이전 등 '현재 방문 불가/구글 미검색' 가능성이 높은 설명. */
 const DEFUNCT_RE =
-  /\b(former|formerly|closed|defunct|demolished|no longer|abolished|disused|abandoned|relocated|ceased|was a|were a|used to be|permanently closed|closed in \d{4})\b|폐관|폐업|철거|이전함/i;
+  /\b(former|formerly|closed|defunct|demolished|no longer|abolished|disused|abandoned|relocated|ceased|was an?|were an?|used to be|permanently closed|closed in \d{4})\b|폐관|폐업|철거|이전함/i;
+
+/**
+ * 아파트·주거·오피스 등 '관광지가 아닌 건물' — 무조건 제외(ATTRACTION 키워드보다 우선).
+ * (예: "The Tower Osaka is a high rise apartment building" → 관광지 아님)
+ */
+const RESIDENTIAL_RE =
+  /\b(apartment|residential|condominium|condo|housing|dormitory|office building|mixed-use|high[-\s]?rise (apartment|residential|building|condominium))\b|아파트|주상복합|오피스텔|주거/i;
 
 /** 유명도 신호(위키 설명에 자주 등장). */
 const FAME_RE = /famous|popular|iconic|landmark|one of the|most (visited|famous)|major|well-known|renowned|must-see|symbol of|largest|oldest|tallest/i;
@@ -249,6 +256,8 @@ const ATTRACTION_DESC =
  */
 export function isVisitorAttraction(seed: PoiSeed): boolean {
   const text = `${seed.name} ${seed.name_en ?? ""} ${seed.description ?? ""}`;
+  // 아파트/주거/오피스는 이름에 'tower' 등 관광 키워드가 있어도 무조건 제외
+  if (RESIDENTIAL_RE.test(seed.description ?? "")) return false;
   if (NON_ATTRACTION_DESC.test(text) && !ATTRACTION_DESC.test(text)) return false;
   return true;
 }

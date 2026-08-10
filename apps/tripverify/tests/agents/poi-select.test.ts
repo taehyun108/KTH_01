@@ -119,6 +119,31 @@ describe("Wikipedia 기반 POI (클라우드 안정 소스)", () => {
     expect(isDefunctDescription(undefined)).toBe(false);
   });
 
+  it("isDefunctDescription: 'was an ...' 철거 타워도 감지", () => {
+    expect(
+      isDefunctDescription("Osaka Tower was an observation and radio tower built beside the ABC headquarters."),
+    ).toBe(true);
+  });
+
+  it("isVisitorAttraction: 아파트/주거 건물은 이름에 tower 가 있어도 제외", () => {
+    expect(
+      isVisitorAttraction({
+        name: "The Tower Osaka",
+        location: loc,
+        origin: "wiki",
+        description: "The Tower Osaka is a high rise apartment building situated at Fukushima-ku, Osaka.",
+      }),
+    ).toBe(false);
+    expect(
+      isVisitorAttraction({
+        name: "City Tower Nishi-Umeda",
+        location: loc,
+        origin: "wiki",
+        description: "City Tower Nishi-Umeda is a high rise apartment building.",
+      }),
+    ).toBe(false);
+  });
+
   it("inferAllDay: 테마파크 종일 판별", () => {
     expect(inferAllDay("Universal Studios Japan", ["activity"])).toBe(true);
     expect(inferAllDay("Osaka Castle", ["history"])).toBe(false);
