@@ -524,6 +524,29 @@ def _is_daily_quota(msg: str) -> bool:
     return "PerDay" in msg or "per day" in msg.lower() or "RequestsPerDay" in msg
 
 
+def quota_detail(msg: str) -> str:
+    """429 응답에서 '어떤 한도에 몇 건으로 걸렸는지'를 뽑아 한 줄로 만든다.
+
+    유료 전환이 필요한지 판단하려면 '한도가 작다'가 아니라 <하루 몇 건인지>를
+    알아야 한다. 구글은 그 값을 응답 본문(quotaId / quotaValue)에 담아 보내는데,
+    지금까지는 우리 쪽 메시지만 찍고 이 내용을 버리고 있었다.
+    """
+    qid = re.search(r'"?quotaId"?\s*[:=]\s*"?([\w\-]+)', msg)
+    val = re.search(r'"?quotaValue"?\s*[:=]\s*"?(\d+)', msg)
+    model = re.search(r'"?quotaDimensions"?.*?"?model"?\s*[:=]\s*"?([\w\.\-]+)', msg, re.S)
+    bits = []
+    if qid:
+        bits.append(f"한도 종류 {qid.group(1)}")
+    if val:
+        bits.append(f"상한 {val.group(1)}건")
+    if model:
+        bits.append(f"모델 {model.group(1)}")
+    if bits:
+        return " · ".join(bits)
+    # 형식이 바뀌었을 수 있으니 원문 일부라도 남긴다 — 없는 것보다 낫다
+    return "상세 미확인 → 원문: " + " ".join(msg.split())[:220]
+
+
 def _generate(client, model: str, types, prompt: str, max_retries: int = 4):
     """429(레이트리밋)는 서버 제안 대기 후 재시도. 일일 쿼터 소진이면 즉시 중단 신호."""
     cfg = types.GenerateContentConfig(
@@ -554,6 +577,7 @@ def _generate(client, model: str, types, prompt: str, max_retries: int = 4):
                 continue
             # 일일 쿼터 소진: 재시도해도 무의미 → 조기 종료
             if is_429 and _is_daily_quota(msg):
+                print(f"  [쿼터] {quota_detail(msg)}", file=sys.stderr)
                 raise QuotaExhausted(msg)
             if is_429 and attempt < max_retries - 1:
                 wait = _retry_delay(msg, delay)
@@ -563,6 +587,7 @@ def _generate(client, model: str, types, prompt: str, max_retries: int = 4):
                 continue
             # 재시도까지 소진된 429 는 지속 스로틀로 보고 조기 종료
             if is_429:
+                print(f"  [쿼터] {quota_detail(msg)}", file=sys.stderr)
                 raise QuotaExhausted(msg)
             raise
 
