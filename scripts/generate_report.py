@@ -407,7 +407,11 @@ _MODEL_BLOCKED: set[str] = set()
 #   안정 버전을 앞에 두는 이유는 무료 하루 한도 때문이다. 최신 별칭
 #   (flash-latest)은 프리뷰를 가리키는 경우가 많고 한도가 작다 — 실측으로
 #   하루 25~30회에서 끊겼다. 쓸 수 있는 안정 버전이 있으면 그쪽이 낫다.
-_MODEL_PREFS = ("gemini-2.5-flash", "gemini-2.0-flash", "gemini-flash-latest",
+#   gemini-2.5-flash 는 이 키로 404 임이 실측으로 확인됐다(2026-08-10). 폴백이
+#   있으니 남겨 두면 동작은 하지만, 스크립트가 새로 뜰 때마다(파이프라인·재생성·
+#   URL 요약) 그걸 다시 고르고 404 를 맞느라 호출을 한 번씩 버린다. 하루 한도가
+#   빠듯한 상황에서는 그 한 번도 아깝다. 그래서 뒤로 뺀다.
+_MODEL_PREFS = ("gemini-2.0-flash", "gemini-flash-latest", "gemini-2.5-flash",
                 "2.5-flash", "flash", "gemini-2.5-pro", "pro-latest", "pro")
 
 
