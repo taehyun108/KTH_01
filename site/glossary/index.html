@@ -450,6 +450,54 @@
       </table>
       </div>
 
+      <h3 class="t-h">에너지밀도로 다시 보기 — 하프셀과 풀셀</h3>
+      <p>용량과 전압을 따로 보면 어느 쪽이 유리한지 감이 잘 안 잡히는데요.
+        둘을 곱하면 <strong>활물질 1톤이 실제로 담는 에너지</strong>가 나옵니다.
+        소재 가격을 kWh당 얼마인지로 환산할 때 쓰는 값이 바로 이것입니다.</p>
+      <div class="callout">
+        <p class="callout-title">먼저 두 가지만 짚고 가겠습니다</p>
+        <p><strong>① Wh/kg 과 kWh/ton 은 숫자가 같습니다.</strong>
+          1Wh/kg짜리 물질 1톤이면 1,000Wh, 곧 1kWh니까요. 단위만 바꿔 부르는 셈이라
+          아래 값은 Wh/kg 로 읽으셔도 그대로 맞습니다.</p>
+        <p><strong>② 하프셀과 풀셀은 상대가 다릅니다.</strong>
+          <strong>하프셀</strong>은 시험할 소재를 <strong>리튬 금속</strong>과 짝지어 재는 방식입니다.
+          소재 자체의 실력을 보는 실험실 조건이죠.
+          <strong>풀셀</strong>은 실제 배터리처럼 <strong>흑연 음극</strong>과 짝지운 것입니다.
+          흑연도 전위를 조금(약 0.2V) 가지고 있어서 그만큼 전압이 깎이는데요.
+          그래서 <strong>같은 소재라도 풀셀 값이 하프셀보다 낮게 나옵니다</strong>.</p>
+      </div>
+      <div class="tbl-scroll">
+      <table class="glossary num">
+        <thead><tr><th>이름</th><th>용량<br /><span class="en">mAh/g</span></th>
+          <th>하프셀 전압<br /><span class="en">V vs Li</span></th>
+          <th>하프셀 에너지<br /><span class="en">kWh/ton</span></th>
+          <th>풀셀 전압<br /><span class="en">V</span></th>
+          <th>풀셀 에너지<br /><span class="en">kWh/ton</span></th></tr></thead>
+        <tbody>
+          <tr><td class="k">LCO</td><td>140~155</td><td>3.9</td><td>550~600</td><td>3.7</td><td>520~570</td></tr>
+          <tr><td class="k">NCM523</td><td>155~165</td><td>3.85</td><td>600~640</td><td>3.65</td><td>570~600</td></tr>
+          <tr><td class="k">NCM622</td><td>170~180</td><td>3.85</td><td>650~690</td><td>3.65</td><td>620~660</td></tr>
+          <tr><td class="k">NCM811</td><td>195~205</td><td>3.9</td><td>760~800</td><td>3.7</td><td>720~760</td></tr>
+          <tr><td class="k">NCM 9½½</td><td>210~225</td><td>3.9</td><td><strong>820~880</strong></td><td>3.7</td><td><strong>780~830</strong></td></tr>
+          <tr><td class="k">NCA</td><td>195~210</td><td>3.9</td><td>760~820</td><td>3.7</td><td>720~780</td></tr>
+          <tr><td class="k">LMO</td><td>100~120</td><td>4.0</td><td>400~480</td><td>3.8</td><td>380~460</td></tr>
+          <tr><td class="k">LFP</td><td>140~160</td><td>3.4</td><td>480~540</td><td><strong>3.2</strong></td><td>450~510</td></tr>
+          <tr><td class="k">LMFP</td><td>145~160</td><td>4.15</td><td>600~660</td><td>3.95</td><td>570~630</td></tr>
+          <tr><td class="k">NFPP</td><td>110~125</td><td>3.4<span class="en"> vs Na</span></td><td>370~430</td><td>3.2</td><td>350~400</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="tbl-note">* <strong>발표된 표가 아니라 계산값</strong>입니다.
+        위 표의 용량 × 전압으로 직접 구한 것이라 그대로 검산하실 수 있습니다.
+        하프셀 전압은 흑연 음극의 전위(약 0.2V)를 더해 잡았습니다.
+        활물질만의 값이라, 실제 셀은 집전체·전해액·분리막·케이스 무게가 더해져 훨씬 낮아집니다.</p>
+
+      <p><strong>LFP와 NCM811을 나란히 놓으면</strong> 차이가 분명해집니다.
+        풀셀 기준 480 대 740, <strong>같은 1톤으로 담는 에너지가 1.5배 넘게 차이</strong>납니다.
+        LFP를 쓰면 같은 주행거리에 양극재를 그만큼 더 실어야 한다는 뜻이죠.
+        그런데도 LFP가 팔리는 이유는 재료비가 훨씬 싸고 수명과 안전성이 앞서기 때문입니다.
+        결국 <strong>kWh당 가격</strong>으로 따지면 이야기가 달라지는 겁니다.</p>
+
       <div class="callout">
         <p class="callout-title">표 읽는 법 — 왜 NCM523과 622가 다른가요?</p>
         <p>숫자는 <strong>니켈:코발트:망간의 비율</strong>입니다. 523이면 5:2:3, 622면 6:2:2인데요.
@@ -608,6 +656,48 @@
         </tbody>
       </table>
       </div>
+
+      <h3 class="t-h">에너지밀도로 다시 보기 — 음극은 읽는 법이 다릅니다</h3>
+      <div class="callout">
+        <p class="callout-title">먼저 주의 — 음극의 하프셀 에너지는 '높을수록 좋은' 값이 아닙니다</p>
+        <p>양극은 전압이 높을수록 좋습니다. 그런데 <strong>음극은 정반대로 전압이 0에 가까울수록 좋습니다.</strong>
+          셀 전압이 '양극 전위 − 음극 전위'라서, 음극 전위가 높으면 그만큼 깎아먹으니까요.</p>
+        <p>그래서 음극을 리튬과 짝지어 잰 <strong>하프셀 에너지는 낮을수록 좋은 소재</strong>입니다.
+          아래 표에서 LTO가 흑연보다 높게 나오는데, 좋아서가 아니라
+          <strong>전위가 1.55V나 되는 나쁜 조건</strong>이기 때문입니다. 거꾸로 읽으시면 안 됩니다.</p>
+        <p>음극을 제대로 비교하려면 <strong>양극과 짝지어 본 풀셀 값</strong>을 봐야 합니다.</p>
+      </div>
+      <div class="tbl-scroll">
+      <table class="glossary num">
+        <thead><tr><th>소재</th><th>용량<br /><span class="en">mAh/g</span></th>
+          <th>음극 전위<br /><span class="en">V vs Li</span></th>
+          <th>하프셀 에너지<br /><span class="en">kWh/ton · 낮을수록 좋음</span></th>
+          <th>셀 전압<br /><span class="en">V</span></th>
+          <th>풀셀 에너지<br /><span class="en">kWh/ton · 양극+음극</span></th></tr></thead>
+        <tbody>
+          <tr><td class="k">천연흑연</td><td>350~365</td><td>약 0.15</td><td>약 55</td><td>3.7</td><td>약 470</td></tr>
+          <tr><td class="k">인조흑연</td><td>340~360</td><td>약 0.15</td><td>약 53</td><td>3.7</td><td>약 470</td></tr>
+          <tr><td class="k">SiOx</td><td>1,200~1,700</td><td>약 0.4</td><td>약 580</td><td>3.45</td><td>약 610</td></tr>
+          <tr><td class="k">Si-C</td><td>1,500~2,000</td><td>약 0.4</td><td>약 700</td><td>3.45</td><td>약 620</td></tr>
+          <tr><td class="k">리튬메탈</td><td><strong>3,860</strong></td><td><strong>0</strong>(기준)</td><td>—</td><td>3.85</td><td><strong>약 730</strong></td></tr>
+          <tr><td class="k">LTO</td><td>약 175</td><td>약 1.55</td><td>약 271</td><td>2.35</td><td>약 220</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="tbl-note">* 계산값입니다. 풀셀은 <strong>NCM811 양극(200mAh/g)과 짝지었을 때</strong>,
+        <strong>양극과 음극 활물질을 합한 무게</strong> 기준으로 구했습니다.
+        두 극을 합치면 용량은 <span class="en">1 ÷ (1/양극 + 1/음극)</span> 로 계산됩니다.
+        실제 셀은 집전체·전해액·분리막·케이스가 더해져 이 값의 절반 남짓이 됩니다
+        (NCM811·흑연 기준 약 470 → 실제 셀 250~270Wh/kg).</p>
+
+      <p>이 표에서 꼭 보셔야 할 것은 <strong>실리콘의 한계</strong>입니다.
+        흑연(357)에서 SiOx(1,450)로 <strong>음극 용량을 4배</strong> 올렸는데,
+        풀셀 에너지는 470에서 610으로 <strong>30% 느는 데 그칩니다</strong>.
+        Si-C로 다시 1,750까지 올려도 620, 거의 제자리죠.</p>
+      <p>이유는 간단합니다. 음극이 아무리 많이 담아도 <strong>양극이 내주는 리튬만큼만</strong> 쓸 수 있기 때문입니다.
+        음극을 키울수록 병목이 양극으로 넘어가는 겁니다.
+        업계가 실리콘을 5~10%만 섞고, 동시에 <strong>하이니켈 양극</strong>에 매달리는 이유가 여기 있습니다.
+        한쪽만 키워서는 답이 안 나옵니다.</p>
 
       <div class="callout">
         <p class="callout-title">꼭 알아두면 좋은 개념 — SEI 막</p>
