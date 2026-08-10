@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-10T14:04:28",
+  "generated_at": "2026-08-10T23:51:12",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-10-금리와-채권의-역사에서-찾는-투자와-자산관리의-지혜",
+      "date": "2026-08-10",
+      "channel": "언더스탠딩",
+      "title": "금리와 채권의 역사에서 찾는 투자와 자산관리의 지혜",
+      "summary": "역사 속 금리와 채권 시장의 흐름을 통해 자산시장과 투자 전략의 시사점을 살펴봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-08-10-금리와-채권의-역사에서-찾는-투자와-자산관리의-지혜.html",
+      "video": "https://www.youtube.com/shorts/zVjlEpwSwt4",
+      "video_id": "zVjlEpwSwt4",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
+    },
     {
       "id": "2026-08-08-공급망을-노리는-현대전-글로벌-에너지와-물류-불안을-키우다",
       "date": "2026-08-08",
@@ -379,6 +394,21 @@
       "video": "https://www.youtube.com/watch?v=Fhc_scgbQ4E",
       "video_id": "Fhc_scgbQ4E",
       "pv": 2
+    },
+    {
+      "id": "2026-08-03-코스피의-거센-파도와-레버리지-투자-그리고-시장의-이면",
+      "date": "2026-08-03",
+      "channel": "슈카월드",
+      "title": "코스피의 거센 파도와 레버리지 투자, 그리고 시장의 이면",
+      "summary": "코스피의 사상 최대 폭등과 폭락 속에서 레버리지 투자로 큰 타격을 입은 개인 투자자들의 상황을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-08-03-코스피의-거센-파도와-레버리지-투자-그리고-시장의-이면.html",
+      "video": "https://www.youtube.com/watch?v=tT1Km_wKo_M",
+      "video_id": "tT1Km_wKo_M",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-08-01-연준의-금리-결정과-시장-파장-배터리-산업에는-어떤-의미일까요",
