@@ -74,14 +74,18 @@ jobs:
         run: python scripts/run_pipeline.py
 
       # 남은 쿼터로 옛 말투 리포트를 현재 말투(PROMPT_VERSION)로 교체 — 며칠에 걸쳐 점진 완료
+      #
+      # ※ 상한을 사람이 손으로 맞추지 않는다.
+      #   앞 단계가 남긴 .pipeline_state.json 을 보고 스스로 정한다.
+      #     · 신규 발행이 쿼터·시간에 막혀 후보가 남았다 → 이 단계는 통째로 건너뛴다
+      #     · 신규 발행이 후보를 다 처리했다(0건인 날 포함) → 남는 쿼터로 최대 N건
+      #   예전에는 신규를 지키려고 REGEN_MAX=0 으로 막아 뒀는데, 정작 신규 후보가
+      #   0건인 날에는 하루 쿼터가 통째로 놀았다(2026-08-10 실행에서 확인).
       - name: Regenerate old reports with the new tone (leftover quota)
         env:
           GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
-          # 지금은 하루 쿼터가 빠듯해 신규 리포트조차 1~2건에 그친다.
-          # 말투 교체(141건 남음)에 쿼터를 나눠 주면 신규가 그만큼 줄어든다.
-          # 신규 발행을 우선하기 위해 당분간 0 으로 둔다.
-          # 처리량이 회복되면(자막 확보·유료 전환 등) 다시 8 정도로 올릴 것.
-          REGEN_MAX: "0"
+          # 신규 발행이 후보를 다 처리한 날에만 쓰는 상한
+          REGEN_MAX_IDLE: "12"
         run: python scripts/regenerate.py
 
       # 앞 단계가 실패하더라도 이미 생성된 리포트는 저장한다 (작업 유실 방지)

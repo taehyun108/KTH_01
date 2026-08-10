@@ -238,6 +238,45 @@ def check_local_push() -> list[str]:
     return out
 
 
+# 쿼터 양보 — 신규 발행과 말투 교체가 하루 쿼터를 나눠 쓰는 규칙.
+# 사람이 REGEN_MAX 를 손으로 맞추던 방식은 어느 쪽으로 맞춰도 절반은 손해였다.
+#   (left, quota_hit, REGEN_MAX, 재생성이 돌아야 하는가)
+HANDOFF_CASES: list[tuple[int, bool, str, bool]] = [
+    (12, True, "", False),    # 신규가 쿼터에 막혀 남았다 → 양보
+    (5, False, "", False),    # 시간 상한으로 남았다 → 양보
+    (0, False, "", True),     # 신규가 후보를 다 처리했다 → 남는 쿼터 사용
+    (0, False, "0", False),   # 사람이 명시적으로 껐다 → 무조건 끔
+]
+
+
+def check_handoff() -> list[str]:
+    import os
+    import run_pipeline as R
+
+    out = []
+    saved = {k: os.environ.get(k) for k in ("REGEN_MAX", "REGEN_MAX_IDLE")}
+    try:
+        for left, hit, regen_max, should_run in HANDOFF_CASES:
+            R.write_state(left=left, new=0, quota_hit=hit)
+            state = R.read_state()
+            limit = int(regen_max) if regen_max.strip() else None
+            # regenerate.py 와 같은 판정
+            runs = not (limit == 0
+                        or state.get("quota_hit") or state.get("left", 0) > 0)
+            if runs != should_run:
+                want = "돌아야" if should_run else "건너뛰어야"
+                out.append(f"  [{want} 함] left={left} quota_hit={hit} "
+                           f"REGEN_MAX={regen_max!r} → 실행={runs}")
+    finally:
+        R.STATE_FILE.unlink(missing_ok=True)
+        for k, v in saved.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+    return out
+
+
 def check_shorts() -> list[str]:
     out = []
     for dur, title, expect in SHORTS_CASES:
@@ -264,11 +303,13 @@ def main() -> int:
     fails += check_unblock()
     fails += check_priority()
     fails += check_local_push()
+    fails += check_handoff()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
-             + 4)    # PC 자막 수집 git 처리
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드 테스트 — "
+             + 4     # PC 자막 수집 git 처리
+             + len(HANDOFF_CASES))
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

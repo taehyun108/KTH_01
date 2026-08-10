@@ -8,6 +8,7 @@
 """
 from __future__ import annotations
 
+import json
 import os
 import re
 import sys
@@ -21,7 +22,7 @@ from generate_report import (process_video, QuotaExhausted, InsufficientContext,
                              Throttled, MIN_CONTEXT_CHARS, VIDEO_ANALYSIS_MAX,
                              video_usage)
 from build_index import merge, load_existing
-from config import MAX_CANDIDATES_PER_RUN
+from config import MAX_CANDIDATES_PER_RUN, ROOT
 
 # 실행 시간 상한(분). 이 시간을 넘기면 처리를 멈추고, 그때까지 만든 리포트를
 # 정상적으로 저장한 뒤 종료한다.
@@ -29,6 +30,28 @@ from config import MAX_CANDIDATES_PER_RUN
 #     건너뛰어져, 이미 만들어 둔 리포트까지 버려진다(2026-08-05 저녁 실행에서 발생).
 #     한도에 닿기 한참 전에 우리 손으로 끝내는 것이 안전하다.
 TIME_BUDGET_MIN = int(os.getenv("PIPELINE_BUDGET_MIN", "35"))
+
+
+# 파이프라인이 '쿼터를 더 쓸 수 있었는가'를 다음 단계(재생성)에 넘겨 주는 쪽지.
+#   두 단계는 같은 job 안에서 잇달아 돌므로 파일 하나면 충분하다.
+#   커밋 대상이 아니다(.gitignore) — 실행마다 새로 쓰고 버린다.
+STATE_FILE = ROOT / ".pipeline_state.json"
+
+
+def write_state(*, left: int, new: int, quota_hit: bool) -> None:
+    """이번 실행에서 신규 발행이 쿼터·시간에 막혔는지 기록한다."""
+    try:
+        STATE_FILE.write_text(json.dumps(
+            {"left": left, "new": new, "quota_hit": quota_hit}), encoding="utf-8")
+    except OSError:
+        pass        # 쪽지를 못 남겨도 파이프라인 자체는 성공이다
+
+
+def read_state() -> dict:
+    try:
+        return json.loads(STATE_FILE.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
 
 
 def _round_robin(items: list, cap: float) -> list:
@@ -189,6 +212,7 @@ def main() -> int:
     started = time.monotonic()
     budget = TIME_BUDGET_MIN * 60
     n_left = 0
+    quota_hit = False
     for i, meta in enumerate(fresh):
         if time.monotonic() - started > budget:
             n_left = len(fresh) - i
@@ -219,6 +243,8 @@ def main() -> int:
             n_error += 1
             print(f"  – 건너뜀(일시 제한): {meta['title'][:38]}", file=sys.stderr)
         except QuotaExhausted:
+            quota_hit = True
+            n_left = len(fresh) - i
             print(f"  ! 일일 쿼터 소진 — 이번 실행 조기 종료 (성공 {len(new_reports)}건 저장)",
                   file=sys.stderr)
             break
@@ -239,6 +265,7 @@ def main() -> int:
     print(f"완료 — 신규 {len(new_reports)}건 · 무관판정 {n_drafts}건 · 근거부족 건너뜀 {n_skip}건 · "
           f"오류 {n_error}건 (후보 {len(candidates)} → 신규후보 {len(fresh)})")
     print(f"  영상 직접 분석: 성공 {v_ok}건 / 실패 {v_fail}건 (실행당 상한 {VIDEO_ANALYSIS_MAX}건)")
+    write_state(left=n_left, new=len(new_reports), quota_hit=quota_hit)
     return 0
 
 

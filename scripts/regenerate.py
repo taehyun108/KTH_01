@@ -31,7 +31,7 @@ from config import NEWS_DIR
 from generate_report import (
     PROMPT_VERSION, rewrite_tone, render_html, QuotaExhausted,
 )
-from run_pipeline import _extract_video_id
+from run_pipeline import _extract_video_id, read_state
 
 
 def _body_text(url: str) -> str:
@@ -72,6 +72,25 @@ def regenerate() -> int:
     # 0 을 넣었더니 정반대로 제한 없이 돌아 신규 발행 몫을 다 써 버렸다.
     _raw = os.getenv("REGEN_MAX", "").strip()
     limit = int(_raw) if _raw else None
+
+    # 남는 쿼터만 쓴다 — 앞 단계(신규 발행)가 남긴 쪽지를 보고 스스로 정한다.
+    #
+    # 왜 필요한가: 지금까지는 REGEN_MAX 를 사람이 손으로 맞춰야 했다. 신규 발행을
+    # 지키려고 0 으로 막아 두면, 정작 신규 후보가 0건인 날(2026-08-10 실행에서 실제로
+    # 발생)에는 하루 쿼터가 통째로 놀고 말투 교체 141건도 그대로 밀린다.
+    # 반대로 넉넉히 열어 두면 후보가 많은 날 신규 몫을 빼앗는다.
+    # 어느 쪽으로 맞춰도 절반은 손해라, 앞 단계 결과를 보고 자동으로 정하게 한다.
+    if limit != 0:
+        state = read_state()
+        if state:
+            if state.get("quota_hit") or state.get("left", 0) > 0:
+                print(f"[재생성] 건너뜁니다 — 신규 발행이 아직 "
+                      f"{state.get('left', 0)}건 남아 있어 쿼터를 양보합니다.")
+                return 0
+            idle = int(os.getenv("REGEN_MAX_IDLE", "12"))
+            limit = idle if limit is None else min(limit, idle)
+            print(f"[재생성] 신규 발행이 후보를 다 처리했습니다(신규 {state.get('new', 0)}건) "
+                  f"— 남는 쿼터로 최대 {limit}건 교체합니다.")
     print(f"[재생성] 대상 {len(todo)}건 (전체 {len(reports)}건 중 pv<{PROMPT_VERSION})")
 
     updated: list[dict] = []
