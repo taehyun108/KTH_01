@@ -66,6 +66,53 @@ def _git(*args: str) -> tuple[int, str]:
     return p.returncode, (p.stdout + p.stderr).strip()
 
 
+def _current_branch() -> str:
+    code, out = _git("rev-parse", "--abbrev-ref", "HEAD")
+    return out if code == 0 and out and out != "HEAD" else "main"
+
+
+def _sync_and_push(branch: str, tries: int = 3) -> tuple[bool, str]:
+    """원격 변경을 먼저 받아 붙인 뒤 push 한다.
+
+    ※ 이게 없으면 첫 실행부터 반드시 실패한다.
+      Actions 가 하루 두 번 main 에 리포트를 커밋하므로 PC 클론은 거의 항상
+      뒤처져 있고, 그 상태로 push 하면 'fetch first' 로 거부당한다.
+      실제로 재현해 확인한 문제다.
+
+    자막 캐시는 cache/transcripts/<id>.json 로 파일이 서로 겹치지 않아
+    리베이스 충돌이 사실상 없다. 그래도 충돌하면 깨끗이 되돌리고 알린다.
+
+    push 직전에 봇이 또 올릴 수 있으므로 몇 번 다시 시도한다.
+    """
+    last = ""
+    for attempt in range(1, tries + 1):
+        code, out = _git("fetch", "origin", branch)
+        if code != 0:
+            last = f"git fetch 실패:\n{out}"
+            time.sleep(2 * attempt)
+            continue
+
+        # --autostash: 저장소에 손대 둔 것이 남아 있어도 리베이스가 거부되지 않게
+        # 잠시 치웠다가 되돌려 놓는다. 이것이 없으면 'cannot rebase: You have
+        # unstaged changes' 로 막힌다(모의 실행에서 실제로 재현됨).
+        code, out = _git("rebase", "--autostash", f"origin/{branch}")
+        if code != 0:
+            _git("rebase", "--abort")
+            return False, ("원격 변경과 충돌해 자동으로 합치지 못했습니다.\n"
+                           "저장소 폴더에서 아래를 실행한 뒤 다시 시도해 주세요.\n"
+                           "    git pull --rebase\n"
+                           f"(git 메시지: {out.splitlines()[0] if out else ''})")
+
+        code, out = _git("push", "-u", "origin", branch)
+        if code == 0:
+            return True, ""
+        last = out
+        print(f"  push 재시도 {attempt}/{tries} — 원격이 그새 또 바뀐 듯합니다.",
+              file=sys.stderr)
+        time.sleep(2 * attempt)
+    return False, f"git push 실패:\n{last}"
+
+
 def _check_env() -> list[str]:
     """실행 전에 빠진 준비물을 한 번에 알려 준다.
 
@@ -132,6 +179,10 @@ def main() -> int:
             except Exception as exc:  # noqa: BLE001
                 brief = " ".join(str(exc).split())[:80]
                 print(f"  [{i}/{len(todo)}] {vid}: transcript-api 실패 — {brief}")
+
+            # 예외 없이 빈/짧은 결과가 오는 경우도 있다(자막 트랙은 있는데 내용이 없는 등).
+            # 예전에는 예외일 때만 폴백해서, 이런 영상은 폴백을 시도조차 못 하고 버려졌다.
+            if len(text) <= transcript_cache.MIN_CHARS:
                 text, source = _ytdlp_transcript(vid)
                 if source == "unavailable":
                     text = ""
@@ -161,19 +212,37 @@ def main() -> int:
         print("(--no-push 이므로 커밋하지 않습니다)")
         return 0
 
-    code, out = _git("status", "--porcelain", "cache/")
-    if not out:
+    branch = _current_branch()
+
+    _, dirty = _git("status", "--porcelain", "cache/")
+    if dirty:
+        for cmd in (("add", "cache/"),
+                    ("commit", "-m", f"chore: 자막 캐시 갱신 ({n}건)")):
+            code, out = _git(*cmd)
+            if code != 0:
+                print(f"git {' '.join(cmd)} 실패:\n{out}", file=sys.stderr)
+                return 1
+
+    # 새 변경이 없어도, <아직 못 올린 커밋>이 남아 있으면 올려야 한다.
+    #   지난 실행이 커밋까지는 했는데 push 에서 막힌 경우(원격이 앞서 있었다 등),
+    #   다음 실행은 '바뀐 게 없다'며 그대로 끝나 자막이 PC 에만 영영 남았다.
+    #   모의 실행에서 실제로 재현된 문제다.
+    _git("fetch", "origin", branch)
+    _, ahead = _git("rev-list", "--count", f"origin/{branch}..HEAD")
+    n_ahead = int(ahead) if ahead.isdigit() else 0
+    if not dirty and n_ahead == 0:
         print("올릴 변경이 없습니다.")
         return 0
+    if not dirty:
+        print(f"새로 받은 자막은 없지만 아직 못 올린 커밋 {n_ahead}건이 있어 올립니다.")
 
-    for cmd in (("add", "cache/"),
-                ("commit", "-m", f"chore: 자막 캐시 갱신 ({n}건)"),
-                ("push",)):
-        code, out = _git(*cmd)
-        if code != 0:
-            print(f"git {' '.join(cmd)} 실패:\n{out}", file=sys.stderr)
-            return 1
-    print("저장소에 올렸습니다. 다음 자동 실행부터 이 자막이 쓰입니다.")
+    pushed, err = _sync_and_push(branch)
+    if not pushed:
+        print(err, file=sys.stderr)
+        print("\n자막은 이 PC 에 정상으로 저장돼 있습니다. 위 문제만 해결하고 다시 실행하면\n"
+              "이미 받은 자막은 다시 받지 않고 올리기만 합니다.", file=sys.stderr)
+        return 1
+    print(f"저장소({branch})에 올렸습니다. 다음 자동 실행부터 이 자막이 쓰입니다.")
     return 0
 
 

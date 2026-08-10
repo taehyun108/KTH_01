@@ -214,6 +214,30 @@ def check_priority() -> list[str]:
     return []
 
 
+# 집 PC 자막 수집 스크립트의 git 처리.
+# 2026-08-10 모의 실행에서 세 가지가 드러났다. 전부 '첫 실행이 그냥 실패'하는 종류라
+# 사람이 눈치채기 전에 하루를 날린다. 코드에 그 장치가 남아 있는지 확인한다.
+#   · 원격이 앞서 있으면(봇이 하루 2회 커밋) pull 없이 push 하면 거부당한다
+#   · 트리에 미커밋 변경이 있으면 rebase 자체가 거부된다 → --autostash
+#   · 커밋만 되고 push 가 막힌 뒤 재실행하면 '변경 없음'으로 끝나 영영 안 올라간다
+def check_local_push() -> list[str]:
+    import inspect
+    import fetch_transcripts_local as F
+
+    out = []
+    src = inspect.getsource(F)
+    for needle, why in (
+        ("fetch", "push 전에 원격을 받아 와야 한다"),
+        ("--autostash", "미커밋 변경이 있어도 rebase 되게 해야 한다"),
+        ("rev-list", "못 올린 커밋이 남았는지 확인해야 한다"),
+    ):
+        if needle not in src:
+            out.append(f"  [{why}] {needle!r} 가 사라졌습니다")
+    if "_sync_and_push" not in src:
+        out.append("  [push 는 _sync_and_push 를 거쳐야 함] 함수가 사라졌습니다")
+    return out
+
+
 def check_shorts() -> list[str]:
     out = []
     for dur, title, expect in SHORTS_CASES:
@@ -239,10 +263,13 @@ def main() -> int:
     fails += check_model_errors()
     fails += check_unblock()
     fails += check_priority()
+    fails += check_local_push()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
-             + 1)   # 처리 우선순위 1건
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위 테스트 — {total - len(fails)}/{total} 통과")
+             + 1     # 처리 우선순위
+             + 4)    # PC 자막 수집 git 처리
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드 테스트 — "
+          f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)
         for f in fails:
