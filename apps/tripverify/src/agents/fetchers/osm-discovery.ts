@@ -48,7 +48,7 @@ function names(tags: Record<string, string>): Pick<PoiSeed, "name" | "name_en" |
  * 관광지 발굴 — 명소/박물관/성/사찰/공원/전망대 등 폭넓게. 한 번의 Overpass 쿼리로
  * 이름(현지/영/한)·좌표·카테고리·유명도(위키데이터)를 받는다.
  */
-export async function discoverPois(center: GeoPoint, radius = 12000, limit = 60): Promise<PoiSeed[]> {
+export async function discoverPois(center: GeoPoint, radius = 9000, limit = 60): Promise<PoiSeed[]> {
   const filters = [
     `nwr["tourism"~"attraction|museum|viewpoint|gallery|zoo|theme_park|aquarium"]["name"]`,
     `nwr["historic"~"castle|monument|memorial|ruins|archaeological_site|temple|shrine"]["name"]`,
@@ -131,11 +131,17 @@ function restaurantScore(s: RestaurantSeed): number {
   return score;
 }
 
-/** 도시 인근 Wikipedia 문서(좌표) — POI 교차검증·유명도 판정 후보. */
-export async function wikiNearby(center: GeoPoint, radius = 12000, limit = 400): Promise<WikiArticle[]> {
+/**
+ * 도시 인근 Wikipedia 문서(좌표) — 클라우드에서 안정적인 주 POI 소스.
+ * ⚠️ Wikipedia GeoSearch 는 gsradius 최대 10000m, gslimit 최대 500. 초과하면
+ * 결과가 아니라 error 를 반환(→ 목록이 통째로 비어 관광지 0건이 되던 원인).
+ */
+export async function wikiNearby(center: GeoPoint, radius = 10000, limit = 500): Promise<WikiArticle[]> {
+  const gsradius = Math.min(Math.max(Math.round(radius), 10), 10000); // API 허용 범위로 클램프
+  const gslimit = Math.min(Math.max(Math.round(limit), 1), 500);
   const url =
     `https://en.wikipedia.org/w/api.php?action=query&list=geosearch&format=json` +
-    `&gscoord=${center.lat}%7C${center.lng}&gsradius=${radius}&gslimit=${limit}`;
+    `&gscoord=${center.lat}%7C${center.lng}&gsradius=${gsradius}&gslimit=${gslimit}`;
   const data = await fetchJson<{ query?: { geosearch?: { title: string; lat: number; lon: number }[] } }>(url, {
     timeoutMs: 8_000,
   });
