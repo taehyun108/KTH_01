@@ -906,6 +906,11 @@ def process_video(meta: dict[str, Any], force: bool = False,
         _video_fails = 0        # 한 번이라도 성공하면 연속 실패 카운터 초기화
         source = "gemini-video"
 
+    # 무엇을 근거로 판단했는지 호출자에게 알린다.
+    # '무관' 판정을 영구로 기록할지(자막을 보고 내린 판단) 나중에 다시 볼지
+    # (설명글만 보고 내린 판단) 가르는 데 쓰인다 — seen_store.irrelevant_reason 참고.
+    meta["_evidence"] = source
+
     if not data.get("relevant"):
         # 영상을 직접 요청받았는데 무관 판정이면, 모델이 영상을 열지 못했다는 뜻이다
         # (프롬프트에서 '파악 불가 시 relevant=false' 로 지시). 조용히 넘기지 않는다.

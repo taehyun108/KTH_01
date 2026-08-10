@@ -161,9 +161,13 @@ def main() -> int:
                 new_reports.append(result)
             else:
                 n_drafts += 1
-                seen_store.record(skip_store, meta["video_id"],
-                                  seen_store.REASON_IRRELEVANT, meta.get("title", ""))
-                print(f"  – drafts(무관 판정): {meta['title'][:40]}")
+                # 설명글만 보고 내린 '무관'은 근거가 약하다. 자막이 열리면 판단이
+                # 달라질 수 있으므로 영구 배제하지 않고 나중에 다시 본다.
+                reason = seen_store.irrelevant_reason(meta.get("_evidence", ""))
+                seen_store.record(skip_store, meta["video_id"], reason,
+                                  meta.get("title", ""))
+                weak = "" if reason == seen_store.REASON_IRRELEVANT else " (나중에 재확인)"
+                print(f"  – drafts(무관 판정){weak}: {meta['title'][:40]}")
         except InsufficientContext as exc:
             n_skip += 1
             seen_store.record(skip_store, meta["video_id"],

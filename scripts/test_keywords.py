@@ -124,6 +124,32 @@ def check_names() -> list[str]:
     return out
 
 
+# (자막 출처, '무관' 판정을 영구로 남겨도 되는가)
+# 설명글 200자만 보고 내린 '무관'을 영구 배제하면, 나중에 자막이 열려도 그 영상은
+# 영영 다시 보지 않는다. 자막을 확보한 상태의 판단만 영구로 남겨야 한다.
+EVIDENCE_CASES: list[tuple[str, bool]] = [
+    ("youtube-transcript-api", True),
+    ("yt-dlp-captions", True),
+    ("gemini-video", True),
+    ("local-cache", True),          # 집 PC 가 받아 둔 자막
+    ("video-description", False),   # 설명글만
+    ("unavailable", False),
+    ("", False),
+]
+
+
+def check_evidence() -> list[str]:
+    import seen_store as ss
+    out = []
+    for src, permanent in EVIDENCE_CASES:
+        got = ss.irrelevant_reason(src)
+        want = ss.REASON_IRRELEVANT if permanent else ss.REASON_IRRELEVANT_WEAK
+        if got != want:
+            out.append(f"  [{'영구' if permanent else '재확인'}이어야 함] "
+                       f"출처 {src!r} → {got}")
+    return out
+
+
 def check_shorts() -> list[str]:
     out = []
     for dur, title, expect in SHORTS_CASES:
@@ -145,8 +171,9 @@ def main() -> int:
 
     fails += check_shorts()
     fails += check_names()
-    total = len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
-    print(f"키워드·쇼츠·명칭 판정 테스트 — {total - len(fails)}/{total} 통과")
+    fails += check_evidence()
+    total = len(CASES) + len(SHORTS_CASES) + len(NAME_CASES) + len(EVIDENCE_CASES)
+    print(f"키워드·쇼츠·명칭·근거 판정 테스트 — {total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)
         for f in fails:
