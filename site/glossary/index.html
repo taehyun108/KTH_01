@@ -42,7 +42,7 @@
       <a class="gcard" href="#cathode">
         <span class="gc-icon" aria-hidden="true">🟦</span>
         <span class="gc-body"><span class="gc-num">03</span><span class="gc-title">양극재 총정리 — 원자 배열이 성격을 정합니다</span>
-        <span class="gc-blurb">층상·올리빈·스피넬 — 원자 배열이 성격을 가릅니다</span><span class="gc-meta">그림 3 · 표 4</span></span>
+        <span class="gc-blurb">층상·올리빈·스피넬 — 원자 배열이 성격을 가릅니다</span><span class="gc-meta">그림 3 · 표 6</span></span>
       </a>
       <a class="gcard" href="#anode">
         <span class="gc-icon" aria-hidden="true">⬜</span>
@@ -316,7 +316,7 @@
 
     <!-- ══════════ 03 ══════════ -->
     <details class="sec-card full" id="cathode">
-      <summary class="sec-head"><span class="sec-num">03</span><h2>양극재 총정리 — 원자 배열이 성격을 정합니다</h2><span class="sec-meta">그림 3 · 표 4</span></summary>
+      <summary class="sec-head"><span class="sec-num">03</span><h2>양극재 총정리 — 원자 배열이 성격을 정합니다</h2><span class="sec-meta">그림 3 · 표 6</span></summary>
       <p>양극재는 <strong>원자가 어떻게 쌓여 있는지</strong>에 따라 성격이 완전히 달라집니다.
         리튬이 빠져나갈 <strong>길의 모양</strong> 자체가 달라지기 때문인데요. 그림으로 하나씩 보겠습니다.</p>
 
@@ -648,19 +648,96 @@
         <p class="callout-title">LFP·LMFP·NFPP는 뭐가 다른가요?</p>
         <p><strong>LFP</strong>(리튬+철+인산)는 값이 싸고 안전합니다만, 전압이 낮다는 약점이 있죠.
           여기에 <strong>망간을 섞은 것이 LMFP</strong>인데요, 전압이 3.2V에서 약 4V로 올라가면서
-          안전성은 그대로 둔 채 <strong>에너지만 15~20% 늘어납니다</strong>.</p>
+          안전성은 그대로 둔 채 <strong>에너지만 15~20% 늘어납니다</strong>.
+          그 이유는 바로 아래에서 따로 설명드리겠습니다.</p>
         <p><strong>NFPP</strong>는 리튬 대신 <strong>나트륨</strong>, 그러니까 소금 성분을 쓰는 양극재인데요.
           나트륨이 리튬보다 훨씬 흔하다 보니 <strong>재료비가 가장 싸고요</strong>, 수명도 아주 긴 편이죠.
           대신 담기는 에너지가 적어서 <strong>ESS처럼 무게가 크게 상관없는 곳</strong>에 어울립니다.</p>
       </div>
 
+      <h3 class="t-h">망간을 넣으면 왜 전압이 올라갈까요?</h3>
+      <p>LFP와 LMFP는 <strong>결정 구조가 똑같은 올리빈</strong>입니다. 철이 앉아 있던 자리에
+        망간이 대신 앉을 뿐인데도 전압이 3.4V에서 4.1V로 뜁니다. 그 차이는
+        <strong>금속이 전자를 얼마나 순순히 내주느냐</strong>에서 나옵니다.</p>
+      <p>충전은 리튬을 빼내는 일인데요. 리튬이 하나 빠지면 그 자리를 메우려고
+        <strong>금속이 전자를 하나 내놓아야</strong> 합니다(철은 Fe²⁺→Fe³⁺, 망간은 Mn²⁺→Mn³⁺).
+        이때 <strong>전자를 내주기 싫어할수록 더 센 힘으로 끌어내야 하고, 그 힘이 곧 전압</strong>입니다.</p>
       <div class="callout">
-        <p class="callout-title">요즘 중요한 이야기 — 단결정 vs 다결정</p>
-        <p>양극재 가루 한 알을 확대해 보면, 작은 알갱이가 <strong>여러 개 뭉친 것(다결정)</strong>과
-          <strong>통짜 한 덩어리(단결정)</strong>로 나뉩니다. 다결정은 충·방전을 반복하다 보면 알갱이 사이가
-          <strong>갈라지면서</strong> 수명이 줄어드는 반면, 단결정은 갈라질 틈 자체가 없어 훨씬 오래가고요.
-          그래서 니켈이 많이 들어간 제품일수록 단결정으로 만들려는 흐름이 뚜렷합니다.</p>
+        <p class="callout-title">철은 순순히, 망간은 버팁니다</p>
+        <p><strong>철(Fe²⁺)</strong>은 전자를 하나 내놓으면 오히려 <strong>더 안정된 상태</strong>가 됩니다.
+          전자껍질이 정확히 반쯤 찬 배열이 되는데, 이게 유난히 안정적인 형태거든요.
+          내주는 편이 이득이니 <strong>순순히 내줍니다 → 3.4V면 충분</strong>합니다.</p>
+        <p><strong>망간(Mn²⁺)</strong>은 정반대입니다. 이미 그 <strong>반쯤 찬 안정된 배열</strong>에 앉아 있어서,
+          전자를 내놓으면 그 안정을 깨뜨리게 됩니다. 그러니 버티죠.
+          억지로 끌어내려면 <strong>더 센 전압이 필요합니다 → 4.1V</strong>.</p>
+        <p>여기에 <strong>인산(PO₄)</strong>도 한몫합니다. 인이 산소를 강하게 잡아당겨 금속 쪽 전자를
+          단단히 붙들어 두거든요. 같은 금속이라도 산화물(NCM 등)보다 인산염(LFP·LMFP) 쪽 전압이
+          높게 나오는 이유입니다.</p>
       </div>
+      <p>그래서 LMFP는 <strong>공짜로 얻은 전압이 아닙니다.</strong> 대가가 따라옵니다.</p>
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th>망간을 넣으면 생기는 일</th><th>무슨 문제인가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Mn³⁺가 구조를 찌그러뜨림<br /><span class="en">얀-텔러 왜곡</span></td>
+            <td>충전되면 생기는 Mn³⁺는 주변 산소 배치를 <strong>한쪽으로 늘어뜨립니다</strong>.
+              충·방전마다 늘었다 줄었다 하니 구조가 피로해져 <strong>수명이 깎입니다</strong></td></tr>
+          <tr><td class="k">전기가 더 안 통함</td>
+            <td>LFP도 전자가 잘 안 통하는데 망간이 들어가면 더 심해집니다.
+              <strong>탄소로 감싸고 입자를 잘게 만드는</strong> 공정이 반드시 붙습니다</td></tr>
+          <tr><td class="k">망간이 녹아 나옴<br /><span class="en">용출</span></td>
+            <td>온도가 높으면 망간이 전해액으로 빠져나가 <strong>음극 표면을 오염</strong>시킵니다.
+              여름철 수명 저하의 원인이 되죠</td></tr>
+          <tr><td class="k">전압이 계단처럼 나옴</td>
+            <td>철이 3.4V에서, 망간이 4.1V에서 따로 일합니다. 방전 곡선이 <strong>두 계단</strong>이 되어
+              <strong>남은 양(SoC)을 가늠하기 까다롭습니다</strong></td></tr>
+          <tr><td class="k">전해액이 버텨야 함</td>
+            <td>4.1V는 LFP(3.4V)보다 훨씬 가혹합니다. <strong>고전압용 전해액·첨가제</strong>가 필요합니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>망간을 많이 넣을수록 전압은 오르지만 위 문제도 같이 커집니다.
+        그래서 실제 제품은 <strong>망간만 쓰지 않고 철을 섞습니다</strong>.
+        철이 전기가 통하는 길을 터 주고 구조를 붙잡아 주거든요.
+        <strong>망간 6~8 대 철 4~2</strong> 정도가 흔히 쓰이는 배합인데,
+        전압을 얼마나 챙기고 수명을 얼마나 포기할지 저울질한 결과입니다.</p>
+
+      <h3 class="t-h">단결정과 다결정 — 어느 쪽이 좋은가</h3>
+      <p>양극재 가루 한 알을 확대해 보면, 작은 알갱이가 <strong>여러 개 뭉친 것(다결정)</strong>과
+        <strong>통짜 한 덩어리(단결정)</strong>로 나뉩니다.
+        요즘은 단결정 이야기가 많이 나와서 단결정이 무조건 낫다고 여기기 쉬운데요,
+        <strong>그렇지 않습니다.</strong> 서로 잘하는 것이 다릅니다.</p>
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th></th><th>다결정<span class="en"> Polycrystalline</span></th>
+          <th>단결정<span class="en"> Single crystal</span></th></tr></thead>
+        <tbody>
+          <tr><td class="k">생김새</td><td>작은 알갱이 수십~수백 개가 뭉친 덩어리</td>
+            <td>통짜 결정 한 알</td></tr>
+          <tr><td class="k">수명</td><td>충·방전을 반복하면 <strong>알갱이 사이가 갈라집니다</strong></td>
+            <td><strong>갈라질 틈이 없어 오래갑니다</strong></td></tr>
+          <tr><td class="k">출력·급속충전</td>
+            <td><strong>유리합니다.</strong> 알갱이가 작아 리튬이 드나드는 거리가 짧습니다</td>
+            <td><strong>불리합니다.</strong> 덩어리가 커서 리튬이 속까지 오가는 데 오래 걸리고,
+              저항이 높습니다. 추울 때 특히 그렇습니다</td></tr>
+          <tr><td class="k">전극 밀도</td>
+            <td><strong>유리합니다.</strong> 눌러서 압착할 때 알갱이가 부서지며 빈틈을 메워
+              <strong>부피당 에너지를 높이기</strong> 쉽습니다</td>
+            <td>단단해서 잘 안 눌립니다. 무리하면 결정이 깨져 장점이 사라집니다</td></tr>
+          <tr><td class="k">가스 발생</td><td>갈라진 면이 전해액과 만나 가스가 납니다</td>
+            <td><strong>적습니다.</strong> 셀이 덜 부풉니다</td></tr>
+          <tr><td class="k">만들기</td>
+            <td><strong>쉽고 쌉니다.</strong> 낮은 온도로 짧게 구워도 되고 기술이 무르익었습니다</td>
+            <td>더 높은 온도로 오래 구워야 해서 <strong>원가가 올라갑니다</strong></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>정리하면 <strong>다결정은 힘과 값</strong>, <strong>단결정은 수명과 안전</strong>입니다.
+        그래서 니켈이 많아 구조가 불안한 하이니켈 제품, 오래 써야 하는 차량용에서는 단결정으로 가고,
+        <strong>급속충전이 중요하거나 값을 맞춰야 하는 쪽은 여전히 다결정</strong>을 씁니다.</p>
+      <p>실제로는 <strong>둘을 섞어 쓰는 경우도 많습니다.</strong> 다결정에 단결정을 일정 비율 섞으면
+        큰 알갱이 사이의 빈틈을 작은 알갱이가 메워 밀도를 올리면서 수명도 어느 정도 챙길 수 있거든요.
+        어느 하나가 다른 하나를 완전히 밀어내는 구도가 아닙니다.</p>
     </details>
 
     <!-- ══════════ 04 ══════════ -->

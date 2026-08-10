@@ -39,6 +39,12 @@ jobs:
       - name: Channel health check
         run: PYTHONPATH=scripts python scripts/check_channels.py
 
+      # 용어집 카드에 적은 '그림 N · 표 N' 이 실제 내용과 맞는지.
+      # 손으로 관리하면 반드시 어긋나고, 틀린 숫자는 없느니만 못하다.
+      - name: Glossary badge check
+        if: always()
+        run: PYTHONPATH=scripts python scripts/sync_glossary_badges.py
+
       - name: Organization name check
         if: always()
         run: PYTHONPATH=scripts python scripts/check_names.py
