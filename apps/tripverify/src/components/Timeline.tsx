@@ -28,6 +28,7 @@ export function Timeline({
   const days = itinerary.days;
   const adults = itinerary.query.party.adults;
   const cityCenter = new Map(itinerary.cities.map((c) => [c.name, c.center] as const));
+  const lodgingByCity = new Map(itinerary.lodging.map((l) => [l.city, l.options] as const));
   return (
     <div className="space-y-4">
       {days.map((day, di) => (
@@ -123,33 +124,87 @@ export function Timeline({
               </li>
             ))}
             {(() => {
-              // 동선 마지막: 그날 방문지들의 중심(동선 중심) 근처 숙소를 마지막 항목으로
+              // 동선 마지막: 그날 방문지 중심(동선 중심) 근처 '실존' 호텔(OSM) 추천 + 요금검색
               const pts = day.items.map((it) => it.place.value?.location).filter((l): l is LatLng => !!l);
               const center = centroid(pts) ?? cityCenter.get(day.city);
               const checkin = day.date;
               const checkout = addDay(day.date);
-              const href = bookingSearch(day.city, checkin, checkout, adults, center);
+              const searchHref = bookingSearch(day.city, checkin, checkout, adults, center);
+              // 그날 동선 중심에 가까운 순으로 실존 호텔 상위 3곳
+              const all = lodgingByCity.get(day.city) ?? [];
+              const picks = center
+                ? [...all]
+                    .filter((h) => h.value)
+                    .sort(
+                      (a, b) =>
+                        distM(a.value!.location, center) - distM(b.value!.location, center),
+                    )
+                    .slice(0, 3)
+                : all.slice(0, 3);
               return (
                 <li className="px-4 py-3">
                   <div className="flex items-center justify-between gap-2">
-                    <div className="min-w-0">
-                      <span className="mr-2 text-sm tabular-nums opacity-70">숙박</span>
-                      <a
-                        href={href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="font-medium hover:underline"
-                        title="이 동선 근처·리뷰 좋은 순 숙소 검색"
-                      >
-                        🏨 숙소 복귀 · {day.city} 동선 근처 (리뷰 좋은 순)
-                      </a>
-                    </div>
-                    <span className="shrink-0 rounded-full bg-black/5 px-2 py-0.5 text-[11px] opacity-70 dark:bg-white/10">
-                      요금 검색 ↗
-                    </span>
+                    <span className="text-sm font-medium">🏨 숙소 (동선 근처 추천)</span>
+                    <a
+                      href={searchHref}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="shrink-0 rounded-full bg-black/5 px-2 py-0.5 text-[11px] opacity-70 hover:opacity-100 dark:bg-white/10"
+                      title="이 동선 근처·리뷰 좋은 순 숙소 요금 검색"
+                    >
+                      전체 요금비교 ↗
+                    </a>
                   </div>
-                  <div className="mt-1 text-xs opacity-60">
-                    무료 검증 가능한 숙박요금 API 가 없어 요금을 지어내지 않습니다 — 실시간 요금·예약은 링크에서 확인하세요.
+                  {picks.length > 0 ? (
+                    <ul className="mt-2 space-y-1.5">
+                      {picks.map((h, hi) => {
+                        const hv = h.value!;
+                        const nm = displayName(hv) || hv.name;
+                        const sname = searchName(hv) || hv.name;
+                        return (
+                          <li key={hi} className="flex items-center justify-between gap-2 text-sm">
+                            <a
+                              href={googleMapsPlaceAt(sname, hv.location)}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="min-w-0 truncate hover:underline"
+                              title="구글지도에서 위치·리뷰 보기"
+                            >
+                              📍 {nm}
+                              {hv.stars ? ` · ${"★".repeat(hv.stars)}` : ""}
+                              {hv.kind === "hostel" ? " · 호스텔" : hv.kind === "guest_house" ? " · 게스트하우스" : ""}
+                            </a>
+                            <div className="flex shrink-0 items-center gap-2">
+                              <a
+                                href={naverBlogSearch(`${sname} ${day.city} 후기`)}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-xs opacity-60 hover:opacity-100"
+                                title="네이버 후기"
+                              >
+                                📝후기
+                              </a>
+                              <a
+                                href={bookingSearch(`${sname} ${day.city}`, checkin, checkout, adults)}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-xs opacity-60 hover:opacity-100"
+                                title="이 숙소 요금 검색"
+                              >
+                                💰요금
+                              </a>
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : (
+                    <div className="mt-1 text-xs opacity-60">
+                      이 지역 OSM 등록 숙소를 찾지 못했습니다. 위 “전체 요금비교”로 검색하세요.
+                    </div>
+                  )}
+                  <div className="mt-1 text-[11px] opacity-50">
+                    실존 숙소(OpenStreetMap)를 동선 근접 순으로 추천합니다. 무료 요금·리뷰 API 가 없어 요금·평점은 지어내지 않으며, 링크에서 확인하세요(§0).
                   </div>
                 </li>
               );
@@ -178,6 +233,13 @@ function centroid(pts: LatLng[]): LatLng | null {
 
 function addDay(date: string): string {
   return new Date(Date.parse(date) + 86_400_000).toISOString().slice(0, 10);
+}
+
+/** 근사 거리(제곱미터 비교용, 정렬 전용이라 하버사인 없이 충분). */
+function distM(a: LatLng, b: LatLng): number {
+  const dLat = a.lat - b.lat;
+  const dLng = (a.lng - b.lng) * Math.cos((a.lat * Math.PI) / 180);
+  return dLat * dLat + dLng * dLng;
 }
 
 export { DAY_COLORS };

@@ -71,6 +71,18 @@ export interface Restaurant {
   cuisine?: string;
 }
 
+// --- lodging-agent → hotels.json (OSM tourism=hotel 실존 숙소) ---
+export interface Hotel {
+  name: string;
+  name_en?: string;
+  name_ko?: string;
+  location: GeoPoint;
+  /** OSM stars 태그(있을 때만). 없으면 미표기(지어내지 않음). */
+  stars?: number;
+  /** 유형: hotel / hostel / guest_house. */
+  kind?: "hotel" | "hostel" | "guest_house";
+}
+
 // --- flight-agent → flights.json ---
 export interface FlightOption {
   flight_no: string;

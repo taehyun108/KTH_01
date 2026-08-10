@@ -3,15 +3,18 @@ import type { VerifiedFact } from "@/core/types/verified-fact";
 import type {
   Poi,
   Restaurant,
+  Hotel,
   WeatherDay,
   CurrencyInfo,
   FlightOption,
   LogisticsInfo,
 } from "@/core/types/domains";
-import type { Itinerary, ItineraryDay } from "@/core/types/itinerary";
+import type { Itinerary, ItineraryDay, CityLodging } from "@/core/types/itinerary";
 import type { RoutePlan, DayRoute } from "@/agents/route-agent";
 import type { Place } from "@/planner/cluster";
+import type { GeoPoint } from "@/core/types/domains";
 import { hasSourcedValue } from "@/core/types/verified-fact";
+import { haversineMeters } from "@/lib/geo";
 import { assembleDay, summarize, type DayAssemblyInput } from "@/planner/assemble";
 import { estimateBudget } from "@/planner/budget";
 import { planTransfers, type CityNode } from "@/agents/transfer-agent";
@@ -26,6 +29,7 @@ export interface PipelineDeps {
   resolveContext: (city: string, q: TripQuery) => Promise<GeoContext>;
   collectPois: (ctx: GeoContext, q: TripQuery) => Promise<VerifiedFact<Poi>[]>;
   collectFood: (ctx: GeoContext, q: TripQuery) => Promise<VerifiedFact<Restaurant>[]>;
+  collectHotels: (ctx: GeoContext, q: TripQuery) => Promise<VerifiedFact<Hotel>[]>;
   collectCurrency: (ctx: GeoContext) => Promise<VerifiedFact<CurrencyInfo>>;
   collectWeather: (ctx: GeoContext, startDate: string, endDate: string) => Promise<VerifiedFact<WeatherDay>[]>;
   collectFlights: (ctx: GeoContext, q: TripQuery) => Promise<VerifiedFact<FlightOption>[]>;
@@ -39,6 +43,7 @@ interface CityBundle {
   days: ItineraryDay[];
   pois: VerifiedFact<Poi>[];
   food: VerifiedFact<Restaurant>[];
+  hotels: VerifiedFact<Hotel>[];
   weather: VerifiedFact<WeatherDay>[];
 }
 
@@ -81,6 +86,12 @@ export async function runPipeline(query: TripQuery, deps: PipelineDeps): Promise
   const allPois = bundles.flatMap((b) => b.pois);
   const allFood = bundles.flatMap((b) => b.food);
   const weather = bundles.flatMap((b) => b.weather);
+
+  // 도시별 추천 숙소: 동선(관광지 중심) 근접 + OSM 품질신호 순으로 상위 6곳
+  const lodging: CityLodging[] = resolved.map((b) => ({
+    city: b.city,
+    options: rankHotels(b.hotels, b.pois, b.ctx!.center),
+  }));
 
   const poiCount = allPois.filter(hasSourcedValue).length;
   const foodCount = allFood.filter(hasSourcedValue).length;
@@ -130,6 +141,7 @@ export async function runPipeline(query: TripQuery, deps: PipelineDeps): Promise
     destination_center: firstCtx.center,
     cities: resolved.map((b) => ({ name: b.city, center: b.ctx!.center })),
     days,
+    lodging,
     transfers,
     budget,
     currency,
@@ -154,12 +166,13 @@ async function buildCity(
 
   const ctx = await safe(() => deps.resolveContext(city, query), null, 8_000);
   if (!ctx) {
-    return { city, ctx: null, pois: [], food: [], weather: [], days: dates.map((d) => emptyDay(d, city)) };
+    return { city, ctx: null, pois: [], food: [], hotels: [], weather: [], days: dates.map((d) => emptyDay(d, city)) };
   }
 
-  const [pois, food, weather] = await Promise.all([
+  const [pois, food, hotels, weather] = await Promise.all([
     safe(() => deps.collectPois(ctx, query), [] as VerifiedFact<Poi>[], 26_000), // 관광지 수집 우선(넉넉히)
     safe(() => deps.collectFood(ctx, query), [] as VerifiedFact<Restaurant>[], 16_000),
+    safe(() => deps.collectHotels(ctx, query), [] as VerifiedFact<Hotel>[], 14_000),
     safe(
       () => deps.collectWeather(ctx, dates[0]!, dates[dates.length - 1]!),
       [] as VerifiedFact<WeatherDay>[],
@@ -202,7 +215,7 @@ async function buildCity(
     return assembleDay(input);
   });
 
-  return { city, ctx, pois, food, weather, days };
+  return { city, ctx, pois, food, hotels, weather, days };
 }
 
 /**
@@ -223,6 +236,35 @@ function fallbackRoute(places: Place[], days: number): RoutePlan {
     });
   }
   return { days: dayRoutes, estimated: true, source_name: "순차 배정(라우팅 미조회)" };
+}
+
+/**
+ * 도시 추천 숙소 랭킹 — 실존 OSM 호텔을 '동선 중심(관광지 평균 좌표) 근접 + 품질신호'로
+ * 정렬해 상위 6곳. 리뷰·요금을 지어내지 않고(§0) 근접도/성급/위키등재만 근거로 한다.
+ */
+function rankHotels(
+  hotels: VerifiedFact<Hotel>[],
+  pois: VerifiedFact<Poi>[],
+  cityCenter: GeoPoint,
+): VerifiedFact<Hotel>[] {
+  const sourced = hotels.filter(hasSourcedValue);
+  if (sourced.length === 0) return [];
+  const poiPts = pois.filter(hasSourcedValue).map((p) => p.value.location);
+  const center = poiPts.length > 0 ? centroidOf(poiPts) : cityCenter;
+  const score = (f: (typeof sourced)[number]): number => {
+    const h = f.value;
+    const km = haversineMeters(h.location, center) / 1000;
+    let s = -km; // 동선 중심에 가까울수록 높음(가성비·이동편의)
+    if (h.stars) s += h.stars * 0.6; // 성급(있을 때만)
+    if (h.kind === "hostel" || h.kind === "guest_house") s += 0.3; // 가성비 유형 소폭 우대
+    return s;
+  };
+  return [...sourced].sort((a, b) => score(b) - score(a)).slice(0, 6);
+}
+
+function centroidOf(pts: GeoPoint[]): GeoPoint {
+  const s = pts.reduce((a, p) => ({ lat: a.lat + p.lat, lng: a.lng + p.lng }), { lat: 0, lng: 0 });
+  return { lat: s.lat / pts.length, lng: s.lng / pts.length };
 }
 
 function emptyDay(date: string, city: string): ItineraryDay {
@@ -250,6 +292,7 @@ function emptyItinerary(query: TripQuery, nDays: number, cityNames: string[], no
     destination_center: { lat: 0, lng: 0 },
     cities: [],
     days,
+    lodging: [],
     transfers: [],
     budget: {
       currency: null,

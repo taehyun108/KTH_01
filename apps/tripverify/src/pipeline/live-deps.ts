@@ -4,8 +4,8 @@ import type { GeoContext, TripQuery } from "@/agents/types";
 import { resolveContextLive } from "@/agents/fetchers/context";
 import { resolveContextOffline } from "@/agents/offline/geocode";
 import { dateHolidaysReader } from "@/agents/offline/holidays";
-import { discoverPois, discoverRestaurants, wikiNearby } from "@/agents/fetchers/osm-discovery";
-import { buildPoiFacts, buildRestaurantFacts } from "@/agents/poi-build";
+import { discoverPois, discoverRestaurants, discoverHotels, wikiNearby } from "@/agents/fetchers/osm-discovery";
+import { buildPoiFacts, buildRestaurantFacts, buildHotelFacts } from "@/agents/poi-build";
 import { selectPois, wikiFallbackSeeds, mergeByProximity, isDefunctDescription, inferAllDay, isVisitorAttraction, fameScore } from "@/agents/poi-select";
 import { wikiDescriptions } from "@/agents/fetchers/wiki-desc";
 import { dayCount } from "@/agents/schema";
@@ -115,6 +115,11 @@ export function liveDeps(): PipelineDeps {
     collectFood: async (ctx) => {
       const seeds = await discoverRestaurants(ctx.center).catch(() => []);
       return buildRestaurantFacts(seeds);
+    },
+
+    collectHotels: async (ctx) => {
+      const seeds = await discoverHotels(ctx.center).catch(() => []);
+      return buildHotelFacts(seeds);
     },
 
     collectCurrency: async (ctx) => {

@@ -1,4 +1,4 @@
-import type { GeoPoint, Poi, Restaurant } from "@/core/types/domains";
+import type { GeoPoint, Poi, Restaurant, Hotel } from "@/core/types/domains";
 import type { VerifiedFact } from "@/core/types/verified-fact";
 import type { Comparator, Observation } from "@/core/verification/observation";
 import { verify } from "@/core/verification/verifier";
@@ -46,6 +46,16 @@ export interface RestaurantSeed {
   notable?: boolean;
   /** 체인 브랜드(품질 랭킹 감점용). */
   branded?: boolean;
+}
+export interface HotelSeed {
+  name: string;
+  name_en?: string;
+  name_ko?: string;
+  location: GeoPoint;
+  stars?: number;
+  kind?: "hotel" | "hostel" | "guest_house";
+  /** 위키데이터/위키백과 등재(유명 숙소). */
+  notable?: boolean;
 }
 export interface WikiArticle {
   title: string;
@@ -140,6 +150,26 @@ export function buildRestaurantFacts(
     };
     return verify<Restaurant>(
       [{ value: r, source: { ...OSM_SOURCE, retrieved_at: iso }, pass: 1 }],
+      { comparator: cmp, tolerance: TOLERANCE.geo_distance_m },
+    );
+  });
+}
+
+/** 숙소는 대개 Wikipedia 에 없으므로 OSM 단일 출처(low, 표시됨)로 구성. */
+export function buildHotelFacts(seeds: HotelSeed[], now: number = Date.now()): VerifiedFact<Hotel>[] {
+  const iso = new Date(now).toISOString();
+  const cmp = placeComparator<Hotel>();
+  return seeds.map((seed) => {
+    const h: Hotel = {
+      name: seed.name,
+      ...(seed.name_en ? { name_en: seed.name_en } : {}),
+      ...(seed.name_ko ? { name_ko: seed.name_ko } : {}),
+      location: seed.location,
+      ...(seed.stars ? { stars: seed.stars } : {}),
+      ...(seed.kind ? { kind: seed.kind } : {}),
+    };
+    return verify<Hotel>(
+      [{ value: h, source: { ...OSM_SOURCE, retrieved_at: iso }, pass: 1 }],
       { comparator: cmp, tolerance: TOLERANCE.geo_distance_m },
     );
   });

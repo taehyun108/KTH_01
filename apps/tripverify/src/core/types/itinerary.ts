@@ -2,6 +2,7 @@ import type { VerifiedFact } from "./verified-fact";
 import type {
   Poi,
   Restaurant,
+  Hotel,
   WeatherDay,
   CurrencyInfo,
   FlightOption,
@@ -90,11 +91,19 @@ export interface VerificationSummary {
   high_ratio: number;
 }
 
+/** 도시별 추천 숙소(OSM 실존 호텔). 동선 근처·품질 순으로 정렬된 실제 후보들. */
+export interface CityLodging {
+  city: string;
+  options: VerifiedFact<Hotel>[];
+}
+
 export interface Itinerary {
   query: TripQuery;
   destination_center: { lat: number; lng: number };
   cities: { name: string; center: { lat: number; lng: number } }[];
   days: ItineraryDay[];
+  /** 도시별 추천 숙소(실존 OSM 호텔). */
+  lodging: CityLodging[];
   transfers: CityTransfer[];
   budget: BudgetEstimate;
   currency: VerifiedFact<CurrencyInfo> | null;

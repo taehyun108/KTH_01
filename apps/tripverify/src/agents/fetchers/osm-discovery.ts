@@ -1,6 +1,6 @@
 import "server-only";
 import type { GeoPoint } from "@/core/types/domains";
-import type { PoiSeed, RestaurantSeed, WikiArticle } from "../poi-build";
+import type { PoiSeed, RestaurantSeed, HotelSeed, WikiArticle } from "../poi-build";
 import { classifyTags, notableFromTags } from "../poi-select";
 import { fetchJson } from "@/lib/http";
 
@@ -129,6 +129,44 @@ function restaurantScore(s: RestaurantSeed): number {
   if (s.price_level && s.price_level >= 3) score += 1; // 파인다이닝 소폭 우대
   if (s.branded) score -= 3; // 체인 브랜드 감점
   return score;
+}
+
+/** 러브호텔 등 여행 숙소로 부적절한 유형 배제. */
+const LOVE_HOTEL_RE = /love\s*hotel|ラブホ|러브\s*호텔|レンタルルーム|rest\s*hotel/i;
+
+/**
+ * 숙소 발굴 — OSM tourism=hotel/hostel/guest_house 의 '실존' 숙소(이름·좌표).
+ * 리뷰·요금은 무료 API 가 없어 지어내지 않고(§0), 동선 근접도 + OSM 품질신호(성급/
+ * 위키데이터)로만 랭킹한다. 실제 요금·리뷰는 예약 링크에서 확인.
+ */
+export async function discoverHotels(center: GeoPoint, radius = 6000, limit = 60): Promise<HotelSeed[]> {
+  const els = await overpassUnion(
+    [`nwr["tourism"~"^(hotel|hostel|guest_house)$"]["name"]`],
+    center,
+    radius,
+    limit,
+  );
+  return els.flatMap((el) => {
+    const loc = coord(el);
+    const tags = el.tags ?? {};
+    const nm = names(tags);
+    if (!loc || !nm.name) return [];
+    const nameText = `${nm.name} ${nm.name_en ?? ""}`;
+    if (LOVE_HOTEL_RE.test(nameText) || tags["love_hotel"] === "yes") return [];
+    const starsRaw = Number(tags["stars"]);
+    const stars = Number.isFinite(starsRaw) && starsRaw >= 1 && starsRaw <= 5 ? Math.round(starsRaw) : undefined;
+    const kindTag = tags["tourism"];
+    const kind = kindTag === "hostel" || kindTag === "guest_house" ? kindTag : "hotel";
+    const notable = Boolean(tags["wikidata"] || tags["wikipedia"]);
+    const seed: HotelSeed = {
+      ...nm,
+      location: loc,
+      kind,
+      ...(stars ? { stars } : {}),
+      ...(notable ? { notable: true } : {}),
+    };
+    return [seed];
+  });
 }
 
 /**

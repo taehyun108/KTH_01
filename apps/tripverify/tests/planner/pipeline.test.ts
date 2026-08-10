@@ -4,7 +4,7 @@ import { haversineMatrix } from "@/agents/fetchers/routing";
 import { routeAgent } from "@/agents/route-agent";
 import { verified, unverified } from "@/core/factory/make-fact";
 import type { TripQuery } from "@/agents/types";
-import type { Poi, Restaurant, CurrencyInfo, WeatherDay } from "@/core/types/domains";
+import type { Poi, Restaurant, Hotel, CurrencyInfo, WeatherDay } from "@/core/types/domains";
 import type { VerifiedFact } from "@/core/types/verified-fact";
 
 const nowISO = () => "2026-08-02T00:00:00Z";
@@ -28,6 +28,14 @@ const highFood = (name: string): VerifiedFact<Restaurant> =>
     verification: { passes_completed: 3, agree_count: 3, checked_at: nowISO() },
   });
 
+const hotel = (name: string, lat: number, lng: number, stars?: number): VerifiedFact<Hotel> =>
+  verified<Hotel>({
+    value: { name, location: { lat, lng }, ...(stars ? { stars } : {}) },
+    confidence: "low",
+    sources: [{ name: "OSM", url: "https://overpass-api.de/", tier: 2, retrieved_at: nowISO() }],
+    verification: { passes_completed: 1, agree_count: 1, checked_at: nowISO() },
+  });
+
 const query: TripQuery = {
   origin: "ICN",
   country: "Japan",
@@ -49,6 +57,7 @@ function deps(pois: VerifiedFact<Poi>[]): PipelineDeps {
     }),
     collectPois: async () => pois,
     collectFood: async () => [highFood("식당1"), highFood("식당2")],
+    collectHotels: async () => [],
     collectCurrency: async () =>
       verified<CurrencyInfo>({
         value: { code: "JPY", krw_per_unit: 9.31, base: "KRW" },
@@ -134,6 +143,18 @@ describe("runPipeline", () => {
     expect(it.transfers[0]).toMatchObject({ from_city: "Osaka", to_city: "Kyoto" });
     expect(it.budget.lines.length).toBeGreaterThan(0);
     expect(it.budget.per_person_krw).toBeGreaterThan(0);
+  });
+
+  it("숙소: 동선(관광지 중심)에 가까운 실존 호텔을 도시별로 추천한다", async () => {
+    const pois = [highPoi("오사카성", 34.6873, 135.5259), highPoi("도톤보리", 34.6686, 135.5011)];
+    const near = hotel("가까운호텔", 34.678, 135.513); // POI 중심 근처
+    const far = hotel("먼호텔", 34.60, 135.60); // 멀리
+    const d: PipelineDeps = { ...deps(pois), collectHotels: async () => [far, near] };
+    const it = await runPipeline(query, d);
+    expect(it.lodging.length).toBe(1);
+    expect(it.lodging[0]!.city).toBe("Osaka");
+    // 동선 근처 호텔이 먼저
+    expect(it.lodging[0]!.options[0]!.value!.name).toBe("가까운호텔");
   });
 
   it("⭐ 라우팅(buildRoute) 실패해도 수집된 POI 로 일정을 채운다 (빈 일정 방지)", async () => {
