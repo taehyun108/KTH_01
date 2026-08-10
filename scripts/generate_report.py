@@ -684,6 +684,28 @@ class InsufficientContext(Exception):
     """자막·설명이 없어 근거 없는 요약(환각)이 될 수밖에 없는 경우."""
 
 
+class NotAttempted(InsufficientContext):
+    """근거가 없어서가 아니라, 오늘 예산·쿼터·일시 오류로 <시도하지 못한> 경우.
+
+    ※ 이 둘을 구분하지 않아 하루치 발행이 통째로 날아간 적이 있다.
+      2026-08-10: 모델이 404 를 뱉고 영상 쿼터가 바닥난 실행에서, 처리하지 못한
+      영상 94건이 전부 '근거부족'으로 기록됐다. 그 기록은 7일짜리 차단이라
+      다음 날 모델이 멀쩡해져도 그 94건은 일주일간 쳐다보지도 않는다.
+      '이 영상은 내용을 알 수 없다'와 '오늘 우리가 못 봤다'는 전혀 다르다.
+      후자는 판정으로 남기지 않아야 다음 실행이 곧바로 다시 집어 든다.
+    """
+
+
+def _is_transient(msg: str) -> bool:
+    """다음 실행에서 저절로 풀릴 만한 오류인가 (영상 자체의 문제가 아니라)."""
+    m = (msg or "").lower()
+    return (_is_model_gone(msg)
+            or "429" in msg or "resource_exhausted" in m or "quota" in m
+            or "500" in msg or "503" in msg or "504" in msg
+            or "unavailable" in m or "overloaded" in m or "internal" in m
+            or "timeout" in m or "timed out" in m or "deadline" in m)
+
+
 # ---------------------------------------------------------------------------
 # 최후의 수단 — Gemini 가 유튜브 영상을 직접 본다
 # ---------------------------------------------------------------------------
@@ -1048,7 +1070,9 @@ def process_video(meta: dict[str, Any], force: bool = False,
         # 자막도 설명도 못 구했다(러너 IP 차단). 포기하기 전에 Gemini 에게 영상을
         # 직접 보게 한다 — 구글 서버가 영상을 가져오므로 IP 차단의 영향을 받지 않는다.
         if not (force or _video_budget_left()):
-            raise
+            # 이 영상에 근거가 없는 게 아니라, 이번 실행의 영상 예산을 다 쓴 것이다.
+            # 판정으로 남기면 안 된다 — 다음 실행이 곧바로 다시 집어 들어야 한다.
+            raise NotAttempted("이번 실행의 영상 분석 예산 소진 — 다음 실행에서 재시도")
         global _video_fails
         try:
             data = analyze_video_direct(meta, force=force, scope=scope)
@@ -1060,14 +1084,19 @@ def process_video(meta: dict[str, Any], force: bool = False,
                 print("  [영상분석] 오늘 영상 분석 쿼터를 다 썼습니다 — "
                       "이번 실행에서는 영상 분석만 중단하고 나머지는 계속 처리합니다.",
                       file=sys.stderr)
-            raise InsufficientContext("영상 분석 쿼터 소진") from exc
+            raise NotAttempted("영상 분석 쿼터 소진 — 다음 실행에서 재시도") from exc
         except Exception as exc:  # noqa: BLE001
             _video_fails += 1
             if _video_fails == VIDEO_FAIL_LIMIT:
                 print(f"  [영상분석] {VIDEO_FAIL_LIMIT}회 연속 실패 — "
                       "이 실행에서는 영상 직접 분석을 중단합니다.", file=sys.stderr)
-            raise InsufficientContext(
-                f"영상 직접 분석도 실패: {' '.join(str(exc).split())[:120]}") from exc
+            brief = " ".join(str(exc).split())[:120]
+            # 모델 404·429·5xx 처럼 내일이면 풀릴 오류와, 이 영상 자체의 문제
+            # (비공개·연령제한 등)를 가른다. 앞엣것을 '근거부족'으로 남기면
+            # 멀쩡한 영상이 일주일간 묻힌다.
+            if _is_transient(str(exc)):
+                raise NotAttempted(f"영상 분석 일시 오류: {brief}") from exc
+            raise InsufficientContext(f"영상 직접 분석도 실패: {brief}") from exc
         _video_fails = 0        # 한 번이라도 성공하면 연속 실패 카운터 초기화
         source = "gemini-video"
 

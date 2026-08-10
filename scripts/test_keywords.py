@@ -277,6 +277,36 @@ def check_handoff() -> list[str]:
     return out
 
 
+# '오늘 못 본 것'과 '이 영상은 근거가 없다'를 가르는가.
+# 2026-08-10: 모델이 404 를 뱉던 실행에서 처리 못 한 94건이 전부 '근거부족'으로
+# 기록됐고, 그건 7일짜리 차단이라 모델이 고쳐진 뒤에도 일주일간 묻혔다.
+# 앞엣것은 판정으로 남기면 안 된다.
+TRANSIENT_CASES: list[tuple[str, bool]] = [
+    ("404 NOT_FOUND models/gemini-2.5-flash is no longer available", True),
+    ("429 RESOURCE_EXHAUSTED quota exceeded", True),
+    ("503 UNAVAILABLE The model is overloaded", True),
+    ("500 INTERNAL", True),
+    ("Deadline exceeded", True),
+    ("400 INVALID_ARGUMENT: video is private", False),
+    ("This video is age-restricted", False),
+    ("", False),
+]
+
+
+def check_transient() -> list[str]:
+    from generate_report import _is_transient, NotAttempted, InsufficientContext
+    out = []
+    if not issubclass(NotAttempted, InsufficientContext):
+        out.append("  [NotAttempted 는 InsufficientContext 의 하위여야 함] "
+                   "그래야 기존 처리 경로가 그대로 안전하다")
+    for msg, expect in TRANSIENT_CASES:
+        got = _is_transient(msg)
+        if got != expect:
+            want = "보류(판정 안 남김)" if expect else "근거부족으로 기록"
+            out.append(f"  [{want} 이어야 함] {msg[:52]!r} → {got}")
+    return out
+
+
 def check_shorts() -> list[str]:
     out = []
     for dur, title, expect in SHORTS_CASES:
@@ -304,12 +334,13 @@ def main() -> int:
     fails += check_priority()
     fails += check_local_push()
     fails += check_handoff()
+    fails += check_transient()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
              + 4     # PC 자막 수집 git 처리
-             + len(HANDOFF_CASES))
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보 — "
+             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보·보류판정 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

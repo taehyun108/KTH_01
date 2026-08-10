@@ -19,8 +19,8 @@ from datetime import date, timedelta
 from fetch_rss import collect_candidates
 import seen_store
 from generate_report import (process_video, QuotaExhausted, InsufficientContext,
-                             Throttled, MIN_CONTEXT_CHARS, VIDEO_ANALYSIS_MAX,
-                             video_usage)
+                             NotAttempted, Throttled, MIN_CONTEXT_CHARS,
+                             VIDEO_ANALYSIS_MAX, video_usage)
 from build_index import merge, load_existing
 from config import MAX_CANDIDATES_PER_RUN, ROOT
 
@@ -208,7 +208,7 @@ def main() -> int:
     print(f"  처리 분배: {dist or '없음'}")
 
     new_reports = []
-    n_drafts = n_error = n_skip = 0
+    n_drafts = n_error = n_skip = n_defer = 0
     started = time.monotonic()
     budget = TIME_BUDGET_MIN * 60
     n_left = 0
@@ -233,6 +233,11 @@ def main() -> int:
                                   meta.get("title", ""))
                 weak = "" if reason == seen_store.REASON_IRRELEVANT else " (나중에 재확인)"
                 print(f"  – drafts(무관 판정){weak}: {meta['title'][:40]}")
+        except NotAttempted as exc:
+            # 오늘 못 본 것뿐이다 — 판정으로 남기지 않는다.
+            # 남기면 7일짜리 차단이 걸려, 원인이 사라진 뒤에도 계속 묻힌다.
+            n_defer += 1
+            print(f"  – 보류(판정 안 남김): {meta['title'][:38]} — {exc}", file=sys.stderr)
         except InsufficientContext as exc:
             n_skip += 1
             seen_store.record(skip_store, meta["video_id"],
@@ -263,9 +268,9 @@ def main() -> int:
     if n_left:
         print(f"  (시간 상한으로 {n_left}건 미처리 — 다음 실행에서 이어서 처리합니다)")
     print(f"완료 — 신규 {len(new_reports)}건 · 무관판정 {n_drafts}건 · 근거부족 건너뜀 {n_skip}건 · "
-          f"오류 {n_error}건 (후보 {len(candidates)} → 신규후보 {len(fresh)})")
+          f"오류 {n_error}건 · 보류 {n_defer}건 (후보 {len(candidates)} → 신규후보 {len(fresh)})")
     print(f"  영상 직접 분석: 성공 {v_ok}건 / 실패 {v_fail}건 (실행당 상한 {VIDEO_ANALYSIS_MAX}건)")
-    write_state(left=n_left, new=len(new_reports), quota_hit=quota_hit)
+    write_state(left=n_left + n_defer, new=len(new_reports), quota_hit=quota_hit)
     return 0
 
 
