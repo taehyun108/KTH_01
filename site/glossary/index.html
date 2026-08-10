@@ -87,7 +87,7 @@
       <a class="gcard" href="#perf">
         <span class="gc-icon" aria-hidden="true">📖</span>
         <span class="gc-body"><span class="gc-num">12</span><span class="gc-title">성능을 말할 때 쓰는 용어</span>
-        <span class="gc-blurb">에너지밀도·C-rate·SoC 같은 말 풀이</span><span class="gc-meta">표 1</span></span>
+        <span class="gc-blurb">에너지밀도·C-rate·SoC 같은 말 풀이</span><span class="gc-meta">그림 1 · 표 1</span></span>
       </a>
       <a class="gcard" href="#degrade">
         <span class="gc-icon" aria-hidden="true">🔥</span>
@@ -2494,7 +2494,7 @@
     </details>
     <!-- ══════════ 12 ══════════ -->
     <details class="sec-card full" id="perf">
-      <summary class="sec-head"><span class="sec-num">12</span><h2>성능을 말할 때 쓰는 용어</h2><span class="sec-meta">표 1</span></summary>
+      <summary class="sec-head"><span class="sec-num">12</span><h2>성능을 말할 때 쓰는 용어</h2><span class="sec-meta">그림 1 · 표 1</span></summary>
       <div class="tbl-scroll">
       <table class="glossary">
         <thead><tr><th>용어</th><th>쉬운 설명</th><th>비유</th></tr></thead>
@@ -2522,6 +2522,102 @@
             <td>배터리 화재 사고의 핵심 원인</td></tr>
         </tbody>
       </table>
+      </div>
+
+      <h3 class="t-h">충전하면 전압이 오르고, 쓰면 내려갑니다</h3>
+      <p>배터리 전압은 고정된 값이 아닙니다. <strong>충전할수록 올라가고 쓸수록 내려갑니다.</strong>
+        휴대폰 배터리가 100%일 때와 10%일 때 전압이 다르다는 뜻이죠.</p>
+      <p>이유는 앞에서 본 원리 그대로입니다. 충전은 <strong>양극에서 리튬을 빼내는 일</strong>인데요.
+        리튬이 많이 빠져나갈수록 남은 리튬을 마저 빼내기가 점점 어려워집니다.
+        더 센 힘이 필요하다는 뜻이고, <strong>그 힘이 곧 전압</strong>입니다.
+        반대로 방전은 리튬이 양극으로 되돌아가는 일이라, 자리가 채워질수록 전압이 내려갑니다.</p>
+
+      <figure class="diagram" data-anim data-phase="charge">
+        <svg viewBox="0 0 680 360" role="img"
+             aria-label="충전량이 늘수록 전압이 올라가고 방전하면 내려갑니다. NCM은 기울어진 곡선, LFP는 가운데가 평평한 곡선입니다">
+          <text x="340" y="20" text-anchor="middle" font-size="13.5" font-weight="700" fill="#0284c7">
+            충전량에 따라 전압이 이렇게 달라집니다</text>
+
+          <!-- 방향 표시 (충전/방전 버튼에 따라 바뀝니다) -->
+          <g class="ph-charge">
+            <path d="M210 46 L500 46" stroke="#e11d48" stroke-width="2.6" marker-end="url(#vup)"/>
+            <text x="355" y="38" text-anchor="middle" font-size="12.5" font-weight="700" fill="#e11d48">
+              충전 — 전압이 올라갑니다</text>
+          </g>
+          <g class="ph-discharge">
+            <path d="M500 46 L210 46" stroke="#0d9488" stroke-width="2.6" marker-end="url(#vdn)"/>
+            <text x="355" y="38" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0d9488">
+              방전 — 전압이 내려갑니다</text>
+          </g>
+
+          <!-- 축 -->
+          <line x1="80" y1="70" x2="80" y2="300" stroke="#8a96ab" stroke-width="1.5"/>
+          <line x1="80" y1="300" x2="628" y2="300" stroke="#8a96ab" stroke-width="1.5"/>
+          <g font-size="11" fill="#8a96ab">
+            <text x="46" y="74">4.2V</text><text x="46" y="151">3.8V</text>
+            <text x="46" y="227">3.4V</text><text x="46" y="304">3.0V</text>
+            <text x="80" y="320" text-anchor="middle">0%</text>
+            <text x="350" y="320" text-anchor="middle">50%</text>
+            <text x="620" y="320" text-anchor="middle">100%</text>
+            <text x="350" y="340" text-anchor="middle">충전량 (SoC)</text>
+          </g>
+          <g stroke="#eef2f7" stroke-width="1">
+            <line x1="80" y1="70" x2="628" y2="70"/><line x1="80" y1="146.7" x2="628" y2="146.7"/>
+            <line x1="80" y1="223.3" x2="628" y2="223.3"/>
+          </g>
+
+          <!-- NCM: 기울어진 곡선 -->
+          <path d="M80 300 C 105 235, 120 212, 134 204 C 175 190, 210 180, 242 175
+                   C 280 168, 325 161, 350 156 C 390 148, 430 135, 458 127
+                   C 495 115, 540 105, 566 99 C 590 92, 610 80, 620 70"
+                fill="none" stroke="#0284c7" stroke-width="3.2"/>
+          <!-- LFP: 가운데가 평평한 곡선 -->
+          <path d="M80 300 C 100 272, 112 258, 123 252 C 145 246, 165 243, 188 242
+                   C 240 240, 300 239, 350 238 C 405 237, 465 235, 512 233
+                   C 545 231, 575 224, 593 214 C 605 206, 614 192, 620 175"
+                fill="none" stroke="#0d9488" stroke-width="3.2" stroke-dasharray="7 4"/>
+
+          <!-- 범례 -->
+          <g font-size="11.5">
+            <line x1="98" y1="88" x2="126" y2="88" stroke="#0284c7" stroke-width="3.2"/>
+            <text x="133" y="92" fill="#075985">NCM — 기울어져 있습니다</text>
+            <line x1="98" y1="110" x2="126" y2="110" stroke="#0d9488" stroke-width="3.2" stroke-dasharray="7 4"/>
+            <text x="133" y="114" fill="#0f766e">LFP — 가운데가 평평합니다</text>
+          </g>
+
+          <!-- LFP 평탄 구간 표시 -->
+          <path d="M215 262 L490 262" stroke="#0d9488" stroke-width="1.6" stroke-dasharray="4 3"/>
+          <text x="352" y="280" text-anchor="middle" font-size="11.5" fill="#0f766e">
+            20~80% 구간에서 전압이 거의 그대로 → <tspan font-weight="700">남은 양을 가늠하기 어렵습니다</tspan></text>
+
+          <defs>
+            <marker id="vup" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+              <path d="M0 0 L9 4.5 L0 9 z" fill="#e11d48"/></marker>
+            <marker id="vdn" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+              <path d="M0 0 L9 4.5 L0 9 z" fill="#0d9488"/></marker>
+          </defs>
+        </svg>
+        <figcaption class="fig-cap">그림 21. 충전하면 전압이 오르고 방전하면 내려갑니다 — LFP는 가운데가 평평해 남은 양을 알기 어렵습니다</figcaption>
+      </figure>
+
+      <p>여기서 <strong>LFP의 숨은 불편함</strong>이 드러납니다. NCM은 전압만 재도 지금 얼마나
+        남았는지 대충 알 수 있는데요. LFP는 20~80% 구간에서 전압이 거의 변하지 않아
+        <strong>전압만으로는 남은 양을 알 수 없습니다.</strong>
+        그래서 드나든 전류를 계속 세는 등 다른 방법을 함께 써야 하고,
+        LFP 차량의 잔량 표시가 가끔 튀는 것도 이 때문입니다.
+        앞서 본 LMFP의 계단형 곡선도 같은 고민을 안고 있습니다.</p>
+
+      <div class="callout">
+        <p class="callout-title">충전기를 뽑으면 왜 전압이 조금 내려갈까요?</p>
+        <p>지금까지는 <strong>가만히 두었을 때</strong>의 전압이었습니다.
+          실제로 전류가 흐르는 중에는 여기에 한 가지가 더 얹힙니다.</p>
+        <p>배터리에는 <strong>내부저항</strong>이 있어서, <strong>충전 중에는 밀어 넣느라 겉보기 전압이
+          실제보다 높게</strong> 보이고, <strong>방전 중에는 꺼내 쓰느라 낮게</strong> 보입니다.
+          그래서 충전기를 뽑고 잠시 두면 전압이 슬쩍 내려가고, 쓰다가 멈추면 다시 조금 올라옵니다.
+          배터리가 상한 게 아니라 정상입니다.</p>
+        <p>이 차이는 <strong>내부저항이 클수록, 전류가 셀수록, 추울수록</strong> 커집니다.
+          겨울에 급속충전이 느려지고 잔량 표시가 널뛰는 이유가 여기 있죠.
+          13장에서 본 <strong>출력 저하</strong>와 같은 이야기입니다.</p>
       </div>
     </details>
 
@@ -2597,7 +2693,7 @@
           <text x="340" y="345" text-anchor="middle" font-size="11.5" fill="#8a96ab">
             온도는 셀 종류·크기·상태에 따라 달라지는 <tspan font-weight="700">대략적인 기준</tspan>입니다</text>
         </svg>
-        <figcaption class="fig-cap">그림 21. 열폭주 5단계 — 보호막 분해에서 시작해 분리막이 무너지고, 양극이 산소를 내놓으면 되돌릴 수 없습니다</figcaption>
+        <figcaption class="fig-cap">그림 22. 열폭주 5단계 — 보호막 분해에서 시작해 분리막이 무너지고, 양극이 산소를 내놓으면 되돌릴 수 없습니다</figcaption>
       </figure>
 
       <h3 class="t-h">불은 무엇 때문에 시작될까요?</h3>
@@ -2683,7 +2779,7 @@
             같은 배터리라도 <tspan font-weight="700" fill="#55617a">쓰는 방법</tspan>에 따라 수명이 몇 배 차이 납니다</text>
           <text x="354" y="318" text-anchor="middle" font-size="11" fill="#8a96ab">충·방전 횟수 (사이클)</text>
         </svg>
-        <figcaption class="fig-cap">그림 22. 용량 유지율 곡선 — 같은 셀도 온도·충전 습관에 따라 80%에 닿는 시점이 크게 달라집니다</figcaption>
+        <figcaption class="fig-cap">그림 23. 용량 유지율 곡선 — 같은 셀도 온도·충전 습관에 따라 80%에 닿는 시점이 크게 달라집니다</figcaption>
       </figure>
 
       <p>속에서는 다음과 같은 일들이 <strong>동시에</strong> 진행됩니다.
@@ -2828,7 +2924,7 @@
               <path d="M0 0 L9 4.5 L0 9 z" fill="#0ea5e9"/></marker>
           </defs>
         </svg>
-        <figcaption class="fig-cap">그림 23. 액체 전해액·분리막을 고체 전해질 한 층이 대신하는 전고체 배터리</figcaption>
+        <figcaption class="fig-cap">그림 24. 액체 전해액·분리막을 고체 전해질 한 층이 대신하는 전고체 배터리</figcaption>
       </figure>
 
       <div class="tbl-scroll">
