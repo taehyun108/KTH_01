@@ -214,7 +214,7 @@ export function Planner({
             ))}
           </nav>
 
-          {tab === "timeline" && <Timeline days={it.days} onSelect={select} />}
+          {tab === "timeline" && <Timeline itinerary={it} onSelect={select} />}
           {tab === "map" && <GoogleMap itinerary={it} />}
           {tab === "report" && <VerificationReport itinerary={it} onSelect={select} />}
         </div>

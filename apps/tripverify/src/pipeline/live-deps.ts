@@ -60,24 +60,26 @@ export function liveDeps(): PipelineDeps {
       // 걸려 식당이 밀려나므로 과하지 않게.
       const limit = Math.min(Math.max(perCityDays * 4, 6), 28);
 
-      // 1차 넓게 선별(설명 조회 후 폐관·비검색 필터로 좁힘). 설명 조회 비용을
-      // 고려해 후보를 과하지 않게(최대 45개) 제한.
+      // 1차 넓게 선별(설명 조회 후 폐관·비검색 필터로 좁힘).
       const prelim = selectPois(merged, wiki, {
         ...(q.concept ? { concept: q.concept } : {}),
         styles: q.style,
         limit: Math.min(limit + 18, 45),
       });
 
-      // Wikipedia 설명 배치 조회(영어 제목 기준) → 추천 사유 근거 + defunct 판별.
-      // 설명 조회는 '보강'이므로 10초 상한 — 느려도 POI 목록은 항상 반환된다.
-      const descKey = (s: (typeof prelim)[number]) => s.name_en || s.name;
+      // 설명(특히 한국어 위키 2-hop) 조회는 비용이 크므로, 설명 없이 1차 유명도로
+      // 정렬해 상위 후보(최대 24개)에만 조회한다 → 한국어 설명이 제때 도착.
+      const preRanked = [...prelim].sort((a, b) => fameScore(b) - fameScore(a)).slice(0, Math.min(limit + 6, 24));
+
+      // Wikipedia 설명 배치 조회(영어 제목 기준) → 추천 사유 근거(한국어 우선) + defunct 판별.
+      const descKey = (s: (typeof preRanked)[number]) => s.name_en || s.name;
       const descMap = await Promise.race([
-        wikiDescriptions(prelim.map(descKey)).catch(() => new Map()),
+        wikiDescriptions(preRanked.map(descKey)).catch(() => new Map()),
         new Promise<Map<string, { description?: string; extract?: string }>>((resolve) =>
           setTimeout(() => resolve(new Map()), 14_000), // 한국어 위키 조회 여유(POI 목록은 항상 반환)
         ),
       ]);
-      const enriched = prelim.map((s) => {
+      const enriched = preRanked.map((s) => {
         const d = descMap.get(descKey(s));
         const description = d?.extract ?? d?.description;
         return {

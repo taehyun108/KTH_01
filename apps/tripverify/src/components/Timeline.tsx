@@ -1,6 +1,7 @@
 "use client";
-import type { ItineraryDay } from "@/core/types/itinerary";
+import type { Itinerary, ItineraryDay } from "@/core/types/itinerary";
 import type { VerifiedFact } from "@/core/types/verified-fact";
+import type { LatLng } from "@/lib/format";
 import { ConfidenceBadge } from "./ConfidenceBadge";
 import {
   minutesLabel,
@@ -9,6 +10,7 @@ import {
   naverBlogSearch,
   displayName,
   searchName,
+  bookingSearch,
 } from "@/lib/format";
 import { recommendReason, menuHint } from "@/lib/recommend";
 import type { Restaurant } from "@/core/types/domains";
@@ -17,12 +19,15 @@ const DAY_COLORS = ["#2563eb", "#db2777", "#059669", "#d97706", "#7c3aed", "#089
 
 /** 일정 타임라인 (§8-1). 일자별 카드 + 항목별 신뢰도 배지 + 클릭 시 출처. */
 export function Timeline({
-  days,
+  itinerary,
   onSelect,
 }: {
-  days: ItineraryDay[];
+  itinerary: Itinerary;
   onSelect: (f: VerifiedFact<unknown>, title: string) => void;
 }) {
+  const days = itinerary.days;
+  const adults = itinerary.query.party.adults;
+  const cityCenter = new Map(itinerary.cities.map((c) => [c.name, c.center] as const));
   return (
     <div className="space-y-4">
       {days.map((day, di) => (
@@ -117,6 +122,38 @@ export function Timeline({
                 })()}
               </li>
             ))}
+            {(() => {
+              // 동선 마지막: 그날 방문지들의 중심(동선 중심) 근처 숙소를 마지막 항목으로
+              const pts = day.items.map((it) => it.place.value?.location).filter((l): l is LatLng => !!l);
+              const center = centroid(pts) ?? cityCenter.get(day.city);
+              const checkin = day.date;
+              const checkout = addDay(day.date);
+              const href = bookingSearch(day.city, checkin, checkout, adults, center);
+              return (
+                <li className="px-4 py-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="min-w-0">
+                      <span className="mr-2 text-sm tabular-nums opacity-70">숙박</span>
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="font-medium hover:underline"
+                        title="이 동선 근처·리뷰 좋은 순 숙소 검색"
+                      >
+                        🏨 숙소 복귀 · {day.city} 동선 근처 (리뷰 좋은 순)
+                      </a>
+                    </div>
+                    <span className="shrink-0 rounded-full bg-black/5 px-2 py-0.5 text-[11px] opacity-70 dark:bg-white/10">
+                      요금 검색 ↗
+                    </span>
+                  </div>
+                  <div className="mt-1 text-xs opacity-60">
+                    무료 검증 가능한 숙박요금 API 가 없어 요금을 지어내지 않습니다 — 실시간 요금·예약은 링크에서 확인하세요.
+                  </div>
+                </li>
+              );
+            })()}
           </ol>
 
           {day.warnings.length > 0 && (
@@ -130,6 +167,17 @@ export function Timeline({
       ))}
     </div>
   );
+}
+
+/** 방문지 좌표 평균(동선 중심). 없으면 null. */
+function centroid(pts: LatLng[]): LatLng | null {
+  if (pts.length === 0) return null;
+  const s = pts.reduce((a, p) => ({ lat: a.lat + p.lat, lng: a.lng + p.lng }), { lat: 0, lng: 0 });
+  return { lat: s.lat / pts.length, lng: s.lng / pts.length };
+}
+
+function addDay(date: string): string {
+  return new Date(Date.parse(date) + 86_400_000).toISOString().slice(0, 10);
 }
 
 export { DAY_COLORS };
