@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>이차전지 용어집 — 이차전지 리포트 아카이브</title>
   <meta name="description" content="양극재·음극재·전구체·전해액·분리막부터 제조공정, 셀·모듈·팩 조립, 배터리 종류, 성능 분석법까지 그림으로 쉽게 풀어 쓴 이차전지 용어집." />
-  <link rel="stylesheet" href="../assets/style.css?v=27" />
+  <link rel="stylesheet" href="../assets/style.css?v=28" />
 </head>
 <body>
   <header class="report-hero">
@@ -23,23 +23,92 @@
   </header>
 
   <main class="wrap report">
-    <nav class="toc" aria-label="목차">
-      <a href="#basic">01 배터리 기본 원리</a>
-      <a href="#core">02 4대 핵심 소재</a>
-      <a href="#cathode">03 양극재 총정리</a>
-      <a href="#anode">04 음극재 총정리</a>
-      <a href="#elyte">05 전해액·분리막</a>
-      <a href="#matproc">06 소재 제조공정</a>
-      <a href="#cellproc">07 셀 제조공정</a>
-      <a href="#pack">08 셀·모듈·팩</a>
-      <a href="#app">09 EV·ESS·드론</a>
-      <a href="#others">10 다른 전지들</a>
-      <a href="#analysis">11 성능 분석법</a>
-      <a href="#perf">12 성능 용어</a>
-      <a href="#degrade">13 화재·수명·출력</a>
-      <a href="#next">14 차세대 기술</a>
-      <a href="#trend">15 최신 트렌드</a>
-      <a href="#src">16 출처</a>
+    <div class="gc-head">
+      <p class="gc-lead">보고 싶은 것을 골라 주십시오. 카드를 누르면 그 부분만 펼쳐집니다.
+        문서 전체에서 낱말을 찾으실 때는 <strong>전체 펼치기</strong>를 먼저 누르시면 확실합니다.</p>
+      <button type="button" id="expandAll" class="gc-all">전체 펼치기</button>
+    </div>
+    <nav class="gcards" aria-label="목차">
+      <a class="gcard" href="#basic">
+        <span class="gc-icon" aria-hidden="true">🔋</span>
+        <span class="gc-body"><span class="gc-num">01</span><span class="gc-title">배터리 기본 원리 — 리튬이 두 전극을 오갑니다</span>
+        <span class="gc-blurb">리튬이 두 전극을 오가는 것, 원리는 그게 전부입니다</span><span class="gc-meta">그림 1</span></span>
+      </a>
+      <a class="gcard" href="#core">
+        <span class="gc-icon" aria-hidden="true">🧩</span>
+        <span class="gc-body"><span class="gc-num">02</span><span class="gc-title">4대 핵심 소재 한눈에</span>
+        <span class="gc-blurb">양극재·음극재·전해액·분리막이 값과 성능을 정합니다</span><span class="gc-meta">표 2</span></span>
+      </a>
+      <a class="gcard" href="#cathode">
+        <span class="gc-icon" aria-hidden="true">🟦</span>
+        <span class="gc-body"><span class="gc-num">03</span><span class="gc-title">양극재 총정리 — 원자 배열이 성격을 정합니다</span>
+        <span class="gc-blurb">층상·올리빈·스피넬 — 원자 배열이 성격을 가릅니다</span><span class="gc-meta">그림 3 · 표 4</span></span>
+      </a>
+      <a class="gcard" href="#anode">
+        <span class="gc-icon" aria-hidden="true">⬜</span>
+        <span class="gc-body"><span class="gc-num">04</span><span class="gc-title">음극재 총정리 — 리튬을 '어떻게' 담느냐</span>
+        <span class="gc-blurb">흑연은 층 사이에 끼워 넣고, 실리콘은 직접 붙습니다</span><span class="gc-meta">그림 1 · 표 2</span></span>
+      </a>
+      <a class="gcard" href="#elyte">
+        <span class="gc-icon" aria-hidden="true">💧</span>
+        <span class="gc-body"><span class="gc-num">05</span><span class="gc-title">전해액과 분리막</span>
+        <span class="gc-blurb">리튬이 다니는 길과, 두 극을 가르는 막</span><span class="gc-meta">표 2</span></span>
+      </a>
+      <a class="gcard" href="#matproc">
+        <span class="gc-icon" aria-hidden="true">⛏️</span>
+        <span class="gc-body"><span class="gc-num">06</span><span class="gc-title">소재는 어떻게 만들까 — 광산에서 가루까지</span>
+        <span class="gc-blurb">땅속 광석이 가루가 되기까지 8단계</span><span class="gc-meta">그림 6 · 표 1</span></span>
+      </a>
+      <a class="gcard" href="#cellproc">
+        <span class="gc-icon" aria-hidden="true">🏭</span>
+        <span class="gc-body"><span class="gc-num">07</span><span class="gc-title">셀은 어떻게 만들까 — 김밥 말듯이</span>
+        <span class="gc-blurb">전극 만들고, 조립하고, 처음 충전합니다</span><span class="gc-meta">그림 2 · 표 1</span></span>
+      </a>
+      <a class="gcard" href="#pack">
+        <span class="gc-icon" aria-hidden="true">🚗</span>
+        <span class="gc-body"><span class="gc-num">08</span><span class="gc-title">셀 → 모듈 → 팩 — 자동차에 실리기까지</span>
+        <span class="gc-blurb">셀을 묶어 모듈, 모듈을 묶어 팩</span><span class="gc-meta">그림 1 · 표 1</span></span>
+      </a>
+      <a class="gcard" href="#app">
+        <span class="gc-icon" aria-hidden="true">⚡</span>
+        <span class="gc-body"><span class="gc-num">09</span><span class="gc-title">소재가 EV·ESS·드론으로 가는 길</span>
+        <span class="gc-blurb">쓰는 곳이 달라지면 고르는 소재도 달라집니다</span><span class="gc-meta">그림 1 · 표 1</span></span>
+      </a>
+      <a class="gcard" href="#others">
+        <span class="gc-icon" aria-hidden="true">🔌</span>
+        <span class="gc-body"><span class="gc-num">10</span><span class="gc-title">리튬이온 말고 다른 전지들</span>
+        <span class="gc-blurb">납축·니켈수소·나트륨이온·바나듐 흐름전지</span><span class="gc-meta">그림 4 · 표 1</span></span>
+      </a>
+      <a class="gcard" href="#analysis">
+        <span class="gc-icon" aria-hidden="true">🔬</span>
+        <span class="gc-body"><span class="gc-num">11</span><span class="gc-title">성능은 어떻게 검증할까 — 분석 방법</span>
+        <span class="gc-blurb">가루부터 완성된 셀까지, 단계별 검사법</span><span class="gc-meta">그림 1 · 표 8</span></span>
+      </a>
+      <a class="gcard" href="#perf">
+        <span class="gc-icon" aria-hidden="true">📖</span>
+        <span class="gc-body"><span class="gc-num">12</span><span class="gc-title">성능을 말할 때 쓰는 용어</span>
+        <span class="gc-blurb">에너지밀도·C-rate·SoC 같은 말 풀이</span><span class="gc-meta">표 1</span></span>
+      </a>
+      <a class="gcard" href="#degrade">
+        <span class="gc-icon" aria-hidden="true">🔥</span>
+        <span class="gc-body"><span class="gc-num">13</span><span class="gc-title">배터리는 왜 불이 나고, 왜 늙을까</span>
+        <span class="gc-blurb">왜 불이 나고, 왜 수명과 출력이 줄어드나</span><span class="gc-meta">그림 2 · 표 3</span></span>
+      </a>
+      <a class="gcard" href="#next">
+        <span class="gc-icon" aria-hidden="true">🧊</span>
+        <span class="gc-body"><span class="gc-num">14</span><span class="gc-title">차세대 기술</span>
+        <span class="gc-blurb">전고체 배터리는 무엇이 다른가</span><span class="gc-meta">그림 1 · 표 1</span></span>
+      </a>
+      <a class="gcard" href="#trend">
+        <span class="gc-icon" aria-hidden="true">📈</span>
+        <span class="gc-body"><span class="gc-num">15</span><span class="gc-title">최신 연구·산업 트렌드</span>
+        <span class="gc-blurb">캐즘·LFP 전환·ESS·공급망 재편</span></span>
+      </a>
+      <a class="gcard" href="#src">
+        <span class="gc-icon" aria-hidden="true">📚</span>
+        <span class="gc-body"><span class="gc-num">16</span><span class="gc-title">출처·참고자료</span>
+        <span class="gc-blurb">어디서 가져온 내용인지</span></span>
+      </a>
     </nav>
 
     <div class="anim-note">
@@ -53,8 +122,8 @@
     </div>
 
     <!-- ══════════ 01 ══════════ -->
-    <section class="sec-card full" id="basic">
-      <div class="sec-head"><span class="sec-num">01</span><h2>배터리 기본 원리 — 리튬이 두 전극을 오갑니다</h2></div>
+    <details class="sec-card full" id="basic" open>
+      <summary class="sec-head"><span class="sec-num">01</span><h2>배터리 기본 원리 — 리튬이 두 전극을 오갑니다</h2><span class="sec-meta">그림 1</span></summary>
       <p>배터리 안에서는 <strong>리튬 이온</strong>이 왼쪽 전극(음극)과 오른쪽 전극(양극) 사이를 쉬지 않고 오갑니다.
         오른쪽으로 이동할 때 전기가 나오고요, 충전을 하면 다시 왼쪽으로 돌아가는데요.
         복잡해 보여도 배터리의 원리는 사실상 이게 전부입니다.</p>
@@ -142,11 +211,11 @@
           그리고 두 전극이 직접 닿지 않도록 막아 주는 <strong>차단막(분리막)</strong>으로 이뤄져 있는데요.
           리튬이 얼마나 원활하게 오가느냐, 배터리의 성능은 결국 여기서 갈립니다.</p>
       </div>
-    </section>
+    </details>
 
     <!-- ══════════ 02 ══════════ -->
-    <section class="sec-card full" id="core">
-      <div class="sec-head"><span class="sec-num">02</span><h2>4대 핵심 소재 한눈에</h2></div>
+    <details class="sec-card full" id="core">
+      <summary class="sec-head"><span class="sec-num">02</span><h2>4대 핵심 소재 한눈에</h2><span class="sec-meta">표 2</span></summary>
       <p>배터리 가격의 대부분도, 성능도 결국은 이 네 가지가 좌우합니다.
         각 소재가 <strong>무엇을 정하는지</strong>를 함께 봐 주세요.</p>
       <div class="tbl-scroll">
@@ -243,11 +312,11 @@
           <strong>전해액</strong>은 그중에서 <strong>액체</strong>인 것을 가리킵니다.
           고체라면 '고체 전해질'이 되는데, 그걸 쓴 배터리가 바로 <strong>전고체 배터리</strong>죠.</p>
       </div>
-    </section>
+    </details>
 
     <!-- ══════════ 03 ══════════ -->
-    <section class="sec-card full" id="cathode">
-      <div class="sec-head"><span class="sec-num">03</span><h2>양극재 총정리 — 원자 배열이 성격을 정합니다</h2></div>
+    <details class="sec-card full" id="cathode">
+      <summary class="sec-head"><span class="sec-num">03</span><h2>양극재 총정리 — 원자 배열이 성격을 정합니다</h2><span class="sec-meta">그림 3 · 표 4</span></summary>
       <p>양극재는 <strong>원자가 어떻게 쌓여 있는지</strong>에 따라 성격이 완전히 달라집니다.
         리튬이 빠져나갈 <strong>길의 모양</strong> 자체가 달라지기 때문인데요. 그림으로 하나씩 보겠습니다.</p>
 
@@ -592,11 +661,11 @@
           <strong>갈라지면서</strong> 수명이 줄어드는 반면, 단결정은 갈라질 틈 자체가 없어 훨씬 오래가고요.
           그래서 니켈이 많이 들어간 제품일수록 단결정으로 만들려는 흐름이 뚜렷합니다.</p>
       </div>
-    </section>
+    </details>
 
     <!-- ══════════ 04 ══════════ -->
-    <section class="sec-card full" id="anode">
-      <div class="sec-head"><span class="sec-num">04</span><h2>음극재 총정리 — 리튬을 '어떻게' 담느냐</h2></div>
+    <details class="sec-card full" id="anode">
+      <summary class="sec-head"><span class="sec-num">04</span><h2>음극재 총정리 — 리튬을 '어떻게' 담느냐</h2><span class="sec-meta">그림 1 · 표 2</span></summary>
       <p>음극재는 리튬을 담아 두는 <strong>방식</strong>이 소재마다 다른데요. 바로 이 차이가 용량과 수명을 가릅니다.</p>
 
       <figure class="diagram" data-anim data-phase="charge" data-phases="charge,discharge,overcharge,overdischarge">
@@ -773,10 +842,10 @@
         <p>실리콘이 부풀 때 이 막이 <strong>깨졌다 다시 생기기를 반복</strong>하면서 리튬을 계속 잡아먹는 것,
           이게 바로 실리콘 수명 문제의 진짜 원인입니다.</p>
       </div>
-    </section>
+    </details>
     <!-- ══════════ 05 ══════════ -->
-    <section class="sec-card full" id="elyte">
-      <div class="sec-head"><span class="sec-num">05</span><h2>전해액과 분리막</h2></div>
+    <details class="sec-card full" id="elyte">
+      <summary class="sec-head"><span class="sec-num">05</span><h2>전해액과 분리막</h2><span class="sec-meta">표 2</span></summary>
 
       <h3 class="t-h">전해액 — 세 가지를 섞어 만듭니다</h3>
       <div class="tbl-scroll">
@@ -833,11 +902,11 @@
           <strong>주행거리가 늘어나는데요</strong>, 얇으면 그만큼 찢어지기 쉬워 <strong>안전에는 불리</strong>해집니다.
           "에너지냐 안전이냐" 줄다리기가 가장 잘 드러나는 지점이죠.</p>
       </div>
-    </section>
+    </details>
 
     <!-- ══════════ 06 ══════════ -->
-    <section class="sec-card full" id="matproc">
-      <div class="sec-head"><span class="sec-num">06</span><h2>소재는 어떻게 만들까 — 광산에서 가루까지</h2></div>
+    <details class="sec-card full" id="matproc">
+      <summary class="sec-head"><span class="sec-num">06</span><h2>소재는 어떻게 만들까 — 광산에서 가루까지</h2><span class="sec-meta">그림 6 · 표 1</span></summary>
       <p>양극재 한 줌이 만들어지기까지는 <strong>땅속 광석부터 8단계</strong>를 거쳐야 합니다.
         뉴스에 자주 나오는 '전구체', '공침', '소성'이 각각 어느 단계인지 그림으로 보겠습니다.</p>
 
@@ -1299,11 +1368,11 @@
         </tbody>
       </table>
       </div>
-    </section>
+    </details>
 
     <!-- ══════════ 07 ══════════ -->
-    <section class="sec-card full" id="cellproc">
-      <div class="sec-head"><span class="sec-num">07</span><h2>셀은 어떻게 만들까 — 김밥 말듯이</h2></div>
+    <details class="sec-card full" id="cellproc">
+      <summary class="sec-head"><span class="sec-num">07</span><h2>셀은 어떻게 만들까 — 김밥 말듯이</h2><span class="sec-meta">그림 2 · 표 1</span></summary>
       <p>소재 가루가 도착하면 배터리 공장에서는 <strong>딱 3단계</strong>를 거치는데요.
         <strong>①전극 만들기 → ②조립하기 → ③처음 충전하기</strong> 순입니다.</p>
 
@@ -1503,11 +1572,11 @@
       </div>
       <p class="tbl-note">* 대표 사용처와 생산처는 <strong>널리 알려진 사례</strong>를 적은 것입니다.
         한 업체가 여러 형태를 함께 만들기도 하고 신규 라인이 들어서면 달라지니, 큰 그림을 잡는 용도로만 봐 주세요.</p>
-    </section>
+    </details>
 
     <!-- ══════════ 08 ══════════ -->
-    <section class="sec-card full" id="pack">
-      <div class="sec-head"><span class="sec-num">08</span><h2>셀 → 모듈 → 팩 — 자동차에 실리기까지</h2></div>
+    <details class="sec-card full" id="pack">
+      <summary class="sec-head"><span class="sec-num">08</span><h2>셀 → 모듈 → 팩 — 자동차에 실리기까지</h2><span class="sec-meta">그림 1 · 표 1</span></summary>
       <p>셀 하나로는 자동차를 굴릴 수 없죠. 수백 개를 <strong>묶고 또 묶어야</strong> 비로소 차가 움직입니다.</p>
 
       <figure class="diagram">
@@ -1605,10 +1674,10 @@
         </tbody>
       </table>
       </div>
-    </section>
+    </details>
     <!-- ══════════ 09 ══════════ -->
-    <section class="sec-card full" id="app">
-      <div class="sec-head"><span class="sec-num">09</span><h2>소재가 EV·ESS·드론으로 가는 길</h2></div>
+    <details class="sec-card full" id="app">
+      <summary class="sec-head"><span class="sec-num">09</span><h2>소재가 EV·ESS·드론으로 가는 길</h2><span class="sec-meta">그림 1 · 표 1</span></summary>
       <p>지금까지 살펴본 소재들은 결국 <strong>어딘가에 실려서</strong> 쓰이게 됩니다.
         그런데 <strong>쓰이는 곳마다 원하는 조건이 달라서, 고르는 소재도 달라지죠</strong>.</p>
 
@@ -1694,11 +1763,11 @@
           <strong>드론은 ②출력과 가벼움</strong>을 먼저 챙기죠.
           "어느 배터리가 제일 좋나요?"라는 질문에 답이 없는 이유입니다 — <strong>쓰는 곳에 맞는 배터리</strong>가 있을 뿐이니까요.</p>
       </div>
-    </section>
+    </details>
 
     <!-- ══════════ 10 ══════════ -->
-    <section class="sec-card full" id="others">
-      <div class="sec-head"><span class="sec-num">10</span><h2>리튬이온 말고 다른 전지들</h2></div>
+    <details class="sec-card full" id="others">
+      <summary class="sec-head"><span class="sec-num">10</span><h2>리튬이온 말고 다른 전지들</h2><span class="sec-meta">그림 4 · 표 1</span></summary>
       <p>배터리가 리튬이온만 있는 건 아닙니다. 자동차 시동을 거는 <strong>납축전지</strong>부터
         축구장만 한 <strong>바나듐 흐름전지</strong>까지, 쓰임새마다 어울리는 전지가 따로 있는데요.</p>
 
@@ -1975,11 +2044,11 @@
           그래서 "해가 지고 난 밤 10시간을 버텨야 하는" 대형 ESS에 잘 맞습니다.
           게다가 <strong>액체라 불이 날 일이 없고</strong>, 수만 번을 충·방전해도 성능이 거의 줄지 않죠.</p>
       </div>
-    </section>
+    </details>
 
     <!-- ══════════ 11 ══════════ -->
-    <section class="sec-card full" id="analysis">
-      <div class="sec-head"><span class="sec-num">11</span><h2>성능은 어떻게 검증할까 — 분석 방법</h2></div>
+    <details class="sec-card full" id="analysis">
+      <summary class="sec-head"><span class="sec-num">11</span><h2>성능은 어떻게 검증할까 — 분석 방법</h2><span class="sec-meta">그림 1 · 표 8</span></summary>
       <p>"이 소재가 정말 좋은지" 어떻게 알 수 있을까요? 연구소와 공장에서는
         <strong>가루 단계부터 완성된 셀까지</strong> 단계마다 다른 검사를 거칩니다.</p>
       <p>분석 방법은 이름이 알파벳투성이라 겁부터 나는데요. 사실 묻는 질문은 몇 가지뿐입니다.
@@ -2345,10 +2414,10 @@
       </div>
       <p class="tbl-note">* 안전 시험의 구체적인 조건은 나라와 인증 규격(UN·IEC·UL·KC 등)에 따라 다릅니다.
         여기서는 무엇을 확인하려는 시험인지만 정리했습니다.</p>
-    </section>
+    </details>
     <!-- ══════════ 12 ══════════ -->
-    <section class="sec-card full" id="perf">
-      <div class="sec-head"><span class="sec-num">12</span><h2>성능을 말할 때 쓰는 용어</h2></div>
+    <details class="sec-card full" id="perf">
+      <summary class="sec-head"><span class="sec-num">12</span><h2>성능을 말할 때 쓰는 용어</h2><span class="sec-meta">표 1</span></summary>
       <div class="tbl-scroll">
       <table class="glossary">
         <thead><tr><th>용어</th><th>쉬운 설명</th><th>비유</th></tr></thead>
@@ -2377,11 +2446,11 @@
         </tbody>
       </table>
       </div>
-    </section>
+    </details>
 
     <!-- ══════════ 13 ══════════ -->
-    <section class="sec-card full" id="degrade">
-      <div class="sec-head"><span class="sec-num">13</span><h2>배터리는 왜 불이 나고, 왜 늙을까</h2></div>
+    <details class="sec-card full" id="degrade">
+      <summary class="sec-head"><span class="sec-num">13</span><h2>배터리는 왜 불이 나고, 왜 늙을까</h2><span class="sec-meta">그림 2 · 표 3</span></summary>
       <p>여기까지는 배터리가 <strong>잘 작동할 때</strong>의 이야기였는데요.
         실제로 뉴스에 배터리가 나오는 건 대부분 반대의 경우입니다. 불이 나거나,
         몇 년 쓰니 주행거리가 줄거나, 겨울에 힘을 못 쓰거나 하는 일들이죠.
@@ -2618,11 +2687,11 @@
         <p><strong>⑤ 완전히 방전시키지 마세요.</strong> 0%까지 쓰고 방치하면 구리 집전체가 녹아 나와
           되돌릴 수 없습니다. 오래 안 쓸 기기일수록 반쯤 충전해 두시는 게 좋습니다.</p>
       </div>
-    </section>
+    </details>
 
     <!-- ══════════ 14 ══════════ -->
-    <section class="sec-card full" id="next">
-      <div class="sec-head"><span class="sec-num">14</span><h2>차세대 기술</h2></div>
+    <details class="sec-card full" id="next">
+      <summary class="sec-head"><span class="sec-num">14</span><h2>차세대 기술</h2><span class="sec-meta">그림 1 · 표 1</span></summary>
       <p>지금의 배터리와 <strong>전고체 배터리</strong>가 어떻게 다른지, 그림으로 보시면 한눈에 들어옵니다.</p>
       <figure class="diagram" data-anim data-phase="charge">
         <svg viewBox="0 0 680 270" role="img"
@@ -2707,11 +2776,11 @@
         </tbody>
       </table>
       </div>
-    </section>
+    </details>
 
     <!-- ══════════ 15 ══════════ -->
-    <section class="sec-card full" id="trend">
-      <div class="sec-head"><span class="sec-num">15</span><h2>최신 연구·산업 트렌드</h2></div>
+    <details class="sec-card full" id="trend">
+      <summary class="sec-head"><span class="sec-num">15</span><h2>최신 연구·산업 트렌드</h2></summary>
 
       <h3 class="t-h">① 전고체 상용화 경쟁</h3>
       <p>주요 업체들이 시험 생산 라인을 세우고 <strong>2027~2030년 사이 양산</strong>을 목표로 제시하고 있는데요.
@@ -2745,11 +2814,11 @@
           기술 일정이나 업체별 계획은 자주 바뀌고, 발표된 목표가 늦춰지는 일도 흔합니다.
           구체적인 시점과 수치는 최신 뉴스로 다시 확인해 보시길 권해 드립니다.</p>
       </div>
-    </section>
+    </details>
 
     <!-- ══════════ 16 ══════════ -->
-    <section class="sec-card full" id="src">
-      <div class="sec-head"><span class="sec-num">16</span><h2>출처·참고자료</h2></div>
+    <details class="sec-card full" id="src">
+      <summary class="sec-head"><span class="sec-num">16</span><h2>출처·참고자료</h2></summary>
 
       <div class="callout">
         <p class="callout-title">이 문서는 이렇게 작성했습니다</p>
@@ -2803,7 +2872,7 @@
             <span class="who">— 전고체·실리콘 음극 등 차세대 기술 연구 원문</span></li>
         </ul>
       </div>
-    </section>
+    </details>
 
     <div class="report-foot">
       <div><span class="dot">●</span> 이차전지 용어집 · 15개 주제 · 그림 21종(눌러서 보는 충전·방전 도해 10종(양극·음극 4종은 과충전·과방전까지))</div>
@@ -2858,6 +2927,60 @@
         var init = fig.getAttribute('data-phase');
         setPhase(keys.indexOf(init) >= 0 ? init : keys[0]);
       });
+    })();
+  </script>
+
+  <script>
+    /* 카드 목록 ↔ 접이식 본문 연결.
+       details/summary 라 자바스크립트가 없어도 펼치기는 됩니다. 여기서는
+       (1) 카드를 눌렀을 때 해당 장을 열고 그 위치로 옮겨 주기
+       (2) 주소에 #cathode 같은 앵커를 달고 들어왔을 때 그 장을 열어 주기
+       (3) 전체 펼치기/접기
+       세 가지만 더합니다. */
+    (function () {
+      function openAndGo(id, push) {
+        var el = document.getElementById(id);
+        if (!el || el.tagName.toLowerCase() !== 'details') return false;
+        el.open = true;
+        // 펼쳐진 뒤의 위치로 옮겨야 해서 다음 프레임에 스크롤한다
+        requestAnimationFrame(function () {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        if (push && history.replaceState) history.replaceState(null, '', '#' + id);
+        return true;
+      }
+
+      document.querySelectorAll('a.gcard').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var id = (a.getAttribute('href') || '').slice(1);
+          if (openAndGo(id, true)) e.preventDefault();
+        });
+      });
+
+      // 주소창에 앵커를 달고 들어온 경우
+      if (location.hash.length > 1) {
+        openAndGo(decodeURIComponent(location.hash.slice(1)), false);
+      }
+      window.addEventListener('hashchange', function () {
+        if (location.hash.length > 1) openAndGo(decodeURIComponent(location.hash.slice(1)), false);
+      });
+
+      var btn = document.getElementById('expandAll');
+      var all = Array.prototype.slice.call(document.querySelectorAll('details.sec-card'));
+      if (btn && all.length) {
+        function sync() {
+          var open = all.every(function (d) { return d.open; });
+          btn.textContent = open ? '전체 접기' : '전체 펼치기';
+          return open;
+        }
+        btn.addEventListener('click', function () {
+          var next = !sync();
+          all.forEach(function (d) { d.open = next; });
+          sync();
+        });
+        all.forEach(function (d) { d.addEventListener('toggle', sync); });
+        sync();
+      }
     })();
   </script>
 </body>

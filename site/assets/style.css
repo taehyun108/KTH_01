@@ -387,6 +387,69 @@ a { color: inherit; text-decoration: none; }
 }
 .sec-card.full { margin-top: 16px; }
 .sec-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+
+/* ── 접이식 본문 ──────────────────────────────────────────────────────
+   용어집이 한 장에 2,900줄까지 늘어나 원하는 대목을 찾기 어려워졌다.
+   <details> 로 접어 두면 JS 없이 동작하고, 요즘 브라우저는 Ctrl+F 로
+   찾을 때 닫힌 것도 자동으로 열어 준다. */
+details.sec-card > summary {
+  cursor: pointer; list-style: none; margin-bottom: 0;
+  padding-right: 26px; position: relative; user-select: none;
+}
+details.sec-card > summary::-webkit-details-marker { display: none; }
+details.sec-card > summary::after {
+  content: "⌄"; position: absolute; right: 2px; top: 50%;
+  transform: translateY(-62%); font-size: 1.15rem; line-height: 1;
+  color: var(--text-faint); transition: transform 0.18s ease;
+}
+details.sec-card[open] > summary::after { transform: translateY(-30%) rotate(180deg); }
+details.sec-card[open] > summary { margin-bottom: 14px; }
+details.sec-card > summary:hover h2 { color: var(--accent-strong); }
+/* 접힌 카드는 여백을 줄여 목록처럼 보이게 */
+details.sec-card:not([open]) { padding: 14px 22px; }
+.sec-meta {
+  margin-left: auto; flex: none; font-size: 0.74rem; color: var(--text-faint);
+  background: #f1f5f9; border-radius: 999px; padding: 3px 9px; white-space: nowrap;
+}
+
+/* ── 카드 목록(목차 대체) ─────────────────────────────────────────── */
+.gc-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 2px 0 12px; }
+.gc-lead { margin: 0; flex: 1 1 260px; color: var(--text-faint); font-size: 0.88rem; }
+.gc-all {
+  flex: none; cursor: pointer; font: inherit; font-size: 0.84rem; font-weight: 600;
+  padding: 7px 14px; border-radius: 999px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text-faint); box-shadow: var(--shadow);
+}
+.gc-all:hover { border-color: var(--accent); color: var(--accent-strong); }
+.gcards {
+  display: grid; gap: 10px; margin-bottom: 6px;
+  grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
+}
+.gcard {
+  display: flex; gap: 11px; align-items: flex-start; text-decoration: none;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 13px 14px; box-shadow: var(--shadow);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.gcard:hover { border-color: var(--accent); transform: translateY(-2px); }
+.gc-icon {
+  flex: none; width: 38px; height: 38px; border-radius: 10px;
+  background: linear-gradient(180deg, #e0f2fe, #f0f9ff); border: 1px solid #bae6fd;
+  display: flex; align-items: center; justify-content: center; font-size: 1.15rem;
+}
+.gc-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.gc-num {
+  font-size: 0.68rem; font-weight: 800; color: var(--accent-strong);
+  letter-spacing: 0.06em;
+}
+.gc-title {
+  font-size: 0.92rem; font-weight: 700; color: #0f172a; line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+.gc-blurb { font-size: 0.79rem; color: var(--text-faint); line-height: 1.5; }
+.gc-meta { font-size: 0.7rem; color: #94a3b8; margin-top: 3px; }
+/* 카드로 눌러 열었을 때 어디로 왔는지 잠깐 표시 */
+details.sec-card:target { border-color: var(--accent); }
 .sec-num {
   flex: none; width: 30px; height: 30px; border-radius: 8px;
   background: var(--accent); color: #fff; font-weight: 800; font-size: 0.82rem;
