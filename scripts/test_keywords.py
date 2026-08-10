@@ -349,6 +349,33 @@ def check_model_order() -> list[str]:
     return out
 
 
+# 쪽지가 없을 때(파이프라인이 도중에 죽었거나 단독 실행) 재생성이 무제한으로
+# 돌면 안 된다. 하루 쿼터가 20건 남짓이라 한 번 무제한으로 돌면 그날 신규 발행이
+# 0 이 된다. 예전에는 워크플로가 REGEN_MAX=0 으로 막아 이 구멍이 안 보였다.
+def check_regen_guard() -> list[str]:
+    import inspect
+    import regenerate
+    src = inspect.getsource(regenerate.regenerate)
+    out = []
+    if "elif limit is None:" not in src:
+        out.append("  [쪽지 없음 + REGEN_MAX 미설정 → 보수적 상한] 안전장치가 사라졌습니다")
+    if "REGEN_MAX_IDLE" not in src:
+        out.append("  [남는 쿼터 상한] REGEN_MAX_IDLE 처리가 사라졌습니다")
+    return out
+
+
+# 멈춘 이유를 정확히 적는가. 쿼터로 멈춘 실행을 '시간 상한'이라고 찍으면
+# 76초 만에 끝난 실행이 '35분 상한에 걸렸다'고 말하게 된다.
+# 원인을 잘못 가리키는 로그는 없는 로그보다 나쁘다 — 실제로 그 때문에 헤맸다.
+def check_stop_reason() -> list[str]:
+    import inspect
+    import run_pipeline
+    src = inspect.getsource(run_pipeline.main)
+    if "일일 쿼터 소진" not in src or "quota_hit else" not in src:
+        return ["  [멈춘 이유를 쿼터/시간으로 구분해 찍어야 함] 구분이 사라졌습니다"]
+    return []
+
+
 def check_shorts() -> list[str]:
     out = []
     for dur, title, expect in SHORTS_CASES:
@@ -379,12 +406,14 @@ def main() -> int:
     fails += check_transient()
     fails += check_quota_parse()
     fails += check_model_order()
+    fails += check_regen_guard()
+    fails += check_stop_reason()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
              + 4     # PC 자막 수집 git 처리
-             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보·보류판정·모델한도 — "
+             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보·보류판정·모델한도·안전장치 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

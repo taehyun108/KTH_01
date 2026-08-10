@@ -82,15 +82,23 @@ def regenerate() -> int:
     # 어느 쪽으로 맞춰도 절반은 손해라, 앞 단계 결과를 보고 자동으로 정하게 한다.
     if limit != 0:
         state = read_state()
+        idle = int(os.getenv("REGEN_MAX_IDLE", "12"))
         if state:
             if state.get("quota_hit") or state.get("left", 0) > 0:
                 print(f"[재생성] 건너뜁니다 — 신규 발행이 아직 "
                       f"{state.get('left', 0)}건 남아 있어 쿼터를 양보합니다.")
                 return 0
-            idle = int(os.getenv("REGEN_MAX_IDLE", "12"))
             limit = idle if limit is None else min(limit, idle)
             print(f"[재생성] 신규 발행이 후보를 다 처리했습니다(신규 {state.get('new', 0)}건) "
                   f"— 남는 쿼터로 최대 {limit}건 교체합니다.")
+        elif limit is None:
+            # 쪽지가 없다 = 앞 단계가 어떻게 끝났는지 모른다(파이프라인이 도중에 죽었거나
+            # 이 스크립트만 단독 실행). 모르는 상태에서 무제한으로 도는 것이 가장 위험하다.
+            #   하루 쿼터가 20건 남짓이라, 한 번 무제한으로 돌면 그날 신규 발행이 0 이 된다.
+            #   예전에는 워크플로가 REGEN_MAX=0 으로 막고 있어 이 구멍이 드러나지 않았다.
+            limit = idle
+            print(f"[재생성] 앞 단계 결과를 알 수 없어 보수적으로 최대 {limit}건만 처리합니다. "
+                  f"(무제한으로 돌리려면 REGEN_MAX 를 직접 지정하세요)")
     print(f"[재생성] 대상 {len(todo)}건 (전체 {len(reports)}건 중 pv<{PROMPT_VERSION})")
 
     updated: list[dict] = []
