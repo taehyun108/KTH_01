@@ -575,8 +575,9 @@ def quota_detail(msg: str) -> str:
         bits.append(f"모델 {model.group(1)}")
     if bits:
         return " · ".join(bits)
-    # 형식이 바뀌었을 수 있으니 원문 일부라도 남긴다 — 없는 것보다 낫다
-    return "상세 미확인 → 원문: " + " ".join(msg.split())[:220]
+    # 형식이 바뀌었을 수 있으니 원문을 남긴다 — 없는 것보다 낫다.
+    # 한도 값은 메시지 뒷부분(violations 배열)에 들어 있어 220자에서 잘리면 못 본다.
+    return "상세 미확인 → 원문: " + " ".join(msg.split())[:900]
 
 
 def _generate(client, model: str, types, prompt: str, max_retries: int = 6):

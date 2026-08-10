@@ -84,7 +84,16 @@ def main() -> int:
     # 안의 '무관' 영상을 매 실행 다시 Gemini 에 물어보며 하루치 쿼터를 거기서 다 쓴다.
     skip_store = seen_store.load()
     blocked = seen_store.blocked_ids(skip_store)
-    print(f"  {seen_store.summary(skip_store)} → 이번 실행 제외 {len(blocked)}건")
+    # 집 PC 가 자막을 올려 준 영상은 '근거부족' 기록이 있어도 즉시 다시 본다.
+    # 그러지 않으면 자막을 애써 올려 놓고 재시도 기한(7일)까지 아무 일도 일어나지
+    # 않는다. 막아 둔 이유(근거가 없다)가 사라졌으니 곧바로 풀어 주는 게 맞다.
+    import transcript_cache
+    freed = {v for v in blocked
+             if skip_store.get(v, {}).get("reason") == seen_store.REASON_NO_CONTEXT
+             and transcript_cache.has(v)}
+    blocked -= freed
+    print(f"  {seen_store.summary(skip_store)} → 이번 실행 제외 {len(blocked)}건"
+          + (f" · 자막이 새로 생겨 {len(freed)}건 해제" if freed else ""))
     fresh = [c for c in candidates
              if c["video_id"] not in seen and c["video_id"] not in blocked]
     # 신규 0건일 때 원인(수집 실패인지 / 이미 처리된 것인지)을 즉시 알 수 있게 남긴다

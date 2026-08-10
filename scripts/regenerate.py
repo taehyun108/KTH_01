@@ -16,7 +16,8 @@ Gemini 일일 무료 할당량이 소진되면 그 지점에서 멈추고, 다�
 
 환경변수:
   GEMINI_API_KEY (필수)
-  REGEN_MAX      (선택) 이번 실행에서 최대 몇 건까지 재생성할지. 미설정이면 할당량이 허용하는 만큼.
+  REGEN_MAX      이번 실행에서 최대 몇 건까지 재생성할지.
+                 0 = 끄기 · 미설정 = 할당량이 허용하는 만큼 · N = 최대 N건.
 """
 from __future__ import annotations
 
@@ -66,12 +67,16 @@ def regenerate() -> int:
     reports = load_existing()
     todo = [r for r in reports if _needs_update(r)]
     todo.sort(key=lambda r: r.get("date", ""))  # 오래된 것부터
-    limit = int(os.getenv("REGEN_MAX", "0") or 0)
+    # 0 = 끄기, 미설정/빈값 = 무제한, N = 최대 N건.
+    # 예전에는 `if limit and ...` 이라 0 이 '무제한'으로 동작했다. 쿼터를 아끼려고
+    # 0 을 넣었더니 정반대로 제한 없이 돌아 신규 발행 몫을 다 써 버렸다.
+    _raw = os.getenv("REGEN_MAX", "").strip()
+    limit = int(_raw) if _raw else None
     print(f"[재생성] 대상 {len(todo)}건 (전체 {len(reports)}건 중 pv<{PROMPT_VERSION})")
 
     updated: list[dict] = []
     for r in todo:
-        if limit and len(updated) >= limit:
+        if limit is not None and len(updated) >= limit:
             break
         vid = r.get("video_id") or _extract_video_id(r.get("video", ""))
         url = r.get("url", "")
