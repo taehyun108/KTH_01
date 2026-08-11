@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-10T23:51:12",
+  "generated_at": "2026-08-11T00:06:47",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-11-트럼프의-다우-2배-호언장담-증시와-경기-부양의-의미",
+      "date": "2026-08-11",
+      "channel": "소수몽키",
+      "title": "트럼프의 '다우 2배' 호언장담, 증시와 경기 부양의 의미",
+      "summary": "트럼프의 미국 경기 부양 의지가 내수와 제조업 중심의 주식 시장에 미치는 영향과 2차전지 산업에 주는 시사점을 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-08-11-트럼프의-다우-2배-호언장담-증시와-경기-부양의-의미.html",
+      "video": "https://www.youtube.com/watch?v=i32LuItC7-s",
+      "video_id": "i32LuItC7-s",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-08-10-금리와-채권의-역사에서-찾는-투자와-자산관리의-지혜",
       "date": "2026-08-10",
