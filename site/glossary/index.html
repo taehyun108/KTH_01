@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>이차전지 용어집 — 이차전지 리포트 아카이브</title>
   <meta name="description" content="양극재·음극재·전구체·전해액·분리막부터 제조공정, 셀·모듈·팩 조립, 배터리 종류, 성능 분석법까지 그림으로 쉽게 풀어 쓴 이차전지 용어집." />
-  <link rel="stylesheet" href="../assets/style.css?v=29" />
+  <link rel="stylesheet" href="../assets/style.css?v=30" />
 </head>
 <body>
   <header class="report-hero">
@@ -91,8 +91,8 @@
       </a>
       <a class="gcard" href="#perf">
         <span class="gc-icon" aria-hidden="true">📖</span>
-        <span class="gc-body"><span class="gc-num">13</span><span class="gc-title">성능을 말할 때 쓰는 용어</span>
-        <span class="gc-blurb">에너지밀도·C-rate·SoC 같은 말 풀이</span><span class="gc-meta">그림 1 · 표 1</span></span>
+        <span class="gc-body"><span class="gc-num">13</span><span class="gc-title">성능 지표 총정리 — 스펙 숫자를 읽는 법</span>
+        <span class="gc-blurb">Ah와 Wh는 왜 다른가 — 네 서랍으로 정리했습니다</span><span class="gc-meta">그림 2 · 표 7</span></span>
       </a>
       <a class="gcard" href="#degrade">
         <span class="gc-icon" aria-hidden="true">🔥</span>
@@ -2967,34 +2967,330 @@
     </details>
     <!-- ══════════ 13 ══════════ -->
     <details class="sec-card full" id="perf">
-      <summary class="sec-head"><span class="sec-num">13</span><h2>성능을 말할 때 쓰는 용어</h2><span class="sec-meta">그림 1 · 표 1</span></summary>
+      <summary class="sec-head"><span class="sec-num">13</span><h2>성능 지표 총정리 — 스펙 숫자를 읽는 법</h2><span class="sec-meta">그림 2 · 표 7</span></summary>
+      <p>성능 지표는 종류가 많아 보이지만, 결국 <strong>네 가지 질문</strong>에 답하는 숫자들입니다.
+        이 네 갈래만 머리에 넣어 두시면 처음 보는 용어도 <strong>어느 서랍에 넣을지</strong> 바로 판단하실 수 있습니다.</p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 680 200" role="img"
+             aria-label="성능 지표는 얼마나 많이 담나, 얼마나 빨리 쓰나, 얼마나 오래 가나, 얼마나 안전한가 네 갈래로 나뉩니다">
+          <text x="340" y="24" text-anchor="middle" font-size="13" font-weight="700" fill="#1a2230">
+            성능 지표는 이 네 서랍에 다 들어갑니다</text>
+          <g font-size="11">
+            <rect x="16" y="42" width="152" height="118" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+            <text x="92" y="68" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1d4ed8">얼마나 많이</text>
+            <text x="92" y="90" text-anchor="middle" fill="#1e40af">용량 · 에너지</text>
+            <text x="92" y="108" text-anchor="middle" fill="#1e40af">에너지밀도</text>
+            <text x="92" y="132" text-anchor="middle" font-size="10.5" fill="#55617a">한 번 충전에</text>
+            <text x="92" y="148" text-anchor="middle" font-size="10.5" fill="#55617a">얼마나 가나</text>
+
+            <rect x="180" y="42" width="152" height="118" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+            <text x="256" y="68" text-anchor="middle" font-size="12.5" font-weight="700" fill="#b91c1c">얼마나 빨리</text>
+            <text x="256" y="90" text-anchor="middle" fill="#991b1b">C-rate · 출력</text>
+            <text x="256" y="108" text-anchor="middle" fill="#991b1b">내부저항</text>
+            <text x="256" y="132" text-anchor="middle" font-size="10.5" fill="#55617a">급속충전과</text>
+            <text x="256" y="148" text-anchor="middle" font-size="10.5" fill="#55617a">가속이 되나</text>
+
+            <rect x="344" y="42" width="152" height="118" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+            <text x="420" y="68" text-anchor="middle" font-size="12.5" font-weight="700" fill="#15803d">얼마나 오래</text>
+            <text x="420" y="90" text-anchor="middle" fill="#166534">사이클 · SOH</text>
+            <text x="420" y="108" text-anchor="middle" fill="#166534">효율 · 자기방전</text>
+            <text x="420" y="132" text-anchor="middle" font-size="10.5" fill="#55617a">몇 년을 쓰고</text>
+            <text x="420" y="148" text-anchor="middle" font-size="10.5" fill="#55617a">얼마나 덜 새나</text>
+
+            <rect x="508" y="42" width="156" height="118" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+            <text x="586" y="68" text-anchor="middle" font-size="12.5" font-weight="700" fill="#c2410c">얼마나 안전</text>
+            <text x="586" y="90" text-anchor="middle" fill="#9a3412">열폭주 개시온도</text>
+            <text x="586" y="108" text-anchor="middle" fill="#9a3412">안전성 시험</text>
+            <text x="586" y="132" text-anchor="middle" font-size="10.5" fill="#55617a">언제 위험해지고</text>
+            <text x="586" y="148" text-anchor="middle" font-size="10.5" fill="#55617a">어떻게 확인하나</text>
+          </g>
+          <text x="340" y="188" text-anchor="middle" font-size="11" fill="#8b93a7">
+            그림 · 처음 보는 지표를 만나면 "이건 몇 번째 서랍인가"부터 물어보시면 됩니다</text>
+        </svg>
+        <figcaption class="fig-cap">지표를 하나씩 외우면 끝이 없습니다.
+          <strong>네 서랍</strong>으로 나눠 두면 새 용어가 나와도 자리를 찾으실 수 있죠.</figcaption>
+      </figure>
+
+      <h3 class="t-h">① 얼마나 많이 담나 — 용량과 에너지</h3>
+      <p>가장 헷갈리는 곳부터 짚겠습니다. <strong>용량(Ah)과 에너지(Wh)는 다릅니다.</strong></p>
+
+      <div class="callout">
+        <div class="callout-title">Ah 와 Wh — 물통으로 설명하면</div>
+        <p><strong>용량(Ah)</strong>은 <strong>물의 양</strong>입니다. 전자가 몇 개나 드나들 수 있는지죠.<br>
+          <strong>전압(V)</strong>은 <strong>물이 떨어지는 높이</strong>입니다. 같은 물이라도 높은 데서 떨어지면 힘이 셉니다.<br>
+          <strong>에너지(Wh)</strong>는 그 둘을 곱한 <strong>실제로 할 수 있는 일</strong>입니다.</p>
+        <p class="t-p"><strong>Wh = Ah × 평균 전압</strong></p>
+        <p>그래서 같은 100Ah짜리라도 LFP(약 3.2V)와 NCM(약 3.7V)은 에너지가 다릅니다.
+          <strong>320Wh 대 370Wh</strong>, 용량이 같아도 에너지는 15% 넘게 벌어지는 셈이죠.
+          전기차 스펙에 kWh를 쓰는 이유가 여기 있습니다 — <strong>Ah만으로는 비교가 안 되기 때문</strong>입니다.</p>
+      </div>
+
       <div class="tbl-scroll">
       <table class="glossary">
-        <thead><tr><th>용어</th><th>쉬운 설명</th><th>비유</th></tr></thead>
+        <thead><tr><th style="width:20%">지표</th><th style="width:34%">무엇인가</th><th style="width:26%">비유</th><th style="width:20%">헷갈리기 쉬운 점</th></tr></thead>
         <tbody>
-          <tr><td class="k">에너지밀도<br /><span class="en">Wh/kg · Wh/L</span></td>
-            <td>같은 <strong>무게(또는 부피)</strong>에 얼마나 많은 에너지를 담는지</td>
-            <td>같은 크기 물통에 물이 얼마나 들어가는지</td></tr>
-          <tr><td class="k">출력밀도<br /><span class="en">W/kg</span></td>
-            <td>얼마나 <strong>빠르게</strong> 힘을 낼 수 있는지</td>
-            <td>물통 주둥이가 얼마나 굵은지</td></tr>
-          <tr><td class="k">C-rate</td>
-            <td>충·방전 <strong>속도</strong> 단위. 1C면 1시간에 다 채우거나 비우는 속도</td>
-            <td>2C면 30분, 0.5C면 2시간</td></tr>
-          <tr><td class="k">사이클 수명</td>
-            <td>충·방전을 <strong>몇 번</strong> 반복할 수 있는지. 보통 용량이 <strong>80%</strong>가 되면 수명 끝</td>
-            <td>배터리의 기대 수명</td></tr>
-          <tr><td class="k">SoC / SoH</td>
-            <td>SoC는 <strong>지금 남은 충전량</strong>(%), SoH는 새것 대비 <strong>남은 건강 상태</strong>(%)</td>
-            <td>SoC=연료 게이지, SoH=차의 노후도</td></tr>
-          <tr><td class="k">쿨롱 효율</td>
-            <td>충전한 만큼 <strong>그대로 꺼내 쓸 수 있는지</strong>의 비율(99.9% 이상이 좋음)</td>
-            <td>물을 부은 만큼 다시 따라낼 수 있는지</td></tr>
-          <tr><td class="k">열폭주<br /><span class="en">Thermal Runaway</span></td>
-            <td>한 곳의 열이 <strong>스스로 열을 키우며</strong> 걷잡을 수 없이 번지는 현상</td>
-            <td>배터리 화재 사고의 핵심 원인</td></tr>
+          <tr><td class="k">용량<br><span class="en">Ah · mAh</span></td>
+            <td>전자를 몇 개나 주고받을 수 있는가. <strong>전압은 빠져 있습니다</strong></td>
+            <td>물통에 담긴 <strong>물의 양</strong></td>
+            <td>용량이 크다고 오래 가는 게 아닙니다. 전압을 곱해야 압니다</td></tr>
+          <tr><td class="k">에너지<br><span class="en">Wh · kWh</span></td>
+            <td>용량 × 평균전압. <strong>실제로 쓸 수 있는 총량</strong>입니다</td>
+            <td>물의 양 × 떨어지는 높이</td>
+            <td>전기차 "77kWh"가 바로 이 값입니다</td></tr>
+          <tr><td class="k">중량 에너지밀도<br><span class="en">Wh/kg</span></td>
+            <td><strong>1kg당</strong> 몇 Wh인가. 무게가 중요한 곳의 핵심 지표입니다</td>
+            <td>같은 무게 가방에 얼마나 담기나</td>
+            <td>전기차 주행거리·드론 비행시간을 좌우합니다</td></tr>
+          <tr><td class="k">부피 에너지밀도<br><span class="en">Wh/L</span></td>
+            <td><strong>1리터당</strong> 몇 Wh인가. 공간이 좁은 곳의 핵심입니다</td>
+            <td>같은 크기 상자에 얼마나 담기나</td>
+            <td>휴대폰·노트북은 무게보다 이쪽이 중요합니다</td></tr>
+          <tr><td class="k">비용량<br><span class="en">mAh/g</span></td>
+            <td><strong>소재 1g</strong>이 담는 용량. 소재를 비교할 때 씁니다</td>
+            <td>재료 자체의 실력</td>
+            <td>흑연 372 · 실리콘은 그 <strong>10배 가까이</strong> 됩니다</td></tr>
         </tbody>
       </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">셀 스펙과 자동차 스펙이 다른 이유 — '팩 효율'</div>
+        <p>셀 하나가 250Wh/kg이라고 해서 자동차 배터리 전체가 250Wh/kg인 것은 아닙니다.
+          셀을 묶으려면 <strong>케이스·배선·냉각판·BMS·볼트</strong>가 들어가는데,
+          이것들은 에너지를 담지 않으면서 무게만 늘립니다.</p>
+        <p>그래서 <strong>팩 기준 에너지밀도는 셀 기준의 60~75% 수준</strong>으로 떨어지는 것이 보통입니다.
+          <strong>셀투팩(CTP)</strong>처럼 모듈 단계를 없애는 기술이 나온 이유가 바로 이 손실을 줄이려는 데 있는데요.
+          기사에서 숫자를 볼 때는 <strong>"셀 기준인가 팩 기준인가"</strong>를 꼭 확인하셔야 합니다.</p>
+      </div>
+
+      <h3 class="t-h">② 얼마나 빨리 쓰나 — 출력과 저항</h3>
+
+      <div class="callout">
+        <div class="callout-title">C-rate — 이것 하나만 제대로 알면 됩니다</div>
+        <p><strong>1C = 배터리를 정확히 1시간에 다 채우거나 비우는 속도</strong>입니다.
+          용량에 대한 <strong>비율</strong>이라, 배터리 크기와 상관없이 쓸 수 있는 것이 장점입니다.</p>
+        <p>· <strong>2C</strong> → 30분 · <strong>0.5C</strong> → 2시간 · <strong>0.1C</strong> → 10시간<br>
+          · 100Ah 배터리에 <strong>1C</strong>는 100A, <strong>3C</strong>는 300A를 뜻합니다</p>
+        <p>급속충전 광고의 "18분 충전"은 대략 <strong>3C 언저리</strong>라는 뜻입니다.
+          다만 실제로는 처음부터 끝까지 그 속도를 유지하지 못하고,
+          <strong>80%를 넘으면 확 느려집니다</strong>. 무리하게 밀어 넣으면 리튬이 금속으로 석출되기 때문입니다.</p>
+      </div>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:20%">지표</th><th style="width:36%">무엇인가</th><th style="width:24%">비유</th><th style="width:20%">알아 두면 좋은 점</th></tr></thead>
+        <tbody>
+          <tr><td class="k">C-rate</td>
+            <td>용량 대비 <strong>충·방전 속도</strong>. 1C면 1시간에 완충·완방</td>
+            <td>물통을 비우는 데 걸리는 시간</td>
+            <td>크기가 달라도 비교할 수 있는 <strong>공통 잣대</strong>입니다</td></tr>
+          <tr><td class="k">출력밀도<br><span class="en">W/kg</span></td>
+            <td>1kg당 <strong>순간에 낼 수 있는 힘</strong></td>
+            <td>물통 주둥이의 굵기</td>
+            <td>가속 성능·회생제동 수용력을 좌우합니다</td></tr>
+          <tr><td class="k">내부저항<br><span class="en">DCIR · mΩ</span></td>
+            <td>전기가 드나들 때 <strong>배터리 스스로가 방해하는 정도</strong></td>
+            <td>빨대가 좁아 잘 안 빨리는 것</td>
+            <td><strong>낮을수록 좋습니다.</strong> 늙으면 올라가고, 추우면 확 올라갑니다</td></tr>
+          <tr><td class="k">율속 특성<br><span class="en">Rate capability</span></td>
+            <td>빠르게 쓸 때 <strong>용량이 얼마나 덜 줄어드는가</strong></td>
+            <td>급히 마셔도 다 마실 수 있나</td>
+            <td>0.1C에서 100이던 것이 3C에서 몇이 남는지로 봅니다</td></tr>
+          <tr><td class="k">임피던스<br><span class="en">EIS</span></td>
+            <td>주파수를 바꿔 가며 잰 저항. <strong>어디가 막혔는지</strong>까지 알려 줍니다</td>
+            <td>청진기로 속을 들여다보기</td>
+            <td>표면 막 문제인지 확산 문제인지 구분할 수 있습니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">내부저항이 왜 그렇게 중요한가요</div>
+        <p>내부저항은 <strong>세 가지를 한꺼번에 망칩니다.</strong></p>
+        <p>· <strong>출력이 줄어듭니다</strong> — 힘껏 당겨도 저항이 깎아먹습니다<br>
+          · <strong>열이 납니다</strong> — 저항에서 새는 에너지는 전부 열이 됩니다<br>
+          · <strong>쓸 수 있는 양이 줄어듭니다</strong> — 전압이 일찍 하한선에 닿아 먼저 멈춥니다</p>
+        <p>겨울에 전기차 주행거리가 줄고 급속충전이 느려지는 것이 바로 이 때문입니다.
+          배터리가 고장 난 게 아니라, <strong>추워서 저항이 올라간 것</strong>입니다.</p>
+      </div>
+
+      <h3 class="t-h">③ 얼마나 오래 가나 — 수명과 효율</h3>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:20%">지표</th><th style="width:36%">무엇인가</th><th style="width:22%">기준</th><th style="width:22%">놓치기 쉬운 점</th></tr></thead>
+        <tbody>
+          <tr><td class="k">사이클 수명</td>
+            <td>충·방전을 <strong>몇 번</strong> 반복할 수 있는가</td>
+            <td>보통 용량이 <strong>80%</strong>가 되는 시점을 수명 끝(EOL)으로 봅니다</td>
+            <td>80%에서 죽는 게 아니라 <strong>보증이 끝날 뿐</strong>입니다</td></tr>
+          <tr><td class="k">캘린더 수명</td>
+            <td>쓰지 않고 <strong>두기만 해도</strong> 줄어드는 수명</td>
+            <td>연 단위로 봅니다</td>
+            <td><strong>덥고 만충 상태로 오래 두는 것</strong>이 가장 나쁩니다</td></tr>
+          <tr><td class="k">SOH<br><span class="en">State of Health</span></td>
+            <td>새것 대비 <strong>지금 남은 건강 상태</strong>(%)</td>
+            <td>보통 용량 기준. 저항 기준으로도 봅니다</td>
+            <td>중고 전기차 값을 좌우하는 숫자입니다</td></tr>
+          <tr><td class="k">쿨롱 효율<br><span class="en">CE</span></td>
+            <td>넣은 전자 대비 <strong>되찾은 전자</strong>의 비율</td>
+            <td><strong>99.9% 이상</strong>이어야 합니다</td>
+            <td>99%면 좋아 보이지만 <strong>1000번이면 반토막</strong>입니다</td></tr>
+          <tr><td class="k">초기 효율<br><span class="en">ICE</span></td>
+            <td><strong>첫 충·방전</strong>에서 되찾은 비율</td>
+            <td>흑연은 높고, 실리콘계는 낮습니다</td>
+            <td>여기서 잃은 리튬은 <strong>영영 안 돌아옵니다</strong></td></tr>
+          <tr><td class="k">에너지 효율<br><span class="en">왕복 효율</span></td>
+            <td>넣은 <strong>Wh</strong> 대비 꺼낸 Wh</td>
+            <td>쿨롱 효율보다 낮게 나옵니다</td>
+            <td>전자는 돌아와도 <strong>전압 차이만큼 손해</strong>이기 때문입니다</td></tr>
+          <tr><td class="k">자기방전</td>
+            <td>가만히 둬도 <strong>저절로 빠지는</strong> 비율</td>
+            <td>리튬이온은 월 몇 % 수준으로 적습니다</td>
+            <td>슈퍼커패시터는 이 값이 훨씬 큽니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">쿨롱 효율 99.9%가 왜 '겨우'가 아닌가</div>
+        <p>한 번에 0.1%씩만 잃는다고 해 봅시다. 별것 아닌 것 같지만
+          <strong>1000번을 돌면 0.999의 1000제곱</strong>, 즉 <strong>약 37%</strong>만 남습니다.
+          99%라면 1000번 뒤에 사실상 아무것도 안 남습니다.</p>
+        <p>배터리 수명이 <strong>곱셈으로 줄어든다</strong>는 것, 이것이 핵심입니다.
+          그래서 연구자들은 99.9%와 99.95%를 두고 다툽니다. 소수점 둘째 자리가 수명을 두 배로 가릅니다.</p>
+      </div>
+
+      <h3 class="t-h">④ 지금 상태를 나타내는 값들</h3>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:20%">지표</th><th style="width:42%">무엇인가</th><th style="width:38%">실제로 어디서 보나</th></tr></thead>
+        <tbody>
+          <tr><td class="k">SOC<br><span class="en">State of Charge</span></td>
+            <td>지금 <strong>얼마나 차 있는가</strong>(%)</td>
+            <td>휴대폰·자동차의 <strong>배터리 잔량 표시</strong>가 이것입니다</td></tr>
+          <tr><td class="k">DOD<br><span class="en">Depth of Discharge</span></td>
+            <td><strong>얼마나 깊이 썼는가</strong>(%). SOC와 반대 방향입니다</td>
+            <td>얕게 쓸수록(낮은 DOD) 수명이 길어집니다</td></tr>
+          <tr><td class="k">OCV<br><span class="en">개방회로전압</span></td>
+            <td>아무것도 연결하지 않고 <strong>가만히 뒀을 때</strong>의 전압</td>
+            <td>SOC를 추정하는 기준값으로 씁니다</td></tr>
+          <tr><td class="k">공칭 전압</td>
+            <td>대표값으로 정한 <strong>평균 전압</strong></td>
+            <td>LFP 약 3.2V · NCM 약 3.6~3.7V</td></tr>
+          <tr><td class="k">컷오프 전압</td>
+            <td>여기까지만 쓰기로 정한 <strong>위아래 한계선</strong></td>
+            <td>넘기면 수명이 급격히 나빠지거나 위험해집니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">"100%까지 충전하지 마세요"가 과학적인 이유</div>
+        <p>만충에 가까울수록 양극에서 리튬이 많이 빠져나가 <strong>구조가 불안정해집니다</strong>.
+          전압도 높아 전해액이 분해되기 쉬운 상태가 됩니다.
+          그래서 같은 횟수를 써도 <strong>20~80% 구간만 오가면 수명이 눈에 띄게 길어집니다</strong>.</p>
+        <p>전기차가 "일상 충전은 80%까지"를 권하는 것도, 제조사가 <strong>실제 용량보다 조금 작게</strong>
+          표기해 상하단을 남겨 두는 것도 전부 같은 이유입니다.</p>
+      </div>
+
+      <h3 class="t-h">⑤ 만들 때 쓰는 지표 — 전극 설계</h3>
+      <p>기사보다는 기술 자료에서 만나는 값들입니다만, <strong>왜 어떤 배터리가 빠르고 어떤 배터리가 오래 가는지</strong>를
+        결정하는 것이 사실 이 숫자들입니다.</p>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:20%">지표</th><th style="width:40%">무엇인가</th><th style="width:40%">올리면 어떻게 되나</th></tr></thead>
+        <tbody>
+          <tr><td class="k">로딩량<br><span class="en">mg/cm²</span></td>
+            <td>집전체 <strong>1cm²에 바른 활물질의 양</strong></td>
+            <td>에너지는 <strong>늘지만</strong>, 두꺼워져 리튬이 다니는 길이 멀어져 <strong>급속충전이 나빠집니다</strong></td></tr>
+          <tr><td class="k">면적 용량<br><span class="en">mAh/cm²</span></td>
+            <td>1cm²가 내는 용량. 로딩량과 짝으로 봅니다</td>
+            <td>같은 면적에서 더 많은 에너지를 뜻합니다</td></tr>
+          <tr><td class="k">전극 밀도<br><span class="en">g/cc</span></td>
+            <td>눌러서 <strong>얼마나 빽빽하게</strong> 만들었는가(압연)</td>
+            <td>부피 에너지밀도는 <strong>오르지만</strong>, 너무 누르면 전해액이 스며들 틈이 사라집니다</td></tr>
+          <tr><td class="k">N/P 비</td>
+            <td>음극 용량 ÷ 양극 용량. 보통 <strong>1보다 조금 크게</strong> 잡습니다</td>
+            <td>음극을 넉넉히 둬야 <strong>리튬이 금속으로 석출되는 것</strong>을 막습니다</td></tr>
+          <tr><td class="k">팽창률<br><span class="en">Swelling</span></td>
+            <td>충전할 때 전극이 <strong>부푸는 정도</strong></td>
+            <td>실리콘은 크게 부풀어, 이를 잡는 것이 실리콘 음극재의 최대 과제입니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">왜 '두껍게 바르면 좋은 것 아닌가요'가 안 통하나</div>
+        <p>활물질을 두껍게 바르면 같은 셀에서 <strong>에너지는 분명히 늘어납니다</strong>.
+          집전체와 분리막 같은 <strong>에너지를 담지 않는 부분의 비중이 줄기</strong> 때문입니다.</p>
+        <p>그런데 리튬이 전극 <strong>맨 아래층까지 오가야 하는 거리</strong>도 함께 길어집니다.
+          급하게 충전하면 위층만 채워지고 아래층은 놀게 되고, 심하면 표면에 리튬이 금속으로 쌓입니다.
+          <strong>에너지와 속도가 정면으로 부딪히는 지점</strong>이 바로 여기입니다.</p>
+      </div>
+
+      <h3 class="t-h">⑥ 안전을 보는 지표</h3>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:22%">지표·시험</th><th style="width:40%">무엇을 보나</th><th style="width:38%">왜 하는가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">열폭주 개시온도</td>
+            <td>스스로 열을 내기 시작하는 <strong>온도</strong></td>
+            <td>높을수록 안전합니다. LFP가 NCM보다 확실히 높습니다</td></tr>
+          <tr><td class="k">관통 시험</td>
+            <td>못으로 <strong>찔러</strong> 강제로 단락시킵니다</td>
+            <td>사고로 셀이 뚫렸을 때를 가정한 시험입니다</td></tr>
+          <tr><td class="k">압착 시험</td>
+            <td><strong>눌러서</strong> 찌그러뜨립니다</td>
+            <td>충돌 상황을 흉내 냅니다</td></tr>
+          <tr><td class="k">과충전 시험</td>
+            <td>한계 전압을 <strong>넘겨서</strong> 계속 충전합니다</td>
+            <td>충전기·BMS가 고장 난 경우를 가정합니다</td></tr>
+          <tr><td class="k">전이 시험<br><span class="en">Propagation</span></td>
+            <td>셀 하나가 터졌을 때 <strong>옆 셀로 번지는지</strong></td>
+            <td>팩 설계의 핵심입니다. 번지지 않으면 대형 화재를 막습니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3 class="t-h">지표끼리는 서로 잡아당깁니다</h3>
+      <p>마지막으로 가장 중요한 이야기입니다.
+        <strong>모든 지표를 동시에 좋게 만들 수는 없습니다.</strong>
+        하나를 올리면 다른 하나가 반드시 내려갑니다.</p>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:26%">이걸 올리면</th><th style="width:32%">이게 내려갑니다</th><th style="width:42%">왜 그런가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">에너지밀도 ↑</td><td>안전성 ↓ · 수명 ↓</td>
+            <td>니켈을 늘리면 많이 담기지만 구조가 불안정해집니다</td></tr>
+          <tr><td class="k">급속충전 ↑</td><td>수명 ↓</td>
+            <td>빨리 밀어 넣을수록 리튬이 금속으로 석출되기 쉽습니다</td></tr>
+          <tr><td class="k">로딩량 ↑<br>(두껍게)</td><td>출력 ↓</td>
+            <td>리튬이 오가야 할 거리가 길어집니다</td></tr>
+          <tr><td class="k">전극 밀도 ↑<br>(빽빽하게)</td><td>출력 ↓</td>
+            <td>전해액이 스며들 틈이 줄어듭니다</td></tr>
+          <tr><td class="k">수명 ↑<br>(20~80%만 사용)</td><td>쓸 수 있는 용량 ↓</td>
+            <td>위아래를 남겨 두는 만큼 실제로 쓰는 양이 줄어듭니다</td></tr>
+          <tr><td class="k">안전성 ↑<br>(LFP 선택)</td><td>에너지밀도 ↓</td>
+            <td>철·인산은 안정적인 대신 전압과 용량이 낮습니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">그래서 스펙을 읽을 때</div>
+        <p>"에너지밀도 300Wh/kg 달성" 같은 발표를 보면 <strong>반드시 되물어 보셔야 합니다.</strong></p>
+        <p>· <strong>셀 기준인가, 팩 기준인가</strong> (팩이면 훨씬 대단한 숫자입니다)<br>
+          · <strong>몇 사이클을 견디는가</strong> (에너지만 높고 300회면 쓸 수 없습니다)<br>
+          · <strong>몇 C로 쓸 수 있는가</strong> (0.1C에서만 나오는 값일 수 있습니다)<br>
+          · <strong>안전 시험은 통과했는가</strong></p>
+        <p>하나만 좋은 숫자는 대개 <strong>다른 것을 희생해서 얻은 값</strong>입니다.
+          지표를 <strong>한 묶음으로 함께 보는 습관</strong>, 이것이 배터리 기사를 제대로 읽는 요령입니다.</p>
       </div>
 
       <h3 class="t-h">충전하면 전압이 오르고, 쓰면 내려갑니다</h3>
