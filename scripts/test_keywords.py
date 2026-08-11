@@ -376,6 +376,93 @@ def check_stop_reason() -> list[str]:
     return []
 
 
+# API 키 없는 예비 추론 경로(GitHub Models).
+# 가장 중요한 성질은 '잘 되는 것'이 아니라 <없거나 실패해도 지금보다 나빠지지 않는 것>이다.
+# Gemini 한도가 바닥나면 넘어가고, 예비도 막히면 예전처럼 QuotaExhausted 로 끝나야 한다.
+def check_gh_fallback() -> list[str]:
+    import json as _json
+    import os
+    import gh_models as G
+    import generate_report as GR
+
+    out = []
+    saved = {k: os.environ.get(k) for k in ("GITHUB_TOKEN", "GH_TOKEN")}
+    saved_gap = GR.MIN_CALL_GAP_SEC
+    try:
+        import requests
+        saved_post = requests.post
+        GR.MIN_CALL_GAP_SEC = 0
+        for k in ("GITHUB_TOKEN", "GH_TOKEN"):
+            os.environ.pop(k, None)
+
+        # 토큰이 없으면 조용히 비활성 — 호출자는 원래 오류를 그대로 받는다
+        G._fails = 0
+        if G.available():
+            out.append("  [토큰 없으면 비활성이어야 함] available()=True")
+        if GR._fallback("p", "테스트") is not None:
+            out.append("  [토큰 없으면 None 이어야 함] _fallback 이 값을 돌려줬습니다")
+
+        # 토큰이 있으면 응답을 정상 파싱한다
+        os.environ["GITHUB_TOKEN"] = "ghs_dummy"
+        G._fails = 0
+
+        class _Ok:
+            status_code = 200
+            text = '{"choices":[{"message":{"content":"{\\"ok\\":1}"}}]}'
+
+            def json(self):
+                return _json.loads(self.text)
+
+        requests.post = lambda *a, **k: _Ok()
+        if G.generate("p") != '{"ok":1}':
+            out.append("  [정상 응답을 그대로 돌려줘야 함] 파싱 결과가 다릅니다")
+
+        # 403(워크플로 권한 누락)이면 조용히 물러나 원래 오류가 살아나야 한다
+        class _Denied:
+            status_code = 403
+            text = '{"message":"Resource not accessible by integration"}'
+
+            def json(self):
+                return _json.loads(self.text)
+
+        requests.post = lambda *a, **k: _Denied()
+        G._fails = 0
+        try:
+            G.generate("p")
+            out.append("  [403 이면 GHModelsUnavailable 이어야 함] 예외가 안 났습니다")
+        except G.GHModelsUnavailable:
+            pass
+
+        # 연속 실패하면 스스로 접는다(같은 이유로 매번 시간 버리지 않도록)
+        G._fails = G.FAIL_LIMIT
+        if G.available():
+            out.append("  [연속 실패 후에는 접어야 함] available()=True")
+    finally:
+        requests.post = saved_post
+        GR.MIN_CALL_GAP_SEC = saved_gap
+        G._fails = 0
+        for k, v in saved.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+    return out
+
+
+# 워크플로에 권한 한 줄이 없으면 예비 경로는 403 으로 전부 실패한다.
+# 코드만 있고 권한이 빠지는 조합이 가장 알아채기 어렵다.
+def check_workflow_models_perm() -> list[str]:
+    from pathlib import Path
+    wf = Path(__file__).resolve().parent.parent / ".github/workflows/archive.yml"
+    text = wf.read_text(encoding="utf-8")
+    out = []
+    if "models: read" not in text:
+        out.append("  [워크플로에 'models: read' 권한이 있어야 함] 사라졌습니다")
+    if "GITHUB_TOKEN" not in text:
+        out.append("  [파이프라인 단계에 GITHUB_TOKEN 을 넘겨야 함] 사라졌습니다")
+    return out
+
+
 def check_shorts() -> list[str]:
     out = []
     for dur, title, expect in SHORTS_CASES:
@@ -408,12 +495,14 @@ def main() -> int:
     fails += check_model_order()
     fails += check_regen_guard()
     fails += check_stop_reason()
+    fails += check_gh_fallback()
+    fails += check_workflow_models_perm()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
              + 4     # PC 자막 수집 git 처리
-             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보·보류판정·모델한도·안전장치 — "
+             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

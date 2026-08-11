@@ -23,6 +23,7 @@ from datetime import date
 from typing import Any
 
 import transcript_cache
+import gh_models
 from config import (GEMINI_MODEL, GEMINI_MODEL_PIN, NEWS_DIR, DRAFTS_DIR,
                     CATEGORIES)
 from org_names import prompt_block
@@ -655,8 +656,34 @@ def quota_detail(msg: str) -> str:
     return "상세 미확인 → 원문: " + " ".join(msg.split())[:900]
 
 
+class _TextResp:
+    """예비 경로의 반환값을 Gemini 응답과 같은 모양으로 감싼다(.text 만 쓰인다)."""
+
+    def __init__(self, text: str) -> None:
+        self.text = text
+
+
+def _fallback(prompt: str, why: str):
+    """Gemini 가 막혔을 때 GitHub Models 로 대신 처리한다.
+
+    쓸 수 없으면 None 을 돌려준다 — 호출자는 원래 오류를 그대로 올린다.
+    즉 예비 경로가 없거나 실패해도 지금까지의 동작에서 나빠지는 것은 없다.
+    """
+    if not gh_models.available():
+        return None
+    print(f"  [예비] Gemini {why} — GitHub Models 로 넘깁니다.", file=sys.stderr)
+    try:
+        return _TextResp(gh_models.generate(prompt))
+    except gh_models.GHModelsUnavailable:
+        return None
+
+
 def _generate(client, model: str, types, prompt: str, max_retries: int = 6):
-    """429 는 서버 제안 대기 후 재시도. <하루> 한도 소진일 때만 실행을 접는다."""
+    """429 는 서버 제안 대기 후 재시도. <하루> 한도 소진일 때만 실행을 접는다.
+
+    하루 한도로 막히면 곧바로 접지 않고 GitHub Models 예비 경로를 먼저 시도한다.
+    (Gemini 무료 한도는 모델에 따라 하루 20건까지 내려간다 — 2026-08-10 실측)
+    """
     global _throttle_fails
     cfg = types.GenerateContentConfig(
         response_mime_type="application/json", temperature=0.4, max_output_tokens=8192)
@@ -687,9 +714,11 @@ def _generate(client, model: str, types, prompt: str, max_retries: int = 6):
                 time.sleep(wait)
                 delay *= 1.4
                 continue
-            # 일일 쿼터 소진: 재시도해도 무의미 → 조기 종료
+            # 일일 쿼터 소진: Gemini 로는 더 못 간다. 접기 전에 예비 경로를 쓴다.
             if is_429 and _is_daily_quota(msg):
                 print(f"  [쿼터] {quota_detail(msg)}", file=sys.stderr)
+                if (alt := _fallback(prompt, "일일 한도 소진")) is not None:
+                    return alt
                 raise QuotaExhausted(msg)
             if is_429 and attempt < max_retries - 1:
                 wait = _retry_delay(msg, delay)
@@ -701,6 +730,8 @@ def _generate(client, model: str, types, prompt: str, max_retries: int = 6):
             # 예전에는 여기서 바로 실행 전체를 접었는데, 그러면 분당 제한 한 번에
             # 남은 후보 100여 건을 통째로 버리게 된다. 이 건만 건너뛰고 계속 간다.
             if is_429:
+                if (alt := _fallback(prompt, "재시도 소진")) is not None:
+                    return alt
                 _throttle_fails += 1
                 print(f"  [429] 재시도 소진 ({_throttle_fails}/{THROTTLE_GIVEUP}) — "
                       f"{quota_detail(msg)}", file=sys.stderr)
@@ -708,6 +739,9 @@ def _generate(client, model: str, types, prompt: str, max_retries: int = 6):
                     print("  [429] 연속으로 막혀 이번 실행은 여기서 마칩니다.", file=sys.stderr)
                     raise QuotaExhausted(msg)
                 raise Throttled(msg)
+            # 쓸 수 있는 모델이 하나도 안 남은 경우(404 폴백 소진)에도 예비 경로를 쓴다
+            if _is_model_gone(msg) and (alt := _fallback(prompt, "쓸 모델 없음")) is not None:
+                return alt
             raise
 
 

@@ -27,6 +27,10 @@ on:
 
 permissions:
   contents: write   # 새 리포트/인덱스를 main 에 커밋
+  # GitHub Models 예비 추론 경로. 이 한 줄이 있어야 GITHUB_TOKEN 이 추론 권한을 얻는다.
+  # 별도 API 키가 필요 없다 — Actions 가 넣어 주는 토큰을 그대로 쓴다.
+  # Gemini 무료 한도가 바닥났을 때만(모델에 따라 하루 20건) 여기로 넘어간다.
+  models: read
 
 jobs:
   build:
@@ -65,6 +69,8 @@ jobs:
       - name: Run pipeline (RSS → 키워드 필터 → Gemini 요약 → HTML → 인덱스)
         env:
           GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
+          # Gemini 한도 소진 시 예비 추론 경로(GitHub Models). 별도 키 없이 쓰는 토큰.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BACKFILL_SINCE: ${{ github.event.inputs.since }}
           # 자막이 막힌 환경에서 Gemini 가 영상을 직접 보고 쓰는 리포트의 실행당 상한.
           # 무료 티어의 하루 영상 처리 한도(약 8시간)를 넘지 않도록 40분 × 5건으로 잡음.
@@ -84,6 +90,7 @@ jobs:
       - name: Regenerate old reports with the new tone (leftover quota)
         env:
           GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # 신규 발행이 후보를 다 처리한 날에만 쓰는 상한
           REGEN_MAX_IDLE: "12"
         run: python scripts/regenerate.py
