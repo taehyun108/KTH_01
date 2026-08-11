@@ -137,6 +137,7 @@ def main() -> int:
         return 0
 
     from config import BACKFILL_SINCE_DEFAULT, MAX_AGE_DAYS
+    import fetch_history
     from fetch_history import collect_history
     since = os.getenv("BACKFILL_SINCE", "").strip() or BACKFILL_SINCE_DEFAULT
     if since:
@@ -151,10 +152,19 @@ def main() -> int:
         hist = collect_history(cutoff)
         merged = {v["video_id"]: v for v in hist}
         merged.update({v["video_id"]: v for v in rss})   # 설명이 있는 RSS 쪽을 우선
+        # ※ 위 update 가 <쇼츠를 되살린다>. RSS 에는 길이가 없어서 표식 없는 쇼츠를
+        #   못 거르는데, 길이를 보고 뺀 hist 쪽 판단을 RSS 가 그대로 덮어쓰기 때문이다.
+        #   2026-08-11 에 이 경로로 쇼츠 한 건이 실제로 발행됐다.
+        #   길이를 아는 쪽의 판단이 이겨야 한다 — 병합 뒤에 한 번 더 걷어 낸다.
+        shorts = fetch_history.short_ids()
+        revived = [v for v in merged if v in shorts]
+        for vid in revived:
+            del merged[vid]
         candidates = sorted(merged.values(),
                             key=lambda v: v.get("published", ""), reverse=True)
+        extra = f" · RSS 가 되살린 쇼츠 {len(revived)}건 제외" if revived else ""
         print(f"1차 후보 — RSS {len(rss)}건 + 최근 {MAX_AGE_DAYS}일 열거 {len(hist)}건 "
-              f"→ 중복 제거 {len(candidates)}건")
+              f"→ 중복 제거 {len(candidates)}건{extra}")
     seen = _seen_video_ids()
     # 발행된 것뿐 아니라 <이미 판정이 끝난> 것도 제외한다. 그러지 않으면 30일 후보 풀
     # 안의 '무관' 영상을 매 실행 다시 Gemini 에 물어보며 하루치 쿼터를 거기서 다 쓴다.

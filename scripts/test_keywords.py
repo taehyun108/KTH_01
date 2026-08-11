@@ -463,6 +463,62 @@ def check_workflow_models_perm() -> list[str]:
     return out
 
 
+# 쇼츠가 RSS 를 타고 되살아나지 않는가.
+#
+# 2026-08-11 사고: 쇼츠 필터는 RSS·yt-dlp 양쪽에 다 있었는데도 쇼츠가 발행됐다.
+#   · RSS 에는 영상 길이가 없어 '#shorts' 표식 없는 쇼츠를 못 거른다
+#   · 길이를 아는 것은 yt-dlp 열거뿐인데
+#   · run_pipeline 이 설명글을 살리려고 RSS 쪽으로 덮어쓰면서
+#     길이로 걸러 낸 판단이 통째로 뒤집혔다
+# '필터가 있다'와 '필터가 이긴다'는 다르다. 후자를 고정한다.
+def check_shorts_not_revived() -> list[str]:
+    import fetch_history
+
+    saved = set(fetch_history.SHORT_IDS)
+    try:
+        fetch_history.SHORT_IDS.clear()
+        # 길이를 아는 쪽(yt-dlp)이 '쇼츠'로 판정한 상태를 만든다
+        fetch_history.SHORT_IDS.add("SHORTVID")
+
+        # 병합 재현 — hist 는 쇼츠를 뺐고, RSS 는 표식이 없어 그대로 들고 있다
+        hist = [{"video_id": "NORMAL", "channel": "A", "title": "본편",
+                 "description": "", "published": "2026-08-11"}]
+        rss = [{"video_id": "NORMAL", "channel": "A", "title": "본편",
+                "description": "설명", "published": "2026-08-11"},
+               {"video_id": "SHORTVID", "channel": "A", "title": "표식 없는 쇼츠",
+                "description": "설명", "published": "2026-08-11"}]
+        merged = {v["video_id"]: v for v in hist}
+        merged.update({v["video_id"]: v for v in rss})
+        for vid in [v for v in merged if v in fetch_history.short_ids()]:
+            del merged[vid]
+
+        out = []
+        if "SHORTVID" in merged:
+            out.append("  [길이로 판정한 쇼츠는 RSS 가 되살리면 안 됨] 후보에 남았습니다")
+        if "NORMAL" not in merged:
+            out.append("  [본편은 남아야 함] 멀쩡한 영상까지 걸러 냈습니다")
+        elif merged["NORMAL"].get("description") != "설명":
+            out.append("  [RSS 설명글은 계속 살려야 함] 설명이 사라졌습니다")
+        return out
+    finally:
+        fetch_history.SHORT_IDS.clear()
+        fetch_history.SHORT_IDS.update(saved)
+
+
+# 실제 파이프라인 코드에 그 방어가 남아 있는가(주석만 남고 코드가 사라지는 것을 막는다)
+def check_shorts_guard_wired() -> list[str]:
+    import inspect
+    import fetch_history
+    import run_pipeline
+
+    out = []
+    if "SHORT_IDS.add" not in inspect.getsource(fetch_history):
+        out.append("  [쇼츠 id 기록] fetch_history 가 더 이상 id 를 남기지 않습니다")
+    if "short_ids()" not in inspect.getsource(run_pipeline.main):
+        out.append("  [병합 뒤 재제거] run_pipeline 이 쇼츠를 다시 걷어 내지 않습니다")
+    return out
+
+
 def check_shorts() -> list[str]:
     out = []
     for dur, title, expect in SHORTS_CASES:
@@ -483,6 +539,8 @@ def main() -> int:
             fails.append(f"  [{want} 함] {title[:46]!r} → hits={hits[:5]}")
 
     fails += check_shorts()
+    fails += check_shorts_not_revived()
+    fails += check_shorts_guard_wired()
     fails += check_names()
     fails += check_evidence()
     fails += check_model_errors()
@@ -501,8 +559,8 @@ def main() -> int:
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
              + 4     # PC 자막 수집 git 처리
-             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로 — "
+             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

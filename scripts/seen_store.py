@@ -25,6 +25,9 @@ from config import DATA_DIR
 SKIPPED_JSON = DATA_DIR / "skipped.json"
 
 REASON_IRRELEVANT = "무관"
+# 쇼츠 — 본편에서 잘라 낸 조각이라 같은 내용이 중복 발행된다. 영상의 성질이므로 영구.
+# (2026-08-11: RSS 병합이 쇼츠를 되살려 한 건이 실제로 발행됐다)
+REASON_SHORTS = "쇼츠"
 REASON_IRRELEVANT_WEAK = "무관(설명글만 보고 판단)"
 REASON_NO_CONTEXT = "근거부족"
 

@@ -12,6 +12,22 @@ from config import CHANNELS, CHANNEL_LOOKBACK, SHORTS_MAX_SECONDS, SHORTS_MARKER
 from fetch_rss import match_keywords
 
 
+# 길이를 보고 '쇼츠'로 판정해 제외한 영상 id.
+#
+# ※ 왜 따로 모아 두는가 (2026-08-11 쇼츠가 발행된 사고)
+#   RSS 에는 영상 길이가 없어서 '#shorts' 표식이 없는 쇼츠를 못 거른다.
+#   길이를 아는 것은 yt-dlp 열거(여기)뿐인데, run_pipeline 이 두 목록을 합칠 때
+#   설명글을 살리려고 RSS 쪽으로 덮어쓴다. 그러면 여기서 애써 뺀 쇼츠가
+#   RSS 를 타고 그대로 되살아난다. 표식 없는 쇼츠는 이 경로로 100% 통과했다.
+#   그래서 '뺐다'는 사실 자체를 남겨 두고, 병합 뒤에 한 번 더 걷어 낸다.
+SHORT_IDS: set[str] = set()
+
+
+def short_ids() -> set[str]:
+    """이번 실행에서 길이 기준으로 쇼츠라고 판정한 영상 id."""
+    return SHORT_IDS
+
+
 def is_short(duration: Any, title: str = "", description: str = "") -> bool:
     """쇼츠인지 판정. 길이를 알면 길이로, 모르면 제목·설명의 표식으로 본다."""
     try:
@@ -64,6 +80,8 @@ def fetch_channel_history(channel: dict[str, str], lookback: int) -> list[dict[s
         # 열거 결과에 duration 이 실려 오므로 길이로 먼저 거른다.
         if is_short(e.get("duration"), e.get("title", ""), e.get("description", "")):
             n_shorts += 1
+            # RSS 가 같은 영상을 되살리지 못하도록 id 를 남긴다(위 SHORT_IDS 주석 참고)
+            SHORT_IDS.add(e["id"])
             continue
         videos.append({
             "video_id": e["id"],
