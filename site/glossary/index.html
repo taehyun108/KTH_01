@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>이차전지 용어집 — 이차전지 리포트 아카이브</title>
   <meta name="description" content="양극재·음극재·전구체·전해액·분리막부터 제조공정, 셀·모듈·팩 조립, 배터리 종류, 성능 분석법까지 그림으로 쉽게 풀어 쓴 이차전지 용어집." />
-  <link rel="stylesheet" href="../assets/style.css?v=30" />
+  <link rel="stylesheet" href="../assets/style.css?v=31" />
 </head>
 <body>
   <header class="report-hero">
@@ -42,12 +42,12 @@
       <a class="gcard" href="#cathode">
         <span class="gc-icon" aria-hidden="true">🟦</span>
         <span class="gc-body"><span class="gc-num">03</span><span class="gc-title">양극재 총정리 — 원자 배열이 성격을 정합니다</span>
-        <span class="gc-blurb">층상·올리빈·스피넬 — 원자 배열이 성격을 가릅니다</span><span class="gc-meta">그림 3 · 표 6</span></span>
+        <span class="gc-blurb">층상·올리빈·스피넬 — 원자 배열이 성격을 가릅니다</span><span class="gc-meta">그림 4 · 표 9</span></span>
       </a>
       <a class="gcard" href="#anode">
         <span class="gc-icon" aria-hidden="true">⬜</span>
         <span class="gc-body"><span class="gc-num">04</span><span class="gc-title">음극재 총정리 — 리튬을 '어떻게' 담느냐</span>
-        <span class="gc-blurb">흑연은 층 사이에 끼워 넣고, 실리콘은 직접 붙습니다</span><span class="gc-meta">그림 1 · 표 2</span></span>
+        <span class="gc-blurb">흑연은 층 사이에 끼워 넣고, 실리콘은 직접 붙습니다</span><span class="gc-meta">그림 2 · 표 5</span></span>
       </a>
       <a class="gcard" href="#elyte">
         <span class="gc-icon" aria-hidden="true">💧</span>
@@ -321,9 +321,70 @@
 
     <!-- ══════════ 03 ══════════ -->
     <details class="sec-card full" id="cathode">
-      <summary class="sec-head"><span class="sec-num">03</span><h2>양극재 총정리 — 원자 배열이 성격을 정합니다</h2><span class="sec-meta">그림 3 · 표 6</span></summary>
-      <p>양극재는 <strong>원자가 어떻게 쌓여 있는지</strong>에 따라 성격이 완전히 달라집니다.
-        리튬이 빠져나갈 <strong>길의 모양</strong> 자체가 달라지기 때문인데요. 그림으로 하나씩 보겠습니다.</p>
+      <summary class="sec-head"><span class="sec-num">03</span><h2>양극재 총정리 — 원자 배열이 성격을 정합니다</h2><span class="sec-meta">그림 4 · 표 9</span></summary>
+      <p>배터리 소재 중에 <strong>가장 비싸고, 성능을 가장 크게 좌우하는 것</strong>이 양극재입니다.
+        셀 재료비에서 차지하는 비중이 <strong>40% 안팎</strong>으로 가장 크고,
+        <strong>담을 수 있는 리튬의 양과 전압</strong>이 사실상 여기서 정해지기 때문인데요.
+        배터리 기사에 NCM·LFP 같은 말이 늘 나오는 이유가 이것입니다.</p>
+
+      <div class="callout">
+        <div class="callout-title">이 장을 읽는 열쇠 — '리튬이 다니는 길의 모양'</div>
+        <p>양극재 이름이 아무리 많아도 <strong>결국 세 가지 길 모양</strong> 중 하나입니다.
+          그 길이 <strong>넓은가 좁은가</strong>, <strong>여러 갈래인가 하나뿐인가</strong>가
+          용량·전압·수명·안전을 전부 결정합니다.</p>
+        <p>이름을 외우려 하지 마시고, <strong>"이건 어떤 길인가"</strong>만 보시면 나머지는 따라옵니다.</p>
+      </div>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 680 250" role="img"
+             aria-label="양극재는 층상 올리빈 스피넬 세 가지 구조로 나뉘며 각각 2차원 판 사이, 1차원 터널, 3차원 그물길로 리튬이 이동합니다">
+          <text x="340" y="24" text-anchor="middle" font-size="13" font-weight="700" fill="#1a2230">
+            양극재는 결국 이 세 가지 길 중 하나입니다</text>
+
+          <g font-size="11">
+            <rect x="18" y="42" width="205" height="170" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+            <text x="120" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1d4ed8">층상 구조</text>
+            <text x="120" y="84" text-anchor="middle" font-size="10.5" fill="#1e40af">NCM · NCA · LCO</text>
+            <g stroke="#60a5fa" stroke-width="3">
+              <line x1="42" y1="104" x2="198" y2="104"/><line x1="42" y1="128" x2="198" y2="128"/>
+              <line x1="42" y1="152" x2="198" y2="152"/>
+            </g>
+            <g fill="#2563eb"><circle cx="70" cy="116" r="5"/><circle cx="110" cy="116" r="5"/>
+              <circle cx="150" cy="116" r="5"/><circle cx="90" cy="140" r="5"/><circle cx="140" cy="140" r="5"/></g>
+            <text x="120" y="178" text-anchor="middle" font-weight="700" fill="#1d4ed8">판과 판 사이 (2차원)</text>
+            <text x="120" y="196" text-anchor="middle" font-size="10.5" fill="#55617a">넓어서 많이·빨리 → 대신 무너지기 쉬움</text>
+
+            <rect x="237" y="42" width="205" height="170" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+            <text x="339" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#15803d">올리빈 구조</text>
+            <text x="339" y="84" text-anchor="middle" font-size="10.5" fill="#166534">LFP · LMFP · LFMP</text>
+            <rect x="262" y="104" width="155" height="48" rx="6" fill="#bbf7d0" stroke="#16a34a"/>
+            <line x1="270" y1="128" x2="410" y2="128" stroke="#15803d" stroke-width="3.5"/>
+            <g fill="#15803d"><circle cx="292" cy="128" r="5"/><circle cx="330" cy="128" r="5"/>
+              <circle cx="368" cy="128" r="5"/></g>
+            <text x="339" y="178" text-anchor="middle" font-weight="700" fill="#15803d">터널 하나 (1차원)</text>
+            <text x="339" y="196" text-anchor="middle" font-size="10.5" fill="#55617a">튼튼하고 안전 → 대신 느리고 적게</text>
+
+            <rect x="456" y="42" width="206" height="170" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+            <text x="559" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#c2410c">스피넬 구조</text>
+            <text x="559" y="84" text-anchor="middle" font-size="10.5" fill="#9a3412">LMO · LNMO</text>
+            <g stroke="#fb923c" stroke-width="2.5">
+              <line x1="486" y1="104" x2="632" y2="152"/><line x1="486" y1="152" x2="632" y2="104"/>
+              <line x1="559" y1="98" x2="559" y2="158"/><line x1="480" y1="128" x2="638" y2="128"/>
+            </g>
+            <g fill="#ea580c"><circle cx="520" cy="116" r="4.5"/><circle cx="596" cy="116" r="4.5"/>
+              <circle cx="559" cy="128" r="4.5"/><circle cx="520" cy="141" r="4.5"/><circle cx="596" cy="141" r="4.5"/></g>
+            <text x="559" y="178" text-anchor="middle" font-weight="700" fill="#c2410c">사방 그물 (3차원)</text>
+            <text x="559" y="196" text-anchor="middle" font-size="10.5" fill="#55617a">아주 빠름 → 대신 더울 때 녹아 나옴</text>
+          </g>
+          <text x="340" y="236" text-anchor="middle" font-size="11" fill="#8b93a7">
+            그림 · 길이 넓으면 많이 담기고, 좁으면 튼튼합니다 — 이 맞바꿈이 양극재의 전부입니다</text>
+        </svg>
+        <figcaption class="fig-cap">넓은 길은 <strong>많이·빨리</strong>, 좁은 길은 <strong>튼튼하게</strong>.
+          이름이 달라도 결국 이 셋 중 하나이고, 성격은 길 모양이 정합니다.</figcaption>
+      </figure>
+
+      <p>이제 셋을 하나씩 보겠습니다. <strong>길이 어떻게 생겼길래 그런 성격이 나오는지</strong>에 집중하시면 됩니다.</p>
+
 
       <!-- 층상구조 -->
       <h3 class="t-h">① 층상구조 — 리튬이 '판과 판 사이'에 누워 있습니다</h3>
@@ -743,12 +804,177 @@
       <p>실제로는 <strong>둘을 섞어 쓰는 경우도 많습니다.</strong> 다결정에 단결정을 일정 비율 섞으면
         큰 알갱이 사이의 빈틈을 작은 알갱이가 메워 밀도를 올리면서 수명도 어느 정도 챙길 수 있거든요.
         어느 하나가 다른 하나를 완전히 밀어내는 구도가 아닙니다.</p>
+
+      <h3 class="t-h">도핑과 코팅 — 양극재에 하는 두 가지 '손질'</h3>
+      <p>같은 NCM811이라도 회사마다 성능이 다릅니다.
+        조성표에는 안 나오는 <strong>손질</strong>이 들어가기 때문인데요. 크게 두 가지입니다.</p>
+
+      <div class="callout">
+        <div class="callout-title">한 문장으로 구분하면</div>
+        <p><strong>도핑은 속을 고치는 일</strong>이고, <strong>코팅은 겉을 감싸는 일</strong>입니다.<br>
+          도핑은 <strong>기둥을 박아 집이 안 무너지게</strong> 하는 것,
+          코팅은 <strong>비옷을 입혀 겉이 안 젖게</strong> 하는 것이라고 보시면 됩니다.</p>
+      </div>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:14%">손질</th><th style="width:28%">무엇을 하나</th><th style="width:29%">왜 하나</th><th style="width:29%">대가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">도핑<br><span class="en">Doping</span></td>
+            <td>결정 <strong>속에</strong> 다른 원소를 아주 조금 섞어 넣습니다
+              (알루미늄·마그네슘·티타늄·지르코늄 등)</td>
+            <td>리튬이 빠져나가도 <strong>판이 주저앉지 않게</strong> 버팀목을 세웁니다.
+              하이니켈일수록 필수에 가깝습니다</td>
+            <td>넣은 원소는 <strong>전기를 저장하지 않습니다</strong>.
+              그만큼 용량이 조금 줄어듭니다</td></tr>
+          <tr><td class="k">코팅<br><span class="en">Coating</span></td>
+            <td>알갱이 <strong>겉면에</strong> 얇은 막을 입힙니다
+              (알루미늄·붕소·코발트 산화물 등)</td>
+            <td>전해액과 <strong>직접 닿는 것을 막습니다</strong>.
+              표면에서 시작되는 부식과 가스 발생을 줄입니다</td>
+            <td>막이 <strong>저항으로 작용</strong>합니다.
+              너무 두꺼우면 출력이 떨어집니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <p class="t-p">두 손질 모두 <strong>용량을 조금 내주고 수명과 안전을 사는</strong> 거래입니다.
+        하이니켈로 갈수록 이 거래가 절실해지는데요. 그 이유를 다음에서 보겠습니다.</p>
+
+      <h3 class="t-h">니켈을 늘리면 왜 점점 어려워질까요</h3>
+      <p>NCM은 니켈 비율을 올릴수록 용량이 커집니다. 그래서 523 → 622 → 811로 흘러왔는데요.
+        <strong>그냥 니켈만 늘리면 되는 일이 아닙니다.</strong> 늘릴 때마다 새 숙제가 따라붙습니다.</p>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:24%">니켈이 많아지면</th><th style="width:38%">무슨 일이 생기나</th><th style="width:38%">그래서 무엇을 하나</th></tr></thead>
+        <tbody>
+          <tr><td class="k">구조가 약해집니다</td>
+            <td>리튬이 많이 빠져나가 <strong>판이 주저앉기</strong> 쉬워집니다</td>
+            <td><strong>도핑</strong>으로 버팀목을 세우고 <strong>단결정</strong>으로 만듭니다</td></tr>
+          <tr><td class="k">리튬 자리를 니켈이 차지합니다</td>
+            <td>니켈과 리튬은 크기가 비슷해 <strong>서로 자리를 바꿔 앉습니다</strong>.
+              그 자리는 리튬이 다니는 길을 막습니다</td>
+            <td>소성 온도를 <strong>낮추고</strong> 순수 <strong>산소</strong>를 불어 넣습니다</td></tr>
+          <tr><td class="k">공기에 예민해집니다</td>
+            <td>수분·이산화탄소와 만나 표면에 <strong>찌꺼기가 생깁니다</strong>.
+              나중에 가스가 나와 셀이 부풉니다</td>
+            <td><strong>건조실</strong>에서 다루고 <strong>코팅</strong>으로 겉을 막습니다</td></tr>
+          <tr><td class="k">열에 약해집니다</td>
+            <td>열폭주 <strong>개시 온도가 낮아집니다</strong></td>
+            <td>냉각 설계를 강화하고 <strong>전이 차단</strong>을 팩에서 잡습니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">"하이니켈이 무조건 좋은 것 아닌가요"</div>
+        <p>에너지만 보면 그렇습니다. 다만 위 표의 숙제를 <strong>전부 풀어야</strong> 실제 제품이 됩니다.
+          같은 811이라도 <strong>도핑·코팅·소성 조건·단결정 여부</strong>에 따라 수명이 크게 갈리는 이유입니다.</p>
+        <p>거꾸로 LFP가 값싸고 안전한 것은 <strong>이 숙제들이 애초에 거의 없기 때문</strong>입니다.
+          철과 인산은 단단히 붙어 있어 리튬이 다 빠져나가도 구조가 버팁니다.</p>
+      </div>
+
+      <h3 class="t-h">양극재의 줄다리기 — 하나를 얻으면 하나를 내줍니다</h3>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:26%">이걸 얻으려면</th><th style="width:30%">이걸 내줘야 합니다</th><th style="width:44%">왜 그런가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">용량 ↑ (니켈 ↑)</td><td>수명 · 안전성 ↓</td>
+            <td>리튬이 많이 빠질수록 구조가 불안정해집니다</td></tr>
+          <tr><td class="k">안전성 ↑ (LFP)</td><td>에너지밀도 ↓</td>
+            <td>철·인산은 안정적인 대신 전압과 용량이 낮습니다</td></tr>
+          <tr><td class="k">전압 ↑ (망간 첨가)</td><td>출력 · 수명 ↓</td>
+            <td>망간은 전자를 내주기 싫어해 전압은 오르지만 잘 안 통하고, 녹아 나오기도 합니다</td></tr>
+          <tr><td class="k">수명 ↑ (단결정)</td><td>출력 ↓ · 원가 ↑</td>
+            <td>알갱이가 커서 리튬이 다닐 거리가 길고, 더 오래 구워야 합니다</td></tr>
+          <tr><td class="k">수명 ↑ (도핑·코팅)</td><td>용량 · 출력 ↓</td>
+            <td>넣은 원소와 막은 저장에 참여하지 않고 저항이 됩니다</td></tr>
+          <tr><td class="k">원가 ↓ (코발트 ↓)</td><td>구조 안정성 ↓</td>
+            <td>코발트는 비싸지만 판을 잡아 주는 역할을 합니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">한 줄로 정리하면</div>
+        <p>양극재에 <strong>정답은 없고 용도만 있습니다.</strong>
+          멀리 가야 하는 차는 니켈을 늘리고, 오래 안전하게 써야 하는 ESS는 LFP로 갑니다.
+          기사에서 "어느 것이 이겼다"는 표현을 보시면,
+          <strong>"어느 쓰임에서"</strong>가 빠져 있는 것은 아닌지 한 번 짚어 보시면 좋겠습니다.</p>
+      </div>
+
     </details>
 
     <!-- ══════════ 04 ══════════ -->
     <details class="sec-card full" id="anode">
-      <summary class="sec-head"><span class="sec-num">04</span><h2>음극재 총정리 — 리튬을 '어떻게' 담느냐</h2><span class="sec-meta">그림 1 · 표 2</span></summary>
-      <p>음극재는 리튬을 담아 두는 <strong>방식</strong>이 소재마다 다른데요. 바로 이 차이가 용량과 수명을 가릅니다.</p>
+      <summary class="sec-head"><span class="sec-num">04</span><h2>음극재 총정리 — 리튬을 '어떻게' 담느냐</h2><span class="sec-meta">그림 2 · 표 5</span></summary>
+      <p>음극재는 양극재만큼 주목받지 못하지만, <strong>급속충전과 수명은 대부분 음극이 결정합니다</strong>.
+        전기차에서 "충전이 느리다", "겨울에 확 준다"는 이야기가 나오면
+        범인은 십중팔구 음극 쪽입니다.</p>
+
+      <div class="callout">
+        <div class="callout-title">이 장을 읽는 열쇠 — '리튬을 어떻게 담느냐'</div>
+        <p>음극이 리튬을 담는 방법은 <strong>딱 세 가지</strong>뿐입니다.
+          <strong>층 사이에 끼워 넣거나</strong>, <strong>아예 한 몸이 되거나</strong>, <strong>겉에 쌓거나</strong>.</p>
+        <p>많이 담는 방법일수록 <strong>몸집 변화가 큽니다.</strong>
+          이 한 문장이 음극재의 용량·수명·팽창 문제를 전부 설명합니다.</p>
+      </div>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 680 260" role="img"
+             aria-label="리튬을 담는 세 가지 방식. 흑연은 층 사이에 끼워 넣어 거의 안 부풀고, 실리콘은 합금이 되어 크게 부풀며, 리튬금속은 표면에 쌓여 가장 많이 담지만 가장 위험합니다">
+          <text x="340" y="24" text-anchor="middle" font-size="13" font-weight="700" fill="#1a2230">
+            리튬을 담는 세 가지 방식 — 많이 담을수록 많이 부풉니다</text>
+
+          <g font-size="11">
+            <rect x="18" y="42" width="205" height="180" rx="10" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+            <text x="120" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0369a1">① 끼워 넣기</text>
+            <text x="120" y="84" text-anchor="middle" font-size="10.5" fill="#075985">흑연 — 삽입(intercalation)</text>
+            <g stroke="#475569" stroke-width="5">
+              <line x1="44" y1="104" x2="196" y2="104"/><line x1="44" y1="126" x2="196" y2="126"/>
+              <line x1="44" y1="148" x2="196" y2="148"/>
+            </g>
+            <g fill="#22c55e"><circle cx="80" cy="115" r="5"/><circle cx="120" cy="115" r="5"/>
+              <circle cx="160" cy="115" r="5"/><circle cx="100" cy="137" r="5"/><circle cx="145" cy="137" r="5"/></g>
+            <text x="120" y="176" text-anchor="middle" font-weight="700" fill="#0369a1">거의 안 부풉니다</text>
+            <text x="120" y="194" text-anchor="middle" font-size="10.5" fill="#55617a">대신 담는 양이 정해져 있습니다</text>
+            <text x="120" y="212" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0284c7">372 mAh/g</text>
+
+            <rect x="237" y="42" width="205" height="180" rx="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+            <text x="339" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#a16207">② 한 몸 되기</text>
+            <text x="339" y="84" text-anchor="middle" font-size="10.5" fill="#854d0e">실리콘 — 합금(alloying)</text>
+            <circle cx="300" cy="128" r="22" fill="#fde68a" stroke="#ca8a04" stroke-width="2"/>
+            <text x="300" y="132" text-anchor="middle" font-size="10" fill="#854d0e">Si</text>
+            <circle cx="390" cy="128" r="38" fill="#fcd34d" stroke="#ca8a04" stroke-width="2" stroke-dasharray="4 3"/>
+            <text x="390" y="126" text-anchor="middle" font-size="10" fill="#854d0e">Li-Si</text>
+            <text x="390" y="141" text-anchor="middle" font-size="9.5" fill="#a16207">부풂</text>
+            <path d="M328 128 L348 128" stroke="#ca8a04" stroke-width="2.5"/>
+            <text x="339" y="176" text-anchor="middle" font-weight="700" fill="#a16207">3~4배로 부풉니다</text>
+            <text x="339" y="194" text-anchor="middle" font-size="10.5" fill="#55617a">부서지고 막이 계속 새로 생깁니다</text>
+            <text x="339" y="212" text-anchor="middle" font-size="10.5" font-weight="700" fill="#ca8a04">흑연의 약 10배 용량</text>
+
+            <rect x="456" y="42" width="206" height="180" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+            <text x="559" y="66" text-anchor="middle" font-size="12.5" font-weight="700" fill="#b91c1c">③ 겉에 쌓기</text>
+            <text x="559" y="84" text-anchor="middle" font-size="10.5" fill="#991b1b">리튬금속 — 석출(plating)</text>
+            <rect x="486" y="140" width="146" height="14" rx="3" fill="#94a3b8"/>
+            <g fill="#f87171">
+              <rect x="496" y="122" width="10" height="18" rx="2"/><rect x="524" y="112" width="10" height="28" rx="2"/>
+              <rect x="552" y="118" width="10" height="22" rx="2"/><rect x="580" y="106" width="10" height="34" rx="2"/>
+              <rect x="608" y="124" width="10" height="16" rx="2"/>
+            </g>
+            <text x="559" y="176" text-anchor="middle" font-weight="700" fill="#b91c1c">뾰족하게 자랍니다</text>
+            <text x="559" y="194" text-anchor="middle" font-size="10.5" fill="#55617a">분리막을 뚫으면 곧바로 화재입니다</text>
+            <text x="559" y="212" text-anchor="middle" font-size="10.5" font-weight="700" fill="#dc2626">용량은 가장 큽니다</text>
+          </g>
+          <text x="340" y="248" text-anchor="middle" font-size="11" fill="#8b93a7">
+            그림 · 왼쪽에서 오른쪽으로 갈수록 많이 담기고, 그만큼 다루기 어려워집니다</text>
+        </svg>
+        <figcaption class="fig-cap">흑연이 아직도 주력인 이유는 용량이 커서가 아니라
+          <strong>몸집이 거의 안 변해서</strong>입니다. 변하지 않으니 오래 갑니다.</figcaption>
+      </figure>
+
 
       <figure class="diagram" data-anim data-phase="charge" data-phases="charge,discharge,overcharge,overdischarge">
         <svg viewBox="0 0 680 430" role="img"
@@ -924,6 +1150,103 @@
         <p>실리콘이 부풀 때 이 막이 <strong>깨졌다 다시 생기기를 반복</strong>하면서 리튬을 계속 잡아먹는 것,
           이게 바로 실리콘 수명 문제의 진짜 원인입니다.</p>
       </div>
+      <h3 class="t-h">실리콘을 넣는 세 가지 방법 — 부푸는 것을 어떻게 견디나</h3>
+      <p>실리콘은 흑연의 10배 가까이 담습니다. 문제는 <strong>담을 때마다 3~4배로 부푼다</strong>는 것인데요.
+        그대로 쓰면 몇 번 만에 가루가 됩니다. 그래서 실제 제품은 <strong>부푸는 것을 어떻게든 달래는</strong> 방식으로 만듭니다.</p>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:16%">방식</th><th style="width:30%">어떻게 하나</th><th style="width:27%">장점</th><th style="width:27%">한계</th></tr></thead>
+        <tbody>
+          <tr><td class="k">SiOx<br><span class="en">실리콘 산화물</span></td>
+            <td>실리콘에 <strong>산소를 붙여</strong> 둡니다. 산소가 만든 뼈대가 부푸는 힘을 붙잡습니다</td>
+            <td>부풂이 <strong>크게 줄어듭니다.</strong> 현재 가장 널리 쓰입니다</td>
+            <td>첫 충전 때 리튬이 산소에 붙들려
+              <strong>초기 효율이 낮습니다</strong></td></tr>
+          <tr><td class="k">Si-C<br><span class="en">실리콘 탄소 복합</span></td>
+            <td>탄소 구조물의 <strong>빈 구멍 속에</strong> 실리콘을 채워 넣습니다</td>
+            <td>구멍이 부푸는 여유 공간이 됩니다.
+              <strong>용량과 수명을 함께</strong> 노립니다</td>
+            <td>만들기 까다롭고 <strong>비쌉니다</strong></td></tr>
+          <tr><td class="k">나노화</td>
+            <td>실리콘을 <strong>아주 잘게</strong> 만듭니다</td>
+            <td>작으면 부풀어도 <strong>덜 깨집니다</strong></td>
+            <td>표면이 넓어져 <strong>막이 더 많이 생기고</strong> 값이 비쌉니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">왜 실리콘을 조금만 섞을까요</div>
+        <p>실리콘 100%로 만들지 않고 <strong>흑연에 몇 % 섞는</strong> 것이 지금의 방식입니다.
+          흑연이 <strong>거의 안 부푸는 뼈대</strong> 역할을 해 주기 때문인데요.
+          실리콘이 부풀어도 흑연이 전체 모양을 붙들어 줍니다.</p>
+        <p>섞는 비율을 1%씩 올리는 것이 업계의 승부처입니다.
+          <strong>몇 퍼센트를 넣느냐가 곧 주행거리</strong>이고, 동시에 <strong>수명과의 싸움</strong>입니다.</p>
+      </div>
+
+      <h3 class="t-h">리튬 석출 — 음극에서 가장 위험한 일</h3>
+      <p>급속충전 이야기에 늘 따라 나오는 말입니다. 무엇인지 정확히 짚고 가겠습니다.</p>
+
+      <div class="callout">
+        <div class="callout-title">'들어가야 할 리튬이 겉에 쌓이는 것'</div>
+        <p>정상이라면 리튬은 흑연 <strong>층 사이로 들어가야</strong> 합니다.
+          그런데 <strong>밀어 넣는 속도가 들어가는 속도보다 빠르면</strong>
+          미처 못 들어간 리튬이 표면에 <strong>금속 상태로 쌓입니다</strong>. 이것이 리튬 석출(플레이팅)입니다.</p>
+        <p>쌓인 리튬은 두 가지로 나쁩니다.<br>
+          · 다시 돌아가지 못하는 것이 많아 <strong>용량이 영구히 줄어듭니다</strong><br>
+          · 뾰족하게 자라 <strong>분리막을 뚫으면</strong> 그대로 내부 단락, 곧 화재입니다</p>
+      </div>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:30%">이럴 때 잘 생깁니다</th><th style="width:70%">왜 그런가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">추울 때</td>
+            <td>리튬이 층 사이로 들어가는 속도가 <strong>뚝 떨어집니다</strong>.
+              겨울철 급속충전이 느려지는 것은 고장이 아니라 <strong>이걸 피하려는 보호 동작</strong>입니다</td></tr>
+          <tr><td class="k">충전이 거의 다 됐을 때</td>
+            <td>빈자리가 얼마 안 남아 들어갈 곳이 없습니다.
+              <strong>80% 넘으면 충전이 느려지는</strong> 이유입니다</td></tr>
+          <tr><td class="k">너무 빠르게 충전할 때</td>
+            <td>공급이 수용을 앞지릅니다. 높은 C-rate가 위험한 이유입니다</td></tr>
+          <tr><td class="k">음극이 모자랄 때</td>
+            <td>양극이 내보낸 리튬을 다 받아 낼 자리가 없습니다.
+              <strong>N/P 비를 1보다 크게</strong> 잡는 이유입니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <p class="t-p">"급속충전을 자주 하면 배터리에 안 좋다"는 말의 실체가 바로 이것입니다.
+        <strong>막연한 걱정이 아니라 구체적인 현상</strong>이고,
+        그래서 요즘 차들은 온도와 충전량을 봐 가며 <strong>스스로 속도를 조절합니다</strong>.</p>
+
+      <h3 class="t-h">음극재의 줄다리기</h3>
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:28%">이걸 얻으려면</th><th style="width:28%">이걸 내줘야 합니다</th><th style="width:44%">왜 그런가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">용량 ↑ (실리콘 ↑)</td><td>수명 ↓</td>
+            <td>부풀었다 줄기를 반복하며 깨지고, 막이 계속 새로 생겨 리튬을 잡아먹습니다</td></tr>
+          <tr><td class="k">급속충전 ↑</td><td>수명 ↓ · 안전 ↓</td>
+            <td>밀어 넣는 속도가 앞지르면 리튬이 겉에 쌓입니다</td></tr>
+          <tr><td class="k">에너지 ↑ (두껍게)</td><td>급속충전 ↓</td>
+            <td>리튬이 아래층까지 내려갈 거리가 길어집니다</td></tr>
+          <tr><td class="k">초기 효율 ↑</td><td>부풂 제어 ↓</td>
+            <td>SiOx는 산소로 부풂을 잡는 대신 첫 충전에서 리튬을 붙들어 둡니다</td></tr>
+          <tr><td class="k">원가 ↓ (천연흑연)</td><td>수명 · 급속충전 ↓</td>
+            <td>인조흑연이 구조가 고르고 튼튼하지만 훨씬 비쌉니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">한 줄로 정리하면</div>
+        <p>음극은 <strong>"얼마나 담느냐"보다 "얼마나 안 변하느냐"</strong>의 싸움입니다.
+          흑연이 아직 주력인 것도, 실리콘을 조금씩만 섞는 것도,
+          급속충전에 상한을 두는 것도 전부 <strong>변하지 않게 붙들어 두려는</strong> 노력입니다.</p>
+      </div>
+
     </details>
     <!-- ══════════ 05 ══════════ -->
     <details class="sec-card full" id="elyte">
