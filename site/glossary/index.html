@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>이차전지 용어집 — 이차전지 리포트 아카이브</title>
   <meta name="description" content="양극재·음극재·전구체·전해액·분리막부터 제조공정, 셀·모듈·팩 조립, 배터리 종류, 성능 분석법까지 그림으로 쉽게 풀어 쓴 이차전지 용어집." />
-  <link rel="stylesheet" href="../assets/style.css?v=28" />
+  <link rel="stylesheet" href="../assets/style.css?v=29" />
 </head>
 <body>
   <header class="report-hero">
@@ -57,7 +57,7 @@
       <a class="gcard" href="#matproc">
         <span class="gc-icon" aria-hidden="true">⛏️</span>
         <span class="gc-body"><span class="gc-num">06</span><span class="gc-title">소재는 어떻게 만들까 — 광산에서 가루까지</span>
-        <span class="gc-blurb">땅속 광석이 가루가 되기까지 8단계</span><span class="gc-meta">그림 6 · 표 1</span></span>
+        <span class="gc-blurb">땅속 광석이 가루가 되기까지 8단계</span><span class="gc-meta">그림 7 · 표 3</span></span>
       </a>
       <a class="gcard" href="#cellproc">
         <span class="gc-icon" aria-hidden="true">🏭</span>
@@ -79,34 +79,39 @@
         <span class="gc-body"><span class="gc-num">10</span><span class="gc-title">리튬이온 말고 다른 전지들</span>
         <span class="gc-blurb">납축·니켈수소·나트륨이온·바나듐 흐름전지</span><span class="gc-meta">그림 4 · 표 1</span></span>
       </a>
+      <a class="gcard" href="#storage">
+        <span class="gc-icon" aria-hidden="true">⚡</span>
+        <span class="gc-body"><span class="gc-num">11</span><span class="gc-title">배터리 말고 다른 저장장치들 — 슈퍼커패시터부터 양수발전까지</span>
+        <span class="gc-blurb">빨리 쏟는 것과 많이 담는 것은 서로 반대로 갑니다</span><span class="gc-meta">그림 2 · 표 4</span></span>
+      </a>
       <a class="gcard" href="#analysis">
         <span class="gc-icon" aria-hidden="true">🔬</span>
-        <span class="gc-body"><span class="gc-num">11</span><span class="gc-title">성능은 어떻게 검증할까 — 분석 방법</span>
+        <span class="gc-body"><span class="gc-num">12</span><span class="gc-title">성능은 어떻게 검증할까 — 분석 방법</span>
         <span class="gc-blurb">가루부터 완성된 셀까지, 단계별 검사법</span><span class="gc-meta">그림 1 · 표 8</span></span>
       </a>
       <a class="gcard" href="#perf">
         <span class="gc-icon" aria-hidden="true">📖</span>
-        <span class="gc-body"><span class="gc-num">12</span><span class="gc-title">성능을 말할 때 쓰는 용어</span>
+        <span class="gc-body"><span class="gc-num">13</span><span class="gc-title">성능을 말할 때 쓰는 용어</span>
         <span class="gc-blurb">에너지밀도·C-rate·SoC 같은 말 풀이</span><span class="gc-meta">그림 1 · 표 1</span></span>
       </a>
       <a class="gcard" href="#degrade">
         <span class="gc-icon" aria-hidden="true">🔥</span>
-        <span class="gc-body"><span class="gc-num">13</span><span class="gc-title">배터리는 왜 불이 나고, 왜 늙을까</span>
+        <span class="gc-body"><span class="gc-num">14</span><span class="gc-title">배터리는 왜 불이 나고, 왜 늙을까</span>
         <span class="gc-blurb">왜 불이 나고, 왜 수명과 출력이 줄어드나</span><span class="gc-meta">그림 2 · 표 3</span></span>
       </a>
       <a class="gcard" href="#next">
         <span class="gc-icon" aria-hidden="true">🧊</span>
-        <span class="gc-body"><span class="gc-num">14</span><span class="gc-title">차세대 기술</span>
+        <span class="gc-body"><span class="gc-num">15</span><span class="gc-title">차세대 기술</span>
         <span class="gc-blurb">전고체 배터리는 무엇이 다른가</span><span class="gc-meta">그림 1 · 표 1</span></span>
       </a>
       <a class="gcard" href="#trend">
         <span class="gc-icon" aria-hidden="true">📈</span>
-        <span class="gc-body"><span class="gc-num">15</span><span class="gc-title">최신 연구·산업 트렌드</span>
+        <span class="gc-body"><span class="gc-num">16</span><span class="gc-title">최신 연구·산업 트렌드</span>
         <span class="gc-blurb">캐즘·LFP 전환·ESS·공급망 재편</span></span>
       </a>
       <a class="gcard" href="#src">
         <span class="gc-icon" aria-hidden="true">📚</span>
-        <span class="gc-body"><span class="gc-num">16</span><span class="gc-title">출처·참고자료</span>
+        <span class="gc-body"><span class="gc-num">17</span><span class="gc-title">출처·참고자료</span>
         <span class="gc-blurb">어디서 가져온 내용인지</span></span>
       </a>
     </nav>
@@ -983,7 +988,7 @@
 
     <!-- ══════════ 06 ══════════ -->
     <details class="sec-card full" id="matproc">
-      <summary class="sec-head"><span class="sec-num">06</span><h2>소재는 어떻게 만들까 — 광산에서 가루까지</h2><span class="sec-meta">그림 6 · 표 1</span></summary>
+      <summary class="sec-head"><span class="sec-num">06</span><h2>소재는 어떻게 만들까 — 광산에서 가루까지</h2><span class="sec-meta">그림 7 · 표 3</span></summary>
       <p>양극재 한 줌이 만들어지기까지는 <strong>땅속 광석부터 8단계</strong>를 거쳐야 합니다.
         뉴스에 자주 나오는 '전구체', '공침', '소성'이 각각 어느 단계인지 그림으로 보겠습니다.</p>
 
@@ -1170,6 +1175,196 @@
         </svg>
         <figcaption class="fig-cap">그림 7. LFP·NFPP 제조 — 분쇄해 혼합하고 산소 없이 굽는 단순한 방식(고상법)</figcaption>
       </figure>
+
+      <h3 class="t-h">전구체가 뭔가요 — 양극재의 '반죽'입니다</h3>
+      <p><strong>전구체(前驅體, precursor)</strong>는 말 그대로 <strong>앞서 가는 몸통</strong>입니다.
+        리튬을 넣기 <em>직전 단계</em>의 금속 가루를 가리키는데요.
+        NCM으로 치면 니켈·코발트·망간이 이미 정해진 비율로 <strong>한 알갱이 안에 고르게 섞여 굳은</strong>
+        수산화물 가루, 화학식으로는 Ni-Co-Mn(OH)₂ 입니다.</p>
+
+      <div class="callout">
+        <div class="callout-title">왜 리튬을 나중에 넣나요</div>
+        <p>니켈·코발트·망간 <strong>세 금속을 원자 수준에서 고르게 섞는 일</strong>이 가장 어렵습니다.
+          가루끼리 그냥 섞으면 니켈 덩어리, 망간 덩어리가 따로 놀아 성능이 들쭉날쭉해집니다.
+          그래서 <strong>물에 녹여 한꺼번에 가라앉히는</strong> 방법으로 먼저 균일하게 섞어 두고,
+          리튬은 마지막에 굽는 단계에서 스며들게 합니다.
+          <strong>섞는 일과 굽는 일을 분리한 것</strong>, 이것이 전구체 공정의 핵심입니다.</p>
+      </div>
+
+      <p class="t-p"><strong>"전구체가 8할"</strong>이라는 말이 업계에 있습니다.
+        최종 양극재의 <strong>입자 크기·동그란 정도·조성 균일도</strong>가 사실상 전구체 단계에서 결정되기 때문인데요.
+        뒤에서 아무리 잘 구워도 전구체가 나쁘면 좋은 양극재가 나오지 않습니다.</p>
+
+      <h3 class="t-h">NCM 전구체 만들기 — 물에 녹여 '동시에' 가라앉힙니다</h3>
+      <p>이 방법을 <strong>공침법(共沈法, co-precipitation)</strong>이라 부릅니다.
+        <strong>함께(共) 가라앉힌다(沈)</strong>는 뜻 그대로입니다.</p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 680 400" role="img"
+             aria-label="NCM 전구체 공침 공정. 황산니켈 황산코발트 황산망간을 물에 녹여 반응기에 넣고 가성소다와 암모니아를 함께 넣어 수십 시간 저으면 구형 수산화물 입자가 자라며, 씻고 말려 전구체가 됩니다">
+          <defs>
+            <marker id="pc1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+              <path d="M0 0 L10 5 L0 10 z" fill="#0ea5e9"/>
+            </marker>
+          </defs>
+
+          <text x="24" y="26" font-size="13" font-weight="700" fill="#0d9488">① 녹이기 — 금속을 물에 푼다</text>
+          <g font-size="11">
+            <rect x="20" y="38" width="150" height="76" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+            <text x="95" y="58" text-anchor="middle" font-weight="700" fill="#1a2230">금속 용액</text>
+            <text x="95" y="76" text-anchor="middle" fill="#55617a">황산니켈 NiSO₄</text>
+            <text x="95" y="91" text-anchor="middle" fill="#55617a">황산코발트 CoSO₄</text>
+            <text x="95" y="106" text-anchor="middle" fill="#55617a">황산망간 MnSO₄</text>
+          </g>
+
+          <text x="220" y="26" font-size="13" font-weight="700" fill="#7c3aed">② 반응기 — 여기서 알갱이가 자란다</text>
+          <g font-size="11">
+            <rect x="216" y="38" width="230" height="150" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+            <text x="331" y="58" text-anchor="middle" font-weight="700" fill="#6d28d9">교반 반응기 (50~60℃)</text>
+            <text x="331" y="78" text-anchor="middle" fill="#55617a">가성소다 NaOH — 가라앉히는 힘</text>
+            <text x="331" y="95" text-anchor="middle" fill="#55617a">암모니아 NH₃ — 천천히 자라게</text>
+            <circle cx="290" cy="130" r="20" fill="#ddd6fe" stroke="#7c3aed"/>
+            <circle cx="290" cy="130" r="12" fill="#c4b5fd"/>
+            <circle cx="290" cy="130" r="5" fill="#8b5cf6"/>
+            <text x="290" y="167" text-anchor="middle" font-size="10" fill="#6d28d9">씨앗부터 층층이</text>
+            <text x="385" y="126" text-anchor="middle" font-size="10.5" fill="#55617a">pH·온도·회전수를</text>
+            <text x="385" y="141" text-anchor="middle" font-size="10.5" fill="#55617a">계속 일정하게</text>
+            <text x="385" y="158" text-anchor="middle" font-size="10.5" font-weight="700" fill="#6d28d9">10~40시간</text>
+          </g>
+
+          <text x="490" y="26" font-size="13" font-weight="700" fill="#15803d">③ 마무리</text>
+          <g font-size="11">
+            <rect x="486" y="38" width="170" height="76" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+            <text x="571" y="58" text-anchor="middle" font-weight="700" fill="#15803d">씻기 → 말리기</text>
+            <text x="571" y="78" text-anchor="middle" fill="#55617a">남은 황산염·소다를</text>
+            <text x="571" y="93" text-anchor="middle" fill="#55617a">깨끗이 헹궈 냅니다</text>
+            <text x="571" y="108" text-anchor="middle" fill="#166534" font-weight="700">→ 전구체 완성</text>
+          </g>
+
+          <g stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#pc1)">
+            <path d="M174 76 L211 76"/><path d="M450 76 L481 76"/>
+          </g>
+
+          <line x1="20" y1="212" x2="660" y2="212" stroke="#e3e8ef" stroke-width="1.5"/>
+
+          <text x="24" y="238" font-size="13" font-weight="700" fill="#ea580c">④ 리튬과 섞어 굽기 — 여기서 비로소 양극재</text>
+          <g font-size="11">
+            <rect x="20" y="250" width="150" height="70" rx="8" fill="#fef9c3" stroke="#ca8a04"/>
+            <text x="95" y="272" text-anchor="middle" font-weight="700" fill="#a16207">전구체 + 리튬</text>
+            <text x="95" y="291" text-anchor="middle" fill="#55617a">수산화리튬 LiOH</text>
+            <text x="95" y="307" text-anchor="middle" fill="#55617a">또는 탄산리튬 Li₂CO₃</text>
+
+            <rect x="216" y="250" width="230" height="70" rx="8" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+            <text x="331" y="272" text-anchor="middle" font-weight="700" fill="#ea580c">소성(굽기) 700~900℃</text>
+            <text x="331" y="291" text-anchor="middle" fill="#c2410c">산소를 불어 넣으며</text>
+            <text x="331" y="307" text-anchor="middle" fill="#55617a">리튬이 알갱이 속으로 스며듭니다</text>
+
+            <rect x="486" y="250" width="170" height="70" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+            <text x="571" y="272" text-anchor="middle" font-weight="700" fill="#0284c7">분쇄 → 코팅</text>
+            <text x="571" y="291" text-anchor="middle" fill="#55617a">뭉친 것을 풀고</text>
+            <text x="571" y="307" text-anchor="middle" fill="#0369a1" font-weight="700">→ NCM 양극재</text>
+          </g>
+          <g stroke="#0ea5e9" stroke-width="2.5" marker-end="url(#pc1)">
+            <path d="M174 285 L211 285"/><path d="M450 285 L481 285"/>
+          </g>
+
+          <text x="340" y="352" text-anchor="middle" font-size="11.5" fill="#e11d48">
+            ⚠ 니켈이 많을수록(하이니켈) <tspan font-weight="700">순수 산소</tspan>가 필요하고 굽는 온도는 오히려 <tspan font-weight="700">낮춰야</tspan> 합니다</text>
+          <text x="340" y="374" text-anchor="middle" font-size="11" fill="#55617a">
+            니켈은 3가로 붙들어 두기 까다로운 원소여서, 온도가 높으면 리튬 자리로 끼어들어 길을 막습니다</text>
+          <text x="340" y="392" text-anchor="middle" font-size="10.5" fill="#8b93a7">
+            그림 · NCM 전구체 공침 → 리튬 혼합 → 소성</text>
+        </svg>
+        <figcaption class="fig-cap">전구체는 <strong>리튬을 넣기 전 단계</strong>입니다.
+          세 금속을 물속에서 고르게 섞어 동그란 알갱이로 키운 뒤, 리튬은 마지막에 구우면서 넣습니다.</figcaption>
+      </figure>
+
+      <div class="callout">
+        <div class="callout-title">암모니아는 왜 넣나요 — '천천히 자라게' 하는 브레이크</div>
+        <p>가성소다만 넣으면 금속이 <strong>순식간에</strong> 가라앉아 버립니다.
+          그러면 모양이 제각각인 부스러기가 생깁니다.
+          암모니아는 금속 이온을 잠깐 붙들었다 놓아 주는 <strong>중간 관리자(착화제)</strong> 역할을 하는데요.
+          덕분에 알갱이가 <strong>씨앗에서부터 층층이 천천히</strong> 자라 속이 꽉 찬 공 모양이 됩니다.
+          공 모양이어야 전극에 빽빽하게 채울 수 있고, 충·방전으로 부풀었다 줄어도 잘 깨지지 않습니다.</p>
+      </div>
+
+      <h3 class="t-h">LFP는 전구체를 따로 안 만듭니다 — 그래서 쌉니다</h3>
+      <p>LFP는 철과 인산이 원료라 <strong>비싼 금속을 정밀하게 섞을 필요가 없습니다</strong>.
+        니켈·코발트·망간처럼 비율을 원자 단위로 맞춰야 하는 문제가 애초에 없기 때문인데요.
+        그래서 공침 반응기를 거치지 않고 <strong>가루를 갈아 섞어 바로 굽는</strong> 고상법을 주로 씁니다.</p>
+
+      <div class="callout">
+        <div class="callout-title">한 가지 짚어 둘 점</div>
+        <p>LFP도 <strong>인산철(FePO₄)</strong>을 사다 쓰는 경우가 많고, 이것을 넓은 의미의 전구체라고 부르기도 합니다.
+          다만 NCM처럼 <strong>수십 시간 반응기를 돌려 입자를 키우는 공침 전구체</strong>와는 성격이 전혀 다릅니다.
+          "LFP는 전구체가 없다"는 말은 <strong>공침 전구체 공정이 없다</strong>는 뜻으로 이해하시면 정확합니다.</p>
+      </div>
+
+      <h3 class="t-h">무전구체 공정 — 공침을 아예 건너뛰려는 시도</h3>
+      <p><strong>무전구체(無前驅體) 공정</strong>은 이름 그대로 <strong>공침 단계를 없애는</strong> 방식입니다.
+        금속 원료를 물에 녹여 가라앉히는 대신, <strong>산화물·수산화물 가루를 리튬과 바로 섞어 굽습니다</strong>.
+        건식 공정, 직접 합성이라고도 부르는데요. NCM 계열에도 이 방식을 적용하려는 연구가 활발합니다.</p>
+
+      <p class="t-p">왜 없애려 할까요. 공침 공정에는 <strong>구조적인 부담 세 가지</strong>가 따라붙기 때문입니다.</p>
+
+      <div class="glossary">
+      <table>
+        <thead><tr><th style="width:22%">부담</th><th>무엇이 문제인가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">폐수</td>
+            <td>금속을 <strong>황산염</strong>으로 녹이고 <strong>가성소다</strong>로 가라앉히므로,
+              반응이 끝나면 <strong>황산나트륨(Na₂SO₄)</strong>이 녹아 있는 물이 대량으로 남습니다.
+              여기에 암모니아까지 섞여 있어 처리 비용과 환경 규제 부담이 큽니다.</td></tr>
+          <tr><td class="k">시간·설비</td>
+            <td>알갱이를 천천히 키워야 하므로 반응기를 <strong>10~40시간</strong> 돌립니다.
+              큰 반응기를 여러 대 갖춰야 해서 <strong>투자비와 공장 부지</strong>가 많이 듭니다.</td></tr>
+          <tr><td class="k">공급망</td>
+            <td>전구체는 <strong>특정 국가 의존도가 매우 높은</strong> 품목입니다.
+              양극재를 국내에서 만들어도 전구체를 수입하면 원산지 요건을 맞추기 어려워집니다.</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <p class="t-p">그럼에도 아직 공침이 주류인 이유는 분명합니다.
+        <strong>균일하게 섞는 문제를 대신 풀어야</strong> 하기 때문인데요.
+        공침이 물속에서 저절로 해결해 주던 일을, 무전구체 공정은 <strong>가루를 갈고 섞는 힘만으로</strong> 해내야 합니다.</p>
+
+      <div class="glossary">
+      <table>
+        <thead><tr><th style="width:18%">항목</th><th style="width:41%">전구체 공정(공침)</th><th style="width:41%">무전구체 공정(직접 합성)</th></tr></thead>
+        <tbody>
+          <tr><td class="k">섞는 방법</td>
+            <td>물에 녹여 <strong>원자 수준</strong>에서 섞습니다</td>
+            <td>가루를 <strong>기계로 갈아</strong> 섞습니다</td></tr>
+          <tr><td class="k">조성 균일도</td>
+            <td><strong>매우 높음</strong> — 한 알갱이 안에서도 고릅니다</td>
+            <td><strong>확보가 어려움</strong> — 이것이 최대 과제입니다</td></tr>
+          <tr><td class="k">입자 모양</td>
+            <td>매끈한 <strong>공 모양</strong>을 의도대로 만듭니다</td>
+            <td>제어가 어려워 <strong>모난 입자</strong>가 되기 쉽습니다</td></tr>
+          <tr><td class="k">폐수</td>
+            <td>황산나트륨·암모니아 폐수가 <strong>많이</strong> 나옵니다</td>
+            <td><strong>크게 줄거나 거의 없습니다</strong></td></tr>
+          <tr><td class="k">공정 길이</td>
+            <td>녹이기 → 공침 → 세척 → 건조 → 혼합 → 소성</td>
+            <td>혼합 → 소성 <strong>(단계가 확 짧아집니다)</strong></td></tr>
+          <tr><td class="k">투자비</td>
+            <td>대형 반응기·폐수 설비가 필요해 <strong>큽니다</strong></td>
+            <td><strong>작습니다</strong> — 반응기와 폐수 설비가 빠집니다</td></tr>
+          <tr><td class="k">현재 위치</td>
+            <td>NCM 양산의 <strong>사실상 표준</strong>입니다</td>
+            <td>LFP는 이미 이 방식, NCM은 <strong>개발·실증 단계</strong>입니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">정리하면</div>
+        <p>LFP가 싼 이유의 상당 부분은 <strong>값싼 철·인산</strong>뿐 아니라
+          <strong>공침 전구체 공정을 건너뛴다</strong>는 데 있습니다.
+          거꾸로 NCM에서 무전구체 공정이 성공한다면, 원가와 폐수를 동시에 줄일 수 있습니다.
+          관건은 하나입니다 — <strong>물이 대신 해 주던 '고르게 섞기'를 기계 힘으로 어디까지 따라잡느냐</strong>입니다.</p>
+      </div>
 
       <h3 class="t-h">음극재 — 천연흑연과 인조흑연은 출발점부터 다릅니다</h3>
       <figure class="diagram">
@@ -2124,8 +2319,286 @@
     </details>
 
     <!-- ══════════ 11 ══════════ -->
+    <details class="sec-card full" id="storage">
+      <summary class="sec-head"><span class="sec-num">11</span><h2>배터리 말고 다른 저장장치들 — 슈퍼커패시터부터 양수발전까지</h2><span class="sec-meta">그림 2 · 표 4</span></summary>
+
+      <p>전기를 담아 두는 방법이 배터리만 있는 것은 아닙니다.
+        <strong>어디에 담느냐</strong>에 따라 성격이 완전히 달라지는데요.
+        배터리가 <strong>화학 결합</strong>에 담는다면, 슈퍼커패시터는 <strong>전기 그 자체</strong>로,
+        양수발전은 <strong>물의 높이</strong>로, 플라이휠은 <strong>회전</strong>으로 담습니다.</p>
+
+      <h3 class="t-h">가장 중요한 구분 — 에너지냐, 출력이냐</h3>
+      <p>저장장치를 볼 때 딱 두 가지만 구분하시면 됩니다.</p>
+
+      <div class="glossary">
+      <table>
+        <thead><tr><th style="width:16%">구분</th><th style="width:26%">뜻</th><th>비유하자면</th></tr></thead>
+        <tbody>
+          <tr><td class="k">에너지<br>(Wh)</td>
+            <td><strong>얼마나 많이</strong> 담을 수 있는가</td>
+            <td><strong>물통의 크기</strong>입니다. 큰 물통은 오래 씁니다.</td></tr>
+          <tr><td class="k">출력<br>(W)</td>
+            <td><strong>얼마나 빨리</strong> 넣고 뺄 수 있는가</td>
+            <td><strong>수도꼭지의 굵기</strong>입니다. 굵으면 한꺼번에 쏟아집니다.</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <p class="t-p"><strong>이 둘은 대체로 서로 반대로 갑니다.</strong>
+        많이 담는 장치는 대개 느리고, 빨리 쏟아내는 장치는 대개 조금밖에 못 담습니다.
+        그래서 "무엇이 제일 좋은가"라는 질문은 성립하지 않고,
+        <strong>"이 자리에 필요한 것이 물통인가 수도꼭지인가"</strong>를 먼저 물어야 합니다.</p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 680 330" role="img"
+             aria-label="저장장치를 에너지 밀도와 출력 밀도 두 축으로 배치한 그림. 슈퍼커패시터는 출력이 크고 에너지가 작으며, 리튬이온 배터리는 중간, 수소와 양수발전은 에너지가 크고 출력이 느립니다">
+          <text x="24" y="24" font-size="12.5" font-weight="700" fill="#1a2230">저장장치의 자리 — 가로는 '많이', 세로는 '빨리'</text>
+
+          <line x1="70" y1="278" x2="640" y2="278" stroke="#8b93a7" stroke-width="1.5"/>
+          <line x1="70" y1="278" x2="70" y2="48" stroke="#8b93a7" stroke-width="1.5"/>
+          <text x="355" y="303" text-anchor="middle" font-size="11.5" fill="#55617a">
+            에너지 밀도 — <tspan font-weight="700">얼마나 많이</tspan> 담는가 →</text>
+          <text x="24" y="163" font-size="11.5" fill="#55617a" transform="rotate(-90 24 163)" text-anchor="middle">
+            출력 밀도 — <tspan font-weight="700">얼마나 빨리</tspan> →</text>
+
+          <g font-size="10.5">
+            <ellipse cx="150" cy="90" rx="62" ry="34" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+            <text x="150" y="86" text-anchor="middle" font-weight="700" fill="#b91c1c">슈퍼커패시터</text>
+            <text x="150" y="102" text-anchor="middle" fill="#7f1d1d">초 단위 충·방전</text>
+
+            <ellipse cx="252" cy="150" rx="52" ry="30" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+            <text x="252" y="147" text-anchor="middle" font-weight="700" fill="#c2410c">플라이휠</text>
+            <text x="252" y="162" text-anchor="middle" fill="#9a3412">회전 관성</text>
+
+            <ellipse cx="392" cy="150" rx="62" ry="32" fill="#dbeafe" stroke="#2563eb" stroke-width="2.5"/>
+            <text x="392" y="146" text-anchor="middle" font-weight="700" fill="#1d4ed8">리튬이온</text>
+            <text x="392" y="162" text-anchor="middle" fill="#1e40af">균형이 좋습니다</text>
+
+            <ellipse cx="404" cy="222" rx="56" ry="28" fill="#f3e8ff" stroke="#9333ea" stroke-width="2"/>
+            <text x="404" y="219" text-anchor="middle" font-weight="700" fill="#7e22ce">납축전지</text>
+            <text x="404" y="234" text-anchor="middle" fill="#6b21a8">싸지만 무겁습니다</text>
+
+            <ellipse cx="530" cy="238" rx="58" ry="28" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+            <text x="530" y="235" text-anchor="middle" font-weight="700" fill="#15803d">바나듐 흐름전지</text>
+            <text x="530" y="250" text-anchor="middle" fill="#166534">오래, 아주 오래</text>
+
+            <ellipse cx="600" cy="176" rx="44" ry="26" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+            <text x="600" y="173" text-anchor="middle" font-weight="700" fill="#a16207">수소</text>
+            <text x="600" y="188" text-anchor="middle" fill="#854d0e">계절 저장</text>
+
+            <ellipse cx="200" cy="238" rx="60" ry="28" fill="#e0f2fe" stroke="#0284c7" stroke-width="2"/>
+            <text x="200" y="235" text-anchor="middle" font-weight="700" fill="#0369a1">양수발전</text>
+            <text x="200" y="250" text-anchor="middle" fill="#075985">GWh급·초대형</text>
+          </g>
+
+          <text x="355" y="322" text-anchor="middle" font-size="10.5" fill="#8b93a7">
+            그림 · 위로 갈수록 순간 힘이 세고, 오른쪽으로 갈수록 오래 버팁니다 (상대적 위치)</text>
+        </svg>
+        <figcaption class="fig-cap">왼쪽 위와 오른쪽 아래에 몰려 있는 것이 보이시는지요.
+          <strong>빠른 것과 많은 것을 동시에 갖기가 어렵다</strong>는 뜻입니다.
+          리튬이온이 널리 쓰이는 이유는 최고여서가 아니라 <strong>한가운데에서 균형이 좋기 때문</strong>입니다.</figcaption>
+      </figure>
+
+      <h3 class="t-h">슈퍼커패시터 — 화학 반응을 아예 하지 않습니다</h3>
+      <p>슈퍼커패시터(울트라커패시터, EDLC)의 결정적인 특징은 이것입니다.
+        <strong>전기를 담을 때 화학 반응이 일어나지 않습니다.</strong></p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 680 300" role="img"
+             aria-label="배터리는 리튬이 전극 속으로 들어가 화학 결합을 만들지만 슈퍼커패시터는 이온이 전극 표면에 달라붙기만 합니다">
+          <text x="170" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#1d4ed8">배터리 — 속으로 들어갑니다</text>
+          <text x="510" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#b91c1c">슈퍼커패시터 — 표면에 붙습니다</text>
+
+          <g font-size="10.5">
+            <rect x="40" y="46" width="90" height="150" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+            <text x="85" y="212" text-anchor="middle" fill="#1e40af">전극 (층상 구조)</text>
+            <g stroke="#93c5fd" stroke-width="1.2">
+              <line x1="46" y1="70" x2="124" y2="70"/><line x1="46" y1="96" x2="124" y2="96"/>
+              <line x1="46" y1="122" x2="124" y2="122"/><line x1="46" y1="148" x2="124" y2="148"/>
+              <line x1="46" y1="174" x2="124" y2="174"/>
+            </g>
+            <circle cx="70" cy="83" r="6" fill="#2563eb"/><circle cx="100" cy="109" r="6" fill="#2563eb"/>
+            <circle cx="80" cy="135" r="6" fill="#2563eb"/><circle cx="105" cy="161" r="6" fill="#2563eb"/>
+            <text x="200" y="86" font-size="11" fill="#1e40af">리튬이 <tspan font-weight="700">층 사이로</tspan></text>
+            <text x="200" y="103" font-size="11" fill="#1e40af"><tspan font-weight="700">파고듭니다</tspan></text>
+            <text x="200" y="128" font-size="11" fill="#55617a">→ 많이 담깁니다</text>
+            <text x="200" y="146" font-size="11" fill="#dc2626">→ 대신 <tspan font-weight="700">느립니다</tspan></text>
+            <text x="200" y="164" font-size="11" fill="#dc2626">→ 드나들며 <tspan font-weight="700">닳습니다</tspan></text>
+          </g>
+
+          <line x1="340" y1="40" x2="340" y2="250" stroke="#e3e8ef" stroke-width="1.5"/>
+
+          <g font-size="10.5">
+            <rect x="380" y="46" width="90" height="150" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+            <text x="425" y="212" text-anchor="middle" fill="#7f1d1d">활성탄 (구멍투성이)</text>
+            <g fill="#fca5a5">
+              <circle cx="400" cy="70" r="7"/><circle cx="425" cy="88" r="9"/><circle cx="450" cy="70" r="6"/>
+              <circle cx="405" cy="115" r="8"/><circle cx="445" cy="120" r="7"/><circle cx="422" cy="150" r="9"/>
+              <circle cx="398" cy="175" r="6"/><circle cx="450" cy="170" r="7"/>
+            </g>
+            <g fill="#dc2626">
+              <circle cx="483" cy="70" r="4"/><circle cx="483" cy="95" r="4"/><circle cx="483" cy="120" r="4"/>
+              <circle cx="483" cy="145" r="4"/><circle cx="483" cy="170" r="4"/>
+            </g>
+            <text x="545" y="86" font-size="11" fill="#b91c1c">이온이 <tspan font-weight="700">표면에</tspan></text>
+            <text x="545" y="103" font-size="11" fill="#b91c1c"><tspan font-weight="700">달라붙기만</tspan> 합니다</text>
+            <text x="545" y="128" font-size="11" fill="#16a34a">→ <tspan font-weight="700">아주 빠릅니다</tspan></text>
+            <text x="545" y="146" font-size="11" fill="#16a34a">→ 거의 <tspan font-weight="700">안 닳습니다</tspan></text>
+            <text x="545" y="164" font-size="11" fill="#dc2626">→ 대신 <tspan font-weight="700">조금</tspan>밖에</text>
+            <text x="545" y="181" font-size="11" fill="#dc2626">　 못 담습니다</text>
+          </g>
+
+          <text x="340" y="272" text-anchor="middle" font-size="11.5" fill="#55617a">
+            구조를 바꾸지 않으니 <tspan font-weight="700" fill="#1a2230">망가질 것이 없습니다</tspan> — 수십만 번을 써도 멀쩡한 이유입니다</text>
+          <text x="340" y="292" text-anchor="middle" font-size="10.5" fill="#8b93a7">
+            그림 · 배터리는 '흡수', 슈퍼커패시터는 '접착'</text>
+        </svg>
+        <figcaption class="fig-cap">배터리는 리튬이 전극 <strong>속으로</strong> 들어갔다 나옵니다.
+          슈퍼커패시터는 이온이 <strong>겉에</strong> 달라붙었다 떨어질 뿐입니다.
+          이 차이 하나가 나머지 성질을 전부 결정합니다.</figcaption>
+      </figure>
+
+      <div class="callout">
+        <div class="callout-title">왜 수십만 번을 써도 멀쩡한가요</div>
+        <p>배터리가 늙는 가장 큰 이유는 <strong>리튬이 드나들 때마다 전극이 부풀었다 줄어들기</strong> 때문입니다.
+          그 반복에 결정이 금 가고, 표면에 찌꺼기 막이 쌓입니다.
+          그런데 슈퍼커패시터는 <strong>애초에 아무것도 들어가지 않습니다</strong>.
+          정전기가 붙었다 떨어지는 것과 같아서 구조가 변하지 않고, 그래서 닳을 것이 없습니다.
+          배터리 수명이 보통 수천 번인 데 비해 슈퍼커패시터가 <strong>수십만 번</strong>을 견디는 이유입니다.</p>
+      </div>
+
+      <div class="glossary">
+      <table>
+        <thead><tr><th style="width:20%">항목</th><th style="width:40%">리튬이온 배터리</th><th style="width:40%">슈퍼커패시터</th></tr></thead>
+        <tbody>
+          <tr><td class="k">저장 방식</td>
+            <td><strong>화학</strong> — 전극 속으로 들어갑니다</td>
+            <td><strong>물리</strong> — 표면에 달라붙습니다</td></tr>
+          <tr><td class="k">에너지 밀도</td>
+            <td><strong>큽니다</strong> (같은 무게에 훨씬 많이)</td>
+            <td><strong>작습니다</strong> — 배터리의 수십 분의 1 수준</td></tr>
+          <tr><td class="k">출력 밀도</td>
+            <td>보통</td>
+            <td><strong>매우 큽니다</strong> — 순간 힘이 압도적입니다</td></tr>
+          <tr><td class="k">충전 시간</td>
+            <td>수십 분~수 시간</td>
+            <td><strong>수 초~수십 초</strong></td></tr>
+          <tr><td class="k">수명</td>
+            <td>수천 회</td>
+            <td><strong>수십만 회</strong> (사실상 반영구)</td></tr>
+          <tr><td class="k">저온 성능</td>
+            <td>영하에서 <strong>크게 떨어집니다</strong></td>
+            <td><strong>잘 견딥니다</strong> — 화학 반응에 기대지 않아서입니다</td></tr>
+          <tr><td class="k">전압 거동</td>
+            <td>쓰는 동안 <strong>비교적 평평</strong>합니다</td>
+            <td>쓰는 만큼 <strong>곧바로 내려갑니다</strong> (회로 설계가 까다롭습니다)</td></tr>
+          <tr><td class="k">자기방전</td>
+            <td>적습니다 — 몇 달 두어도 남아 있습니다</td>
+            <td><strong>큽니다</strong> — 며칠이면 상당히 빠집니다</td></tr>
+          <tr><td class="k">주 용도</td>
+            <td>전기차·휴대기기·ESS 등 <strong>오래 쓰는 곳</strong></td>
+            <td>회생제동·순간 보상·시동 등 <strong>짧고 센 곳</strong></td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">그래서 어디에 쓰이나요</div>
+        <p>슈퍼커패시터는 배터리를 <strong>대체하지 않고 거듭니다</strong>.</p>
+        <p>· <strong>버스·전철의 회생제동</strong> — 브레이크를 밟는 몇 초 동안 쏟아지는 큰 전기를
+          배터리는 다 받아 내지 못합니다. 슈퍼커패시터가 받아 두었다가 출발할 때 되돌려 줍니다.<br>
+          · <strong>풍력 발전기 날개 각도 제어</strong> — 돌풍이 불면 순간적으로 큰 힘이 필요합니다.<br>
+          · <strong>순간 정전 보상(UPS)</strong> — 몇 초만 버텨 주면 되는 자리에는 이쪽이 훨씬 오래갑니다.<br>
+          · <strong>대형 장비 시동</strong> — 추운 날 엔진 시동처럼 짧고 센 힘이 필요할 때입니다.</p>
+        <p>공통점이 보이시는지요. 전부 <strong>"짧게, 세게, 자주"</strong>인 자리입니다.
+          배터리에게 이 일을 시키면 금방 닳습니다.</p>
+      </div>
+
+      <h3 class="t-h">하이브리드 커패시터 — 둘 사이를 메우려는 시도</h3>
+      <p>한쪽 전극은 커패시터처럼(활성탄), 다른 쪽은 배터리처럼(리튬 삽입) 만든 물건입니다.
+        <strong>LIC(리튬이온 커패시터)</strong>가 대표적인데요.
+        슈퍼커패시터보다 <strong>많이 담고</strong>, 배터리보다 <strong>빠르고 오래 갑니다</strong>.
+        다만 양쪽의 장점을 절반씩 가져온 만큼 값이 비싸, 아직은 쓰임이 제한적입니다.</p>
+
+      <h3 class="t-h">전기를 '전기가 아닌 것'으로 바꿔 담는 방법들</h3>
+      <p>대규모·장시간 저장으로 가면 이야기가 달라집니다.
+        <strong>담아 둘 양이 커질수록, 전기 형태로 들고 있는 것이 오히려 비싸집니다.</strong>
+        그래서 물의 높이, 회전, 열, 기체로 바꿔 담습니다.</p>
+
+      <div class="glossary">
+      <table>
+        <thead><tr><th style="width:16%">방식</th><th style="width:24%">어떻게 담나</th><th style="width:30%">강점</th><th style="width:30%">약점</th></tr></thead>
+        <tbody>
+          <tr><td class="k">양수발전</td>
+            <td>남는 전기로 물을 <strong>높은 곳으로</strong> 퍼 올렸다가, 필요할 때 떨어뜨려 발전합니다</td>
+            <td>가장 <strong>크고 가장 오래</strong>된 방식입니다. GWh급이 가능하고 수명이 수십 년입니다</td>
+            <td><strong>지형이 필요</strong>합니다. 아무 데나 못 짓고 건설에 오래 걸립니다</td></tr>
+          <tr><td class="k">압축공기<br>(CAES)</td>
+            <td>공기를 <strong>동굴이나 탱크에 꾹 눌러</strong> 담았다가 풀면서 터빈을 돌립니다</td>
+            <td>대용량이 가능하고 저장 매체(공기)가 <strong>공짜</strong>입니다</td>
+            <td>누를 때 나는 <strong>열을 버리면 효율이 크게 떨어집니다</strong>. 지하 공간이 필요합니다</td></tr>
+          <tr><td class="k">플라이휠</td>
+            <td>무거운 원판을 <strong>아주 빠르게 돌려</strong> 회전 에너지로 담습니다</td>
+            <td><strong>순간 출력이 크고</strong> 수명이 깁니다. 반응이 밀리초 단위입니다</td>
+            <td>오래 못 담습니다 — <strong>마찰로 계속 새어 나갑니다</strong></td></tr>
+          <tr><td class="k">흐름전지<br>(바나듐 등)</td>
+            <td>전해액을 <strong>탱크에 따로</strong> 두고 펌프로 돌립니다</td>
+            <td><strong>용량과 출력을 따로 키울 수 있습니다</strong>(탱크만 키우면 용량 증가). 불에 강하고 수명이 깁니다</td>
+            <td>부피가 <strong>큽니다</strong>. 에너지 밀도가 낮아 이동체에는 못 씁니다</td></tr>
+          <tr><td class="k">열 저장</td>
+            <td>소금·모래·돌을 <strong>뜨겁게 데워</strong> 두었다가 증기를 만들어 씁니다</td>
+            <td>재료가 <strong>싸고 흔합니다</strong>. 장시간 저장에 유리합니다</td>
+            <td>열을 다시 전기로 바꾸는 과정에서 <strong>손실이 큽니다</strong></td></tr>
+          <tr><td class="k">수소</td>
+            <td>물을 전기분해해 <strong>수소로 바꿔</strong> 저장했다가 연료전지로 되돌립니다</td>
+            <td><strong>계절 단위</strong> 저장이 가능합니다. 옮겨 팔 수도 있습니다</td>
+            <td>왕복 효율이 <strong>낮습니다</strong>. 저장·운송 설비가 까다롭습니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">'왕복 효율'이라는 말이 자주 나옵니다</div>
+        <p>넣은 전기 100 중에 <strong>다시 꺼내 쓸 수 있는 양</strong>의 비율입니다.
+          리튬이온은 이 값이 높은 편이고, 열이나 수소처럼 <strong>형태를 크게 바꾸는 방식</strong>일수록 낮아집니다.
+          형태를 바꾸는 길목마다 조금씩 새기 때문인데요.
+          그럼에도 수소를 쓰는 이유는, <strong>몇 달을 담아 둬야 하는 자리</strong>에서는
+          효율이 낮아도 그것 말고 마땅한 방법이 없기 때문입니다.</p>
+      </div>
+
+      <h3 class="t-h">그래서 무엇을 골라야 하나요 — '얼마나 오래 쓰느냐'로 나뉩니다</h3>
+      <div class="glossary">
+      <table>
+        <thead><tr><th style="width:24%">필요한 시간</th><th style="width:34%">알맞은 저장장치</th><th>대표적인 자리</th></tr></thead>
+        <tbody>
+          <tr><td class="k">초 단위</td>
+            <td><strong>슈퍼커패시터</strong> · 플라이휠</td>
+            <td>회생제동, 주파수 순간 보정, 순간 정전 보상</td></tr>
+          <tr><td class="k">분~시간 단위</td>
+            <td><strong>리튬이온 배터리</strong></td>
+            <td>전기차, 가정용·상업용 ESS, 피크 억제</td></tr>
+          <tr><td class="k">여러 시간~하루</td>
+            <td><strong>흐름전지</strong> · LFP ESS · 양수발전</td>
+            <td>낮에 모은 태양광을 저녁에 쓰기</td></tr>
+          <tr><td class="k">며칠~계절</td>
+            <td><strong>수소</strong> · 열 저장 · 대형 양수발전</td>
+            <td>바람이 오래 안 부는 시기 대비, 계절 편차 메우기</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">한 줄로 정리하면</div>
+        <p>저장장치에 <strong>우열은 없고 자리만 있습니다.</strong>
+          슈퍼커패시터에게 하루를 버티라고 하면 못 버티고,
+          양수발전에게 0.1초 만에 반응하라고 하면 못 합니다.
+          <strong>얼마나 오래 쓸 것인가</strong>를 먼저 정하면 답은 거의 자동으로 좁혀집니다.</p>
+      </div>
+    </details>
+
+    <!-- ══════════ 12 ══════════ -->
     <details class="sec-card full" id="analysis">
-      <summary class="sec-head"><span class="sec-num">11</span><h2>성능은 어떻게 검증할까 — 분석 방법</h2><span class="sec-meta">그림 1 · 표 8</span></summary>
+      <summary class="sec-head"><span class="sec-num">12</span><h2>성능은 어떻게 검증할까 — 분석 방법</h2><span class="sec-meta">그림 1 · 표 8</span></summary>
       <p>"이 소재가 정말 좋은지" 어떻게 알 수 있을까요? 연구소와 공장에서는
         <strong>가루 단계부터 완성된 셀까지</strong> 단계마다 다른 검사를 거칩니다.</p>
       <p>분석 방법은 이름이 알파벳투성이라 겁부터 나는데요. 사실 묻는 질문은 몇 가지뿐입니다.
@@ -2492,9 +2965,9 @@
       <p class="tbl-note">* 안전 시험의 구체적인 조건은 나라와 인증 규격(UN·IEC·UL·KC 등)에 따라 다릅니다.
         여기서는 무엇을 확인하려는 시험인지만 정리했습니다.</p>
     </details>
-    <!-- ══════════ 12 ══════════ -->
+    <!-- ══════════ 13 ══════════ -->
     <details class="sec-card full" id="perf">
-      <summary class="sec-head"><span class="sec-num">12</span><h2>성능을 말할 때 쓰는 용어</h2><span class="sec-meta">그림 1 · 표 1</span></summary>
+      <summary class="sec-head"><span class="sec-num">13</span><h2>성능을 말할 때 쓰는 용어</h2><span class="sec-meta">그림 1 · 표 1</span></summary>
       <div class="tbl-scroll">
       <table class="glossary">
         <thead><tr><th>용어</th><th>쉬운 설명</th><th>비유</th></tr></thead>
@@ -2621,9 +3094,9 @@
       </div>
     </details>
 
-    <!-- ══════════ 13 ══════════ -->
+    <!-- ══════════ 14 ══════════ -->
     <details class="sec-card full" id="degrade">
-      <summary class="sec-head"><span class="sec-num">13</span><h2>배터리는 왜 불이 나고, 왜 늙을까</h2><span class="sec-meta">그림 2 · 표 3</span></summary>
+      <summary class="sec-head"><span class="sec-num">14</span><h2>배터리는 왜 불이 나고, 왜 늙을까</h2><span class="sec-meta">그림 2 · 표 3</span></summary>
       <p>여기까지는 배터리가 <strong>잘 작동할 때</strong>의 이야기였는데요.
         실제로 뉴스에 배터리가 나오는 건 대부분 반대의 경우입니다. 불이 나거나,
         몇 년 쓰니 주행거리가 줄거나, 겨울에 힘을 못 쓰거나 하는 일들이죠.
@@ -2862,9 +3335,9 @@
       </div>
     </details>
 
-    <!-- ══════════ 14 ══════════ -->
+    <!-- ══════════ 15 ══════════ -->
     <details class="sec-card full" id="next">
-      <summary class="sec-head"><span class="sec-num">14</span><h2>차세대 기술</h2><span class="sec-meta">그림 1 · 표 1</span></summary>
+      <summary class="sec-head"><span class="sec-num">15</span><h2>차세대 기술</h2><span class="sec-meta">그림 1 · 표 1</span></summary>
       <p>지금의 배터리와 <strong>전고체 배터리</strong>가 어떻게 다른지, 그림으로 보시면 한눈에 들어옵니다.</p>
       <figure class="diagram" data-anim data-phase="charge">
         <svg viewBox="0 0 680 270" role="img"
@@ -2951,9 +3424,9 @@
       </div>
     </details>
 
-    <!-- ══════════ 15 ══════════ -->
+    <!-- ══════════ 16 ══════════ -->
     <details class="sec-card full" id="trend">
-      <summary class="sec-head"><span class="sec-num">15</span><h2>최신 연구·산업 트렌드</h2></summary>
+      <summary class="sec-head"><span class="sec-num">16</span><h2>최신 연구·산업 트렌드</h2></summary>
 
       <h3 class="t-h">① 전고체 상용화 경쟁</h3>
       <p>주요 업체들이 시험 생산 라인을 세우고 <strong>2027~2030년 사이 양산</strong>을 목표로 제시하고 있는데요.
@@ -2989,9 +3462,9 @@
       </div>
     </details>
 
-    <!-- ══════════ 16 ══════════ -->
+    <!-- ══════════ 17 ══════════ -->
     <details class="sec-card full" id="src">
-      <summary class="sec-head"><span class="sec-num">16</span><h2>출처·참고자료</h2></summary>
+      <summary class="sec-head"><span class="sec-num">17</span><h2>출처·참고자료</h2></summary>
 
       <div class="callout">
         <p class="callout-title">이 문서는 이렇게 작성했습니다</p>
