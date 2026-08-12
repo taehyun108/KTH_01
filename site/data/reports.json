@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-12T12:34:14",
+  "generated_at": "2026-08-12T15:33:07",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -154,6 +154,21 @@
       "src": "unavailable"
     },
     {
+      "id": "2026-08-12-트럼프-관세-폭탄-속에서-멕시코와-대만이-웃은-이유",
+      "date": "2026-08-12",
+      "channel": "박종훈의 지식한방",
+      "title": "트럼프 관세 폭탄 속에서 멕시코와 대만이 웃은 이유",
+      "summary": "트럼프 행정부의 상호관세 발표 속에서 멕시코가 유일하게 90일 유예를 받고 대만이 20%로 낮아진 배경을 분석한 리포트입니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-08-12-트럼프-관세-폭탄-속에서-멕시코와-대만이-웃은-이유.html",
+      "video": "https://www.youtube.com/watch?v=jTuE4ALiT84",
+      "video_id": "jTuE4ALiT84",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
       "id": "2026-08-10-금리와-채권의-역사에서-찾는-투자와-자산관리의-지혜",
       "date": "2026-08-10",
       "channel": "언더스탠딩",
@@ -195,6 +210,21 @@
       "video": "https://www.youtube.com/watch?v=M2LrHMKFcdU",
       "video_id": "M2LrHMKFcdU",
       "pv": 4,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-07-세무사-상담-사례로-보는-세금-신고의-허와-실",
+      "date": "2026-08-07",
+      "channel": "손에 잡히는 경제",
+      "title": "세무사 상담 사례로 보는 세금 신고의 허와 실",
+      "summary": "세무사 상담 사례를 통해 세금 신고의 중요성과 세무 전문가의 역할을 살펴봅니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-08-07-세무사-상담-사례로-보는-세금-신고의-허와-실.html",
+      "video": "https://www.youtube.com/watch?v=TOROvJVf2jo",
+      "video_id": "TOROvJVf2jo",
+      "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
     },
@@ -360,6 +390,21 @@
       "pv": 3,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-08-04-월가-천재의-몰락과-레버리지의-교훈",
+      "date": "2026-08-04",
+      "channel": "소수몽키",
+      "title": "월가 천재의 몰락과 레버리지의 교훈",
+      "summary": "월가 유명 투자자의 4배 레버리지 펀드 청산 사태를 통해 본 리스크 관리의 중요성과 증시 반전 가능성.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-08-04-월가-천재의-몰락과-레버리지의-교훈.html",
+      "video": "https://www.youtube.com/watch?v=WTfk0OYuY7Q",
+      "video_id": "WTfk0OYuY7Q",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-08-03-미-일-환율-흔들림과-중국-catl의-급부상-우리-배터리엔-어떤-영향을-줄까요",
