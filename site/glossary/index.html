@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>이차전지 용어집 — 이차전지 리포트 아카이브</title>
   <meta name="description" content="양극재·음극재·전구체·전해액·분리막부터 제조공정, 셀·모듈·팩 조립, 배터리 종류, 성능 분석법까지 그림으로 쉽게 풀어 쓴 이차전지 용어집." />
-  <link rel="stylesheet" href="../assets/style.css?v=33" />
+  <link rel="stylesheet" href="../assets/style.css?v=34" />
 </head>
 <body>
   <header class="report-hero">
@@ -62,7 +62,7 @@
       <a class="gcard" href="#cellproc">
         <span class="gc-icon" aria-hidden="true">🏭</span>
         <span class="gc-body"><span class="gc-num">07</span><span class="gc-title">셀은 어떻게 만들까 — 김밥 말듯이</span>
-        <span class="gc-blurb">전극 만들고, 조립하고, 처음 충전합니다</span><span class="gc-meta">그림 2 · 표 1</span></span>
+        <span class="gc-blurb">전극 만들고, 조립하고, 처음 충전합니다</span><span class="gc-meta">그림 2 · 표 3</span></span>
       </a>
       <a class="gcard" href="#pack">
         <span class="gc-icon" aria-hidden="true">🚗</span>
@@ -77,7 +77,7 @@
       <a class="gcard" href="#others">
         <span class="gc-icon" aria-hidden="true">🔌</span>
         <span class="gc-body"><span class="gc-num">10</span><span class="gc-title">리튬이온 말고 다른 전지들</span>
-        <span class="gc-blurb">납축·니켈수소·나트륨이온·바나듐 흐름전지</span><span class="gc-meta">그림 4 · 표 1</span></span>
+        <span class="gc-blurb">납축·니켈수소·나트륨이온·바나듐 흐름전지</span><span class="gc-meta">그림 4 · 표 3</span></span>
       </a>
       <a class="gcard" href="#storage">
         <span class="gc-icon" aria-hidden="true">⚡</span>
@@ -2215,7 +2215,7 @@
 
     <!-- ══════════ 07 ══════════ -->
     <details class="sec-card full" id="cellproc">
-      <summary class="sec-head"><span class="sec-num">07</span><h2>셀은 어떻게 만들까 — 김밥 말듯이</h2><span class="sec-meta">그림 2 · 표 1</span></summary>
+      <summary class="sec-head"><span class="sec-num">07</span><h2>셀은 어떻게 만들까 — 김밥 말듯이</h2><span class="sec-meta">그림 2 · 표 3</span></summary>
       <p>소재 가루가 도착하면 배터리 공장에서는 <strong>딱 3단계</strong>를 거치는데요.
         <strong>①전극 만들기 → ②조립하기 → ③처음 충전하기</strong> 순입니다.</p>
 
@@ -2415,6 +2415,87 @@
       </div>
       <p class="tbl-note">* 대표 사용처와 생산처는 <strong>널리 알려진 사례</strong>를 적은 것입니다.
         한 업체가 여러 형태를 함께 만들기도 하고 신규 라인이 들어서면 달라지니, 큰 그림을 잡는 용도로만 봐 주세요.</p>
+      <h3 class="t-h">화성(化成) — 처음 충전이 배터리의 성격을 정합니다</h3>
+      <p>조립이 끝난 셀은 아직 <strong>배터리가 아닙니다</strong>. 전기를 담을 준비가 안 돼 있거든요.
+        <strong>첫 충전</strong>을 시켜 줘야 비로소 배터리가 되는데요.
+        이 과정을 <strong>화성(formation)</strong>이라 부릅니다. 공장에서 <strong>가장 오래 걸리고 가장 비싼</strong> 단계입니다.</p>
+
+      <div class="callout">
+        <div class="callout-title">왜 그렇게 오래 걸리나요</div>
+        <p>첫 충전에서 음극 표면에 <strong>SEI 막</strong>이 생깁니다(5장 참고).
+          이 막을 <strong>얇고 촘촘하게</strong> 만들려면 <strong>아주 천천히</strong> 충전해야 합니다.
+          급하게 하면 두껍고 엉성한 막이 생겨 <strong>평생 저항으로 남습니다</strong>.</p>
+        <p>그래서 화성 공정은 며칠씩 걸리기도 하고, 그동안 셀을 놓아 둘
+          <strong>거대한 충방전 설비와 공간</strong>이 필요합니다.
+          배터리 공장 투자비에서 이 설비가 큰 몫을 차지하는 이유입니다.
+          <strong>화성 시간을 줄이는 것</strong>이 업계의 오랜 숙제인 것도 이 때문입니다.</p>
+      </div>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:20%">단계</th><th style="width:40%">무엇을 하나</th><th style="width:40%">왜 필요한가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">전해액 주입</td>
+            <td>조립된 셀에 전해액을 넣고 <strong>스며들 때까지 기다립니다</strong></td>
+            <td>구석까지 안 젖으면 그 부분은 <strong>죽은 공간</strong>이 됩니다</td></tr>
+          <tr><td class="k">첫 충전<br><span class="en">화성</span></td>
+            <td><strong>아주 천천히</strong> 충전하며 SEI 막을 만듭니다</td>
+            <td>막의 품질이 <strong>수명 전체</strong>를 좌우합니다</td></tr>
+          <tr><td class="k">가스 빼기<br><span class="en">디개싱</span></td>
+            <td>이때 생긴 가스를 <strong>빼내고 다시 봉합</strong>니다</td>
+            <td>남으면 셀이 부풀고 <strong>전극이 들뜹니다</strong></td></tr>
+          <tr><td class="k">숙성<br><span class="en">에이징</span></td>
+            <td>일정 온도에서 <strong>며칠 재웁니다</strong></td>
+            <td>막이 안정되고, <strong>불량 셀이 스스로 드러납니다</strong></td></tr>
+          <tr><td class="k">선별<br><span class="en">그레이딩</span></td>
+            <td>용량·전압·자기방전을 재서 <strong>등급을 나눕니다</strong></td>
+            <td>비슷한 셀끼리 묶어야 <strong>팩 성능이 나옵니다</strong></td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">'선별'이 왜 중요한가 — 가장 약한 셀이 전체를 정합니다</div>
+        <p>팩 안의 셀들은 <strong>직렬로 이어져</strong> 같은 전류를 함께 받습니다.
+          그런데 용량이 조금이라도 다르면 <strong>작은 셀이 먼저 가득 차고 먼저 바닥납니다</strong>.
+          그 셀 하나 때문에 충전도 방전도 멈춥니다.</p>
+        <p>그래서 <strong>비슷한 셀끼리 모아 묶는</strong> 것이 팩 성능의 출발점입니다.
+          14장에서 본 BMS의 <strong>밸런싱</strong>은 그 뒤에 생기는 차이를 계속 맞춰 주는 일이고요.
+          <strong>애초에 고르게 만드는 것 &gt; 나중에 맞추는 것</strong>입니다.</p>
+      </div>
+
+      <h3 class="t-h">품질을 정하는 세 가지 — 수율·이물·건조</h3>
+      <p>같은 설계로 만들어도 공장마다 결과가 다릅니다. 실제로 갈리는 지점은 이 셋입니다.</p>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:18%">항목</th><th style="width:42%">무엇이 문제인가</th><th style="width:40%">왜 치명적인가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">이물<br><span class="en">금속 가루</span></td>
+            <td>공정 중 <strong>쇳가루 한 조각</strong>이 섞여 들어갑니다</td>
+            <td>분리막을 뚫으면 <strong>내부 단락</strong>입니다.
+              대규모 리콜의 원인이 대개 이것입니다</td></tr>
+          <tr><td class="k">수분</td>
+            <td>전극·전해액에 <strong>물기</strong>가 남습니다</td>
+            <td>리튬염과 반응해 <strong>불산(HF)</strong>이 생겨
+              전극을 갉아먹고 가스를 냅니다</td></tr>
+          <tr><td class="k">수율</td>
+            <td>만든 것 중 <strong>쓸 수 있는 비율</strong></td>
+            <td>버리는 만큼 그대로 원가입니다.
+              신공장 초기에 원가가 높은 이유입니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">배터리 공장이 반도체 공장을 닮은 이유</div>
+        <p>먼지 한 톨, 물기 한 방울이 <strong>화재로 이어질 수 있는</strong> 제품이기 때문입니다.
+          그래서 전극 공정은 <strong>건조실</strong>에서, 조립은 <strong>청정실</strong>에서 합니다.
+          습도를 낮게 유지하는 데만 상당한 전기가 들어갑니다.</p>
+        <p>"배터리는 화학이 아니라 <strong>제조업</strong>"이라는 말이 여기서 나옵니다.
+          좋은 소재를 알아도 <strong>고르게, 깨끗하게, 많이</strong> 만드는 것은 다른 실력입니다.</p>
+      </div>
+
     </details>
 
     <!-- ══════════ 08 ══════════ -->
@@ -2610,7 +2691,7 @@
 
     <!-- ══════════ 10 ══════════ -->
     <details class="sec-card full" id="others">
-      <summary class="sec-head"><span class="sec-num">10</span><h2>리튬이온 말고 다른 전지들</h2><span class="sec-meta">그림 4 · 표 1</span></summary>
+      <summary class="sec-head"><span class="sec-num">10</span><h2>리튬이온 말고 다른 전지들</h2><span class="sec-meta">그림 4 · 표 3</span></summary>
       <p>배터리가 리튬이온만 있는 건 아닙니다. 자동차 시동을 거는 <strong>납축전지</strong>부터
         축구장만 한 <strong>바나듐 흐름전지</strong>까지, 쓰임새마다 어울리는 전지가 따로 있는데요.</p>
 
@@ -2887,6 +2968,86 @@
           그래서 "해가 지고 난 밤 10시간을 버텨야 하는" 대형 ESS에 잘 맞습니다.
           게다가 <strong>액체라 불이 날 일이 없고</strong>, 수만 번을 충·방전해도 성능이 거의 줄지 않죠.</p>
       </div>
+      <h3 class="t-h">한자리에 놓고 비교하면</h3>
+      <p>지금까지 본 전지들을 <strong>같은 잣대</strong>로 놓아 보겠습니다.
+        어느 것이 좋은지가 아니라 <strong>어느 자리에 맞는지</strong>가 드러납니다.</p>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:15%">전지</th><th style="width:13%">에너지밀도</th><th style="width:12%">수명</th><th style="width:12%">값</th><th style="width:12%">안전</th><th style="width:36%">어울리는 자리</th></tr></thead>
+        <tbody>
+          <tr><td class="k">리튬이온<br>(NCM)</td><td>매우 높음</td><td>보통</td><td>비쌈</td><td>보통</td>
+            <td>전기차·휴대기기 — <strong>무게와 부피가 아까운</strong> 모든 곳</td></tr>
+          <tr><td class="k">리튬이온<br>(LFP)</td><td>보통</td><td>김</td><td>쌈</td><td>좋음</td>
+            <td>보급형 전기차·ESS — <strong>오래 안전하게</strong> 써야 하는 곳</td></tr>
+          <tr><td class="k">나트륨이온</td><td>낮음</td><td>보통</td><td>매우 쌈</td><td>좋음</td>
+            <td>ESS·저가 이동수단 — <strong>무게가 문제 안 되고</strong> 추운 곳</td></tr>
+          <tr><td class="k">납축전지</td><td>매우 낮음</td><td>짧음</td><td>가장 쌈</td><td>좋음</td>
+            <td>자동차 시동·비상 전원 — <strong>순간 큰 전류</strong>가 필요한 곳</td></tr>
+          <tr><td class="k">니켈수소</td><td>낮음</td><td>매우 김</td><td>보통</td><td>매우 좋음</td>
+            <td>하이브리드차 — <strong>얕게 자주</strong> 쓰는 곳</td></tr>
+          <tr><td class="k">바나듐<br>흐름전지</td><td>매우 낮음</td><td>매우 김</td><td>초기 비쌈</td><td>매우 좋음</td>
+            <td>대형 ESS — <strong>부피가 문제 안 되는</strong> 고정 설치</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">왜 아직도 납축전지를 쓸까요</div>
+        <p>에너지밀도가 리튬이온의 몇 분의 1에 불과한데도 자동차마다 들어 있습니다.
+          이유는 <strong>시동에 필요한 것이 에너지가 아니라 순간 전류</strong>이기 때문입니다.
+          몇 초 동안 수백 암페어를 쏟아내는 일은 납축전지가 <strong>싸고 확실하게</strong> 해냅니다.</p>
+        <p>게다가 <strong>영하에서도 잘 견디고</strong>, 재활용 체계가 이미 잘 갖춰져 있습니다.
+          "낡은 기술이 안 밀려나는" 것이 아니라 <strong>그 자리에 가장 잘 맞는</strong> 것입니다.</p>
+      </div>
+
+      <h3 class="t-h">나트륨이온은 리튬을 대체할까요</h3>
+      <p>요즘 가장 많이 나오는 질문입니다. <strong>대체가 아니라 분담</strong>으로 보시는 편이 정확합니다.</p>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:24%">나트륨의 강점</th><th style="width:38%">내용</th><th style="width:38%">따라오는 약점</th></tr></thead>
+        <tbody>
+          <tr><td class="k">원료가 흔합니다</td>
+            <td>소금에서 얻습니다. <strong>지역 편중이 거의 없습니다</strong></td>
+            <td>원료가 싸도 <strong>공정과 설비 값</strong>은 따로입니다</td></tr>
+          <tr><td class="k">추위에 강합니다</td>
+            <td>저온에서 성능 저하가 <strong>리튬보다 적습니다</strong></td>
+            <td>상온 성능 자체가 낮아 <strong>출발선이 아래</strong>입니다</td></tr>
+          <tr><td class="k">과방전에 강합니다</td>
+            <td><strong>0V까지 비워도</strong> 크게 상하지 않습니다.
+              운송·보관이 안전합니다</td>
+            <td>—</td></tr>
+          <tr><td class="k">알루미늄 집전체</td>
+            <td>음극에도 <strong>구리 대신 알루미늄</strong>을 씁니다. 값싸고 가볍습니다</td>
+            <td>절감폭이 전체 원가를 뒤집을 만큼은 아닙니다</td></tr>
+          <tr><td class="k">—</td>
+            <td>—</td>
+            <td><strong>나트륨이 리튬보다 무겁고 큽니다.</strong>
+              같은 부피에 덜 담기는 것은 <strong>원소의 성질</strong>이라 바꿀 수 없습니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">핵심은 마지막 줄입니다</div>
+        <p>나트륨 원자는 리튬보다 <strong>무겁고 덩치가 큽니다</strong>.
+          이건 공정이나 설계로 극복할 수 있는 문제가 아니라 <strong>주기율표가 정한 것</strong>입니다.
+          그래서 나트륨이온은 <strong>전기차에서 리튬을 밀어내기 어렵고</strong>,
+          <strong>무게가 문제 되지 않는 자리</strong>(고정형 ESS, 근거리 이동수단)에서 강합니다.</p>
+        <p>거꾸로 말하면, 리튬 값이 오를수록 <strong>그런 자리를 나트륨이 가져갑니다.</strong>
+          그만큼 리튬은 정말 필요한 곳에 쓰이게 되고요. 대체가 아니라 <strong>역할 나누기</strong>입니다.</p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">한 줄로 정리하면</div>
+        <p>전지 종류를 고르는 질문은 <strong>"무엇이 가장 좋은가"가 아니라
+          "무엇이 아까운가"</strong>입니다.
+          무게가 아까우면 리튬이온, 값이 아까우면 LFP·나트륨,
+          부피는 넉넉하고 수명이 아까우면 흐름전지입니다.
+          <strong>아까운 것이 정해지면 답은 거의 하나로 좁혀집니다.</strong></p>
+      </div>
+
     </details>
 
     <!-- ══════════ 11 ══════════ -->
