@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-12T04:51:10",
+  "generated_at": "2026-08-12T12:34:14",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -137,6 +137,21 @@
       "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-12-코스닥의-만년-저평가-새로-나오는-셀렉트-지수-가-해소할-수-있을까요",
+      "date": "2026-08-12",
+      "channel": "손에 잡히는 경제",
+      "title": "코스닥의 만년 저평가, 새로 나오는 '셀렉트 지수'가 해소할 수 있을까요?",
+      "summary": "코스닥 저평가 해소를 위한 '셀렉트 지수' 추진과 시장에 미칠 영향.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-08-12-코스닥의-만년-저평가-새로-나오는-셀렉트-지수-가-해소할-수-있을까요.html",
+      "video": "https://www.youtube.com/watch?v=BwpHq0BEimk",
+      "video_id": "BwpHq0BEimk",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-08-10-금리와-채권의-역사에서-찾는-투자와-자산관리의-지혜",
