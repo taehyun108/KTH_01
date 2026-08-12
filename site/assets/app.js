@@ -11,6 +11,9 @@ const CATEGORIES = {
 const REL = {
   direct:   { label: '🔋 직접', cls: 'badge-rel-direct' },
   indirect: { label: '🔋 간접', cls: 'badge-rel-indirect' },
+  // 배터리 언급은 없지만 산업 환경으로서 의미가 있는 글.
+  // 억지로 배터리를 갖다 붙이는 대신 '산업'이라고 정직하게 표시한다.
+  context:  { label: '🏭 산업', cls: 'badge-rel-context' },
 };
 // 채널 태그 색상 팔레트 (이름 해시로 배정)
 const TAG_COLORS = ['#0ea5e9','#6366f1','#0891b2','#7c3aed','#ea8a0b','#e11d48','#0d9488','#2563eb'];
