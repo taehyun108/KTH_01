@@ -114,12 +114,31 @@ def fetch(video_ids: list[str]) -> dict[str, dict]:
     return out
 
 
+def announce() -> None:
+    """이 경로를 쓰는지 <반드시 한 줄> 남긴다.
+
+    ※ 왜 굳이 로그를 남기는가
+      처음에는 키가 없으면 조용히 건너뛰게 만들었습니다. 그랬더니 시크릿 이름이
+      'YOURUBE_API_KEY' 로 잘못 들어갔을 때 아무 표시도 없어서, 붙었는지 아닌지를
+      며칠 동안 추측해야 했습니다(2026-08-12).
+      꺼져 있다는 사실도 <보여야> 정보입니다. 조용한 실패가 가장 비쌉니다.
+    """
+    if api_key():
+        print("  [yt-api] 사용합니다 (설명글·영상 길이 보강)")
+    else:
+        print("  [yt-api] YOUTUBE_API_KEY 가 없어 건너뜁니다 — "
+              "설명글 없는 후보는 계속 '근거부족'으로 남습니다.\n"
+              "           저장소 Settings → Secrets and variables → Actions 에서 "
+              "이름이 정확히 'YOUTUBE_API_KEY' 인지 확인하세요.", file=sys.stderr)
+
+
 def enrich(candidates: list[dict], min_chars: int) -> tuple[int, int]:
     """설명이 부족한 후보를 골라 채우고, 길이로 쇼츠를 걸러 낸다.
 
     반환: (설명을 채운 건수, 쇼츠로 걸러 낸 건수)
     ※ candidates 는 <제자리에서> 수정되고, 쇼츠는 목록에서 제거됩니다.
     """
+    announce()
     if not available():
         return (0, 0)
 
