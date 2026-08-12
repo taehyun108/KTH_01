@@ -14,10 +14,19 @@ name: Build report archive
 #   동안 해당 cron 줄을 지우면 그 실행이 함께 사라진다.
 #   2026-08-10 에 이렇게 아침 실행 한 번을 통째로 날렸다.
 #   최근 실행 시각은 Actions 탭에서 확인할 수 있다.
+# ※ 왜 하루 두 번이 아니라 네 번인가
+#   GitHub 는 예약(schedule)을 <보장하지 않는다>. 부하가 몰리면 밀리는 정도가 아니라
+#   그냥 건너뛴다. 2026-08-12 아침(23:43Z 예정)이 실제로 그렇게 통째로 사라졌다
+#   — 대기열에도 없고 실행 기록도 없었다.
+#   두 번만 걸어 두면 한 번 걸렀을 때 반나절이 비지만, 네 번이면 그 사이를 메운다.
+#   파이프라인은 이미 처리한 영상을 다시 만들지 않으므로(seen_store) 더 돌아도
+#   손해가 없고, 쿼터는 어차피 하루 한도가 알아서 막는다.
 on:
   schedule:
-    - cron: "43 23 * * *"   # → 08:43 KST 예정, 09:00 안팎 도착 기대
-    - cron: "43 11 * * *"   # → 20:43 KST 예정, 21:00 안팎 도착 기대
+    - cron: "43 23 * * *"   # → 08:43 KST 예정 (아침 본편)
+    - cron: "17 02 * * *"   # → 11:17 KST 예정 (아침이 걸렀을 때 받쳐 줌)
+    - cron: "43 11 * * *"   # → 20:43 KST 예정 (저녁 본편)
+    - cron: "17 14 * * *"   # → 23:17 KST 예정 (저녁이 걸렀을 때 받쳐 줌)
   workflow_dispatch:
     inputs:
       since:
@@ -109,17 +118,43 @@ jobs:
         if: always()
         run: PYTHONPATH=scripts python scripts/check_tone.py
 
+      # ※ push 전에 반드시 원격을 받아 붙인다.
+      #   2026-08-11 아침 실행이 정확히 이것 때문에 통째로 날아갔다.
+      #     [main 42cdbc6] chore: update battery report archive
+      #      1 file changed, 25 insertions(+)
+      #      ! [rejected]  main -> main (fetch first)
+      #   실행 도중 사람이 main 에 커밋하면 러너 클론이 뒤처지고, 그대로 push 하면
+      #   거부당하면서 그 실행이 만든 리포트가 전부 버려진다.
+      #   커밋까지 다 해 놓고 마지막 한 줄에서 잃는 것이라 손해가 크다.
       - name: Commit new reports
         if: always()
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if [ -n "$(git status --porcelain site/)" ]; then
-            git add site/
-            git commit -m "chore: update battery report archive"
-            git push
-          else
+          if [ -z "$(git status --porcelain site/)" ]; then
             echo "변경 사항 없음"
+            exit 0
           fi
+          git add site/
+          git commit -m "chore: update battery report archive"
+
+          # 원격이 앞서 있으면 받아 붙인 뒤 다시 시도한다.
+          # 우리 커밋은 site/ 안의 서로 다른 파일이라 충돌이 사실상 없다.
+          for i in 1 2 3 4 5; do
+            if git push; then
+              echo "push 완료 (시도 $i)"
+              exit 0
+            fi
+            echo "push 거부됨 — 원격을 받아 붙인 뒤 다시 시도합니다 ($i/5)"
+            git fetch origin main
+            if ! git rebase origin/main; then
+              git rebase --abort || true
+              echo "::error::원격 변경과 충돌해 자동으로 합치지 못했습니다"
+              exit 1
+            fi
+            sleep $((i * 5))
+          done
+          echo "::error::5회 시도했지만 push 하지 못했습니다"
+          exit 1
       # main 에 커밋이 push 되면 pages.yml 이 자동으로 재배포합니다.
       # (archive.yml 은 push 로 트리거되지 않으므로 [skip ci] 불필요)

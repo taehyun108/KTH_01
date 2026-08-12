@@ -519,6 +519,28 @@ def check_shorts_guard_wired() -> list[str]:
     return out
 
 
+# 워크플로가 리포트를 push 하지 못해 통째로 잃는 일을 막는 장치.
+# 2026-08-11 아침 실행이 실제로 이렇게 날아갔다 — 커밋까지 다 해 놓고
+# 마지막 push 한 줄에서 'fetch first' 로 거부당해 그 실행의 결과물이 전부 버려졌다.
+# 실행 도중 사람이 main 에 커밋하면 언제든 재현되는 상황이다.
+def check_workflow_push_retry() -> list[str]:
+    from pathlib import Path
+    wf = (Path(__file__).resolve().parent.parent
+          / ".github/workflows/archive.yml").read_text(encoding="utf-8")
+    out = []
+    for needle, why in (
+        ("git fetch origin main", "push 거부 시 원격을 받아 와야 한다"),
+        ("git rebase origin/main", "받아 온 것을 붙여야 한다"),
+        ("rebase --abort", "충돌 시 깨끗이 되돌려야 한다"),
+    ):
+        if needle not in wf:
+            out.append(f"  [{why}] {needle!r} 가 사라졌습니다")
+    # 예약이 걸러졌을 때를 대비해 하루 여러 번 돌아야 한다
+    if wf.count("- cron:") < 4:
+        out.append("  [예약을 넉넉히] GitHub 는 예약을 건너뛸 수 있어 4회 이상이어야 합니다")
+    return out
+
+
 def check_shorts() -> list[str]:
     out = []
     for dur, title, expect in SHORTS_CASES:
@@ -555,12 +577,13 @@ def main() -> int:
     fails += check_stop_reason()
     fails += check_gh_fallback()
     fails += check_workflow_models_perm()
+    fails += check_workflow_push_retry()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
              + 4     # PC 자막 수집 git 처리
-             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활 — "
+             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)
