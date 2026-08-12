@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-12T03:03:11",
+  "generated_at": "2026-08-12T04:51:10",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -74,6 +74,66 @@
       "url": "2026-08-12-미국의-아킬레스건-희토류의-비밀과-뼈아픈-과거.html",
       "video": "https://www.youtube.com/watch?v=Fuqe0lpoM98",
       "video_id": "Fuqe0lpoM98",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-12-트럼프와-연준이-준-신호-2026년-새로운-주도주는",
+      "date": "2026-08-12",
+      "channel": "소수몽키",
+      "title": "트럼프와 연준이 준 신호, 2026년 새로운 주도주는?",
+      "summary": "트럼프의 감세·유가 안정 정책과 연준의 경기 회복 전망이 겹치면서 2026년 소비와 경기 관련주에 새로운 활력이 돌 것으로 보입니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-08-12-트럼프와-연준이-준-신호-2026년-새로운-주도주는.html",
+      "video": "https://www.youtube.com/watch?v=FkRGPrmKMcU",
+      "video_id": "FkRGPrmKMcU",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-12-미-재무부의-국채-발행-꼼수와-숨겨진-약점",
+      "date": "2026-08-12",
+      "channel": "박종훈의 지식한방",
+      "title": "미 재무부의 국채 발행 꼼수와 숨겨진 약점",
+      "summary": "미국 재무부가 대규모 국채 발행에 따른 금리 상승을 막기 위해 단기채 위주 발행과 바이백이라는 묘수를 꺼내 들었습니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-08-12-미-재무부의-국채-발행-꼼수와-숨겨진-약점.html",
+      "video": "https://www.youtube.com/watch?v=-wDkpZ_CF3M",
+      "video_id": "-wDkpZ_CF3M",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-12-미일-관세-합의-번복-논란-무엇이-진실일까요",
+      "date": "2026-08-12",
+      "channel": "박종훈의 지식한방",
+      "title": "미일 관세 합의 번복 논란, 무엇이 진실일까요?",
+      "summary": "미일 긴급 회담에서 관세 상한이 15%로 수정 발표된 이후 일본 언론의 보도와 미국 측 반응 사이에 혼선이 빚어진 배경을 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-08-12-미일-관세-합의-번복-논란-무엇이-진실일까요.html",
+      "video": "https://www.youtube.com/watch?v=YZu7CWSbrU0",
+      "video_id": "YZu7CWSbrU0",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-12-인도에-50-관세-폭탄-중국-대신-왜-인도를-먼저-때렸을까요",
+      "date": "2026-08-12",
+      "channel": "박종훈의 지식한방",
+      "title": "인도에 50% 관세 폭탄, 중국 대신 왜 인도를 먼저 때렸을까요",
+      "summary": "미국의 인도 관세 부과와 러·우 전쟁 속에서 얽혀 있는 통상 질서와 에너지 유가의 흐름을 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-08-12-인도에-50-관세-폭탄-중국-대신-왜-인도를-먼저-때렸을까요.html",
+      "video": "https://www.youtube.com/watch?v=8UetPUL5SGY",
+      "video_id": "8UetPUL5SGY",
       "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
@@ -2003,6 +2063,21 @@
       "video": "https://www.youtube.com/shorts/VG0s-8uSBHE",
       "video_id": "VG0s-8uSBHE",
       "pv": 5
+    },
+    {
+      "id": "2026-07-13-이란-확전-위기-재점화-코스피-흔드는-진짜-이유",
+      "date": "2026-07-13",
+      "channel": "박종훈의 지식한방",
+      "title": "이란 확전 위기 재점화, 코스피 흔드는 진짜 이유",
+      "summary": "미국과 이란이 종전 합의를 맺었다는 소식에도 호르무즈 해협을 둘러싼 갈등이 가라앉지 않으면서 글로벌 증시와 국내 주식시장의 변동성이 커지고 있습니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-07-13-이란-확전-위기-재점화-코스피-흔드는-진짜-이유.html",
+      "video": "https://www.youtube.com/watch?v=xK0ty4Ot2Nk",
+      "video_id": "xK0ty4Ot2Nk",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
     }
   ]
 }
