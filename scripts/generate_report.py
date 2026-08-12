@@ -888,9 +888,40 @@ def analyze_video_direct(meta: dict[str, Any], force: bool = False,
     return data
 
 
+# 설명글에서 <내용이 아닌 것>을 걷어 내는 패턴.
+# 유튜브 설명글은 대개 절반 이상이 구독 안내·링크·해시태그·타임스탬프다.
+_NOISE = (
+    re.compile(r"https?://\S+"),                      # 링크
+    re.compile(r"#\S+"),                              # 해시태그
+    re.compile(r"^\s*\d{1,2}:\d{2}(:\d{2})?\s.*$", re.M),  # 00:00 목차
+    re.compile(r"[\w.+-]+@[\w-]+\.[\w.]+"),           # 이메일
+)
+_PROMO = ("구독", "좋아요", "알림 설정", "비즈니스 문의", "제휴 문의", "광고 문의",
+          "후원", "멤버십", "댓글", "공유", "subscribe", "follow us", "instagram",
+          "facebook", "twitter", "sponsor", "business inquir")
+
+
+def _meaningful(text: str) -> str:
+    """설명글에서 홍보·링크·해시태그를 걷어 낸 <실제 내용>만 남긴다."""
+    t = text or ""
+    for pat in _NOISE:
+        t = pat.sub(" ", t)
+    keep = [ln for ln in t.splitlines()
+            if not any(w in ln.lower() for w in _PROMO)]
+    return re.sub(r"\s+", " ", " ".join(keep)).strip()
+
+
 def _context_len(transcript: str, meta: dict[str, Any]) -> int:
-    """요약 근거로 쓸 수 있는 실제 본문 길이(제목은 근거로 치지 않는다)."""
-    return len((transcript or "").strip()) + len((meta.get("description") or "").strip())
+    """요약 근거로 쓸 수 있는 실제 본문 길이(제목은 근거로 치지 않는다).
+
+    ※ 홍보 문구를 근거로 세면 안 된다 (2026-08-12 에 이것 때문에 62건을 잃었다)
+      설명글이 '구독과 좋아요! 문의: …' 뿐인데도 길이만 보고 '근거 있음'으로 판단해
+      Gemini 에 텍스트로 물었고, 당연히 '무관'이 돌아왔다. 그 판정이 기록으로 남아
+      <영상 직접 분석 기회까지 사라졌다>. 실제로 그날 나온 리포트 3건 중 2건은
+      영상 분석에서 나왔다 — 텍스트로 물었으면 그 2건도 무관으로 묻혔을 것이다.
+      홍보 문구를 걷어 내고 남은 것이 짧으면 '근거 없음'으로 보고 영상 분석에 넘긴다.
+    """
+    return len((transcript or "").strip()) + len(_meaningful(meta.get("description")))
 
 
 def analyze(meta: dict[str, Any], transcript: str, transcript_source: str,
