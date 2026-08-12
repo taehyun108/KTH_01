@@ -165,6 +165,12 @@ def main() -> int:
         extra = f" · RSS 가 되살린 쇼츠 {len(revived)}건 제외" if revived else ""
         print(f"1차 후보 — RSS {len(rss)}건 + 최근 {MAX_AGE_DAYS}일 열거 {len(hist)}건 "
               f"→ 중복 제거 {len(candidates)}건{extra}")
+
+        # 열거한 후보는 설명글이 0자다(extract_flat 이 설명을 안 준다).
+        # 공식 API 로 설명글과 길이를 채운다 — 후보 200건이라도 4유닛이면 끝난다.
+        # 키가 없으면 아무 일도 하지 않고 지금까지처럼 진행한다.
+        import yt_meta
+        yt_meta.enrich(candidates, MIN_CONTEXT_CHARS)
     seen = _seen_video_ids()
     # 발행된 것뿐 아니라 <이미 판정이 끝난> 것도 제외한다. 그러지 않으면 30일 후보 풀
     # 안의 '무관' 영상을 매 실행 다시 Gemini 에 물어보며 하루치 쿼터를 거기서 다 쓴다.

@@ -541,6 +541,45 @@ def check_workflow_push_retry() -> list[str]:
     return out
 
 
+# 공식 YouTube Data API 로 설명글과 길이를 채우는 경로.
+# 후보 대부분이 '설명글 0자'라 근거부족으로 끝나던 문제를 푸는 장치다.
+# 키가 없을 때 조용히 비활성인지, 길이로 쇼츠를 확실히 거르는지를 고정한다.
+def check_yt_meta() -> list[str]:
+    import os
+    import fetch_history
+    import yt_meta
+
+    out = []
+    saved = os.environ.get("YOUTUBE_API_KEY")
+    saved_short = set(fetch_history.SHORT_IDS)
+    try:
+        os.environ.pop("YOUTUBE_API_KEY", None)
+        yt_meta._fails = 0
+        if yt_meta.available():
+            out.append("  [키 없으면 비활성이어야 함] available()=True")
+        if yt_meta.fetch(["x"]) != {} or yt_meta.enrich([], 200) != (0, 0):
+            out.append("  [키 없으면 아무 일도 하지 않아야 함] 값을 돌려줬습니다")
+
+        for text, want in (("PT1H2M3S", 3723), ("PT45S", 45),
+                           ("PT3M", 180), ("망가진값", None)):
+            got = yt_meta._iso8601_seconds(text)
+            if got != want:
+                out.append(f"  [길이 파싱 {text!r} → {want}] 실제 {got}")
+
+        # 50개씩 묶어 보내야 유닛을 아낀다
+        if [len(c) for c in yt_meta._chunks(list(range(120)), yt_meta.BATCH)] != [50, 50, 20]:
+            out.append("  [50개씩 묶어야 함] 배치 크기가 달라졌습니다")
+    finally:
+        fetch_history.SHORT_IDS.clear()
+        fetch_history.SHORT_IDS.update(saved_short)
+        yt_meta._fails = 0
+        if saved is None:
+            os.environ.pop("YOUTUBE_API_KEY", None)
+        else:
+            os.environ["YOUTUBE_API_KEY"] = saved
+    return out
+
+
 def check_shorts() -> list[str]:
     out = []
     for dur, title, expect in SHORTS_CASES:
@@ -578,12 +617,13 @@ def main() -> int:
     fails += check_gh_fallback()
     fails += check_workflow_models_perm()
     fails += check_workflow_push_retry()
+    fails += check_yt_meta()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
              + 4     # PC 자막 수집 git 처리
-             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구 — "
+             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4 + 7)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

@@ -80,6 +80,9 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
           # Gemini 한도 소진 시 예비 추론 경로(GitHub Models). 별도 키 없이 쓰는 토큰.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # 설명글·영상 길이를 공식 API 로 가져옵니다(무료 10,000유닛/일, 후보 200건에 4유닛).
+          # 없으면 그냥 건너뜁니다 — 지금까지와 똑같이 동작합니다.
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           BACKFILL_SINCE: ${{ github.event.inputs.since }}
           # 자막이 막힌 환경에서 Gemini 가 영상을 직접 보고 쓰는 리포트의 실행당 상한.
           # 무료 티어의 하루 영상 처리 한도(약 8시간)를 넘지 않도록 40분 × 5건으로 잡음.
