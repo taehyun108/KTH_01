@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>이차전지 용어집 — 이차전지 리포트 아카이브</title>
   <meta name="description" content="양극재·음극재·전구체·전해액·분리막부터 제조공정, 셀·모듈·팩 조립, 배터리 종류, 성능 분석법까지 그림으로 쉽게 풀어 쓴 이차전지 용어집." />
-  <link rel="stylesheet" href="../assets/style.css?v=32" />
+  <link rel="stylesheet" href="../assets/style.css?v=33" />
 </head>
 <body>
   <header class="report-hero">
@@ -52,7 +52,7 @@
       <a class="gcard" href="#elyte">
         <span class="gc-icon" aria-hidden="true">💧</span>
         <span class="gc-body"><span class="gc-num">05</span><span class="gc-title">전해액과 분리막</span>
-        <span class="gc-blurb">리튬이 다니는 길과, 두 극을 가르는 막</span><span class="gc-meta">표 2</span></span>
+        <span class="gc-blurb">리튬이 다니는 길과, 두 극을 가르는 막</span><span class="gc-meta">표 5</span></span>
       </a>
       <a class="gcard" href="#matproc">
         <span class="gc-icon" aria-hidden="true">⛏️</span>
@@ -102,7 +102,7 @@
       <a class="gcard" href="#next">
         <span class="gc-icon" aria-hidden="true">🧊</span>
         <span class="gc-body"><span class="gc-num">15</span><span class="gc-title">차세대 기술</span>
-        <span class="gc-blurb">전고체 배터리는 무엇이 다른가</span><span class="gc-meta">그림 1 · 표 1</span></span>
+        <span class="gc-blurb">전고체 배터리는 무엇이 다른가</span><span class="gc-meta">그림 1 · 표 3</span></span>
       </a>
       <a class="gcard" href="#trend">
         <span class="gc-icon" aria-hidden="true">📈</span>
@@ -1250,7 +1250,7 @@
     </details>
     <!-- ══════════ 05 ══════════ -->
     <details class="sec-card full" id="elyte">
-      <summary class="sec-head"><span class="sec-num">05</span><h2>전해액과 분리막</h2><span class="sec-meta">표 2</span></summary>
+      <summary class="sec-head"><span class="sec-num">05</span><h2>전해액과 분리막</h2><span class="sec-meta">표 5</span></summary>
 
       <h3 class="t-h">전해액 — 세 가지를 섞어 만듭니다</h3>
       <div class="tbl-scroll">
@@ -1307,6 +1307,114 @@
           <strong>주행거리가 늘어나는데요</strong>, 얇으면 그만큼 찢어지기 쉬워 <strong>안전에는 불리</strong>해집니다.
           "에너지냐 안전이냐" 줄다리기가 가장 잘 드러나는 지점이죠.</p>
       </div>
+      <h3 class="t-h">첨가제 — 전체의 몇 %가 수명을 정합니다</h3>
+      <p>전해액에서 <strong>가장 비싸고 가장 비밀스러운 부분</strong>이 첨가제입니다.
+        양으로는 몇 %에 불과한데, <strong>수명·안전·급속충전이 여기서 갈립니다</strong>.
+        회사마다 배합을 공개하지 않는 이유입니다.</p>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:22%">첨가제 역할</th><th style="width:40%">무엇을 하나</th><th style="width:38%">없으면 어떻게 되나</th></tr></thead>
+        <tbody>
+          <tr><td class="k">SEI 막 만들기</td>
+            <td>첫 충전 때 <strong>음극 표면에 얇은 보호막</strong>을 일부러 만들어 줍니다.
+              전해액보다 <strong>먼저 분해되도록</strong> 설계된 물질입니다</td>
+            <td>전해액이 직접 분해되며 <strong>두껍고 엉성한 막</strong>이 생깁니다.
+              저항이 크고 리튬을 계속 잡아먹습니다</td></tr>
+          <tr><td class="k">과충전 막기</td>
+            <td>정해진 전압을 넘으면 <strong>스스로 반응해</strong> 전류를 흘려보내거나
+              가스를 내 차단 장치를 작동시킵니다</td>
+            <td>충전기가 고장 나면 <strong>막을 것이 없습니다</strong></td></tr>
+          <tr><td class="k">불 붙기 어렵게</td>
+            <td>인(P) 계열 등을 넣어 <strong>불꽃이 번지는 것을 방해</strong>합니다</td>
+            <td>전해액은 원래 <strong>잘 타는 액체</strong>입니다</td></tr>
+          <tr><td class="k">가스 줄이기</td>
+            <td>고온에서 생기는 <strong>가스 발생을 억제</strong>합니다</td>
+            <td>파우치 셀이 <strong>빵빵하게 부풉니다</strong>(스웰링)</td></tr>
+          <tr><td class="k">저온 성능</td>
+            <td>추울 때도 <strong>리튬이 잘 움직이도록</strong> 용매 조합을 돕습니다</td>
+            <td>겨울에 저항이 크게 올라 <strong>주행거리와 충전 속도</strong>가 떨어집니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">SEI 막 — 없어도 안 되고 두꺼워도 안 됩니다</div>
+        <p>첫 충전 때 음극 표면에 생기는 얇은 막입니다.
+          <strong>리튬은 통과시키고 전해액은 막는</strong> 문지기 역할을 하는데요.
+          이 막이 없으면 전해액이 계속 분해되어 배터리가 몇 번 못 갑니다.</p>
+        <p>다만 <strong>두꺼워지면 저항</strong>이 됩니다. 게다가 막을 만드는 데 쓰인 리튬은
+          <strong>영영 돌아오지 않습니다</strong>. 첫 충·방전에서 용량이 몇 % 줄어드는 것이 이 때문이고,
+          이 값을 <strong>초기 효율</strong>이라 부릅니다.</p>
+        <p>그래서 좋은 첨가제란 <strong>얇고 촘촘하고 튼튼한 막을 한 번에 만들어 주는</strong> 것입니다.
+          실리콘 음극에서 특히 중요합니다 — 부풀었다 줄면서 막이 자꾸 깨지고 새로 생기거든요.</p>
+      </div>
+
+      <h3 class="t-h">분리막 — 마지막 안전장치입니다</h3>
+      <p>분리막은 에너지를 <strong>전혀 담지 않습니다</strong>. 그런데도 없으면 배터리가 성립하지 않는데요.
+        두 극이 닿는 순간이 곧 <strong>내부 단락</strong>이기 때문입니다.</p>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:20%">보는 값</th><th style="width:40%">무슨 뜻인가</th><th style="width:40%">맞바꿈</th></tr></thead>
+        <tbody>
+          <tr><td class="k">두께</td>
+            <td>보통 <strong>머리카락의 10분의 1 수준</strong>입니다</td>
+            <td>얇을수록 <strong>에너지밀도 ↑</strong>, 대신 <strong>뚫릴 위험 ↑</strong></td></tr>
+          <tr><td class="k">기공률<br><span class="en">구멍 비율</span></td>
+            <td>전체에서 <strong>구멍이 차지하는 비율</strong></td>
+            <td>많을수록 <strong>리튬이 잘 다니고</strong>, 대신 <strong>약해집니다</strong></td></tr>
+          <tr><td class="k">기공 크기</td>
+            <td>구멍 하나의 크기</td>
+            <td>크면 잘 통하고, <strong>너무 크면 입자가 새어</strong> 단락 위험</td></tr>
+          <tr><td class="k">셧다운 온도</td>
+            <td>열이 오르면 <strong>구멍이 녹아 막히는</strong> 온도</td>
+            <td>낮으면 일찍 보호, 대신 <strong>정상 사용 중 오작동</strong> 우려</td></tr>
+          <tr><td class="k">멜트다운 온도</td>
+            <td>막 자체가 <strong>녹아 없어지는</strong> 온도</td>
+            <td>높을수록 안전합니다. 셧다운과 <strong>차이가 클수록</strong> 좋습니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">'셧다운' — 분리막이 스스로 문을 닫습니다</div>
+        <p>온도가 오르면 분리막의 <strong>미세한 구멍들이 녹아 막힙니다</strong>.
+          길이 막히면 리튬이 못 다니고, 리튬이 못 다니면 <strong>반응이 멈춥니다</strong>.
+          배터리가 스스로 브레이크를 거는 셈입니다.</p>
+        <p>문제는 <strong>더 뜨거워지면 막 자체가 녹아 사라진다</strong>는 것입니다(멜트다운).
+          그러면 두 극이 그대로 닿습니다.
+          그래서 <strong>셧다운은 낮게, 멜트다운은 높게</strong> — 이 두 온도 사이의 간격이
+          안전 여유입니다. <strong>세라믹 코팅</strong>을 하는 이유가 바로 멜트다운을 늦추려는 것입니다.</p>
+      </div>
+
+      <h3 class="t-h">전해액·분리막의 줄다리기</h3>
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:28%">이걸 얻으려면</th><th style="width:28%">이걸 내줘야 합니다</th><th style="width:44%">왜 그런가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">에너지 ↑ (분리막 얇게)</td><td>안전성 ↓</td>
+            <td>얇을수록 잘 뚫리고 셧다운 여유가 줄어듭니다</td></tr>
+          <tr><td class="k">출력 ↑ (구멍 많이)</td><td>강도 ↓</td>
+            <td>구멍이 많으면 리튬은 잘 다니지만 막이 약해집니다</td></tr>
+          <tr><td class="k">안전 ↑ (난연 첨가제)</td><td>출력 · 수명 ↓</td>
+            <td>불에 강한 물질은 대개 점성이 높고 리튬을 잘 안 통과시킵니다</td></tr>
+          <tr><td class="k">저온 성능 ↑</td><td>고온 수명 ↓</td>
+            <td>추울 때 잘 흐르게 만든 용매는 더울 때 쉽게 분해됩니다</td></tr>
+          <tr><td class="k">고전압 사용 ↑</td><td>전해액 안정성 ↓</td>
+            <td>전압을 올릴수록 전해액이 견디지 못하고 분해되기 시작합니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">한 줄로 정리하면</div>
+        <p>전해액과 분리막은 <strong>에너지를 하나도 담지 않으면서 배터리의 한계를 정합니다.</strong>
+          "몇 도까지 쓸 수 있나", "몇 볼트까지 올릴 수 있나", "불이 나면 얼마나 버티나" —
+          전부 이 둘이 답을 쥐고 있습니다.
+          양극재를 아무리 좋게 만들어도 <strong>전해액이 못 버티면 그 성능을 쓸 수 없습니다.</strong></p>
+      </div>
+
     </details>
 
     <!-- ══════════ 06 ══════════ -->
@@ -4230,7 +4338,7 @@
 
     <!-- ══════════ 15 ══════════ -->
     <details class="sec-card full" id="next">
-      <summary class="sec-head"><span class="sec-num">15</span><h2>차세대 기술</h2><span class="sec-meta">그림 1 · 표 1</span></summary>
+      <summary class="sec-head"><span class="sec-num">15</span><h2>차세대 기술</h2><span class="sec-meta">그림 1 · 표 3</span></summary>
       <p>지금의 배터리와 <strong>전고체 배터리</strong>가 어떻게 다른지, 그림으로 보시면 한눈에 들어옵니다.</p>
       <figure class="diagram" data-anim data-phase="charge">
         <svg viewBox="0 0 680 270" role="img"
@@ -4315,6 +4423,108 @@
         </tbody>
       </table>
       </div>
+      <h3 class="t-h">전고체는 왜 아직도 안 나올까요 — 진짜 난관 네 가지</h3>
+      <p>"액체를 고체로 바꾸면 된다"는 말은 맞지만, <strong>그 한 문장이 전부 어렵습니다</strong>.
+        액체가 <strong>공짜로 해 주던 일</strong>이 무엇이었는지 보면 이유가 분명해집니다.</p>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:22%">난관</th><th style="width:40%">무엇이 문제인가</th><th style="width:38%">어떻게 풀려 하나</th></tr></thead>
+        <tbody>
+          <tr><td class="k">닿는 면이 부족합니다<br><span class="en">계면 저항</span></td>
+            <td>액체는 <strong>구석구석 스며들어</strong> 알갱이를 다 적십니다.
+              고체는 <strong>점으로만 닿습니다</strong>.
+              닿지 않은 곳의 활물질은 <strong>있으나 마나</strong>입니다</td>
+            <td>가루를 <strong>세게 눌러</strong> 붙이고, 알갱이 표면을 코팅해
+              잘 붙게 만듭니다</td></tr>
+          <tr><td class="k">계속 눌러 줘야 합니다<br><span class="en">가압</span></td>
+            <td>충·방전 때 전극이 <strong>부풀었다 줄어듭니다</strong>.
+              액체는 따라 움직이지만 고체는 <strong>틈이 벌어진 채로</strong> 남습니다</td>
+            <td>셀을 <strong>바깥에서 눌러 두는 구조</strong>로 만듭니다.
+              그 장치의 무게가 다시 부담이 됩니다</td></tr>
+          <tr><td class="k">리튬이 뚫고 자랍니다<br><span class="en">덴드라이트</span></td>
+            <td>고체면 안전할 것 같지만, 리튬금속 음극을 쓰면
+              <strong>고체 전해질의 틈을 따라 뾰족하게 파고듭니다</strong></td>
+            <td>더 촘촘한 고체를 만들거나, 리튬금속 대신
+              <strong>실리콘·흑연</strong>을 먼저 씁니다</td></tr>
+          <tr><td class="k">만들기가 다릅니다<br><span class="en">양산</span></td>
+            <td>지금 공장은 <strong>액체를 붓는</strong> 전제로 지어져 있습니다.
+              황화물 계열은 <strong>물과 닿으면 유독가스</strong>가 나옵니다</td>
+            <td>건조실 수준을 더 올리고 <strong>설비를 새로</strong> 들여야 합니다.
+              투자 규모가 큰 이유입니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">"전고체는 안전하다"도 절반만 맞습니다</div>
+        <p><strong>불붙는 액체가 없어지는 것은 분명한 이득</strong>입니다.
+          다만 고체 전해질도 <strong>온도가 오르면 분해</strong>되고,
+          황화물 계열은 <strong>수분과 만나면 유독가스</strong>를 냅니다.
+          게다가 리튬금속 음극을 쓰면 에너지가 훨씬 커지는 만큼
+          <strong>잘못됐을 때의 규모</strong>도 커집니다.</p>
+        <p>"위험이 사라진다"기보다 <strong>위험의 종류가 바뀐다</strong>고 보시는 편이 정확합니다.</p>
+      </div>
+
+      <h3 class="t-h">차세대 후보들을 한자리에서</h3>
+      <p>전고체만 있는 것이 아닙니다. <strong>무엇을 노리는 기술인지</strong>를 기준으로 보면 정리가 됩니다.</p>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:16%">기술</th><th style="width:24%">무엇을 바꾸나</th><th style="width:30%">노리는 것</th><th style="width:30%">가장 큰 숙제</th></tr></thead>
+        <tbody>
+          <tr><td class="k">전고체</td>
+            <td>전해액·분리막 → <strong>고체 한 층</strong></td>
+            <td>안전 + 에너지밀도.
+              리튬금속 음극까지 가면 도약이 큽니다</td>
+            <td>계면 저항과 <strong>가압 구조</strong>, 그리고 양산 설비</td></tr>
+          <tr><td class="k">반고체</td>
+            <td>액체를 <strong>일부만</strong> 남깁니다(겔)</td>
+            <td>지금 설비를 <strong>크게 안 바꾸고</strong> 안전을 개선</td>
+            <td>전고체만큼의 도약은 아닙니다. <strong>중간 단계</strong>입니다</td></tr>
+          <tr><td class="k">리튬-황</td>
+            <td>양극을 <strong>황</strong>으로</td>
+            <td>황은 <strong>싸고 가볍습니다</strong>.
+              무게당 에너지가 크게 오릅니다</td>
+            <td>중간 생성물이 <strong>전해액에 녹아 흘러</strong> 수명이 짧습니다</td></tr>
+          <tr><td class="k">리튬-공기</td>
+            <td>양극을 <strong>공기 중 산소</strong>로</td>
+            <td>이론상 <strong>가장 높은</strong> 에너지밀도</td>
+            <td>효율과 수명이 아직 <strong>실용과 거리가 멉니다</strong></td></tr>
+          <tr><td class="k">나트륨이온</td>
+            <td>리튬 → <strong>나트륨</strong></td>
+            <td>원료가 <strong>흔하고 쌉니다</strong>. 저온에 강합니다</td>
+            <td>무겁고 <strong>에너지밀도가 낮습니다</strong>. ESS 쪽이 어울립니다</td></tr>
+          <tr><td class="k">건식 전극</td>
+            <td>공정을 바꿉니다 —
+              <strong>용매 없이</strong> 전극을 만듭니다</td>
+            <td>건조 공정을 없애 <strong>에너지·공장 크기</strong>를 줄입니다</td>
+            <td>고르게 펴 바르는 <strong>균일성 확보</strong>가 어렵습니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">기사를 읽을 때 — '개발'과 '양산'은 다릅니다</div>
+        <p>차세대 기술 기사에는 단계가 뒤섞여 나옵니다. 구분해 두시면 크게 도움이 됩니다.</p>
+        <p>· <strong>실험실 셀</strong> — 손톱만 한 크기로 원리를 확인한 단계입니다.
+          여기서 나온 수치는 <strong>대형 셀에서 그대로 나오지 않습니다</strong><br>
+          · <strong>시제품(파일럿)</strong> — 실제 크기로 만들어 본 단계입니다.
+          여기서 대부분의 문제가 드러납니다<br>
+          · <strong>양산</strong> — 수율과 원가를 맞춰 <strong>계속 찍어 내는</strong> 단계입니다.
+          여기까지 와야 제품입니다</p>
+        <p>"세계 최초 개발"이라는 표현은 대개 <strong>첫 번째 단계</strong>입니다.
+          거기서 양산까지는 보통 <strong>여러 해</strong>가 걸리고, 못 넘는 경우도 많습니다.</p>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">한 줄로 정리하면</div>
+        <p>차세대 기술은 <strong>지금 배터리의 약점 중 무엇을 고치려는지</strong>로 보시면 됩니다.
+          안전이 급하면 전고체·반고체, 무게가 급하면 리튬-황,
+          값이 급하면 나트륨이온, 공장 비용이 급하면 건식 전극입니다.
+          <strong>모든 것을 한 번에 해결하는 기술은 아직 없습니다.</strong></p>
+      </div>
+
     </details>
 
     <!-- ══════════ 16 ══════════ -->
