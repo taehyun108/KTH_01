@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-13T04:56:15",
+  "generated_at": "2026-08-13T12:33:55",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -89,6 +89,36 @@
       "url": "2026-08-13-트럼프와-이시바-관세-정면충돌-한국에-미칠-파장.html",
       "video": "https://www.youtube.com/watch?v=WbQu1ar9qCw",
       "video_id": "WbQu1ar9qCw",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-13-6월-셋째-주-증시-브리핑-대외-변수와-주요-일정",
+      "date": "2026-08-13",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "6월 셋째 주 증시 브리핑: 대외 변수와 주요 일정",
+      "summary": "미국·이란 종전 기대와 일본 은행 금리 결정, FOMC 회의 등 굵직한 대외 변수가 겹치면서 6월 증시는 당분간 숨고르기 국면을 이어갈 것으로 보입니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-08-13-6월-셋째-주-증시-브리핑-대외-변수와-주요-일정.html",
+      "video": "https://www.youtube.com/watch?v=Q7e6GvOKTxE",
+      "video_id": "Q7e6GvOKTxE",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-13-더-위험해진-관세-폭탄-트럼프의-위험한-착각",
+      "date": "2026-08-13",
+      "channel": "박종훈의 지식한방",
+      "title": "더 위험해진 관세 폭탄, 트럼프의 위험한 착각",
+      "summary": "트럼프 전 대통령이 동맹국에도 관세를 높이고 협상 결과를 쉽게 뒤집으면서 글로벌 무역 환경이 더욱 불안정해지고 있습니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-08-13-더-위험해진-관세-폭탄-트럼프의-위험한-착각.html",
+      "video": "https://www.youtube.com/watch?v=9njngD8m0yk",
+      "video_id": "9njngD8m0yk",
       "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
