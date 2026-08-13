@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-13T00:49:30",
+  "generated_at": "2026-08-13T04:56:15",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -44,6 +44,51 @@
       "url": "2026-08-13-미일-관세-협상-뒷모습과-한국-경제가-마주한-위험.html",
       "video": "https://www.youtube.com/watch?v=CV0xI3P656A",
       "video_id": "CV0xI3P656A",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-13-트럼프-관세의-부메랑-미국-자동차-3사와-전방-산업의-위기",
+      "date": "2026-08-13",
+      "channel": "박종훈의 지식한방",
+      "title": "트럼프 관세의 부메랑, 미국 자동차 3사와 전방 산업의 위기",
+      "summary": "트럼프 정부의 고율 관세가 미국 완성차와 부품 업계에 막대한 적자를 안기며 전방위적인 가격 인상 압박으로 이어지고 있습니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-08-13-트럼프-관세의-부메랑-미국-자동차-3사와-전방-산업의-위기.html",
+      "video": "https://www.youtube.com/watch?v=fOxCLVkbVp8",
+      "video_id": "fOxCLVkbVp8",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-13-유럽연합에도-30-관세-폭탄-트럼프의-속내는",
+      "date": "2026-08-13",
+      "channel": "박종훈의 지식한방",
+      "title": "유럽연합에도 30% 관세 폭탄, 트럼프의 속내는?",
+      "summary": "트럼프 전 대통령이 유럽연합을 비롯한 주요국에 고율 관세를 예고한 배경과, 물가 상승 및 국채 금리 등 예상되는 후폭풍을 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-08-13-유럽연합에도-30-관세-폭탄-트럼프의-속내는.html",
+      "video": "https://www.youtube.com/watch?v=5zGW8x-Dk7M",
+      "video_id": "5zGW8x-Dk7M",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-13-트럼프와-이시바-관세-정면충돌-한국에-미칠-파장",
+      "date": "2026-08-13",
+      "channel": "박종훈의 지식한방",
+      "title": "트럼프와 이시바 관세 정면충돌, 한국에 미칠 파장",
+      "summary": "트럼프의 관세 폭탄과 일본의 대응, 그리고 한국 경제가 마주한 현실과 파장을 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-08-13-트럼프와-이시바-관세-정면충돌-한국에-미칠-파장.html",
+      "video": "https://www.youtube.com/watch?v=WbQu1ar9qCw",
+      "video_id": "WbQu1ar9qCw",
       "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
