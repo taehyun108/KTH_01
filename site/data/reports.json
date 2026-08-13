@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-12T15:33:07",
+  "generated_at": "2026-08-13T00:49:30",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-13-트럼프의-관세-효과-정말-무역-적자를-해결했을까요",
+      "date": "2026-08-13",
+      "channel": "박종훈의 지식한방",
+      "title": "트럼프의 관세 효과, 정말 무역 적자를 해결했을까요",
+      "summary": "미국 무역 적자가 관세 효과로 줄었다는 주장의 이면과, 이것이 물가와 경기 지표에 미치는 착시 효과를 차분히 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-08-13-트럼프의-관세-효과-정말-무역-적자를-해결했을까요.html",
+      "video": "https://www.youtube.com/watch?v=MlZAj7uC1BA",
+      "video_id": "MlZAj7uC1BA",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-13-미일-관세-협상-뒷모습과-한국-경제가-마주한-위험",
+      "date": "2026-08-13",
+      "channel": "박종훈의 지식한방",
+      "title": "미일 관세 협상 뒷모습과 한국 경제가 마주한 위험",
+      "summary": "미일 관세 협상에서 일본이 5500억 달러 대미 투자를 약속하면서 겪은 불리한 조항들과 한국 경제에 미치는 영향을 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-08-13-미일-관세-협상-뒷모습과-한국-경제가-마주한-위험.html",
+      "video": "https://www.youtube.com/watch?v=CV0xI3P656A",
+      "video_id": "CV0xI3P656A",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-08-12-자영업자-세제-혜택-줄고-실업급여는-넓어지고-최근-주요-경제-이슈-정리",
       "date": "2026-08-12",
