@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-14T00:45:23",
+  "generated_at": "2026-08-14T04:46:11",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -32,6 +32,21 @@
       "pv": 5,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-08-14-ai-시대의-새로운-전력망과-이차전지-재평가",
+      "date": "2026-08-14",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "AI 시대의 새로운 전력망과 이차전지 재평가",
+      "summary": "인공지능 데이터센터 확대로 급증하는 전력 수요가 2차전지 산업에 새로운 활력이 되고 있습니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-08-14-ai-시대의-새로운-전력망과-이차전지-재평가.html",
+      "video": "https://www.youtube.com/watch?v=3LeIClcgtQc",
+      "video_id": "3LeIClcgtQc",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-08-13-트럼프의-관세-효과-정말-무역-적자를-해결했을까요",
@@ -152,6 +167,21 @@
       "pv": 5,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-08-13-수도권-주택-공급-확대와-가계부채-관리-방향",
+      "date": "2026-08-13",
+      "channel": "삼프로TV",
+      "title": "수도권 주택 공급 확대와 가계부채 관리 방향",
+      "summary": "정부가 수도권 주택 공급 확대와 가계부채 총량 관리 기조를 발표했습니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-08-13-수도권-주택-공급-확대와-가계부채-관리-방향.html",
+      "video": "https://www.youtube.com/watch?v=0nwhlumpbA4",
+      "video_id": "0nwhlumpbA4",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-08-12-자영업자-세제-혜택-줄고-실업급여는-넓어지고-최근-주요-경제-이슈-정리",
@@ -1613,92 +1643,92 @@
       "id": "2026-07-25-유가-상승과-금리-인상-우려-대이란-지정학적-리스크가-이차전지-산업에-미치는-파급효과",
       "date": "2026-07-25",
       "channel": "삼프로TV",
-      "title": "유가 올랐는데 배터리도 영향? 중동 리스크와 금리가 배터리에 미치는 영향",
-      "summary": "중동 정세 불안으로 유가와 금리가 오르면 우리 배터리 산업에 어떤 영향이 올지 쉽게 풀어드릴게요.",
+      "title": "중동 리스크와 금리가 배터리에 미치는 영향",
+      "summary": "중동 정세 불안으로 유가와 금리가 오르면 전기차 수요와 배터리 공장 투자에 부담이 커질 수 있죠.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-25-유가-상승과-금리-인상-우려-대이란-지정학적-리스크가-이차전지-산업에-미치는-파급효과.html",
       "video": "https://www.youtube.com/watch?v=Plz9XAsEGjk",
       "video_id": "Plz9XAsEGjk",
-      "pv": 2
+      "pv": 5
     },
     {
       "id": "2026-07-25-대한민국-대인플레이션-시대-도래와-거시경제-및-산업-파급효과",
       "date": "2026-07-25",
       "channel": "슈카월드",
       "title": "물가가 무섭게 오르는 대인플레이션 시대, 배터리 산업에는 어떤 영향을 줄까요?",
-      "summary": "한국의 고물가·고금리 흐름이 전기차 구매 부담과 배터리 기업들의 공장 투자에 어떤 영향을 미치는지 쉽게 풀어드려요.",
+      "summary": "고물가와 고금리가 전기차와 배터리 투자에 미치는 영향과 시사점",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-25-대한민국-대인플레이션-시대-도래와-거시경제-및-산업-파급효과.html",
       "video": "https://www.youtube.com/watch?v=Cp4MVMW-1PY",
       "video_id": "Cp4MVMW-1PY",
-      "pv": 2
+      "pv": 5
     },
     {
       "id": "2026-07-25-반도체-ai-투자의-지속성과-aidc-전력망-이차전지-수요-영향-분석",
       "date": "2026-07-25",
       "channel": "언더스탠딩",
       "title": "AI 데이터센터와 전력망 부족이 배터리 시장에 큰 기회가 되는 이유",
-      "summary": "AI 데이터센터 투자가 계속되면서 전력이 부족해지고, 이로 인해 이차전지 수요가 어떻게 늘어나는지 쉽게 풀어드려요.",
+      "summary": "AI 데이터센터와 전력망 부족으로 급증하는 ESS 수요가 이차전지 산업의 새로운 돌파구로 떠오르고 있습니다.",
       "category": "global-market",
       "relation": "indirect",
       "url": "2026-07-25-반도체-ai-투자의-지속성과-aidc-전력망-이차전지-수요-영향-분석.html",
       "video": "https://www.youtube.com/watch?v=rG3w7xWnvKA",
       "video_id": "rG3w7xWnvKA",
-      "pv": 2
+      "pv": 5
     },
     {
       "id": "2026-07-25-반도체-폭락과-반대매매-연쇄-충격-테크-시황-변동성이-aidc-및-배터리-공급망에-미치는-시사점",
       "date": "2026-07-25",
       "channel": "소수몽키",
       "title": "반도체 폭락과 반대매매 벼락! 내 배터리 주식엔 괜찮을까요?",
-      "summary": "반도체 폭락과 반대매매 충격이 테크 시장과 배터리 산업에 어떤 영향을 주는지 쉽고 편하게 풀어드려요.",
+      "summary": "반도체 폭락과 반대매매 여파가 AI 데이터센터와 배터리 시장에 미치는 영향입니다.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-25-반도체-폭락과-반대매매-연쇄-충격-테크-시황-변동성이-aidc-및-배터리-공급망에-미치는-시사점.html",
       "video": "https://www.youtube.com/watch?v=OgWZKiuoiXg",
       "video_id": "OgWZKiuoiXg",
-      "pv": 2
+      "pv": 5
     },
     {
       "id": "2026-07-25-시황-분석-반도체-매수-타이밍-진단과-ai-데이터센터-aidc-연계-이차전지-시사점",
       "date": "2026-07-25",
       "channel": "슈퍼개미 이세무사TV",
-      "title": "반도체 지금 사도 될까? AI 데이터센터와 배터리 시장에 찾아온 새로운 기회",
-      "summary": "반도체 시장의 주춤한 흐름 속에서 AI 데이터센터가 불러올 배터리 전력 인프라 기회를 쉬운 말투로 짚어드려요.",
+      "title": "반도체 조정과 AI 데이터센터, 그리고 배터리 시장의 새로운 기회",
+      "summary": "반도체 주가가 숨고르기에 들어간 가운데, AI 데이터센터가 불러온 전력난과 ESS 배터리 시장의 새로운 기회를 짚어봅니다.",
       "category": "korea-market",
       "relation": "indirect",
       "url": "2026-07-25-시황-분석-반도체-매수-타이밍-진단과-ai-데이터센터-aidc-연계-이차전지-시사점.html",
       "video": "https://www.youtube.com/watch?v=ULuNRbYiAoI",
       "video_id": "ULuNRbYiAoI",
-      "pv": 2
+      "pv": 5
     },
     {
       "id": "2026-07-25-캐나다의-50-관세-조치와-북미-전기차-배터리-공급망-리스크-분석",
       "date": "2026-07-25",
       "channel": "손석희의 12시",
       "title": "캐나다의 50% 관세 폭탄! 북미 전기차·배터리 공급망에 어떤 불똥이 튈까요?",
-      "summary": "캐나다가 50% 고율 관세를 다루면서 북미 전기차와 배터리 공급망에 비상이 걸렸어요.",
+      "summary": "캐나다의 50% 관세 부과 검토로 북미 전기차와 배터리 공급망에 비상이 걸렸습니다.",
       "category": "global-policy",
       "relation": "direct",
       "url": "2026-07-25-캐나다의-50-관세-조치와-북미-전기차-배터리-공급망-리스크-분석.html",
       "video": "https://www.youtube.com/watch?v=9unOW9ymCwk",
       "video_id": "9unOW9ymCwk",
-      "pv": 2
+      "pv": 5
     },
     {
       "id": "2026-07-25-리포트-데이터센터-열풍-뒤에-숨은-투기-현상과-bess-전력망-산업-영향",
       "date": "2026-07-25",
       "channel": "손에 잡히는 경제",
       "title": "AI 데이터센터 전력 알박기 투기? BESS 배터리 시장이 주목받는 이유",
-      "summary": "데이터센터 전력 투기 현상이 국내 전력망과 BESS(에너지저장장치) 배터리 시장에 어떤 영향을 주는지 쉽게 풀어드려요.",
+      "summary": "데이터센터 전력 선점 투기로 BESS 시장이 주목받고 있습니다.",
       "category": "korea-market",
       "relation": "direct",
       "url": "2026-07-25-리포트-데이터센터-열풍-뒤에-숨은-투기-현상과-bess-전력망-산업-영향.html",
       "video": "https://www.youtube.com/watch?v=cu4hZhy7aho",
       "video_id": "cu4hZhy7aho",
-      "pv": 2
+      "pv": 5
     },
     {
       "id": "2026-07-25-거시경제-리포트-미국-경기후퇴-논쟁과-이차전지-산업에-미치는-간접적-파급-효과",
@@ -1978,65 +2008,65 @@
       "date": "2026-07-24",
       "channel": "소수몽키",
       "title": "AI 반도체 붐이 불러온 전력 대란, 배터리 ESS가 구원투수로 떠오른 이유",
-      "summary": "AI 데이터센터가 늘어나면서 메모리 반도체와 함께 대용량 배터리 저장장치(ESS) 시장이 크게 주목받고 있어요.",
+      "summary": "AI 데이터센터 확대로 전력 부족이 심화되면서 대형 배터리 ESS가 새로운 성장 동력으로 떠올랐습니다.",
       "category": "global-market",
       "relation": "direct",
       "url": "2026-07-24-글로벌-마켓-ai-메모리-반도체-재평가-붐과-aidc-전력-인프라-ess-영향-분석.html",
       "video": "https://www.youtube.com/watch?v=ei3xMptOhlA",
       "video_id": "ei3xMptOhlA",
-      "pv": 2
+      "pv": 5
     },
     {
       "id": "2026-07-24-중국-정부의-대규모-국채-발행과-거시경제-부양책이-이차전지-산업에-미치는-시사점",
       "date": "2026-07-24",
       "channel": "손에 잡히는 경제",
       "title": "중국의 초대형 경기 부양책! 과연 우리 배터리 산업에 호재일까요?",
-      "summary": "중국이 돈을 대규모로 풀어 경기를 살리려고 해요. 이게 우리 배터리 시장에 어떤 영향을 줄지 쉽게 풀어드릴게요!",
+      "summary": "중국의 초대형 경기 부양책이 국내 이차전지 산업과 배터리 수요에 미칠 영향을 짚어봅니다.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-24-중국-정부의-대규모-국채-발행과-거시경제-부양책이-이차전지-산업에-미치는-시사점.html",
       "video": "https://www.youtube.com/watch?v=1aydjBSvJ50",
       "video_id": "1aydjBSvJ50",
-      "pv": 2
+      "pv": 5
     },
     {
       "id": "2026-07-24-환율이-또-1-400원대-서학개미-탓이-아니라-미국-달러가-강해서예요",
       "date": "2026-07-24",
       "channel": "언더스탠딩",
-      "title": "환율이 또 1,400원대? 서학개미 탓이 아니라 미국 달러가 강해서예요!",
-      "summary": "원·달러 환율이 오르는 진짜 원인은 서학개미 때문이 아니라 미국 달러 자체가 강하기 때문이에요. 배터리 기업에 주는 영향까지 함께 살펴봐요.",
+      "title": "환율 1,400원대의 진짜 이유, 서학개미 탓이 아닐까요?",
+      "summary": "원·달러 환율 상승의 진짜 원인이 서학개미가 아닌 미국 달러 강세 때문이라는 분석과 전망을 전해 드립니다.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-24-환율이-또-1-400원대-서학개미-탓이-아니라-미국-달러가-강해서예요.html",
       "video": "https://www.youtube.com/watch?v=A8b4NUit_4U",
       "video_id": "A8b4NUit_4U",
-      "pv": 2
+      "pv": 5
     },
     {
       "id": "2026-07-24-로봇과-ai가-바꿀-미래-배터리-시장에는-어떤-기회가-될까요",
       "date": "2026-07-24",
       "channel": "손에 잡히는 경제",
       "title": "로봇과 AI가 바꿀 미래, 배터리 시장에는 어떤 기회가 될까요?",
-      "summary": "휴머노이드 로봇과 AI 기술 발전이 배터리 산업에 가져올 새로운 기회를 쉽게 풀어서 설명해 드려요.",
+      "summary": "로봇과 AI 시대가 다가오면서 고성능 배터리 수요가 한층 커질 전망입니다.",
       "category": "global-market",
       "relation": "indirect",
       "url": "2026-07-24-로봇과-ai가-바꿀-미래-배터리-시장에는-어떤-기회가-될까요.html",
       "video": "https://www.youtube.com/watch?v=d-E2W7oZ8dg",
       "video_id": "d-E2W7oZ8dg",
-      "pv": 2
+      "pv": 5
     },
     {
       "id": "2026-07-24-미국-관세-폭풍과-빅테크-ai-투자-우리-배터리엔-어떤-신호일까요",
       "date": "2026-07-24",
       "channel": "손에 잡히는 경제",
       "title": "미국 관세 폭풍과 빅테크 AI 투자, 우리 배터리엔 어떤 신호일까요?",
-      "summary": "미국의 강제노동 관세 부과와 빅테크 기업의 AI 투자가 우리 배터리 및 전력망 시장에 미칠 영향을 쉽게 풀어해쳐 드려요.",
+      "summary": "미국의 관세 강화와 빅테크의 AI 투자가 국내 배터리 공급망과 ESS 수요에 미치는 영향을 짚어봅니다.",
       "category": "global-policy",
       "relation": "indirect",
       "url": "2026-07-24-미국-관세-폭풍과-빅테크-ai-투자-우리-배터리엔-어떤-신호일까요.html",
       "video": "https://www.youtube.com/watch?v=jMgdu5ZdK5Y",
       "video_id": "jMgdu5ZdK5Y",
-      "pv": 2
+      "pv": 5
     },
     {
       "id": "2026-07-23-미국-ai-데이터센터-전력-인프라-혁신-사례와-ess-전력망-산업-시사점",
