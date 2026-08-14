@@ -1216,6 +1216,30 @@ def process_video(meta: dict[str, Any], force: bool = False,
     # (설명글만 보고 내린 판단) 가르는 데 쓰인다 — seen_store.irrelevant_reason 참고.
     meta["_evidence"] = source
 
+    # 설명글만 보고 내린 '무관'은 <무관하다>가 아니라 <무슨 내용인지 모르겠다>에 가깝다.
+    #
+    # ※ 2026-08-13~14 실측: 이렇게 걸러진 것들이 이런 제목이었다.
+    #     "코스닥부터 화장품·조선·배터리까지 하반기 투자전략은?"
+    #     "현대차, 1차 협력업체들과 로봇 공급망 구축…테슬라는 중국 의존"
+    #   배터리를 제목에 쓴 영상까지 무관으로 떨어졌다. 설명글이 홍보 문구는 아니지만
+    #   출연자·코너 안내여서, 모델이 내용을 알 수 없다고 판단한 것이다.
+    #   그 판정이 기록으로 남으면 <영상 직접 분석 기회까지> 사라진다.
+    #   실제로 이 시기 나온 리포트의 다수가 영상 분석 경로에서 나왔다.
+    #   그러니 포기하기 전에 영상을 한 번 보여 준다.
+    if (not data.get("relevant") and not force
+            and source in ("video-description", "unavailable")
+            and _video_budget_left()):
+        print(f"  [재확인] {meta.get('video_id','')}: 설명글로는 무관이지만 "
+              "영상을 직접 보고 다시 판단합니다.")
+        try:
+            data = analyze_video_direct(meta, force=force, scope=scope)
+            source = "gemini-video"
+            meta["_evidence"] = source
+        except VideoQuotaExhausted:
+            pass          # 영상 쿼터 소진 — 설명글 판정을 그대로 쓴다
+        except Exception:  # noqa: BLE001
+            pass          # 영상도 실패 — 설명글 판정을 그대로 쓴다
+
     if not data.get("relevant"):
         # 영상을 직접 요청받았는데 무관 판정이면, 모델이 영상을 열지 못했다는 뜻이다
         # (프롬프트에서 '파악 불가 시 relevant=false' 로 지시). 조용히 넘기지 않는다.
