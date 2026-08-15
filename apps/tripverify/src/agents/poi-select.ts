@@ -122,6 +122,9 @@ export interface SelectOpts {
 /** POI 점수 = 유명도 + 컨셉 카테고리 일치 + 정보 충실도. */
 export function scoreSeed(seed: PoiSeed, pref: Set<Bucket>, wikiNear: boolean): number {
   let score = 0;
+  // 세계적 마퀴 명소(유니버설 등)·테마파크는 컨셉과 무관하게 상위 후보 보장
+  if (MARQUEE_RE.test(`${seed.name} ${seed.name_en ?? ""}`)) score += 8;
+  if (isThemeParkCats(seed.categories)) score += 3;
   if (seed.notable) score += 3;
   if (wikiNear) score += 2;
   if (seed.on_osm) score += 3; // OSM 존재 = 현존·구글지도 검색 가능성 → 강하게 우대
@@ -173,6 +176,11 @@ export function inferCategoriesFromTitle(title: string): Bucket[] {
     b.add("family");
     b.add("activity");
   }
+  // 테마파크(유니버설·디즈니·레고랜드 등) — 세계적 명소, 종일 코스
+  if (/universal\s*studios|disney|legoland|ghibli|theme\s*park|遊園地|테마파크|랜드\b|월드\b|everland|lotte\s*world/.test(t)) {
+    b.add("activity");
+    b.add("family");
+  }
   if (/market|市場|시장|\bmall\b|백화점|shopping/.test(t)) b.add("shopping");
   return [...b];
 }
@@ -223,11 +231,28 @@ const RESIDENTIAL_RE =
 const FAME_RE = /famous|popular|iconic|landmark|one of the|most (visited|famous)|major|well-known|renowned|must-see|symbol of|largest|oldest|tallest/i;
 
 /**
- * 유명도 점수 — 무명 신사보다 오사카성 같은 유명 명소를 상위로.
- * OSM 관광 태그(실제 명소) + 위키 설명 분량(=문서 크기=인지도) + 유명 키워드.
+ * 세계적 마퀴 명소 — 여행 순위 상위에 반드시 오르는 대표 명소/테마파크.
+ * (유니버설 스튜디오·디즈니·레고랜드 등 종일 테마파크와 국가급 랜드마크)
+ * 설명이 아직 없어도 이름만으로 최상위 가중치를 준다 → 유명순 일정 보장.
+ */
+const MARQUEE_RE =
+  /universal\s*studios|디즈니|disney(land| sea| resort| world)?|legoland|레고랜드|everland|에버랜드|lotte\s*world|롯데월드|ghibli|지브리|teamlab|팀랩/i;
+
+/** 종일 테마파크 유형(카테고리로 판단) — 대표 명소로 강하게 우대. */
+function isThemeParkCats(cats: string[] | undefined): boolean {
+  const c = cats ?? [];
+  return c.includes("activity") && c.includes("family");
+}
+
+/**
+ * 유명도 점수 — 무명 신사보다 오사카성·유니버설 같은 유명 명소를 상위로.
+ * 마퀴 명소(테마파크·랜드마크) > OSM 관광태그 + 위키 설명 분량(인지도) + 유명 키워드.
  */
 export function fameScore(seed: PoiSeed): number {
   let s = 0;
+  const name = `${seed.name} ${seed.name_en ?? ""}`;
+  if (MARQUEE_RE.test(name)) s += 10; // 세계적 명소(테마파크 등) 최상위
+  if (isThemeParkCats(seed.categories)) s += 4; // 테마파크 유형(종일 코스)
   if (seed.on_osm) s += 4; // OSM 관광 태그 = 실제 방문 명소
   if (seed.notable) s += 2;
   const desc = seed.description ?? "";

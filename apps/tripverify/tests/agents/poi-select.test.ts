@@ -171,6 +171,28 @@ describe("Wikipedia 기반 POI (클라우드 안정 소스)", () => {
     expect(inferCategoriesFromTitle("Nijo Castle")).toContain("history");
   });
 
+  it("inferCategoriesFromTitle: 테마파크(유니버설/디즈니)를 activity·family 로 인식", () => {
+    expect(inferCategoriesFromTitle("Universal Studios Japan")).toEqual(
+      expect.arrayContaining(["activity", "family"]),
+    );
+    expect(inferCategoriesFromTitle("Tokyo Disneyland")).toEqual(
+      expect.arrayContaining(["activity", "family"]),
+    );
+  });
+
+  it("⭐ 마퀴 명소(유니버설)는 기본 컨셉에서도 무명 명소보다 훨씬 상위·선별된다", () => {
+    const usj = seed({
+      name: "Universal Studios Japan",
+      categories: ["activity", "family"],
+      notable: true,
+    });
+    const shrine = seed({ name: "작은 신사", categories: ["religious"], notable: true });
+    expect(fameScore(usj)).toBeGreaterThan(fameScore(shrine));
+    // 스타일/컨셉을 안 줘도 상위 선별에 포함
+    const picked = selectPois([shrine, usj], [], { styles: [], limit: 1 });
+    expect(picked.map((p) => p.name)).toContain("Universal Studios Japan");
+  });
+
   it("fameScore: 유명 명소(긴 설명·OSM·유명키워드)가 무명보다 상위", () => {
     const famous = {
       name: "Osaka Castle",
