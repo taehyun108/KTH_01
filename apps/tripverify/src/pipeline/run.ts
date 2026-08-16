@@ -193,13 +193,17 @@ async function buildCity(
     ? await safe(() => deps.buildRoute(places, block, primaryMode), fallbackRoute(places, block), 12_000)
     : { days: [], estimated: true, source_name: "" };
   const poiById = new Map(places.map((p, i) => [p.id, renderablePois[i]!] as const));
-  const foodQueue = [...renderableFood];
+  // 식당 풀(품질 순위 보존) — 각 날의 관광 동선 근처의 상위 맛집을 배정한다.
+  const foodPool = renderableFood.map((f, i) => ({ fact: f, rank: i }));
 
   const days: ItineraryDay[] = dates.map((date, localIdx) => {
     const weekday = new Date(date + "T00:00:00Z").getUTCDay();
     const dayRoute = route.days[localIdx];
     const orderedPois = (dayRoute?.ordered_place_ids ?? []).map((id) => poiById.get(id)!).filter(Boolean);
     const legMinutes = (dayRoute?.leg_seconds ?? orderedPois.map(() => 0)).map((s) => Math.round(s / 60));
+    // 그날 방문지 중심 → 근처의 (품질+근접) 상위 식당 2곳(점심·저녁) 배정
+    const dayCenter = poiCentroid(orderedPois) ?? ctx.center;
+    const meals = pickNearbyFood(foodPool, dayCenter, 2);
     const input: DayAssemblyInput = {
       date,
       weekday,
@@ -209,13 +213,48 @@ async function buildCity(
       legMode: primaryMode,
       legEstimated: route.estimated,
       legSource: route.source_name || "n/a",
-      ...(foodQueue.length > 0 ? { lunch: foodQueue.shift()! } : {}),
-      ...(foodQueue.length > 0 ? { dinner: foodQueue.shift()! } : {}),
+      ...(meals[0] ? { lunch: meals[0] } : {}),
+      ...(meals[1] ? { dinner: meals[1] } : {}),
     };
     return assembleDay(input);
   });
 
   return { city, ctx, pois, food, hotels, weather, days };
+}
+
+/** 그날 방문지들의 중심 좌표. 방문지가 없으면 null. */
+function poiCentroid(pois: VerifiedFact<Poi>[]): GeoPoint | null {
+  const pts = pois.filter(hasSourcedValue).map((p) => p.value.location);
+  return pts.length > 0 ? centroidOf(pts) : null;
+}
+
+/**
+ * 식당 풀에서 '동선 근처 + 품질 상위' n곳을 골라 반환하고 풀에서 제거한다.
+ * 점수 = 중심까지 거리(km) + 품질순위 가중(0.12) — 낮을수록 우선.
+ * → 그날 관광지 근처의 제대로 된 맛집이 배정된다(같은 식당 중복 방지).
+ */
+function pickNearbyFood(
+  pool: { fact: VerifiedFact<Restaurant>; rank: number }[],
+  center: GeoPoint,
+  n: number,
+): VerifiedFact<Restaurant>[] {
+  const picked: VerifiedFact<Restaurant>[] = [];
+  for (let k = 0; k < n && pool.length > 0; k++) {
+    let bestIdx = 0;
+    let bestCost = Infinity;
+    for (let i = 0; i < pool.length; i++) {
+      const loc = pool[i]!.fact.value?.location;
+      if (!loc) continue;
+      const km = haversineMeters(loc, center) / 1000;
+      const cost = km + pool[i]!.rank * 0.12;
+      if (cost < bestCost) {
+        bestCost = cost;
+        bestIdx = i;
+      }
+    }
+    picked.push(pool.splice(bestIdx, 1)[0]!.fact);
+  }
+  return picked;
 }
 
 /**

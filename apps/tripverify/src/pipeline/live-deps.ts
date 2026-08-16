@@ -5,7 +5,8 @@ import { resolveContextLive } from "@/agents/fetchers/context";
 import { resolveContextOffline } from "@/agents/offline/geocode";
 import { dateHolidaysReader } from "@/agents/offline/holidays";
 import { discoverPois, discoverRestaurants, discoverHotels, wikiNearbyWide } from "@/agents/fetchers/osm-discovery";
-import { buildPoiFacts, buildRestaurantFacts, buildHotelFacts } from "@/agents/poi-build";
+import { buildPoiFacts, buildRestaurantFacts, buildHotelFacts, type PoiSeed } from "@/agents/poi-build";
+import { haversineMeters } from "@/lib/geo";
 import { selectPois, wikiFallbackSeeds, mergeByProximity, isDefunctDescription, inferAllDay, isVisitorAttraction, fameScore } from "@/agents/poi-select";
 import { wikiDescriptions } from "@/agents/fetchers/wiki-desc";
 import { dayCount } from "@/agents/schema";
@@ -53,6 +54,10 @@ export function liveDeps(): PipelineDeps {
         discoverPois(ctx.center).catch(() => []),
         wikiNearbyWide(ctx.center).catch(() => []), // 광역: 외곽의 유명 명소(디즈니랜드 등)까지
       ]);
+      // 랭킹 점수: 유명도 우선 + 도심(중심) 근접 소폭 가산 → '도시의 주요(중심) 관광지'를
+      // 우선 노출. 마퀴/아이코닉(디즈니·사그라다 등)은 fameScore 가산이 커서 멀어도 상위 유지.
+      const rankScore = (s: PoiSeed): number =>
+        fameScore(s) - Math.min(haversineMeters(s.location, ctx.center) / 1000, 25) * 0.28;
       const merged = mergeByProximity(overpassSeeds, wikiFallbackSeeds(wiki));
       const cities = Math.max(q.destinations.length, 1);
       const perCityDays = Math.max(1, Math.round(dayCount(q.start_date, q.end_date) / cities));
@@ -69,7 +74,7 @@ export function liveDeps(): PipelineDeps {
 
       // 설명(특히 한국어 위키 2-hop) 조회는 비용이 크므로, 설명 없이 1차 유명도로
       // 정렬해 상위 후보(최대 24개)에만 조회한다 → 한국어 설명이 제때 도착.
-      const preRanked = [...prelim].sort((a, b) => fameScore(b) - fameScore(a)).slice(0, Math.min(limit + 6, 24));
+      const preRanked = [...prelim].sort((a, b) => rankScore(b) - rankScore(a)).slice(0, Math.min(limit + 6, 24));
 
       // Wikipedia 설명 배치 조회(영어 제목 기준) → 추천 사유 근거(한국어 우선) + defunct 판별.
       const descKey = (s: (typeof preRanked)[number]) => s.name_en || s.name;
@@ -99,14 +104,14 @@ export function liveDeps(): PipelineDeps {
         if (s.origin === "wiki" && !hasSignal) return false; // 정보 전무한 위키 단독만 제외
         return true;
       });
-      // 유명도 순 재정렬 → 무명보다 유명 명소를 상위로
-      const ranked = findable.sort((a, b) => fameScore(b) - fameScore(a));
+      // 유명도+도심근접 순 재정렬 → 도시의 주요(유명·중심) 관광지를 상위로
+      const ranked = findable.sort((a, b) => rankScore(b) - rankScore(a));
       // 안전망: 필터가 과해 비면, 폐관/비관광만 뺀 후보로라도 채운다(수집됐는데 빈 일정 방지)
       const pool = ranked.length > 0
         ? ranked
         : enriched
             .filter((s) => !isDefunctDescription(s.description) && isVisitorAttraction(s))
-            .sort((a, b) => fameScore(b) - fameScore(a));
+            .sort((a, b) => rankScore(b) - rankScore(a));
       const final = pool.slice(0, limit);
       const osmPoints = overpassSeeds.map((s) => s.location);
       return buildPoiFacts(final, osmPoints, wiki);

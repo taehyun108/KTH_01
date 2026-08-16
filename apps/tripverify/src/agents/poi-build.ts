@@ -46,6 +46,8 @@ export interface RestaurantSeed {
   notable?: boolean;
   /** 체인 브랜드(품질 랭킹 감점용). */
   branded?: boolean;
+  /** 웹사이트·전화·영업시간 등 정보 충실(자리 잡은 식당). */
+  established?: boolean;
 }
 export interface HotelSeed {
   name: string;

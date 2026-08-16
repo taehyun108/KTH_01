@@ -103,6 +103,10 @@ export async function discoverRestaurants(center: GeoPoint, radius = 5000, limit
     );
     const notable = Boolean(tags["wikidata"] || tags["wikipedia"]) && !tags["brand"] && !tags["brand:wikidata"];
     const branded = Boolean(tags["brand"] || tags["brand:wikidata"]); // 체인 브랜드(감점)
+    // 정보 충실도(웹사이트·전화·예약) = 자리 잡은 '제대로 된' 식당 신호
+    const established = Boolean(
+      tags["website"] || tags["contact:website"] || tags["phone"] || tags["contact:phone"] || tags["opening_hours"],
+    );
     const seed: RestaurantSeed = {
       ...nm,
       location: loc,
@@ -112,10 +116,11 @@ export async function discoverRestaurants(center: GeoPoint, radius = 5000, limit
       ...(michelin ? { michelin: true } : {}),
       ...(notable ? { notable: true } : {}),
       ...(branded ? { branded: true } : {}),
+      ...(established ? { established: true } : {}),
     };
     return [seed];
   });
-  // 품질 점수 내림차순 — 미쉐린/위키등재/요리정보가 있는 맛집을 앞으로
+  // 품질 점수 내림차순 — 미쉐린/위키등재/정보충실 맛집을 앞으로
   return seeds.sort((a, b) => restaurantScore(b) - restaurantScore(a));
 }
 
@@ -125,6 +130,7 @@ function restaurantScore(s: RestaurantSeed): number {
   if (s.michelin) score += 6; // 미쉐린 표기
   if (s.notable) score += 5; // 위키데이터/위키백과 등재 = 유명 맛집
   if (s.cuisine) score += 2; // 요리종류 정보(정성적 충실도)
+  if (s.established) score += 2; // 웹사이트·전화 등 = 자리 잡은 식당
   if (s.opening_hours) score += 1;
   if (s.price_level && s.price_level >= 3) score += 1; // 파인다이닝 소폭 우대
   if (s.branded) score -= 3; // 체인 브랜드 감점

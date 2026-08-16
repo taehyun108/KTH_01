@@ -28,6 +28,14 @@ const highFood = (name: string): VerifiedFact<Restaurant> =>
     verification: { passes_completed: 3, agree_count: 3, checked_at: nowISO() },
   });
 
+const foodAt = (name: string, lat: number, lng: number): VerifiedFact<Restaurant> =>
+  verified<Restaurant>({
+    value: { name, location: { lat, lng } },
+    confidence: "low",
+    sources: [{ name: "OSM", url: "https://overpass-api.de/", tier: 2, retrieved_at: nowISO() }],
+    verification: { passes_completed: 1, agree_count: 1, checked_at: nowISO() },
+  });
+
 const hotel = (name: string, lat: number, lng: number, stars?: number): VerifiedFact<Hotel> =>
   verified<Hotel>({
     value: { name, location: { lat, lng }, ...(stars ? { stars } : {}) },
@@ -143,6 +151,28 @@ describe("runPipeline", () => {
     expect(it.transfers[0]).toMatchObject({ from_city: "Osaka", to_city: "Kyoto" });
     expect(it.budget.lines.length).toBeGreaterThan(0);
     expect(it.budget.per_person_krw).toBeGreaterThan(0);
+  });
+
+  it("식당: 각 날의 관광 동선 근처 식당이 배정된다", async () => {
+    // 서쪽/동쪽으로 멀리 떨어진 두 POI → 2일에 하루씩 배분
+    const west = highPoi("서쪽명소", 34.66, 135.43);
+    const east = highPoi("동쪽명소", 34.70, 135.56);
+    // 각 방향 2곳씩(점심·저녁 배정용)
+    const westFoods = [foodAt("서쪽식당1", 34.661, 135.431), foodAt("서쪽식당2", 34.659, 135.432)];
+    const eastFoods = [foodAt("동쪽식당1", 34.701, 135.561), foodAt("동쪽식당2", 34.699, 135.562)];
+    const q2: TripQuery = { ...query, start_date: "2026-09-10", end_date: "2026-09-11" }; // 2일
+    const d: PipelineDeps = {
+      ...deps([west, east]),
+      collectFood: async () => [...eastFoods, ...westFoods], // 순서 무관, 근접으로 배정되어야
+    };
+    const it = await runPipeline(q2, d);
+    // 각 날: 그 날 POI(서/동)와 같은 쪽 식당만 들어가야 한다
+    for (const day of it.days) {
+      const poiName = day.items.find((i) => i.kind === "poi")?.name;
+      const foodNames = day.items.filter((i) => i.kind === "food").map((i) => i.name);
+      if (poiName === "서쪽명소") expect(foodNames.every((n) => n.startsWith("서쪽"))).toBe(true);
+      if (poiName === "동쪽명소") expect(foodNames.every((n) => n.startsWith("동쪽"))).toBe(true);
+    }
   });
 
   it("숙소: 동선(관광지 중심)에 가까운 실존 호텔을 도시별로 추천한다", async () => {
