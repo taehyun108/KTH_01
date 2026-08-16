@@ -4,7 +4,7 @@ import type { GeoContext, TripQuery } from "@/agents/types";
 import { resolveContextLive } from "@/agents/fetchers/context";
 import { resolveContextOffline } from "@/agents/offline/geocode";
 import { dateHolidaysReader } from "@/agents/offline/holidays";
-import { discoverPois, discoverRestaurants, discoverHotels, wikiNearby } from "@/agents/fetchers/osm-discovery";
+import { discoverPois, discoverRestaurants, discoverHotels, wikiNearbyWide } from "@/agents/fetchers/osm-discovery";
 import { buildPoiFacts, buildRestaurantFacts, buildHotelFacts } from "@/agents/poi-build";
 import { selectPois, wikiFallbackSeeds, mergeByProximity, isDefunctDescription, inferAllDay, isVisitorAttraction, fameScore } from "@/agents/poi-select";
 import { wikiDescriptions } from "@/agents/fetchers/wiki-desc";
@@ -51,7 +51,7 @@ export function liveDeps(): PipelineDeps {
       // Wikipedia(클라우드 안정) 주 소스 + Overpass 보강. 둘 다 best-effort.
       const [overpassSeeds, wiki] = await Promise.all([
         discoverPois(ctx.center).catch(() => []),
-        wikiNearby(ctx.center).catch(() => []),
+        wikiNearbyWide(ctx.center).catch(() => []), // 광역: 외곽의 유명 명소(디즈니랜드 등)까지
       ]);
       const merged = mergeByProximity(overpassSeeds, wikiFallbackSeeds(wiki));
       const cities = Math.max(q.destinations.length, 1);

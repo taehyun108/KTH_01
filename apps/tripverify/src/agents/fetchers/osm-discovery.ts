@@ -190,6 +190,34 @@ export async function wikiNearby(center: GeoPoint, radius = 10000, limit = 500):
 }
 
 /**
+ * 광역(메트로) 커버리지 — Wikipedia geosearch 는 반경 10km 상한이라, 도쿄 디즈니랜드
+ * (도심에서 ~17km)처럼 '멀지만 유명한' 명소가 빠진다. 중심 + 대각선 오프셋 5개 지점을
+ * 병렬 geosearch 해 ~25km 범위를 덮고, 제목 기준으로 중복을 제거한다. 이후 유명도
+ * 랭킹이 유명 명소만 상위로 올린다(유명 관광지 위주 일정).
+ */
+export async function wikiNearbyWide(center: GeoPoint): Promise<WikiArticle[]> {
+  const d = 0.11; // 약 12km
+  const points: GeoPoint[] = [
+    center,
+    { lat: center.lat + d, lng: center.lng + d },
+    { lat: center.lat + d, lng: center.lng - d },
+    { lat: center.lat - d, lng: center.lng + d },
+    { lat: center.lat - d, lng: center.lng - d },
+  ];
+  const results = await Promise.all(points.map((p) => wikiNearby(p).catch(() => [])));
+  const seen = new Set<string>();
+  const merged: WikiArticle[] = [];
+  for (const arr of results) {
+    for (const w of arr) {
+      if (seen.has(w.title)) continue;
+      seen.add(w.title);
+      merged.push(w);
+    }
+  }
+  return merged;
+}
+
+/**
  * 여러 필터의 합집합(union) 쿼리를 올바르게 구성한다.
  * 각 필터에 (around) 와 세미콜론을 붙여야 유효한 Overpass QL 이 된다.
  */
