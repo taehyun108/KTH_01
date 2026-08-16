@@ -193,6 +193,44 @@ describe("Wikipedia 기반 POI (클라우드 안정 소스)", () => {
     expect(picked.map((p) => p.name)).toContain("Universal Studios Japan");
   });
 
+  it("⭐ 바르셀로나: 사그라다 파밀리아가 1순위로 정렬된다(아이코닉 랜드마크)", () => {
+    // 바르셀로나 대표 후보들(현실적 설명 포함). 모두 유명·OSM 존재.
+    const sagrada = seed({
+      name: "Sagrada Família",
+      name_en: "Sagrada Família",
+      categories: ["religious", "history"],
+      notable: true,
+      on_osm: true,
+      description:
+        "The Sagrada Família is a large unfinished basilica and one of the most famous landmarks in Barcelona, a UNESCO World Heritage Site and the most visited monument in Spain.",
+    });
+    const parkGuell = seed({
+      name: "Park Güell",
+      categories: ["nature", "art"],
+      notable: true,
+      on_osm: true,
+      description: "Park Güell is a famous public park designed by Antoni Gaudí, a popular landmark.",
+    });
+    const museum = seed({
+      name: "Museu Picasso",
+      categories: ["history", "art"],
+      notable: true,
+      on_osm: true,
+      description: "An art museum dedicated to Pablo Picasso.",
+    });
+    const obscure = seed({ name: "작은 지역 성당", categories: ["religious"], notable: true, on_osm: false });
+
+    // 최종 표시 순서는 fameScore(collectPois 재정렬) — 사그라다가 1순위
+    const ranked = [obscure, museum, parkGuell, sagrada].sort((a, b) => fameScore(b) - fameScore(a));
+    expect(ranked[0]!.name).toBe("Sagrada Família");
+    expect(fameScore(sagrada)).toBeGreaterThan(fameScore(parkGuell));
+
+    // 후보 선별(컨셉/스타일 미지정)에도 반드시 포함(무명은 뒤로)
+    const picked = selectPois([obscure, museum, parkGuell, sagrada], [], { styles: [], limit: 3 });
+    expect(picked.map((p) => p.name)).toContain("Sagrada Família");
+    expect(picked.map((p) => p.name)).not.toContain("작은 지역 성당");
+  });
+
   it("fameScore: 유명 명소(긴 설명·OSM·유명키워드)가 무명보다 상위", () => {
     const famous = {
       name: "Osaka Castle",

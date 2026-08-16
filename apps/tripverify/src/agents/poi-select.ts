@@ -122,8 +122,10 @@ export interface SelectOpts {
 /** POI 점수 = 유명도 + 컨셉 카테고리 일치 + 정보 충실도. */
 export function scoreSeed(seed: PoiSeed, pref: Set<Bucket>, wikiNear: boolean): number {
   let score = 0;
-  // 세계적 마퀴 명소(유니버설 등)·테마파크는 컨셉과 무관하게 상위 후보 보장
-  if (MARQUEE_RE.test(`${seed.name} ${seed.name_en ?? ""}`)) score += 8;
+  const nm = `${seed.name} ${seed.name_en ?? ""}`;
+  // 세계적 마퀴 명소(유니버설 등)·아이코닉 랜드마크는 컨셉과 무관하게 상위 후보 보장
+  if (MARQUEE_RE.test(nm)) score += 8;
+  if (ICONIC_RE.test(nm)) score += 8;
   if (isThemeParkCats(seed.categories)) score += 3;
   if (seed.notable) score += 3;
   if (wikiNear) score += 2;
@@ -238,6 +240,34 @@ const FAME_RE = /famous|popular|iconic|landmark|one of the|most (visited|famous)
 const MARQUEE_RE =
   /universal\s*studios|디즈니|disney(land| sea| resort| world)?|legoland|레고랜드|everland|에버랜드|lotte\s*world|롯데월드|ghibli|지브리|teamlab|팀랩/i;
 
+/**
+ * 세계적 아이코닉 랜드마크 — 그 도시를 대표하는 '1순위 필수 명소'.
+ * 이름만으로 최상위 가중치를 줘, 검색 시 대표 명소가 먼저 나오도록 한다
+ * (예: 바르셀로나 → 사그라다 파밀리아). 도시별 상징물 위주로 유지·확장.
+ */
+const ICONIC_RE = new RegExp(
+  [
+    // 스페인/바르셀로나
+    "sagrada\\s*fam", "사그라다", "park\\s*güell", "park\\s*guell", "구엘", "casa\\s*batll", "casa\\s*mil", "카사\\s*바트요", "la\\s*rambla", "montjuïc|montjuic",
+    // 프랑스/파리
+    "eiffel", "에펠", "louvre", "루브르", "notre[-\\s]?dame", "노트르담", "arc\\s*de\\s*triomphe", "개선문", "versailles", "베르사유", "sacr[eé][-\\s]?c[oœ]ur",
+    // 이탈리아/로마·기타
+    "colosseum|colosseo", "콜로세움", "trevi", "트레비", "pantheon", "판테온", "vatican|st\\.?\\s*peter", "바티칸", "duomo", "두오모", "leaning\\s*tower|피사",
+    // 영국/런던
+    "big\\s*ben", "빅벤", "tower\\s*bridge", "타워브리지", "london\\s*eye", "런던아이", "buckingham", "버킹엄", "tower\\s*of\\s*london",
+    // 미국/뉴욕 등
+    "statue\\s*of\\s*liberty", "자유의\\s*여신", "times\\s*square", "타임스퀘어", "empire\\s*state", "엠파이어", "golden\\s*gate", "금문교",
+    // 독일/네덜란드/기타 유럽
+    "brandenburg", "브란덴부르크", "neuschwanstein", "노이슈반슈타인", "anne\\s*frank", "rijksmuseum",
+    // 아시아 대표
+    "petronas", "페트로나스", "marina\\s*bay\\s*sands", "마리나\\s*베이", "merlion", "멀라이언", "grand\\s*palace", "왕궁", "wat\\s*arun|wat\\s*pho",
+    "angkor", "앙코르", "taj\\s*mahal", "타지마할", "great\\s*wall", "만리장성", "forbidden\\s*city", "자금성", "the\\s*bund", "와이탄",
+    "tokyo\\s*tower", "도쿄타워", "tokyo\\s*sky\\s*tree|skytree", "스카이트리", "senso[-\\s]?ji|sensō[-\\s]?ji", "센소지", "fushimi\\s*inari", "후시미",
+    "kinkaku", "금각사", "gyeongbok", "경복궁", "n\\s*seoul\\s*tower|namsan", "남산",
+  ].join("|"),
+  "i",
+);
+
 /** 종일 테마파크 유형(카테고리로 판단) — 대표 명소로 강하게 우대. */
 function isThemeParkCats(cats: string[] | undefined): boolean {
   const c = cats ?? [];
@@ -252,6 +282,7 @@ export function fameScore(seed: PoiSeed): number {
   let s = 0;
   const name = `${seed.name} ${seed.name_en ?? ""}`;
   if (MARQUEE_RE.test(name)) s += 10; // 세계적 명소(테마파크 등) 최상위
+  if (ICONIC_RE.test(name)) s += 11; // 도시 대표 아이코닉 랜드마크(사그라다 등) 1순위
   if (isThemeParkCats(seed.categories)) s += 4; // 테마파크 유형(종일 코스)
   if (seed.on_osm) s += 4; // OSM 관광 태그 = 실제 방문 명소
   if (seed.notable) s += 2;
