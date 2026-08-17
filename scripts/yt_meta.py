@@ -36,6 +36,11 @@ TIMEOUT_SEC = 30
 FAIL_LIMIT = 3
 _fails = 0
 
+# 마지막 enrich 결과 한 줄 — 실행 끝 요약에 실어 보내기 위한 것.
+# 이 정보가 로그 <앞부분>에만 있어서 "붙었는지 아닌지"를 확인하려면 매번 로그를
+# 수백 줄 거슬러 올라가야 했다. 결론은 끝에서도 보여야 한다.
+LAST = "미실행"
+
 
 def api_key() -> str:
     return (os.getenv("YOUTUBE_API_KEY") or "").strip()
@@ -138,8 +143,10 @@ def enrich(candidates: list[dict], min_chars: int) -> tuple[int, int]:
     반환: (설명을 채운 건수, 쇼츠로 걸러 낸 건수)
     ※ candidates 는 <제자리에서> 수정되고, 쇼츠는 목록에서 제거됩니다.
     """
+    global LAST
     announce()
     if not available():
+        LAST = "키 없음/사용 불가"
         return (0, 0)
 
     from fetch_history import SHORT_IDS, is_short
@@ -153,6 +160,7 @@ def enrich(candidates: list[dict], min_chars: int) -> tuple[int, int]:
           f"(약 {(len(need) + BATCH - 1) // BATCH}유닛)")
     meta = fetch(need)
     if not meta:
+        LAST = f"조회 실패 (대상 {len(need)}건)"
         return (0, 0)
 
     filled = 0
@@ -173,5 +181,6 @@ def enrich(candidates: list[dict], min_chars: int) -> tuple[int, int]:
     for c in shorts:
         candidates.remove(c)
 
-    print(f"  [yt-api] 설명글 {filled}건 확보 · 길이로 쇼츠 {len(shorts)}건 제외")
+    LAST = f"설명글 {filled}건 확보 · 쇼츠 {len(shorts)}건 제외 (조회 {len(need)}건)"
+    print(f"  [yt-api] {LAST}")
     return (filled, len(shorts))

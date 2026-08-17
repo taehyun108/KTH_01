@@ -290,6 +290,13 @@ def main() -> int:
     print(f"완료 — 신규 {len(new_reports)}건 · 무관판정 {n_drafts}건 · 근거부족 건너뜀 {n_skip}건 · "
           f"오류 {n_error}건 · 보류 {n_defer}건 (후보 {len(candidates)} → 신규후보 {len(fresh)})")
     print(f"  영상 직접 분석: 성공 {v_ok}건 / 실패 {v_fail}건 (실행당 상한 {VIDEO_ANALYSIS_MAX}건)")
+    # 로그 앞부분까지 거슬러 올라가지 않고도 이번 실행의 상태를 알 수 있게,
+    # 흩어져 있던 결론을 <끝에 한 줄로> 모아 둔다.
+    try:
+        import yt_meta as _ym
+        print(f"  공식 API: {_ym.LAST}")
+    except Exception:  # noqa: BLE001
+        pass
     write_state(left=n_left + n_defer, new=len(new_reports), quota_hit=quota_hit)
     return 0
 
