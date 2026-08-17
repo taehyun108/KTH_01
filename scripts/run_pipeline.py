@@ -31,6 +31,25 @@ from config import MAX_CANDIDATES_PER_RUN, ROOT
 #     한도에 닿기 한참 전에 우리 손으로 끝내는 것이 안전하다.
 TIME_BUDGET_MIN = int(os.getenv("PIPELINE_BUDGET_MIN", "35"))
 
+# 빈 날이 있으면 재시도 기한을 무시하고 이만큼 다시 집어 든다.
+# 하루 한 건이라도 반드시 올라오게 하기 위한 바닥선이다.
+DAILY_FLOOR_THAW = int(os.getenv("DAILY_FLOOR_THAW", "12"))
+# 며칠치를 되돌아보며 빈 날을 찾을지. 후보 풀(MAX_AGE_DAYS)보다 짧아야 의미가 있다.
+DAILY_FLOOR_WINDOW = int(os.getenv("DAILY_FLOOR_WINDOW", "5"))
+
+
+def _empty_dates(window: int = DAILY_FLOOR_WINDOW) -> set[str]:
+    """최근 window 일 중 <리포트가 한 건도 없는> 날짜들.
+
+    리포트 날짜는 영상 게시일 기준이므로(generate_report 참고), '오늘 실행했는가'가
+    아니라 '그날 올라온 영상으로 만든 글이 있는가'를 본다 — 사용자가 목록에서
+    보는 것이 바로 그것이다("16일자는 없고 17일자는 있네요").
+    """
+    have = {(r.get("date") or "")[:10] for r in load_existing()}
+    today = date.today()
+    return {d for i in range(window)
+            if (d := (today - timedelta(days=i)).isoformat()) not in have}
+
 
 # 파이프라인이 '쿼터를 더 쓸 수 있었는가'를 다음 단계(재생성)에 넘겨 주는 쪽지.
 #   두 단계는 같은 job 안에서 잇달아 돌므로 파일 하나면 충분하다.
@@ -71,7 +90,8 @@ def _round_robin(items: list, cap: float) -> list:
     return out
 
 
-def order_candidates(fresh: list, cap: float, has_cache, report: bool = False):
+def order_candidates(fresh: list, cap: float, has_cache, report: bool = False,
+                     empty_dates: set[str] | None = None):
     """근거가 좋은 후보부터 오도록 정렬한다.
 
     하루 쿼터가 빠듯해 뒤쪽 후보는 손도 못 대고 실행이 끝난다.
@@ -92,18 +112,28 @@ def order_candidates(fresh: list, cap: float, has_cache, report: bool = False):
     def _has_desc(c) -> bool:
         return len((c.get("description") or "").strip()) >= MIN_CONTEXT_CHARS
 
+    # 통째로 빈 날이 있으면 <그날 올라온 영상>을 맨 앞에 세운다.
+    #   리포트 날짜는 영상 게시일을 따르므로, 빈 칸을 실제로 채우는 것은 그날 영상뿐이다.
+    #   근거가 좋은 순서(아래 계층)보다 이쪽이 먼저다 — 하루를 통째로 비우는 것보다
+    #   얇은 글 한 건이 낫다는 것이 정해 둔 기준이다.
+    gap: list = []
+    if empty_dates:
+        gap = [c for c in fresh if (c.get("published") or "")[:10] in empty_dates]
+        picked = {id(c) for c in gap}
+        fresh = [c for c in fresh if id(c) not in picked]
+
     cached = [c for c in fresh if has_cache(c["video_id"])]
     rest = [c for c in fresh if not has_cache(c["video_id"])]
     with_desc = [c for c in rest if _has_desc(c)]
     without = [c for c in rest if not _has_desc(c)]
 
     out: list = []
-    for tier in (cached, with_desc, without):
+    for tier in (gap, cached, with_desc, without):
         if len(out) >= cap:
             break
         out += _round_robin(tier, cap - len(out))
     if report:
-        return out, (len(cached), len(with_desc), len(without))
+        return out, (len(cached), len(with_desc), len(without), len(gap))
     return out
 
 
@@ -188,8 +218,21 @@ def main() -> int:
              if skip_store.get(v, {}).get("reason") in seen_store.RETRYABLE
              and transcript_cache.has(v)}
     blocked -= freed
+
+    # 최근에 <통째로 빈 날>이 있으면 재시도 기한을 기다리지 않고 다시 집어 든다.
+    # (2026-08-16 이 이 경우였다 — seen_store.thaw_oldest 주석 참고)
+    empty = _empty_dates()
+    thawed: set[str] = set()
+    if empty:
+        thawed = set(seen_store.thaw_oldest(skip_store, blocked, DAILY_FLOOR_THAW,
+                                            prefer_dates=empty))
+        blocked -= thawed
+        print(f"  빈 날 {len(empty)}일({', '.join(sorted(empty))}) — "
+              f"기한 전이라도 다시 봅니다")
+
     print(f"  {seen_store.summary(skip_store)} → 이번 실행 제외 {len(blocked)}건"
-          + (f" · 자막이 새로 생겨 {len(freed)}건 해제" if freed else ""))
+          + (f" · 자막이 새로 생겨 {len(freed)}건 해제" if freed else "")
+          + (f" · 빈 날이 있어 기한 전 {len(thawed)}건 해제" if thawed else ""))
     fresh = [c for c in candidates
              if c["video_id"] not in seen and c["video_id"] not in blocked]
     # 신규 0건일 때 원인(수집 실패인지 / 이미 처리된 것인지)을 즉시 알 수 있게 남긴다
@@ -202,9 +245,12 @@ def main() -> int:
                   file=sys.stderr)
 
     cap = float("inf") if MAX_CANDIDATES_PER_RUN is None else MAX_CANDIDATES_PER_RUN
-    fresh, tiers = order_candidates(fresh, cap, transcript_cache.has, report=True)
-    print(f"  처리 순서: 자막 확보 {tiers[0]}건 → 설명글 충분 {tiers[1]}건 "
-          f"→ 영상 분석 필요 {tiers[2]}건")
+    fresh, tiers = order_candidates(fresh, cap, transcript_cache.has, report=True,
+                                    empty_dates=empty)
+    print("  처리 순서: "
+          + (f"빈 날 메우기 {tiers[3]}건 → " if tiers[3] else "")
+          + f"자막 확보 {tiers[0]}건 → 설명글 충분 {tiers[1]}건 "
+            f"→ 영상 분석 필요 {tiers[2]}건")
 
     # 근거(자막·설명) 게이트에 전부 걸려 '신규 0건'이 나올 때 원인을 바로 알 수 있게,
     # 처리 전에 후보들이 들고 있는 설명글 길이 분포를 남긴다.

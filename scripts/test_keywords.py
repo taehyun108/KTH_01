@@ -10,6 +10,7 @@ CI 에서 매번 돌려 회귀를 즉시 잡는다.
 """
 from __future__ import annotations
 
+import datetime as _dt
 import sys
 
 from fetch_history import is_short
@@ -212,6 +213,87 @@ def check_priority() -> list[str]:
     if got != want:
         return [f"  [처리 순서가 {want} 여야 함] → {got}"]
     return []
+
+
+# 2026-08-16 은 발행이 0건이었다. 후보가 없어서가 아니라 재시도 대상 101건이
+# 전부 7일 타이머에 묶여 있었고, 그날 새로 올라온 영상 1건이 근거부족으로
+# 끝나면서 하루가 통째로 비었다. 두 장치가 살아 있는지 본다.
+#   · 빈 날이 있으면 기한 전이라도 오래된 것부터 풀어 준다
+#   · 리포트 날짜는 <영상 게시일>이므로, 빈 칸을 채우는 건 그날 영상뿐이다 → 맨 앞에
+def check_daily_floor() -> list[str]:
+    from run_pipeline import order_candidates, _empty_dates, DAILY_FLOOR_THAW
+    import seen_store
+
+    out = []
+
+    # ① 빈 날 영상이 근거가 좋은 후보보다 먼저 와야 한다
+    fresh = [
+        {"video_id": "CACHED", "channel": "B", "description": "", "published": "2026-08-17"},
+        {"video_id": "DESC", "channel": "A", "description": "x" * 300, "published": "2026-08-17"},
+        {"video_id": "GAP", "channel": "A", "description": "", "published": "2026-08-16"},
+    ]
+    got = [c["video_id"] for c in order_candidates(
+        fresh, float("inf"), has_cache={"CACHED"}.__contains__,
+        empty_dates={"2026-08-16"})]
+    if got[0] != "GAP":
+        out.append(f"  [빈 날(08-16) 영상이 맨 앞이어야 함] → {got}")
+    if sorted(got) != sorted(c["video_id"] for c in fresh):
+        out.append(f"  [빈 날 우선이 후보를 잃거나 중복시키면 안 됨] → {got}")
+
+    # ② 빈 날이 없으면 순서를 건드리지 않는다 (기존 계층 그대로)
+    got2 = [c["video_id"] for c in order_candidates(
+        fresh, float("inf"), has_cache={"CACHED"}.__contains__, empty_dates=set())]
+    if got2 != ["CACHED", "DESC", "GAP"]:
+        out.append(f"  [빈 날이 없으면 기존 순서 유지] → {got2}")
+
+    # ③ 기한 전 해제는 <오래된 것부터>, 재시도 대상만, 상한을 지켜야 한다
+    store = {
+        "OLD": {"reason": seen_store.REASON_NO_CONTEXT, "date": "2026-08-11"},
+        "NEW": {"reason": seen_store.REASON_IRRELEVANT_WEAK, "date": "2026-08-14"},
+        "PERM": {"reason": seen_store.REASON_IRRELEVANT, "date": "2026-08-10"},
+        "SHORT": {"reason": seen_store.REASON_SHORTS, "date": "2026-08-10"},
+    }
+    blocked = set(store)
+    thawed = seen_store.thaw_oldest(store, blocked, 2)
+    if thawed != ["OLD", "NEW"]:
+        out.append(f"  [오래된 재시도 대상부터 2건 풀어야 함] → {thawed}")
+    if seen_store.thaw_oldest(store, blocked, 99) != ["OLD", "NEW"]:
+        out.append("  [영구 배제(무관·쇼츠)는 절대 풀리면 안 됨]")
+    if seen_store.thaw_oldest(store, blocked, 0) != []:
+        out.append("  [상한 0 이면 아무것도 풀지 않아야 함]")
+
+    # ③-b 빈 날을 <메울 수 있는> 기록이 오래된 것보다 먼저 와야 한다.
+    #     판정일은 영상 게시일보다 하루 늦을 수 있으므로 다음 날 기록도 후보다.
+    store2 = dict(store, LATE={"reason": seen_store.REASON_NO_CONTEXT,
+                               "date": "2026-08-17"})
+    got3 = seen_store.thaw_oldest(store2, set(store2), 1,
+                                  prefer_dates={"2026-08-16"})
+    if got3 != ["LATE"]:
+        out.append(f"  [빈 날(08-16) 다음 날 기록이 먼저 풀려야 함] → {got3}")
+    got4 = seen_store.thaw_oldest(store2, set(store2), 1,
+                                  prefer_dates={"2026-08-14"})
+    if got4 != ["NEW"]:
+        out.append(f"  [빈 날 당일 기록이 먼저 풀려야 함] → {got4}")
+
+    # ④ 빈 날 계산이 '리포트가 있는 날'을 빈 날로 세면 안 된다
+    import run_pipeline
+    today = _dt.date.today()
+    have = (today - _dt.timedelta(days=1)).isoformat()
+    gone = (today - _dt.timedelta(days=2)).isoformat()
+    orig = run_pipeline.load_existing
+    run_pipeline.load_existing = lambda: [{"date": have}]
+    try:
+        empty = _empty_dates(window=3)
+    finally:
+        run_pipeline.load_existing = orig
+    if have in empty:
+        out.append(f"  [리포트가 있는 날({have})을 빈 날로 세면 안 됨] → {sorted(empty)}")
+    if gone not in empty or today.isoformat() not in empty:
+        out.append(f"  [리포트가 없는 날은 빈 날이어야 함] → {sorted(empty)}")
+
+    if DAILY_FLOOR_THAW <= 0:
+        out.append("  [기한 전 해제 상한이 0 이면 장치가 꺼진 것과 같음]")
+    return out
 
 
 # 집 PC 자막 수집 스크립트의 git 처리.
@@ -607,6 +689,7 @@ def main() -> int:
     fails += check_model_errors()
     fails += check_unblock()
     fails += check_priority()
+    fails += check_daily_floor()
     fails += check_local_push()
     fails += check_handoff()
     fails += check_transient()
@@ -621,9 +704,10 @@ def main() -> int:
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
+             + 10    # 빈 날 메우기(순서 2 · 유지 1 · 해제 3 · 빈날우선 2 · 빈날계산 2)
              + 4     # PC 자막 수집 git 처리
              + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4 + 7)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API — "
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)
