@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-17T11:59:35",
+  "generated_at": "2026-08-17T23:28:52",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -62,6 +62,36 @@
       "pv": 5,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-08-17-ai-시대의-숨은-핵심-인프라-해저-케이블을-주목해야-하는-이유",
+      "date": "2026-08-17",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "AI 시대의 숨은 핵심 인프라, 해저 케이블을 주목해야 하는 이유",
+      "summary": "AI 시대 데이터 이동의 핵심 통로인 해저 케이블의 중요성과 투자 포인트를 짚어 봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-08-17-ai-시대의-숨은-핵심-인프라-해저-케이블을-주목해야-하는-이유.html",
+      "video": "https://www.youtube.com/watch?v=RSUGRZIzW80",
+      "video_id": "RSUGRZIzW80",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-17-샌디스크-급등-속-뉴욕증시-3대-지수-하락-금리-불확실성-점검",
+      "date": "2026-08-17",
+      "channel": "삼프로TV",
+      "title": "샌디스크 급등 속 뉴욕증시 3대 지수 하락...금리 불확실성 점검",
+      "summary": "뉴욕증시가 금리 불확실성 속에서 3대 지수 하락 마감한 가운데, AI 하드웨어 섹터와 주요 기업의 동향을 짚어 봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-17-샌디스크-급등-속-뉴욕증시-3대-지수-하락-금리-불확실성-점검.html",
+      "video": "https://www.youtube.com/watch?v=-Ww4XXgvVlo",
+      "video_id": "-Ww4XXgvVlo",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-08-15-7월-최악의-폭락장-8월-증시-전망과-반드시-확인할-지표",
