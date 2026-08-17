@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-17T23:28:52",
+  "generated_at": "2026-08-17T23:48:02",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -89,6 +89,36 @@
       "url": "2026-08-17-샌디스크-급등-속-뉴욕증시-3대-지수-하락-금리-불확실성-점검.html",
       "video": "https://www.youtube.com/watch?v=-Ww4XXgvVlo",
       "video_id": "-Ww4XXgvVlo",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-17-안전자산이라던-미국-국채-왜-위기마다-흔들릴까요",
+      "date": "2026-08-17",
+      "channel": "언더스탠딩",
+      "title": "안전자산이라던 미국 국채, 왜 위기마다 흔들릴까요",
+      "summary": "미국 국채가 안전자산 역할을 잃고 주식과 함께 움직이는 이유와 글로벌 금융 시장의 변화를 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-08-17-안전자산이라던-미국-국채-왜-위기마다-흔들릴까요.html",
+      "video": "https://www.youtube.com/watch?v=EXU1-fdPDU0",
+      "video_id": "EXU1-fdPDU0",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-08-17-폭발적-성장-시작된다-ark의-2026년-유망투자처",
+      "date": "2026-08-17",
+      "channel": "소수몽키",
+      "title": "폭발적 성장 시작된다? ARK의 2026년 유망투자처",
+      "summary": "ARK의 빅 아이디어 2026 보고서를 바탕으로 AI, 우주, 로봇 등 5대 혁신 기술의 융합과 경제적 파급 효과를 살펴봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-08-17-폭발적-성장-시작된다-ark의-2026년-유망투자처.html",
+      "video": "https://www.youtube.com/watch?v=T68rjDE41Tg",
+      "video_id": "T68rjDE41Tg",
       "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
