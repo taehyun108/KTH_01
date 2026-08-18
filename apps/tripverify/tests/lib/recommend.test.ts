@@ -1,18 +1,30 @@
 import { describe, it, expect } from "vitest";
-import { cuisineDishes, recommendReason, menuHint } from "@/lib/recommend";
+import { cuisineDishes, recommendReason, menuHint, popularMenu, localeMenu } from "@/lib/recommend";
 import { timePrefFromCategories } from "@/agents/poi-select";
 import type { Poi, Restaurant } from "@/core/types/domains";
 
-describe("cuisineDishes / menuHint", () => {
-  it("cuisine 태그 → 대표 요리", () => {
+describe("cuisineDishes / menuHint / popularMenu", () => {
+  it("cuisine 태그 → 대표 요리 종류", () => {
     expect(cuisineDishes("ramen")).toBe("라멘");
     expect(cuisineDishes("sushi;ramen")).toBe("스시·사시미, 라멘");
     expect(cuisineDishes("")).toBe("");
     expect(cuisineDishes("unknown_xyz")).toBe("");
   });
-  it("menuHint 은 cuisine 없으면 null", () => {
+  it("popularMenu: 요리 종류 → 한국인 대표 메뉴 예시", () => {
+    expect(popularMenu("sushi")).toContain("오마카세");
+    expect(popularMenu("okonomiyaki")).toContain("오코노미야키");
+    expect(popularMenu("spanish")).toContain("파에야");
+    expect(popularMenu("")).toBe("");
+  });
+  it("menuHint: cuisine 있으면 대표 메뉴, 없으면 null", () => {
     expect(menuHint({ name: "x", location: { lat: 0, lng: 0 } } as Restaurant)).toBeNull();
-    expect(menuHint({ name: "x", location: { lat: 0, lng: 0 }, cuisine: "udon" } as Restaurant)).toBe("우동");
+    expect(menuHint({ name: "x", location: { lat: 0, lng: 0 }, cuisine: "udon" } as Restaurant)).toContain("우동");
+  });
+  it("localeMenu: cuisine 없을 때 도시 명물 폴백", () => {
+    expect(localeMenu("Osaka")).toContain("타코야키");
+    expect(localeMenu("바르셀로나")).toContain("파에야");
+    expect(localeMenu("Nowhere City")).toBeNull();
+    expect(localeMenu(undefined)).toBeNull();
   });
 });
 

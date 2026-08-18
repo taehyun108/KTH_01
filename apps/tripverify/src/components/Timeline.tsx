@@ -12,7 +12,7 @@ import {
   searchName,
   bookingSearch,
 } from "@/lib/format";
-import { recommendReason, menuHint } from "@/lib/recommend";
+import { recommendReason, menuHint, localeMenu } from "@/lib/recommend";
 import type { Restaurant } from "@/core/types/domains";
 
 const DAY_COLORS = ["#2563eb", "#db2777", "#059669", "#d97706", "#7c3aed", "#0891b2", "#dc2626"];
@@ -68,7 +68,11 @@ export function Timeline({
                     ? googleMapsPlaceAt(sname, { lat: loc.lat, lng: loc.lng })
                     : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(sname)}`;
                   const reason = recommendReason(item.place.value, item.kind, item.place.confidence);
-                  const menu = item.kind === "food" ? menuHint(item.place.value as Restaurant | null) : null;
+                  // 한국인 여행자 기준 추천 메뉴: 요리 종류 대표 메뉴 → 없으면 지역 명물
+                  const menu =
+                    item.kind === "food"
+                      ? menuHint(item.place.value as Restaurant | null) ?? localeMenu(day.city)
+                      : null;
                   return (
                     <>
                     <div className="flex items-center justify-between gap-2">
@@ -107,9 +111,9 @@ export function Timeline({
                     )}
                     {item.kind === "food" && menu && (
                       <div className="mt-0.5 text-xs opacity-70">
-                        🍜 추천 메뉴(요리 종류): {menu} ·{" "}
+                        🍜 한국인 추천 메뉴: {menu} ·{" "}
                         <a
-                          href={naverBlogSearch(`${sname} 메뉴`)}
+                          href={naverBlogSearch(`${sname} ${day.city} 메뉴 추천`)}
                           target="_blank"
                           rel="noreferrer"
                           className="underline"
