@@ -693,13 +693,40 @@ def _fallback(prompt: str, why: str):
         return None
 
 
+# 텍스트(자막·설명글) 처리를 어디에 맡길지.
+#
+#   "gh"     — GitHub Models 를 <주력>으로, Gemini 를 예비로 (기본값)
+#   "gemini" — 예전처럼 Gemini 주력, GitHub Models 예비
+#
+# 왜 뒤집었는가 (2026-08-18)
+#   Gemini 무료 한도는 실측 하루 20건입니다(2026-08-10). 그런데 지금 병목은
+#   <영상 직접 분석>이고, 그건 구글 서버가 영상을 가져오는 Gemini 고유 기능이라
+#   대체할 방법이 없습니다. 반면 텍스트 요약은 GitHub Models 도 똑같이 합니다.
+#   그렇다면 얼마 안 되는 Gemini 한도를 텍스트에 쓰는 것은 손해입니다.
+#   텍스트를 GitHub Models 로 넘기면 Gemini 한도가 통째로 영상 몫이 됩니다.
+#
+#   ※ GitHub Models 도 <무제한이 아닙니다>. 다만 API 키가 필요 없고 한도가
+#     Gemini 보다 큽니다. 실제 남은 양은 응답 헤더로 찍어 두었으니(LAST_QUOTA)
+#     추측하지 말고 로그를 보십시오.
+TEXT_BACKEND = (os.getenv("TEXT_BACKEND") or "gh").strip().lower()
+
+
 def _generate(client, model: str, types, prompt: str, max_retries: int = 6):
     """429 는 서버 제안 대기 후 재시도. <하루> 한도 소진일 때만 실행을 접는다.
 
-    하루 한도로 막히면 곧바로 접지 않고 GitHub Models 예비 경로를 먼저 시도한다.
-    (Gemini 무료 한도는 모델에 따라 하루 20건까지 내려간다 — 2026-08-10 실측)
+    기본은 GitHub Models 를 먼저 부르고, 안 되면 Gemini 로 내려온다.
+    Gemini 한도(실측 하루 20건)를 영상 분석에 남겨 두기 위한 순서다.
     """
     global _throttle_fails
+
+    # 주력이 GitHub Models 인 경우 — 여기서 끝나면 Gemini 한도를 한 건도 안 쓴다.
+    if TEXT_BACKEND == "gh" and gh_models.available():
+        try:
+            return _TextResp(gh_models.generate(prompt))
+        except gh_models.GHModelsUnavailable:
+            print("  [텍스트] GitHub Models 를 쓸 수 없어 Gemini 로 갑니다.",
+                  file=sys.stderr)
+
     cfg = types.GenerateContentConfig(
         response_mime_type="application/json", temperature=0.4, max_output_tokens=8192)
     delay = 8.0

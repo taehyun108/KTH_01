@@ -71,6 +71,30 @@ def _note_fail(why: str) -> None:
         print(f"  [예비] GitHub Models 실패 — {why}", file=sys.stderr)
 
 
+# 마지막으로 확인한 남은 한도 한 줄 — 실행 끝 요약에 실어 보낸다.
+LAST_QUOTA = ""
+
+
+def _note_quota(headers) -> None:
+    """응답 헤더에 실린 남은 한도를 기록한다.
+
+    GitHub 은 헤더 이름을 여러 번 바꿔 왔으므로 아는 이름을 모두 훑는다.
+    하나도 없으면 조용히 지나간다 — 없다는 사실 자체는 오류가 아니다.
+    """
+    global LAST_QUOTA
+    if not hasattr(headers, "get"):
+        return
+    got = {}
+    for key in ("x-ratelimit-remaining-requests", "x-ratelimit-remaining",
+                "x-ratelimit-limit-requests", "x-ratelimit-limit",
+                "x-ratelimit-timeremaining", "x-ratelimit-reset"):
+        val = headers.get(key)
+        if val:
+            got[key.replace("x-ratelimit-", "")] = val
+    if got:
+        LAST_QUOTA = " · ".join(f"{k} {v}" for k, v in got.items())
+
+
 def generate(prompt: str, model: str = "") -> str:
     """프롬프트를 넘기고 JSON 문자열을 돌려받는다.
 
@@ -118,6 +142,12 @@ def generate(prompt: str, model: str = "") -> str:
         else:
             _note_fail(f"HTTP {resp.status_code} — {body}")
         raise GHModelsUnavailable(f"HTTP {resp.status_code}")
+
+    # 남은 한도를 <반드시> 남긴다.
+    #   Gemini 한도를 추측만 하다가 며칠을 버렸습니다. 실제 숫자는 429 메시지에
+    #   'limit: 20' 으로 적혀 있었는데 아무도 그 줄을 안 보고 있었기 때문입니다.
+    #   같은 실수를 반복하지 않으려고, 여기서는 <막히기 전에> 남은 양을 찍습니다.
+    _note_quota(getattr(resp, "headers", None))
 
     try:
         text = resp.json()["choices"][0]["message"]["content"]

@@ -406,6 +406,14 @@ def main() -> int:
     # 로그 앞부분까지 거슬러 올라가지 않고도 이번 실행의 상태를 알 수 있게,
     # 흩어져 있던 결론을 <끝에 한 줄로> 모아 둔다.
     try:
+        import gh_models as _gh
+        from generate_report import TEXT_BACKEND
+        who = "GitHub Models(주력)" if TEXT_BACKEND == "gh" else "Gemini(주력)"
+        print(f"  텍스트 처리: {who}"
+              + (f" · 남은 한도 {_gh.LAST_QUOTA}" if _gh.LAST_QUOTA else ""))
+    except Exception:
+        pass
+    try:
         import yt_meta as _ym
         print(f"  공식 API: {_ym.LAST}")
     except Exception:  # noqa: BLE001

@@ -438,6 +438,51 @@ def check_video_budget() -> list[str]:
     return out
 
 
+# 2026-08-18: Gemini 한도(실측 하루 20건)를 텍스트에 쓰는 것은 손해다.
+# 텍스트는 GitHub Models 도 똑같이 하지만, <영상 직접 분석>은 Gemini 만 한다.
+# 그러니 텍스트를 GitHub Models 로 넘겨 Gemini 한도를 통째로 영상에 남겨야 한다.
+def check_text_backend() -> list[str]:
+    import inspect
+    import generate_report as G
+    import gh_models as gh
+
+    out = []
+    if G.TEXT_BACKEND != "gh":
+        out.append(f"  [텍스트 주력은 GitHub Models 여야 함] → {G.TEXT_BACKEND!r}")
+
+    # 주력 호출이 Gemini <앞>에 있어야 한다. 뒤에 있으면 예비일 뿐이다.
+    src = inspect.getsource(G._generate)
+    i_gh = src.find("gh_models.generate")
+    i_gemini = src.find("client.models.generate_content")
+    if i_gh < 0:
+        out.append("  [_generate 가 GitHub Models 를 먼저 불러야 함]")
+    elif 0 <= i_gemini < i_gh:
+        out.append("  [GitHub Models 호출이 Gemini 보다 앞에 와야 함 — 지금은 예비]")
+
+    # 되돌릴 수 있어야 한다
+    if "TEXT_BACKEND" not in inspect.getsource(G._generate):
+        out.append("  [TEXT_BACKEND 로 예전 동작(gemini 주력)으로 되돌릴 수 있어야 함]")
+
+    # 실패해도 Gemini 로 내려가야 한다 — 예비 경로가 사라지면 안 된다
+    if "GHModelsUnavailable" not in src:
+        out.append("  [GitHub Models 가 막히면 Gemini 로 내려가야 함]")
+
+    # 남은 한도를 찍어 두는가 (추측하다 며칠을 버린 전례가 있다)
+    ghs = inspect.getsource(gh)
+    if "_note_quota" not in ghs or "LAST_QUOTA" not in ghs:
+        out.append("  [응답 헤더의 남은 한도를 기록해야 함]")
+    # 헤더가 없는 응답에도 죽지 않아야 한다
+    try:
+        gh._note_quota(None)
+        gh._note_quota({"x-ratelimit-remaining": "42"})
+    except Exception as exc:  # noqa: BLE001
+        out.append(f"  [한도 기록이 예외를 내면 안 됨] → {exc.__class__.__name__}")
+    else:
+        if "42" not in gh.LAST_QUOTA:
+            out.append(f"  [헤더의 남은 한도를 읽어야 함] → {gh.LAST_QUOTA!r}")
+    return out
+
+
 # 집 PC 자막 수집 스크립트의 git 처리.
 # 2026-08-10 모의 실행에서 세 가지가 드러났다. 전부 '첫 실행이 그냥 실패'하는 종류라
 # 사람이 눈치채기 전에 하루를 날린다. 코드에 그 장치가 남아 있는지 확인한다.
@@ -834,6 +879,7 @@ def main() -> int:
     fails += check_daily_floor()
     fails += check_regate()
     fails += check_video_budget()
+    fails += check_text_backend()
     fails += check_local_push()
     fails += check_handoff()
     fails += check_transient()
@@ -851,9 +897,10 @@ def main() -> int:
              + 10    # 빈 날 메우기(순서 2 · 유지 1 · 해제 3 · 빈날우선 2 · 빈날계산 2)
              + 11    # 후보 재판정(되살림·상한·날짜창·API·스위치)
              + 12    # 영상 예산(비용3·미상1·분단위2·소진1·날짜1·상한1·배선3)
+             + 7     # 텍스트 주력 전환(기본값·순서·되돌리기·예비·한도2)
              + 4     # PC 자막 수집 git 처리
              + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4 + 7)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API — "
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)
