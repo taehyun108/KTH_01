@@ -231,6 +231,29 @@ describe("Wikipedia 기반 POI (클라우드 안정 소스)", () => {
     expect(picked.map((p) => p.name)).not.toContain("작은 지역 성당");
   });
 
+  it("리스본 대표 명소(벨렝 탑·제로니무스)가 무명 성당·저택보다 상위", () => {
+    const belem = seed({ name: "Belém Tower", categories: ["history"], notable: true, on_osm: true });
+    const jeronimos = seed({ name: "Jerónimos Monastery", categories: ["religious", "history"], notable: true, on_osm: true });
+    const madalena = seed({
+      name: "Igreja da Madalena",
+      categories: ["religious"],
+      notable: true,
+      on_osm: true,
+      description: "Church of the Magdalene is a church in Lisbon, Portugal.",
+    });
+    const penafiel = seed({
+      name: "Penafiel Palace",
+      categories: ["history"],
+      notable: true,
+      on_osm: true,
+      description: "The Palace of the Counts of Penafiel is a palace in Lisbon.",
+    });
+    const ranked = [madalena, penafiel, belem, jeronimos].sort((a, b) => fameScore(b) - fameScore(a));
+    expect(ranked.slice(0, 2).map((r) => r.name)).toEqual(
+      expect.arrayContaining(["Belém Tower", "Jerónimos Monastery"]),
+    );
+  });
+
   it("fameScore: 유명 명소(긴 설명·OSM·유명키워드)가 무명보다 상위", () => {
     const famous = {
       name: "Osaka Castle",

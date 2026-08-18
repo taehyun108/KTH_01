@@ -74,7 +74,9 @@ export function liveDeps(): PipelineDeps {
 
       // 설명(특히 한국어 위키 2-hop) 조회는 비용이 크므로, 설명 없이 1차 유명도로
       // 정렬해 상위 후보(최대 24개)에만 조회한다 → 한국어 설명이 제때 도착.
-      const preRanked = [...prelim].sort((a, b) => rankScore(b) - rankScore(a)).slice(0, Math.min(limit + 6, 24));
+      // 후보를 넉넉히(최대 40) 조회한다 — 배치가 병렬이라 1회 왕복이면 되고, 여유 후보가
+      // 있어야 아래에서 '한국어 문서 없는 무명 장소'를 걸러낼 수 있다.
+      const preRanked = [...prelim].sort((a, b) => rankScore(b) - rankScore(a)).slice(0, Math.min(limit + 20, 40));
 
       // Wikipedia 설명 배치 조회(영어 제목 기준) → 추천 사유 근거(한국어 우선) + defunct 판별.
       const descKey = (s: (typeof preRanked)[number]) => s.name_en || s.name;
@@ -106,14 +108,18 @@ export function liveDeps(): PipelineDeps {
         if (s.origin === "wiki" && !hasSignal) return false; // 정보 전무한 위키 단독만 제외
         return true;
       });
-      // 유명도+도심근접 순 재정렬 → 도시의 주요(유명·중심) 관광지를 상위로
-      const ranked = findable.sort((a, b) => rankScore(b) - rankScore(a));
+      // 최종 순위 = 유명도·도심근접 + '한국어 위키 문서 보유' 가산.
+      // 한국어 문서가 있다 = 한국인에게 알려진 명소 → 설명도 한국어로 나오고, 무명 성당·
+      // 저택 같은 곳(한국어 문서 없음)보다 우선된다. 두 문제를 동시에 해결한다.
+      const koBonus = (s: { name_ko?: string }) => (s.name_ko ? 6 : 0);
+      const finalScore = (s: PoiSeed) => rankScore(s) + koBonus(s);
+      const ranked = findable.sort((a, b) => finalScore(b) - finalScore(a));
       // 안전망: 필터가 과해 비면, 폐관/비관광만 뺀 후보로라도 채운다(수집됐는데 빈 일정 방지)
       const pool = ranked.length > 0
         ? ranked
         : enriched
             .filter((s) => !isDefunctDescription(s.description) && isVisitorAttraction(s))
-            .sort((a, b) => rankScore(b) - rankScore(a));
+            .sort((a, b) => finalScore(b) - finalScore(a));
       const final = pool.slice(0, limit);
       const osmPoints = overpassSeeds.map((s) => s.location);
       return buildPoiFacts(final, osmPoints, wiki);
