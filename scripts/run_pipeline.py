@@ -46,6 +46,8 @@ KEYWORD_GATE_STRICT = os.getenv("KEYWORD_GATE_STRICT", "").lower() in ("1", "tru
 #   '산업과 무관하다'는 뜻은 아니다. 다만 전부 열면 쿼터가 감당이 안 되므로
 #   최신 것부터 이만큼만 본다.
 NO_KEYWORD_PER_RUN = int(os.getenv("NO_KEYWORD_PER_RUN", "10"))
+# 마지막 재판정 결과 한 줄 — 실행 끝 요약에 실어 보낸다(로그 앞부분은 잘 안 읽힌다).
+REGATE_LAST = "미실행"
 
 
 def _regate(candidates: list[dict], cutoff: str) -> list[dict]:
@@ -80,9 +82,11 @@ def _regate(candidates: list[dict], cutoff: str) -> list[dict]:
     unmatched.sort(key=lambda c: c.get("published", ""), reverse=True)
     kept, dropped = unmatched[:NO_KEYWORD_PER_RUN], unmatched[NO_KEYWORD_PER_RUN:]
 
-    print(f"  재판정 — 날짜 창 밖 {n_old}건 제외 · 키워드 통과 {len(matched)}건"
-          f"(설명글 덕에 되살림 {revived}건) · 미매치 {len(unmatched)}건 중 "
-          f"{len(kept)}건 확인")
+    global REGATE_LAST
+    REGATE_LAST = (f"날짜 창 밖 {n_old}건 제외 · 키워드 통과 {len(matched)}건"
+                   f"(설명글 덕에 되살림 {revived}건) · 미매치 {len(unmatched)}건 중 "
+                   f"{len(kept)}건 확인")
+    print(f"  재판정 — {REGATE_LAST}")
     # 떨어뜨린 것을 <반드시> 남긴다. 흔적이 없어서 며칠을 헤맸다(2026-08-18).
     for c in dropped[:5]:
         print(f"    · 이번엔 못 봄: {c.get('published','?')} "
@@ -386,14 +390,19 @@ def main() -> int:
     seen_store.save(skip_store)
     # 한 줄 결산 — '왜 오늘 업데이트가 적은지'를 로그 한 줄로 알 수 있게 한다
     v_ok, v_fail = video_usage()
-    if n_left:
-        # 왜 멈췄는지를 정확히 적는다. 예전에는 쿼터로 멈춘 실행도 '시간 상한'이라고
-        # 찍어서, 76초 만에 끝난 실행이 '35분 상한에 걸렸다'고 말하고 있었다.
-        # 원인을 잘못 가리키는 로그는 없는 로그보다 나쁘다.
-        why = "일일 쿼터 소진" if quota_hit else f"시간 상한({TIME_BUDGET_MIN}분)"
-        print(f"  ({why}으로 {n_left}건 미처리 — 다음 실행에서 이어서 처리합니다)")
     print(f"완료 — 신규 {len(new_reports)}건 · 무관판정 {n_drafts}건 · 근거부족 건너뜀 {n_skip}건 · "
           f"오류 {n_error}건 · 보류 {n_defer}건 (후보 {len(candidates)} → 신규후보 {len(fresh)})")
+    # <왜 멈췄는가>는 이 요약 안에 있어야 한다.
+    #   예전에는 이 줄이 '완료' 위에 있었는데, 로그가 길어 도구가 끝에서부터만 읽히다
+    #   보니 정작 원인 줄에 닿지 못하는 일이 반복됐다(2026-08-18, 여덟 번).
+    #   결론은 전부 <끝 스무 줄> 안에 모여 있어야 한다.
+    #   ※ 사유를 정확히 적는 것도 중요하다. 예전에는 쿼터로 멈춘 실행도 '시간 상한'
+    #     이라고 찍어서, 76초 만에 끝난 실행이 '35분 상한에 걸렸다'고 말하고 있었다.
+    if n_left:
+        why = "일일 쿼터 소진" if quota_hit else f"시간 상한({TIME_BUDGET_MIN}분)"
+        print(f"  멈춘 이유: {why} — {n_left}건 미처리 (다음 실행에서 이어서)")
+    else:
+        print("  멈춘 이유: 없음 — 후보를 끝까지 처리했습니다")
     print(f"  영상 직접 분석: 성공 {v_ok}건 / 실패 {v_fail}건 (실행당 상한 {VIDEO_ANALYSIS_MAX}건)")
     # 하루치 영상 예산을 다음 실행에 넘긴다 — 컨테이너가 매번 새로 뜨므로 파일로만 이어진다.
     try:
@@ -413,6 +422,7 @@ def main() -> int:
               + (f" · 남은 한도 {_gh.LAST_QUOTA}" if _gh.LAST_QUOTA else ""))
     except Exception:
         pass
+    print(f"  후보 재판정: {REGATE_LAST}")
     try:
         import yt_meta as _ym
         print(f"  공식 API: {_ym.LAST}")
