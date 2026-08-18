@@ -90,6 +90,8 @@ export function liveDeps(): PipelineDeps {
         return {
           ...s,
           ...(description ? { description } : {}),
+          // 한국어 위키백과 표제어가 있으면 장소명도 한국어로 표기(예: 벨렝 탑)
+          ...(d?.title_ko && !s.name_ko ? { name_ko: d.title_ko } : {}),
           all_day: inferAllDay(s.name_en || s.name, s.categories),
         };
       });
