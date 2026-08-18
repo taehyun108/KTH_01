@@ -194,6 +194,9 @@ def enrich(candidates: list[dict], min_chars: int) -> tuple[int, int]:
         if m["published"] and not (c.get("published") or "").strip():
             c["published"] = m["published"]
             dated += 1
+        # 길이를 남겨 둔다 — 영상 분석 예산을 <분> 단위로 재는 데 쓴다.
+        if m["duration"] and not c.get("duration"):
+            c["duration"] = m["duration"]
 
     for c in shorts:
         candidates.remove(c)

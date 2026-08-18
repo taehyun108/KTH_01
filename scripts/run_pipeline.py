@@ -395,6 +395,14 @@ def main() -> int:
     print(f"완료 — 신규 {len(new_reports)}건 · 무관판정 {n_drafts}건 · 근거부족 건너뜀 {n_skip}건 · "
           f"오류 {n_error}건 · 보류 {n_defer}건 (후보 {len(candidates)} → 신규후보 {len(fresh)})")
     print(f"  영상 직접 분석: 성공 {v_ok}건 / 실패 {v_fail}건 (실행당 상한 {VIDEO_ANALYSIS_MAX}건)")
+    # 하루치 영상 예산을 다음 실행에 넘긴다 — 컨테이너가 매번 새로 뜨므로 파일로만 이어진다.
+    try:
+        import video_budget
+        from generate_report import day_budget
+        video_budget.save(day_budget())
+        print(f"  영상 예산: {video_budget.summary(day_budget())}")
+    except Exception as exc:  # noqa: BLE001
+        print(f"  영상 예산 저장 실패 — {exc.__class__.__name__}", file=sys.stderr)
     # 로그 앞부분까지 거슬러 올라가지 않고도 이번 실행의 상태를 알 수 있게,
     # 흩어져 있던 결론을 <끝에 한 줄로> 모아 둔다.
     try:

@@ -794,11 +794,16 @@ def _is_transient(msg: str) -> bool:
 # 영상 토큰이 비싸므로 저해상도·저프레임·앞부분 한정으로 제한한다.
 VIDEO_FPS = 0.2                 # 5초에 1프레임
 VIDEO_MAX_MINUTES = 40          # 긴 라이브는 앞 40분까지만
-# 파이프라인(자동 수집)에서 영상 직접 분석을 허용할 최대 건수. 사용자가 URL 로 직접
-# 요청한 경우(force=True)에는 이 상한과 무관하게 항상 시도한다.
-#   무료 티어는 하루에 처리할 수 있는 유튜브 영상 길이가 제한된다(대략 8시간).
-#   40분 × 5건 × 하루 2회 실행 ≈ 6.7시간으로 여유를 두고 잡았다.
-VIDEO_ANALYSIS_MAX = int(os.getenv("VIDEO_ANALYSIS_MAX", "5"))
+# 한 실행이 영상 분석을 독점하지 못하게 하는 <실행당> 상한.
+# 사용자가 URL 로 직접 요청한 경우(force=True)에는 이 상한과 무관하게 항상 시도한다.
+#
+#   ※ 예전에는 이 숫자 하나가 유일한 방파제였고 값이 5였다. 그런데 무료 티어가
+#     재는 것은 건수가 아니라 <영상 길이>다. 2026-08-18 실행에서 상한 5건에
+#     걸려 9건이 보류됐는데 실패는 0건이었다 — 진짜 쿼터가 아니라 우리 숫자가
+#     막은 것이다. 게다가 40분×5건×2회로 계산한 값인데 지금은 하루 4회를 돈다.
+#   진짜 한도는 video_budget 이 <분> 단위로 하루치를 이어 세며 지킨다.
+#   여기 숫자는 '한 실행이 하루치를 다 쓰지 못하게' 하는 역할만 남았다.
+VIDEO_ANALYSIS_MAX = int(os.getenv("VIDEO_ANALYSIS_MAX", "15"))
 # 영상 분석이 연달아 실패하면(쿼터 소진·정책 차단 등) 남은 후보에 계속 시도해봐야
 # 시간과 쿼터만 태운다. yt-dlp 폴백과 같은 방식으로 이번 실행에서는 접는다.
 VIDEO_FAIL_LIMIT = 2
@@ -806,8 +811,22 @@ _video_used = 0
 _video_fails = 0
 
 
+_day_budget = None      # video_budget 상태 (하루치, 실행 사이에 파일로 이어진다)
+
+
+def day_budget() -> dict:
+    global _day_budget
+    if _day_budget is None:
+        import video_budget
+        _day_budget = video_budget.load()
+    return _day_budget
+
+
 def _video_budget_left() -> bool:
-    return _video_used < VIDEO_ANALYSIS_MAX and _video_fails < VIDEO_FAIL_LIMIT
+    import video_budget
+    return (_video_used < VIDEO_ANALYSIS_MAX
+            and _video_fails < VIDEO_FAIL_LIMIT
+            and video_budget.can_afford(day_budget(), 0))
 
 
 def video_usage() -> tuple[int, int]:
@@ -879,9 +898,14 @@ def analyze_video_direct(meta: dict[str, Any], force: bool = False,
         + ("\n\n[사용자 직접 요청] 사용자가 URL 로 직접 요약을 요청한 영상이다. "
            "영상의 실제 주제를 그대로 요약하라(특정 산업에 끼워 맞추지 말 것)." if force else "")
     )
-    print(f"  [영상분석] Gemini 가 영상을 직접 확인합니다 — {url}", file=sys.stderr)
+    import video_budget
+    cost = video_budget.cost_minutes(meta.get("duration"), VIDEO_MAX_MINUTES)
+    print(f"  [영상분석] Gemini 가 영상을 직접 확인합니다 ({cost:.0f}분) — {url}",
+          file=sys.stderr)
     resp = _generate_from_video(client, model, types, prompt, url)
     _video_used += 1
+    # 성공한 것만 예산에서 뺀다. 실패는 영상을 실제로 처리하지 않은 것이다.
+    video_budget.charge(day_budget(), cost)
     data = json.loads(_strip_fences(resp.text))
     data["_transcript_source"] = "gemini-video"
     data["_scope"] = scope

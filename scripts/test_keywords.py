@@ -372,6 +372,72 @@ def check_regate() -> list[str]:
     return out
 
 
+# 2026-08-18: 한 실행에서 9건이 보류됐는데 <실패는 0건>이었다. 진짜 쿼터가 아니라
+# 우리가 건 '실행당 5건'이 막은 것이다. 무료 티어가 재는 것은 건수가 아니라
+# 영상 <길이>이므로, 예산도 분으로 재고 하루치를 실행 사이에 이어 세야 한다.
+def check_video_budget() -> list[str]:
+    import video_budget as vb
+
+    out = []
+    cap = 40
+
+    # ① 비용은 실제 길이를 따르되 상한을 넘지 않는다
+    for sec, want in ((420, 7.0), (60, 1.0), (7200, float(cap))):
+        got = vb.cost_minutes(sec, cap)
+        if abs(got - want) > 0.01:
+            out.append(f"  [{sec}초 → {want}분이어야 함] → {got}")
+    # ② 길이를 모르면 <넉넉히> 잡는다 (모를 때 싸게 치면 한도를 넘긴다)
+    for bad in (None, "", 0, -5, "abc"):
+        if vb.cost_minutes(bad, cap) != float(min(vb.UNKNOWN_MINUTES, cap)):
+            out.append(f"  [길이 미상({bad!r})은 넉넉히 잡아야 함]")
+            break
+
+    # ③ 건수가 아니라 분으로 막아야 한다 — 짧은 영상은 더 많이 볼 수 있어야 한다
+    s = {"date": vb._today(), "minutes": 0.0, "count": 0}
+    n = 0
+    while vb.can_afford(s, 0) and n < 500:
+        vb.charge(s, vb.cost_minutes(420, cap))   # 7분짜리
+        n += 1
+    if n <= 5:
+        out.append(f"  [7분짜리는 5건보다 훨씬 많이 볼 수 있어야 함] → {n}건")
+    if s["minutes"] < vb.DAILY_MINUTES:
+        out.append("  [예산을 다 쓸 때까지 진행돼야 함]")
+
+    # ④ 다 쓰면 멈춘다
+    if vb.can_afford(s, 0):
+        out.append("  [예산을 다 쓰면 더 진행하면 안 됨]")
+
+    # ⑤ 날짜가 바뀌면 저절로 0 부터 — 어제 기록이 오늘을 막으면 안 된다
+    stale = {"date": "2000-01-01", "minutes": 9999.0, "count": 99}
+    orig = vb.BUDGET_JSON
+    import json as _j
+    import tempfile
+    import pathlib
+    with tempfile.TemporaryDirectory() as td:
+        vb.BUDGET_JSON = pathlib.Path(td) / "b.json"
+        vb.BUDGET_JSON.write_text(_j.dumps(stale), encoding="utf-8")
+        fresh = vb.load()
+        vb.BUDGET_JSON = orig
+    if fresh["minutes"] != 0.0 or fresh["date"] != vb._today():
+        out.append(f"  [날짜가 바뀌면 0 부터 시작해야 함] → {fresh}")
+
+    # ⑥ 실행당 상한이 실제로 완화됐는가 (5 는 하루 2회 시절 값이다)
+    import generate_report as G
+    if G.VIDEO_ANALYSIS_MAX <= 5:
+        out.append(f"  [실행당 상한이 아직 {G.VIDEO_ANALYSIS_MAX}건 — 완화되지 않음]")
+    # ⑦ 예산이 실제로 배선돼 있는가 (모듈만 있고 안 부르면 의미가 없다)
+    import inspect
+    src = inspect.getsource(G)
+    if "video_budget.charge" not in src:
+        out.append("  [성공한 영상 분석이 예산에서 차감돼야 함]")
+    if "can_afford" not in src:
+        out.append("  [_video_budget_left 가 하루 예산을 봐야 함]")
+    import run_pipeline as R2
+    if "video_budget.save" not in inspect.getsource(R2):
+        out.append("  [실행 끝에 예산을 저장해야 함 — 안 하면 하루치가 이어지지 않음]")
+    return out
+
+
 # 집 PC 자막 수집 스크립트의 git 처리.
 # 2026-08-10 모의 실행에서 세 가지가 드러났다. 전부 '첫 실행이 그냥 실패'하는 종류라
 # 사람이 눈치채기 전에 하루를 날린다. 코드에 그 장치가 남아 있는지 확인한다.
@@ -767,6 +833,7 @@ def main() -> int:
     fails += check_priority()
     fails += check_daily_floor()
     fails += check_regate()
+    fails += check_video_budget()
     fails += check_local_push()
     fails += check_handoff()
     fails += check_transient()
@@ -783,9 +850,10 @@ def main() -> int:
              + 1     # 처리 우선순위
              + 10    # 빈 날 메우기(순서 2 · 유지 1 · 해제 3 · 빈날우선 2 · 빈날계산 2)
              + 11    # 후보 재판정(되살림·상한·날짜창·API·스위치)
+             + 12    # 영상 예산(비용3·미상1·분단위2·소진1·날짜1·상한1·배선3)
              + 4     # PC 자막 수집 git 처리
              + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4 + 7)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API — "
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)
