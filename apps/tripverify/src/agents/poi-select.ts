@@ -178,8 +178,13 @@ export function inferCategoriesFromTitle(title: string): Bucket[] {
     b.add("family");
     b.add("activity");
   }
-  // 테마파크(유니버설·디즈니·레고랜드 등) — 세계적 명소, 종일 코스
-  if (/universal\s*studios|disney|legoland|ghibli|theme\s*park|遊園地|테마파크|랜드\b|월드\b|everland|lotte\s*world/.test(t)) {
+  // 테마파크(유니버설·디즈니 파크·레고랜드 등) — 세계적 명소, 종일 코스.
+  // 'disney' 단독은 호텔·캠핑장까지 잡히므로 파크 본체 명칭만 인정한다.
+  if (
+    /universal\s*studios|islands\s*of\s*adventure|disneyland|disney\s*sea|walt\s*disney\s*world|magic\s*kingdom|epcot|animal\s*kingdom|hollywood\s*studios|legoland|ghibli|theme\s*park|遊園地|테마파크|everland|lotte\s*world/.test(
+      t,
+    )
+  ) {
     b.add("activity");
     b.add("family");
   }
@@ -229,6 +234,15 @@ const DEFUNCT_RE =
 const RESIDENTIAL_RE =
   /\b(apartment|residential|condominium|condo|housing|dormitory|office building|mixed-use|high[-\s]?rise (apartment|residential|building|condominium))\b|아파트|주상복합|오피스텔|주거/i;
 
+/**
+ * 숙박시설(호텔·캠핑장 등)은 '관광지'가 아니다 — 일정의 방문지로 넣지 않는다.
+ * (예: "Disney's Fort Wilderness Resort & Campground is a themed camping resort")
+ * 단, "Walt Disney World Resort" 처럼 리조트 단지 전체를 가리키는 설명은 배제하지
+ * 않도록 'resort' 단독은 매칭하지 않는다.
+ */
+const LODGING_DESC_RE =
+  /\b(campground|camping\s*resort|camping|caravan\s*park|rv\s*park|holiday\s*park)\b|\bis\s+an?\s+(\w+\s+){0,3}(hotel|motel|inn|hostel|guest\s*house|resort\s*hotel|lodge)\b|캠핑장|야영장/i;
+
 /** 유명도 신호(위키 설명에 자주 등장). */
 const FAME_RE = /famous|popular|iconic|landmark|one of the|most (visited|famous)|major|well-known|renowned|must-see|symbol of|largest|oldest|tallest/i;
 
@@ -237,8 +251,12 @@ const FAME_RE = /famous|popular|iconic|landmark|one of the|most (visited|famous)
  * (유니버설 스튜디오·디즈니·레고랜드 등 종일 테마파크와 국가급 랜드마크)
  * 설명이 아직 없어도 이름만으로 최상위 가중치를 준다 → 유명순 일정 보장.
  */
+/**
+ * ⚠️ 반드시 '테마파크 본체'만 매칭한다. 예전엔 disney(land|resort|…)? 처럼 접미사를
+ * 선택적으로 둬서 디즈니 '호텔·캠핑장'까지 최상위로 올라왔다(관광지가 아님).
+ */
 const MARQUEE_RE =
-  /universal\s*studios|디즈니|disney(land| sea| resort| world)?|legoland|레고랜드|everland|에버랜드|lotte\s*world|롯데월드|ghibli|지브리|teamlab|팀랩/i;
+  /universal\s*studios|islands\s*of\s*adventure|disneyland|disney\s*sea|disneysea|walt\s*disney\s*world|magic\s*kingdom|epcot|animal\s*kingdom|hollywood\s*studios|디즈니랜드|디즈니씨|디즈니\s*월드|매직\s*킹덤|엡콧|legoland|레고랜드|everland|에버랜드|lotte\s*world|롯데월드|ghibli|지브리|teamlab|팀랩/i;
 
 /**
  * 세계적 아이코닉 랜드마크 — 그 도시를 대표하는 '1순위 필수 명소'.
@@ -317,6 +335,8 @@ export function isVisitorAttraction(seed: PoiSeed): boolean {
   const text = `${seed.name} ${seed.name_en ?? ""} ${seed.description ?? ""}`;
   // 아파트/주거/오피스는 이름에 'tower' 등 관광 키워드가 있어도 무조건 제외
   if (RESIDENTIAL_RE.test(seed.description ?? "")) return false;
+  // 숙박시설(호텔·캠핑장)은 방문지가 아님 — 숙소 섹션에서 따로 추천한다
+  if (LODGING_DESC_RE.test(seed.description ?? "")) return false;
   if (NON_ATTRACTION_DESC.test(text) && !ATTRACTION_DESC.test(text)) return false;
   return true;
 }

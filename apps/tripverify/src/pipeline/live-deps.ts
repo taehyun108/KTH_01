@@ -111,7 +111,9 @@ export function liveDeps(): PipelineDeps {
       // 최종 순위 = 유명도·도심근접 + '한국어 위키 문서 보유' 가산.
       // 한국어 문서가 있다 = 한국인에게 알려진 명소 → 설명도 한국어로 나오고, 무명 성당·
       // 저택 같은 곳(한국어 문서 없음)보다 우선된다. 두 문제를 동시에 해결한다.
-      const koBonus = (s: { name_ko?: string }) => (s.name_ko ? 6 : 0);
+      // 한국어 문서 보유는 강한 신호(한국인에게 알려진 곳 + 설명이 한국어로 나옴).
+      // 마퀴/아이코닉 가산(+10~11)과 견줄 만큼 크게 줘야 영어 전용 무명 장소를 밀어낸다.
+      const koBonus = (s: { name_ko?: string }) => (s.name_ko ? 10 : 0);
       const finalScore = (s: PoiSeed) => rankScore(s) + koBonus(s);
       const ranked = findable.sort((a, b) => finalScore(b) - finalScore(a));
       // 안전망: 필터가 과해 비면, 폐관/비관광만 뺀 후보로라도 채운다(수집됐는데 빈 일정 방지)

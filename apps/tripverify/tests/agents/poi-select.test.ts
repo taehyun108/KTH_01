@@ -231,6 +231,24 @@ describe("Wikipedia 기반 POI (클라우드 안정 소스)", () => {
     expect(picked.map((p) => p.name)).not.toContain("작은 지역 성당");
   });
 
+  it("⭐ 디즈니 '호텔·캠핑장'은 관광지가 아니라 제외된다(파크 본체만 인정)", () => {
+    const campground: PoiSeed = {
+      name: "Disney's Fort Wilderness Resort & Campground",
+      location: loc,
+      origin: "wiki",
+      description:
+        "Disney's Fort Wilderness Resort & Campground is a themed camping resort located at the Walt Disney World Resort.",
+    };
+    expect(isVisitorAttraction(campground)).toBe(false);
+    // 파크 본체는 테마파크로 인식(액티비티·가족)
+    expect(inferCategoriesFromTitle("Magic Kingdom")).toEqual(
+      expect.arrayContaining(["activity", "family"]),
+    );
+    expect(inferCategoriesFromTitle("Epcot")).toEqual(expect.arrayContaining(["activity", "family"]));
+    // 디즈니 호텔 이름은 테마파크로 분류되지 않음
+    expect(inferCategoriesFromTitle("Disney's Contemporary Resort")).not.toContain("activity");
+  });
+
   it("리스본 대표 명소(벨렝 탑·제로니무스)가 무명 성당·저택보다 상위", () => {
     const belem = seed({ name: "Belém Tower", categories: ["history"], notable: true, on_osm: true });
     const jeronimos = seed({ name: "Jerónimos Monastery", categories: ["religious", "history"], notable: true, on_osm: true });
