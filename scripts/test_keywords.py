@@ -296,6 +296,82 @@ def check_daily_floor() -> list[str]:
     return out
 
 
+# 2026-08-18: 사용자가 슈카월드 '찐반등인가, 훼이크인가'(35분 본편)를 짚었다.
+# 우리 데이터 어디에도 없었다 — 발행도, 판정 기록도 아니었다.
+# 진단해 보니 세 가지가 겹쳐 있었다. 전부 <조용히> 후보를 지우는 종류다.
+#   A. 열거는 설명글을 안 주는데 키워드 판정을 거기서 끝냈다(= 제목만 보고 판정).
+#      설명글을 채우는 공식 API 호출은 그 필터를 통과한 뒤에나 일어난다 — 순서가 거꾸로.
+#   B. 그렇게 떨어진 영상은 아무 기록도 남지 않아 "그날은 영상이 없었나 보다"가 됐다.
+#   C. 열거 결과에 게시일이 없어(슈카월드 120건 전부 빈 값) 날짜 창이 동작하지 않았고,
+#      리포트 날짜도 영상 게시일이 아니라 실행한 날로 찍혔다.
+def check_regate() -> list[str]:
+    import run_pipeline as R
+
+    out = []
+
+    # A. 제목엔 키워드가 없지만 설명글에 있으면 되살아나야 한다
+    cands = [
+        {"video_id": "REVIVE", "channel": "A", "title": "찐반등인가, 훼이크인가",
+         "description": "이번 편은 전기차 배터리 양극재 공급망을 다룹니다." * 3,
+         "published": "2026-08-16"},
+        {"video_id": "HIT", "channel": "A", "title": "관세 전쟁 정리",
+         "description": "", "published": "2026-08-17",
+         "matched_keywords": ["관세"]},
+    ]
+    got = {c["video_id"] for c in R._regate(list(cands), "2026-08-01")}
+    if "REVIVE" not in got:
+        out.append("  [설명글에 키워드가 있으면 되살아나야 함] → 사라짐")
+    if "HIT" not in got:
+        out.append("  [제목이 통과한 후보가 사라지면 안 됨]")
+
+    # A-2. 제목·설명 어디에도 키워드가 없어도 <통째로 버리지는> 않는다.
+    #      손으로 고른 경제 채널이라 키워드 없음이 곧 무관은 아니다 — 판단은 Gemini 몫.
+    plain = [{"video_id": f"P{i}", "channel": "A", "title": f"잡담 {i}",
+              "description": "", "published": "2026-08-16"} for i in range(3)]
+    kept = R._regate(list(plain), "2026-08-01")
+    if not kept:
+        out.append("  [키워드 미매치를 전부 버리면 안 됨 — 상한만큼은 봐야 함]")
+
+    # A-3. 다만 상한은 지켜야 한다 (쿼터 방파제)
+    many = [{"video_id": f"M{i}", "channel": "A", "title": f"잡담 {i}",
+             "description": "", "published": "2026-08-16"}
+            for i in range(R.NO_KEYWORD_PER_RUN + 7)]
+    kept2 = R._regate(list(many), "2026-08-01")
+    if len(kept2) != R.NO_KEYWORD_PER_RUN:
+        out.append(f"  [미매치는 {R.NO_KEYWORD_PER_RUN}건까지만] → {len(kept2)}건")
+
+    # C. 날짜 창은 <아는 날짜>에만 적용한다. 모르는 것과 오래된 것은 다르다.
+    mixed = [
+        {"video_id": "OLD", "channel": "A", "title": "관세", "description": "",
+         "published": "2026-01-01", "matched_keywords": ["관세"]},
+        {"video_id": "UNK", "channel": "A", "title": "관세", "description": "",
+         "published": "", "matched_keywords": ["관세"]},
+    ]
+    got2 = {c["video_id"] for c in R._regate(list(mixed), "2026-08-01")}
+    if "OLD" in got2:
+        out.append("  [날짜 창 밖(2026-01-01)은 제외돼야 함]")
+    if "UNK" not in got2:
+        out.append("  [게시일을 모르는 건 버리면 안 됨 — 모르는 것과 오래된 것은 다름]")
+
+    # C-2. 공식 API 가 게시일(publishedAt)을 요청하는지. 이게 빠지면 다시 날짜가 빈다.
+    import inspect
+    import yt_meta
+    src = inspect.getsource(yt_meta)
+    if "publishedAt" not in src:
+        out.append("  [yt_meta 가 snippet.publishedAt 를 요청해야 함]")
+    if '"published"' not in src:
+        out.append("  [yt_meta 가 후보의 published 를 채워야 함]")
+
+    # A-4. 열거 단계가 미매치를 버리지 않도록 하는 스위치가 살아 있는가
+    import fetch_history
+    if "keep_unmatched" not in inspect.signature(
+            fetch_history.collect_history).parameters:
+        out.append("  [collect_history 에 keep_unmatched 가 있어야 함]")
+    if R.KEYWORD_GATE_STRICT:
+        out.append("  [기본값은 완화(strict=False)여야 함]")
+    return out
+
+
 # 집 PC 자막 수집 스크립트의 git 처리.
 # 2026-08-10 모의 실행에서 세 가지가 드러났다. 전부 '첫 실행이 그냥 실패'하는 종류라
 # 사람이 눈치채기 전에 하루를 날린다. 코드에 그 장치가 남아 있는지 확인한다.
@@ -690,6 +766,7 @@ def main() -> int:
     fails += check_unblock()
     fails += check_priority()
     fails += check_daily_floor()
+    fails += check_regate()
     fails += check_local_push()
     fails += check_handoff()
     fails += check_transient()
@@ -705,9 +782,10 @@ def main() -> int:
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
              + 10    # 빈 날 메우기(순서 2 · 유지 1 · 해제 3 · 빈날우선 2 · 빈날계산 2)
+             + 11    # 후보 재판정(되살림·상한·날짜창·API·스위치)
              + 4     # PC 자막 수집 git 처리
              + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4 + 7)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API — "
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

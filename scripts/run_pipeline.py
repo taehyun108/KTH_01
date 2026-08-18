@@ -38,6 +38,60 @@ DAILY_FLOOR_THAW = int(os.getenv("DAILY_FLOOR_THAW", "12"))
 DAILY_FLOOR_WINDOW = int(os.getenv("DAILY_FLOOR_WINDOW", "5"))
 
 
+# 1차 키워드 필터를 <통과 못 한> 영상도 후보로 둘지.
+#   True 로 되돌리면 예전처럼 제목에 키워드가 없는 영상은 통째로 버린다.
+KEYWORD_GATE_STRICT = os.getenv("KEYWORD_GATE_STRICT", "").lower() in ("1", "true")
+# 키워드 미매치 후보를 한 실행에 몇 건까지 볼지. 쿼터 방파제다.
+#   이 채널들은 전부 손으로 고른 경제 채널이라 '키워드가 없다'가 곧
+#   '산업과 무관하다'는 뜻은 아니다. 다만 전부 열면 쿼터가 감당이 안 되므로
+#   최신 것부터 이만큼만 본다.
+NO_KEYWORD_PER_RUN = int(os.getenv("NO_KEYWORD_PER_RUN", "10"))
+
+
+def _regate(candidates: list[dict], cutoff: str) -> list[dict]:
+    """설명글·게시일을 확보한 뒤 날짜 창과 키워드를 다시 적용한다.
+
+    열거 단계에서는 둘 다 없어서 제대로 판정할 수 없었다.
+      · 게시일이 비어 있어 '최근 N일' 창이 동작하지 않았다
+      · 설명글이 비어 있어 키워드를 <제목만> 보고 판정했다
+    """
+    from fetch_rss import match_candidate
+
+    n_in = len(candidates)
+    # ① 날짜 창 — 게시일을 끝내 모르는 건 버리지 않는다(모르는 것과 오래된 것은 다르다).
+    dated = [c for c in candidates
+             if not (c.get("published") or "") or c["published"] >= cutoff]
+    n_old = n_in - len(dated)
+
+    # ② 키워드 재판정 — 이번엔 설명글까지 본다.
+    revived = 0
+    matched, unmatched = [], []
+    for c in dated:
+        hits = c.get("matched_keywords") or []
+        if not hits:
+            hits = match_candidate(c.get("title", ""), c.get("description", ""))
+            if hits:
+                revived += 1
+                c["matched_keywords"] = hits
+        (matched if hits else unmatched).append(c)
+
+    # ③ 미매치는 최신순으로 상한만큼만 — 이 채널들은 손으로 고른 경제 채널이라
+    #    키워드가 없다고 산업과 무관한 것은 아니다. 판단은 Gemini 가 한다.
+    unmatched.sort(key=lambda c: c.get("published", ""), reverse=True)
+    kept, dropped = unmatched[:NO_KEYWORD_PER_RUN], unmatched[NO_KEYWORD_PER_RUN:]
+
+    print(f"  재판정 — 날짜 창 밖 {n_old}건 제외 · 키워드 통과 {len(matched)}건"
+          f"(설명글 덕에 되살림 {revived}건) · 미매치 {len(unmatched)}건 중 "
+          f"{len(kept)}건 확인")
+    # 떨어뜨린 것을 <반드시> 남긴다. 흔적이 없어서 며칠을 헤맸다(2026-08-18).
+    for c in dropped[:5]:
+        print(f"    · 이번엔 못 봄: {c.get('published','?')} "
+              f"[{c.get('channel','?')}] {(c.get('title') or '')[:48]}")
+    if len(dropped) > 5:
+        print(f"    · 그 외 {len(dropped) - 5}건")
+    return matched + kept
+
+
 def _empty_dates(window: int = DAILY_FLOOR_WINDOW) -> set[str]:
     """최근 window 일 중 <리포트가 한 건도 없는> 날짜들.
 
@@ -179,7 +233,8 @@ def main() -> int:
         # 최근 MAX_AGE_DAYS 일 범위를 함께 열거해 후보 풀을 넓힌다.
         rss = collect_candidates()
         cutoff = (date.today() - timedelta(days=MAX_AGE_DAYS)).isoformat()
-        hist = collect_history(cutoff)
+        # 키워드 미매치도 들고 나온다 — 설명글·게시일을 채운 뒤 아래에서 다시 본다.
+        hist = collect_history(cutoff, keep_unmatched=not KEYWORD_GATE_STRICT)
         merged = {v["video_id"]: v for v in hist}
         merged.update({v["video_id"]: v for v in rss})   # 설명이 있는 RSS 쪽을 우선
         # ※ 위 update 가 <쇼츠를 되살린다>. RSS 에는 길이가 없어서 표식 없는 쇼츠를
@@ -201,6 +256,10 @@ def main() -> int:
         # 키가 없으면 아무 일도 하지 않고 지금까지처럼 진행한다.
         import yt_meta
         yt_meta.enrich(candidates, MIN_CONTEXT_CHARS)
+
+        # 이제야 설명글과 게시일이 손에 있다. 열거 단계에서 <제목만> 보고 내린
+        # 판정을 여기서 다시 한다 — 순서가 거꾸로였던 것을 바로잡는 자리다.
+        candidates = _regate(candidates, cutoff)
     seen = _seen_video_ids()
     # 발행된 것뿐 아니라 <이미 판정이 끝난> 것도 제외한다. 그러지 않으면 30일 후보 풀
     # 안의 '무관' 영상을 매 실행 다시 Gemini 에 물어보며 하루치 쿼터를 거기서 다 쓴다.

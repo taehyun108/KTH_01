@@ -88,7 +88,7 @@ def fetch(video_ids: list[str]) -> dict[str, dict]:
                 "part": "snippet,contentDetails",
                 "id": ",".join(batch),
                 "key": api_key(),
-                "fields": ("items(id,snippet(title,description),"
+                "fields": ("items(id,snippet(title,description,publishedAt),"
                            "contentDetails(duration))"),
             })
         except Exception as exc:  # noqa: BLE001
@@ -112,6 +112,8 @@ def fetch(video_ids: list[str]) -> dict[str, dict]:
             out[it.get("id", "")] = {
                 "title": (sn.get("title") or "").strip(),
                 "description": (sn.get("description") or "").strip(),
+                # '2026-08-16T09:12:33Z' → '2026-08-16'
+                "published": (sn.get("publishedAt") or "")[:10],
                 "duration": _iso8601_seconds(
                     (it.get("contentDetails") or {}).get("duration", "")),
             }
@@ -151,8 +153,19 @@ def enrich(candidates: list[dict], min_chars: int) -> tuple[int, int]:
 
     from fetch_history import SHORT_IDS, is_short
 
+    # 설명글이 부족하거나 <게시일을 모르는> 후보를 채운다.
+    #
+    # ※ 게시일을 왜 여기서 채우는가 (2026-08-18)
+    #   yt-dlp 채널 열거(extract_flat)는 upload_date 도 timestamp 도 주지 않는다.
+    #   진단해 보니 슈카월드 120건 전부 게시일이 <빈 문자열>이었다.
+    #   그 결과 두 가지가 조용히 망가져 있었다.
+    #     · 리포트 날짜가 영상 게시일이 아니라 <실행한 날>로 찍힌다
+    #     · 최근 N일 창(MAX_AGE_DAYS)이 사실상 동작하지 않는다
+    #   공식 API 의 snippet.publishedAt 이 이 구멍을 정확히 메운다. 같은 호출에
+    #   묻어 오므로 유닛이 더 들지 않는다.
     need = [c["video_id"] for c in candidates
-            if len((c.get("description") or "").strip()) < min_chars]
+            if len((c.get("description") or "").strip()) < min_chars
+            or not (c.get("published") or "").strip()]
     if not need:
         return (0, 0)
 
@@ -164,6 +177,7 @@ def enrich(candidates: list[dict], min_chars: int) -> tuple[int, int]:
         return (0, 0)
 
     filled = 0
+    dated = 0
     shorts: list[dict] = []
     for c in candidates:
         m = meta.get(c["video_id"])
@@ -177,10 +191,14 @@ def enrich(candidates: list[dict], min_chars: int) -> tuple[int, int]:
         if len((c.get("description") or "").strip()) < len(m["description"]):
             c["description"] = m["description"]
             filled += 1
+        if m["published"] and not (c.get("published") or "").strip():
+            c["published"] = m["published"]
+            dated += 1
 
     for c in shorts:
         candidates.remove(c)
 
-    LAST = f"설명글 {filled}건 확보 · 쇼츠 {len(shorts)}건 제외 (조회 {len(need)}건)"
+    LAST = (f"설명글 {filled}건 확보 · 게시일 {dated}건 확보 · "
+            f"쇼츠 {len(shorts)}건 제외 (조회 {len(need)}건)")
     print(f"  [yt-api] {LAST}")
     return (filled, len(shorts))

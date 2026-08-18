@@ -99,15 +99,28 @@ def fetch_channel_history(channel: dict[str, str], lookback: int) -> list[dict[s
     return videos
 
 
-def collect_history(since: str) -> list[dict[str, Any]]:
-    """since(YYYY-MM-DD) 이후 + 1차 키워드 통과 후보."""
+def collect_history(since: str, keep_unmatched: bool = False) -> list[dict[str, Any]]:
+    """since(YYYY-MM-DD) 이후 후보. keep_unmatched 면 키워드 미매치도 남긴다.
+
+    ※ 키워드 필터를 여기서 <끝내면> 안 되는 이유 (2026-08-18)
+      열거(extract_flat)는 설명글을 거의 주지 않아, 여기 필터는 사실상
+      <제목만> 보고 판정한다. 그런데 설명글을 채우는 공식 API 호출은 이
+      필터를 통과한 뒤에나 일어난다. 순서가 거꾸로다.
+
+      실제로 슈카월드 '찐반등인가, 훼이크인가'(35분 본편)가 이 지점에서
+      사라졌다. 제목에 키워드가 없다는 이유였고, 떨어진 사실은 어디에도
+      기록되지 않아 "그날은 영상이 없었나 보다"로 오해하게 만들었다.
+
+      그래서 미매치도 들고 나가고, 설명글을 채운 뒤 run_pipeline 에서 다시
+      판정한다. 여기서 버리는 것은 <되돌릴 수 없는> 손실이다.
+    """
     candidates = []
     for ch in CHANNELS:
         for v in fetch_channel_history(ch, CHANNEL_LOOKBACK):
             if since and v["published"] and v["published"] < since:
                 continue  # 게시일이 확인되고 기준일보다 이르면 제외
             hits = match_keywords(f"{v['title']} {v['description']}")
-            if hits:
+            if hits or keep_unmatched:
                 v["matched_keywords"] = hits
                 candidates.append(v)
     return candidates
