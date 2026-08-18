@@ -179,6 +179,7 @@ const LOCALE_SIGNATURE: [RegExp, string][] = [
   [/타이베이|taipei|대만|taiwan/i, "샤오롱바오, 우육면, 루러우판, 버블티"],
   [/방콕|bangkok|태국|thailand/i, "팟타이, 똠얌꿍, 카오소이, 망고밥"],
   [/바르셀로나|barcelona|스페인|spain/i, "파에야, 타파스, 하몽, 감바스"],
+  [/리스본|lisbon|lisboa|포르투|porto|포르투갈|portugal/i, "바칼라우(대구요리), 파스텔 드 나타(에그타르트), 그릴 정어리"],
   [/파리|paris|프랑스|france/i, "스테이크 프리트, 에스카르고, 크레페"],
   [/로마|rome|이탈리아|ital/i, "파스타(까르보나라), 화덕피자, 젤라토"],
   [/부산|busan/i, "돼지국밥, 밀면, 회·해산물"],

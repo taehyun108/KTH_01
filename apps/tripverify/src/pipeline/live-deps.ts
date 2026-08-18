@@ -118,7 +118,13 @@ export function liveDeps(): PipelineDeps {
     },
 
     collectFood: async (ctx) => {
-      const seeds = await discoverRestaurants(ctx.center).catch(() => []);
+      // 1차 5km. 결과가 적거나(밀도 낮음) 쿼리가 순간 실패하면 더 넓은 반경으로 재시도
+      // → 특정 도시(예: 리스본)에서 식당이 비던 문제 완화.
+      let seeds = await discoverRestaurants(ctx.center).catch(() => []);
+      if (seeds.length < 6) {
+        const wider = await discoverRestaurants(ctx.center, 9000).catch(() => []);
+        if (wider.length > seeds.length) seeds = wider;
+      }
       return buildRestaurantFacts(seeds);
     },
 
