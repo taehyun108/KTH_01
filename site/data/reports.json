@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-18T00:50:24",
+  "generated_at": "2026-08-18T02:01:11",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-18-주식-시장의-변동성-속에서-길을-찾는-투자-전략",
+      "date": "2026-08-18",
+      "channel": "삼프로TV",
+      "title": "주식 시장의 변동성 속에서 길을 찾는 투자 전략",
+      "summary": "주식 시장의 변동성과 투자 전략, 그리고 주식대여 서비스의 활용법에 대해 살펴봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-08-18-주식-시장의-변동성-속에서-길을-찾는-투자-전략.html",
+      "video": "https://www.youtube.com/watch?v=KxCXjyxK-OQ",
+      "video_id": "KxCXjyxK-OQ",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-08-17-호남-반도체-클러스터-800조-투자-전력과-재생에너지가-승부처인-이유",
       "date": "2026-08-17",
@@ -164,6 +179,21 @@
       "url": "2026-08-17-미증시-신고가-지속-ai인프라-반도체도-동참.html",
       "video": "https://www.youtube.com/watch?v=EBrpasxcrQk",
       "video_id": "EBrpasxcrQk",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-17-8월-3주차-시장-흐름과-업종별-관심-종목-점검",
+      "date": "2026-08-17",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "8월 3주차 시장 흐름과 업종별 관심 종목 점검",
+      "summary": "코스피가 20일선을 뚫고 올라온 가운데, 반도체·로봇·화장품 등 주요 업종의 흐름과 투자 전략을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-08-17-8월-3주차-시장-흐름과-업종별-관심-종목-점검.html",
+      "video": "https://www.youtube.com/watch?v=0UfvEGBHQkw",
+      "video_id": "0UfvEGBHQkw",
       "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
@@ -1149,6 +1179,21 @@
       "video": "https://www.youtube.com/watch?v=VtAUM2xAdlE",
       "video_id": "VtAUM2xAdlE",
       "pv": 5
+    },
+    {
+      "id": "2026-07-31-국내-수산물-가공품의-비밀-수입산과-무엇이-다를까요",
+      "date": "2026-07-31",
+      "channel": "손에 잡히는 경제",
+      "title": "국내 수산물 가공품의 비밀, 수입산과 무엇이 다를까요",
+      "summary": "국내 수산물 밀키트와 수입산의 차이점, 그리고 원양산과 원산지 표기의 의미를 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-07-31-국내-수산물-가공품의-비밀-수입산과-무엇이-다를까요.html",
+      "video": "https://www.youtube.com/watch?v=H7-09MyumTw",
+      "video_id": "H7-09MyumTw",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-07-30-금리-전쟁-수급-3중고-꼬여버린-증시에서-배터리-산업은-괜찮을까요",
