@@ -140,6 +140,29 @@ describe("assembleDay 제약 (§6, §10)", () => {
     expect(day.items.some((i) => i.kind === "food" && i.name === "저녁집")).toBe(true);
   });
 
+  it("점심이 POI 와 시간이 겹치지 않는다(오전에 POI 가 몰린 경우)", () => {
+    // 스크린샷 재현: 3개 POI 가 12:16 직전까지 이어져 점심시간(12:30) 직전에 끝나지 않음
+    const day = assembleDay({
+      date: "2026-09-14",
+      weekday: 1,
+      city: "테스트",
+      pois: [poiFact({ name: "A", location: loc }), poiFact({ name: "B", location: loc }), poiFact({ name: "C", location: loc })],
+      legMinutes: [0, 14, 2],
+      legMode: "transit",
+      legEstimated: true,
+      legSource: "est",
+      lunch: foodFact({ name: "점심집", location: loc }),
+      dinner: foodFact({ name: "저녁집", location: loc }),
+    });
+    // 시간대(분) 파싱해 항목들이 서로 겹치지 않는지 검사
+    const toMin = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5));
+    const spans = day.items.map((i) => [toMin(i.start), toMin(i.end)] as const).sort((a, b) => a[0] - b[0]);
+    for (let i = 1; i < spans.length; i++) {
+      expect(spans[i]![0]).toBeGreaterThanOrEqual(spans[i - 1]![1]); // 시작 >= 직전 종료
+    }
+    expect(day.items.some((i) => i.kind === "food" && i.name === "점심집")).toBe(true);
+  });
+
   it("POI 가 없어도 점심·저녁이 모두 배치된다(식사시간대 미도달 폴백)", () => {
     const day = assembleDay({
       date: "2026-09-14",

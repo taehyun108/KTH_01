@@ -135,10 +135,12 @@ export function assembleDay(input: DayAssemblyInput): ItineraryDay {
     cursor = endMin;
   }
 
-  // 점심을 아직 못 넣었으면(POI 가 적어 식사시간대에 도달 못 한 경우) 점심시간에 배치
+  // 점심을 아직 못 넣었으면(POI 가 적어 식사시간대에 도달 못 한 경우) 배치.
+  // 마지막 관광 종료(cursor) 이후로 넣어 POI 와 시간이 겹치지 않게 한다(겹침 버그 수정).
   if (!lunchPlaced) {
-    placeMeal(input.lunch, PLAN.LUNCH_MIN, PLAN.LUNCH_DURATION, "점심");
+    placeMeal(input.lunch, Math.max(cursor, PLAN.LUNCH_MIN), PLAN.LUNCH_DURATION, "점심");
     lunchPlaced = true;
+    if (input.lunch && hasSourcedValue(input.lunch)) cursor = Math.max(cursor, PLAN.LUNCH_MIN) + PLAN.LUNCH_DURATION;
   }
 
   // 저녁 삽입

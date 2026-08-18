@@ -253,6 +253,8 @@ const ICONIC_RE = new RegExp(
     "eiffel", "에펠", "louvre", "루브르", "notre[-\\s]?dame", "노트르담", "arc\\s*de\\s*triomphe", "개선문", "versailles", "베르사유", "sacr[eé][-\\s]?c[oœ]ur",
     // 이탈리아/로마·기타
     "colosseum|colosseo", "콜로세움", "trevi", "트레비", "pantheon", "판테온", "vatican|st\\.?\\s*peter", "바티칸", "duomo", "두오모", "leaning\\s*tower|피사",
+    // 포르투갈/리스본·포르투
+    "bel[eé]m\\s*tower|torre\\s*de\\s*bel[eé]m", "벨렘\\s*탑", "jer[oó]nimos|mosteiro\\s*dos", "제로니무스", "castelo\\s*de\\s*s[aã]o\\s*jorge|s[aã]o\\s*jorge\\s*castle", "상\\s*조르제", "alfama", "알파마", "pra[cç]a\\s*do\\s*com[eé]rcio", "코메르시우", "padr[aã]o\\s*dos\\s*descobrimentos", "발견\\s*기념비", "tram\\s*28|el[eé]trico\\s*28", "santa\\s*justa", "libraria\\s*lello|livraria\\s*lello|렐루",
     // 영국/런던
     "big\\s*ben", "빅벤", "tower\\s*bridge", "타워브리지", "london\\s*eye", "런던아이", "buckingham", "버킹엄", "tower\\s*of\\s*london",
     // 미국/뉴욕 등

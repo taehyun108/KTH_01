@@ -61,9 +61,9 @@ export function liveDeps(): PipelineDeps {
       const merged = mergeByProximity(overpassSeeds, wikiFallbackSeeds(wiki));
       const cities = Math.max(q.destinations.length, 1);
       const perCityDays = Math.max(1, Math.round(dayCount(q.start_date, q.end_date) / cities));
-      // 하루 4곳 목표(3곳+ 보장 & 점심·저녁 들어갈 여유). 너무 많으면 10시간 상한에
-      // 걸려 식당이 밀려나므로 과하지 않게.
-      const limit = Math.min(Math.max(perCityDays * 4, 6), 28);
+      // 하루 5곳 목표 — 오전~오후를 채워 점심 후 오후 일정이 비지 않게. 5곳(90분)+점심·
+      // 저녁이 10시간 상한 안에 들어간다(9:00 시작 → ~17:30 관광 + 저녁).
+      const limit = Math.min(Math.max(perCityDays * 5, 8), 32);
 
       // 1차 넓게 선별(설명 조회 후 폐관·비검색 필터로 좁힘).
       const prelim = selectPois(merged, wiki, {
