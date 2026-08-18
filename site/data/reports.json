@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-18T12:02:39",
+  "generated_at": "2026-08-18T14:55:39",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -74,6 +74,21 @@
       "url": "2026-08-18-빌라-공급-늘리겠다는-정부-대책-시장을-바꿀-수-있을까요.html",
       "video": "https://www.youtube.com/watch?v=ilfqdi6uYzw",
       "video_id": "ilfqdi6uYzw",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-08-18-자율주행과-로봇의-실제-상용화-시점-그리고-국내-기업이-마주한-기회",
+      "date": "2026-08-18",
+      "channel": "언더스탠딩",
+      "title": "자율주행과 로봇의 실제 상용화 시점, 그리고 국내 기업이 마주한 기회",
+      "summary": "자율주행과 로봇 시장의 현실적인 상용화 전망과 국내 부품 공급망의 기회를 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-08-18-자율주행과-로봇의-실제-상용화-시점-그리고-국내-기업이-마주한-기회.html",
+      "video": "https://www.youtube.com/watch?v=eID7A-G0Fq4",
+      "video_id": "eID7A-G0Fq4",
       "pv": 5,
       "scope": "battery",
       "src": "unavailable"
