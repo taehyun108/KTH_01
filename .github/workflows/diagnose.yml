@@ -1,0 +1,48 @@
+name: Diagnose candidate supply
+
+# 후보가 어디서 사라지는지 단계별로 센다 (Gemini 호출 없음 · 커밋 없음).
+#
+# 왜 별도 워크플로인가
+#   YouTube 는 개발 샌드박스에서 막혀 있어, 후보 수집 경로는 <여기서만> 확인된다.
+#   본 파이프라인에 끼워 넣으면 발행 실행이 길어지고 로그가 더 두꺼워진다.
+#   진단은 필요할 때 손으로 돌리는 편이 낫다.
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "최근 며칠을 볼지"
+        required: false
+        default: "14"
+      channel:
+        description: "채널 이름 일부(비우면 전 채널)"
+        required: false
+        default: ""
+      video:
+        description: "영상 id 하나만 추적 (예: TgmE7y5syXk)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Diagnose
+        env:
+          PYTHONUNBUFFERED: "1"
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: |
+          PYTHONPATH=scripts python scripts/diagnose_supply.py \
+            --days "${{ inputs.days }}" \
+            ${{ inputs.channel && format('--channel {0}', inputs.channel) || '' }} \
+            ${{ inputs.video && format('--video {0}', inputs.video) || '' }}
