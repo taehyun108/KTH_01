@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>이차전지 용어집 — 이차전지 리포트 아카이브</title>
   <meta name="description" content="양극재·음극재·전구체·전해액·분리막부터 제조공정, 셀·모듈·팩 조립, 배터리 종류, 성능 분석법까지 그림으로 쉽게 풀어 쓴 이차전지 용어집." />
-  <link rel="stylesheet" href="../assets/style.css?v=37" />
+  <link rel="stylesheet" href="../assets/style.css?v=38" />
 </head>
 <body>
   <header class="report-hero">
@@ -47,7 +47,7 @@
       <a class="gcard" href="#anode">
         <span class="gc-icon" aria-hidden="true">⬜</span>
         <span class="gc-body"><span class="gc-num">04</span><span class="gc-title">음극재 총정리 — 리튬을 '어떻게' 담느냐</span>
-        <span class="gc-blurb">흑연은 층 사이에 끼워 넣고, 실리콘은 직접 붙습니다</span><span class="gc-meta">그림 2 · 표 5</span></span>
+        <span class="gc-blurb">흑연은 층 사이에 끼워 넣고, 실리콘은 직접 붙습니다</span><span class="gc-meta">그림 3 · 표 9</span></span>
       </a>
       <a class="gcard" href="#elyte">
         <span class="gc-icon" aria-hidden="true">💧</span>
@@ -1127,7 +1127,7 @@
 
     <!-- ══════════ 04 ══════════ -->
     <details class="sec-card full" id="anode">
-      <summary class="sec-head"><span class="sec-num">04</span><h2>음극재 총정리 — 리튬을 '어떻게' 담느냐</h2><span class="sec-meta">그림 2 · 표 5</span></summary>
+      <summary class="sec-head"><span class="sec-num">04</span><h2>음극재 총정리 — 리튬을 '어떻게' 담느냐</h2><span class="sec-meta">그림 3 · 표 9</span></summary>
       <p>음극재는 양극재만큼 주목받지 못하지만, <strong>급속충전과 수명은 대부분 음극이 결정합니다</strong>.
         전기차에서 "충전이 느리다", "겨울에 확 준다"는 이야기가 나오면
         범인은 십중팔구 음극 쪽입니다.</p>
@@ -1438,6 +1438,260 @@
       <p class="t-p">"급속충전을 자주 하면 배터리에 안 좋다"는 말의 실체가 바로 이것입니다.
         <strong>막연한 걱정이 아니라 구체적인 현상</strong>이고,
         그래서 요즘 차들은 온도와 충전량을 봐 가며 <strong>스스로 속도를 조절합니다</strong>.</p>
+
+      <h3 class="t-h">나트륨 음극재 — 흑연이 안 되는 이유, 그리고 하드카본</h3>
+      <p>여기까지는 전부 <strong>리튬</strong> 음극재였습니다.
+        나트륨 전지에서는 <strong>흑연을 쓸 수 없습니다.</strong>
+        그런데 그 이유가 흔히 알려진 것과 조금 다르죠.</p>
+
+      <div class="callout">
+        <div class="callout-title">"나트륨이 커서 안 들어간다" — 절반만 맞습니다</div>
+        <p>흔히 나트륨이 리튬보다 커서 흑연 층에 못 들어간다고 설명합니다.
+          그런데 이 설명에는 <strong>바로 반례가 있습니다.</strong></p>
+        <p>· 리튬(0.76Å) → 흑연에 <strong>잘 들어갑니다</strong> (LiC₆)<br>
+          · 나트륨(1.02Å) → <strong>거의 안 들어갑니다</strong><br>
+          · 칼륨(1.38Å) → <strong>잘 들어갑니다</strong> (KC₈)</p>
+        <p>나트륨보다 <strong>훨씬 큰 칼륨은 되는데</strong> 나트륨만 안 됩니다.
+          크기 문제가 아니라는 뜻이죠.</p>
+        <p><strong>진짜 이유는 '수지가 안 맞아서'입니다.</strong>
+          층 사이에 끼어들려면 <strong>층을 벌리는 비용</strong>을 치러야 하는데,
+          그 대가로 얻는 <strong>결합의 이득</strong>이 나트륨만 유독 작습니다.
+          리튬은 작아서 비용이 싸고, 칼륨은 결합 이득이 커서 남습니다.
+          <strong>나트륨은 딱 그 사이에 끼어 양쪽 다 놓칩니다.</strong>
+          그래서 흑연에 넣어 봐야 <strong>35mAh/g 남짓</strong>, 쓸 수 없는 수준입니다.</p>
+      </div>
+
+      <p class="t-p">해법은 <strong>층을 벌리는 것</strong>이 아니라
+        <strong>애초에 층으로 만들지 않는 것</strong>이었습니다. 그것이 하드카본입니다.</p>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:18%">탄소</th><th style="width:26%">구조</th><th style="width:28%">나트륨을 담나</th><th style="width:28%">한 줄로</th></tr></thead>
+        <tbody>
+          <tr><td class="k">흑연<br><span class="en">Graphite</span></td>
+            <td>판이 <strong>가지런히</strong> 쌓인 결정.
+              층 간격 0.335nm</td>
+            <td><strong>거의 못 담습니다</strong><br>35mAh/g 수준</td>
+            <td>리튬 전용이죠</td></tr>
+          <tr><td class="k">소프트카본<br><span class="en">Soft carbon</span></td>
+            <td>지금은 흐트러져 있지만
+              <strong>고온에서 구우면 흑연이 됩니다</strong></td>
+            <td>어중간하죠<br>200mAh/g 안팎</td>
+            <td>구우면 흑연이 되니
+              나트륨용으로는 곤란합니다</td></tr>
+          <tr><td class="k">하드카본<br><span class="en">Hard carbon</span></td>
+            <td><strong>2500℃로 구워도 흑연이 안 됩니다.</strong>
+              작은 판 조각들이 제멋대로 얽혀
+              <strong>사이사이에 빈 구멍</strong>이 남습니다</td>
+            <td><strong>담습니다</strong><br>300~350mAh/g</td>
+            <td><strong>나트륨 전지의 사실상 유일한 음극재</strong></td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">이름이 헷갈립니다 — '하드'는 단단하다는 뜻이 아닙니다</div>
+        <p>하드카본의 '하드'는 <strong>흑연이 되기 어렵다(비흑연화)</strong>는 뜻입니다.
+          물성이 단단하다는 말이 아니고요.
+          소프트카본의 '소프트'도 마찬가지로 <strong>흑연이 되기 쉽다</strong>는 뜻입니다.</p>
+      </div>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 680 420" role="img"
+             aria-label="흑연은 판이 가지런해 나트륨이 못 들어가지만, 하드카본은 작은 판 조각이 제멋대로 얽혀 빈 구멍이 남습니다. 나트륨은 표면과 결함에 붙는 경사 구간과 구멍을 채우는 평탄 구간 두 방식으로 저장되며, 평탄 구간은 0V에 가까워 석출 위험이 있습니다">
+          <defs>
+            <clipPath id="hcplot"><rect x="392" y="56" width="252" height="200"/></clipPath>
+          </defs>
+
+          <!-- ① 구조 비교 -->
+          <text x="24" y="26" font-size="13" font-weight="700" fill="#1a2230">
+            구조 — 가지런한가, 얽혀 있는가</text>
+
+          <rect x="20" y="42" width="160" height="120" rx="8" fill="#eef2f7" stroke="#cdd5e0"/>
+          <text x="100" y="62" text-anchor="middle" font-size="11.5" font-weight="700" fill="#55617a">흑연</text>
+          <g stroke="#64748b" stroke-width="5">
+            <line x1="38" y1="80" x2="162" y2="80"/><line x1="38" y1="104" x2="162" y2="104"/>
+            <line x1="38" y1="128" x2="162" y2="128"/><line x1="38" y1="152" x2="162" y2="152"/>
+          </g>
+          <circle cx="100" cy="92" r="9" fill="#f59e0b"/>
+          <line x1="88" y1="80" x2="112" y2="104" stroke="#dc2626" stroke-width="2.5"/>
+          <line x1="112" y1="80" x2="88" y2="104" stroke="#dc2626" stroke-width="2.5"/>
+          <text x="100" y="178" text-anchor="middle" font-size="10.5" fill="#b91c1c">들어가 봐야 35mAh/g</text>
+
+          <rect x="200" y="42" width="160" height="120" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+          <text x="280" y="62" text-anchor="middle" font-size="11.5" font-weight="700" fill="#15803d">하드카본</text>
+          <g stroke="#475569" stroke-width="4.5" stroke-linecap="round">
+            <line x1="216" y1="82" x2="252" y2="76"/><line x1="266" y1="74" x2="290" y2="94"/>
+            <line x1="306" y1="78" x2="344" y2="88"/><line x1="214" y1="106" x2="240" y2="124"/>
+            <line x1="258" y1="112" x2="296" y2="108"/><line x1="312" y1="118" x2="340" y2="104"/>
+            <line x1="222" y1="146" x2="258" y2="140"/><line x1="274" y1="134" x2="300" y2="152"/>
+            <line x1="314" y1="146" x2="346" y2="138"/>
+          </g>
+          <circle cx="252" cy="96" r="8" fill="#f59e0b"/>
+          <circle cx="300" cy="128" r="8" fill="#f59e0b"/>
+          <circle cx="232" cy="134" r="8" fill="#f59e0b"/>
+          <text x="280" y="178" text-anchor="middle" font-size="10.5" fill="#15803d">조각 사이 빈 구멍에 담깁니다</text>
+
+          <text x="380" y="26" font-size="13" font-weight="700" fill="#1a2230">
+            저장 방식 — 두 구간으로 나뉩니다</text>
+
+          <!-- ② 전압 곡선 -->
+          <rect x="392" y="56" width="252" height="200" fill="#f8fafc" stroke="#cdd5e0"/>
+          <g clip-path="url(#hcplot)">
+            <rect x="392" y="56" width="104" height="200" fill="#dbeafe"/>
+            <rect x="496" y="56" width="148" height="200" fill="#fef3c7"/>
+          </g>
+          <path d="M392 98 C 432 150, 466 215, 496 237 L 627 244"
+                fill="none" stroke="#0ea5e9" stroke-width="3"/>
+          <line x1="392" y1="250" x2="644" y2="250" stroke="#8b93a7" stroke-width="1.5"/>
+          <line x1="392" y1="56" x2="392" y2="250" stroke="#8b93a7" stroke-width="1.5"/>
+          <text x="386" y="100" text-anchor="end" font-size="9.5" fill="#8b93a7">1.2V</text>
+          <text x="386" y="240" text-anchor="end" font-size="9.5" fill="#8b93a7">0.1V</text>
+          <text x="386" y="256" text-anchor="end" font-size="9.5" fill="#8b93a7">0V</text>
+          <text x="518" y="272" text-anchor="middle" font-size="10" fill="#8b93a7">담은 양 (mAh/g) →</text>
+
+          <text x="444" y="80" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1d4ed8">경사 구간</text>
+          <text x="444" y="95" text-anchor="middle" font-size="9.5" fill="#1e40af">표면·결함에 붙음</text>
+          <text x="570" y="80" text-anchor="middle" font-size="10.5" font-weight="700" fill="#b45309">평탄 구간</text>
+          <text x="570" y="95" text-anchor="middle" font-size="9.5" fill="#92400e">구멍을 채움</text>
+          <text x="570" y="110" text-anchor="middle" font-size="9.5" font-weight="700" fill="#b91c1c">← 쓸모의 대부분</text>
+
+          <line x1="627" y1="244" x2="627" y2="262" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3 2"/>
+          <text x="640" y="230" text-anchor="end" font-size="9.5" fill="#b91c1c">0V 코앞 — 석출 위험</text>
+
+          <!-- ③ 정리 -->
+          <line x1="20" y1="296" x2="660" y2="296" stroke="#e3e8ef" stroke-width="1.5"/>
+          <text x="340" y="322" text-anchor="middle" font-size="11.5" fill="#55617a">
+            흑연은 <tspan font-weight="700">층 사이에 끼워 넣는</tspan> 방식 하나뿐이지만,
+            하드카본은 <tspan font-weight="700" fill="#1d4ed8">붙이고</tspan> ·
+            <tspan font-weight="700" fill="#b45309">채우는</tspan> 두 방식을 씁니다</text>
+          <text x="340" y="348" text-anchor="middle" font-size="11" fill="#8b93a7">
+            그런데 정작 용량을 버는 평탄 구간이 <tspan font-weight="700" fill="#b91c1c">0V 바로 위</tspan>에 있습니다 —
+            리튬 석출과 <tspan font-weight="700">같은 고민</tspan>이 나트륨에도 그대로 있습니다</text>
+          <text x="340" y="378" text-anchor="middle" font-size="11" fill="#8b93a7">
+            빈 구멍이 많을수록 평탄 구간이 길어져 용량이 늘지만,
+            <tspan font-weight="700">표면적도 함께 늘어</tspan> 첫 충전에서 잃는 양이 커집니다</text>
+          <text x="340" y="404" text-anchor="middle" font-size="10.5" fill="#8b93a7">
+            그림 · 하드카본 구조와 나트륨 저장의 두 구간 (모식도)</text>
+        </svg>
+        <figcaption class="fig-cap">주황색이 <strong>나트륨</strong>입니다.
+          흑연은 판이 가지런해 들어갈 자리가 없지만, 하드카본은 <strong>조각이 얽혀 생긴 빈 구멍</strong>에 담습니다.
+          오른쪽 곡선에서 <strong>평탄 구간이 곧 쓸 수 있는 용량</strong>인데, 그 구간이 0V에 바짝 붙어 있는 것이
+          이 재료의 가장 큰 숙제입니다.</figcaption>
+      </figure>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:16%">구간</th><th style="width:20%">전압</th><th style="width:32%">무슨 일이 일어나나</th><th style="width:32%">왜 중요한가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">경사 구간<br><span class="en">Sloping</span></td>
+            <td>약 <strong>1.0 → 0.1V</strong><br>전압이 죽 내려갑니다</td>
+            <td>나트륨이 <strong>조각의 가장자리와 흠집에 달라붙습니다.</strong>
+              자리마다 붙는 힘이 달라 전압이 계속 변합니다</td>
+            <td>전압이 높아 <strong>전지 전체 전압을 깎아먹습니다.</strong>
+              여기 용량이 많으면 오히려 손해입니다</td></tr>
+          <tr><td class="k">평탄 구간<br><span class="en">Plateau</span></td>
+            <td>약 <strong>0.1V 이하</strong><br>전압이 거의 안 변합니다</td>
+            <td>나트륨이 <strong>빈 구멍 안에 차곡차곡 쌓입니다.</strong>
+              금속에 가까운 덩어리를 이룹니다</td>
+            <td><strong>여기가 실제로 쓰는 용량</strong>입니다.
+              전압이 낮아 전지 전압도 지켜 줍니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">평탄 구간의 딜레마 — 좋은 것과 위험한 것이 같은 자리에 있습니다</div>
+        <p>평탄 구간은 <strong>0.1V 아래</strong>입니다.
+          나트륨 금속이 석출되는 전압은 <strong>0V</strong>입니다.
+          <strong>둘 사이가 100mV 남짓밖에 안 되는데요.</strong></p>
+        <p>바로 앞에서 본 <strong>리튬 석출</strong>과 똑같은 구도입니다.
+          급속충전을 하거나 날이 추우면 이 여유가 순식간에 사라지고,
+          나트륨이 구멍에 들어가는 대신 <strong>겉에 쌓입니다.</strong></p>
+        <p>그래서 나트륨 전지는 값싸고 안전하다고 이야기되지만,
+          <strong>음극에서는 리튬과 똑같은 조심성이 필요합니다.</strong></p>
+      </div>
+
+      <h3 class="t-h">하드카본은 '무엇으로 굽느냐'가 곧 성능입니다</h3>
+      <p>양극재는 어떤 금속을 쓰느냐가 성능을 정하지만,
+        하드카본은 <strong>원료와 굽는 온도</strong>가 정합니다.
+        같은 '하드카본'이라도 물건이 전혀 다르죠.</p>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:20%">원료</th><th style="width:26%">성격</th><th style="width:27%">좋은 점</th><th style="width:27%">발목을 잡는 것</th></tr></thead>
+        <tbody>
+          <tr><td class="k">바이오매스<br><span class="en">코코넛 껍질 · 목재 · 전분</span></td>
+            <td>식물의 원래 조직이 그대로 <strong>구멍 구조</strong>가 됩니다</td>
+            <td><strong>가장 쌉니다.</strong> 버려지던 것을 쓰니
+              원료비가 거의 안 듭니다</td>
+            <td><strong>산지·수확 시기마다 물건이 다릅니다.</strong>
+              대량 양산에서 품질을 맞추기가 어렵습니다</td></tr>
+          <tr><td class="k">고분자 수지<br><span class="en">페놀수지 등</span></td>
+            <td>사람이 설계한 분자를 구워
+              <strong>구멍을 원하는 대로</strong> 만듭니다</td>
+            <td><strong>품질이 일정하고</strong> 평탄 구간을 길게 뽑을 수 있습니다</td>
+            <td><strong>비쌉니다.</strong> 나트륨 전지의 존재 이유인
+              '싸다'를 스스로 깎아먹습니다</td></tr>
+          <tr><td class="k">피치 계열<br><span class="en">석유·석탄 잔사</span></td>
+            <td>그냥 구우면 소프트카본이 되므로
+              <strong>흑연이 되지 못하게 손을 봐야</strong> 합니다</td>
+            <td>원료가 흔하고 <strong>기존 음극재 설비</strong>를 쓸 수 있습니다</td>
+            <td>추가 처리가 들어가 공정이 늘어납니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">굽는 온도가 갈림길입니다</div>
+        <p>· <strong>낮게(1000℃ 안팎) 구우면</strong> — 흠집이 많이 남아
+          <strong>경사 구간</strong>이 길어집니다. 용량은 나오지만 전압이 아쉽습니다<br>
+          · <strong>높게(1400~1600℃) 구우면</strong> — 조각이 정리되며
+          <strong>구멍이 다듬어져 평탄 구간</strong>이 길어집니다<br>
+          · <strong>더 높이 올리면</strong> — 구멍이 도리어 <strong>닫혀 버려</strong> 용량이 떨어집니다</p>
+        <p>그래서 하드카본 개발은 <strong>'가장 좋은 온도를 찾는 일'</strong>에 가깝습니다.
+          원료가 바뀌면 그 온도도 바뀌고요.</p>
+      </div>
+
+      <h3 class="t-h">흑연과 나란히 놓고 보기</h3>
+      <div class="tbl-scroll">
+      <table class="glossary num">
+        <thead><tr><th style="width:28%">항목</th><th style="width:24%">흑연 (리튬용)</th><th style="width:24%">하드카본 (나트륨용)</th><th style="width:24%">읽는 법</th></tr></thead>
+        <tbody>
+          <tr><td class="k">용량</td><td>372mAh/g<br><span class="en">이론값</span></td>
+            <td>300~350mAh/g</td>
+            <td>생각보다 <strong>차이가 작죠</strong></td></tr>
+          <tr><td class="k">첫 충전 효율<br><span class="en">ICE</span></td>
+            <td><strong>90~95%</strong></td>
+            <td><strong>80~85%</strong></td>
+            <td><strong>여기가 진짜 격차입니다.</strong>
+              넣은 나트륨의 1/5을 첫날 잃습니다</td></tr>
+          <tr><td class="k">부피밀도<br><span class="en">탭 밀도</span></td>
+            <td>높은 편이죠</td>
+            <td><strong>낮습니다</strong></td>
+            <td>구멍이 많으니 <strong>같은 부피에 덜 들어갑니다.</strong>
+              무게보다 <strong>부피</strong>에서 더 불리합니다</td></tr>
+          <tr><td class="k">집전체</td><td>구리</td><td><strong>알루미늄</strong></td>
+            <td>나트륨은 알루미늄과 합금이 안 됩니다.
+              <strong>싸고 가벼워집니다</strong></td></tr>
+          <tr><td class="k">저온</td><td>영하에서 급격히 나빠집니다</td>
+            <td><strong>상대적으로 낫습니다</strong></td>
+            <td>나트륨 전지가 추위에 강하다는 말의 근거입니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">첫 충전 효율(ICE)이 왜 그렇게 문제인가</div>
+        <p>ICE 80%는 <strong>처음 넣은 나트륨의 20%를 첫 충전에서 잃는다</strong>는 뜻입니다.
+          그 나트륨은 양극에서 나온 것이고, <strong>양극이 이 전지에서 가장 비싼 부품</strong>이죠.</p>
+        <p>즉 <strong>비싼 재료를 20% 버리고 시작하는 셈</strong>이죠.
+          원인은 앞에서 본 <strong>SEI 막</strong>인데요 — 하드카본은 표면적이 넓어
+          막을 만드는 데 나트륨을 그만큼 많이 씁니다.</p>
+        <p>구멍을 늘리면 용량이 오르지만 표면적도 함께 늘어 ICE가 떨어지죠.
+          <strong>이 줄다리기가 하드카본 개발의 전부</strong>라고 해도 지나치지 않습니다.
+          국내 개발 현황은 <a href="#others">11장 다른 전지들</a>에 정리해 두었습니다.</p>
+      </div>
 
       <h3 class="t-h">음극재의 줄다리기</h3>
       <div class="tbl-scroll">
