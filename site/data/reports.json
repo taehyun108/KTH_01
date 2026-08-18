@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-18T00:00:12",
+  "generated_at": "2026-08-18T00:50:24",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -134,6 +134,51 @@
       "url": "2026-08-17-코스피-8주-만에-강한-반등-증시-반등은-이어질까요.html",
       "video": "https://www.youtube.com/watch?v=NHs3DcCD3Fc",
       "video_id": "NHs3DcCD3Fc",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-17-ai가-설계한-바이러스의-등장-바이오-신약-개발의-새로운-가능성",
+      "date": "2026-08-17",
+      "channel": "손에 잡히는 경제",
+      "title": "AI가 설계한 바이러스의 등장…바이오 신약 개발의 새로운 가능성",
+      "summary": "AI가 실제 작동하는 바이러스 유전체를 처음으로 설계하면서, 바이오 신약 개발의 판도가 바뀌고 있습니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-17-ai가-설계한-바이러스의-등장-바이오-신약-개발의-새로운-가능성.html",
+      "video": "https://www.youtube.com/watch?v=zm3IsTpWWGU",
+      "video_id": "zm3IsTpWWGU",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-08-17-미증시-신고가-지속-ai인프라-반도체도-동참",
+      "date": "2026-08-17",
+      "channel": "소수몽키",
+      "title": "미증시 신고가 지속, AI인프라 반도체도 동참",
+      "summary": "미국 증시와 AI 인프라주가 반등하며 거시경제적 불안이 완화되는 모습을 보였습니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-17-미증시-신고가-지속-ai인프라-반도체도-동참.html",
+      "video": "https://www.youtube.com/watch?v=EBrpasxcrQk",
+      "video_id": "EBrpasxcrQk",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-16-ai-데이터-센터-붐이-남긴-그늘-전력망과-지역-경제의-명암",
+      "date": "2026-08-16",
+      "channel": "Economics Explained",
+      "title": "AI 데이터 센터 붐이 남긴 그늘, 전력망과 지역 경제의 명암",
+      "summary": "인공지능(AI) 데이터 센터 붐이 미국 중서부 지역의 전력망과 제조업에 미치는 영향과 과부하를 짚어보는 리포트입니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-08-16-ai-데이터-센터-붐이-남긴-그늘-전력망과-지역-경제의-명암.html",
+      "video": "https://www.youtube.com/watch?v=iI3tT6CCVH8",
+      "video_id": "iI3tT6CCVH8",
       "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
