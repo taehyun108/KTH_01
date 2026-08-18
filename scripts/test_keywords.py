@@ -425,6 +425,22 @@ def check_video_budget() -> list[str]:
     import generate_report as G
     if G.VIDEO_ANALYSIS_MAX <= 5:
         out.append(f"  [실행당 상한이 아직 {G.VIDEO_ANALYSIS_MAX}건 — 완화되지 않음]")
+
+    # ⑥-b 워크플로가 이 값을 <다시 고정하면> 코드 기본값이 조용히 무력화된다.
+    #      2026-08-18 에 정확히 이 일이 있었다. 기본값을 15 로 올렸는데
+    #      워크플로의 VIDEO_ANALYSIS_MAX: "5" 가 덮어써서, 바꾼 줄 알았던 값이
+    #      실제로는 5 그대로였다. 설정이 두 군데 있으면 한쪽은 반드시 잊힌다.
+    import pathlib
+    wf = pathlib.Path(__file__).resolve().parent.parent / ".github/workflows/archive.yml"
+    try:
+        text = wf.read_text(encoding="utf-8")
+    except OSError:
+        text = ""
+    if "VIDEO_ANALYSIS_MAX:" in text:
+        out.append("  [워크플로가 VIDEO_ANALYSIS_MAX 를 고정하면 안 됨 "
+                   "— 코드 기본값이 조용히 무력화된다]")
+    if text and "VIDEO_MINUTES_PER_DAY:" not in text:
+        out.append("  [워크플로가 하루 영상 예산(VIDEO_MINUTES_PER_DAY)을 넘겨야 함]")
     # ⑦ 예산이 실제로 배선돼 있는가 (모듈만 있고 안 부르면 의미가 없다)
     import inspect
     src = inspect.getsource(G)
@@ -896,7 +912,7 @@ def main() -> int:
              + 1     # 처리 우선순위
              + 10    # 빈 날 메우기(순서 2 · 유지 1 · 해제 3 · 빈날우선 2 · 빈날계산 2)
              + 11    # 후보 재판정(되살림·상한·날짜창·API·스위치)
-             + 12    # 영상 예산(비용3·미상1·분단위2·소진1·날짜1·상한1·배선3)
+             + 14    # 영상 예산(비용3·미상1·분단위2·소진1·날짜1·상한1·워크플로2·배선3)
              + 7     # 텍스트 주력 전환(기본값·순서·되돌리기·예비·한도2)
              + 4     # PC 자막 수집 git 처리
              + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4 + 7)

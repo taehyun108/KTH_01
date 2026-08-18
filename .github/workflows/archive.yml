@@ -84,9 +84,13 @@ jobs:
           # 없으면 그냥 건너뜁니다 — 지금까지와 똑같이 동작합니다.
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           BACKFILL_SINCE: ${{ github.event.inputs.since }}
-          # 자막이 막힌 환경에서 Gemini 가 영상을 직접 보고 쓰는 리포트의 실행당 상한.
-          # 무료 티어의 하루 영상 처리 한도(약 8시간)를 넘지 않도록 40분 × 5건으로 잡음.
-          VIDEO_ANALYSIS_MAX: "5"
+          # ※ VIDEO_ANALYSIS_MAX 를 여기서 <고정하지 않는다>.
+          #   예전에는 "5" 가 박혀 있었다. 그래서 코드 기본값을 15 로 올렸을 때
+          #   이 줄이 조용히 덮어써, 바꾼 줄 알았던 값이 실제로는 5 그대로였다
+          #   (2026-08-18 실행에서 '실행당 상한 5건'으로 찍혀 발각).
+          #   설정값이 두 군데 있으면 반드시 한쪽이 잊힌다. 기본값은 코드에만 둔다.
+          #   진짜 한도는 video_budget 이 <분> 단위로 하루치를 이어 세며 지킨다.
+          VIDEO_MINUTES_PER_DAY: "420"
           # 러너 한도에 닿기 전에 스스로 마무리하도록 하는 처리 시간 상한(분)
           PIPELINE_BUDGET_MIN: "35"
         run: python scripts/run_pipeline.py
