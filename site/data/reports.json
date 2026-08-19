@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-19T03:33:00",
+  "generated_at": "2026-08-19T12:01:42",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -92,6 +92,36 @@
       "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-19-미군함-mro부터-부유식-데이터센터까지-겹경사-맞은-k-조선",
+      "date": "2026-08-19",
+      "channel": "손에 잡히는 경제",
+      "title": "미군함 MRO부터 부유식 데이터센터까지, 겹경사 맞은 K-조선",
+      "summary": "한국 조선업이 미군함 MRO와 부유식 데이터센터라는 새로운 성장 동력을 맞이했습니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-08-19-미군함-mro부터-부유식-데이터센터까지-겹경사-맞은-k-조선.html",
+      "video": "https://www.youtube.com/watch?v=Ep1xbyavkqQ",
+      "video_id": "Ep1xbyavkqQ",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-08-19-미국의-금리-방어전과-중국의-저금리-설계",
+      "date": "2026-08-19",
+      "channel": "언더스탠딩",
+      "title": "미국의 금리 방어전과 중국의 저금리 설계",
+      "summary": "미국의 장기금리 상승 방어전과 중국의 의도적 저금리 정책이 글로벌 경제에 미치는 영향입니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-08-19-미국의-금리-방어전과-중국의-저금리-설계.html",
+      "video": "https://www.youtube.com/watch?v=0N4PGfhGkV4",
+      "video_id": "0N4PGfhGkV4",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-08-18-주식-시장의-변동성-속에서-길을-찾는-투자-전략",
