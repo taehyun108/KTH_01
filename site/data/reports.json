@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-20T12:10:18",
+  "generated_at": "2026-08-20T14:59:53",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -167,6 +167,21 @@
       "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-20-테슬라-실적-이면의-에너지-사업-부진과-대규모-반도체-투자",
+      "date": "2026-08-20",
+      "channel": "언더스탠딩",
+      "title": "테슬라 실적 이면의 에너지 사업 부진과 대규모 반도체 투자",
+      "summary": "테슬라의 2분기 실적과 에너지 사업 마진 하락, 그리고 테라팹 투자가 이차전지 산업에 던지는 의미를 짚어봅니다.",
+      "category": "global-market",
+      "relation": "direct",
+      "url": "2026-08-20-테슬라-실적-이면의-에너지-사업-부진과-대규모-반도체-투자.html",
+      "video": "https://www.youtube.com/shorts/9kQgGjcF6A8",
+      "video_id": "9kQgGjcF6A8",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-08-19-금리와-유가가-흔드는-증시-배터리-산업이-마주한-기회와-우려",
