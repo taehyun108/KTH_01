@@ -131,10 +131,17 @@ def main() -> int:
         label = "전체" if check_all else f"pv={PROMPT_VERSION}"
         if not check_all:
             print(f"[말투] 옛 말투(pv<{PROMPT_VERSION}) {skipped}건은 재생성 대기 — 검사 제외")
-        # 용어집은 손으로 쓴 문서라 재생성 대상이 아니다. 항상, 엄격한 기준으로 본다.
-        glossary = NEWS_DIR.parent / "glossary" / "index.html"
-        if glossary.exists():
-            targets.append((glossary, False))
+        # 손으로 쓴 문서는 재생성 대상이 아니다. 항상, 엄격한 기준으로 본다.
+        #   (2026-08-18: 통상현황을 추가했다. 새 손글씨 페이지는 여기 한 줄만 더하면 된다)
+        for folder in ("glossary", "trade"):
+            hand = NEWS_DIR.parent / folder / "index.html"
+            if hand.exists():
+                targets.append((hand, False))
+
+    def _label(path, generated: bool) -> str:
+        # 손으로 쓴 문서는 전부 index.html 이라 파일명만으로는 어느 쪽인지 알 수 없다.
+        # 2026-08-18 에 실제로 "index.html: 쏠림 85%" 만 찍혀 어느 페이지인지 몰랐다.
+        return path.name if generated else f"{path.parent.name}/{path.name}"
 
     fails, warns, gen_fails = [], [], []
     agg = Counter()
@@ -143,11 +150,11 @@ def main() -> int:
         agg.update(m["counts"])
         for msg in verdict(m, generated=generated):
             # 생성물과 손으로 쓴 문서를 갈라 담는다 (아래 main 끝 주석 참고)
-            (gen_fails if generated else fails).append(f"  {p.name}: {msg}")
+            (gen_fails if generated else fails).append(f"  {_label(p, generated)}: {msg}")
         # 실패는 아니지만 엄격 기준은 넘긴 생성물 — 프롬프트를 손볼 신호로 남긴다
         if generated and not verdict(m, generated=True) \
                 and m["family_ratio"] > MAX_FAMILY_RATIO:
-            warns.append(f"  {p.name}: '~니다' 계열 {m['family_ratio']:.0%}"
+            warns.append(f"  {_label(p, generated)}: '~니다' 계열 {m['family_ratio']:.0%}"
                          f" (권장 {MAX_FAMILY_RATIO:.0%} 이하)")
 
     tot = sum(agg.values())

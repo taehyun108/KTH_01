@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>통상현황 — 이차전지 리포트 아카이브</title>
+  <meta name="description" content="미국·중국·유럽·일본·한국의 산업·통상 정책을 언제부터 언제까지인지 표와 그림으로 비교하고, 한국 배터리 산업에 미치는 영향을 정리했습니다." />
+  <link rel="stylesheet" href="../assets/style.css?v=39" />
+</head>
+<body>
+  <header class="report-hero">
+    <div class="wrap">
+      <div class="hero-meta">
+        <span class="hero-tag">통상현황</span><span>·</span><span>나라별 정책과 한국에 미치는 영향</span>
+        <nav class="top-nav">
+          <a class="home-btn" href="../glossary/?v=39" title="이차전지 용어집">용어집</a>
+          <a class="home-btn" href="../news/" title="홈으로">홈</a>
+        </nav>
+      </div>
+      <h1>🌐 통상현황</h1>
+      <p class="hero-sub">미국·중국·유럽·일본·한국이 <strong>각각 무엇을 하고 있는지</strong>,
+        <strong>언제부터 언제까지인지</strong>, 그리고 <strong>한국에 어떻게 돌아오는지</strong>를
+        한자리에 놓고 비교합니다.</p>
+    </div>
+  </header>
+
+  <main class="wrap report">
+
+    <div class="callout" style="border-left-color:#dc2626">
+      <div class="callout-title">⚠ 기준일 — 2026년 8월 18일</div>
+      <p><strong>이 분야는 다른 어떤 주제보다 빨리 바뀝니다.</strong>
+        관세율은 몇 달 만에 15%에서 25%로 올랐다가, 법원 판결 하나로 통째로 사라진 적도 있습니다.
+        아래 내용은 <strong>기준일 시점에 확인한 것</strong>이고, 읽으시는 지금은 다를 수 있어요.</p>
+      <p>그래서 이 문서는 <strong>지금의 숫자를 외우게 하는 데</strong> 목적을 두지 않았습니다.
+        <strong>각 나라가 어떤 방식으로 움직이는지</strong>를 잡아 두면,
+        숫자가 바뀌어도 기사를 읽어 낼 수 있으니까요.</p>
+      <p>· <span class="en">고정</span> 표시 — 법에 날짜가 박혀 있어 잘 안 바뀝니다<br>
+        · <span class="en">유동</span> 표시 — 정치·소송으로 계속 바뀌는 중입니다. 최신 확인이 필요합니다</p>
+    </div>
+
+    <div class="gc-head">
+      <p class="gc-lead">보고 싶은 것을 골라 주십시오. 카드를 누르면 그 부분만 펼쳐집니다.
+        문서 전체에서 낱말을 찾으실 때는 <strong>전체 펼치기</strong>를 먼저 누르시면 확실합니다.</p>
+      <button type="button" id="expandAll" class="gc-all">전체 펼치기</button>
+    </div>
+
+    <nav class="gcards" aria-label="목차">
+      <a class="gcard" href="#overview">
+        <span class="gc-icon" aria-hidden="true">🗺️</span>
+        <span class="gc-body"><span class="gc-num">01</span><span class="gc-title">한눈에 보기 — 나라마다 쓰는 무기가 다릅니다</span>
+        <span class="gc-blurb">미국은 돈과 관세, 중국은 원료, 유럽은 규칙</span><span class="gc-meta">그림 2 · 표 2</span></span>
+      </a>
+      <a class="gcard" href="#us-money">
+        <span class="gc-icon" aria-hidden="true">💵</span>
+        <span class="gc-body"><span class="gc-num">02</span><span class="gc-title">미국 ① 돈 — IRA 보조금</span>
+        <span class="gc-blurb">공장에 주는 돈은 남고, 소비자에게 주던 돈은 끝났습니다</span><span class="gc-meta">표 2</span></span>
+      </a>
+      <a class="gcard" href="#us-tariff">
+        <span class="gc-icon" aria-hidden="true">🧾</span>
+        <span class="gc-body"><span class="gc-num">03</span><span class="gc-title">미국 ② 관세 — 1년 사이에 벌어진 일</span>
+        <span class="gc-blurb">15% → 25% → 대법원 무효 → 재구축</span><span class="gc-meta">그림 1 · 표 1</span></span>
+      </a>
+      <a class="gcard" href="#china">
+        <span class="gc-icon" aria-hidden="true">⛏️</span>
+        <span class="gc-body"><span class="gc-num">04</span><span class="gc-title">중국 — 원료를 쥐고 있습니다</span>
+        <span class="gc-blurb">관세가 아니라 수출 허가로 조입니다</span><span class="gc-meta">표 2</span></span>
+      </a>
+      <a class="gcard" href="#eu">
+        <span class="gc-icon" aria-hidden="true">📏</span>
+        <span class="gc-body"><span class="gc-num">05</span><span class="gc-title">유럽 — 규칙으로 문턱을 만듭니다</span>
+        <span class="gc-blurb">배터리 규정·CBAM·CRMA·NZIA</span><span class="gc-meta">그림 1 · 표 2</span></span>
+      </a>
+      <a class="gcard" href="#jp-kr">
+        <span class="gc-icon" aria-hidden="true">🏭</span>
+        <span class="gc-body"><span class="gc-num">06</span><span class="gc-title">일본과 한국 — '만든 만큼' 깎아 줍니다</span>
+        <span class="gc-blurb">한국판 IRA, 무엇이 들어가고 무엇이 빠졌나</span><span class="gc-meta">표 2</span></span>
+      </a>
+      <a class="gcard" href="#impact">
+        <span class="gc-icon" aria-hidden="true">🇰🇷</span>
+        <span class="gc-body"><span class="gc-num">07</span><span class="gc-title">한국에 미치는 영향 — 네 갈래로 들어옵니다</span>
+        <span class="gc-blurb">원료·관세·규격·보조금, 각각 다른 문으로</span><span class="gc-meta">그림 1 · 표 1</span></span>
+      </a>
+      <a class="gcard" href="#watch">
+        <span class="gc-icon" aria-hidden="true">🔭</span>
+        <span class="gc-body"><span class="gc-num">08</span><span class="gc-title">무엇을 지켜봐야 하나 · 출처</span>
+        <span class="gc-blurb">기사에서 이 단어가 보이면 눈여겨보세요</span><span class="gc-meta">표 1</span></span>
+      </a>
+    </nav>
+
+    <!-- ══════════ 01 ══════════ -->
+    <details class="sec-card full" id="overview">
+      <summary class="sec-head"><span class="sec-num">01</span><h2>한눈에 보기 — 나라마다 쓰는 무기가 다릅니다</h2><span class="sec-meta">그림 2 · 표 2</span></summary>
+
+      <p>통상 뉴스가 어려운 건 <strong>나라마다 전혀 다른 수단</strong>을 쓰기 때문인데요.
+        미국 기사는 세액공제와 관세 이야기, 중국 기사는 수출 허가 이야기,
+        유럽 기사는 신고 서류 이야기를 합니다. 서로 딴 소리처럼 들리죠.</p>
+
+      <div class="callout">
+        <div class="callout-title">이 문서를 읽는 열쇠 — '무엇으로 미느냐'</div>
+        <p>각 나라가 가진 <strong>가장 센 카드</strong>가 다르죠. 그 카드를 씁니다.</p>
+        <p>· <strong>미국</strong>은 <strong>돈과 시장</strong>이 크죠 → 보조금으로 끌어들이고, 관세로 밀어내죠<br>
+          · <strong>중국</strong>은 <strong>원료와 가공</strong>을 쥐고 있습니다 → 수출 허가로 잠급니다<br>
+          · <strong>유럽</strong>은 <strong>큰 시장</strong>은 있는데 공장이 부족하고요 → 규칙을 만들어 문턱을 세우고요<br>
+          · <strong>일본·한국</strong>은 <strong>공장과 기술</strong>이 있습니다 → 생산에 돈을 붙여 지킵니다</p>
+        <p>이 네 문장만 잡고 계시면, 어떤 기사를 봐도 <strong>어느 칸의 이야기인지</strong> 구분이 됩니다.</p>
+      </div>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 680 330" role="img"
+             aria-label="미국은 보조금과 관세, 중국은 원료 수출통제, 유럽은 규제, 일본과 한국은 생산 세액공제를 주된 수단으로 씁니다. 한국은 네 방향에서 모두 영향을 받습니다">
+          <text x="24" y="26" font-size="13" font-weight="700" fill="#1a2230">
+            누가 무엇으로 미는가</text>
+
+          <!-- 미국 -->
+          <rect x="30" y="48" width="180" height="86" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+          <text x="120" y="72" text-anchor="middle" font-size="13" font-weight="700" fill="#1d4ed8">미국</text>
+          <text x="120" y="93" text-anchor="middle" font-size="11" fill="#1e40af">돈으로 끌고</text>
+          <text x="120" y="110" text-anchor="middle" font-size="11" fill="#1e40af">관세로 민다</text>
+          <text x="120" y="127" text-anchor="middle" font-size="9.5" fill="#3b82f6">IRA · 232조 · 301조</text>
+
+          <!-- 중국 -->
+          <rect x="240" y="48" width="180" height="86" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+          <text x="330" y="72" text-anchor="middle" font-size="13" font-weight="700" fill="#c2410c">중국</text>
+          <text x="330" y="93" text-anchor="middle" font-size="11" fill="#9a3412">원료를 잠근다</text>
+          <text x="330" y="110" text-anchor="middle" font-size="11" fill="#9a3412">허가를 받아 가라</text>
+          <text x="330" y="127" text-anchor="middle" font-size="9.5" fill="#ea580c">희토류 · 흑연 · 배터리</text>
+
+          <!-- 유럽 -->
+          <rect x="450" y="48" width="200" height="86" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+          <text x="550" y="72" text-anchor="middle" font-size="13" font-weight="700" fill="#15803d">유럽</text>
+          <text x="550" y="93" text-anchor="middle" font-size="11" fill="#166534">규칙으로 문턱을</text>
+          <text x="550" y="110" text-anchor="middle" font-size="11" fill="#166534">세운다</text>
+          <text x="550" y="127" text-anchor="middle" font-size="9.5" fill="#16a34a">배터리규정 · CBAM · CRMA</text>
+
+          <!-- 일본 -->
+          <rect x="110" y="164" width="150" height="66" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+          <text x="185" y="188" text-anchor="middle" font-size="12.5" font-weight="700" fill="#b45309">일본</text>
+          <text x="185" y="208" text-anchor="middle" font-size="10.5" fill="#92400e">만든 만큼 깎아 준다</text>
+          <text x="185" y="223" text-anchor="middle" font-size="9.5" fill="#d97706">생산촉진세제</text>
+
+          <!-- 한국 -->
+          <rect x="420" y="164" width="150" height="66" rx="10" fill="#f3e8ff" stroke="#9333ea" stroke-width="2"/>
+          <text x="495" y="188" text-anchor="middle" font-size="12.5" font-weight="700" fill="#7e22ce">한국</text>
+          <text x="495" y="208" text-anchor="middle" font-size="10.5" fill="#6b21a8">만든 만큼 깎아 준다</text>
+          <text x="495" y="223" text-anchor="middle" font-size="9.5" fill="#9333ea">국내생산세액공제</text>
+
+          <!-- 화살표: 한국은 다 맞는다 -->
+          <g stroke="#8b93a7" stroke-width="1.5" stroke-dasharray="4 3" fill="none">
+            <path d="M120 134 L 460 262"/>
+            <path d="M330 134 L 480 262"/>
+            <path d="M550 134 L 510 262"/>
+            <path d="M185 230 L 470 264"/>
+          </g>
+
+          <rect x="360" y="264" width="250" height="40" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+          <text x="485" y="281" text-anchor="middle" font-size="11.5" font-weight="700" fill="#991b1b">한국 배터리 산업</text>
+          <text x="485" y="297" text-anchor="middle" font-size="10" fill="#b91c1c">네 방향을 동시에 맞습니다</text>
+
+          <text x="180" y="290" text-anchor="middle" font-size="10.5" fill="#8b93a7">
+            원료는 중국에서,</text>
+          <text x="180" y="306" text-anchor="middle" font-size="10.5" fill="#8b93a7">
+            공장과 시장은 미국·유럽에</text>
+
+          <text x="340" y="324" text-anchor="middle" font-size="10.5" fill="#8b93a7">
+            그림 · 나라별 주된 통상 수단과 한국의 위치 (모식도)</text>
+        </svg>
+        <figcaption class="fig-cap">한국은 <strong>원료를 중국에서 받아</strong> 만들고,
+          <strong>미국과 유럽에 팝니다.</strong> 그래서 어느 한 곳만 봐서는 안 되고,
+          <strong>네 곳이 동시에 걸립니다.</strong></figcaption>
+      </figure>
+
+      <h3 class="t-h">다섯 나라를 나란히 놓으면</h3>
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:12%">나라</th><th style="width:20%">주된 수단</th><th style="width:24%">노리는 것</th><th style="width:22%">한국에 좋은 점</th><th style="width:22%">한국에 나쁜 점</th></tr></thead>
+        <tbody>
+          <tr><td class="k">미국</td>
+            <td>생산 보조금(IRA)<br>+ 관세</td>
+            <td>공장을 미국 안으로 끌어오고,<br><strong>중국을 공급망에서 빼기</strong></td>
+            <td>중국을 빼면 <strong>그 자리가 우리 것</strong>이 됩니다.
+              현지 공장은 보조금을 받고요</td>
+            <td>국내 생산분은 <strong>관세를 맞습니다.</strong>
+              규칙이 자주 바뀌어 투자 판단이 어렵죠</td></tr>
+          <tr><td class="k">중국</td>
+            <td>수출 허가제</td>
+            <td>가공 단계의 <strong>우위를 지렛대로</strong></td>
+            <td>—</td>
+            <td>음극재 원료를 사실상 <strong>전량 의존</strong>합니다.
+              허가가 늦으면 라인이 섭니다</td></tr>
+          <tr><td class="k">유럽</td>
+            <td>규제(신고·이력·비율)</td>
+            <td>역내 산업 육성 +<br>탄소 감축</td>
+            <td>서류·이력 관리는 <strong>중국보다 우리가 유리</strong>합니다</td>
+            <td>탄소발자국이 <strong>국내 전력 구성</strong>에 걸립니다.
+              대응 비용도 큽니다</td></tr>
+          <tr><td class="k">일본</td>
+            <td>생산촉진세제</td>
+            <td>소재·부품 자립</td>
+            <td>—</td>
+            <td>소재 쪽에서 <strong>경쟁이 세집니다</strong></td></tr>
+          <tr><td class="k">한국</td>
+            <td>국내생산세액공제</td>
+            <td>공장이 나가는 것을 <strong>붙잡기</strong></td>
+            <td>국내 가동률을 <strong>올릴 수 있습니다</strong></td>
+            <td>다른 나라가 <strong>통상 문제로 걸 수</strong> 있습니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3 class="t-h">언제부터 언제까지 — 한 장으로</h3>
+      <p>가장 자주 받는 질문이 <strong>"그래서 언제까지인가"</strong>입니다.
+        주요 제도의 <strong>시작과 끝</strong>을 한 줄씩 그려 봤어요.</p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 680 400" role="img"
+             aria-label="주요 통상 제도의 시행 기간 표. 미국 45X는 2031년 종료, 30D는 2025년 9월 종료, 중국 수출통제 역외적용은 2026년 11월 시작, 유럽 배터리여권은 2027년 2월, 재활용 원료 의무는 2031년 8월부터입니다">
+          <text x="24" y="24" font-size="13" font-weight="700" fill="#1a2230">
+            주요 제도의 시작과 끝 <tspan font-size="10" font-weight="400" fill="#8b93a7">(2026-08-18 기준)</tspan></text>
+
+          <!-- 연도 눈금 -->
+          <g font-size="9.5" fill="#8b93a7" text-anchor="middle">
+            <text x="170" y="52">2025</text><text x="239" y="52">2026</text>
+            <text x="307" y="52">2027</text><text x="376" y="52">2028</text>
+            <text x="444" y="52">2029</text><text x="513" y="52">2030</text>
+            <text x="581" y="52">2031</text><text x="650" y="52">2032</text>
+          </g>
+          <g stroke="#e3e8ef" stroke-width="1">
+            <line x1="170" y1="58" x2="170" y2="316"/><line x1="239" y1="58" x2="239" y2="316"/>
+            <line x1="307" y1="58" x2="307" y2="316"/><line x1="376" y1="58" x2="376" y2="316"/>
+            <line x1="444" y1="58" x2="444" y2="316"/><line x1="513" y1="58" x2="513" y2="316"/>
+            <line x1="581" y1="58" x2="581" y2="316"/><line x1="650" y1="58" x2="650" y2="316"/>
+          </g>
+
+          <g font-size="10" fill="#35404f" text-anchor="end">
+            <text x="162" y="76">미국 · 45X 생산공제</text>
+            <text x="162" y="106">미국 · 30D 구매공제</text>
+            <text x="162" y="136">미국 · 관세</text>
+            <text x="162" y="166">중국 · 역외 수출통제</text>
+            <text x="162" y="196">EU · 탄소발자국(EV)</text>
+            <text x="162" y="226">EU · 배터리여권</text>
+            <text x="162" y="256">EU · 공급망 실사</text>
+            <text x="162" y="286">EU · 재활용 원료 의무</text>
+            <text x="162" y="312">한국 · 국내생산세액공제</text>
+          </g>
+
+          <!-- 막대 -->
+          <rect x="170" y="66" width="480" height="13" rx="3" fill="#2563eb"/>
+          <text x="644" y="76" text-anchor="end" font-size="8.5" fill="#fff">2031년 종료</text>
+
+          <rect x="170" y="96" width="52" height="13" rx="3" fill="#93c5fd"/>
+          <text x="228" y="106" font-size="9" fill="#b91c1c">✕ 2025.9.30 종료</text>
+
+          <rect x="170" y="126" width="480" height="13" rx="3" fill="#bfdbfe"/>
+          <g stroke="#2563eb" stroke-width="1" opacity="0.75">
+            <line x1="190" y1="126" x2="180" y2="139"/><line x1="230" y1="126" x2="220" y2="139"/>
+            <line x1="270" y1="126" x2="260" y2="139"/><line x1="310" y1="126" x2="300" y2="139"/>
+            <line x1="350" y1="126" x2="340" y2="139"/><line x1="390" y1="126" x2="380" y2="139"/>
+            <line x1="430" y1="126" x2="420" y2="139"/><line x1="470" y1="126" x2="460" y2="139"/>
+            <line x1="510" y1="126" x2="500" y2="139"/><line x1="550" y1="126" x2="540" y2="139"/>
+            <line x1="590" y1="126" x2="580" y2="139"/><line x1="630" y1="126" x2="620" y2="139"/>
+          </g>
+          <text x="410" y="136" text-anchor="middle" font-size="9" font-weight="700" fill="#1e3a8a">계속 바뀌는 중 — 최신 확인 필요</text>
+
+          <rect x="296" y="156" width="354" height="13" rx="3" fill="#ea580c"/>
+          <text x="292" y="166" text-anchor="end" font-size="8.5" fill="#9a3412">2026.11 →</text>
+
+          <rect x="181" y="186" width="469" height="13" rx="3" fill="#16a34a"/>
+          <rect x="318" y="216" width="332" height="13" rx="3" fill="#16a34a"/>
+          <rect x="347" y="246" width="303" height="13" rx="3" fill="#16a34a"/>
+          <rect x="621" y="276" width="29" height="13" rx="3" fill="#16a34a"/>
+          <text x="617" y="286" text-anchor="end" font-size="8.5" fill="#15803d">2031.8 →</text>
+
+          <rect x="239" y="302" width="411" height="13" rx="3" fill="#9333ea"/>
+          <text x="244" y="312" font-size="8.5" fill="#fff">시행 예정</text>
+
+          <line x1="20" y1="336" x2="660" y2="336" stroke="#e3e8ef" stroke-width="1.5"/>
+          <text x="340" y="360" text-anchor="middle" font-size="11" fill="#55617a">
+            <tspan font-weight="700" fill="#16a34a">유럽</tspan>은 날짜가 법에 박혀 있어 예측이 됩니다.
+            <tspan font-weight="700" fill="#2563eb">미국 관세</tspan>만 유독 흐릿하죠</text>
+          <text x="340" y="382" text-anchor="middle" font-size="10.5" fill="#8b93a7">
+            그림 · 주요 제도 시행 기간 (막대의 길이는 대략적인 위치)</text>
+        </svg>
+        <figcaption class="fig-cap">눈여겨보실 것은 <strong>색깔별 성격</strong>입니다.
+          초록(유럽)은 <strong>날짜가 정해져 있어 준비할 수 있고</strong>,
+          파랑(미국 관세)은 <strong>빗금 — 지금도 바뀌는 중</strong>입니다.</figcaption>
+      </figure>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:26%">이런 기사가 보이면</th><th style="width:16%">성격</th><th style="width:58%">어떻게 읽으면 되나</th></tr></thead>
+        <tbody>
+          <tr><td class="k">"세액공제 요건 발표"</td><td><span class="en">미국 · 돈</span></td>
+            <td>누가 얼마를 받느냐가 아니라 <strong>누가 배제되느냐</strong>를 보십시오.
+              대개 중국을 빼려는 조항이고, 그 자리는 우리 몫이 됩니다</td></tr>
+          <tr><td class="k">"관세 ○○% 부과"</td><td><span class="en">미국 · 유동</span></td>
+            <td><strong>무슨 법을 근거로 하는지</strong>가 핵심입니다.
+              근거가 흔들리면 관세도 통째로 사라진 전례가 있습니다(아래 3장)</td></tr>
+          <tr><td class="k">"수출 허가 대상 추가"</td><td><span class="en">중국 · 원료</span></td>
+            <td>물량이 막히는 게 아니라 <strong>시간이 걸리게</strong> 됩니다.
+              재고를 얼마나 쌓아 뒀느냐가 곧 버티는 힘이죠</td></tr>
+          <tr><td class="k">"탄소발자국 신고 의무"</td><td><span class="en">유럽 · 규칙</span></td>
+            <td>제품 성능과 무관하게 <strong>서류로 시장이 갈립니다.</strong>
+              전력을 무엇으로 썼는지까지 따집니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </details>
+
+    <!-- ══════════ 02 ══════════ -->
+    <details class="sec-card full" id="us-money">
+      <summary class="sec-head"><span class="sec-num">02</span><h2>미국 ① 돈 — IRA 보조금</h2><span class="sec-meta">표 2</span></summary>
+
+      <p>미국의 IRA(인플레이션 감축법)는 2022년에 만들어졌는데요,
+        배터리와 관련해서는 <strong>서로 다른 두 개의 돈</strong>이 있었습니다.
+        이 둘을 섞어 보면 기사가 도무지 이해되지 않죠.</p>
+
+      <div class="callout">
+        <div class="callout-title">먼저 이 둘을 갈라 두셔야 합니다</div>
+        <p>· <strong>45X (AMPC)</strong> — <strong>공장</strong>에 주는 돈입니다.
+          미국에서 배터리 셀·모듈을 <strong>만든 양만큼</strong> 세금을 깎아 줍니다.
+          받는 쪽은 <strong>배터리 회사</strong>고요<br>
+          · <strong>30D</strong> — <strong>소비자</strong>에게 주던 돈입니다.
+          전기차를 사면 최대 <strong>7,500달러</strong>를 깎아 줬습니다.
+          받는 쪽은 <strong>차를 사는 사람</strong>이었죠</p>
+        <p>지금 상황을 한 문장으로 하면 —
+          <strong>공장에 주는 돈은 남았고, 소비자에게 주던 돈은 끝났습니다.</strong></p>
+      </div>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:14%">제도</th><th style="width:22%">무엇</th><th style="width:20%">언제까지</th><th style="width:44%">지금 상태</th></tr></thead>
+        <tbody>
+          <tr><td class="k">45X<br><span class="en">AMPC</span></td>
+            <td>미국 내 생산량에 비례해<br>세금을 깎아 줍니다</td>
+            <td><strong>2031년까지</strong><br><span class="en">고정 · 당초 2032년에서 1년 단축</span></td>
+            <td><strong>유지됐습니다.</strong> 미국에 공장을 지은 우리 기업에는
+              가장 큰 버팀목이죠. 다만 <strong>중국산 원자재 비율 상한</strong>이 붙었고
+              해마다 조여집니다 — 2026년 40%, 2027년 35% 수준</td></tr>
+          <tr><td class="k">30D</td>
+            <td>전기차를 사는 소비자에게<br>최대 7,500달러</td>
+            <td><strong>2025년 9월 30일 종료</strong><br><span class="en">고정 · 당초 2032년까지였음</span></td>
+            <td><strong>끝났습니다.</strong> 종료 직전 미국 전기차 판매가 급증했다가,
+              이후 수요가 어떻게 되느냐가 <strong>우리 셀 물량에 직결</strong>됩니다</td></tr>
+          <tr><td class="k">FEOC<br><span class="en">해외우려기관</span></td>
+            <td>중국 등과 얽힌 곳의<br>광물·부품을 쓰면 배제</td>
+            <td>계속 <strong>강화되는 방향</strong><br><span class="en">유동</span></td>
+            <td>지분·기술·라이선스까지 따집니다.
+              <strong>중국 기업과의 합작</strong>이 걸리는 지점이라
+              업계가 가장 신경 쓰는 조항입니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">30D 종료가 왜 우리에게 아픈가</div>
+        <p>45X만 보면 "공장 보조금은 남았으니 괜찮다"고 생각하기 쉬운데요,
+          <strong>45X는 만든 만큼 주는 돈</strong>입니다.
+          팔리지 않으면 만들 이유가 없고, 만들지 않으면 45X도 없습니다.</p>
+        <p>즉 30D는 <strong>수요를 만들던 장치</strong>였고,
+          45X는 그 수요를 <strong>우리 공장으로 돌리던 장치</strong>였습니다.
+          앞의 것이 사라지면 뒤의 것도 힘이 빠지죠.
+          미국 공장 <strong>가동률</strong> 뉴스를 눈여겨보셔야 하는 이유입니다.</p>
+      </div>
+
+      <h3 class="t-h">요건은 '누가 받느냐'보다 '누가 빠지느냐'입니다</h3>
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:24%">요건</th><th style="width:38%">내용</th><th style="width:38%">진짜 의도</th></tr></thead>
+        <tbody>
+          <tr><td class="k">북미 최종조립</td>
+            <td>차를 <strong>북미에서</strong> 조립해야 합니다</td>
+            <td>완성차 공장을 미국으로 부릅니다</td></tr>
+          <tr><td class="k">핵심광물 비율</td>
+            <td>미국 또는 <strong>FTA 체결국</strong>에서
+              채굴·가공한 비율이 기준 이상</td>
+            <td><strong>한국은 FTA 체결국</strong>이라 여기서는 유리합니다.
+              중국을 빼려는 조항이죠</td></tr>
+          <tr><td class="k">배터리 부품 비율</td>
+            <td><strong>북미에서 만든</strong> 부품 비율이 기준 이상</td>
+            <td>셀·모듈 공장을 미국으로 부릅니다</td></tr>
+          <tr><td class="k">FEOC 배제</td>
+            <td>중국 등과 얽힌 곳의 것을 쓰면 <strong>탈락</strong></td>
+            <td>비율이 아니라 <strong>0이냐 아니냐</strong>입니다.
+              가장 강력한 조항이에요</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">한국에는 양날입니다</div>
+        <p><strong>좋은 쪽</strong> — 중국을 빼려는 조항이 많을수록,
+          <strong>중국 아닌 대안</strong>이 필요해집니다. 그게 사실상 우리입니다.
+          미국 신규 배터리 생산능력에서 우리 기업의 비중이 큰 것도 그래서고요.</p>
+        <p><strong>나쁜 쪽</strong> — 요건을 맞추려면
+          <strong>미국에 지어야 합니다.</strong> 국내 공장은 그만큼 비게 되죠.
+          6장의 <strong>한국판 IRA</strong>가 나온 배경이 바로 이것입니다.</p>
+      </div>
+    </details>
+
+    <!-- ══════════ 03 ══════════ -->
+    <details class="sec-card full" id="us-tariff">
+      <summary class="sec-head"><span class="sec-num">03</span><h2>미국 ② 관세 — 1년 사이에 벌어진 일</h2><span class="sec-meta">그림 1 · 표 1</span></summary>
+
+      <p>여기가 <strong>가장 어지러운 부분</strong>인데요.
+        1년 사이에 관세가 붙었다가, 올랐다가, 법원 판결로 통째로 사라졌다가,
+        다른 법을 근거로 다시 짜이는 중입니다.
+        <strong>숫자보다 흐름</strong>을 잡으시는 편이 나아요.</p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 680 300" role="img"
+             aria-label="2025년 7월 한미 합의로 15퍼센트가 정해졌고, 2026년 1월 25퍼센트로 인상 발표가 있었으며, 2026년 2월 연방대법원이 근거 법률을 위법으로 판단해 상호관세가 사라졌고, 이후 다른 법을 근거로 재구축 중입니다">
+          <text x="24" y="26" font-size="13" font-weight="700" fill="#1a2230">
+            1년 사이의 흐름 <tspan font-size="10" font-weight="400" fill="#8b93a7">(2026-08-18 기준)</tspan></text>
+
+          <line x1="60" y1="150" x2="640" y2="150" stroke="#cdd5e0" stroke-width="2"/>
+
+          <!-- ① 2025.07 -->
+          <circle cx="110" cy="150" r="9" fill="#2563eb"/>
+          <text x="110" y="70" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1d4ed8">2025.7</text>
+          <text x="110" y="88" text-anchor="middle" font-size="10" fill="#1e40af">한미 합의</text>
+          <text x="110" y="104" text-anchor="middle" font-size="11" font-weight="700" fill="#1a2230">15%</text>
+          <text x="110" y="120" text-anchor="middle" font-size="9" fill="#8b93a7">투자 약속과 맞바꿈</text>
+          <line x1="110" y1="128" x2="110" y2="141" stroke="#cdd5e0" stroke-width="1.5"/>
+
+          <!-- ② 2025.12 -->
+          <circle cx="240" cy="150" r="9" fill="#16a34a"/>
+          <text x="240" y="186" text-anchor="middle" font-size="10.5" font-weight="700" fill="#15803d">2025.12</text>
+          <text x="240" y="203" text-anchor="middle" font-size="10" fill="#166534">자동차 인하 확정</text>
+          <text x="240" y="219" text-anchor="middle" font-size="9" fill="#8b93a7">11월로 소급 적용</text>
+          <line x1="240" y1="159" x2="240" y2="172" stroke="#cdd5e0" stroke-width="1.5"/>
+
+          <!-- ③ 2026.01 -->
+          <circle cx="370" cy="150" r="9" fill="#dc2626"/>
+          <text x="370" y="70" text-anchor="middle" font-size="10.5" font-weight="700" fill="#b91c1c">2026.1</text>
+          <text x="370" y="88" text-anchor="middle" font-size="10" fill="#991b1b">인상 발표</text>
+          <text x="370" y="104" text-anchor="middle" font-size="11" font-weight="700" fill="#1a2230">15% → 25%</text>
+          <text x="370" y="120" text-anchor="middle" font-size="9" fill="#8b93a7">"합의를 안 지킨다"</text>
+          <line x1="370" y1="128" x2="370" y2="141" stroke="#cdd5e0" stroke-width="1.5"/>
+
+          <!-- ④ 2026.02 -->
+          <circle cx="500" cy="150" r="11" fill="#7e22ce"/>
+          <text x="500" y="186" text-anchor="middle" font-size="10.5" font-weight="700" fill="#7e22ce">2026.2</text>
+          <text x="500" y="203" text-anchor="middle" font-size="10" font-weight="700" fill="#6b21a8">연방대법원 — 위법</text>
+          <text x="500" y="219" text-anchor="middle" font-size="9" fill="#8b93a7">근거 법률에 관세 권한 없음</text>
+          <text x="500" y="234" text-anchor="middle" font-size="9" fill="#8b93a7">→ 상호관세 효력 상실</text>
+          <line x1="500" y1="161" x2="500" y2="172" stroke="#cdd5e0" stroke-width="1.5"/>
+
+          <!-- ⑤ 이후 -->
+          <circle cx="615" cy="150" r="9" fill="#8b93a7"/>
+          <text x="615" y="70" text-anchor="middle" font-size="10.5" font-weight="700" fill="#55617a">그 이후</text>
+          <text x="615" y="88" text-anchor="middle" font-size="10" fill="#55617a">다른 법으로</text>
+          <text x="615" y="104" text-anchor="middle" font-size="10" fill="#55617a">재구축 중</text>
+          <text x="615" y="120" text-anchor="middle" font-size="9" fill="#8b93a7">232조 · 301조</text>
+          <line x1="615" y1="128" x2="615" y2="141" stroke="#cdd5e0" stroke-width="1.5"/>
+
+          <line x1="20" y1="252" x2="660" y2="252" stroke="#e3e8ef" stroke-width="1.5"/>
+          <text x="340" y="274" text-anchor="middle" font-size="11" fill="#55617a">
+            숫자는 네 번 바뀌었지만 방향은 하나입니다 —
+            <tspan font-weight="700">미국 안에서 만들게 하려는 압력</tspan></text>
+          <text x="340" y="294" text-anchor="middle" font-size="10.5" fill="#8b93a7">
+            그림 · 대미 관세 경과 (모식도 · 세부 시점은 품목별로 다릅니다)</text>
+        </svg>
+        <figcaption class="fig-cap">가장 중요한 대목은 <strong>2026년 2월</strong>입니다.
+          관세 자체가 아니라 <strong>관세를 매길 권한</strong>이 부정됐거든요.
+          그래서 지금은 <strong>근거 법을 갈아 끼우는 중</strong>입니다.</figcaption>
+      </figure>
+
+      <h3 class="t-h">'무슨 법을 근거로 하느냐'가 왜 중요한가</h3>
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:18%">근거</th><th style="width:30%">성격</th><th style="width:26%">장점(미국 입장)</th><th style="width:26%">약점</th></tr></thead>
+        <tbody>
+          <tr><td class="k">IEEPA<br><span class="en">비상경제권한법</span></td>
+            <td>국가 비상사태를 선포하고<br><strong>빠르게</strong> 매깁니다</td>
+            <td>조사 없이 <strong>즉시</strong> 가능했습니다</td>
+            <td><strong>2026년 2월 대법원이 막았습니다.</strong>
+              법에 관세 권한이 없다는 판단이었죠</td></tr>
+          <tr><td class="k">무역확장법<br>232조</td>
+            <td><strong>품목별</strong>로 매깁니다<br>(철강·자동차·반도체 등)</td>
+            <td>안보를 이유로 들면 <strong>기반이 단단</strong>합니다</td>
+            <td>품목마다 <strong>조사를 해야</strong> 해서 시간이 걸립니다</td></tr>
+          <tr><td class="k">무역법<br>301조</td>
+            <td><strong>나라별</strong>로 매깁니다<br>(불공정 관행을 이유로)</td>
+            <td>대상을 <strong>골라서</strong> 겨눌 수 있습니다</td>
+            <td>역시 조사 절차가 필요합니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">그래서 기사를 이렇게 보시면 됩니다</div>
+        <p>· <strong>"IEEPA 근거"</strong>라는 말이 나오면 — 이미 막힌 길입니다<br>
+          · <strong>"232조 조사 착수"</strong> — 몇 달 뒤 그 품목에 관세가 붙는다는 예고입니다.
+            <strong>배터리·부품이 목록에 있는지</strong>를 보십시오<br>
+          · <strong>"301조"</strong> — 특정 나라를 겨눈 것입니다. 대상국이 어디인지가 전부죠</p>
+        <p>품목별 관세는 <strong>조사가 끝나야</strong> 나오므로,
+          착수 소식이 곧 <strong>준비할 시간</strong>이라는 뜻이기도 합니다.</p>
+      </div>
+
+      <div class="callout" style="border-left-color:#dc2626">
+        <div class="callout-title">이 장은 특히 빨리 낡습니다</div>
+        <p>위 표의 <strong>구조</strong>는 잘 안 바뀌지만,
+          <strong>지금 몇 %인지</strong>는 이 문서로 판단하지 마시기 바랍니다.
+          품목마다 다르고, 소급 적용이 붙기도 하며, 소송 결과로 뒤집히기도 합니다.
+          현재 세율은 <strong>관세청·산업통상자원부 발표</strong>나
+          아래 8장의 기관 자료로 확인해 주십시오.</p>
+      </div>
+    </details>
+
+    <!-- ══════════ 04 ══════════ -->
+    <details class="sec-card full" id="china">
+      <summary class="sec-head"><span class="sec-num">04</span><h2>중국 — 원료를 쥐고 있습니다</h2><span class="sec-meta">표 2</span></summary>
+
+      <p>중국은 관세로 맞서지 않습니다. <strong>더 센 카드</strong>가 있거든요.
+        배터리 원료의 <strong>가공 단계</strong>를 사실상 쥐고 있죠.</p>
+
+      <div class="callout">
+        <div class="callout-title">'금지'가 아니라 '허가제'라는 점이 핵심입니다</div>
+        <p>수출을 막아 버리면 상대도 대안을 찾죠. 그래서 막지 않아요.
+          대신 <strong>허가를 받아 가라</strong>고 합니다.</p>
+        <p>· 허가가 <strong>나오긴 나옵니다</strong> — 다만 <strong>언제</strong> 나올지 모르죠<br>
+          · 그 사이 공장은 <strong>재고로 버텨야</strong> 합니다<br>
+          · 언제든 <strong>속도를 조절</strong>할 수 있는 손잡이를 쥔 셈이죠</p>
+        <p>그래서 관련 기사에서는 <strong>"허가 지연"</strong>이라는 표현을 눈여겨보셔야 합니다.
+          물량이 0이 되는 일은 드물지만, <strong>몇 주 늦는 것만으로</strong> 라인이 섭니다.</p>
+      </div>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:18%">대상</th><th style="width:22%">배터리 어디에</th><th style="width:20%">우리 의존도</th><th style="width:40%">무엇이 문제인가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">흑연</td>
+            <td><strong>음극재</strong>의 원료</td>
+            <td><strong>천연 97.7%</strong><br><strong>인조 94.3%</strong><br>
+              <span class="en">2023년 기준 대중 수입 비중</span></td>
+            <td>사실상 <strong>전량 의존</strong>입니다.
+              대체처를 찾는 데 시간이 걸리는 품목이라
+              음극재 자립이 산업 과제로 올라와 있습니다</td></tr>
+          <tr><td class="k">희토류</td>
+            <td>구동모터의 <strong>영구자석</strong><br>
+              (배터리보다 <strong>전기차 전체</strong>에 걸립니다)</td>
+            <td>대부분 의존</td>
+            <td>2025년 10월 통제 확대가 발표됐고,
+              <strong>함량 0.1% 이상 제품까지</strong> 범위에 넣는 방식이 거론됐습니다</td></tr>
+          <tr><td class="k">리튬이온 배터리<br>(완제품)</td>
+            <td>—</td>
+            <td>—</td>
+            <td>고급 리튬이온 배터리 자체도 <strong>통제 계획</strong>에 포함됐습니다.
+              소재만이 아니라 <strong>완제품까지</strong> 범위가 넓어지는 흐름이죠</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3 class="t-h">가장 크게 달라지는 것 — '역외적용'</h3>
+      <div class="callout">
+        <div class="callout-title">중국 밖에서 만든 물건에도 중국 허가가 필요해집니다</div>
+        <p>2025년 10월에 발표된 조치의 핵심은 세율이나 품목이 아니라
+          <strong>적용 범위</strong>입니다.</p>
+        <p>지금까지는 <strong>중국에서 나가는 물건</strong>만 허가 대상이었는데요,
+          앞으로는 <strong>중국산 원료가 일정 비율 들어간 제3국 제품</strong>도
+          중국 허가를 받아야 한다는 방향입니다.</p>
+        <p>· 시행은 <strong>2026년 11월경으로 유예</strong>돼 있습니다 <span class="en">(유동)</span><br>
+          · 그대로 시행되면 <strong>한국에서 만들어 미국에 파는 물건</strong>도
+            중국 허가가 필요해질 수 있습니다<br>
+          · 미국은 중국을 빼라 하고, 중국은 자기 허가를 받으라 하는
+            <strong>양쪽에 끼는 구도</strong>가 여기서 생깁니다</p>
+      </div>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:26%">구도</th><th style="width:37%">미국이 요구하는 것</th><th style="width:37%">중국이 요구하는 것</th></tr></thead>
+        <tbody>
+          <tr><td class="k">공급망</td>
+            <td>중국산을 <strong>빼야</strong> 보조금을 줍니다</td>
+            <td>중국산을 쓰면 <strong>허가를 받아야</strong> 합니다</td></tr>
+          <tr><td class="k">한국의 처지</td>
+            <td colspan="2"><strong>중국산을 빼자니 대체처가 없고, 쓰자니 미국 보조금이 걸립니다.</strong>
+              그래서 '탈중국'이 구호가 아니라 <strong>공정과 원료를 실제로 바꾸는 일</strong>이 됩니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </details>
+
+    <!-- ══════════ 05 ══════════ -->
+    <details class="sec-card full" id="eu">
+      <summary class="sec-head"><span class="sec-num">05</span><h2>유럽 — 규칙으로 문턱을 만듭니다</h2><span class="sec-meta">그림 1 · 표 2</span></summary>
+
+      <p>유럽은 돈이 미국만큼 넉넉하지 않고, 원료도 중국처럼 쥐고 있지 않습니다.
+        대신 <strong>큰 시장</strong>이 있죠. 그래서 <strong>파는 조건</strong>을 정하는 쪽으로 움직여요.</p>
+
+      <div class="callout">
+        <div class="callout-title">유럽식 규제의 특징 — '나쁘면 못 판다'가 아니라 '모르면 못 판다'</div>
+        <p>유럽 규제는 대체로 <strong>성능이 나쁘다고 막지</strong> 않습니다.
+          <strong>증명하지 못하면</strong> 막습니다.</p>
+        <p>· 탄소를 얼마나 썼는지 <strong>계산해서 신고</strong>하라<br>
+          · 원료가 어디서 왔는지 <strong>이력을 붙여</strong> 두라<br>
+          · 인권·환경 문제가 없는지 <strong>확인했음을 문서로</strong> 남겨라</p>
+        <p>그래서 <strong>기록과 관리가 되는 쪽이 유리</strong>합니다.
+          우리 기업에는 상대적으로 유리한 구도인데요, 대신 <strong>대응 비용</strong>이 만만찮습니다.</p>
+      </div>
+
+      <h3 class="t-h">EU 배터리 규정 — 날짜가 법에 박혀 있습니다</h3>
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:26%">무엇을</th><th style="width:22%">언제부터</th><th style="width:52%">한국 기업에 무슨 뜻인가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">탄소발자국 신고<br><span class="en">전기차용</span></td>
+            <td><strong>2025.2.18</strong><br><span class="en">고정 · 시행 중</span></td>
+            <td>셀 하나를 만드는 데 <strong>탄소가 얼마나 나왔는지</strong> 계산해 신고합니다.
+              <strong>공장에서 쓴 전기</strong>가 그대로 숫자에 들어가죠</td></tr>
+          <tr><td class="k">탄소발자국 신고<br><span class="en">산업용</span></td>
+            <td><strong>2026년</strong><br><span class="en">고정</span></td>
+            <td>ESS 등 산업용으로 범위가 넓어집니다</td></tr>
+          <tr><td class="k">배터리 여권<br><span class="en">Battery Passport</span></td>
+            <td><strong>2027.2.18</strong><br><span class="en">고정</span></td>
+            <td><strong>2kWh 초과</strong> 전기차·산업용 배터리에
+              QR로 여는 <strong>디지털 이력</strong>을 붙여야 합니다.
+              소재부터 재활용까지 추적됩니다</td></tr>
+          <tr><td class="k">공급망 실사<br><span class="en">Due diligence</span></td>
+            <td><strong>2027.8.18</strong><br><span class="en">고정 · 2025년에서 연기됨</span></td>
+            <td>원료 조달 과정의 인권·환경 위험을 확인하고
+              <strong>문서로 남겨야</strong> 합니다.
+              당초 2025년이었는데 <strong>2년 미뤄졌습니다</strong></td></tr>
+          <tr><td class="k">재활용 원료<br>최소 비율</td>
+            <td><strong>2031.8.18</strong><br><span class="en">고정</span></td>
+            <td>코발트·납·리튬·니켈에 <strong>재활용 원료를 일정 비율 이상</strong>
+              넣어야 합니다. 재활용 사업이 <strong>선택이 아니라 필수</strong>가 되는 시점이죠</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 680 300" role="img"
+             aria-label="유럽 배터리 규정은 탄소발자국 신고에서 배터리 여권, 공급망 실사를 거쳐 2031년 재활용 원료 의무로 단계적으로 강해집니다">
+          <text x="24" y="26" font-size="13" font-weight="700" fill="#1a2230">
+            유럽은 단계적으로 조입니다 — 그래서 준비할 수 있습니다</text>
+
+          <line x1="60" y1="120" x2="640" y2="120" stroke="#cdd5e0" stroke-width="2"/>
+
+          <g>
+            <rect x="62" y="74" width="112" height="34" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+            <text x="118" y="88" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">탄소발자국</text>
+            <text x="118" y="102" text-anchor="middle" font-size="9" fill="#166534">계산해서 내라</text>
+            <circle cx="118" cy="120" r="7" fill="#16a34a"/>
+            <text x="118" y="146" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">2025.2</text>
+          </g>
+          <g>
+            <rect x="204" y="74" width="112" height="34" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+            <text x="260" y="88" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">산업용까지</text>
+            <text x="260" y="102" text-anchor="middle" font-size="9" fill="#166534">범위 확대</text>
+            <circle cx="260" cy="120" r="7" fill="#16a34a"/>
+            <text x="260" y="146" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">2026</text>
+          </g>
+          <g>
+            <rect x="346" y="74" width="112" height="34" rx="6" fill="#bbf7d0" stroke="#15803d" stroke-width="2"/>
+            <text x="402" y="88" text-anchor="middle" font-size="10" font-weight="700" fill="#14532d">배터리 여권</text>
+            <text x="402" y="102" text-anchor="middle" font-size="9" fill="#166534">이력을 붙여라</text>
+            <circle cx="402" cy="120" r="8" fill="#15803d"/>
+            <text x="402" y="146" text-anchor="middle" font-size="10" font-weight="700" fill="#14532d">2027.2</text>
+          </g>
+          <g>
+            <rect x="452" y="152" width="112" height="34" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+            <text x="508" y="166" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">공급망 실사</text>
+            <text x="508" y="180" text-anchor="middle" font-size="9" fill="#166534">확인했음을 남겨라</text>
+            <circle cx="508" cy="120" r="7" fill="#16a34a"/>
+            <text x="508" y="108" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">2027.8</text>
+          </g>
+          <g>
+            <rect x="566" y="74" width="106" height="34" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+            <text x="619" y="88" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">재활용 원료</text>
+            <text x="619" y="102" text-anchor="middle" font-size="9" fill="#166534">일정 비율 넣어라</text>
+            <circle cx="619" cy="120" r="7" fill="#16a34a"/>
+            <text x="619" y="146" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">2031.8</text>
+          </g>
+
+          <line x1="20" y1="216" x2="660" y2="216" stroke="#e3e8ef" stroke-width="1.5"/>
+          <text x="340" y="240" text-anchor="middle" font-size="11.5" fill="#55617a">
+            <tspan font-weight="700">계산 → 이력 → 확인 → 재활용</tspan> 순서로 강해집니다</text>
+          <text x="340" y="262" text-anchor="middle" font-size="11" fill="#8b93a7">
+            미국 관세와 달리 <tspan font-weight="700">날짜가 법에 박혀 있어</tspan>, 늦게 준비하는 쪽만 손해입니다</text>
+          <text x="340" y="290" text-anchor="middle" font-size="10.5" fill="#8b93a7">
+            그림 · EU 배터리 규정 단계 (모식도)</text>
+        </svg>
+        <figcaption class="fig-cap">미국 쪽과 가장 다른 점은 <strong>예측이 된다</strong>는 것입니다.
+          날짜가 정해져 있으니 <strong>준비가 곧 경쟁력</strong>이 되죠.</figcaption>
+      </figure>
+
+      <h3 class="t-h">배터리 규정 말고도 세 가지가 더 있습니다</h3>
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:20%">이름</th><th style="width:34%">무엇을 하나</th><th style="width:46%">배터리와 어떻게 얽히나</th></tr></thead>
+        <tbody>
+          <tr><td class="k">CBAM<br><span class="en">탄소국경조정</span></td>
+            <td>탄소를 많이 쓰고 만든 수입품에
+              <strong>사실상 값을 물립니다</strong></td>
+            <td>배터리 자체보다 <strong>철강·알루미늄</strong> 같은
+              소재를 통해 들어옵니다. 팩 케이스·부품 원가에 붙죠</td></tr>
+          <tr><td class="k">CRMA<br><span class="en">핵심원자재법</span></td>
+            <td>핵심 원자재의 <strong>역내 채굴·가공·재활용</strong>
+              목표치를 세우고, <strong>한 나라 의존도</strong>에 상한을 둡니다</td>
+            <td>중국 의존을 줄이려는 것이라
+              <strong>방향은 미국과 같습니다.</strong>
+              유럽 안에 가공 기반을 만들려는 움직임이 따라옵니다</td></tr>
+          <tr><td class="k">NZIA<br><span class="en">탄소중립산업법</span></td>
+            <td>배터리를 포함한 청정기술의
+              <strong>역내 제조 비중 목표</strong>를 세웁니다</td>
+            <td>미국 IRA에 대한 유럽의 답에 가깝습니다.
+              공공조달 등에서 <strong>역내 생산에 가점</strong>을 주는 방식이죠</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">한국에 실제로 아픈 지점 — 전력 구성</div>
+        <p>탄소발자국은 <strong>공장이 쓴 전기가 무엇으로 만들어졌는지</strong>를 따집니다.
+          같은 설비, 같은 공정이라도 <strong>전력이 깨끗한 나라</strong>에서 만들면 숫자가 낮게 나오죠.</p>
+        <p>이건 기업 혼자 힘으로 풀기 어려운 부분입니다.
+          그래서 재생에너지 조달과 전력 계약 이야기가
+          <strong>배터리 통상 기사에 함께 나오는</strong> 것입니다.</p>
+      </div>
+    </details>
+
+    <!-- ══════════ 06 ══════════ -->
+    <details class="sec-card full" id="jp-kr">
+      <summary class="sec-head"><span class="sec-num">06</span><h2>일본과 한국 — '만든 만큼' 깎아 줍니다</h2><span class="sec-meta">표 2</span></summary>
+
+      <p>미국이 자기 땅에 공장을 부르니, 공장을 가진 나라들은 <strong>붙잡아야</strong> 합니다.
+        일본과 한국이 택한 방법이 같은데요 — <strong>생산량에 비례해 세금을 깎아 주는</strong> 방식이죠.</p>
+
+      <div class="callout">
+        <div class="callout-title">'투자에 주는 돈'과 '생산에 주는 돈'은 다릅니다</div>
+        <p>지금까지 우리 세제 지원은 대부분 <strong>투자액 기준</strong>이었습니다.
+          공장을 짓고 설비를 사면 그 금액의 일부를 깎아 주는 방식이었고요.</p>
+        <p>그런데 그러면 <strong>짓고 나서 안 돌려도</strong> 지원이 끝나죠.
+          실제로 지금 국내 공장은 <strong>가동률</strong>이 문제고요.</p>
+        <p>새로 도입되는 <strong>국내생산세액공제</strong>는
+          <strong>실제로 만들어 판 양</strong>에 비례해 깎아 줍니다.
+          미국 45X와 같은 방식이라 <strong>'한국판 IRA'</strong>라고 불립니다.</p>
+      </div>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:16%">나라</th><th style="width:28%">제도</th><th style="width:28%">대상</th><th style="width:28%">방식</th></tr></thead>
+        <tbody>
+          <tr><td class="k">미국</td><td>45X (AMPC)</td>
+            <td>배터리 셀·모듈, 핵심광물 등</td>
+            <td>생산량 × 단가<br><strong>현금 환급이 됩니다</strong></td></tr>
+          <tr><td class="k">일본</td><td>전략물자 국내생산촉진세제</td>
+            <td>전기차, 반도체,<br>그린스틸, 그린케미컬 등</td>
+            <td>생산량당 지원단가<br>(미국과 비슷한 얼개)</td></tr>
+          <tr><td class="k">한국</td><td>국내생산세액공제<br><span class="en">2026년 세제개편으로 신설</span></td>
+            <td><strong>6개 분야</strong> — 이차전지, 반도체,
+              태양광, 풍력, 핵심소재, AI 로봇부품</td>
+            <td>생산량 × 품목별 기준공제액</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3 class="t-h">한국판 IRA — 들어간 것과 빠진 것</h3>
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:22%">쟁점</th><th style="width:39%">내용</th><th style="width:39%">왜 논란인가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">생산 기준으로 전환<br><span class="en">들어감</span></td>
+            <td>투자액이 아니라 <strong>만들어 판 양</strong>에 비례해 깎아 줍니다</td>
+            <td>업계의 오랜 요구였습니다.
+              <strong>가동률을 올릴 유인</strong>이 생기죠</td></tr>
+          <tr><td class="k">직접 환급<br><span class="en">빠짐</span></td>
+            <td>세금을 <strong>깎아 주기만</strong> 하고,
+              현금으로 돌려주지는 않는 구조입니다</td>
+            <td><strong>적자면 깎을 세금이 없습니다.</strong>
+              정작 어려울 때 도움이 안 되죠.
+              미국·유럽·일본은 현금 지원 방식이 있습니다</td></tr>
+          <tr><td class="k">전기차 제외<br><span class="en">빠짐</span></td>
+            <td>배터리는 들어갔지만
+              <strong>완성 전기차는 대상에서 빠졌습니다</strong></td>
+            <td>배터리 수요를 만드는 것은 결국 전기차라
+              <strong>반쪽</strong>이라는 지적이 있습니다</td></tr>
+          <tr><td class="k">통상 마찰<br><span class="en">숙제</span></td>
+            <td>국내 생산에만 혜택을 주는 구조입니다</td>
+            <td>다른 나라가 <strong>보조금 문제로 걸 수</strong> 있습니다.
+              미국·유럽도 같은 걸 하고 있지만, <strong>규모가 다른 나라</strong>는
+              대응하기 어렵습니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">이 제도를 읽는 눈</div>
+        <p>핵심 질문은 <strong>"미국 공장과 한국 공장 중 어디서 만드는 게 이득인가"</strong>입니다.
+          지금까지는 <strong>미국이 압도적으로 유리</strong>했습니다 —
+          45X를 받고, 관세도 피하니까요.</p>
+        <p>한국판 IRA는 그 격차를 <strong>줄이려는</strong> 것이지 뒤집으려는 게 아닙니다.
+          그래서 <strong>국내 공장 가동률</strong>이 실제로 오르는지가
+          이 제도의 성적표가 됩니다.</p>
+      </div>
+    </details>
+
+    <!-- ══════════ 07 ══════════ -->
+    <details class="sec-card full" id="impact">
+      <summary class="sec-head"><span class="sec-num">07</span><h2>한국에 미치는 영향 — 네 갈래로 들어옵니다</h2><span class="sec-meta">그림 1 · 표 1</span></summary>
+
+      <p>영향이 <strong>한 덩어리로</strong> 오지 않습니다.
+        서로 다른 네 개의 문으로 들어오고, <strong>대응 방법도 각각 다르죠.</strong></p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 680 340" role="img"
+             aria-label="원료는 중국 수출통제로, 관세는 미국으로, 규격은 유럽 규제로, 보조금은 미국과 한국 제도로 각각 다른 경로로 한국 배터리 산업에 영향을 줍니다">
+          <text x="24" y="26" font-size="13" font-weight="700" fill="#1a2230">
+            네 개의 문으로 들어옵니다</text>
+
+          <!-- 네 경로 -->
+          <g>
+            <rect x="24" y="52" width="150" height="56" rx="8" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+            <text x="99" y="74" text-anchor="middle" font-size="11.5" font-weight="700" fill="#c2410c">① 원료</text>
+            <text x="99" y="92" text-anchor="middle" font-size="9.5" fill="#9a3412">중국 수출 허가</text>
+            <text x="99" y="126" text-anchor="middle" font-size="9.5" fill="#8b93a7">→ 라인이 설 위험</text>
+          </g>
+          <g>
+            <rect x="192" y="52" width="150" height="56" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+            <text x="267" y="74" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1d4ed8">② 관세</text>
+            <text x="267" y="92" text-anchor="middle" font-size="9.5" fill="#1e40af">미국 232·301조</text>
+            <text x="267" y="126" text-anchor="middle" font-size="9.5" fill="#8b93a7">→ 수출 원가 상승</text>
+          </g>
+          <g>
+            <rect x="360" y="52" width="150" height="56" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+            <text x="435" y="74" text-anchor="middle" font-size="11.5" font-weight="700" fill="#15803d">③ 규격</text>
+            <text x="435" y="92" text-anchor="middle" font-size="9.5" fill="#166534">유럽 신고·이력</text>
+            <text x="435" y="126" text-anchor="middle" font-size="9.5" fill="#8b93a7">→ 대응 비용·전력</text>
+          </g>
+          <g>
+            <rect x="528" y="52" width="150" height="56" rx="8" fill="#f3e8ff" stroke="#9333ea" stroke-width="2"/>
+            <text x="603" y="74" text-anchor="middle" font-size="11.5" font-weight="700" fill="#7e22ce">④ 보조금</text>
+            <text x="603" y="92" text-anchor="middle" font-size="9.5" fill="#6b21a8">미국 45X · 한국판</text>
+            <text x="603" y="126" text-anchor="middle" font-size="9.5" fill="#8b93a7">→ 어디서 만들지</text>
+          </g>
+
+          <g stroke="#8b93a7" stroke-width="1.5" fill="none">
+            <path d="M99 134 L 300 176"/><path d="M267 134 L 320 176"/>
+            <path d="M435 134 L 360 176"/><path d="M603 134 L 380 176"/>
+          </g>
+
+          <rect x="230" y="180" width="220" height="46" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+          <text x="340" y="199" text-anchor="middle" font-size="12" font-weight="700" fill="#991b1b">한국 배터리 산업</text>
+          <text x="340" y="216" text-anchor="middle" font-size="9.5" fill="#b91c1c">네 가지가 동시에 걸립니다</text>
+
+          <line x1="20" y1="250" x2="660" y2="250" stroke="#e3e8ef" stroke-width="1.5"/>
+          <text x="340" y="274" text-anchor="middle" font-size="11.5" fill="#55617a">
+            <tspan font-weight="700">①은 재고로</tspan>, <tspan font-weight="700">②는 생산지 이전으로</tspan>,
+            <tspan font-weight="700">③은 서류와 전력으로</tspan>, <tspan font-weight="700">④는 투자 판단으로</tspan></text>
+          <text x="340" y="296" text-anchor="middle" font-size="11" fill="#8b93a7">
+            대응 수단이 전부 달라서, 하나로 묶어 대응하면 어느 것도 풀리지 않습니다</text>
+          <text x="340" y="330" text-anchor="middle" font-size="10.5" fill="#8b93a7">
+            그림 · 통상 영향이 들어오는 네 경로 (모식도)</text>
+        </svg>
+        <figcaption class="fig-cap">뉴스가 어지러워 보여도 <strong>네 칸 중 하나</strong>입니다.
+          어느 칸의 이야기인지만 가려내시면, <strong>우리 회사에 걸리는지 아닌지</strong>가 바로 보입니다.</figcaption>
+      </figure>
+
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:14%">경로</th><th style="width:29%">지금 벌어지는 일</th><th style="width:29%">한국에 미치는 영향</th><th style="width:28%">무엇으로 대응하나</th></tr></thead>
+        <tbody>
+          <tr><td class="k">① 원료</td>
+            <td>중국이 흑연·희토류에
+              <strong>허가제</strong>를 걸었고,
+              <strong>역외적용</strong>까지 예고했습니다</td>
+            <td><strong>가장 즉각적입니다.</strong>
+              허가가 늦으면 <strong>몇 주 만에</strong> 생산에 걸립니다.
+              음극재 원료는 사실상 전량 의존이고요</td>
+            <td>재고 확보 · 조달처 다변화 ·
+              <strong>음극재 국산화</strong></td></tr>
+          <tr><td class="k">② 관세</td>
+            <td>근거 법이 바뀌며
+              <strong>재구축되는 중</strong>입니다</td>
+            <td><strong>국내에서 만들어 수출하는 물량</strong>에 붙습니다.
+              현지 생산분은 피해 가고요</td>
+            <td>현지 생산 확대 ·
+              품목별 조사 <strong>사전 대응</strong></td></tr>
+          <tr><td class="k">③ 규격</td>
+            <td>유럽이 <strong>신고·이력·실사</strong>를
+              단계적으로 켭니다</td>
+            <td>준비된 쪽에는 <strong>오히려 기회</strong>입니다.
+              다만 <strong>전력 구성</strong>은 기업 혼자 못 바꿉니다</td>
+            <td>이력 시스템 구축 ·
+              <strong>재생에너지 조달</strong></td></tr>
+          <tr><td class="k">④ 보조금</td>
+            <td>미국은 45X 유지·30D 종료,
+              한국은 <strong>생산세액공제 신설</strong></td>
+            <td><strong>어디서 만들 것인가</strong>를 정합니다.
+              장기 투자 판단에 직접 걸립니다</td>
+            <td>국내외 <strong>생산 배분</strong> 재검토</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">한 줄로 정리하면</div>
+        <p>한국 배터리 산업은 <strong>원료를 중국에서 받아, 미국과 유럽에 팝니다.</strong>
+          이 문장이 모든 취약점을 설명하죠.</p>
+        <p>· 앞쪽(원료)은 <strong>중국이 쥐고</strong> 있고<br>
+          · 뒤쪽(시장)은 <strong>미국과 유럽이 조건을 겁니다</strong><br>
+          · 가운데(제조)만 우리 것인데, 그마저 <strong>미국으로 옮겨 가는 압력</strong>을 받습니다</p>
+        <p>그래서 통상 뉴스가 <strong>남의 나라 이야기가 아니라</strong>
+          공장 가동률과 채용으로 바로 돌아오는 것입니다.</p>
+      </div>
+    </details>
+
+    <!-- ══════════ 08 ══════════ -->
+    <details class="sec-card full" id="watch">
+      <summary class="sec-head"><span class="sec-num">08</span><h2>무엇을 지켜봐야 하나 · 출처</h2><span class="sec-meta">표 1</span></summary>
+
+      <h3 class="t-h">이 단어가 기사에 보이면 눈여겨보십시오</h3>
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th style="width:24%">단어</th><th style="width:38%">무슨 뜻인가</th><th style="width:38%">왜 중요한가</th></tr></thead>
+        <tbody>
+          <tr><td class="k">232조 조사 착수</td>
+            <td>미국이 <strong>특정 품목</strong>에 관세를 매기려고
+              조사를 시작했다는 뜻입니다</td>
+            <td>몇 달 뒤 관세가 붙는다는 <strong>예고</strong>입니다.
+              목록에 배터리·부품이 있는지 보십시오</td></tr>
+          <tr><td class="k">FEOC 지침</td>
+            <td>미국 보조금에서 <strong>누구를 배제할지</strong>
+              구체적으로 정하는 문서입니다</td>
+            <td>합작 구조가 걸릴 수 있어
+              <strong>기업별로 희비가 갈립니다</strong></td></tr>
+          <tr><td class="k">수출 허가 지연</td>
+            <td>중국이 <strong>속도를 늦추고</strong> 있다는 신호입니다</td>
+            <td>금지보다 무섭습니다.
+              <strong>재고가 곧 버티는 힘</strong>이 됩니다</td></tr>
+          <tr><td class="k">역외적용</td>
+            <td>중국 밖 제품에도 <strong>중국 허가</strong>가 필요해집니다</td>
+            <td>2026년 11월경 시행이 예고돼 있습니다.
+              <strong>가장 크게 판을 바꿀</strong> 항목이죠</td></tr>
+          <tr><td class="k">탄소발자국 · 배터리 여권</td>
+            <td>유럽에 팔기 위한 <strong>서류 요건</strong>입니다</td>
+            <td>날짜가 정해져 있어
+              <strong>준비 못 하면 그날부터 못 팝니다</strong></td></tr>
+          <tr><td class="k">직접 환급</td>
+            <td>세금을 깎아 주는 게 아니라
+              <strong>현금으로 돌려주는</strong> 방식입니다</td>
+            <td>적자 기업에는 <strong>이것만이</strong> 실효가 있습니다.
+              한국판 IRA의 최대 쟁점이고요</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">이 문서는 이렇게 작성했습니다</div>
+        <p>기준일은 <strong>2026년 8월 18일</strong>입니다.
+          날짜와 수치는 <strong>기준일 시점에 공개된 자료로 확인한 것</strong>만 적었고,
+          확인되지 않은 것은 <strong>넣지 않았습니다</strong>.</p>
+        <p>다만 이 분야는 확인한 다음 날 바뀔 수 있죠.
+          <strong>구조와 흐름</strong>은 참고하시되,
+          <strong>지금 적용되는 세율과 요건</strong>은 반드시 아래 원출처에서 확인해 주십시오.</p>
+        <p>특정 기업의 투자·실적 전망은 <strong>다루지 않았습니다.</strong>
+          정책이 무엇인지와, 그것이 산업 전체에 어떻게 걸리는지까지만 적었어요.</p>
+      </div>
+
+      <div class="src-group">
+        <h3>국내 기관</h3>
+        <ul>
+          <li><a href="https://www.motie.go.kr" target="_blank" rel="noopener">산업통상자원부</a>
+            <span class="who">— 통상 협상 결과·산업 정책 공식 발표</span></li>
+          <li><a href="https://www.customs.go.kr" target="_blank" rel="noopener">관세청</a>
+            <span class="who">— 품목별 실제 적용 세율 확인</span></li>
+          <li><a href="https://www.kita.net" target="_blank" rel="noopener">한국무역협회</a>
+            <span class="who">— 통상 이슈 분석 보고서</span></li>
+          <li><a href="https://www.kiep.go.kr" target="_blank" rel="noopener">대외경제정책연구원</a>
+            <span class="who">— 주요국 통상정책 심층 분석</span></li>
+          <li><a href="https://www.kotra.or.kr" target="_blank" rel="noopener">KOTRA</a>
+            <span class="who">— 국가별 진출·규제 정보</span></li>
+          <li><a href="https://www.kbia.or.kr" target="_blank" rel="noopener">한국배터리산업협회</a>
+            <span class="who">— 배터리 산업 정책 동향</span></li>
+        </ul>
+      </div>
+
+      <div class="src-group">
+        <h3>해외 원문</h3>
+        <ul>
+          <li><a href="https://www.irs.gov" target="_blank" rel="noopener">미국 국세청(IRS)</a>
+            <span class="who">— 45X·30D 등 세액공제 지침 원문</span></li>
+          <li><a href="https://ustr.gov" target="_blank" rel="noopener">미국 무역대표부(USTR)</a>
+            <span class="who">— 301조 조사·관세 조치 발표</span></li>
+          <li><a href="https://www.commerce.gov" target="_blank" rel="noopener">미국 상무부</a>
+            <span class="who">— 232조 조사 및 수출통제</span></li>
+          <li><a href="https://eur-lex.europa.eu" target="_blank" rel="noopener">EUR-Lex</a>
+            <span class="who">— EU 배터리 규정·CBAM·CRMA 법령 원문</span></li>
+          <li><a href="https://www.mofcom.gov.cn" target="_blank" rel="noopener">중국 상무부</a>
+            <span class="who">— 수출통제 품목 공고</span></li>
+          <li><a href="https://www.meti.go.jp" target="_blank" rel="noopener">일본 경제산업성(METI)</a>
+            <span class="who">— 생산촉진세제 등 산업 정책</span></li>
+        </ul>
+      </div>
+    </details>
+
+    <div class="report-foot">
+      <div><span class="dot">●</span> 통상현황 · 8개 주제 · 기준일 2026-08-18</div>
+      <a class="back-btn" href="../news/">← 리포트 목록으로</a>
+    </div>
+    <p class="disclaimer">본 자료는 정보 제공 목적이며 투자 권유가 아닙니다.
+      통상 정책은 수시로 바뀌므로, 실제 적용 세율·요건은 반드시 원출처에서 확인하시기 바랍니다.</p>
+  </main>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('expandAll');
+      var all = Array.prototype.slice.call(document.querySelectorAll('details.sec-card'));
+      if (btn && all.length) {
+        function sync() {
+          var open = all.every(function (d) { return d.open; });
+          btn.textContent = open ? '전체 접기' : '전체 펼치기';
+          return open;
+        }
+        btn.addEventListener('click', function () {
+          var next = !sync();
+          all.forEach(function (d) { d.open = next; });
+          sync();
+        });
+        all.forEach(function (d) { d.addEventListener('toggle', sync); });
+        sync();
+      }
+    })();
+  </script>
+</body>
+</html>

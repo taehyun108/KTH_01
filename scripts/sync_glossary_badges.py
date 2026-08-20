@@ -1,9 +1,13 @@
-"""용어집 카드·제목의 분량 배지('그림 N · 표 N')를 실제 내용과 맞춘다.
+"""손으로 쓴 페이지의 분량 배지('그림 N · 표 N')를 실제 내용과 맞춘다.
 
 왜 필요한가
   카드에 각 장의 그림·표 개수를 적어 두었는데, 손으로 관리하면 반드시 어긋난다.
   실제로 표를 두 개 늘리자마자 배지가 '표 4' 로 남아 틀린 값이 됐다.
   틀린 숫자는 없느니만 못하므로, 본문을 세어 다시 써 넣는다.
+
+  대상은 용어집과 통상현황처럼 <손으로 쓰는> 페이지 전부다.
+  페이지를 새로 만들 때 여기 PAGES 에 한 줄만 더하면 같은 검사를 받는다.
+  (2026-08-18: 통상현황을 만들면서 배지 4곳이 곧바로 어긋났다. 손으로는 못 맞춘다.)
 
   실행: python scripts/sync_glossary_badges.py          (검사만, 어긋나면 실패)
         python scripts/sync_glossary_badges.py --fix    (실제로 고침)
@@ -15,7 +19,10 @@ import sys
 
 from config import SITE_DIR
 
-GLOSSARY = SITE_DIR / "glossary" / "index.html"
+PAGES = {
+    "용어집": SITE_DIR / "glossary" / "index.html",
+    "통상현황": SITE_DIR / "trade" / "index.html",
+}
 
 # 장 하나 = <details id="..."> ... 다음 <details> 직전까지
 SEC_OPEN = re.compile(r'<details class="sec-card full" id="([\w-]+)"[^>]*>')
@@ -48,13 +55,15 @@ def counts(html: str) -> dict[str, tuple[int, int]]:
     return out
 
 
-def main() -> int:
-    fix = "--fix" in sys.argv
-    html = GLOSSARY.read_text(encoding="utf-8")
+def check_page(name: str, path, fix: bool) -> tuple[int, int]:
+    """(어긋난 건수, 장 수). 파일이 없으면 조용히 건너뛴다."""
+    if not path.exists():
+        return (0, 0)
+    html = path.read_text(encoding="utf-8")
     real = counts(html)
     if not real:
-        print("용어집에서 장을 찾지 못했습니다 (구조가 바뀌었나요?)", file=sys.stderr)
-        return 1
+        print(f"{name}에서 장을 찾지 못했습니다 (구조가 바뀌었나요?)", file=sys.stderr)
+        return (0, 0)
 
     wrong: list[str] = []
 
@@ -67,7 +76,7 @@ def main() -> int:
             old = m.group("badge") or ""
             have = re.sub(r"<[^>]+>", "", old)
             if have != want:
-                wrong.append(f"  {sid} {where}: '{have}' → '{want}'")
+                wrong.append(f"  [{name}] {sid} {where}: '{have}' → '{want}'")
             new_badge = f'<span class="{tag}">{want}</span>' if want else ""
             return m.group(1) + new_badge + m.group("close")
         return pat.sub(sub, text)
@@ -75,20 +84,32 @@ def main() -> int:
     new = rewrite(SUMMARY, "sec-meta", "제목", html)
     new = rewrite(CARD, "gc-meta", "카드", new)
 
-    if not wrong:
-        print(f"배지 검사 통과 — {len(real)}개 장 모두 실제 내용과 일치")
-        return 0
+    if wrong:
+        for w in wrong:
+            print(w, file=sys.stderr)
+        if fix:
+            path.write_text(new, encoding="utf-8")
+    return (len(wrong), len(real))
 
-    print(f"배지가 실제와 다른 곳 {len(wrong)}건:", file=sys.stderr)
-    for w in wrong:
-        print(w, file=sys.stderr)
-    if not fix:
-        print("\n  python scripts/sync_glossary_badges.py --fix 로 맞출 수 있습니다.",
-              file=sys.stderr)
-        return 1
-    GLOSSARY.write_text(new, encoding="utf-8")
-    print(f"{len(wrong)}건 고쳤습니다.")
-    return 0
+
+def main() -> int:
+    fix = "--fix" in sys.argv
+    total_wrong = total_secs = 0
+    for name, path in PAGES.items():
+        n_wrong, n_secs = check_page(name, path, fix)
+        total_wrong += n_wrong
+        total_secs += n_secs
+
+    if not total_wrong:
+        print(f"배지 검사 통과 — {total_secs}개 장 모두 실제 내용과 일치")
+        return 0
+    if fix:
+        print(f"{total_wrong}건 고쳤습니다.")
+        return 0
+    print(f"\n배지가 실제와 다른 곳 {total_wrong}건 — "
+          "python scripts/sync_glossary_badges.py --fix 로 맞출 수 있습니다.",
+          file=sys.stderr)
+    return 1
 
 
 if __name__ == "__main__":
