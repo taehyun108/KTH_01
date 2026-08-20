@@ -92,6 +92,62 @@ def check_page(name: str, path, fix: bool) -> tuple[int, int]:
     return (len(wrong), len(real))
 
 
+def check_tables(name: str, path, fix: bool) -> int:
+    """열 폭이 실제로 먹히는 상태인지 확인한다.
+
+    ※ 2026-08-21: 본문 <th> 에 width 를 아무리 적어도 첫 칸이 계속 넓었다.
+      원인이 둘이었다.
+        · CSS 가 .glossary td.k 를 24% 로 못박아 본문 지정을 덮어썼다
+        · table-layout 이 없어 브라우저가 내용에 맞춰 다시 잡았다 → width 는 힌트일 뿐
+      고쳐 놓아도 CSS 한 줄이면 다시 조용히 깨지므로 여기서 지킨다.
+    """
+    if not path.exists():
+        return 0
+    html = path.read_text(encoding="utf-8")
+    bad = 0
+    for m in re.finditer(r'<table class="(glossary[^"]*)">(.*?)</table>', html, re.S):
+        cls, body = m.group(1), m.group(2)
+        ths = re.findall(r"<th\b[^>]*>", body)
+        if not ths:
+            continue
+        all_w = all("width:" in t for t in ths)
+        has_fixed = "fixed" in cls.split()
+        if all_w and not has_fixed:
+            print(f"  [{name}] 폭을 다 적어 두고 'fixed' class 가 없습니다 "
+                  "— 지정 폭이 힌트에 그칩니다", file=sys.stderr)
+            bad += 1
+        elif has_fixed and not all_w:
+            print(f"  [{name}] 'fixed' 인데 폭이 빠진 열이 있습니다 "
+                  "— 칸이 균등분할돼 깨집니다", file=sys.stderr)
+            bad += 1
+        ws = [int(w) for w in re.findall(r"width:(\d+)%", body)]
+        if ws and sum(ws) != 100:
+            print(f"  [{name}] 열 폭 합계가 {sum(ws)}% 입니다 (100 이어야 함)",
+                  file=sys.stderr)
+            bad += 1
+    return bad
+
+
+def check_css() -> int:
+    """CSS 가 본문 폭 지정을 덮어쓰고 있지 않은지."""
+    from config import SITE_DIR
+    css = SITE_DIR / "assets" / "style.css"
+    if not css.exists():
+        return 0
+    text = css.read_text(encoding="utf-8")
+    bad = 0
+    m = re.search(r"\.report \.glossary td\.k \{([^}]*)\}", text)
+    if m and re.search(r"width:\s*\d+%", m.group(1)):
+        print("  [CSS] .report .glossary td.k 가 폭을 고정하고 있습니다 "
+              "— 본문 <th> 지정이 무시됩니다", file=sys.stderr)
+        bad += 1
+    if ".glossary.fixed" not in text or "table-layout: fixed" not in text:
+        print("  [CSS] .glossary.fixed { table-layout: fixed } 규칙이 없습니다 "
+              "— 폭이 힌트에 그칩니다", file=sys.stderr)
+        bad += 1
+    return bad
+
+
 def main() -> int:
     fix = "--fix" in sys.argv
     total_wrong = total_secs = 0
@@ -100,9 +156,18 @@ def main() -> int:
         total_wrong += n_wrong
         total_secs += n_secs
 
-    if not total_wrong:
-        print(f"배지 검사 통과 — {total_secs}개 장 모두 실제 내용과 일치")
+    layout = check_css()
+    for name, path in PAGES.items():
+        layout += check_tables(name, path, fix)
+
+    if not total_wrong and not layout:
+        print(f"배지·열폭 검사 통과 — {total_secs}개 장 모두 실제 내용과 일치")
         return 0
+    if layout:
+        print(f"\n열 폭 설정이 어긋난 곳 {layout}건 — 손으로 고쳐야 합니다.",
+              file=sys.stderr)
+        if not total_wrong:
+            return 1
     if fix:
         print(f"{total_wrong}건 고쳤습니다.")
         return 0

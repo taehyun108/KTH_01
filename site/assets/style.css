@@ -479,7 +479,20 @@ details.sec-card:target { border-color: var(--accent); }
   font-weight: 600; color: var(--text); white-space: nowrap;
   width: 30%; background: var(--surface-2);
 }
-.report .glossary td.k { width: 24%; white-space: normal; }
+/* 폭을 <th> 에 적어 둔 표에서는 그 값이 이겨야 한다.
+   예전에는 여기서 24% 를 못박아 두어, 본문에 아무리 width 를 적어도
+   첫 칸이 늘 넓고 설명 칸이 좁았다(2026-08-21 지적). */
+.report .glossary td.k { width: auto; white-space: normal; }
+
+/* 열 폭을 전부 선언한 표만 fixed 로 둔다.
+   fixed 가 아니면 브라우저가 내용에 맞춰 다시 잡아서 width 가 <힌트>에 그친다.
+   폭을 안 적은 표까지 fixed 로 만들면 칸이 균등해져 오히려 나빠지므로,
+   sync_glossary_badges 가 조건을 만족하는 표에만 이 class 를 붙인다. */
+.report .glossary.fixed { table-layout: fixed; }
+/* fixed 에서는 머리글이 줄바꿈돼야 한다. nowrap 이면 긴 머리글이 최소 폭을
+   밀어 올려 지정한 비율이 다시 깨진다. */
+.report .glossary.fixed thead th { white-space: normal; }
+.report .glossary.fixed td, .report .glossary.fixed th { word-break: keep-all; overflow-wrap: anywhere; }
 
 .callout {
   border: 1px solid #bae6fd; background: linear-gradient(180deg, #f0f9ff, #e0f2fe);
