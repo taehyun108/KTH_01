@@ -119,6 +119,20 @@ jobs:
         if: always()
         run: PYTHONPATH=scripts python scripts/check_names.py
 
+      # 커밋 <직전> 마지막 관문 — 결과물에 쇼츠가 섞였는지 길이로 확인하고 치운다.
+      #   앞의 세 겹(열거·병합·enrich)은 전부 <후보 단계> 장치라, 하나라도 새면
+      #   그대로 발행된다. 2026-08-20 에 실제로 10건이 새어 나가 있었고,
+      #   사람이 눈으로 보고 알려 줄 때까지 한 달 넘게 남아 있었다.
+      #
+      #   ※ 실패시키지 않고 <스스로 치운다>. 아래 커밋 단계가 if: always() 라
+      #     여기서 실패만 시켜서는 그 커밋을 못 막고, 막으려고 커밋 조건을
+      #     손대면 다른 이유로 실패한 실행이 만든 멀쩡한 리포트까지 버려진다.
+      - name: Shorts check (발행물 · 찾으면 제거)
+        if: always()
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: PYTHONPATH=scripts python scripts/check_published.py --fix
+
       # 말투가 한쪽 어미로 쏠렸는지(=딱딱하게 읽히는지) 기계적으로 확인한다.
       # 이번 말투 버전으로 만들어진 리포트만 본다(옛 버전은 재생성 대기 중이라 제외).
       - name: Tone check (어미 쏠림)

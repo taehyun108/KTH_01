@@ -15,6 +15,7 @@
     멀쩡한 실행을 빨갛게 만들면, 정작 진짜 쇼츠가 섞였을 때 묻힌다.
 
   실행: python scripts/check_published.py            (쇼츠가 있으면 실패)
+        python scripts/check_published.py --fix      (찾으면 지우고 영구 차단)
         python scripts/check_published.py --list     (전부 길이와 함께 나열)
 """
 from __future__ import annotations
@@ -33,6 +34,7 @@ def published() -> list[dict]:
 
 def main() -> int:
     show_all = "--list" in sys.argv
+    fix = "--fix" in sys.argv
     import yt_meta
 
     reports = published()
@@ -83,9 +85,43 @@ def main() -> int:
         print(f"  {dur}초 · {r.get('date','')} · {r.get('title','')[:50]}\n"
               f"      https://www.youtube.com/watch?v={vid}\n"
               f"      site/news/{r.get('id','')}.html", file=sys.stderr)
-    print("\n  scripts/delete_report.py 로 지우고, 어느 관문이 샜는지 확인하세요.",
-          file=sys.stderr)
-    return 1
+
+    if not fix:
+        print("\n  --fix 를 붙이면 지우고 영구 차단합니다.", file=sys.stderr)
+        return 1
+    return _remove(bad, reports)
+
+
+def _remove(bad: list, reports: list[dict]) -> int:
+    """쇼츠 리포트를 지우고, 다시는 후보가 되지 않게 영구 기록한다.
+
+    ※ 왜 실패로 끝내지 않고 <스스로 치우는가>
+      커밋 단계가 if: always() 라, 여기서 실패만 시켜서는 그 커밋을 못 막는다.
+      막으려고 커밋 조건을 손대면 이번엔 <다른 이유로 실패한 실행>이 만든
+      멀쩡한 리포트까지 함께 버려진다. 그래서 막는 대신 치운다.
+      사람이 눈으로 보고 신고할 때까지 남아 있는 것이 가장 나쁘다.
+    """
+    from config import NEWS_DIR
+    import seen_store
+
+    data = json.loads(REPORTS_JSON.read_text(encoding="utf-8"))
+    drop = {vid for vid, _, _ in bad}
+    kept = [r for r in data.get("reports", []) if r.get("video_id") not in drop]
+    data["reports"] = kept
+
+    store = seen_store.load()
+    for vid, r, dur in bad:
+        f = NEWS_DIR / f"{r.get('id','')}.html"
+        if f.exists():
+            f.unlink()
+        # 영구 차단 — 쇼츠는 영상의 성질이라 나중에 뒤집힐 판단이 아니다
+        seen_store.record(store, vid, seen_store.REASON_SHORTS, r.get("title", ""))
+    seen_store.save(store)
+    REPORTS_JSON.write_text(json.dumps(data, ensure_ascii=False, indent=1),
+                            encoding="utf-8")
+    print(f"\n  → {len(bad)}건을 지우고 영구 차단했습니다 (남은 리포트 {len(kept)}건).")
+    print("  앞 관문이 왜 샜는지는 따로 확인해야 합니다.")
+    return 0
 
 
 if __name__ == "__main__":

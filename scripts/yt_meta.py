@@ -163,9 +163,20 @@ def enrich(candidates: list[dict], min_chars: int) -> tuple[int, int]:
     #     · 최근 N일 창(MAX_AGE_DAYS)이 사실상 동작하지 않는다
     #   공식 API 의 snippet.publishedAt 이 이 구멍을 정확히 메운다. 같은 호출에
     #   묻어 오므로 유닛이 더 들지 않는다.
+    #
+    # ※ 길이를 <모르는> 후보도 반드시 넣는다 (2026-08-20)
+    #   예전에는 '설명글이 부족하거나 게시일을 모르는' 후보만 조회했다.
+    #   그런데 쇼츠를 거르는 근거가 바로 <길이>다. RSS 후보는 설명글도 게시일도
+    #   갖고 오지만 길이는 안 준다. 그래서 설명글이 넉넉한 RSS 쇼츠는
+    #   조회 대상에서 빠졌고 → 길이를 영영 모르고 → 쇼츠 판정을 못 받았다.
+    #   yt-dlp 열거가 잡아 주지도 못한다. 쇼츠는 /videos 탭이 아니라
+    #   /shorts 탭에 있어서 SHORT_IDS 에 애초에 안 들어오기 때문이다.
+    #   조회 비용은 50건당 1유닛이라 전부 넣어도 하루 한도의 0.5% 도 안 쓴다.
+    #   아끼려다 쇼츠를 내보내는 것이 훨씬 비싸다.
     need = [c["video_id"] for c in candidates
             if len((c.get("description") or "").strip()) < min_chars
-            or not (c.get("published") or "").strip()]
+            or not (c.get("published") or "").strip()
+            or c.get("duration") is None]
     if not need:
         return (0, 0)
 

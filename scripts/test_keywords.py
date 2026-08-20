@@ -854,6 +854,18 @@ def check_yt_meta() -> list[str]:
         # 50개씩 묶어 보내야 유닛을 아낀다
         if [len(c) for c in yt_meta._chunks(list(range(120)), yt_meta.BATCH)] != [50, 50, 20]:
             out.append("  [50개씩 묶어야 함] 배치 크기가 달라졌습니다")
+
+        # 2026-08-20: 길이를 모르는 후보가 조회 대상에서 빠져 쇼츠가 발행됐다.
+        #   RSS 후보는 설명글과 게시일은 갖고 오지만 <길이>는 안 준다. 그런데
+        #   조회 조건이 '설명글 부족 or 게시일 없음' 이어서, 설명글이 넉넉한
+        #   RSS 쇼츠는 조회되지 않았고 → 길이를 영영 모르고 → 못 걸렀다.
+        #   쇼츠를 거르는 근거가 길이인데, 길이를 모르는 것을 안 물어보면 안 된다.
+        import inspect
+        src = inspect.getsource(yt_meta.enrich)
+        if '"duration"' not in src and "get('duration')" not in src \
+                and 'get("duration")' not in src:
+            out.append("  [길이를 모르는 후보도 조회 대상에 넣어야 함 "
+                       "— 쇼츠 판정의 근거가 길이다]")
     finally:
         fetch_history.SHORT_IDS.clear()
         fetch_history.SHORT_IDS.update(saved_short)
@@ -915,7 +927,7 @@ def main() -> int:
              + 14    # 영상 예산(비용3·미상1·분단위2·소진1·날짜1·상한1·워크플로2·배선3)
              + 7     # 텍스트 주력 전환(기본값·순서·되돌리기·예비·한도2)
              + 4     # PC 자막 수집 git 처리
-             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4 + 7)
+             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4 + 8)
     print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
