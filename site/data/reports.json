@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-21T03:54:54",
+  "generated_at": "2026-08-21T12:03:12",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -62,6 +62,51 @@
       "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-21-미국-장기-금리-급등-투자자가-주목해야-할-이유와-주식시장-영향",
+      "date": "2026-08-21",
+      "channel": "손에 잡히는 경제",
+      "title": "미국 장기 금리 급등, 투자자가 주목해야 할 이유와 주식시장 영향",
+      "summary": "미국 장기 금리 상승의 배경과 주식시장에 미치는 영향",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-08-21-미국-장기-금리-급등-투자자가-주목해야-할-이유와-주식시장-영향.html",
+      "video": "https://www.youtube.com/watch?v=op0diX4saYQ",
+      "video_id": "op0diX4saYQ",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-08-21-국제정세-변화와-국민연금-리밸런싱-경제에-미치는-영향은",
+      "date": "2026-08-21",
+      "channel": "손석희의 12시",
+      "title": "국제정세 변화와 국민연금 리밸런싱, 경제에 미치는 영향은",
+      "summary": "돈로주의 관점의 한미훈련 축소와 국민연금 리밸런싱 논란을 다뤘습니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-08-21-국제정세-변화와-국민연금-리밸런싱-경제에-미치는-영향은.html",
+      "video": "https://www.youtube.com/watch?v=qUVFYswKnhQ",
+      "video_id": "qUVFYswKnhQ",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-08-21-한국-아파트는-어떻게-지어졌을까-선분양과-전세가-만든-빚의-구조",
+      "date": "2026-08-21",
+      "channel": "언더스탠딩",
+      "title": "한국 아파트는 어떻게 지어졌을까, 선분양과 전세가 만든 빚의 구조",
+      "summary": "한국 부동산의 선분양과 전세 제도가 가계부채와 건설 자금 조달 구조에 미치는 영향을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-08-21-한국-아파트는-어떻게-지어졌을까-선분양과-전세가-만든-빚의-구조.html",
+      "video": "https://www.youtube.com/watch?v=gRNmCDgqQIw",
+      "video_id": "gRNmCDgqQIw",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-08-20-중국-외교-수장의-방한과-미-국채-금리가-던지는-경제적-의미",
