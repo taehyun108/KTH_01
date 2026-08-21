@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-20T23:59:54",
+  "generated_at": "2026-08-21T03:54:54",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,51 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-21-미국-장기금리-폭등의-원인과-시장에-미치는-영향",
+      "date": "2026-08-21",
+      "channel": "삼프로TV",
+      "title": "미국 장기금리 폭등의 원인과 시장에 미치는 영향",
+      "summary": "미국 장기채권 금리 상승의 배경과 30년물 국채 발행 증가가 금융시장에 미치는 영향, 그리고 이것이 배터리·크립토 시장에 주는 시사점을 살펴봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-08-21-미국-장기금리-폭등의-원인과-시장에-미치는-영향.html",
+      "video": "https://www.youtube.com/watch?v=5-xAALcVOxs",
+      "video_id": "5-xAALcVOxs",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-21-비트코인-현물-etf-순유입-급증-가상자산-규제-완화-기대감과-시장-분석",
+      "date": "2026-08-21",
+      "channel": "삼프로TV",
+      "title": "비트코인 현물 ETF 순유입 급증… 가상자산 규제 완화 기대감과 시장 분석",
+      "summary": "미국 비트코인 현물 ETF로 자금이 크게 몰리고 가상자산 규제 기대감이 커지면서 상승 흐름을 보이고 있습니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-21-비트코인-현물-etf-순유입-급증-가상자산-규제-완화-기대감과-시장-분석.html",
+      "video": "https://www.youtube.com/watch?v=jVO661jP_s4",
+      "video_id": "jVO661jP_s4",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-21-바닥-다진-증시-뚜렷한-반등을-위한-시선",
+      "date": "2026-08-21",
+      "channel": "삼프로TV",
+      "title": "바닥 다진 증시, 뚜렷한 반등을 위한 시선",
+      "summary": "코스피 지수가 바닥을 다진 뒤 완만하게 오르고 있지만, 시장의 불안감은 여전히 남아 있는 모습입니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-08-21-바닥-다진-증시-뚜렷한-반등을-위한-시선.html",
+      "video": "https://www.youtube.com/watch?v=zNuh1-ykza4",
+      "video_id": "zNuh1-ykza4",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-08-20-중국-외교-수장의-방한과-미-국채-금리가-던지는-경제적-의미",
       "date": "2026-08-20",
@@ -812,6 +857,21 @@
       "pv": 5,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-08-14-반도체-주가-정점-논란-속-향후-흐름과-시장-수급-점검",
+      "date": "2026-08-14",
+      "channel": "삼프로TV",
+      "title": "반도체 주가 정점 논란 속 향후 흐름과 시장 수급 점검",
+      "summary": "반도체 주식의 향후 주가 흐름과 지수 전망을 짚어보고, 대형주와 전력 설비 등 시장 전반의 수급 상황을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-08-14-반도체-주가-정점-논란-속-향후-흐름과-시장-수급-점검.html",
+      "video": "https://www.youtube.com/watch?v=rlBL0hhoWXs",
+      "video_id": "rlBL0hhoWXs",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-08-13-트럼프의-관세-효과-정말-무역-적자를-해결했을까요",
@@ -1709,6 +1769,21 @@
       "video": "https://www.youtube.com/watch?v=hemYb9rYnpI",
       "video_id": "hemYb9rYnpI",
       "pv": 5
+    },
+    {
+      "id": "2026-07-30-사상-최대-이익을-낸-날-주가는-폭락했다",
+      "date": "2026-07-30",
+      "channel": "박종훈의 지식한방",
+      "title": "사상 최대 이익을 낸 날, 주가는 폭락했다",
+      "summary": "사상 최대 실적을 내고도 주가가 폭락한 반도체 시장의 역설을 짚어보고, PER와 PBR을 통해 장치산업의 주가 흐름을 살펴봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-07-30-사상-최대-이익을-낸-날-주가는-폭락했다.html",
+      "video": "https://www.youtube.com/watch?v=5S_bqq6crV4",
+      "video_id": "5S_bqq6crV4",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-07-29-출렁이는-증시와-미국-금리-향방-배터리-시장엔-어떤-영향을-줄까요",
