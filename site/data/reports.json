@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-21T12:03:12",
+  "generated_at": "2026-08-22T03:18:46",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-22-gpu도-담보되는-세상-엔비디아-ai-금융-판-키우다",
+      "date": "2026-08-22",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "GPU도 담보되는 세상, 엔비디아 AI 금융 판 키우다",
+      "summary": "엔비디아가 AI 인프라 구축을 위해 5천억 달러 규모의 금융 플랫폼을 추진하면서, GPU를 담보로 대출을 연결해 주는 구조가 서브프라임 사태와 닮았다는 우려가 나옵니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-22-gpu도-담보되는-세상-엔비디아-ai-금융-판-키우다.html",
+      "video": "https://www.youtube.com/watch?v=YUEvoz1YgIw",
+      "video_id": "YUEvoz1YgIw",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-08-21-미국-장기금리-폭등의-원인과-시장에-미치는-영향",
       "date": "2026-08-21",
@@ -107,6 +122,36 @@
       "pv": 5,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-08-21-주식-시장의-흐름을-읽는-법과-ai-시대의-투자-관점",
+      "date": "2026-08-21",
+      "channel": "삼프로TV",
+      "title": "주식 시장의 흐름을 읽는 법과 AI 시대의 투자 관점",
+      "summary": "주식 시장을 바라보는 큐레이터의 루틴과 AI 시대의 투자 관점을 차분히 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-21-주식-시장의-흐름을-읽는-법과-ai-시대의-투자-관점.html",
+      "video": "https://www.youtube.com/watch?v=x9umzeOuiiM",
+      "video_id": "x9umzeOuiiM",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-21-런던-템즈강은-똥물인가-유럽-대도시-하천의-수질과-상수도-민영화의-그늘",
+      "date": "2026-08-21",
+      "channel": "슈카월드",
+      "title": "런던 템즈강은 똥물인가? — 유럽 대도시 하천의 수질과 상수도 민영화의 그늘",
+      "summary": "파리 센강과 런던 템즈강의 수질 오염 문제와 민영화된 상수도 기업들의 실태를 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-08-21-런던-템즈강은-똥물인가-유럽-대도시-하천의-수질과-상수도-민영화의-그늘.html",
+      "video": "https://www.youtube.com/watch?v=TsjGmQg59a4",
+      "video_id": "TsjGmQg59a4",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-08-20-중국-외교-수장의-방한과-미-국채-금리가-던지는-경제적-의미",
@@ -1653,6 +1698,21 @@
       "url": "2026-08-03-코스피의-거센-파도와-레버리지-투자-그리고-시장의-이면.html",
       "video": "https://www.youtube.com/watch?v=tT1Km_wKo_M",
       "video_id": "tT1Km_wKo_M",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-03-드디어-실적-증명한-빅테크-클라우드-부활과-ai-투자-방어력",
+      "date": "2026-08-03",
+      "channel": "소수몽키",
+      "title": "드디어 실적 증명한 빅테크, 클라우드 부활과 AI 투자 방어력",
+      "summary": "클라우드 3사의 실적 호조와 AI 투자 방어력에 힘입어 빅테크 전반의 재평가 기대감이 고개를 들고 있습니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-03-드디어-실적-증명한-빅테크-클라우드-부활과-ai-투자-방어력.html",
+      "video": "https://www.youtube.com/watch?v=XF_dMqNUrBs",
+      "video_id": "XF_dMqNUrBs",
       "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
