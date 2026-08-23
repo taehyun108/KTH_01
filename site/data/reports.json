@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T03:21:14",
+  "generated_at": "2026-08-23T11:59:06",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -29,6 +29,51 @@
       "url": "2026-08-23-음식과-미식-그-너머의-이야기.html",
       "video": "https://www.youtube.com/watch?v=_KcIooSczOk",
       "video_id": "_KcIooSczOk",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-23-피지컬-ai로-향하는-테슬라-그가-넘어야-할-네-가지-문",
+      "date": "2026-08-23",
+      "channel": "손에 잡히는 경제",
+      "title": "피지컬 AI로 향하는 테슬라, 그가 넘어야 할 네 가지 문",
+      "summary": "테슬라가 전기차를 넘어 로봇과 AI 인프라를 결합한 피지컬 AI 기업으로 전환을 서두르고 있습니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-08-23-피지컬-ai로-향하는-테슬라-그가-넘어야-할-네-가지-문.html",
+      "video": "https://www.youtube.com/watch?v=9vMrDOcSoHA",
+      "video_id": "9vMrDOcSoHA",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-08-23-제철소-부산물이-바꾼-도로의-미래-에코스틸-아스콘",
+      "date": "2026-08-23",
+      "channel": "삼프로TV",
+      "title": "제철소 부산물이 바꾼 도로의 미래, 에코스틸 아스콘",
+      "summary": "제철소 부산물인 제강슬래그를 활용해 내구성을 높이고 유지보수 비용을 줄이는 에코스틸 아스콘의 경쟁력을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-08-23-제철소-부산물이-바꾼-도로의-미래-에코스틸-아스콘.html",
+      "video": "https://www.youtube.com/watch?v=5nmKrwY6qpE",
+      "video_id": "5nmKrwY6qpE",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-23-거장들이-사랑한-우키요에-값싸던-그림이-수십억-원이-되기까지",
+      "date": "2026-08-23",
+      "channel": "언더스탠딩",
+      "title": "거장들이 사랑한 우키요에, 값싸던 그림이 수십억 원이 되기까지",
+      "summary": "고호와 모네 등 인상파 거장들이 사랑했던 일본의 우키요에가 과거와 현재 어떻게 다르게 평가받고 거래되는지 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-23-거장들이-사랑한-우키요에-값싸던-그림이-수십억-원이-되기까지.html",
+      "video": "https://www.youtube.com/watch?v=KNBrs-7sugk",
+      "video_id": "KNBrs-7sugk",
       "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
