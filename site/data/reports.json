@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T11:59:06",
+  "generated_at": "2026-08-23T14:43:31",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -74,6 +74,21 @@
       "url": "2026-08-23-거장들이-사랑한-우키요에-값싸던-그림이-수십억-원이-되기까지.html",
       "video": "https://www.youtube.com/watch?v=KNBrs-7sugk",
       "video_id": "KNBrs-7sugk",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-23-국제축구연맹-투표-제도의-그늘과-지역별-표심-구조",
+      "date": "2026-08-23",
+      "channel": "언더스탠딩",
+      "title": "국제축구연맹 투표 제도의 그늘과 지역별 표심 구조",
+      "summary": "국제축구연맹의 지배구조와 투표 제도가 각 지역 표심에 미치는 영향과 시사점을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-23-국제축구연맹-투표-제도의-그늘과-지역별-표심-구조.html",
+      "video": "https://www.youtube.com/watch?v=Jh_psMUDxNQ",
+      "video_id": "Jh_psMUDxNQ",
       "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
