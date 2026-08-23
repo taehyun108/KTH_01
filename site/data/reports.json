@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-22T12:02:31",
+  "generated_at": "2026-08-23T03:21:14",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-23-음식과-미식-그-너머의-이야기",
+      "date": "2026-08-23",
+      "channel": "손석희의 12시",
+      "title": "음식과 미식, 그 너머의 이야기",
+      "summary": "음식과 미식을 주제로 식단 관리와 취향에 대한 이야기를 나누는 방송입니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-08-23-음식과-미식-그-너머의-이야기.html",
+      "video": "https://www.youtube.com/watch?v=_KcIooSczOk",
+      "video_id": "_KcIooSczOk",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-08-22-gpu도-담보되는-세상-엔비디아-ai-금융-판-키우다",
       "date": "2026-08-22",
