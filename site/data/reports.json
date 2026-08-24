@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T23:58:55",
+  "generated_at": "2026-08-24T03:28:52",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,66 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-24-중국-로봇-기업의-가파른-성장세와-피지컬-ai의-진화",
+      "date": "2026-08-24",
+      "channel": "손에 잡히는 경제",
+      "title": "중국 로봇 기업의 가파른 성장세와 피지컬 AI의 진화",
+      "summary": "중국에서 우사인 볼트보다 빠른 로봇이 상장하고 휴머노이드 로봇 산업이 빠르게 성장하고 있습니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-08-24-중국-로봇-기업의-가파른-성장세와-피지컬-ai의-진화.html",
+      "video": "https://www.youtube.com/watch?v=h-2iiwKbEqo",
+      "video_id": "h-2iiwKbEqo",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-24-삼성전자-sk하이닉스-엇갈리는-주가-흐름과-9월-증시-전망",
+      "date": "2026-08-24",
+      "channel": "삼프로TV",
+      "title": "삼성전자·SK하이닉스 엇갈리는 주가 흐름과 9월 증시 전망",
+      "summary": "삼성전자와 SK하이닉스의 엇갈리는 주가 흐름을 바탕으로 다가오는 9월 증시의 향방을 차분히 짚어 봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-08-24-삼성전자-sk하이닉스-엇갈리는-주가-흐름과-9월-증시-전망.html",
+      "video": "https://www.youtube.com/watch?v=YaKhLfRrLao",
+      "video_id": "YaKhLfRrLao",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-24-삼성-하이닉스가-숨-고르기에-들어간-지금-시장에서-눈여겨봐야-할-순환매와-다음-투자-포인트",
+      "date": "2026-08-24",
+      "channel": "삼프로TV",
+      "title": "삼성·하이닉스가 숨 고르기에 들어간 지금, 시장에서 눈여겨봐야 할 순환매와 다음 투자 포인트",
+      "summary": "삼성전자와 SK하이닉스의 주가 조정이 다소 아쉽게 느껴질 수 있지만, 이를 틈타 시장 전체의 펀더멘털을 점검하고 순환매 관점에서 다음 종목을 살펴볼 시점입니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-08-24-삼성-하이닉스가-숨-고르기에-들어간-지금-시장에서-눈여겨봐야-할-순환매와-다음-투자-포인트.html",
+      "video": "https://www.youtube.com/watch?v=hZoL_KHFucA",
+      "video_id": "hZoL_KHFucA",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-24-삼성전자-주주환원책-시장은-왜-실망했을까",
+      "date": "2026-08-24",
+      "channel": "삼프로TV",
+      "title": "삼성전자 주주환원책, 시장은 왜 실망했을까",
+      "summary": "삼성전자의 주주환원책을 향한 시장의 실망감이 코스피 전반에 무게를 더하는 모습입니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-08-24-삼성전자-주주환원책-시장은-왜-실망했을까.html",
+      "video": "https://www.youtube.com/watch?v=pTaYBq4oRWg",
+      "video_id": "pTaYBq4oRWg",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-08-23-음식과-미식-그-너머의-이야기",
       "date": "2026-08-23",
@@ -104,6 +164,21 @@
       "url": "2026-08-23-반도체와-주주환원-지금-시장을-바라보는-시선.html",
       "video": "https://www.youtube.com/watch?v=skuh4zNvDbk",
       "video_id": "skuh4zNvDbk",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-23-국채금리-상승-속-뉴욕증시-반등-마감",
+      "date": "2026-08-23",
+      "channel": "삼프로TV",
+      "title": "국채금리 상승 속 뉴욕증시 반등 마감",
+      "summary": "국채금리 상승에도 뉴욕증시가 3대 지수 모두 반등으로 마감했습니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-08-23-국채금리-상승-속-뉴욕증시-반등-마감.html",
+      "video": "https://www.youtube.com/watch?v=DMQZ-VYTovY",
+      "video_id": "DMQZ-VYTovY",
       "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
