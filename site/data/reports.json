@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-25T03:49:09",
+  "generated_at": "2026-08-25T12:12:47",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -77,6 +77,51 @@
       "pv": 5,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-25-미국의-대이란-고립-작전과-전력난-마주한-ai-데이터센터",
+      "date": "2026-08-25",
+      "channel": "손석희의 12시",
+      "title": "미국의 대이란 고립 작전과 전력난 마주한 AI 데이터센터",
+      "summary": "미국의 대이란 경제 제재와 뜨거운 감자로 떠오른 AI 데이터센터의 전력 이슈를 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-08-25-미국의-대이란-고립-작전과-전력난-마주한-ai-데이터센터.html",
+      "video": "https://www.youtube.com/watch?v=iCUyw9aE4AQ",
+      "video_id": "iCUyw9aE4AQ",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-08-25-전기차는-늘어나는데-충전-기업들은-왜-어려워질까요",
+      "date": "2026-08-25",
+      "channel": "손에 잡히는 경제",
+      "title": "전기차는 늘어나는데, 충전 기업들은 왜 어려워질까요",
+      "summary": "전기차 보급은 늘어나는데 충전 시장 수익성은 악화되는 이유와 배경을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-08-25-전기차는-늘어나는데-충전-기업들은-왜-어려워질까요.html",
+      "video": "https://www.youtube.com/watch?v=qlBn1h_ToVg",
+      "video_id": "qlBn1h_ToVg",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-08-25-환자마다-다른-암-백신-7억-원의-비밀과-바이오-산업의-미래",
+      "date": "2026-08-25",
+      "channel": "언더스탠딩",
+      "title": "환자마다 다른 암 백신, 7억 원의 비밀과 바이오 산업의 미래",
+      "summary": "모더나의 개인 맞춤형 암 백신 개발과 의료 바이오 산업의 패러다임 변화를 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-25-환자마다-다른-암-백신-7억-원의-비밀과-바이오-산업의-미래.html",
+      "video": "https://www.youtube.com/watch?v=v2rTivvS630",
+      "video_id": "v2rTivvS630",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-08-24-중국-로봇-기업의-가파른-성장세와-피지컬-ai의-진화",
