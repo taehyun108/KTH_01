@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-25T12:12:47",
+  "generated_at": "2026-08-25T15:09:19",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -122,6 +122,21 @@
       "pv": 5,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-08-25-화려한-로봇-시연-뒤에-숨겨진-진실-상용화는-왜-멀었을까",
+      "date": "2026-08-25",
+      "channel": "언더스탠딩",
+      "title": "화려한 로봇 시연 뒤에 숨겨진 진실, 상용화는 왜 멀었을까",
+      "summary": "휴머노이드 로봇 상용화가 예상보다 먼 이유와 데이터 부족의 현실",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-25-화려한-로봇-시연-뒤에-숨겨진-진실-상용화는-왜-멀었을까.html",
+      "video": "https://www.youtube.com/watch?v=qgvpo2bakFQ",
+      "video_id": "qgvpo2bakFQ",
+      "pv": 5,
+      "scope": "battery",
+      "src": "yt-dlp-captions"
     },
     {
       "id": "2026-08-24-중국-로봇-기업의-가파른-성장세와-피지컬-ai의-진화",
