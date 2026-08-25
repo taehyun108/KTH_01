@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-24T15:03:50",
+  "generated_at": "2026-08-25T03:49:09",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,66 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-25-미국-국채-금리가-오르는-구조적-이유와-자산-시장에-미치는-영향",
+      "date": "2026-08-25",
+      "channel": "삼프로TV",
+      "title": "미국 국채 금리가 오르는 구조적 이유와 자산 시장에 미치는 영향",
+      "summary": "미국 국채 금리 상승과 부채 문제의 구조적 원인을 짚어 보고, 이것이 자산 시장에 미치는 영향을 전해 드립니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-08-25-미국-국채-금리가-오르는-구조적-이유와-자산-시장에-미치는-영향.html",
+      "video": "https://www.youtube.com/watch?v=OLJbT2ddK6g",
+      "video_id": "OLJbT2ddK6g",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-25-4분기-포트폴리오-압축-투자-전략",
+      "date": "2026-08-25",
+      "channel": "삼프로TV",
+      "title": "4분기 포트폴리오 압축 투자 전략",
+      "summary": "증시 분위기와 로봇·반도체 섹터의 흐름을 짚어 보고 4분기 투자 전략을 함께 살펴봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-08-25-4분기-포트폴리오-압축-투자-전략.html",
+      "video": "https://www.youtube.com/watch?v=am2oiNRIk-k",
+      "video_id": "am2oiNRIk-k",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-25-환율-하락-속-전력-기기-실적과-향후-투자-전략",
+      "date": "2026-08-25",
+      "channel": "삼프로TV",
+      "title": "환율 하락 속 전력 기기 실적과 향후 투자 전략",
+      "summary": "환율 하락과 전력 기기 산업의 실적 흐름 및 향후 투자 전략을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-08-25-환율-하락-속-전력-기기-실적과-향후-투자-전략.html",
+      "video": "https://www.youtube.com/watch?v=gDqhsKAdmEQ",
+      "video_id": "gDqhsKAdmEQ",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-25-삼성전자-8-급락-시장의-진짜-고민과-하반기-수급-흐름",
+      "date": "2026-08-25",
+      "channel": "삼프로TV",
+      "title": "삼성전자 8% 급락, 시장의 진짜 고민과 하반기 수급 흐름",
+      "summary": "삼성전자 주가 하락이 국내 증시에 미치는 영향과 업종별 순환매 흐름을 짚어 봅니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-08-25-삼성전자-8-급락-시장의-진짜-고민과-하반기-수급-흐름.html",
+      "video": "https://www.youtube.com/watch?v=uyEo7ST1dro",
+      "video_id": "uyEo7ST1dro",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-08-24-중국-로봇-기업의-가파른-성장세와-피지컬-ai의-진화",
       "date": "2026-08-24",
@@ -122,6 +182,21 @@
       "pv": 5,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-08-24-삼성전자-sk하이닉스의-역대급-주주환원과-증시-풍속도",
+      "date": "2026-08-24",
+      "channel": "슈카월드",
+      "title": "삼성전자·SK하이닉스의 역대급 주주환원과 증시 풍속도",
+      "summary": "삼성전자와 SK하이닉스가 역대급 주주환원을 발표했습니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-08-24-삼성전자-sk하이닉스의-역대급-주주환원과-증시-풍속도.html",
+      "video": "https://www.youtube.com/watch?v=3u69-LtA5Hk",
+      "video_id": "3u69-LtA5Hk",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-08-23-음식과-미식-그-너머의-이야기",
@@ -827,6 +902,51 @@
       "pv": 5,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-08-18-엔비디아의-반도체-담보-대출과-ai-인프라-투자-과열",
+      "date": "2026-08-18",
+      "channel": "소수몽키",
+      "title": "엔비디아의 반도체 담보 대출과 AI 인프라 투자 과열",
+      "summary": "엔비디아가 월가와 손잡고 반도체를 담보로 대규모 자금 조달에 나섰습니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-08-18-엔비디아의-반도체-담보-대출과-ai-인프라-투자-과열.html",
+      "video": "https://www.youtube.com/watch?v=I9c5nDHD_t8",
+      "video_id": "I9c5nDHD_t8",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-18-금리-상승과-엔캐리-트레이드-돈이-마르는-시대의-투자-기준",
+      "date": "2026-08-18",
+      "channel": "삼프로TV",
+      "title": "금리 상승과 엔캐리 트레이드, 돈이 마르는 시대의 투자 기준",
+      "summary": "미국과 일본의 금리 상승이 돈의 흐름과 증시에 미치는 영향을 점검하고, 캐리 트레이드 청산 가능성을 짚어 봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-08-18-금리-상승과-엔캐리-트레이드-돈이-마르는-시대의-투자-기준.html",
+      "video": "https://www.youtube.com/watch?v=lWl42osALZo",
+      "video_id": "lWl42osALZo",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-18-ai-토큰-10배-폭증-반도체-공급-부족-2028년까지-간다",
+      "date": "2026-08-18",
+      "channel": "삼프로TV",
+      "title": "AI 토큰 10배 폭증… 반도체 공급 부족 2028년까지 간다",
+      "summary": "AI 토큰 사용량 급증과 HBM 수요 확대로 반도체 공급 부족이 2028년까지 이어질 것이라는 분석입니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-18-ai-토큰-10배-폭증-반도체-공급-부족-2028년까지-간다.html",
+      "video": "https://www.youtube.com/watch?v=VvjnB_Lznfc",
+      "video_id": "VvjnB_Lznfc",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-08-17-호남-반도체-클러스터-800조-투자-전력과-재생에너지가-승부처인-이유",
@@ -2228,6 +2348,21 @@
       "video": "https://www.youtube.com/watch?v=XacJl7ljjRg",
       "video_id": "XacJl7ljjRg",
       "pv": 5
+    },
+    {
+      "id": "2026-07-29-ai-시대-반도체-투자-전략과-주가-하락의-진짜-이유",
+      "date": "2026-07-29",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "AI 시대, 반도체 투자 전략과 주가 하락의 진짜 이유",
+      "summary": "AI 시대의 반도체 투자 전략과 시장의 불안 요인을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-07-29-ai-시대-반도체-투자-전략과-주가-하락의-진짜-이유.html",
+      "video": "https://www.youtube.com/watch?v=aPoVLMv6U0Q",
+      "video_id": "aPoVLMv6U0Q",
+      "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-07-28-7월-주춤했던-증시-8월엔-웃을-수-있을까-반도체와-시장-이야기",
