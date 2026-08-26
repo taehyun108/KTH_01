@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-26T00:00:01",
+  "generated_at": "2026-08-26T03:59:16",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-26-미국-국채-바이백과-금리-인하-자산-시장의-흐름을-읽는-법",
+      "date": "2026-08-26",
+      "channel": "삼프로TV",
+      "title": "미국 국채 바이백과 금리 인하, 자산 시장의 흐름을 읽는 법",
+      "summary": "미국의 국채 바이백 정책과 금리 인하 기대가 글로벌 자산 시장과 비트코인에 미치는 영향을 다각도로 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-08-26-미국-국채-바이백과-금리-인하-자산-시장의-흐름을-읽는-법.html",
+      "video": "https://www.youtube.com/watch?v=4DYb-vWuriE",
+      "video_id": "4DYb-vWuriE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-26-인공지능-경쟁이-치열해질수록-이-기업들이-웃는-이유",
+      "date": "2026-08-26",
+      "channel": "삼프로TV",
+      "title": "인공지능 경쟁이 치열해질수록 이 기업들이 웃는 이유",
+      "summary": "AI 경쟁이 치열해질수록 대형 클라우드 기업과 인프라 생태계가 왜 더 많은 수익을 얻게 되는지 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-26-인공지능-경쟁이-치열해질수록-이-기업들이-웃는-이유.html",
+      "video": "https://www.youtube.com/watch?v=2StS4rEc_Qw",
+      "video_id": "2StS4rEc_Qw",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-08-25-미국-국채-금리가-오르는-구조적-이유와-자산-시장에-미치는-영향",
       "date": "2026-08-25",
