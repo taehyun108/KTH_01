@@ -11,6 +11,7 @@ CI 에서 매번 돌려 회귀를 즉시 잡는다.
 from __future__ import annotations
 
 import datetime as _dt
+import re
 import sys
 
 from fetch_history import is_short
@@ -652,6 +653,63 @@ def check_regen_guard() -> list[str]:
 # 멈춘 이유를 정확히 적는가. 쿼터로 멈춘 실행을 '시간 상한'이라고 찍으면
 # 76초 만에 끝난 실행이 '35분 상한에 걸렸다'고 말하게 된다.
 # 원인을 잘못 가리키는 로그는 없는 로그보다 나쁘다 — 실제로 그 때문에 헤맸다.
+# 2026-08-25: 말투 프롬프트가 '다양한 어미'라며 보여 준 예시의 절반 이상이
+# 사실 전부 '니다' 계열이었다 — ~로 보입니다 / ~인 셈입니다 / ~기 때문입니다 /
+# ~가능성이 큽니다 / ~관건입니다. 모델은 시킨 대로 골고루 썼는데 결과는 93~100%.
+# 시킨 대로 해도 실패하는 지시였다. 같은 실수가 다시 들어오지 못하게 막는다.
+def check_tone_prompt() -> list[str]:
+    import check_tone as ct
+    import generate_report as G
+
+    out = []
+    rules = G.TONE_RULES
+
+    def is_nida(e: str) -> bool:
+        return e.endswith(ct.FAMILY_NIDA)
+
+    # ① "'니다'가 아닌 맺음" 목록에 '니다' 계열이 섞이면 안 된다.
+    #    그 목록이 프롬프트에서 유일하게 '섞으라'고 제시하는 선택지다.
+    lines: list[str] = []
+    inside = False
+    for line in rules.splitlines():
+        if "'니다'가 <아닌> 맺음" in line:
+            inside = True
+            continue
+        if inside:
+            if line.strip().startswith("· ㄴ") or "'니다' 맺음" in line:
+                break
+            lines.append(line)
+    block = "\n".join(lines)
+    if not inside or not block.strip():
+        out.append("  [프롬프트에 \"'니다'가 아닌 맺음\" 목록이 있어야 함]")
+    else:
+        ends = re.findall(r"~[^./\n]*?([가-힣]+)\.", block)
+        bad = [e for e in ends if is_nida(e)]
+        if bad:
+            out.append(f"  ['니다가 아닌 맺음' 목록에 니다 계열이 섞였습니다] {bad[:4]}")
+        # 검사기가 실제로 세는 어미여야 의미가 있다
+        known = [e for e in ends if ct.ending_of("어떤 문장이 " + e)]
+        if len(known) < 4:
+            out.append(f"  [check_tone 이 세는 어미가 너무 적습니다] 인식 {len(known)}개")
+
+    # ② '니다' 계열이 한 덩어리라는 경고가 반드시 있어야 한다
+    if "전부 같은 '니다'" not in rules and "전부 '니다' 한 덩어리" not in rules:
+        out.append("  ['~입니다/~때문입니다 등이 같은 계열'이라는 경고가 있어야 함]")
+
+    # ③ JSON 스펙 쪽 요약 지시에도 같은 오류가 있었다 — 거기도 검사한다
+    for name in ("JSON_SPEC", "JSON_SPEC_GENERAL"):
+        spec = getattr(G, name, "")
+        for m in re.finditer(r"'~니다'가 아닌 말\(([^)]*)\)", spec):
+            bad = [e for e in re.findall(r"~([가-힣]+)", m.group(1)) if is_nida(e)]
+            if bad:
+                out.append(f"  [{name}: '니다가 아닌 말' 예시에 니다 계열] {bad[:3]}")
+
+    # ④ 프롬프트를 고쳤으면 버전이 올라가야 옛 리포트가 교체된다
+    if G.PROMPT_VERSION < 6:
+        out.append(f"  [PROMPT_VERSION 이 {G.PROMPT_VERSION} — 고친 말투가 옛 글에 반영 안 됨]")
+    return out
+
+
 def check_stop_reason() -> list[str]:
     import inspect
     import run_pipeline
@@ -914,6 +972,7 @@ def main() -> int:
     fails += check_quota_parse()
     fails += check_model_order()
     fails += check_regen_guard()
+    fails += check_tone_prompt()
     fails += check_stop_reason()
     fails += check_gh_fallback()
     fails += check_workflow_models_perm()
@@ -926,6 +985,7 @@ def main() -> int:
              + 11    # 후보 재판정(되살림·상한·날짜창·API·스위치)
              + 14    # 영상 예산(비용3·미상1·분단위2·소진1·날짜1·상한1·워크플로2·배선3)
              + 7     # 텍스트 주력 전환(기본값·순서·되돌리기·예비·한도2)
+             + 5     # 말투 프롬프트(목록·경고·스펙·버전)
              + 4     # PC 자막 수집 git 처리
              + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4 + 8)
     print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API — "
