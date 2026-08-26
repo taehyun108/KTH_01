@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-25T15:09:19",
+  "generated_at": "2026-08-26T00:00:01",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -137,6 +137,21 @@
       "pv": 5,
       "scope": "battery",
       "src": "yt-dlp-captions"
+    },
+    {
+      "id": "2026-08-25-ai-데이터센터-전력-전쟁-천연가스-인프라가-새-수혜처로-떠오른-이유",
+      "date": "2026-08-25",
+      "channel": "손에 잡히는 경제",
+      "title": "AI 데이터센터 전력 전쟁, 천연가스 인프라가 새 수혜처로 떠오른 이유",
+      "summary": "AI 데이터센터 전력난의 해법으로 천연가스와 미드스트림 인프라가 주목받고 있습니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-25-ai-데이터센터-전력-전쟁-천연가스-인프라가-새-수혜처로-떠오른-이유.html",
+      "video": "https://www.youtube.com/watch?v=hSMZN-9ng5A",
+      "video_id": "hSMZN-9ng5A",
+      "pv": 5,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-08-24-중국-로봇-기업의-가파른-성장세와-피지컬-ai의-진화",
