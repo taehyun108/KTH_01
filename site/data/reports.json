@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-26T15:55:40",
+  "generated_at": "2026-08-27T05:55:09",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-27-달러-스테이블코인-시대-원화는-어떻게-살아남아야-할까요",
+      "date": "2026-08-27",
+      "channel": "삼프로TV",
+      "title": "달러 스테이블코인 시대, 원화는 어떻게 살아남아야 할까요",
+      "summary": "원화 스테이블코인 도입 논의와 글로벌 달러 중심 통화 환경 속에서 국내 금융시장이 지켜야 할 과제를 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-08-27-달러-스테이블코인-시대-원화는-어떻게-살아남아야-할까요.html",
+      "video": "https://www.youtube.com/watch?v=n_BCEiAOfhI",
+      "video_id": "n_BCEiAOfhI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-08-26-미국-국채-바이백과-금리-인하-자산-시장의-흐름을-읽는-법",
       "date": "2026-08-26",
@@ -137,6 +152,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-08-26-현대차-2028년-엔비디아와-자율주행차-상용화-추진-8-000억-원-주식-소각도-발표",
+      "date": "2026-08-26",
+      "channel": "삼프로TV",
+      "title": "현대차, 2028년 엔비디아와 자율주행차 상용화 추진… 8,000억 원 주식 소각도 발표",
+      "summary": "현대차가 2028년 엔비디아와 자율주행차를 선보이고 8,000억 원 규모의 주식을 소각하겠다는 계획을 밝혔는데요, 구체적인 내용을 살펴봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-08-26-현대차-2028년-엔비디아와-자율주행차-상용화-추진-8-000억-원-주식-소각도-발표.html",
+      "video": "https://www.youtube.com/watch?v=_OWmh1Qafgs",
+      "video_id": "_OWmh1Qafgs",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-26-엔비디아-실적이-보여-준-ai-투자-사이클-그리고-우리가-놓치고-있던-것들",
+      "date": "2026-08-26",
+      "channel": "삼프로TV",
+      "title": "엔비디아 실적이 보여 준 AI 투자 사이클, 그리고 우리가 놓치고 있던 것들",
+      "summary": "엔비디아의 탄탄한 실적이 증명한 AI 투자 사이클, 그리고 K-반도체와 배터리 시장이 맞닥뜨린 새로운 변화를 짚어 봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-26-엔비디아-실적이-보여-준-ai-투자-사이클-그리고-우리가-놓치고-있던-것들.html",
+      "video": "https://www.youtube.com/watch?v=XQCkg3LCg6Q",
+      "video_id": "XQCkg3LCg6Q",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-08-25-미국-국채-금리가-오르는-구조적-이유와-자산-시장에-미치는-영향",
@@ -272,6 +317,21 @@
       "pv": 5,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-08-25-ai-데이터센터-건립의-명과-암-그리고-이차전지-산업이-나아갈-길",
+      "date": "2026-08-25",
+      "channel": "손석희의 12시",
+      "title": "AI 데이터센터 건립의 명과 암, 그리고 이차전지 산업이 나아갈 길",
+      "summary": "인공지능(AI) 데이터센터 건립이 늘어나면서 전력과 물 부족 문제가 뜨거운 감자로 떠오르고 있는데요. 이에 따른 이차전지 산업의 시사점을 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-08-25-ai-데이터센터-건립의-명과-암-그리고-이차전지-산업이-나아갈-길.html",
+      "video": "https://www.youtube.com/watch?v=Z0xjV16aDyc",
+      "video_id": "Z0xjV16aDyc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-08-24-중국-로봇-기업의-가파른-성장세와-피지컬-ai의-진화",
@@ -3656,13 +3716,13 @@
       "date": "2026-07-23",
       "channel": "언더스탠딩",
       "title": "미국 AI 데이터센터 전력 대란! ESS 배터리가 구원투수로 떠오른 이유",
-      "summary": "미국 AI 데이터센터의 전력 대란 속에서 ESS 배터리가 핵심 해결책으로 떠오르고 있습니다.",
+      "summary": "미국 AI 데이터센터의 전력 부족 문제를 해결할 대안으로 대형 ESS 배터리가 주목받고 있죠.",
       "category": "global-market",
       "relation": "direct",
       "url": "2026-07-23-미국-ai-데이터센터-전력-인프라-혁신-사례와-ess-전력망-산업-시사점.html",
       "video": "https://www.youtube.com/watch?v=3Oy4I0TeR1o",
       "video_id": "3Oy4I0TeR1o",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-23-시황-코스피-해빙기-진입과-외국인-수급-유입이-이차전지-섹터에-미치는-영향",
@@ -3734,130 +3794,130 @@
       "date": "2026-07-22",
       "channel": "삼프로TV",
       "title": "미 반도체 반등과 관세·중동 변수, 배터리 시장에 어떤 영향을 미칠까",
-      "summary": "미국 반도체주 반등과 관세·중동 변수가 배터리와 ESS 시장에 미치는 영향을 차분히 짚어봅니다.",
+      "summary": "미국 반도체 반등과 관세·중동 변수가 배터리 시장에 미치는 영향을 짚어봅니다.",
       "category": "global-policy",
       "relation": "indirect",
       "url": "2026-07-22-뉴욕증시-반도체-반등과-관세-중동-변수-분석-이차전지-산업의-간접-시사점.html",
       "video": "https://www.youtube.com/watch?v=f688-fHKGK4",
       "video_id": "f688-fHKGK4",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-22-현대차-실적-우려와-로보틱스-전환이-이차전지-ev-생태계에-주는-시사점",
       "date": "2026-07-22",
       "channel": "삼프로TV",
       "title": "현대차 실적 우려와 로봇 사업 전환이 한국 배터리 산업에 미치는 영향",
-      "summary": "현대차의 실적 우려와 로보틱스 전환이 국내 배터리 산업에 미치는 영향을 짚어봅니다.",
+      "summary": "현대차의 실적 우려와 로보틱스 전환이 국내 배터리 산업에 미치는 영향과 대응 과제를 짚어봅니다.",
       "category": "korea-market",
       "relation": "direct",
       "url": "2026-07-22-현대차-실적-우려와-로보틱스-전환이-이차전지-ev-생태계에-주는-시사점.html",
       "video": "https://www.youtube.com/watch?v=z8yK6y0xUiM",
       "video_id": "z8yK6y0xUiM",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-22-미국-데이터센터-반대-시위-확산과-ai-전력-인프라-ess-시장의-시사점",
       "date": "2026-07-22",
       "channel": "소수몽키",
       "title": "미국 데이터센터 반대 시위와 AI 전력망: ESS 배터리가 떠오르는 이유",
-      "summary": "미국 AI 데이터센터 반대 시위와 전력망 한계 속에 ESS 배터리가 새로운 해결책으로 주목받고 있습니다.",
+      "summary": "미국 AI 데이터센터 반대 시위와 전력 부족 속에서 ESS 배터리가 새로운 해결책으로 떠오르고 있습니다.",
       "category": "global-policy",
       "relation": "indirect",
       "url": "2026-07-22-미국-데이터센터-반대-시위-확산과-ai-전력-인프라-ess-시장의-시사점.html",
       "video": "https://www.youtube.com/watch?v=KJ7x1q1INpI",
       "video_id": "KJ7x1q1INpI",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-22-빅테크의-ai-capex-대전환과-aidc-전력-인프라-및-ess-이차전지-시장-시사점",
       "date": "2026-07-22",
       "channel": "소수몽키",
-      "title": "빅테크의 AI 투자 대폭발, ESS 배터리가 진짜 수혜주로 꼽히는 이유",
-      "summary": "빅테크의 AI 투자 확대로 전력난이 심화되면서, ESS 배터리가 새로운 성장 동력으로 주목받고 있습니다.",
+      "title": "빅테크 AI 투자의 숨은 수혜주, ESS 배터리가 주목받는 이유",
+      "summary": "빅테크의 AI 투자 확대로 전력난을 겪는 데이터센터에 ESS 배터리가 새로운 해법으로 떠오르고 있죠.",
       "category": "global-market",
       "relation": "direct",
       "url": "2026-07-22-빅테크의-ai-capex-대전환과-aidc-전력-인프라-및-ess-이차전지-시장-시사점.html",
       "video": "https://www.youtube.com/watch?v=exEIt8fdnLM",
       "video_id": "exEIt8fdnLM",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-22-빅테크의-대규모-ai-투자-경쟁과-전력-ess-인프라-수혜-전망",
       "date": "2026-07-22",
       "channel": "소수몽키",
       "title": "AI 데이터센터가 부른 전력 난제, ESS 배터리가 구원투수로 떠오른 이유",
-      "summary": "AI 데이터센터 확대로 전력 부족이 심화되면서, ESS 배터리가 핵심 해결사로 부상하고 있습니다.",
+      "summary": "AI 데이터센터 급증으로 전력 난제가 불거진 가운데, ESS 배터리가 해결사로 떠오르고 있습니다.",
       "category": "global-market",
       "relation": "direct",
       "url": "2026-07-22-빅테크의-대규모-ai-투자-경쟁과-전력-ess-인프라-수혜-전망.html",
       "video": "https://www.youtube.com/watch?v=iGGze3WT83s",
       "video_id": "iGGze3WT83s",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-22-국내-시황-한국-금리-인상-우려-및-증시-하락-국면에서의-투자-전략과-이차전지-산업-여파",
       "date": "2026-07-22",
       "channel": "슈퍼개미 이세무사TV",
       "title": "한국 금리 인상 우려와 증시 하락, 내 배터리 주식은 괜찮을까요?",
-      "summary": "한국 금리 인상 우려로 증시가 흔들리는 가운데, 이차전지 산업에 미칠 영향과 하락장 대응 전략을 살펴봅니다.",
+      "summary": "한국 금리 인상 우려가 증시와 이차전지 투자에 미치는 영향과 대응 전략을 짚어봅니다.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-22-국내-시황-한국-금리-인상-우려-및-증시-하락-국면에서의-투자-전략과-이차전지-산업-여파.html",
       "video": "https://www.youtube.com/watch?v=lI5tGSihCJg",
       "video_id": "lI5tGSihCJg",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-22-시황-분석-삼성전자-sk하이닉스-폭락과-국내-증시-역발상-투자론-이차전지-산업-간접-영향",
       "date": "2026-07-22",
       "channel": "삼프로TV",
       "title": "반도체 흔들린 증시, 이차전지에는 어떤 파장이 미칠까요?",
-      "summary": "반도체 대장주의 주가 급락이 국내 증시 전체에 미치는 영향과 이차전지 산업에 주는 간접적인 시사점을 짚어봅니다.",
+      "summary": "반도체주 흔들림이 국내 증시 전체와 이차전지 수급에 미치는 영향과 역발상 투자 전략을 짚어봅니다.",
       "category": "korea-market",
       "relation": "indirect",
       "url": "2026-07-22-시황-분석-삼성전자-sk하이닉스-폭락과-국내-증시-역발상-투자론-이차전지-산업-간접-영향.html",
       "video": "https://www.youtube.com/watch?v=Ytv5MGZWygA",
       "video_id": "Ytv5MGZWygA",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-22-미국-거시-경제지표-착시와-금리-경로-이차전지-산업의-자금-조달-및-수요-영향",
       "date": "2026-07-22",
       "channel": "삼프로TV",
-      "title": "미국 금리와 경제 착시! 우리 배터리 산업에 어떤 영향이 있을까요?",
-      "summary": "미국의 금리 경로와 경제지표 착시가 이차전지 산업의 자금 조달과 전기차 수요에 미치는 영향입니다.",
+      "title": "미국 금리와 경제 착시, 우리 배터리 산업에 미치는 영향은?",
+      "summary": "미국 경제지표의 착시와 금리 경로가 이차전지 자금 조달과 전기차 수요에 미치는 영향을 짚어봅니다.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-22-미국-거시-경제지표-착시와-금리-경로-이차전지-산업의-자금-조달-및-수요-영향.html",
       "video": "https://www.youtube.com/watch?v=6umjqaQmgNY",
       "video_id": "6umjqaQmgNY",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-22-국내-시황-외국인-양방향-수급과-국내-증시-횡보-속-이차전지-업종-향방",
       "date": "2026-07-22",
       "channel": "삼프로TV",
       "title": "답답한 박스권 증시, 이차전지 주가는 앞으로 어디로 갈까요?",
-      "summary": "국내 박스권 증시 속에서 외국인 수급 변동과 이차전지 업종의 반등 시점을 짚어봅니다.",
+      "summary": "답답한 박스권 증시 속 이차전지 업종의 주가 흐름과 향후 반등 조건을 짚어봅니다.",
       "category": "korea-market",
       "relation": "direct",
       "url": "2026-07-22-국내-시황-외국인-양방향-수급과-국내-증시-횡보-속-이차전지-업종-향방.html",
       "video": "https://www.youtube.com/watch?v=pepM8s3c6xs",
       "video_id": "pepM8s3c6xs",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-22-반도체-다음은-k-뷰티-화장품주가-다시-주목받는-이유",
       "date": "2026-07-22",
       "channel": "슈퍼개미 이세무사TV",
       "title": "반도체 다음은 K-뷰티? 화장품주가 다시 주목받는 이유",
-      "summary": "반도체 다음 주도주로 주목받는 K-뷰티 화장품 산업의 성장 구조 변화와 대표 기업 투자 포인트를 짚어봅니다.",
+      "summary": "반도체 이후 실적 성장이 돋보이는 K-뷰티 산업의 글로벌 다변화와 투자 전략을 살펴봅니다.",
       "category": "korea-market",
       "relation": "context",
       "url": "2026-07-22-반도체-다음은-k-뷰티-화장품주가-다시-주목받는-이유.html",
       "video": "https://www.youtube.com/watch?v=gtRMzeYCoFE",
       "video_id": "gtRMzeYCoFE",
-      "pv": 5,
+      "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
     },
@@ -3866,13 +3926,13 @@
       "date": "2026-07-13",
       "channel": "박종훈의 지식한방",
       "title": "이란 확전 위기 재점화, 코스피 흔드는 진짜 이유",
-      "summary": "미국과 이란이 종전 합의를 맺었다는 소식에도 호르무즈 해협을 둘러싼 갈등이 가라앉지 않으면서 글로벌 증시와 국내 주식시장의 변동성이 커지고 있습니다.",
+      "summary": "미·이 갈등으로 호르무즈 해협이 다시 막히면서 글로벌 공급망과 국내 증시가 흔들리고 있습니다.",
       "category": "global-policy",
       "relation": "context",
       "url": "2026-07-13-이란-확전-위기-재점화-코스피-흔드는-진짜-이유.html",
       "video": "https://www.youtube.com/watch?v=xK0ty4Ot2Nk",
       "video_id": "xK0ty4Ot2Nk",
-      "pv": 5,
+      "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
     }
