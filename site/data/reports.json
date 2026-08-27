@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-27T12:54:02",
+  "generated_at": "2026-08-27T23:50:04",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -74,6 +74,21 @@
       "url": "2026-08-27-주가-급락의-진짜-이유-반도체-문제가-아니라-유동성-때문일까요.html",
       "video": "https://www.youtube.com/watch?v=Vo_F7qBSiow",
       "video_id": "Vo_F7qBSiow",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-08-27-기준금리-3-인상부터-엔비디아-실적까지-오늘-꼭-알아야-할-경제-뉴스",
+      "date": "2026-08-27",
+      "channel": "손에 잡히는 경제",
+      "title": "기준금리 3% 인상부터 엔비디아 실적까지, 오늘 꼭 알아야 할 경제 뉴스",
+      "summary": "한국은행의 기준금리 인상과 엔비디아 실적 발표, 메타의 소송 합의금 등 주요 경제 이슈를 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-08-27-기준금리-3-인상부터-엔비디아-실적까지-오늘-꼭-알아야-할-경제-뉴스.html",
+      "video": "https://www.youtube.com/watch?v=sSxGP2RgdZg",
+      "video_id": "sSxGP2RgdZg",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
