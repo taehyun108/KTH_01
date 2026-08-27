@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-27T05:55:09",
+  "generated_at": "2026-08-27T12:54:02",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -32,6 +32,51 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-27-엔비디아-실적은-좋은데-왜-시장은-얼어붙었을까요",
+      "date": "2026-08-27",
+      "channel": "손에 잡히는 경제",
+      "title": "엔비디아 실적은 좋은데 왜 시장은 얼어붙었을까요",
+      "summary": "엔비디아의 호실적에도 냉각된 투심과 금리 부담, 하반기 증시 전망을 살펴봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-08-27-엔비디아-실적은-좋은데-왜-시장은-얼어붙었을까요.html",
+      "video": "https://www.youtube.com/watch?v=GeDtOLu3IMM",
+      "video_id": "GeDtOLu3IMM",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-08-27-메모리-반도체-호황-언제까지-갈까-2028년-증산과-중국-변수",
+      "date": "2026-08-27",
+      "channel": "언더스탠딩",
+      "title": "메모리 반도체 호황, 언제까지 갈까? 2028년 증산과 중국 변수",
+      "summary": "2028년 메모리 반도체 대규모 증산과 중국 업체의 추격이 산업 전반에 미칠 영향과 시사점을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-27-메모리-반도체-호황-언제까지-갈까-2028년-증산과-중국-변수.html",
+      "video": "https://www.youtube.com/watch?v=lT0QKJ93DJs",
+      "video_id": "lT0QKJ93DJs",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-08-27-주가-급락의-진짜-이유-반도체-문제가-아니라-유동성-때문일까요",
+      "date": "2026-08-27",
+      "channel": "언더스탠딩",
+      "title": "주가 급락의 진짜 이유, 반도체 문제가 아니라 유동성 때문일까요?",
+      "summary": "주식시장 급락의 원인은 반도체 업황이 아니라 중앙은행의 유동성 긴축과 금리 환경 때문이라는 분석입니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-08-27-주가-급락의-진짜-이유-반도체-문제가-아니라-유동성-때문일까요.html",
+      "video": "https://www.youtube.com/watch?v=Vo_F7qBSiow",
+      "video_id": "Vo_F7qBSiow",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-08-26-미국-국채-바이백과-금리-인하-자산-시장의-흐름을-읽는-법",
