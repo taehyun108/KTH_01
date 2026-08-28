@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-28T21:33:14",
+  "generated_at": "2026-08-28T23:35:12",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -62,6 +62,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-28-ai-시대에-가족기업이-다시-주목받는-이유와-그-의미",
+      "date": "2026-08-28",
+      "channel": "손에 잡히는 경제",
+      "title": "AI 시대에 가족기업이 다시 주목받는 이유와 그 의미",
+      "summary": "AI 시대와 취업난 속에서 가족기업과 신뢰자본이 다시 주목받는 이유를 살펴봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-08-28-ai-시대에-가족기업이-다시-주목받는-이유와-그-의미.html",
+      "video": "https://www.youtube.com/watch?v=LIwd8x5kWac",
+      "video_id": "LIwd8x5kWac",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-08-27-달러-스테이블코인-시대-원화는-어떻게-살아남아야-할까요",
