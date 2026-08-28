@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-27T23:50:04",
+  "generated_at": "2026-08-28T07:22:17",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-28-예금부터-주식까지-토큰화되는-금융-시장-무엇이-달라질까요",
+      "date": "2026-08-28",
+      "channel": "삼프로TV",
+      "title": "예금부터 주식까지 토큰화되는 금융 시장, 무엇이 달라질까요?",
+      "summary": "예금 토큰화와 코인베이스의 토큰화 주식 서비스가 금융 시장에 미치는 영향과 의미를 살펴봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-08-28-예금부터-주식까지-토큰화되는-금융-시장-무엇이-달라질까요.html",
+      "video": "https://www.youtube.com/watch?v=UlmdwRf9vbk",
+      "video_id": "UlmdwRf9vbk",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-08-27-달러-스테이블코인-시대-원화는-어떻게-살아남아야-할까요",
       "date": "2026-08-27",
@@ -92,6 +107,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-08-27-히말라야-대홍수와-라수아-지역-빙하-붕괴의-진실",
+      "date": "2026-08-27",
+      "channel": "손석희의 12시",
+      "title": "히말라야 대홍수와 라수아 지역 빙하 붕괴의 진실",
+      "summary": "히말라야 라수아 지역 대홍수와 빙하 붕괴의 원인 및 피해 상황을 살펴봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-27-히말라야-대홍수와-라수아-지역-빙하-붕괴의-진실.html",
+      "video": "https://www.youtube.com/watch?v=_88krlJb3G0",
+      "video_id": "_88krlJb3G0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-08-26-미국-국채-바이백과-금리-인하-자산-시장의-흐름을-읽는-법",
@@ -840,6 +870,21 @@
       "video": "https://www.youtube.com/watch?v=TsjGmQg59a4",
       "video_id": "TsjGmQg59a4",
       "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-21-원화-강세와-환율-하락-수출-기업의-달러-매도가-가져온-변화",
+      "date": "2026-08-21",
+      "channel": "삼프로TV",
+      "title": "원화 강세와 환율 하락, 수출 기업의 달러 매도가 가져온 변화",
+      "summary": "환율 하락의 배경과 삼성전자·SK하이닉스 등 대형 수출주의 달러 매도 흐름을 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-08-21-원화-강세와-환율-하락-수출-기업의-달러-매도가-가져온-변화.html",
+      "video": "https://www.youtube.com/watch?v=PfwUgAB3cVY",
+      "video_id": "PfwUgAB3cVY",
+      "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
     },
