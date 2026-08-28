@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-28T07:22:17",
+  "generated_at": "2026-08-28T14:36:05",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -29,6 +29,36 @@
       "url": "2026-08-28-예금부터-주식까지-토큰화되는-금융-시장-무엇이-달라질까요.html",
       "video": "https://www.youtube.com/watch?v=UlmdwRf9vbk",
       "video_id": "UlmdwRf9vbk",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-28-주가-누르기-방지법-논란-상속세-부담과-코리아-디스카운트의-해법은-무엇일까요",
+      "date": "2026-08-28",
+      "channel": "언더스탠딩",
+      "title": "주가 누르기 방지법 논란, 상속세 부담과 코리아 디스카운트의 해법은 무엇일까요",
+      "summary": "정부가 추진하는 주가 누르기 방지법을 두고 업종별 특성을 고려한 보완이 필요하다는 지적이 나오고 있죠.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-08-28-주가-누르기-방지법-논란-상속세-부담과-코리아-디스카운트의-해법은-무엇일까요.html",
+      "video": "https://www.youtube.com/watch?v=i7tChHKa71o",
+      "video_id": "i7tChHKa71o",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-08-28-시장의-흐름과-주요-종목들의-움직임",
+      "date": "2026-08-28",
+      "channel": "삼프로TV",
+      "title": "시장의 흐름과 주요 종목들의 움직임",
+      "summary": "코스피와 주요 종목들의 흐름을 짚어보고, 최근 시장에서 주목받는 이슈와 수급 상황을 차분히 정리해 드립니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-08-28-시장의-흐름과-주요-종목들의-움직임.html",
+      "video": "https://www.youtube.com/watch?v=IJN6LD3jufQ",
+      "video_id": "IJN6LD3jufQ",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
@@ -3638,92 +3668,92 @@
       "id": "2026-07-24-미국-301조-관세-확정과-빅테크-테슬라-capex-향방이-이차전지-산업에-미치는-영향",
       "date": "2026-07-24",
       "channel": "삼프로TV",
-      "title": "미국 관세 장벽과 빅테크 투자 속, 우리 배터리가 향할 곳은 어디일까요",
-      "summary": "미국의 대중국 관세 인상과 빅테크 투자가 국내 배터리 산업에 미치는 영향을 짚어봅니다.",
+      "title": "미국 관세 장벽과 빅테크 투자 속, 우리 배터리가 향할 곳",
+      "summary": "미국의 대중국 관세 장벽과 AI 데이터센터 ESS 수요가 우리 배터리 산업에 미치는 영향입니다.",
       "category": "global-policy",
       "relation": "direct",
       "url": "2026-07-24-미국-301조-관세-확정과-빅테크-테슬라-capex-향방이-이차전지-산업에-미치는-영향.html",
       "video": "https://www.youtube.com/watch?v=OUMM_Stje-8",
       "video_id": "OUMM_Stje-8",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-24-macro-호재-선반영-과-주가-하락-메커니즘-이차전지-섹터-투심-및-ir-시사점",
       "date": "2026-07-24",
       "channel": "삼프로TV",
       "title": "호재가 나와도 주가가 내린다고요? 이차전지 주가와 기업 IR의 속사정",
-      "summary": "호재가 나와도 주가가 내리는 선반영 메커니즘을 짚어보고, 이차전지 기업의 현실적인 IR 소통 전략을 살펴봅니다.",
+      "summary": "좋은 소식에도 이차전지 주가가 내리는 이유와 기업 IR의 과제를 짚어봅니다.",
       "category": "macro",
       "relation": "direct",
       "url": "2026-07-24-macro-호재-선반영-과-주가-하락-메커니즘-이차전지-섹터-투심-및-ir-시사점.html",
       "video": "https://www.youtube.com/watch?v=xLCrEU4NHSk",
       "video_id": "xLCrEU4NHSk",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-24-트럼프-2기-ai-규제-파장과-동맹국-여파-aidc-및-ess-공급망-시사점",
       "date": "2026-07-24",
       "channel": "소수몽키",
       "title": "트럼프의 AI 규제 완화, 우리 배터리와 ESS 시장엔 어떤 기회가 될까요?",
-      "summary": "트럼프 2기의 AI 규제 완화가 AI 데이터센터와 ESS 배터리 시장에 미칠 영향을 짚어봅니다.",
+      "summary": "트럼프 2기의 AI 규제 완화로 데이터센터와 ESS 수요가 급증하면서 한국 배터리 기업들에 새로운 기회가 열리고 있습니다.",
       "category": "global-policy",
       "relation": "direct",
       "url": "2026-07-24-트럼프-2기-ai-규제-파장과-동맹국-여파-aidc-및-ess-공급망-시사점.html",
       "video": "https://www.youtube.com/watch?v=a7UJq7JCyU4",
       "video_id": "a7UJq7JCyU4",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-24-증시-시황-국내-증시-서프라이즈-반등과-이차전지-섹터-영향-분석",
       "date": "2026-07-24",
       "channel": "슈퍼개미 이세무사TV",
-      "title": "깜짝 반등한 국내 증시! 이차전지 배터리 주가도 다시 웃을 수 있을까요?",
-      "summary": "국내 증시의 깜짝 반등이 오랜 기간 부진했던 이차전지 배터리 주가와 시장에 어떤 변화를 가져올지 짚어봅니다.",
+      "title": "깜짝 반등한 국내 증시, 이차전지 배터리 주가도 다시 웃을 수 있을까요?",
+      "summary": "국내 증시의 깜짝 반등이 힘든 시기를 보낸 이차전지 배터리 기업들에 호재가 될지, 앞으로의 시장 전망을 살펴봅니다.",
       "category": "korea-market",
       "relation": "direct",
       "url": "2026-07-24-증시-시황-국내-증시-서프라이즈-반등과-이차전지-섹터-영향-분석.html",
       "video": "https://www.youtube.com/watch?v=trD-z4_smmw",
       "video_id": "trD-z4_smmw",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-24-인도네시아-외환위기-우려와-이차전지-핵심-원자재-공급망-영향-분석",
       "date": "2026-07-24",
       "channel": "언더스탠딩",
-      "title": "인도네시아 경제 흔들리면 내 전기차 배터리 가격도 오를까?",
-      "summary": "인도네시아의 외환 불안이 니켈 수급에 차질을 빚어 전기차 배터리 원가 상승으로 이어질 수 있습니다.",
+      "title": "인도네시아 경제 흔들리면 내 전기차 배터리 가격도 오를까요?",
+      "summary": "인도네시아의 외환 불안으로 니켈 공급에 차질이 생기면 배터리 제조 원가 상승으로 이어질 수 있습니다.",
       "category": "global-market",
       "relation": "direct",
       "url": "2026-07-24-인도네시아-외환위기-우려와-이차전지-핵심-원자재-공급망-영향-분석.html",
       "video": "https://www.youtube.com/watch?v=P_mtkEBS3oM",
       "video_id": "P_mtkEBS3oM",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-24-ai-수요-폭증과-빅테크-투자-확대가-이차전지-ess-산업에-미치는-영향",
       "date": "2026-07-24",
       "channel": "소수몽키",
       "title": "AI에 진심인 빅테크, 왜 배터리와 ESS 산업까지 웃고 있을까요?",
-      "summary": "빅테크의 AI 투자로 전력난이 심화되면서, 배터리 산업의 새로운 성장 동력인 ESS 시장이 주목받고 있습니다.",
+      "summary": "AI 투자 열풍에 따른 전력난 속에서, ESS와 배터리 산업이 새로운 성장의 기회를 맞이했습니다.",
       "category": "global-market",
       "relation": "direct",
       "url": "2026-07-24-ai-수요-폭증과-빅테크-투자-확대가-이차전지-ess-산업에-미치는-영향.html",
       "video": "https://www.youtube.com/watch?v=1QPGDu_SePo",
       "video_id": "1QPGDu_SePo",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-24-거시-증시-분석-반등시-매도-전략-전환과-이차전지-섹터-수급-및-투자심리-시사점",
       "date": "2026-07-24",
       "channel": "슈퍼개미 이세무사TV",
       "title": "증시 반등하면 팔아야 할까? 이차전지 투자 심리와 수급 읽기",
-      "summary": "증시가 반등할 때 현금을 확보하고, 투자 심리가 식은 이차전지 섹터는 신중하게 접근해야 한다는 분석입니다.",
+      "summary": "증시가 반등할 때 현금을 확보하고, 수급이 가라앉은 이차전지는 신중하게 접근해야 한다는 분석입니다.",
       "category": "macro",
       "relation": "direct",
       "url": "2026-07-24-거시-증시-분석-반등시-매도-전략-전환과-이차전지-섹터-수급-및-투자심리-시사점.html",
       "video": "https://www.youtube.com/watch?v=r4GnhWT9uC4",
       "video_id": "r4GnhWT9uC4",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-24-시장-비관론의-정점에서-찾는-반등-기회-거시경제-환경과-배터리-산업-투심-복원-전략",
@@ -3834,65 +3864,65 @@
       "date": "2026-07-23",
       "channel": "삼프로TV",
       "title": "외국인 손잡고 돌아온 코스피, 이차전지 주가도 다시 날개 달까요",
-      "summary": "외국인 투자자의 매수세가 돌아오면서 코스피와 이차전지 업종이 반등할 수 있을지 주목되는 시점입니다.",
+      "summary": "외국인 투자자의 매수세가 유입되면서 코스피가 회복세를 보이고 있는데요, 이차전지 섹터에도 긍정적인 자극이 될 수 있습니다.",
       "category": "korea-market",
       "relation": "direct",
       "url": "2026-07-23-시황-코스피-해빙기-진입과-외국인-수급-유입이-이차전지-섹터에-미치는-영향.html",
       "video": "https://www.youtube.com/watch?v=Bu-Mgevg3A8",
       "video_id": "Bu-Mgevg3A8",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-23-리포트-유가-금리-부담과-빅테크-실적-발표가-이차전지-산업에-미치는-시사점",
       "date": "2026-07-23",
       "channel": "삼프로TV",
       "title": "유가·금리 부담과 빅테크 실적, 배터리 시장에는 약일까요 독일까요?",
-      "summary": "유가와 금리 부담이 전기차 배터리에 미치는 영향과 AI 데이터센터로 주목받는 ESS의 기회를 짚어봅니다.",
+      "summary": "유가와 금리 부담이 전기차 수요를 누르는 한편, 빅테크의 AI 투자는 ESS 배터리 시장에 새로운 기회를 열고 있습니다.",
       "category": "macro",
       "relation": "indirect",
       "url": "2026-07-23-리포트-유가-금리-부담과-빅테크-실적-발표가-이차전지-산업에-미치는-시사점.html",
       "video": "https://www.youtube.com/watch?v=btNcRxCRC3E",
       "video_id": "btNcRxCRC3E",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-23-미국-증시-투자-향방과-이차전지-전방-산업-aidc-ev-의-시사점",
       "date": "2026-07-23",
       "channel": "삼프로TV",
       "title": "미국 증시는 어디로 갈까? AI와 전기차가 이끄는 배터리의 미래",
-      "summary": "미국 증시와 AI·전기차 흐름을 짚어보고, 이차전지 시장에 미칠 영향을 살펴봅니다.",
+      "summary": "미국 증시의 AI와 전기차 투자 흐름이 배터리 산업에 미칠 영향을 짚어봅니다.",
       "category": "global-market",
       "relation": "indirect",
       "url": "2026-07-23-미국-증시-투자-향방과-이차전지-전방-산업-aidc-ev-의-시사점.html",
       "video": "https://www.youtube.com/watch?v=cslzvo0iJsA",
       "video_id": "cslzvo0iJsA",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-23-국내-증시-반도체-쏠림-완화와-순환매-장세-이차전지-섹터-수급-영향",
       "date": "2026-07-23",
       "channel": "삼프로TV",
       "title": "반도체만 달리던 국내 증시, 배터리 쪽으로도 돈이 흘러들어올까요?",
-      "summary": "반도체로 몰리던 증시 자금이 배터리 등 다른 업종으로 돌며 순환매 장세가 기대되는 상황입니다.",
+      "summary": "반도체에 쏠렸던 국내 증시 자금이 이차전지 섹터로 옮겨올 가능성을 짚어봅니다.",
       "category": "korea-market",
       "relation": "direct",
       "url": "2026-07-23-국내-증시-반도체-쏠림-완화와-순환매-장세-이차전지-섹터-수급-영향.html",
       "video": "https://www.youtube.com/watch?v=5W98mO66dhs",
       "video_id": "5W98mO66dhs",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-23-8월-증시-전망과-대응-전략-거시-변동성-속-이차전지-투자-심리-및-시사점",
       "date": "2026-07-23",
       "channel": "삼프로TV",
-      "title": "8월 증시 흔들릴 때 이차전지 주가는 어떻게 될까?",
-      "summary": "8월 거시 경제 변동성에 따른 증시 전망과 이차전지 투자 심리를 짚어봅니다.",
+      "title": "8월 증시 흔들릴 때 이차전지 주가는 어떻게 될까요?",
+      "summary": "8월 거시 경제 변동성에 따른 증시 전망과 이차전지 투자 심리를 살펴봅니다.",
       "category": "macro",
       "relation": "direct",
       "url": "2026-07-23-8월-증시-전망과-대응-전략-거시-변동성-속-이차전지-투자-심리-및-시사점.html",
       "video": "https://www.youtube.com/watch?v=IBo0vHUJYSg",
       "video_id": "IBo0vHUJYSg",
-      "pv": 5
+      "pv": 6
     },
     {
       "id": "2026-07-22-뉴욕증시-반도체-반등과-관세-중동-변수-분석-이차전지-산업의-간접-시사점",
