@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-28T23:35:12",
+  "generated_at": "2026-08-29T04:35:08",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-08-29-중국-의존도를-낮추는-희토류-공급망의-최전선-레나스-래어-아스의-도전",
+      "date": "2026-08-29",
+      "channel": "CNBC International",
+      "title": "중국 의존도를 낮추는 희토류 공급망의 최전선, 레나스 래어 아스의 도전",
+      "summary": "호주 레나스 래어 아스(Lynas Rare Earths)가 중국 외 지역에서 희토류 공급망을 다져온 여정과 일본과의 협력을 살펴봅니다.",
+      "category": "global-market",
+      "relation": "direct",
+      "url": "2026-08-29-중국-의존도를-낮추는-희토류-공급망의-최전선-레나스-래어-아스의-도전.html",
+      "video": "https://www.youtube.com/watch?v=Dfsw0STj8YY",
+      "video_id": "Dfsw0STj8YY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-08-28-예금부터-주식까지-토큰화되는-금융-시장-무엇이-달라질까요",
       "date": "2026-08-28",
@@ -77,6 +92,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-08-28-엔비디아의-놀라운-실적-그-이면에-숨겨진-ai-시장의-고민",
+      "date": "2026-08-28",
+      "channel": "삼프로TV",
+      "title": "엔비디아의 놀라운 실적, 그 이면에 숨겨진 AI 시장의 고민",
+      "summary": "엔비디아의 어닝 서프라이즈에도 AI 인프라 투자와 밸류체인을 둘러싼 시장의 고민과 버블 우려를 짚어 봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-08-28-엔비디아의-놀라운-실적-그-이면에-숨겨진-ai-시장의-고민.html",
+      "video": "https://www.youtube.com/watch?v=WJjnegPE_7M",
+      "video_id": "WJjnegPE_7M",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-08-27-달러-스테이블코인-시대-원화는-어떻게-살아남아야-할까요",
@@ -585,6 +615,36 @@
       "video": "https://www.youtube.com/watch?v=3u69-LtA5Hk",
       "video_id": "3u69-LtA5Hk",
       "pv": 5,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-24-미국의-1조-달러-국채-매입-검토와-메모리-반도체-기술-경쟁",
+      "date": "2026-08-24",
+      "channel": "삼프로TV",
+      "title": "미국의 1조 달러 국채 매입 검토와 메모리 반도체 기술 경쟁",
+      "summary": "미국의 국채 매입과 금리 동향, 삼성과 하이닉스의 메모리 기술 경쟁을 짚어 봅니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-08-24-미국의-1조-달러-국채-매입-검토와-메모리-반도체-기술-경쟁.html",
+      "video": "https://www.youtube.com/watch?v=gz8DyslGExs",
+      "video_id": "gz8DyslGExs",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-24-증시-변동성이-클-때-포트폴리오를-환기하는-방법",
+      "date": "2026-08-24",
+      "channel": "삼프로TV",
+      "title": "증시 변동성이 클 때 포트폴리오를 환기하는 방법",
+      "summary": "변동성이 큰 증시 흐름 속에서 한두 종목에만 치우치기보다 포트폴리오를 점검하고 환기할 때입니다.",
+      "category": "market",
+      "relation": "indirect",
+      "url": "2026-08-24-증시-변동성이-클-때-포트폴리오를-환기하는-방법.html",
+      "video": "https://www.youtube.com/watch?v=IHZXURtOmEU",
+      "video_id": "IHZXURtOmEU",
+      "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
     },
