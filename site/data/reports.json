@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-31T01:46:09",
+  "generated_at": "2026-08-31T08:48:17",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -62,6 +62,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-31-장중-급락을-딛고-일어선-증시-외국인-선물-매수의-숨은-의도",
+      "date": "2026-08-31",
+      "channel": "삼프로TV",
+      "title": "장중 급락을 딛고 일어선 증시, 외국인 선물 매수의 숨은 의도",
+      "summary": "장중 큰 폭의 낙폭을 보였던 국내 증시가 외국인 선물 매수에 힘입어 극적으로 반등했습니다.",
+      "category": "korea-market",
+      "relation": "direct",
+      "url": "2026-08-31-장중-급락을-딛고-일어선-증시-외국인-선물-매수의-숨은-의도.html",
+      "video": "https://www.youtube.com/watch?v=kVJuOEM1wn0",
+      "video_id": "kVJuOEM1wn0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-31-다시-막히는-파나마-운하-한국-에너지-물류에-비상등이-켜진-이유",
+      "date": "2026-08-31",
+      "channel": "언더스탠딩",
+      "title": "다시 막히는 파나마 운하, 한국 에너지 물류에 비상등이 켜진 이유",
+      "summary": "파나마 운하의 가뭄과 통항 제한이 한국의 에너지 수입 비용과 물류에 미치는 영향",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-08-31-다시-막히는-파나마-운하-한국-에너지-물류에-비상등이-켜진-이유.html",
+      "video": "https://www.youtube.com/watch?v=KQFuipyqjsI",
+      "video_id": "KQFuipyqjsI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-08-30-강대국을-움직이는-작은-나라들-글로벌-공급망의-숨은-변수",
