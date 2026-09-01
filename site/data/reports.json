@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-31T18:10:04",
+  "generated_at": "2026-09-01T02:09:07",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-09-01-미국-g20에-대중국-공동관세-촉구-무역전쟁-확산-조심",
+      "date": "2026-09-01",
+      "channel": "손에 잡히는 경제",
+      "title": "미국, G20에 대중국 공동관세 촉구…무역전쟁 확산 조심",
+      "summary": "미국이 G20 국가에 대중국 공동관세를 제안하며 무역 압박을 높이고 있습니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-09-01-미국-g20에-대중국-공동관세-촉구-무역전쟁-확산-조심.html",
+      "video": "https://www.youtube.com/watch?v=g5cB1sSa_0w",
+      "video_id": "g5cB1sSa_0w",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-08-31-미-연준의-금리-인상-시사와-경제-지표의-잠정치-발표",
       "date": "2026-08-31",
@@ -107,6 +122,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-08-31-금리-낮추라는-트럼프와-급등하는-유가-시장을-흔드는-변수들",
+      "date": "2026-08-31",
+      "channel": "삼프로TV",
+      "title": "금리 낮추라는 트럼프와 급등하는 유가, 시장을 흔드는 변수들",
+      "summary": "트럼프의 금리 인하 압박과 이란전 리스크에 따른 유가 급등세가 전반적인 실물 경제와 배터리 공급망에 미치는 영향을 살펴봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-08-31-금리-낮추라는-트럼프와-급등하는-유가-시장을-흔드는-변수들.html",
+      "video": "https://www.youtube.com/watch?v=YnOjUcYtqOg",
+      "video_id": "YnOjUcYtqOg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-31-국제유가-급등과-금리-신고가-경신-시장을-흔드는-변수들",
+      "date": "2026-08-31",
+      "channel": "삼프로TV",
+      "title": "국제유가 급등과 금리 신고가 경신, 시장을 흔드는 변수들",
+      "summary": "국제 유가와 미국 국채 금리가 오르면서 시장의 부담이 커지고 있는데요, 과연 어떤 흐름이 이어질지 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-08-31-국제유가-급등과-금리-신고가-경신-시장을-흔드는-변수들.html",
+      "video": "https://www.youtube.com/watch?v=Fy_S9mRrsek",
+      "video_id": "Fy_S9mRrsek",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-08-30-강대국을-움직이는-작은-나라들-글로벌-공급망의-숨은-변수",
@@ -749,6 +794,36 @@
       "url": "2026-08-25-ai-데이터센터-건립의-명과-암-그리고-이차전지-산업이-나아갈-길.html",
       "video": "https://www.youtube.com/watch?v=Z0xjV16aDyc",
       "video_id": "Z0xjV16aDyc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-25-캐나다의-대미-보복-관세-카드-북미-통상-갈등으로-번지나",
+      "date": "2026-08-25",
+      "channel": "삼프로TV",
+      "title": "캐나다의 대미 보복 관세 카드, 북미 통상 갈등으로 번지나",
+      "summary": "캐나다가 미국에 200억 달러 규모의 보복 관세를 추진하면서 북미 지역 통상 갈등이 깊어질 조짐을 보이고 있습니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-08-25-캐나다의-대미-보복-관세-카드-북미-통상-갈등으로-번지나.html",
+      "video": "https://www.youtube.com/watch?v=r2sCLKyRaZU",
+      "video_id": "r2sCLKyRaZU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-25-ai-투자-거품과-재정-리스크-그-이면의-수요를-읽다",
+      "date": "2026-08-25",
+      "channel": "삼프로TV",
+      "title": "AI 투자 거품과 재정 리스크, 그 이면의 수요를 읽다",
+      "summary": "AI 투자 거품 우려와 미국 재정 리스크를 점검하고, 반도체 및 빅테크의 실적과 수급 흐름을 살펴봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-08-25-ai-투자-거품과-재정-리스크-그-이면의-수요를-읽다.html",
+      "video": "https://www.youtube.com/watch?v=2iOFqQue8dI",
+      "video_id": "2iOFqQue8dI",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
