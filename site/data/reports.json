@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-02T07:16:59",
+  "generated_at": "2026-09-02T15:19:34",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -92,6 +92,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-02-전기요금-10-격차-지방-기업-유치와-배터리-공장에-미칠-영향은",
+      "date": "2026-09-02",
+      "channel": "언더스탠딩",
+      "title": "전기요금 10% 격차, 지방 기업 유치와 배터리 공장에 미칠 영향은",
+      "summary": "산업용 전기요금 지역별 차등제 도입을 두고 수도권과 지방의 격차 및 실효성을 짚어봅니다.",
+      "category": "korea-policy",
+      "relation": "indirect",
+      "url": "2026-09-02-전기요금-10-격차-지방-기업-유치와-배터리-공장에-미칠-영향은.html",
+      "video": "https://www.youtube.com/watch?v=3r3G6NoMwyQ",
+      "video_id": "3r3G6NoMwyQ",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-02-일본-기업들이-갑자기-공장을-늘리는-이유와-ai-인프라의-진짜-의미",
+      "date": "2026-09-02",
+      "channel": "언더스탠딩",
+      "title": "일본 기업들이 갑자기 공장을 늘리는 이유와 AI 인프라의 진짜 의미",
+      "summary": "보수적이던 일본 기업들이 AI 인프라 확충을 위해 공장 증설에 나섰는데요, 전력과 부품 등 물리적 인프라 수요가 탄탄하다는 신호로 풀이됩니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-09-02-일본-기업들이-갑자기-공장을-늘리는-이유와-ai-인프라의-진짜-의미.html",
+      "video": "https://www.youtube.com/watch?v=DDFbluIkf-4",
+      "video_id": "DDFbluIkf-4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-09-01-미국-g20에-대중국-공동관세-촉구-무역전쟁-확산-조심",
