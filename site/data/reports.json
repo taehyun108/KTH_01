@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-02T15:19:34",
+  "generated_at": "2026-09-02T17:56:26",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -122,6 +122,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-09-02-한때-130조-원이던-쉬인-상장-성적이-초라했던-이유",
+      "date": "2026-09-02",
+      "channel": "손석희의 12시",
+      "title": "한때 130조 원이던 쉬인, 상장 성적이 초라했던 이유",
+      "summary": "초저가 패스트패션 기업 쉬인의 홍콩 상장 부진과, 저가 위주 성장의 한계에 대한 이야기죠.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-02-한때-130조-원이던-쉬인-상장-성적이-초라했던-이유.html",
+      "video": "https://www.youtube.com/watch?v=EYlFQ5XSwrM",
+      "video_id": "EYlFQ5XSwrM",
+      "pv": 6,
+      "scope": "battery",
+      "src": "yt-dlp-captions"
     },
     {
       "id": "2026-09-01-미국-g20에-대중국-공동관세-촉구-무역전쟁-확산-조심",
