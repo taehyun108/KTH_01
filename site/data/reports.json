@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-03T01:39:59",
+  "generated_at": "2026-09-03T07:15:40",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -419,6 +419,21 @@
       "url": "2026-08-31-국제유가-급등과-금리-신고가-경신-시장을-흔드는-변수들.html",
       "video": "https://www.youtube.com/watch?v=Fy_S9mRrsek",
       "video_id": "Fy_S9mRrsek",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-31-연준의-깜짝-긴축-선언에-흔들리는-증시-9월의-악몽-반복될까",
+      "date": "2026-08-31",
+      "channel": "소수몽키",
+      "title": "연준의 깜짝 긴축 선언에 흔들리는 증시, 9월의 악몽 반복될까",
+      "summary": "연준의 매파적 발언과 다양한 매크로 악재가 겹치며 9월 증시의 변동성이 우려되는 시점입니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-08-31-연준의-깜짝-긴축-선언에-흔들리는-증시-9월의-악몽-반복될까.html",
+      "video": "https://www.youtube.com/watch?v=qXuK203LR5Y",
+      "video_id": "qXuK203LR5Y",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
