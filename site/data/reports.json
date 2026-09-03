@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-03T07:15:40",
+  "generated_at": "2026-09-03T15:13:06",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -29,6 +29,36 @@
       "url": "2026-09-03-국채금리-급등과-증시-자금-이탈-그리고-sk하이닉스의-일본-투자-움직임.html",
       "video": "https://www.youtube.com/watch?v=R0yo-cgtqmY",
       "video_id": "R0yo-cgtqmY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-03-미국의-경기도-반도체-지목-한국-기업이-마주한-제재-리스크",
+      "date": "2026-09-03",
+      "channel": "언더스탠딩",
+      "title": "미국의 경기도 반도체 지목, 한국 기업이 마주한 제재 리스크",
+      "summary": "미국이 경기도 반도체 벨트를 중국산 우회 수출 위험 지역으로 지목하면서 국내 공급망 리스크가 커지고 있습니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-09-03-미국의-경기도-반도체-지목-한국-기업이-마주한-제재-리스크.html",
+      "video": "https://www.youtube.com/watch?v=19JgEChjtok",
+      "video_id": "19JgEChjtok",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-03-미국-국채금리가-다시-뛰는-이유와-자산시장의-향방",
+      "date": "2026-09-03",
+      "channel": "손에 잡히는 경제",
+      "title": "미국 국채금리가 다시 뛰는 이유와 자산시장의 향방",
+      "summary": "미국의 AI 투자와 재정 적자가 금리 상승을 부르지만, 정부가 금리 상단을 통제하려 할 것이라는 전망입니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-03-미국-국채금리가-다시-뛰는-이유와-자산시장의-향방.html",
+      "video": "https://www.youtube.com/watch?v=bbtJ36LhJP4",
+      "video_id": "bbtJ36LhJP4",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
