@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-02T17:56:26",
+  "generated_at": "2026-09-03T01:39:59",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-09-03-국채금리-급등과-증시-자금-이탈-그리고-sk하이닉스의-일본-투자-움직임",
+      "date": "2026-09-03",
+      "channel": "손에 잡히는 경제",
+      "title": "국채금리 급등과 증시 자금 이탈, 그리고 SK하이닉스의 일본 투자 움직임",
+      "summary": "국채금리 급등과 증시 자금 유출이 이어지는 경제 상황을 짚어보고, SK하이닉스의 일본 반도체 공장 검토 소식을 전해 드립니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-03-국채금리-급등과-증시-자금-이탈-그리고-sk하이닉스의-일본-투자-움직임.html",
+      "video": "https://www.youtube.com/watch?v=R0yo-cgtqmY",
+      "video_id": "R0yo-cgtqmY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
     {
       "id": "2026-09-02-미-이란-충돌과-유가-급등-채권-금리-발작이-뉴욕증시에-미친-영향",
       "date": "2026-09-02",
@@ -139,6 +154,36 @@
       "src": "yt-dlp-captions"
     },
     {
+      "id": "2026-09-02-고용-지표-부진과-금리-하락-빅테크-실적과-ai-시장의-향방",
+      "date": "2026-09-02",
+      "channel": "삼프로TV",
+      "title": "고용 지표 부진과 금리 하락, 빅테크 실적과 AI 시장의 향방",
+      "summary": "고용 지표 둔화와 금리 하락 속에 주요 기술주 실적과 AI 투자 흐름이 시장의 방향을 가르는 하루였습니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-09-02-고용-지표-부진과-금리-하락-빅테크-실적과-ai-시장의-향방.html",
+      "video": "https://www.youtube.com/watch?v=5X7zz1WKULQ",
+      "video_id": "5X7zz1WKULQ",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-02-증시-급락-트라우마에-위축된-개인투자자-순매수-급감",
+      "date": "2026-09-02",
+      "channel": "삼프로TV",
+      "title": "증시 급락 트라우마에 위축된 개인투자자, 순매수 급감",
+      "summary": "7월 증시 급락 충격으로 개인투자자의 순매수가 한 달 만에 10분의 1로 줄어들었죠.",
+      "category": "korea-시장",
+      "relation": "indirect",
+      "url": "2026-09-02-증시-급락-트라우마에-위축된-개인투자자-순매수-급감.html",
+      "video": "https://www.youtube.com/watch?v=3ljgjcYQX2g",
+      "video_id": "3ljgjcYQX2g",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
       "id": "2026-09-01-미국-g20에-대중국-공동관세-촉구-무역전쟁-확산-조심",
       "date": "2026-09-01",
       "channel": "손에 잡히는 경제",
@@ -239,6 +284,21 @@
       "url": "2026-09-01-미국-금리-5-시대-주식시장은-어떻게-버텨야-할까요.html",
       "video": "https://www.youtube.com/watch?v=Et_WGedzSkQ",
       "video_id": "Et_WGedzSkQ",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-01-트럼프의-관세-압박에-캐나다가-보인-격돌",
+      "date": "2026-09-01",
+      "channel": "슈카월드",
+      "title": "트럼프의 관세 압박에 캐나다가 보인 격돌",
+      "summary": "미국의 관세 압박에 캐나다가 보복 관세로 맞서며 두 나라 사이의 무역 갈등이 거세지고 있죠.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-09-01-트럼프의-관세-압박에-캐나다가-보인-격돌.html",
+      "video": "https://www.youtube.com/watch?v=XXpW-QNHcCk",
+      "video_id": "XXpW-QNHcCk",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
@@ -614,6 +674,21 @@
       "url": "2026-08-28-엔비디아의-놀라운-실적-그-이면에-숨겨진-ai-시장의-고민.html",
       "video": "https://www.youtube.com/watch?v=WJjnegPE_7M",
       "video_id": "WJjnegPE_7M",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-28-9월-증시의-핵심-변수-연준-fomc와-고용-지표-점검",
+      "date": "2026-08-28",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "9월 증시의 핵심 변수, 연준 FOMC와 고용 지표 점검",
+      "summary": "9월 증시를 앞두고 연준 FOMC와 고용 지표가 가져올 영향과 투자 전략을 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-08-28-9월-증시의-핵심-변수-연준-fomc와-고용-지표-점검.html",
+      "video": "https://www.youtube.com/watch?v=Ga5DcRysMWI",
+      "video_id": "Ga5DcRysMWI",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
@@ -1184,6 +1259,21 @@
       "url": "2026-08-24-증시-변동성이-클-때-포트폴리오를-환기하는-방법.html",
       "video": "https://www.youtube.com/watch?v=IHZXURtOmEU",
       "video_id": "IHZXURtOmEU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-24-반도체-하락-속-순환매-장세-배터리주는-어디로-향할까요",
+      "date": "2026-08-24",
+      "channel": "삼프로TV",
+      "title": "반도체 하락 속 순환매 장세… 배터리주는 어디로 향할까요?",
+      "summary": "반도체주 약세 속 순환매의 흐름과 배터리 등 주요 업종의 움직임을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-08-24-반도체-하락-속-순환매-장세-배터리주는-어디로-향할까요.html",
+      "video": "https://www.youtube.com/watch?v=6-H_n-BJ2sE",
+      "video_id": "6-H_n-BJ2sE",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
