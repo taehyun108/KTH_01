@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-04T07:19:15",
+  "generated_at": "2026-09-04T15:31:47",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -44,6 +44,21 @@
       "url": "2026-09-04-2027-슈퍼-예산과-국가-채무-우리-경제가-마주한-현실은.html",
       "video": "https://www.youtube.com/watch?v=7webmOJkpTo",
       "video_id": "7webmOJkpTo",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-04-잠을-부르는-신약의-등장과-한국의-늦은-출시를-둘러싼-고민",
+      "date": "2026-09-04",
+      "channel": "언더스탠딩",
+      "title": "잠을 부르는 신약의 등장과, 한국의 늦은 출시를 둘러싼 고민",
+      "summary": "신경전달물질을 차단하는 신개념 수면제와 국내 약가 제도가 신약 도입에 미치는 영향입니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-04-잠을-부르는-신약의-등장과-한국의-늦은-출시를-둘러싼-고민.html",
+      "video": "https://www.youtube.com/watch?v=ta2KyfRIhUU",
+      "video_id": "ta2KyfRIhUU",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
