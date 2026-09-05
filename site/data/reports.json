@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-05T01:31:02",
+  "generated_at": "2026-09-05T07:05:21",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,51 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-09-05-재건축-확정됐는데-임대주택-내놔라-광명시-중첩용적률-논란의-진실",
+      "date": "2026-09-05",
+      "channel": "언더스탠딩",
+      "title": "재건축 확정됐는데 임대주택 내놔라? 광명시 중첩용적률 논란의 진실",
+      "summary": "광명시의 재건축 임대주택 소급 요구 논란, 지자체 정책 불확실성이 부동산과 주택 시장에 미치는 영향이죠.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-09-05-재건축-확정됐는데-임대주택-내놔라-광명시-중첩용적률-논란의-진실.html",
+      "video": "https://www.youtube.com/watch?v=Q0ge2O9luKw",
+      "video_id": "Q0ge2O9luKw",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-05-미-이란-호르무즈-충돌과-국제-금리-상승",
+      "date": "2026-09-05",
+      "channel": "손석희의 12시",
+      "title": "미·이란 호르무즈 충돌과 국제 금리 상승",
+      "summary": "미국과 이란이 호르무즈 해협에서 무력 충돌하며 유가와 국제금리가 상승했는데요, 배터리 업계에도 공급망과 원가 부담으로 이어질 수 있습니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-09-05-미-이란-호르무즈-충돌과-국제-금리-상승.html",
+      "video": "https://www.youtube.com/watch?v=2SoHqWwtJJ0",
+      "video_id": "2SoHqWwtJJ0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-05-원화-강세와-코스피를-지킨-숨은-주체들",
+      "date": "2026-09-05",
+      "channel": "박종훈의 지식한방",
+      "title": "원화 강세와 코스피를 지킨 숨은 주체들",
+      "summary": "외국인 매도 속에서도 대기업의 자사주 매입과 달러 환전 수요가 증시와 환율을 방어해 온 흐름을 짚어 봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-09-05-원화-강세와-코스피를-지킨-숨은-주체들.html",
+      "video": "https://www.youtube.com/watch?v=OaQ4VwcE2wE",
+      "video_id": "OaQ4VwcE2wE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-09-04-미국-반도체-관세-압박과-공공기관-대수술-우리-경제에-미칠-영향은",
       "date": "2026-09-04",
@@ -599,6 +644,21 @@
       "url": "2026-08-31-연준의-깜짝-긴축-선언에-흔들리는-증시-9월의-악몽-반복될까.html",
       "video": "https://www.youtube.com/watch?v=qXuK203LR5Y",
       "video_id": "qXuK203LR5Y",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-31-9월-시장을-준비하는-자세-방어적-전략과-업종별-대응법",
+      "date": "2026-08-31",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "9월 시장을 준비하는 자세, 방어적 전략과 업종별 대응법",
+      "summary": "8월 시장을 정리하고 9월을 대비하는 방어적 투자 전략을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-08-31-9월-시장을-준비하는-자세-방어적-전략과-업종별-대응법.html",
+      "video": "https://www.youtube.com/watch?v=OXkPtyRAgfE",
+      "video_id": "OXkPtyRAgfE",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
