@@ -20,6 +20,11 @@ const TAG_COLORS = ['#0ea5e9','#6366f1','#0891b2','#7c3aed','#ea8a0b','#e11d48',
 
 const LS_FAV = 'bra_fav', LS_HIDE = 'bra_hidden';
 
+// 한 페이지에 보여 줄 카드 수. 예전에는 걸러진 리포트를 전부 한 번에 그렸는데,
+// 건수가 250개를 넘어가면서 목록이 끝없이 늘어졌다. 페이지로 끊어서 보여 준다.
+const PER_PAGE = 15;
+let page = 1;
+
 let ALL = [];
 let CHANNEL_ROSTER = [];    // 설정된 전체 채널명(0건 채널도 칩으로 표시)
 // 카테고리는 여러 개를 동시에 켤 수 있는 다중 선택 필터 (비어 있으면 '전체')
@@ -111,6 +116,7 @@ function renderPills() {
         activeView = 'all';
         if (activeCats.has(key)) activeCats.delete(key); else activeCats.add(key);
       }
+      resetPage();
       render();
     };
     el.appendChild(b);
@@ -156,7 +162,7 @@ function renderChannels() {
     b.className = 'chip' + (key === activeChannel ? ' active' : '') + (n === 0 && key !== 'all' ? ' empty' : '');
     b.style.setProperty('--tag', key === 'all' ? 'var(--accent-strong)' : tagColor(key));
     b.innerHTML = `${esc(label)}<span class="n">${n}</span>`;
-    b.onclick = () => { activeChannel = key; render(); };
+    b.onclick = () => { activeChannel = key; resetPage(); render(); };
     el.appendChild(b);
   }
 
@@ -185,18 +191,86 @@ function sectionLabel() {
   return base;
 }
 
+/* 페이지 번호 목록을 만든다. 페이지가 많아지면 가운데만 보여 주고 나머지는 '…' 로 접는다.
+   예) 현재 7쪽 / 전체 20쪽 → 1 … 5 6 7 8 9 … 20 */
+function pageWindow(cur, total) {
+  const out = [];
+  const push = (v) => { if (out[out.length - 1] !== v) out.push(v); };
+  push(1);
+  if (cur - 2 > 2) push('…');
+  for (let i = Math.max(2, cur - 2); i <= Math.min(total - 1, cur + 2); i++) push(i);
+  if (cur + 2 < total - 1) push('…');
+  if (total > 1) push(total);
+  return out;
+}
+
+function gotoPage(p, total) {
+  page = Math.min(Math.max(1, p), Math.max(1, total));
+  syncPageParam();
+  renderCards();
+  // 새 페이지의 첫 카드가 보이도록 목록 머리로 올린다(헤더에 가리지 않게 여유를 둔다)
+  const head = document.getElementById('section-head');
+  if (head) {
+    const y = head.getBoundingClientRect().top + window.scrollY - 12;
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+  }
+}
+
+function renderPager(totalItems) {
+  const el = document.getElementById('pager');
+  if (!el) return;
+  const total = Math.max(1, Math.ceil(totalItems / PER_PAGE));
+  if (total <= 1) { el.innerHTML = ''; el.setAttribute('hidden', ''); return; }
+  el.removeAttribute('hidden');
+  el.innerHTML = '';
+
+  const btn = (label, opts = {}) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'page-btn' + (opts.active ? ' active' : '') + (opts.gap ? ' gap' : '');
+    b.textContent = label;
+    if (opts.gap) { b.disabled = true; b.setAttribute('aria-hidden', 'true'); }
+    if (opts.disabled) b.disabled = true;
+    if (opts.label) b.setAttribute('aria-label', opts.label);
+    if (opts.active) b.setAttribute('aria-current', 'page');
+    if (opts.go != null) b.onclick = () => gotoPage(opts.go, total);
+    return b;
+  };
+
+  el.appendChild(btn('‹', { go: page - 1, disabled: page === 1, label: '이전 페이지' }));
+  for (const v of pageWindow(page, total)) {
+    if (v === '…') { el.appendChild(btn('…', { gap: true })); continue; }
+    el.appendChild(btn(String(v), { go: v, active: v === page, label: `${v}페이지` }));
+  }
+  el.appendChild(btn('›', { go: page + 1, disabled: page === total, label: '다음 페이지' }));
+
+  const info = document.createElement('span');
+  info.className = 'page-info';
+  info.textContent = `${page} / ${total} 페이지`;
+  el.appendChild(info);
+}
+
 function renderCards() {
   const items = currentItems();
+  const total = Math.max(1, Math.ceil(items.length / PER_PAGE));
+  // 필터·숨김으로 항목이 줄어 현재 페이지가 사라졌으면 마지막 페이지로 당겨 온다
+  if (page > total) { page = total; syncPageParam(); }
+  if (page < 1) page = 1;
+
   const head = document.getElementById('section-head');
-  head.innerHTML = `<span>${sectionLabel()}</span><span class="n">${items.length}</span>`;
+  const from = items.length ? (page - 1) * PER_PAGE + 1 : 0;
+  const to = Math.min(page * PER_PAGE, items.length);
+  head.innerHTML = `<span>${sectionLabel()}</span><span class="n">${items.length}</span>` +
+    (items.length > PER_PAGE ? `<span class="range">${from}–${to}번째</span>` : '');
 
   const list = document.getElementById('cards');
   if (!items.length) {
     list.innerHTML = '<div class="empty">해당 조건의 리포트가 없습니다.</div>';
+    renderPager(0);
     return;
   }
   list.innerHTML = '';
-  for (const r of items) {
+  for (const r of items.slice((page - 1) * PER_PAGE, page * PER_PAGE)) {
     const cat = CATEGORIES[r.category] || { label: r.category, emoji: '' };
     const rel = REL[r.relation] || REL.indirect;
     const isFav = favs.has(r.id);
@@ -238,7 +312,20 @@ function renderCards() {
     if (delBtn) delBtn.onclick = (e) => { e.preventDefault(); requestDelete(r); };
     list.appendChild(card);
   }
+  renderPager(items.length);
 }
+
+/* 새로고침·뒤로가기에도 보던 페이지가 유지되도록 주소에 ?p= 로 남긴다.
+   1쪽이면 지저분하니 아예 뺀다. */
+function syncPageParam() {
+  const url = new URL(window.location.href);
+  if (page > 1) url.searchParams.set('p', String(page));
+  else url.searchParams.delete('p');
+  history.replaceState(null, '', url);
+}
+
+// 필터·검색이 바뀌면 보던 페이지 번호는 의미가 없어진다 — 1쪽부터 다시 본다
+function resetPage() { page = 1; syncPageParam(); }
 
 // 즐겨찾기 탭에서만 'URL 직접 요약' 도구를 노출
 function renderFavTools() {
@@ -329,8 +416,12 @@ async function init() {
     if (stamp && data.generated_at) stamp.textContent = '최근 갱신: ' + data.generated_at.replace('T', ' ').slice(0, 16);
   } catch (e) { ALL = []; console.error('reports.json 로드 실패', e); }
 
+  // 주소에 ?p=3 이 있으면 그 페이지부터 — 새로고침·뒤로가기·링크 공유에 쓰인다
+  const wanted = parseInt(new URL(window.location.href).searchParams.get('p') || '1', 10);
+  page = Number.isFinite(wanted) && wanted > 0 ? wanted : 1;
+
   const search = document.getElementById('search');
-  search.addEventListener('input', () => { searchTerm = search.value.trim(); renderCards(); });
+  search.addEventListener('input', () => { searchTerm = search.value.trim(); resetPage(); renderCards(); });
 
   // 마스터 모드 토글
   const mb = document.getElementById('master-btn');
@@ -341,8 +432,10 @@ async function init() {
   if (homeBtn) {
     homeBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      // 캐시된 reports.json 대신 최신 데이터를 받도록 강제 새로고침
-      window.location.reload();
+      // 홈은 '처음 상태' — 페이지 번호도 떼고 최신 데이터로 새로 받는다
+      const url = new URL(window.location.href);
+      url.searchParams.delete('p');
+      window.location.replace(url);
     });
   }
 

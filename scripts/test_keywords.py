@@ -710,6 +710,40 @@ def check_tone_prompt() -> list[str]:
     return out
 
 
+def check_pagination() -> list[str]:
+    """목록 페이지네이션 — 카드 수와 배선이 조용히 바뀌지 않게 막는다.
+
+    예전에 워크플로가 코드 기본값을 덮어써도 아무도 몰랐던 적이 있다(VIDEO_ANALYSIS_MAX).
+    화면 쪽도 같은 식으로 어긋날 수 있어서, 값과 연결을 함께 잡아 둔다.
+    """
+    import pathlib
+    out = []
+    root = pathlib.Path(__file__).resolve().parent.parent / "site"
+    js = (root / "assets" / "app.js").read_text(encoding="utf-8")
+    html = (root / "news" / "index.html").read_text(encoding="utf-8")
+    css = (root / "assets" / "style.css").read_text(encoding="utf-8")
+
+    m = re.search(r"const\s+PER_PAGE\s*=\s*(\d+)", js)
+    if not m:
+        out.append("  [app.js 에 PER_PAGE 상수가 없습니다]")
+    elif int(m.group(1)) != 15:
+        out.append(f"  [페이지당 카드 수가 {m.group(1)}개 — 15개여야 합니다]")
+
+    # 슬라이스 없이 전부 그리면 페이지네이션이 무의미해진다
+    if "slice((page - 1) * PER_PAGE, page * PER_PAGE)" not in js:
+        out.append("  [renderCards 가 현재 페이지만 잘라 그리지 않습니다]")
+
+    if 'id="pager"' not in html:
+        out.append("  [news/index.html 에 페이지 이동 영역(#pager)이 없습니다]")
+    if ".page-btn" not in css:
+        out.append("  [style.css 에 .page-btn 스타일이 없습니다]")
+
+    # 필터·검색을 바꾸면 1쪽으로 돌아가야 한다 (세 군데 모두)
+    if js.count("resetPage()") < 3:
+        out.append(f"  [필터 변경 시 페이지 초기화가 {js.count('resetPage()')}곳 — 3곳이어야 합니다]")
+    return out
+
+
 def check_stop_reason() -> list[str]:
     import inspect
     import run_pipeline
@@ -978,6 +1012,7 @@ def main() -> int:
     fails += check_workflow_models_perm()
     fails += check_workflow_push_retry()
     fails += check_yt_meta()
+    fails += check_pagination()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
@@ -987,8 +1022,9 @@ def main() -> int:
              + 7     # 텍스트 주력 전환(기본값·순서·되돌리기·예비·한도2)
              + 5     # 말투 프롬프트(목록·경고·스펙·버전)
              + 4     # PC 자막 수집 git 처리
-             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4 + 8)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API — "
+             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4 + 8
+             + 5)    # 목록 페이지네이션(카드수·슬라이스·요소·스타일·초기화)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)
