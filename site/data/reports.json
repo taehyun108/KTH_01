@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-07T16:41:33",
+  "generated_at": "2026-09-07T23:46:54",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -69,7 +69,7 @@
       "channel": "삼프로TV",
       "title": "비트코인 기관 투자 확대, 어디로 향하고 있을까요?",
       "summary": "글로벌 비트코인 컨퍼런스와 기관 투자 흐름을 통해 살펴본 가상자산 시장의 동향입니다.",
-      "category": "global-시장",
+      "category": "global-market",
       "relation": "indirect",
       "url": "2026-09-07-비트코인-기관-투자-확대-어디로-향하고-있을까요.html",
       "video": "https://www.youtube.com/watch?v=gGmeeLLKqBg",
@@ -639,7 +639,7 @@
       "channel": "삼프로TV",
       "title": "증시 급락 트라우마에 위축된 개인투자자, 순매수 급감",
       "summary": "7월 증시 급락 충격으로 개인투자자의 순매수가 한 달 만에 10분의 1로 줄어들었죠.",
-      "category": "korea-시장",
+      "category": "korea-market",
       "relation": "indirect",
       "url": "2026-09-02-증시-급락-트라우마에-위축된-개인투자자-순매수-급감.html",
       "video": "https://www.youtube.com/watch?v=3ljgjcYQX2g",
@@ -1809,7 +1809,7 @@
       "channel": "삼프로TV",
       "title": "증시 변동성이 클 때 포트폴리오를 환기하는 방법",
       "summary": "변동성이 큰 증시 흐름 속에서 한두 종목에만 치우치기보다 포트폴리오를 점검하고 환기할 때입니다.",
-      "category": "market",
+      "category": "macro",
       "relation": "indirect",
       "url": "2026-08-24-증시-변동성이-클-때-포트폴리오를-환기하는-방법.html",
       "video": "https://www.youtube.com/watch?v=IHZXURtOmEU",

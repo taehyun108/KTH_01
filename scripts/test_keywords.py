@@ -710,6 +710,50 @@ def check_tone_prompt() -> list[str]:
     return out
 
 
+def check_category_guard() -> list[str]:
+    """분류 값 고정 — 목록에 없는 카테고리가 들어오면 그 리포트가 화면에서 사라진다.
+
+    2026-08-24 'market', 09-02 'korea-시장' 두 건이 실제로 그랬다. 어느 칩에도
+    안 잡혀서 '전체 367'인데 칩 합계는 365였고, 아무 오류도 나지 않았다.
+    """
+    import json
+    import pathlib
+    from config import CATEGORIES, normalize_category, normalize_relation
+
+    out = []
+    cases = [
+        ("korea-market", "korea-market"), ("korea-시장", "korea-market"),
+        ("KOREA-MARKET", "korea-market"), ("koreamarket", "korea-market"),
+        ("국내-시장", "korea-market"), ("글로벌-정책", "global-policy"),
+        ("market", "macro"), ("", "macro"), (None, "macro"), ("이상한값", "macro"),
+    ]
+    for raw, want in cases:
+        got, _ = normalize_category(raw)
+        if got != want:
+            out.append(f"  [카테고리 {raw!r} → {want!r} 여야 함] → {got!r}")
+    if normalize_category("macro") != ("macro", True):
+        out.append("  [정상 값은 '그대로'로 표시돼야 합니다]")
+    for raw, want in [("direct", "direct"), ("DIRECT", "direct"), ("", "indirect"), ("x", "indirect")]:
+        got, _ = normalize_relation(raw)
+        if got != want:
+            out.append(f"  [relation {raw!r} → {want!r} 여야 함] → {got!r}")
+
+    # 실제 데이터에도 목록 밖 값이 남아 있으면 안 된다
+    j = pathlib.Path(__file__).resolve().parent.parent / "site" / "data" / "reports.json"
+    if j.exists():
+        reports = json.loads(j.read_text(encoding="utf-8")).get("reports", [])
+        bad = sorted({r.get("category") for r in reports} - set(CATEGORIES))
+        if bad:
+            out.append(f"  [reports.json 에 등록되지 않은 카테고리] {bad}")
+
+    # 인덱스를 다시 만들 때도 걸러야 지난 데이터가 고쳐진다
+    import inspect
+    import build_index
+    if "normalize_category" not in inspect.getsource(build_index.merge):
+        out.append("  [build_index.merge 가 분류 값을 고정하지 않습니다]")
+    return out
+
+
 def check_pagination() -> list[str]:
     """목록 페이지네이션 — 카드 수와 배선이 조용히 바뀌지 않게 막는다.
 
@@ -1012,6 +1056,7 @@ def main() -> int:
     fails += check_workflow_models_perm()
     fails += check_workflow_push_retry()
     fails += check_yt_meta()
+    fails += check_category_guard()
     fails += check_pagination()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
@@ -1023,8 +1068,9 @@ def main() -> int:
              + 5     # 말투 프롬프트(목록·경고·스펙·버전)
              + 4     # PC 자막 수집 git 처리
              + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4 + 8
-             + 5)    # 목록 페이지네이션(카드수·슬라이스·요소·스타일·초기화)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션 — "
+             + 5     # 목록 페이지네이션(카드수·슬라이스·요소·스타일·초기화)
+             + 17)   # 분류 값 고정(카테고리10·정상1·relation4·데이터1·인덱스1)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

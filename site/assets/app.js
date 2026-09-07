@@ -58,8 +58,16 @@ function pruneStaleIds() {
    pruneStaleIds 가 이미 정리하지만, 계산 자체도 데이터 기준으로 두어 두 번 막는다. */
 const countLive = (set) => ALL.reduce((n, r) => n + (set.has(r.id) ? 1 : 0), 0);
 
+/* 카테고리 색은 CSS 변수에서 읽는데, getComputedStyle 은 브라우저에 스타일 계산을
+   강제한다. 카드마다 두 번씩 부르고 있었다(15장이면 30번). 값이 바뀌지 않으니 한 번만 읽는다. */
+const _catVarCache = new Map();
 function catVar(cat) {
-  return getComputedStyle(document.documentElement).getPropertyValue('--c-' + cat).trim() || '#64748b';
+  let v = _catVarCache.get(cat);
+  if (v === undefined) {
+    v = getComputedStyle(document.documentElement).getPropertyValue('--c-' + cat).trim() || '#64748b';
+    _catVarCache.set(cat, v);
+  }
+  return v;
 }
 function tagColor(name) {
   let h = 0; for (const ch of String(name)) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
@@ -140,7 +148,7 @@ function currentItems() {
     items = items.filter(r =>
       (r.title + ' ' + r.summary + ' ' + r.channel).toLowerCase().includes(q));
   }
-  return items.sort((a, b) => (a.date < b.date ? 1 : -1));
+  return items;   // 정렬은 불러올 때 한 번만 한다 (아래 init 참고)
 }
 
 function renderChannels() {
@@ -409,7 +417,10 @@ async function init() {
   try {
     const res = await fetch('../data/reports.json', { cache: 'no-cache' });
     const data = await res.json();
-    ALL = Array.isArray(data.reports) ? data.reports : [];
+    // 최신순 정렬은 여기서 한 번만. 예전에는 검색어를 한 글자 칠 때마다
+    // 367건을 다시 정렬했는데, 순서가 바뀔 일이 없으니 헛일이었다.
+    ALL = (Array.isArray(data.reports) ? data.reports : [])
+      .sort((a, b) => (a.date < b.date ? 1 : -1));
     CHANNEL_ROSTER = Array.isArray(data.channels) ? data.channels : [];
     pruneStaleIds();
     const stamp = document.getElementById('generated');

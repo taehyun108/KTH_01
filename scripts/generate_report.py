@@ -25,7 +25,7 @@ from typing import Any
 import transcript_cache
 import gh_models
 from config import (GEMINI_MODEL, GEMINI_MODEL_PIN, NEWS_DIR, DRAFTS_DIR,
-                    CATEGORIES)
+                    CATEGORIES, normalize_category, normalize_relation)
 from org_names import prompt_block
 
 # 리포트 말투/프롬프트 버전. 이 값이 바뀌면 regenerate.py 가 옛 버전 리포트를 새로 만든다.
@@ -1335,13 +1335,23 @@ def process_video(meta: dict[str, Any], force: bool = False,
     pub = (meta.get("published") or "")[:10]
     the_date = pub if re.fullmatch(r"\d{4}-\d{2}-\d{2}", pub) else date.today().isoformat()
     slug = f"{the_date}-{slugify(data['title'])}"
+
+    # 목록 화면은 등록된 카테고리만 칩으로 보여 준다. 목록에 없는 값이 들어오면
+    # 그 리포트는 어느 칩에도 안 잡혀 조용히 사라지므로, 여기서 값을 고정한다.
+    cat, cat_ok = normalize_category(data.get("category"))
+    rel, rel_ok = normalize_relation(data.get("relation"))
+    if not cat_ok:
+        print(f"  [분류] category {data.get('category')!r} → {cat!r} 로 교정했습니다")
+    if not rel_ok:
+        print(f"  [분류] relation {data.get('relation')!r} → {rel!r} 로 교정했습니다")
+
     NEWS_DIR.mkdir(parents=True, exist_ok=True)
     (NEWS_DIR / f"{slug}.html").write_text(render_html(data, meta, the_date), encoding="utf-8")
 
     return {
         "id": slug, "date": the_date, "channel": meta["channel"],
         "title": data["title"], "summary": data["meta_description"],
-        "category": data["category"], "relation": data["relation"],
+        "category": cat, "relation": rel,
         "url": f"{slug}.html",
         "video": meta.get("link") or f"https://www.youtube.com/watch?v={meta['video_id']}",
         "video_id": meta["video_id"],  # 중복 방지용 (모든 URL 형식 무관)

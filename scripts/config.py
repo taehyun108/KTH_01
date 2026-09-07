@@ -192,6 +192,47 @@ SPECIFIC_KEYWORDS = _dedup(
 
 # 카테고리 정의 (LLM 분류가 이 중 하나를 반환). macro=거시경제(금리·환율·유가·증시 전반)
 CATEGORIES = ["global-policy", "global-market", "korea-policy", "korea-market", "macro"]
+RELATIONS = ["direct", "indirect", "context"]
+
+# LLM 이 목록에 없는 값을 뱉는 일이 실제로 있었다(2026-08-24 'market',
+# 09-02 'korea-시장'). 두 건은 화면의 어느 카테고리 칩에도 안 잡혀서
+# '전체 367'인데 칩 합계는 365가 되는, 눈에 잘 안 띄는 구멍이 됐다.
+# 프롬프트로만 막을 수 없으니 기록하기 직전에 값을 고정한다.
+_CAT_WORDS = {
+    "시장": "market", "산업": "market", "시황": "market",
+    "정책": "policy", "시사": "policy",
+    "국내": "korea", "한국": "korea", "글로벌": "global", "해외": "global",
+    "거시": "macro", "거시경제": "macro",
+}
+
+
+def normalize_category(value: str) -> tuple[str, bool]:
+    """(정규화된 카테고리, 그대로였는가) 를 돌려준다.
+
+    고칠 수 없으면 macro 로 떨어뜨린다 — 화면에서 사라지는 것보다 낫다.
+    """
+    raw = str(value or "").strip()
+    if raw in CATEGORIES:
+        return raw, True
+    s = raw.lower().replace("_", "-").replace(" ", "")
+    for ko, en in _CAT_WORDS.items():          # 'korea-시장' → 'korea-market'
+        s = s.replace(ko, en)
+    if s in CATEGORIES:
+        return s, False
+    # 'market' 처럼 지역이 빠진 경우 — 지역을 알 수 없으니 거시로 둔다
+    if s in ("policy", "market", ""):
+        return "macro", False
+    for c in CATEGORIES:                        # 'koreamarket' 같은 하이픈 누락
+        if s == c.replace("-", ""):
+            return c, False
+    return "macro", False
+
+
+def normalize_relation(value: str) -> tuple[str, bool]:
+    raw = str(value or "").strip().lower()
+    if raw in RELATIONS:
+        return raw, True
+    return ("indirect", False)
 
 # Gemini 모델 (시크릿 KTH_01_GEMINI_API_KEY → 환경변수 GEMINI_API_KEY)
 # 실제 사용 모델은 런타임에 generateContent 지원 목록에서 자동 선택되며,

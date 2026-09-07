@@ -10,7 +10,8 @@ import json
 from datetime import datetime
 from typing import Any
 
-from config import REPORTS_JSON, DATA_DIR, NEWS_DIR, MAX_REPORTS, CHANNELS
+from config import (REPORTS_JSON, DATA_DIR, NEWS_DIR, MAX_REPORTS, CHANNELS,
+                    normalize_category, normalize_relation)
 
 
 def load_existing() -> list[dict[str, Any]]:
@@ -24,6 +25,24 @@ def merge(new_reports: list[dict[str, Any]]) -> None:
     for r in new_reports:
         by_id[r["id"]] = r
     reports = sorted(by_id.values(), key=lambda r: r["date"], reverse=True)  # 최신순
+
+    # 목록 화면은 등록된 카테고리만 칩으로 그린다. 목록에 없는 값이 하나라도 있으면
+    # 그 리포트는 어느 칩에도 안 잡혀 '전체 367 / 칩 합계 365' 처럼 조용히 어긋난다.
+    # 생성 단계에서도 막지만, 지난 데이터까지 훑는 이 자리에서 한 번 더 고정한다.
+    fixed = 0
+    for r in reports:
+        cat, cat_ok = normalize_category(r.get("category"))
+        rel, rel_ok = normalize_relation(r.get("relation"))
+        if not cat_ok:
+            print(f"  [분류] {r['id']}: category {r.get('category')!r} → {cat!r}")
+            r["category"] = cat
+            fixed += 1
+        if not rel_ok:
+            print(f"  [분류] {r['id']}: relation {r.get('relation')!r} → {rel!r}")
+            r["relation"] = rel
+            fixed += 1
+    if fixed:
+        print(f"  [분류] 등록되지 않은 값 {fixed}건을 교정했습니다")
 
     # 보관 상한: 최신 MAX_REPORTS 건만 유지, 초과분 HTML 은 삭제 (None = 무제한)
     if MAX_REPORTS is not None and len(reports) > MAX_REPORTS:
