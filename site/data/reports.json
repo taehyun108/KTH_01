@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-08T07:22:01",
+  "generated_at": "2026-09-08T15:20:21",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-08-삼성전자는-왜-자사주-소각을-망설일까-110조-주주환원-논란의-진실",
+      "date": "2026-09-08",
+      "channel": "언더스탠딩",
+      "title": "삼성전자는 왜 자사주 소각을 망설일까, 110조 주주환원 논란의 진실",
+      "summary": "삼성전자의 주주환원 발표와 자사주 소각 논란을 통해 짚어보는 국내 기업 지배구조와 코리아 디스카운트의 현실.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-09-08-삼성전자는-왜-자사주-소각을-망설일까-110조-주주환원-논란의-진실.html",
+      "video": "https://www.youtube.com/watch?v=YeBr-8HN_5c",
+      "video_id": "YeBr-8HN_5c",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-08-미국-금리-지금-안-올리는-게-더-위험하다고요",
+      "date": "2026-09-08",
+      "channel": "언더스탠딩",
+      "title": "미국 금리, 지금 안 올리는 게 더 위험하다고요?",
+      "summary": "미국의 고금리 장기화 가능성과 재정부채 부담, 그리고 이것이 시장에 미치는 영향을 다룹니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-08-미국-금리-지금-안-올리는-게-더-위험하다고요.html",
+      "video": "https://www.youtube.com/watch?v=IeFfKoJPhmA",
+      "video_id": "IeFfKoJPhmA",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-09-07-메모리-반도체-모멘텀과-주요-기업-실적-전망",
