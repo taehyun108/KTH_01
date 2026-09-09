@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-09T07:28:33",
+  "generated_at": "2026-09-09T15:19:56",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-09-한전의-25조-원-전기요금-선납-요구-그-숨은-배경과-시장-파장",
+      "date": "2026-09-09",
+      "channel": "언더스탠딩",
+      "title": "한전의 25조 원 전기요금 선납 요구, 그 숨은 배경과 시장 파장",
+      "summary": "한국전력의 전기요금 25조 원 선납 요구 배경과 채권시장 영향을 짚어봅니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-09-09-한전의-25조-원-전기요금-선납-요구-그-숨은-배경과-시장-파장.html",
+      "video": "https://www.youtube.com/watch?v=NSvMJyqUpQ0",
+      "video_id": "NSvMJyqUpQ0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-09-kt-g-자사주-소송-판결로-본-국내-증시의-과제",
+      "date": "2026-09-09",
+      "channel": "언더스탠딩",
+      "title": "KT&G 자사주 소송 판결로 본 국내 증시의 과제",
+      "summary": "자사주 처분 관련 법원 판결과 이사의 충실의무 논란이 국내 증시에 던지는 의미를 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-09-09-kt-g-자사주-소송-판결로-본-국내-증시의-과제.html",
+      "video": "https://www.youtube.com/watch?v=X7MNOtrEryE",
+      "video_id": "X7MNOtrEryE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-09-08-뉴욕증시-휴장-속-유럽-증시와-금리-에너지-시장-점검",
