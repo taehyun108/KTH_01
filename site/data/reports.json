@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-09T01:38:07",
+  "generated_at": "2026-09-09T07:28:33",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-09-09-건강보험료율-동결과-엔화-환율의-최근-움직임",
+      "date": "2026-09-09",
+      "channel": "손에 잡히는 경제",
+      "title": "건강보험료율 동결과 엔화 환율의 최근 움직임",
+      "summary": "내년 건강보험료율이 동결되는 배경과 엔화 환율의 최근 흐름을 짚어 봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-09-건강보험료율-동결과-엔화-환율의-최근-움직임.html",
+      "video": "https://www.youtube.com/watch?v=t1G8ARy7G9Q",
+      "video_id": "t1G8ARy7G9Q",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-09-미-이란-긴장-고조에-흔들린-뉴욕증시와-ai-인프라의-흐름",
+      "date": "2026-09-09",
+      "channel": "삼프로TV",
+      "title": "미·이란 긴장 고조에 흔들린 뉴욕증시와 AI 인프라의 흐름",
+      "summary": "미·이란 갈등으로 유가가 오르고 뉴욕증시가 내렸는데요, AI 인프라와 배터리 밸류체인에 미치는 영향을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-09-09-미-이란-긴장-고조에-흔들린-뉴욕증시와-ai-인프라의-흐름.html",
+      "video": "https://www.youtube.com/watch?v=3uZWa58WmoY",
+      "video_id": "3uZWa58WmoY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-09-08-뉴욕증시-휴장-속-유럽-증시와-금리-에너지-시장-점검",
       "date": "2026-09-08",
