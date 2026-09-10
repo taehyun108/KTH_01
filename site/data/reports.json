@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-10T01:35:06",
+  "generated_at": "2026-09-10T15:17:17",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -44,6 +44,51 @@
       "url": "2026-09-10-국제유가-100달러-재돌파와-주요-경제-산업-소식.html",
       "video": "https://www.youtube.com/watch?v=GFxCQE1np-0",
       "video_id": "GFxCQE1np-0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-10-미국채-흔들림과-구조적-고금리-이차전지-자금줄에-미칠-영향은",
+      "date": "2026-09-10",
+      "channel": "손에 잡히는 경제",
+      "title": "미국채 흔들림과 구조적 고금리, 이차전지 자금줄에 미칠 영향은",
+      "summary": "미국과 한국의 국채 공급 증가와 재정 적자가 맞물리면서 구조적인 고금리 압박이 이어지고 있는데요. 이차전지 업계의 투자 심리와 자금 조달 환경에도 어떤 변화를 주는지 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-10-미국채-흔들림과-구조적-고금리-이차전지-자금줄에-미칠-영향은.html",
+      "video": "https://www.youtube.com/watch?v=vUIkQcfCiC0",
+      "video_id": "vUIkQcfCiC0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-10-원유-수출-막히고-휘발유마저-흔들린다-한계-다다른-이란-경제",
+      "date": "2026-09-10",
+      "channel": "언더스탠딩",
+      "title": "원유 수출 막히고 휘발유마저 흔들린다, 한계 다다른 이란 경제",
+      "summary": "미국의 해상 봉쇄로 한계에 다다른 이란 경제와 국제유가 움직임",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-09-10-원유-수출-막히고-휘발유마저-흔들린다-한계-다다른-이란-경제.html",
+      "video": "https://www.youtube.com/watch?v=1b6rKiowwIo",
+      "video_id": "1b6rKiowwIo",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-10-말로-시키면-다-해내는-ai-배터리-산업에는-어떤-영향을-줄까요",
+      "date": "2026-09-10",
+      "channel": "언더스탠딩",
+      "title": "말로 시키면 다 해내는 AI, 배터리 산업에는 어떤 영향을 줄까요?",
+      "summary": "말 한마디로 게임과 영상을 만드는 AI 에이전트의 등장, 그리고 이에 따른 인프라와 배터리 산업의 변화를 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-09-10-말로-시키면-다-해내는-ai-배터리-산업에는-어떤-영향을-줄까요.html",
+      "video": "https://www.youtube.com/watch?v=CwBvAHBG2cU",
+      "video_id": "CwBvAHBG2cU",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
