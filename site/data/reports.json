@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-11T01:48:46",
+  "generated_at": "2026-09-11T15:16:35",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -62,6 +62,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-11-아르헨티나의-파격적인-경제-개혁-리튬-시장에는-어떤-변화를-줄까요",
+      "date": "2026-09-11",
+      "channel": "언더스탠딩",
+      "title": "아르헨티나의 파격적인 경제 개혁, 리튬 시장에는 어떤 변화를 줄까요",
+      "summary": "아르헨티나의 고강도 경제 개혁과 리튬 자원 개발 정책이 글로벌 배터리 공급망에 미치는 영향입니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-09-11-아르헨티나의-파격적인-경제-개혁-리튬-시장에는-어떤-변화를-줄까요.html",
+      "video": "https://www.youtube.com/watch?v=zBJc3jBX4Qo",
+      "video_id": "zBJc3jBX4Qo",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-11-고금리가-흔드는-ai-시장-그리고-민주당-중간선거와-인프라주의-반격",
+      "date": "2026-09-11",
+      "channel": "언더스탠딩",
+      "title": "고금리가 흔드는 AI 시장, 그리고 민주당 중간선거와 인프라주의 반격",
+      "summary": "고금리와 AI 펀드 위기 속에서 미국 중간선거 결과와 전력망·수소 인프라가 새로운 투자 기회가 될 수 있다는 분석입니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-09-11-고금리가-흔드는-ai-시장-그리고-민주당-중간선거와-인프라주의-반격.html",
+      "video": "https://www.youtube.com/watch?v=J5Vd023EFXY",
+      "video_id": "J5Vd023EFXY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-09-10-금리-유가-불안에도-시장의-돈이-향하는-곳은",
