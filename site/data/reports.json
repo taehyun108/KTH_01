@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-12T07:17:56",
+  "generated_at": "2026-09-12T14:25:06",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -29,6 +29,21 @@
       "url": "2026-09-12-중국이-ai와-로봇에-모든-것을-건-이유.html",
       "video": "https://www.youtube.com/watch?v=Sbkv7viyTBM",
       "video_id": "Sbkv7viyTBM",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-12-우리가-몰랐던-헨리-조지와-토지-가치의-진실",
+      "date": "2026-09-12",
+      "channel": "언더스탠딩",
+      "title": "우리가 몰랐던 헨리 조지와 토지 가치의 진실",
+      "summary": "토지 가치와 부동산 제도를 다룬 책 '부동산은 어떻게 권력이 되었나'를 통해, 헨리 조지의 사상과 토지 중심 금융의 역사를 살펴보는 시간입니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-12-우리가-몰랐던-헨리-조지와-토지-가치의-진실.html",
+      "video": "https://www.youtube.com/watch?v=jpirf3GOp6Q",
+      "video_id": "jpirf3GOp6Q",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
