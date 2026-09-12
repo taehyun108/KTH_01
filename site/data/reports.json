@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-12T14:25:06",
+  "generated_at": "2026-09-12T17:13:42",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-12-북극-항로가-열리면-물류는-어떻게-바뀔까-러일-갈등과-우크라이나-외교까지",
+      "date": "2026-09-12",
+      "channel": "슈카월드",
+      "title": "북극 항로가 열리면 물류는 어떻게 바뀔까? 러일 갈등과 우크라이나 외교까지",
+      "summary": "북극 항로 개방 가능성과 쿠릴열도를 둘러싼 러일 갈등, 그리고 우크라이나의 외교 행보를 짚어 봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-09-12-북극-항로가-열리면-물류는-어떻게-바뀔까-러일-갈등과-우크라이나-외교까지.html",
+      "video": "https://www.youtube.com/watch?v=LFBEEft1uFc",
+      "video_id": "LFBEEft1uFc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "yt-dlp-captions"
     },
     {
       "id": "2026-09-11-금리-동결-전망과-증시에-미치는-영향",
