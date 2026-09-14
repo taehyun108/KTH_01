@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T01:44:14",
+  "generated_at": "2026-09-14T08:01:40",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-09-14-전쟁이-끝나도-고유가는-계속될까요",
+      "date": "2026-09-14",
+      "channel": "손석희의 12시",
+      "title": "전쟁이 끝나도 고유가는 계속될까요",
+      "summary": "전쟁 이후에도 고유가와 고물가 압력이 이어질 수 있다는 전망과 배터리 산업에 미치는 영향을 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-14-전쟁이-끝나도-고유가는-계속될까요.html",
+      "video": "https://www.youtube.com/watch?v=Qohd9WJe2Sw",
+      "video_id": "Qohd9WJe2Sw",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-14-트럼프의-5천-달러-배당금-공약과-중동-고유가-시대-배터리-산업에-미치는-영향",
+      "date": "2026-09-14",
+      "channel": "손석희의 12시",
+      "title": "트럼프의 5천 달러 배당금 공약과 중동 고유가 시대, 배터리 산업에 미치는 영향",
+      "summary": "미국 중간선거를 앞두고 나온 트럼프 전 대통령의 '인당 5천 달러 배당금' 공약과, 중동 긴장으로 인한 고유가 흐름이 배터리 공급망에 미치는 영향을 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-09-14-트럼프의-5천-달러-배당금-공약과-중동-고유가-시대-배터리-산업에-미치는-영향.html",
+      "video": "https://www.youtube.com/watch?v=rqes4XwT7Kk",
+      "video_id": "rqes4XwT7Kk",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-09-13-시장을-이끄는-주도주를-찾아내는-율리시즈의-투자-원칙",
       "date": "2026-09-13",
