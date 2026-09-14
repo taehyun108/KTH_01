@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-13T15:04:16",
+  "generated_at": "2026-09-14T01:44:14",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -119,6 +119,36 @@
       "url": "2026-09-13-애플의-첫-폴더블-아이폰-듀오-공개와-소비재-시장의-감성.html",
       "video": "https://www.youtube.com/watch?v=no2ueRxMwOE",
       "video_id": "no2ueRxMwOE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-13-미국증시-cpi-예상치-상회에도-상승-마감-아모데이-앤트로픽-ceo-ai-발전-속도-늦춰야-한다",
+      "date": "2026-09-13",
+      "channel": "삼프로TV",
+      "title": "미국증시, CPI 예상치 상회에도 상승 마감...아모데이 앤트로픽 CEO 'AI 발전 속도 늦춰야 한다'",
+      "summary": "미국 증시는 CPI 예상치 상회에도 상승 마감했고, 금리와 유가 흐름 및 AI 발전 속도 조절론이 시장의 주요 화두로 떠올랐습니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-13-미국증시-cpi-예상치-상회에도-상승-마감-아모데이-앤트로픽-ceo-ai-발전-속도-늦춰야-한다.html",
+      "video": "https://www.youtube.com/watch?v=uuhKDr9a66o",
+      "video_id": "uuhKDr9a66o",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-13-ai-수장들의-멸망-경고와-트럼프의-중국차-생산-발언",
+      "date": "2026-09-13",
+      "channel": "삼프로TV",
+      "title": "AI 수장들의 멸망 경고와 트럼프의 중국차 생산 발언",
+      "summary": "AI 수장들의 인류 멸망 경고와 트럼프의 중국차 미국 생산 관련 발언이 글로벌 통상 환경에 미치는 영향을 살펴봅니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-09-13-ai-수장들의-멸망-경고와-트럼프의-중국차-생산-발언.html",
+      "video": "https://www.youtube.com/watch?v=BVYUrEOvXyU",
+      "video_id": "BVYUrEOvXyU",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
@@ -614,6 +644,21 @@
       "url": "2026-09-08-테슬라-로보택시-사이버캡-화성-갈-수-있을까.html",
       "video": "https://www.youtube.com/watch?v=Us890Q2m3Tg",
       "video_id": "Us890Q2m3Tg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-08-반도체-주가-흔들림-속에서도-펀더멘털을-봐야-하는-이유와-ai가-가져올-생산성-향상",
+      "date": "2026-09-08",
+      "channel": "삼프로TV",
+      "title": "반도체 주가 흔들림 속에서도 펀더멘털을 봐야 하는 이유와 AI가 가져올 생산성 향상",
+      "summary": "반도체 주가의 일시적 하락 속에서도 펀더멘털은 견조하며, AI 인프라 투자가 가져올 생산성 향상과 산업 전반의 파급효과를 짚어보는 시간입니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-08-반도체-주가-흔들림-속에서도-펀더멘털을-봐야-하는-이유와-ai가-가져올-생산성-향상.html",
+      "video": "https://www.youtube.com/watch?v=XvGAwYAs8rU",
+      "video_id": "XvGAwYAs8rU",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
