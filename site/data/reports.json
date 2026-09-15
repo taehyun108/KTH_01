@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-15T02:28:55",
+  "generated_at": "2026-09-15T15:44:04",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,66 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-09-15-원-달러-환율-1-300원대-안착할까-엔캐리-청산과-환율-전망",
+      "date": "2026-09-15",
+      "channel": "손에 잡히는 경제",
+      "title": "원·달러 환율 1,300원대 안착할까… 엔캐리 청산과 환율 전망",
+      "summary": "최근 1,300원대로 내려온 원·달러 환율의 배경과 엔캐리 청산 가능성이 환율에 미칠 영향",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-15-원-달러-환율-1-300원대-안착할까-엔캐리-청산과-환율-전망.html",
+      "video": "https://www.youtube.com/watch?v=lgdlE3vtzXA",
+      "video_id": "lgdlE3vtzXA",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-15-금리가-5-올랐는데-증시는-왜-버틸까요-진짜-공포를-읽는-법",
+      "date": "2026-09-15",
+      "channel": "언더스탠딩",
+      "title": "금리가 5% 올랐는데 증시는 왜 버틸까요? 진짜 공포를 읽는 법",
+      "summary": "금리 5%가 증시 폭락을 부르지 않는 이유와 진짜 위험 신호인 신용 스프레드 점검",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-15-금리가-5-올랐는데-증시는-왜-버틸까요-진짜-공포를-읽는-법.html",
+      "video": "https://www.youtube.com/watch?v=xB84vw_ltxA",
+      "video_id": "xB84vw_ltxA",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-15-집값은-정말-계속-오를까요-노벨경제학상이-말하는-부동산의-진실",
+      "date": "2026-09-15",
+      "channel": "언더스탠딩",
+      "title": "집값은 정말 계속 오를까요? 노벨경제학상이 말하는 부동산의 진실",
+      "summary": "노벨경제학상 수상자 로버트 실러의 연구를 통해 자산 시장의 거품과 내러티브의 영향력을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-15-집값은-정말-계속-오를까요-노벨경제학상이-말하는-부동산의-진실.html",
+      "video": "https://www.youtube.com/watch?v=1UXNugLJXgo",
+      "video_id": "1UXNugLJXgo",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-15-미국-국채-10년물-금리-5-터치-연준의-금리-결정과-시장의-시선",
+      "date": "2026-09-15",
+      "channel": "삼프로TV",
+      "title": "미국 국채 10년물 금리 5% 터치, 연준의 금리 결정과 시장의 시선",
+      "summary": "미국 국채 10년물 금리가 5%에 근접하면서 시장에 미치는 영향과 연준의 향후 금리 결정을 점검해 봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-15-미국-국채-10년물-금리-5-터치-연준의-금리-결정과-시장의-시선.html",
+      "video": "https://www.youtube.com/watch?v=MfVgbqtpZ7k",
+      "video_id": "MfVgbqtpZ7k",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
     {
       "id": "2026-09-14-전쟁이-끝나도-고유가는-계속될까요",
       "date": "2026-09-14",
