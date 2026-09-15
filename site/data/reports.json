@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T17:05:22",
+  "generated_at": "2026-09-15T02:28:55",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -92,6 +92,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-09-14-미국-국채-금리-5-터치와-ai-속도-조절론-증시를-흔든-변수들",
+      "date": "2026-09-14",
+      "channel": "삼프로TV",
+      "title": "미국 국채 금리 5% 터치와 AI 속도 조절론, 증시를 흔든 변수들",
+      "summary": "미국 10년물 국채 금리가 5%를 터치하며 증시에 부담을 준 가운데, AI 속도 조절론과 주요 빅테크의 움직임이 시장을 흔들었는데요. 환율과 유가, 그리고 금리 변동이 전반적인 산업 환경에 어떤 의미를 가지는지 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-14-미국-국채-금리-5-터치와-ai-속도-조절론-증시를-흔든-변수들.html",
+      "video": "https://www.youtube.com/watch?v=xfPClGNWSsc",
+      "video_id": "xfPClGNWSsc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-14-애플의-첫-폴더블폰-아이폰-듀오와-고가-전략의-모든-것",
+      "date": "2026-09-14",
+      "channel": "슈카월드",
+      "title": "애플의 첫 폴더블폰, 아이폰 듀오와 고가 전략의 모든 것",
+      "summary": "애플의 첫 폴더블폰 '아이폰 듀오'가 공개된 가운데, 고가 정책과 감성 중심의 변화가 시장에 미칠 영향과 시사점을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-14-애플의-첫-폴더블폰-아이폰-듀오와-고가-전략의-모든-것.html",
+      "video": "https://www.youtube.com/watch?v=IR9mLZlMZVo",
+      "video_id": "IR9mLZlMZVo",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-09-13-시장을-이끄는-주도주를-찾아내는-율리시즈의-투자-원칙",
@@ -634,6 +664,21 @@
       "src": "gemini-video"
     },
     {
+      "id": "2026-09-09-유가-금리-누르고-ai가-끌어올린다-주도주-실전매매-전략",
+      "date": "2026-09-09",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "유가·금리 누르고, AI가 끌어올린다… 주도주 실전매매 전략",
+      "summary": "유가 상승과 금리 불안 속에서도 AI와 전력 인프라, 반도체는 강세를 보이고 있는데요, 시장 흐름을 짚어 보는 시간입니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-09-09-유가-금리-누르고-ai가-끌어올린다-주도주-실전매매-전략.html",
+      "video": "https://www.youtube.com/watch?v=KJpxiUOolVs",
+      "video_id": "KJpxiUOolVs",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
       "id": "2026-09-08-뉴욕증시-휴장-속-유럽-증시와-금리-에너지-시장-점검",
       "date": "2026-09-08",
       "channel": "삼프로TV",
@@ -884,6 +929,21 @@
       "url": "2026-09-07-환율의-급격한-속도와-펀더멘털-그리고-연방준비제도의-선택.html",
       "video": "https://www.youtube.com/watch?v=glGTrMcmeDc",
       "video_id": "glGTrMcmeDc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-07-300조-대미투자펀드와-젠슨-황의-aig-시대",
+      "date": "2026-09-07",
+      "channel": "삼프로TV",
+      "title": "300조 대미투자펀드와 젠슨 황의 AIG 시대",
+      "summary": "미국 대미투자펀드의 원전·화력 프로젝트와 젠슨 황의 AIG 시대 선언이 산업계에 던지는 의미를 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-09-07-300조-대미투자펀드와-젠슨-황의-aig-시대.html",
+      "video": "https://www.youtube.com/watch?v=hZxMe5De8NY",
+      "video_id": "hZxMe5De8NY",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
