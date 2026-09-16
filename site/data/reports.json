@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-16T01:51:05",
+  "generated_at": "2026-09-16T15:34:32",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -62,6 +62,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-16-사우디-수송로마저-막혔다-국제유가-급등이-불러올-파장",
+      "date": "2026-09-16",
+      "channel": "언더스탠딩",
+      "title": "사우디 수송로마저 막혔다... 국제유가 급등이 불러올 파장",
+      "summary": "중동 우회 수송로까지 막히면서 국제유가 급등 위험이 커졌는데요, 배터리 원가 부담으로 이어질 수 있습니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-09-16-사우디-수송로마저-막혔다-국제유가-급등이-불러올-파장.html",
+      "video": "https://www.youtube.com/watch?v=smDRmdQ19SY",
+      "video_id": "smDRmdQ19SY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-16-금리만-보면-안-되는-이유-ai-투자는-왜-꺾이지-않을까요",
+      "date": "2026-09-16",
+      "channel": "언더스탠딩",
+      "title": "금리만 보면 안 되는 이유, AI 투자는 왜 꺾이지 않을까요",
+      "summary": "고금리 환경 속에서도 꺾이지 않는 AI 투자 흐름과 새로운 자금 조달 방식, 그리고 시장을 판단할 때 금리 외에 유동성과 신용 지표를 함께 봐야 하는 이유를 전해 드립니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-16-금리만-보면-안-되는-이유-ai-투자는-왜-꺾이지-않을까요.html",
+      "video": "https://www.youtube.com/watch?v=5nKuSTrLq2Q",
+      "video_id": "5nKuSTrLq2Q",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-09-15-원-달러-환율-1-300원대-안착할까-엔캐리-청산과-환율-전망",
