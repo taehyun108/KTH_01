@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-17T07:47:13",
+  "generated_at": "2026-09-17T15:41:58",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -59,6 +59,36 @@
       "url": "2026-09-17-미국-기준금리-0-25-p-인상과-sk하이닉스의-새로운-도전.html",
       "video": "https://www.youtube.com/watch?v=OCUE2jskGfg",
       "video_id": "OCUE2jskGfg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-17-중국차-밀려오는데-한국만-엉뚱하게-돈-쓴다",
+      "date": "2026-09-17",
+      "channel": "언더스탠딩",
+      "title": "중국차 밀려오는데 한국만 엉뚱하게 돈 쓴다?",
+      "summary": "한국의 전기차 보조금과 생산세액공제 정책이 국내 배터리·자동차 산업 생태계에 미치는 영향",
+      "category": "korea-policy",
+      "relation": "direct",
+      "url": "2026-09-17-중국차-밀려오는데-한국만-엉뚱하게-돈-쓴다.html",
+      "video": "https://www.youtube.com/watch?v=BmuLmL3LL_8",
+      "video_id": "BmuLmL3LL_8",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-17-어느-날-엔진이-깨지기-시작했습니다-완성차-품질과-내부고발의-기록",
+      "date": "2026-09-17",
+      "channel": "언더스탠딩",
+      "title": "어느 날 엔진이 깨지기 시작했습니다, 완성차 품질과 내부고발의 기록",
+      "summary": "현대차 세타 엔진 결함과 내부고발 사건을 통해 본 완성차 품질 관리의 그늘과 시사점입니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-09-17-어느-날-엔진이-깨지기-시작했습니다-완성차-품질과-내부고발의-기록.html",
+      "video": "https://www.youtube.com/watch?v=hQZOqFR-qUw",
+      "video_id": "hQZOqFR-qUw",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
