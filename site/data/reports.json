@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-16T15:34:32",
+  "generated_at": "2026-09-17T02:28:32",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-09-17-미국-기준금리-인상-우려-진정-증시의-향방은",
+      "date": "2026-09-17",
+      "channel": "삼프로TV",
+      "title": "미국 기준금리 인상 우려 진정…증시의 향방은?",
+      "summary": "미국 기준금리 인상 우려가 진정되면서 증시가 안정세를 찾아가고 있어요.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-17-미국-기준금리-인상-우려-진정-증시의-향방은.html",
+      "video": "https://www.youtube.com/watch?v=WHvUoJoGoDg",
+      "video_id": "WHvUoJoGoDg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-09-16-코스피-거래대금-16조-원대의-의미와-증시-수급-점검",
       "date": "2026-09-16",
@@ -92,6 +107,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-09-16-미국-기준금리-0-25-p-인상-3년-만에-긴축-연준의-선택이-남긴-과제",
+      "date": "2026-09-16",
+      "channel": "삼프로TV",
+      "title": "미국 기준금리 0.25%p 인상, 3년 만에 긴축… 연준의 선택이 남긴 과제",
+      "summary": "미국 연방준비제도가 기준금리를 0.25%p 인상하며 3년 만에 긴축 기조로 돌아섰습니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-16-미국-기준금리-0-25-p-인상-3년-만에-긴축-연준의-선택이-남긴-과제.html",
+      "video": "https://www.youtube.com/watch?v=NEASsJfFTyA",
+      "video_id": "NEASsJfFTyA",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-09-15-원-달러-환율-1-300원대-안착할까-엔캐리-청산과-환율-전망",
@@ -614,6 +644,21 @@
       "url": "2026-09-11-imf-위기-속에서-부산-시민들이-은행-주식을-사들인-사연.html",
       "video": "https://www.youtube.com/watch?v=S53CrrMgvss",
       "video_id": "S53CrrMgvss",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-11-유가-국채금리-동반-압박-송재경-대표가-9월-후반-증시를-경계하는-이유",
+      "date": "2026-09-11",
+      "channel": "삼프로TV",
+      "title": "유가·국채금리 동반 압박…송재경 대표가 9월 후반 증시를 경계하는 이유",
+      "summary": "유가와 국채 금리가 동시에 오르는 압박 속에서 9월 후반 증시가 맞이할 계절적 리스크를 살펴봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-11-유가-국채금리-동반-압박-송재경-대표가-9월-후반-증시를-경계하는-이유.html",
+      "video": "https://www.youtube.com/watch?v=8rOR4lHbHeU",
+      "video_id": "8rOR4lHbHeU",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
