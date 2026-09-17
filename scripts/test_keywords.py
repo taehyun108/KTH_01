@@ -754,6 +754,47 @@ def check_category_guard() -> list[str]:
     return out
 
 
+def check_youtube_url_validation() -> list[str]:
+    """화면의 '유튜브 영상 직접 요약' 입력창 검증(YT_RE)이 서버가 지원하는 형식을
+    실제로 통과시키는지 확인한다.
+
+    2026-09: youtube.com/live/ID (라이브 다시보기·공유 버튼이 주는 형식)를 넣으면
+    서버(run_pipeline._extract_video_id)는 이미 지원하는데, 화면의 정규식만
+    이걸 몰라서 "올바른 유튜브 주소가 아닙니다"로 제출 자체가 막혔다. 서버가
+    지원하는 형식과 화면의 검증이 어긋나면 똑같은 일이 또 생긴다.
+    """
+    import pathlib
+    js = (pathlib.Path(__file__).resolve().parent.parent / "site" / "assets" / "app.js").read_text(encoding="utf-8")
+
+    m = re.search(r"const\s+YT_RE\s*=\s*/(.+)/i;", js)
+    if not m:
+        return ["  [app.js 에서 YT_RE 정규식을 찾지 못했습니다]"]
+    # JS 정규식 리터럴(이스케이프된 슬래시 포함)을 그대로 Python re 로 컴파일한다.
+    # 이 패턴 안에서 쓰는 문법(문자클래스·비탐욕 없음·이스케이프)은 JS/Python 이 같다.
+    try:
+        yt_re = re.compile(m.group(1).replace(r"\/", "/"), re.I)
+    except re.error as exc:
+        return [f"  [YT_RE 를 컴파일하지 못했습니다] {exc}"]
+
+    cases = [
+        ("https://www.youtube.com/live/B3zL_1Z47qU?si=X44oCcJ4pgFLi2mK", True),  # 실제로 막혔던 URL
+        ("https://www.youtube.com/watch?v=abcdefghijk", True),
+        ("https://youtu.be/abcdefghijk", True),
+        ("https://www.youtube.com/shorts/abcdefghijk", True),
+        ("https://www.youtube.com/embed/abcdefghijk", True),
+        ("youtube.com/live/abcdefghijk", True),
+        ("https://example.com/live/abcdefghijk", False),   # 다른 도메인은 계속 막혀야 함
+        ("아무말", False),
+    ]
+    out = []
+    for url, want in cases:
+        got = bool(yt_re.match(url))
+        if got != want:
+            state = "통과해야" if want else "막혀야"
+            out.append(f"  [{url!r} 는 {state} 함] → {'통과' if got else '막힘'}")
+    return out
+
+
 def check_pagination() -> list[str]:
     """목록 페이지네이션 — 카드 수와 배선이 조용히 바뀌지 않게 막는다.
 
@@ -1058,6 +1099,7 @@ def main() -> int:
     fails += check_yt_meta()
     fails += check_category_guard()
     fails += check_pagination()
+    fails += check_youtube_url_validation()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
@@ -1069,8 +1111,9 @@ def main() -> int:
              + 4     # PC 자막 수집 git 처리
              + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4 + 8
              + 5     # 목록 페이지네이션(카드수·슬라이스·요소·스타일·초기화)
-             + 17)   # 분류 값 고정(카테고리10·정상1·relation4·데이터1·인덱스1)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정 — "
+             + 17    # 분류 값 고정(카테고리10·정상1·relation4·데이터1·인덱스1)
+             + 8)    # 유튜브 URL 검증(watch·shorts·youtu.be·embed·live·소문자형·타도메인·잡문자)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

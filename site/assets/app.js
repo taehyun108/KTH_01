@@ -389,7 +389,10 @@ function requestDelete(r) {
   window.open(`https://github.com/${REPO}/issues/new?title=${title}&body=${body}`,
               '_blank', 'noopener');
 }
-const YT_RE = /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|shorts\/|embed\/)|youtu\.be\/)[\w-]{6,}/i;
+// live/ 는 라이브 다시보기 링크(공유 버튼이 주는 형식, ?si=... 가 붙고 v= 파라미터가 없다)다.
+// run_pipeline.py 의 _extract_video_id() 는 이미 지원하는데 여기 검증만 빠져 있어서,
+// 서버까지 가지도 못하고 "올바른 유튜브 주소가 아닙니다"로 화면에서 막히고 있었다.
+const YT_RE = /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)[\w-]{6,}/i;
 
 function requestSummary() {
   const input = document.getElementById('yt-url');
