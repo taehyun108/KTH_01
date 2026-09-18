@@ -126,6 +126,51 @@ def check_names() -> list[str]:
     return out
 
 
+def check_name_fix_actually_fixes() -> list[str]:
+    """check_names.py --fix 가 find_outdated() 와 같은 기준으로 판단하는지.
+
+    2026-09-17: '재정경제부(기획재정부에서 명칭 변경)' 처럼 새 이름도 이미
+    본문에 있는데 옛 이름은 정해진 병기 형식이 아닌 문장이 실제로 나왔다.
+    find_outdated 는 정확히 위반으로 잡았지만, --fix 는 'new in h' 라는
+    훨씬 엉성한 조건으로 지레 포기해 "0개 파일 교정"만 반복했다 — 이 하나가
+    이 파일과 무관한 모든 새 URL 등록의 커밋을 계속 막았다.
+    이 테스트는 find_outdated 가 위반으로 보는 문장을 fix() 가 실제로
+    고쳐서, 고친 뒤에는 find_outdated 가 깨끗하다고 판정하는지를 확인한다.
+    """
+    from org_names import find_outdated, is_still_outdated
+
+    out = []
+    # '새 이름도 이미 섞여 있는' 실제 사고 문장 그대로
+    broken = "시장 혼란을 막기 위해 재정경제부(기획재정부에서 명칭 변경)가 나섰다"
+    if not find_outdated(broken):
+        out.append("  [전제 오류] 이 문장은 find_outdated 가 위반으로 잡아야 재현이 됩니다")
+        return out
+
+    old, new = find_outdated(broken)[0]
+    if not is_still_outdated(broken, old, new):
+        out.append("  [is_still_outdated 가 find_outdated 와 다른 결론을 냅니다]")
+
+    # check_names.fix() 와 동일한 치환을 적용해 실제로 깨끗해지는지 확인
+    import re as _re
+    fixed = _re.sub(rf"{_re.escape(old)}(?!\s*\(현)", f"{old}(현 {new})", broken)
+    if find_outdated(fixed):
+        out.append(f"  [고친 뒤에도 위반이 남습니다] {fixed!r} → {find_outdated(fixed)}")
+
+    # fix() 안에서 이 판정을 실제로 쓰는지 — 'new in h' 로 되돌아가면 재발한다.
+    # 주석 속 설명 문구까지 코드로 오인하지 않도록 주석을 걷어내고 검사한다.
+    import inspect
+    import check_names as cn
+    src = inspect.getsource(cn.fix)
+    code_only = "\n".join(
+        line for line in src.splitlines() if not line.strip().startswith("#")
+    )
+    if "is_still_outdated" not in code_only:
+        out.append("  [check_names.fix() 가 is_still_outdated 를 쓰지 않습니다]")
+    if "new in h" in code_only:
+        out.append("  [check_names.fix() 에 'new in h' 지레짐작 조건이 되돌아왔습니다]")
+    return out
+
+
 # (자막 출처, '무관' 판정을 영구로 남겨도 되는가)
 # 설명글 200자만 보고 내린 '무관'을 영구 배제하면, 나중에 자막이 열려도 그 영상은
 # 영영 다시 보지 않는다. 자막을 확보한 상태의 판단만 영구로 남겨야 한다.
@@ -1003,6 +1048,37 @@ def check_workflow_push_retry() -> list[str]:
     return out
 
 
+# URL 직접 등록이 '성공했다'고 말해 놓고 실제로는 커밋되지 않던 사고를 막는다.
+# 2026-09-17: 이슈 #10 에서 '명칭 검사' 가 (이 리포트와 무관한, 사이트 어딘가에
+# 남아 있던 옛 이름 하나 때문에) 실패하자 'if 조건 없는' 커밋 단계가 통째로
+# skip 됐다. 그런데 '결과 댓글' 단계는 그걸 모르고 summarize 단계의 출력만
+# 보고 "✅ 요약 완료"에 리포트 링크까지 달아 이슈를 닫아 버렸다 — 그 링크는
+# 존재하지 않는 페이지였다. archive.yml 의 '커밋은 always(), 명칭검사는 경고만'
+# 원칙과 어긋난 상태였다.
+def check_workflow_url_comment_honesty() -> list[str]:
+    from pathlib import Path
+    wf = (Path(__file__).resolve().parent.parent
+          / ".github/workflows/summarize-url.yml").read_text(encoding="utf-8")
+    out = []
+    # 1) 커밋 단계가 archive.yml 과 같은 원칙(always)이어야, 이 리포트와 무관한
+    #    옛 위반 하나가 새 등록을 영영 막는 일이 재발하지 않는다
+    import re as _re
+    m = _re.search(r"- name: Commit new report\n((?:.+\n)+?)\n", wf)
+    commit_block = m.group(1) if m else ""
+    if "if: always()" not in commit_block:
+        out.append("  [Commit new report 단계에 if: always() 가 없습니다 — "
+                    "무관한 옛 명칭 위반이 새 등록을 다시 막을 수 있습니다]")
+    if 'id: commit' not in commit_block:
+        out.append("  [Commit new report 단계에 id: commit 이 없습니다]")
+    if "committed=" not in commit_block or "GITHUB_OUTPUT" not in commit_block:
+        out.append("  [커밋 단계가 실제로 커밋했는지를 출력으로 남기지 않습니다]")
+    # 2) 결과 댓글이 그 출력을 실제로 확인해야 한다 — summarize 의 자기 신고만
+    #    믿으면 커밋이 안 됐어도 성공했다고 말해 버린다
+    if "steps.commit.outputs.committed" not in wf:
+        out.append("  [결과 댓글이 steps.commit.outputs.committed 를 확인하지 않습니다]")
+    return out
+
+
 # 공식 YouTube Data API 로 설명글과 길이를 채우는 경로.
 # 후보 대부분이 '설명글 0자'라 근거부족으로 끝나던 문제를 푸는 장치다.
 # 키가 없을 때 조용히 비활성인지, 길이로 쇼츠를 확실히 거르는지를 고정한다.
@@ -1077,6 +1153,7 @@ def main() -> int:
     fails += check_shorts_not_revived()
     fails += check_shorts_guard_wired()
     fails += check_names()
+    fails += check_name_fix_actually_fixes()
     fails += check_evidence()
     fails += check_model_errors()
     fails += check_unblock()
@@ -1100,6 +1177,7 @@ def main() -> int:
     fails += check_category_guard()
     fails += check_pagination()
     fails += check_youtube_url_validation()
+    fails += check_workflow_url_comment_honesty()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
@@ -1112,8 +1190,10 @@ def main() -> int:
              + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4 + 8
              + 5     # 목록 페이지네이션(카드수·슬라이스·요소·스타일·초기화)
              + 17    # 분류 값 고정(카테고리10·정상1·relation4·데이터1·인덱스1)
-             + 8)    # 유튜브 URL 검증(watch·shorts·youtu.be·embed·live·소문자형·타도메인·잡문자)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증 — "
+             + 8     # 유튜브 URL 검증(watch·shorts·youtu.be·embed·live·소문자형·타도메인·잡문자)
+             + 4     # 명칭 --fix 정확성(전제·판정일치·재교정·회귀방지)
+             + 4)    # URL 등록 댓글 정직성(always·id·output·확인)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

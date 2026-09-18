@@ -16,7 +16,7 @@ import re
 import sys
 
 from config import NEWS_DIR, REPORTS_JSON
-from org_names import RENAMED, find_outdated
+from org_names import RENAMED, find_outdated, is_still_outdated
 
 
 def _text_of(path) -> str:
@@ -53,9 +53,10 @@ def fix() -> int:
         h = f.read_text(encoding="utf-8")
         orig = h
         for old, new, _, _ in RENAMED:
-            if old not in h or new in h:
+            # "new in h 면 이미 괜찮다"는 예전 가정이 틀렸다 — find_outdated 와
+            # 같은 병기·안전문맥 판정(is_still_outdated)만 믿는다.
+            if not is_still_outdated(h, old, new):
                 continue
-            # 이미 병기된 것은 건드리지 않는다
             h = re.sub(rf"{re.escape(old)}(?!\s*\(현)", f"{old}(현 {new})", h)
         if h != orig:
             f.write_text(h, encoding="utf-8")

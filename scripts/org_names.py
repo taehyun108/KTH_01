@@ -79,23 +79,33 @@ def _both_names_forms(old: str, new: str) -> tuple[str, ...]:
     )
 
 
+def is_still_outdated(text: str, old: str, new: str) -> bool:
+    """(옛 이름, 현재 이름) 한 쌍에 대해, 병기·안전 문맥을 걷어내고도 옛 이름이
+    맨살로 남아 있는지 판정한다. find_outdated() 와 check_names.py --fix 가
+    반드시 이 함수 하나만 써야 한다.
+
+    예전에는 --fix 가 '새 이름이 파일 어딘가에 있으면 이미 괜찮다'는 훨씬
+    엉성한 조건(new in h)으로 지레 포기했다. 그런데 '재정경제부(기획재정부에서
+    명칭 변경)'처럼 새 이름도 이미 섞여 있으면서 옛 이름은 정해진 병기 형식이
+    아닌 경우가 실제로 있었다(2026-09) — find_outdated 는 정확히 위반으로
+    잡는데 --fix 는 "0개 교정"으로 손을 놓아, 같은 문제가 CI 를 계속 막았다.
+    """
+    if old not in text:
+        return False
+    masked = text
+    # 1) 병기 표기는 정상이므로 먼저 지운다
+    for form in _both_names_forms(old, new):
+        masked = masked.replace(form, "")
+    # 2) 새 이름 안에 옛 이름이 통째로 들어 있는 경우(예: '환경부' ⊂ '기후에너지환경부')
+    for safe in _SAFE_CONTEXT.get(old, ()) + (new,):
+        if old in safe:
+            masked = masked.replace(safe, "")
+    return old in masked
+
+
 def find_outdated(text: str) -> list[tuple[str, str]]:
     """본문에서 옛 명칭을 찾아 (옛 이름, 현재 이름) 목록으로 돌려준다."""
-    hits = []
-    for old, new, _, _ in RENAMED:
-        if old not in text:
-            continue
-        masked = text
-        # 1) 병기 표기는 정상이므로 먼저 지운다
-        for form in _both_names_forms(old, new):
-            masked = masked.replace(form, "")
-        # 2) 새 이름 안에 옛 이름이 통째로 들어 있는 경우(예: '환경부' ⊂ '기후에너지환경부')
-        for safe in _SAFE_CONTEXT.get(old, ()) + (new,):
-            if old in safe:
-                masked = masked.replace(safe, "")
-        if old in masked:
-            hits.append((old, new))
-    return hits
+    return [(old, new) for old, new, _, _ in RENAMED if is_still_outdated(text, old, new)]
 
 
 def prompt_block() -> str:
