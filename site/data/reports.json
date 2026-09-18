@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-17T15:41:58",
+  "generated_at": "2026-09-18T02:00:06",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-09-18-코스피-횡보-끝내고-위를-볼-때-삼성전자와-반도체-배터리-흐름은",
+      "date": "2026-09-18",
+      "channel": "삼프로TV",
+      "title": "코스피 횡보 끝내고 위를 볼 때, 삼성전자와 반도체·배터리 흐름은",
+      "summary": "오랜 기간 횡보하던 증시가 방향을 틀 수 있을지, 삼성전자와 SK하이닉스를 중심으로 시장의 흐름과 반도체·배터리 등 핵심 산업의 움직임을 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-18-코스피-횡보-끝내고-위를-볼-때-삼성전자와-반도체-배터리-흐름은.html",
+      "video": "https://www.youtube.com/watch?v=DuffCOxnnZY",
+      "video_id": "DuffCOxnnZY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-09-17-미국-기준금리-인상-우려-진정-증시의-향방은",
       "date": "2026-09-17",
@@ -92,6 +107,66 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-09-17-금리-인상-속에서도-시장이-흔들리지-않은-진짜-이유",
+      "date": "2026-09-17",
+      "channel": "삼프로TV",
+      "title": "금리 인상 속에서도 시장이 흔들리지 않은 진짜 이유",
+      "summary": "미국 기준금리 인상 속에서도 시장이 버텨낸 배경과 앞으로의 전망을 살펴봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-17-금리-인상-속에서도-시장이-흔들리지-않은-진짜-이유.html",
+      "video": "https://www.youtube.com/watch?v=xt2yEr54soI",
+      "video_id": "xt2yEr54soI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-17-기업과-국가가-직접-ai를-만든다-자체-인프라-시대의-도래",
+      "date": "2026-09-17",
+      "channel": "소수몽키",
+      "title": "기업과 국가가 직접 AI를 만든다, 자체 인프라 시대의 도래",
+      "summary": "세계 최상위 로펌과 대형 기업들이 자체 AI 인프라 구축에 나서면서 서버와 관련 하드웨어 수요가 크게 늘고 있습니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-09-17-기업과-국가가-직접-ai를-만든다-자체-인프라-시대의-도래.html",
+      "video": "https://www.youtube.com/watch?v=1eV18vbBzZE",
+      "video_id": "1eV18vbBzZE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-17-미국-국채-금리-하락과-ai-하드웨어-섹터의-반등",
+      "date": "2026-09-17",
+      "channel": "삼프로TV",
+      "title": "미국 국채 금리 하락과 AI 하드웨어 섹터의 반등",
+      "summary": "미국 10년물 국채 금리가 하락하며 반도체 등 AI 하드웨어 종목이 상승세를 보였습니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-17-미국-국채-금리-하락과-ai-하드웨어-섹터의-반등.html",
+      "video": "https://www.youtube.com/watch?v=r5pOD_4azRY",
+      "video_id": "r5pOD_4azRY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-17-m-a-시장의-룰이-바뀐다-50-1주-의무공개매수제-국회-상임위-통과",
+      "date": "2026-09-17",
+      "channel": "삼프로TV",
+      "title": "M&A 시장의 룰이 바뀐다, 50%+1주 의무공개매수제 국회 상임위 통과",
+      "summary": "상장사 경영권 변경 시 일반 주주에게도 동일한 가격으로 지분을 넘길 기회를 주는 의무공개매수제가 28년 만에 국회 상임위를 통과했습니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-09-17-m-a-시장의-룰이-바뀐다-50-1주-의무공개매수제-국회-상임위-통과.html",
+      "video": "https://www.youtube.com/watch?v=-j2sAjRFKhY",
+      "video_id": "-j2sAjRFKhY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-09-16-코스피-거래대금-16조-원대의-의미와-증시-수급-점검",
@@ -719,6 +794,21 @@
       "url": "2026-09-11-유가-국채금리-동반-압박-송재경-대표가-9월-후반-증시를-경계하는-이유.html",
       "video": "https://www.youtube.com/watch?v=8rOR4lHbHeU",
       "video_id": "8rOR4lHbHeU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-11-금리-결정과-유가-100달러를-앞둔-증시-대응-전략",
+      "date": "2026-09-11",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "금리 결정과 유가 100달러를 앞둔 증시 대응 전략",
+      "summary": "FOMC 금리 결정을 앞두고 유가 상승과 중동 리스크가 겹친 증시 흐름을 짚어보고, 실적주와 이차전지 관련주 대응 전략을 살펴봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-11-금리-결정과-유가-100달러를-앞둔-증시-대응-전략.html",
+      "video": "https://www.youtube.com/watch?v=-8xR5s1m35A",
+      "video_id": "-8xR5s1m35A",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
@@ -1579,6 +1669,21 @@
       "src": "gemini-video"
     },
     {
+      "id": "2026-09-04-9월-증시의-핵심-변수-금리-움직임과-업종별-대응-전략",
+      "date": "2026-09-04",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "9월 증시의 핵심 변수, 금리 움직임과 업종별 대응 전략",
+      "summary": "9월 증시는 금리 인상 가능성이 가장 큰 변수인데요, 시장의 흐름과 배터리 주식의 대응 전략을 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-04-9월-증시의-핵심-변수-금리-움직임과-업종별-대응-전략.html",
+      "video": "https://www.youtube.com/watch?v=tnc2vphNcoI",
+      "video_id": "tnc2vphNcoI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
       "id": "2026-09-03-국채금리-급등과-증시-자금-이탈-그리고-sk하이닉스의-일본-투자-움직임",
       "date": "2026-09-03",
       "channel": "손에 잡히는 경제",
@@ -2324,6 +2429,21 @@
       "url": "2026-08-29-엔비디아-실적으로-확인된-ai-수요와-반도체-밸류체인의-성장성.html",
       "video": "https://www.youtube.com/watch?v=lWS9fyCL6hk",
       "video_id": "lWS9fyCL6hk",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-08-29-주주환원은-시간의-함수-대장주들의-변화와-투자-전략",
+      "date": "2026-08-29",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "주주환원은 시간의 함수: 대장주들의 변화와 투자 전략",
+      "summary": "국내 대표 기업들의 주주환원 확대가 이어지는 가운데, 시간이 흐를수록 복리 효과를 내는 주주환원의 중요성을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-08-29-주주환원은-시간의-함수-대장주들의-변화와-투자-전략.html",
+      "video": "https://www.youtube.com/watch?v=iRtPLWMQmAo",
+      "video_id": "iRtPLWMQmAo",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
