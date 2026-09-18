@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-18T02:00:06",
+  "generated_at": "2026-09-18T07:29:59",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -29,6 +29,36 @@
       "url": "2026-09-18-코스피-횡보-끝내고-위를-볼-때-삼성전자와-반도체-배터리-흐름은.html",
       "video": "https://www.youtube.com/watch?v=DuffCOxnnZY",
       "video_id": "DuffCOxnnZY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-18-중국-비축유와-국제-유가-흐름-그리고-글로벌-명품-시장의-변화",
+      "date": "2026-09-18",
+      "channel": "손석희의 12시",
+      "title": "중국 비축유와 국제 유가 흐름, 그리고 글로벌 명품 시장의 변화",
+      "summary": "중국의 비축유 방출 움직임이 국제 유가에 미치는 영향과 글로벌 명품 시장의 경쟁 구도를 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-18-중국-비축유와-국제-유가-흐름-그리고-글로벌-명품-시장의-변화.html",
+      "video": "https://www.youtube.com/watch?v=0brYK9Ez4m8",
+      "video_id": "0brYK9Ez4m8",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-18-금리-유가-하락-속-뉴욕증시-반등-기술주-중심-강세-뚜렷",
+      "date": "2026-09-18",
+      "channel": "삼프로TV",
+      "title": "금리·유가 하락 속 뉴욕증시 반등... 기술주 중심 강세 뚜렷",
+      "summary": "연준의 금리 인상과 뉴욕증시 반등 속에서, 10년물 국채 금리 움직임과 시장의 해석을 짚어 봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-18-금리-유가-하락-속-뉴욕증시-반등-기술주-중심-강세-뚜렷.html",
+      "video": "https://www.youtube.com/watch?v=yN4U74ydKHc",
+      "video_id": "yN4U74ydKHc",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
