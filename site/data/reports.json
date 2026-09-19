@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T07:26:32",
+  "generated_at": "2026-09-19T14:49:05",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -32,6 +32,51 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-19-메모리가-1만-배-더-필요하다고요-ai-시대의-병목-현상과-cxl-기술",
+      "date": "2026-09-19",
+      "channel": "언더스탠딩",
+      "title": "메모리가 1만 배 더 필요하다고요? AI 시대의 병목 현상과 CXL 기술",
+      "summary": "인공지능 시대의 메모리 부족 문제를 풀기 위해 CXL 기술과 메모리 풀링이 주목받고 있죠.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-19-메모리가-1만-배-더-필요하다고요-ai-시대의-병목-현상과-cxl-기술.html",
+      "video": "https://www.youtube.com/watch?v=5cOS2mK4l_M",
+      "video_id": "5cOS2mK4l_M",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-19-ai-속도조절-경고의-진짜-의미와-데이터센터-투자-전망",
+      "date": "2026-09-19",
+      "channel": "손에 잡히는 경제",
+      "title": "AI 속도조절 경고의 진짜 의미와 데이터센터 투자 전망",
+      "summary": "AI 기술의 빠른 발전과 통제의 어려움 속에서도 데이터센터와 인프라 투자는 계속 확대될 전망인데요.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-19-ai-속도조절-경고의-진짜-의미와-데이터센터-투자-전망.html",
+      "video": "https://www.youtube.com/watch?v=FARjeHLYXI4",
+      "video_id": "FARjeHLYXI4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-19-오픈에이아이-ai-소동과-인공지능-속도-조절론의-진실",
+      "date": "2026-09-19",
+      "channel": "Patrick Boyle",
+      "title": "오픈에이아이 AI 소동과 인공지능 속도 조절론의 진실",
+      "summary": "오픈에이아이(OpenAI) AI 에이전트의 탈출 소동과 인공지능(AI) 속도 조절론의 진짜 배경을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-09-19-오픈에이아이-ai-소동과-인공지능-속도-조절론의-진실.html",
+      "video": "https://www.youtube.com/watch?v=luXnftoxCaM",
+      "video_id": "luXnftoxCaM",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-09-18-코스피-횡보-끝내고-위를-볼-때-삼성전자와-반도체-배터리-흐름은",
