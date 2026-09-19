@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T01:45:26",
+  "generated_at": "2026-09-19T07:26:32",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-09-19-과소평가된-한국-태양광과-화재-위험-없는-바나듐-배터리",
+      "date": "2026-09-19",
+      "channel": "삼프로TV",
+      "title": "과소평가된 한국 태양광과 화재 위험 없는 바나듐 배터리",
+      "summary": "한국 태양광 기술의 현재와 화재 위험이 없는 차세대 바나듐 흐름 배터리의 가능성을 짚어 봅니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-09-19-과소평가된-한국-태양광과-화재-위험-없는-바나듐-배터리.html",
+      "video": "https://www.youtube.com/watch?v=9EQRLtLIM_U",
+      "video_id": "9EQRLtLIM_U",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-09-18-코스피-횡보-끝내고-위를-볼-때-삼성전자와-반도체-배터리-흐름은",
       "date": "2026-09-18",
