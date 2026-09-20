@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T14:49:05",
+  "generated_at": "2026-09-20T02:09:22",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-09-20-학점과-대학-간판-대신-무엇을-볼까요-일본-기업의-채용-문화",
+      "date": "2026-09-20",
+      "channel": "언더스탠딩",
+      "title": "학점과 대학 간판 대신 무엇을 볼까요? 일본 기업의 채용 문화",
+      "summary": "학점이나 대학 간판 대신 직무 경험과 가치관을 보는 일본 기업의 채용 문화와 시사점을 전해 드립니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-20-학점과-대학-간판-대신-무엇을-볼까요-일본-기업의-채용-문화.html",
+      "video": "https://www.youtube.com/watch?v=zardCX1DCuc",
+      "video_id": "zardCX1DCuc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-09-19-과소평가된-한국-태양광과-화재-위험-없는-바나듐-배터리",
       "date": "2026-09-19",
@@ -77,6 +92,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-09-19-2027년-국가-예산-821조-원-편성-ai와-미래-산업에-대대적-투자-나선다",
+      "date": "2026-09-19",
+      "channel": "슈카월드",
+      "title": "2027년 국가 예산 821조 원 편성, AI와 미래 산업에 대대적 투자 나선다",
+      "summary": "2027년 국가 예산안이 역대 최대 규모인 821조 원으로 편성되었습니다.",
+      "category": "korea-policy",
+      "relation": "indirect",
+      "url": "2026-09-19-2027년-국가-예산-821조-원-편성-ai와-미래-산업에-대대적-투자-나선다.html",
+      "video": "https://www.youtube.com/watch?v=93iH1jbSiPw",
+      "video_id": "93iH1jbSiPw",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-09-18-코스피-횡보-끝내고-위를-볼-때-삼성전자와-반도체-배터리-흐름은",
