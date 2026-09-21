@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-20T14:52:55",
+  "generated_at": "2026-09-21T01:47:36",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-09-21-일본-금리-인상과-비축유-소진-글로벌-경제가-마주한-변화",
+      "date": "2026-09-21",
+      "channel": "손에 잡히는 경제",
+      "title": "일본 금리 인상과 비축유 소진: 글로벌 경제가 마주한 변화",
+      "summary": "일본의 기준금리 인상과 국제 비축유 소진 흐름이 글로벌 경제에 던지는 의미를 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-21-일본-금리-인상과-비축유-소진-글로벌-경제가-마주한-변화.html",
+      "video": "https://www.youtube.com/watch?v=wE8Fb1y9It0",
+      "video_id": "wE8Fb1y9It0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
     {
       "id": "2026-09-20-학점과-대학-간판-대신-무엇을-볼까요-일본-기업의-채용-문화",
       "date": "2026-09-20",
@@ -122,6 +137,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-09-20-뉴욕증시-만기일-긍정적-변동성-반도체-암호화폐-중심의-강세",
+      "date": "2026-09-20",
+      "channel": "삼프로TV",
+      "title": "뉴욕증시, 만기일 긍정적 변동성…반도체·암호화폐 중심의 강세",
+      "summary": "뉴욕증시는 옵션 만기일을 맞아 혼조세로 마감했고요, 반도체와 암호화폐 중심의 강세가 눈에 띄었습니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-20-뉴욕증시-만기일-긍정적-변동성-반도체-암호화폐-중심의-강세.html",
+      "video": "https://www.youtube.com/watch?v=Zy9s5cLNt-I",
+      "video_id": "Zy9s5cLNt-I",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-20-중간선거-앞둔-트럼프의-외교-행보와-글로벌-시장의-반응",
+      "date": "2026-09-20",
+      "channel": "삼프로TV",
+      "title": "중간선거 앞둔 트럼프의 외교 행보와 글로벌 시장의 반응",
+      "summary": "미국 대선을 앞둔 트럼프 대통령의 외교 행보와 글로벌 주요국의 대응을 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-09-20-중간선거-앞둔-트럼프의-외교-행보와-글로벌-시장의-반응.html",
+      "video": "https://www.youtube.com/watch?v=NNfex-Rf6AA",
+      "video_id": "NNfex-Rf6AA",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-09-19-과소평가된-한국-태양광과-화재-위험-없는-바나듐-배터리",
@@ -794,6 +839,51 @@
       "url": "2026-09-14-ai-속도-조절론과-9월-증시-그-이면의-투자-전략.html",
       "video": "https://www.youtube.com/watch?v=JeRSlJOPAJ4",
       "video_id": "JeRSlJOPAJ4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-14-지수-조정과-글로벌-변동성-증시를-바라보는-차분한-시선",
+      "date": "2026-09-14",
+      "channel": "삼프로TV",
+      "title": "지수 조정과 글로벌 변동성, 증시를 바라보는 차분한 시선",
+      "summary": "증시 조정 국면 속에서 환율과 유가 변동성이 커지는 이유와 시장 대응 전략을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-14-지수-조정과-글로벌-변동성-증시를-바라보는-차분한-시선.html",
+      "video": "https://www.youtube.com/watch?v=vDaPz9O4C1E",
+      "video_id": "vDaPz9O4C1E",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-14-반도체와-증시가-마주한-고비-지금-점검해야-할-포인트",
+      "date": "2026-09-14",
+      "channel": "삼프로TV",
+      "title": "반도체와 증시가 마주한 고비, 지금 점검해야 할 포인트",
+      "summary": "코스피와 반도체 주가가 주요 이동평균선 아래로 밀려나며 시장 전반에 긴장감이 감돌고 있는데요, 이번 주 금리 결정과 매크로 변수를 꼼꼼히 점검해 볼 시점입니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-14-반도체와-증시가-마주한-고비-지금-점검해야-할-포인트.html",
+      "video": "https://www.youtube.com/watch?v=msUTBDJKMNI",
+      "video_id": "msUTBDJKMNI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-14-금리-인상과-원자재-반등-속에-마주한-배터리-산업의-거시경제-환경",
+      "date": "2026-09-14",
+      "channel": "삼프로TV",
+      "title": "금리 인상과 원자재 반등 속에 마주한 배터리 산업의 거시경제 환경",
+      "summary": "금리 인상 전망과 원자재 가격 상승이 겹치면서 배터리 산업을 둘러싼 거시경제 환경이 만만치 않은 상황인데요, 앞으로의 시장 흐름을 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-14-금리-인상과-원자재-반등-속에-마주한-배터리-산업의-거시경제-환경.html",
+      "video": "https://www.youtube.com/watch?v=wnalIjX0h3A",
+      "video_id": "wnalIjX0h3A",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
