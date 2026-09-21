@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-21T01:47:36",
+  "generated_at": "2026-09-21T08:02:25",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -29,6 +29,21 @@
       "url": "2026-09-21-일본-금리-인상과-비축유-소진-글로벌-경제가-마주한-변화.html",
       "video": "https://www.youtube.com/watch?v=wE8Fb1y9It0",
       "video_id": "wE8Fb1y9It0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-21-용산공원에-아파트-대신-공원을-데이터로-따져봐야-할-사회적-비용과-편익",
+      "date": "2026-09-21",
+      "channel": "언더스탠딩",
+      "title": "용산공원에 아파트 대신 공원을? 데이터로 따져봐야 할 사회적 비용과 편익",
+      "summary": "용산공원 부지 개발을 두고 주택 공급과 생활권 녹지의 가치를 비용과 편익 데이터로 따져봐야 한다는 이야기죠.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-09-21-용산공원에-아파트-대신-공원을-데이터로-따져봐야-할-사회적-비용과-편익.html",
+      "video": "https://www.youtube.com/watch?v=n1l5NsoUbvY",
+      "video_id": "n1l5NsoUbvY",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
