@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-21T08:02:25",
+  "generated_at": "2026-09-21T17:13:35",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -44,6 +44,36 @@
       "url": "2026-09-21-용산공원에-아파트-대신-공원을-데이터로-따져봐야-할-사회적-비용과-편익.html",
       "video": "https://www.youtube.com/watch?v=n1l5NsoUbvY",
       "video_id": "n1l5NsoUbvY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-21-중국의-기술자-출국-제한부터-워런-버핏의-승계까지-글로벌-주요-경제-이슈",
+      "date": "2026-09-21",
+      "channel": "손에 잡히는 경제",
+      "title": "중국의 기술자 출국 제한부터 워런 버핏의 승계까지, 글로벌 주요 경제 이슈",
+      "summary": "중국의 핵심 인력 출국 제한과 미국 우편투표 논쟁, 워런 버핏의 승계 구도 변화 소식입니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-09-21-중국의-기술자-출국-제한부터-워런-버핏의-승계까지-글로벌-주요-경제-이슈.html",
+      "video": "https://www.youtube.com/watch?v=XmfOqx-Ya3c",
+      "video_id": "XmfOqx-Ya3c",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-21-미국과-등-돌리는-캐나다-유럽과-손잡는-이유와-경제적-배경",
+      "date": "2026-09-21",
+      "channel": "언더스탠딩",
+      "title": "미국과 등 돌리는 캐나다? 유럽과 손잡는 이유와 경제적 배경",
+      "summary": "캐나다가 미국과의 관세 갈등 속에 유럽연합과 준회원국 논의를 시작했습니다. 글로벌 공급망 변화가 주목받는 이유인데요.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-09-21-미국과-등-돌리는-캐나다-유럽과-손잡는-이유와-경제적-배경.html",
+      "video": "https://www.youtube.com/watch?v=ncvS2K2dIv4",
+      "video_id": "ncvS2K2dIv4",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
