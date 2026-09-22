@@ -292,7 +292,7 @@ function renderCards() {
         <span class="card-date">${esc(r.date)}</span>
         <div class="card-actions">
           <span class="tag-channel" style="--tag:${tagColor(r.channel)}">${esc(r.channel)}</span>
-          <button class="icon-btn tg" title="텔레그램으로 전문 보내기">📨</button>
+          ${isMaster() ? '<button class="icon-btn tg" title="텔레그램으로 전문 보내기 (마스터)">📨</button>' : ''}
           <button class="icon-btn fav${isFav ? ' on' : ''}" title="즐겨찾기">${isFav ? '★' : '☆'}</button>
           <button class="icon-btn hide" title="${isHidden ? '숨김 해제' : '숨기기'}">${isHidden ? '↩' : '✕'}</button>
           ${isMaster() ? '<button class="icon-btn del" title="영구 삭제 (마스터)">🗑</button>' : ''}
@@ -307,7 +307,9 @@ function renderCards() {
         <span class="badge ${rel.cls}">${rel.label}</span>
       </div>`;
 
-    card.querySelector('.tg').onclick = (e) => { e.preventDefault(); requestSend(r, e.currentTarget); };
+    // 📨 는 마스터 모드에서만 그려진다 — 없을 때 onclick 을 걸면 목록이 통째로 깨진다
+    const tgBtn = card.querySelector('.tg');
+    if (tgBtn) tgBtn.onclick = (e) => { e.preventDefault(); requestSend(r, e.currentTarget); };
     card.querySelector('.fav').onclick = (e) => {
       e.preventDefault();
       if (favs.has(r.id)) favs.delete(r.id); else favs.add(r.id);
