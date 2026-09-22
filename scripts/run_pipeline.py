@@ -1,5 +1,5 @@
 """
-파이프라인 오케스트레이터 — GitHub Actions 에서 하루 1~2회 실행.
+파이프라인 오케스트레이터 — GitHub Actions 에서 하루 4회 실행.
 
   RSS 수집 → 1차 키워드 필터 → 자막 추출 → Claude 2차 판단·구조화 → HTML 생성
   → reports.json 인덱스 갱신

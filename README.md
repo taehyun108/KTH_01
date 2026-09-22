@@ -41,23 +41,30 @@ kth_01/
 └─ requirements.txt
 ```
 
-## 🗂 카테고리 (4분류, 고정)
+## 🗂 카테고리 (5분류, 고정)
 
-| 키 | 라벨 | 색상 |
-|---|---|---|
-| `global-policy` | 🌍 글로벌 정책·시사 | 블루 |
-| `global-market` | 📊 글로벌 산업·시황 | 오렌지 |
-| `korea-policy`  | 🇰🇷 국내 정책·시사 | 인디고 |
-| `korea-market`  | 🇰🇷 국내 산업·시황 | 그린 |
+| 키 | 라벨 |
+|---|---|
+| `macro`         | 📈 거시경제 (금리·환율·유가·증시 전반) |
+| `global-policy` | 🌍 글로벌 정책·시사 |
+| `global-market` | 📊 글로벌 산업·시황 |
+| `korea-policy`  | 🇰🇷 국내 정책·시사 |
+| `korea-market`  | 🇰🇷 국내 산업·시황 |
 
-카드에는 `🔋 직접` / `🔋 간접` 연관성 태그가 함께 표시됩니다.
+카드에는 이차전지와의 연관도 태그가 함께 표시됩니다.
+
+| 키 | 라벨 | 뜻 | 텔레그램 발송 |
+|---|---|---|---|
+| `direct`   | 🔋 직접 | 배터리·소재·셀 업체를 직접 다룸 | ✅ |
+| `indirect` | 🔋 간접 | 금리·관세처럼 배터리 산업으로 이어짐 | ✅ |
+| `context`  | 🏭 산업 | 배터리 언급은 없고 산업 환경으로서만 의미가 있음 | ❌ (기본값) |
 
 ## 🔎 필터링 로직 (2단계)
 
 1. **1차 키워드 매칭** (`config.py` 의 A/B/C 목록 중 하나라도 걸리면 후보)
    - (A) 배터리 직접 · (B) 응용분야(ESS/EV/AIDC) · (C) 거시/산업 간접
 2. **2차 관련성 판단 (Gemini)** — 자막을 넘겨 공급/수요와 실질 연결 여부 판별,
-   무관하면 `/drafts` 로, 관련 있으면 4분류 + 직접/간접 태그 부여.
+   무관하면 `/drafts` 로, 관련 있으면 5분류 + 연관도 태그 부여.
 
 ## 🚀 배포 활성화 (최초 1회, 수동)
 
@@ -117,7 +124,7 @@ Actions 탭 → **Test Telegram notification** → `Run workflow`
 
 1. `scripts/config.py` 의 `CHANNELS[].channel_id` 를 실제 유튜브 채널 ID 로 채웁니다.
    - 채널 페이지 → "정보" 탭 또는 페이지 소스에서 `channel_id` 확인
-2. 저장소 **Settings → Secrets → Actions** 에 `KTH_01_GEMINI_API_KEY` 등록.
+2. 저장소 **Settings → Secrets and variables → Actions** 에 `KTH_01_GEMINI_API_KEY` 등록.
 3. Actions 탭에서 **Build report archive** 수동 실행하거나 스케줄(하루 4회) 대기.
 
 ## 🧪 로컬 실행
