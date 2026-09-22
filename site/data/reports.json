@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-22T02:04:13",
+  "generated_at": "2026-09-22T16:01:08",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -32,6 +32,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-22-성장도-좋지만-돈-이-먼저입니다-고금리-시대의-ai-반도체-투자-브리핑",
+      "date": "2026-09-22",
+      "channel": "손에 잡히는 경제",
+      "title": "성장도 좋지만 '돈'이 먼저입니다 — 고금리 시대의 AI·반도체 투자 브리핑",
+      "summary": "고금리 장기화 속에서 AI·반도체 투자 사이클과 자금 조달의 한계를 짚어보는 브리핑입니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-22-성장도-좋지만-돈-이-먼저입니다-고금리-시대의-ai-반도체-투자-브리핑.html",
+      "video": "https://www.youtube.com/watch?v=R_iIU-1cO8o",
+      "video_id": "R_iIU-1cO8o",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-22-ai-시대-중국의-영어-교육-변화와-기술-패권-전략",
+      "date": "2026-09-22",
+      "channel": "언더스탠딩",
+      "title": "AI 시대, 중국의 영어 교육 변화와 기술 패권 전략",
+      "summary": "AI 시대 중국의 영어 교육 축소와 기술 자립 정책이 시사하는 경제 환경 변화",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-09-22-ai-시대-중국의-영어-교육-변화와-기술-패권-전략.html",
+      "video": "https://www.youtube.com/watch?v=0dYwQ9kTmBU",
+      "video_id": "0dYwQ9kTmBU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-09-21-일본-금리-인상과-비축유-소진-글로벌-경제가-마주한-변화",
