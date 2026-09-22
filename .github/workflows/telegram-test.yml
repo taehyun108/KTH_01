@@ -1,0 +1,34 @@
+name: Test Telegram notification
+
+# 봇 토큰·대화방 id 를 등록한 뒤 <바로> 확인하기 위한 워크플로.
+# 새벽 스케줄을 기다리지 않고 Actions 탭에서 손으로 돌린다.
+#
+#   Actions 탭 → Test Telegram notification → Run workflow
+#
+# 시크릿 두 개가 필요하다 (Settings → Secrets and variables → Actions):
+#   TELEGRAM_BOT_TOKEN · TELEGRAM_CHAT_ID
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Send a test message
+        env:
+          PYTHONUNBUFFERED: "1"
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: PYTHONPATH=scripts python scripts/telegram_notify.py --test

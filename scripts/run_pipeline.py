@@ -115,11 +115,17 @@ def _empty_dates(window: int = DAILY_FLOOR_WINDOW) -> set[str]:
 STATE_FILE = ROOT / ".pipeline_state.json"
 
 
-def write_state(*, left: int, new: int, quota_hit: bool) -> None:
-    """이번 실행에서 신규 발행이 쿼터·시간에 막혔는지 기록한다."""
+def write_state(*, left: int, new: int, quota_hit: bool,
+                new_ids: list[str] | None = None) -> None:
+    """이번 실행에서 신규 발행이 쿼터·시간에 막혔는지 기록한다.
+
+    new_ids 는 커밋 뒤에 도는 텔레그램 알림 단계가 읽는다 — 실제로 사이트에 올라간
+    리포트만 알리기 위해, 무엇이 새로 나왔는지를 여기서 넘겨 준다.
+    """
     try:
         STATE_FILE.write_text(json.dumps(
-            {"left": left, "new": new, "quota_hit": quota_hit}), encoding="utf-8")
+            {"left": left, "new": new, "quota_hit": quota_hit,
+             "new_ids": new_ids or []}, ensure_ascii=False), encoding="utf-8")
     except OSError:
         pass        # 쪽지를 못 남겨도 파이프라인 자체는 성공이다
 
@@ -428,7 +434,8 @@ def main() -> int:
         print(f"  공식 API: {_ym.LAST}")
     except Exception:  # noqa: BLE001
         pass
-    write_state(left=n_left + n_defer, new=len(new_reports), quota_hit=quota_hit)
+    write_state(left=n_left + n_defer, new=len(new_reports), quota_hit=quota_hit,
+                new_ids=[r["id"] for r in new_reports])
     return 0
 
 

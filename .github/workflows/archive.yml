@@ -179,3 +179,14 @@ jobs:
           exit 1
       # main 에 커밋이 push 되면 pages.yml 이 자동으로 재배포합니다.
       # (archive.yml 은 push 로 트리거되지 않으므로 [skip ci] 불필요)
+
+      # ※ 반드시 커밋 <뒤>다. 사이트에 실제로 올라간 리포트만 알려야 링크가 살아 있다.
+      #   시크릿이 없으면 아무 일도 하지 않고 지나가며, 전송이 실패해도
+      #   실행을 실패로 만들지 않는다 — 리포트는 이미 커밋돼 있다.
+      - name: Notify Telegram (이차전지 관련 신규 리포트)
+        if: always()
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: PYTHONPATH=scripts python scripts/telegram_notify.py

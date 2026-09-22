@@ -958,6 +958,82 @@ def check_gh_fallback() -> list[str]:
 
 # 워크플로에 권한 한 줄이 없으면 예비 경로는 403 으로 전부 실패한다.
 # 코드만 있고 권한이 빠지는 조합이 가장 알아채기 어렵다.
+# 텔레그램 알림이 <이차전지와 연결되는 글만> 보내는가, 그리고 <커밋 뒤>에 도는가.
+#
+# 두 번째가 특히 중요하다. 커밋 앞에서 보내면, 커밋이나 push 가 실패한 날
+# 존재하지 않는 리포트 링크를 대화방에 뿌리게 된다.
+# 시크릿이 없는 저장소에서도 파이프라인이 멀쩡히 끝나야 한다는 것도 함께 고정한다.
+def check_telegram() -> list[str]:
+    import os
+    from pathlib import Path
+    import telegram_notify as tg
+
+    out = []
+    rows = [
+        {"id": "a", "relation": "direct", "title": "t", "summary": "s",
+         "channel": "c", "date": "2026-09-01", "url": "a.html", "video": "v"},
+        {"id": "b", "relation": "context", "title": "t", "summary": "s",
+         "channel": "c", "date": "2026-09-02", "url": "b.html", "video": "v"},
+        {"id": "c", "relation": "indirect", "title": "t", "summary": "s",
+         "channel": "c", "date": "2026-09-03", "url": "c.html", "video": "v"},
+    ]
+
+    sent: list[str] = []
+    orig_call, orig_sleep = tg._call, tg.time.sleep
+    keep = {k: os.environ.get(k) for k in ("TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID")}
+    try:
+        tg.time.sleep = lambda _s: None
+
+        # ① 시크릿이 없으면 아무것도 보내지 않고, 예외도 내지 않는다
+        for k in keep:
+            os.environ.pop(k, None)
+        tg._call = lambda m, p: out.append("  [시크릿 없이 전송 시도함] 네트워크를 건드렸습니다")
+        if tg.send_reports(rows) != 0:
+            out.append("  [시크릿 없으면 0건] 0이 아닌 값을 돌려줬습니다")
+
+        # ② 시크릿이 있으면 direct/indirect 만 나간다 (context 는 배터리 무관)
+        os.environ["TELEGRAM_BOT_TOKEN"] = "t"
+        os.environ["TELEGRAM_CHAT_ID"] = "1"
+        tg._call = lambda m, p: sent.append(p["text"]) or {}
+        tg.send_reports(rows)
+        if len(sent) != 2:
+            out.append(f"  [direct·indirect 2건만 발송] {len(sent)}건 나갔습니다")
+        if any("b.html" in t for t in sent):
+            out.append("  [context 는 제외] 배터리와 무관한 글이 나갔습니다")
+
+        # ③ 상한을 넘으면 <최신> 것을 남긴다 (입력은 오래된 것부터)
+        sent.clear()
+        many = [dict(rows[0], id=str(i), url=f"{i}.html") for i in range(5)]
+        tg.MAX_PER_RUN, cap = 2, tg.MAX_PER_RUN
+        tg.send_reports(many)
+        tg.MAX_PER_RUN = cap
+        if not (len(sent) == 2 and "3.html" in sent[0] and "4.html" in sent[1]):
+            out.append("  [상한 초과 시 최신 것을 남김] 오래된 쪽이 남았습니다")
+    finally:
+        tg._call, tg.time.sleep = orig_call, orig_sleep
+        for k, v in keep.items():
+            os.environ[k] = v if v is not None else os.environ.pop(k, "")
+            if not v:
+                os.environ.pop(k, None)
+
+    # ④ 알림 단계는 커밋 <뒤>에 온다 — 사이트에 올라간 것만 알려야 한다
+    wf = (Path(__file__).resolve().parent.parent
+          / ".github/workflows/archive.yml").read_text(encoding="utf-8")
+    commit_at, notify_at = wf.find("Commit new reports"), wf.find("Notify Telegram")
+    if notify_at < 0:
+        out.append("  [archive.yml 에 텔레그램 알림 단계] 사라졌습니다")
+    elif notify_at < commit_at:
+        out.append("  [알림은 커밋 뒤] 커밋 앞으로 옮겨져 죽은 링크가 나갈 수 있습니다")
+    if "TELEGRAM_BOT_TOKEN" not in wf:
+        out.append("  [알림 단계에 TELEGRAM_BOT_TOKEN 전달] 사라졌습니다")
+
+    # ⑤ 무엇이 새로 나왔는지 파이프라인이 넘겨 주는가 (알림이 읽는 통로)
+    rp = (Path(__file__).resolve().parent / "run_pipeline.py").read_text(encoding="utf-8")
+    if "new_ids" not in rp:
+        out.append("  [run_pipeline 이 new_ids 를 기록] 사라져 알림이 보낼 것을 못 찾습니다")
+    return out
+
+
 def check_workflow_models_perm() -> list[str]:
     from pathlib import Path
     wf = Path(__file__).resolve().parent.parent / ".github/workflows/archive.yml"
@@ -1178,6 +1254,7 @@ def main() -> int:
     fails += check_pagination()
     fails += check_youtube_url_validation()
     fails += check_workflow_url_comment_honesty()
+    fails += check_telegram()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
@@ -1192,8 +1269,9 @@ def main() -> int:
              + 17    # 분류 값 고정(카테고리10·정상1·relation4·데이터1·인덱스1)
              + 8     # 유튜브 URL 검증(watch·shorts·youtu.be·embed·live·소문자형·타도메인·잡문자)
              + 4     # 명칭 --fix 정확성(전제·판정일치·재교정·회귀방지)
-             + 4)    # URL 등록 댓글 정직성(always·id·output·확인)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성 — "
+             + 4     # URL 등록 댓글 정직성(always·id·output·확인)
+             + 7)    # 텔레그램(무시크릿2·연관도2·상한1·커밋순서2 외 배선)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성·텔레그램 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

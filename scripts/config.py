@@ -18,6 +18,9 @@ DATA_DIR = SITE_DIR / "data"
 REPORTS_JSON = DATA_DIR / "reports.json"
 DRAFTS_DIR = ROOT / "drafts"          # 애매한 건 수동 확인용
 
+# 배포된 사이트 주소 — 텔레그램 알림 등 외부로 나가는 링크의 기준점.
+SITE_BASE_URL = "https://taehyun108.github.io/KTH_01"
+
 # ---------------------------------------------------------------------------
 # RSS 소스 — 대형 경제·시사 채널 (배터리 전문 채널 아님)
 #   channel_id 는 유튜브 채널 '정보' 탭 / 페이지 소스에서 확인해 채워 넣을 것.
