@@ -292,6 +292,7 @@ function renderCards() {
         <span class="card-date">${esc(r.date)}</span>
         <div class="card-actions">
           <span class="tag-channel" style="--tag:${tagColor(r.channel)}">${esc(r.channel)}</span>
+          <button class="icon-btn tg" title="텔레그램으로 전문 보내기">📨</button>
           <button class="icon-btn fav${isFav ? ' on' : ''}" title="즐겨찾기">${isFav ? '★' : '☆'}</button>
           <button class="icon-btn hide" title="${isHidden ? '숨김 해제' : '숨기기'}">${isHidden ? '↩' : '✕'}</button>
           ${isMaster() ? '<button class="icon-btn del" title="영구 삭제 (마스터)">🗑</button>' : ''}
@@ -306,6 +307,7 @@ function renderCards() {
         <span class="badge ${rel.cls}">${rel.label}</span>
       </div>`;
 
+    card.querySelector('.tg').onclick = (e) => { e.preventDefault(); requestSend(r); };
     card.querySelector('.fav').onclick = (e) => {
       e.preventDefault();
       if (favs.has(r.id)) favs.delete(r.id); else favs.add(r.id);
@@ -373,6 +375,23 @@ function renderMasterBtn() {
   b.textContent = on ? '🔓 마스터 해제' : '🔒 마스터';
   b.classList.toggle('on', on);
   b.title = on ? '마스터 모드 켜짐 — 카드에서 🗑로 영구 삭제' : '마스터 모드 켜기';
+}
+
+// 텔레그램 전송 요청 — 카드의 📨 버튼.
+// 봇 토큰은 저장소 시크릿에만 있으므로 브라우저가 직접 보낼 수는 없다.
+// 삭제·요약과 같은 방식으로 GitHub 이슈를 열고, 워크플로가 리포트 전문(01~08)과
+// 유튜브 링크를 텔레그램으로 보낸다.
+function requestSend(r) {
+  if (!window.confirm(
+      `이 리포트 전문을 텔레그램으로 보낼까요?\n\n${r.title}\n\n` +
+      '확인을 누르면 GitHub 요청 페이지가 열립니다.')) return;
+  const title = encodeURIComponent('[전송] ' + r.id);
+  const body = encodeURIComponent(
+    '아래 리포트의 전문(01 핵심 개요 ~ 08 용어 사전)과 영상 링크를 ' +
+    '텔레그램으로 보내 주세요.\n\n' +
+    `- id: ${r.id}\n- 제목: ${r.title}\n- 영상: ${r.video || ''}\n`);
+  window.open(`https://github.com/${REPO}/issues/new?title=${title}&body=${body}`,
+              '_blank', 'noopener');
 }
 
 // 영구 삭제 요청 — GitHub 이슈를 열어 워크플로가 실제로 파일을 지우게 한다

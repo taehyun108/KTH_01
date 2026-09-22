@@ -1040,6 +1040,74 @@ def check_telegram() -> list[str]:
     return out
 
 
+# 카드의 📨 버튼이 리포트 <전문>을 보내는가.
+#
+# 목록 알림은 제목·요약만 보내지만 이 경로는 01~08 을 통째로 옮긴다.
+# 발행 HTML 을 정규식으로 읽는 구조라, 렌더러가 바뀌면 조용히 0섹션이 되어
+# '보냈다'는 말만 남고 알맹이가 빈 메시지가 나간다. 실제 발행물로 고정한다.
+def check_send_report() -> list[str]:
+    from pathlib import Path
+    import send_report as sr
+    import telegram_notify as tg
+    from build_index import load_existing
+    from config import NEWS_DIR
+
+    out = []
+    # ① 실제 발행물에서 섹션이 실제로 뽑히는가 (최근 것 몇 건)
+    checked = 0
+    for r in load_existing()[:5]:
+        f = NEWS_DIR / r.get("url", "")
+        if not f.exists():
+            continue
+        checked += 1
+        secs = sr.extract_sections(f.read_text(encoding="utf-8"))
+        if len(secs) < 4:
+            out.append(f"  [발행물에서 01~08 을 읽어야 함] {r['id']} → {len(secs)}섹션")
+            continue
+        nums = [n for n, _, _ in secs]
+        if "01" not in nums or "08" not in nums:
+            out.append(f"  [01 핵심 개요·08 용어 사전이 있어야 함] {r['id']} → {nums}")
+        if any(not lines for _, _, lines in secs):
+            out.append(f"  [본문이 빈 섹션이 있음] {r['id']}")
+        # ② 유튜브 링크가 반드시 들어간다
+        body = "\n".join(tg.split_message(sr.build_message(r, secs)))
+        if r.get("video") and r["video"] not in body:
+            out.append(f"  [유튜브 링크가 빠짐] {r['id']}")
+        if "<b>01." not in body:
+            out.append(f"  [섹션 번호·제목이 빠짐] {r['id']}")
+    if not checked:
+        out.append("  [검사할 발행물을 못 찾음]")
+
+    # ③ 메시지 상한(4096자)을 넘는 조각이 나오면 전송이 통째로 거부된다
+    long_parts = ["가" * 5000, "나" * 300, "다" * 4000]
+    chunks = tg.split_message(long_parts)
+    if any(len(c) > tg.MAX_CHARS for c in chunks):
+        out.append(f"  [한 메시지가 {tg.MAX_CHARS}자를 넘으면 안 됨] "
+                   f"→ {[len(c) for c in chunks]}")
+    if "".join(chunks).count("가") != 5000:
+        out.append("  [나눠 보내면서 글자가 사라짐]")
+
+    # ④ 권한은 워크플로가 지킨다 — 소유자가 연 이슈만 처리
+    wf = (Path(__file__).resolve().parent.parent
+          / ".github/workflows/send-report.yml").read_text(encoding="utf-8")
+    if "github.event.issue.user.login == github.repository_owner" not in wf:
+        out.append("  [소유자가 연 이슈만 처리해야 함] 조건이 사라졌습니다")
+    if "[전송]" not in wf:
+        out.append("  [제목 '[전송]' 으로 거르는 조건] 사라졌습니다")
+
+    # ⑤ 사이트 버튼이 즐겨찾기 <왼쪽>에 있는가 (요청한 자리다)
+    js = (Path(__file__).resolve().parent.parent
+          / "site/assets/app.js").read_text(encoding="utf-8")
+    tg_at, fav_at = js.find('icon-btn tg'), js.find('icon-btn fav')
+    if tg_at < 0:
+        out.append("  [카드에 텔레그램 버튼] 사라졌습니다")
+    elif tg_at > fav_at:
+        out.append("  [텔레그램 버튼은 즐겨찾기 왼쪽] 순서가 바뀌었습니다")
+    if "requestSend" not in js:
+        out.append("  [버튼 동작(requestSend)] 사라졌습니다")
+    return out
+
+
 def check_workflow_models_perm() -> list[str]:
     from pathlib import Path
     wf = Path(__file__).resolve().parent.parent / ".github/workflows/archive.yml"
@@ -1261,6 +1329,7 @@ def main() -> int:
     fails += check_youtube_url_validation()
     fails += check_workflow_url_comment_honesty()
     fails += check_telegram()
+    fails += check_send_report()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
@@ -1276,8 +1345,9 @@ def main() -> int:
              + 8     # 유튜브 URL 검증(watch·shorts·youtu.be·embed·live·소문자형·타도메인·잡문자)
              + 4     # 명칭 --fix 정확성(전제·판정일치·재교정·회귀방지)
              + 4     # URL 등록 댓글 정직성(always·id·output·확인)
-             + 7)    # 텔레그램(무시크릿2·연관도2·상한1·커밋순서2 외 배선)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성·텔레그램 — "
+             + 7     # 텔레그램(무시크릿2·연관도2·상한1·커밋순서2 외 배선)
+             + 9)    # 리포트 전문 전송(섹션4·링크1·상한2·권한2 외 버튼자리)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성·텔레그램·전문전송 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

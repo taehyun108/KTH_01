@@ -68,6 +68,57 @@ def _call(method: str, payload: dict) -> dict:
     return body["result"]
 
 
+# 텔레그램 한 메시지의 상한. 넘기면 전송 자체가 거부된다.
+MAX_CHARS = 4096
+
+
+def split_message(parts: list[str], limit: int = MAX_CHARS) -> list[str]:
+    """문단 목록을 상한 이하의 메시지 여러 개로 묶는다.
+
+    문단 사이에서 끊는 것을 우선한다 — 태그 한가운데서 자르면 HTML 파싱이
+    깨져 전송이 통째로 거부된다. 문단 하나가 혼자 상한을 넘으면 그때만
+    문장 단위로 쪼갠다.
+    """
+    out: list[str] = []
+    buf = ""
+    for part in parts:
+        while len(part) > limit:
+            head = part[:limit]
+            cut = max(head.rfind("\n"), head.rfind(". "), head.rfind("다. "))
+            cut = cut + 1 if cut > limit // 2 else limit
+            if buf:
+                out.append(buf)
+                buf = ""
+            out.append(part[:cut].strip())
+            part = part[cut:].lstrip()
+        if not part:
+            continue
+        candidate = f"{buf}\n\n{part}" if buf else part
+        if len(candidate) > limit:
+            out.append(buf)
+            buf = part
+        else:
+            buf = candidate
+    if buf:
+        out.append(buf)
+    return out
+
+
+def send_text(parts: list[str]) -> int:
+    """긴 글을 상한에 맞춰 나눠 보낸다. 보낸 메시지 수를 돌려준다."""
+    chunks = split_message(parts)
+    for i, chunk in enumerate(chunks):
+        _call("sendMessage", {
+            "chat_id": os.getenv("TELEGRAM_CHAT_ID"),
+            "text": chunk,
+            "parse_mode": "HTML",
+            "link_preview_options": {"is_disabled": True},
+        })
+        if i < len(chunks) - 1:
+            time.sleep(1.2)
+    return len(chunks)
+
+
 def format_report(report: dict) -> str:
     cat = CATEGORY_LABELS.get(report.get("category", ""), "")
     rel = RELATION_LABELS.get(report.get("relation", ""), "")
@@ -124,11 +175,35 @@ def send_reports(reports: list[dict]) -> int:
 
 
 def _test() -> int:
-    if not enabled():
-        print("TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID 가 필요합니다.", file=sys.stderr)
+    if not os.getenv("TELEGRAM_BOT_TOKEN"):
+        print("TELEGRAM_BOT_TOKEN 이 없습니다 — 시크릿을 먼저 등록하세요.", file=sys.stderr)
         return 1
+
     me = _call("getMe", {})
     print(f"봇 확인됨 — @{me.get('username')} ({me.get('first_name')})")
+
+    # 토큰만 있고 대화방 id 가 없는 것이 가장 흔한 막힘이다.
+    # 브라우저에 토큰을 붙여 넣어 getUpdates 를 여는 대신(주소창 기록에 토큰이 남는다)
+    # 여기서 대신 물어보고 후보를 찍어 준다.
+    if not os.getenv("TELEGRAM_CHAT_ID"):
+        print("\nTELEGRAM_CHAT_ID 가 비어 있습니다. 아래에서 골라 시크릿에 등록하세요.",
+              file=sys.stderr)
+        seen: dict[str, str] = {}
+        for u in _call("getUpdates", {}):
+            for key in ("message", "channel_post", "my_chat_member"):
+                chat = (u.get(key) or {}).get("chat") or {}
+                if chat.get("id") is not None:
+                    name = chat.get("title") or chat.get("username") or \
+                        chat.get("first_name") or ""
+                    seen[str(chat["id"])] = f"{chat.get('type', '')} {name}".strip()
+        if seen:
+            for cid, label in seen.items():
+                print(f"  TELEGRAM_CHAT_ID = {cid}   ({label})")
+        else:
+            print(f"  최근 대화가 없습니다. 텔레그램에서 @{me.get('username')} 에게 "
+                  "아무 메시지나 보낸 뒤(그룹이면 봇을 초대한 뒤) 이 워크플로를 다시 돌리세요.")
+        return 1
+
     _call("sendMessage", {
         "chat_id": os.getenv("TELEGRAM_CHAT_ID"),
         "text": "🔋 이차전지 리포트 아카이브 — 알림 연결이 정상입니다.",

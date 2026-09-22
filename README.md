@@ -32,12 +32,14 @@ kth_01/
 │  ├─ fetch_rss.py               #   RSS 수집 + 1차 키워드 필터
 │  ├─ generate_report.py         #   자막 추출 + Gemini 관련성 판단·구조화
 │  ├─ build_index.py             #   reports.json 갱신
-│  ├─ telegram_notify.py         #   이차전지 리포트 → 텔레그램 발송
+│  ├─ telegram_notify.py         #   신규 리포트 알림(제목·요약) → 텔레그램
+│  ├─ send_report.py             #   리포트 전문(01~08) + 영상 링크 → 텔레그램
 │  └─ run_pipeline.py            #   오케스트레이터
 ├─ .github/workflows/
 │  ├─ pages.yml                  #   site/ → GitHub Pages 배포
 │  ├─ archive.yml                #   하루 4회 파이프라인 실행 + 커밋 + 텔레그램 알림
-│  └─ telegram-test.yml          #   텔레그램 연결 확인(수동)
+│  ├─ telegram-test.yml          #   텔레그램 연결 확인(수동)
+│  └─ send-report.yml            #   카드 📨 → 리포트 전문 텔레그램 전송
 └─ requirements.txt
 ```
 
@@ -112,6 +114,21 @@ GitHub 저장소 → **Settings → Secrets and variables → Actions → New re
 Actions 탭 → **Test Telegram notification** → `Run workflow`
 → 대화방에 테스트 메시지가 오면 끝입니다. 이후 하루 4회 파이프라인이
 새 리포트를 자동으로 보냅니다.
+
+> `TELEGRAM_CHAT_ID` 를 아직 모르면, 토큰만 등록한 상태로 이 워크플로를 돌리세요.
+> 봇에게 보낸 최근 대화를 읽어 **등록할 chat id 후보를 로그에 찍어 줍니다.**
+> (봇에게 아무 메시지나 먼저 보낸 뒤 실행해야 후보가 잡힙니다)
+
+### 4. 카드 하나만 골라 보내기 (전문 전송)
+
+아카이브 목록의 카드 오른쪽 위, 즐겨찾기(☆) **왼쪽의 📨 버튼**을 누르면
+그 리포트의 **전문(01 핵심 개요 ~ 08 용어 사전)과 유튜브 링크**가 텔레그램으로
+갑니다. 자동 알림이 제목·요약만 보내는 것과 달리, 텔레그램만 보고도 리포트를
+다 읽을 수 있습니다.
+
+버튼은 `[전송] <리포트 id>` 이슈를 열고 `send-report.yml` 이 처리합니다.
+사이트는 공개지만 **저장소 소유자가 연 이슈만** 처리하므로 남이 눌러도 보내지지
+않습니다(삭제·URL 요약과 같은 방식).
 
 ### 조절할 수 있는 값 (`archive.yml` 의 알림 단계에 `env` 로 추가)
 
