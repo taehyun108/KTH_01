@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-21T17:13:35",
+  "generated_at": "2026-09-22T02:04:13",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-09-22-코스피-박스권-돌파-추격-매수보다-템포-조절이-필요한-이유",
+      "date": "2026-09-22",
+      "channel": "삼프로TV",
+      "title": "코스피 박스권 돌파, 추격 매수보다 템포 조절이 필요한 이유",
+      "summary": "코스피가 박스권 상단에 접어들었을 때 추격 매수보다는 눌림목을 기다려야 한다는 분석입니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-09-22-코스피-박스권-돌파-추격-매수보다-템포-조절이-필요한-이유.html",
+      "video": "https://www.youtube.com/watch?v=yytbJsN3wPQ",
+      "video_id": "yytbJsN3wPQ",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-09-21-일본-금리-인상과-비축유-소진-글로벌-경제가-마주한-변화",
       "date": "2026-09-21",
@@ -77,6 +92,51 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-09-21-고점-부담-커진-증시-10월을-맞아-점검해야-할-투자-전략",
+      "date": "2026-09-21",
+      "channel": "삼프로TV",
+      "title": "고점 부담 커진 증시, 10월을 맞아 점검해야 할 투자 전략",
+      "summary": "고점 부담이 커진 증시에서 자산 비중 조절과 10월 핵심 변수를 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-21-고점-부담-커진-증시-10월을-맞아-점검해야-할-투자-전략.html",
+      "video": "https://www.youtube.com/watch?v=fG3Thzxdz50",
+      "video_id": "fG3Thzxdz50",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-21-엔비디아의-ai-전망과-삼성전자-파운드리-생산-능력-확대-움직임",
+      "date": "2026-09-21",
+      "channel": "삼프로TV",
+      "title": "엔비디아의 AI 전망과 삼성전자 파운드리 생산 능력 확대 움직임",
+      "summary": "엔비디아 CEO가 인류 멸망 가능성을 일축한 가운데, AI 투자 집중 현상과 삼성전자의 파운드리 생산 능력 확대 움직임을 살펴봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-21-엔비디아의-ai-전망과-삼성전자-파운드리-생산-능력-확대-움직임.html",
+      "video": "https://www.youtube.com/watch?v=zaBS4F3PjVs",
+      "video_id": "zaBS4F3PjVs",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-21-메타-뮤즈-효과와-반도체-ai-시장-흐름",
+      "date": "2026-09-21",
+      "channel": "삼프로TV",
+      "title": "메타 뮤즈 효과와 반도체·AI 시장 흐름",
+      "summary": "메타의 AI 모델 뮤즈 효과로 빅테크와 반도체 주가가 급등했는데요, 관련 시장 흐름을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-21-메타-뮤즈-효과와-반도체-ai-시장-흐름.html",
+      "video": "https://www.youtube.com/watch?v=Q0efG3V5UCg",
+      "video_id": "Q0efG3V5UCg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-09-20-학점과-대학-간판-대신-무엇을-볼까요-일본-기업의-채용-문화",
@@ -749,6 +809,21 @@
       "url": "2026-09-15-금리-인상-전망과-지정학적-긴장-속-움츠린-뉴욕증시.html",
       "video": "https://www.youtube.com/watch?v=e6LV-q_V7b0",
       "video_id": "e6LV-q_V7b0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-15-금리-상승과-ai-공포에도-증시가-버티는-이유",
+      "date": "2026-09-15",
+      "channel": "삼프로TV",
+      "title": "금리 상승과 AI 공포에도 증시가 버티는 이유",
+      "summary": "미 국채금리 5% 돌파와 AI 속도조절론 같은 악재에도 증시가 흔들리지 않는 이유를 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-15-금리-상승과-ai-공포에도-증시가-버티는-이유.html",
+      "video": "https://www.youtube.com/watch?v=rw7mkNe9Cu4",
+      "video_id": "rw7mkNe9Cu4",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
