@@ -114,7 +114,8 @@ def main() -> int:
         return 1
 
     if not tg.enabled():
-        _out("error", "TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID 시크릿이 없습니다.")
+        _out("error", f"{' · '.join(tg.missing())} 시크릿이 등록되지 않았습니다 — "
+                      "저장소 Settings → Secrets and variables → Actions 에서 추가하세요.")
         return 1
 
     try:

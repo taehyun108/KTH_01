@@ -53,8 +53,17 @@ def _escape(text: str) -> str:
             .replace("<", "&lt;").replace(">", "&gt;"))
 
 
+def missing() -> list[str]:
+    """등록되지 않은 시크릿 이름. 어느 쪽이 빠졌는지 <정확히> 말하기 위한 것이다.
+
+    둘 다 없다고 뭉뚱그리면, 토큰은 멀쩡히 넣어 둔 사람이 토큰을 의심하며 시간을
+    버린다(2026-09-22 에 실제로 그랬다).
+    """
+    return [k for k in ("TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID") if not os.getenv(k)]
+
+
 def enabled() -> bool:
-    return bool(os.getenv("TELEGRAM_BOT_TOKEN") and os.getenv("TELEGRAM_CHAT_ID"))
+    return not missing()
 
 
 def _call(method: str, payload: dict) -> dict:
@@ -144,7 +153,7 @@ def send_reports(reports: list[dict]) -> int:
     즉 최신 것을 남긴다.
     """
     if not enabled():
-        print("  텔레그램: 토큰/대화방 id 미설정 — 알림을 건너뜁니다")
+        print(f"  텔레그램: {' · '.join(missing())} 미등록 — 알림을 건너뜁니다")
         return 0
 
     targets = [r for r in reports if r.get("relation") in RELATIONS]
@@ -215,7 +224,7 @@ def _test() -> int:
 def _from_state() -> int:
     """run_pipeline 이 이번 실행에서 새로 만든 리포트를 골라 보낸다."""
     if not enabled():
-        print("  텔레그램: 토큰/대화방 id 미설정 — 알림을 건너뜁니다")
+        print(f"  텔레그램: {' · '.join(missing())} 미등록 — 알림을 건너뜁니다")
         return 0
     try:
         state = json.loads((ROOT / ".pipeline_state.json").read_text(encoding="utf-8"))
