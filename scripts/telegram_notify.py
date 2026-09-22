@@ -183,40 +183,61 @@ def send_reports(reports: list[dict]) -> int:
     return sent
 
 
+def _print_candidates(username: str) -> None:
+    """봇이 최근에 받은 대화에서 등록할 chat id 후보를 찍는다.
+
+    브라우저 주소창에 토큰을 붙여 넣어 getUpdates 를 여는 대신(주소창 기록에
+    토큰이 남는다) 여기서 대신 물어본다.
+    """
+    seen: dict[str, str] = {}
+    for u in _call("getUpdates", {}):
+        for key in ("message", "channel_post", "my_chat_member"):
+            chat = (u.get(key) or {}).get("chat") or {}
+            if chat.get("id") is not None:
+                name = chat.get("title") or chat.get("username") or \
+                    chat.get("first_name") or ""
+                seen[str(chat["id"])] = f"{chat.get('type', '')} {name}".strip()
+    if seen:
+        print("\n등록할 chat id 후보 — 이 값을 TELEGRAM_CHAT_ID 에 그대로 넣으세요:",
+              file=sys.stderr)
+        for cid, label in seen.items():
+            print(f"  TELEGRAM_CHAT_ID = {cid}   ({label})", file=sys.stderr)
+    else:
+        print(f"\n봇이 받은 최근 대화가 없습니다. 텔레그램에서 @{username} 에게 "
+              "아무 메시지나 보낸 뒤(그룹이면 봇을 초대한 뒤) 다시 실행하세요.",
+              file=sys.stderr)
+
+
 def _test() -> int:
     if not os.getenv("TELEGRAM_BOT_TOKEN"):
         print("TELEGRAM_BOT_TOKEN 이 없습니다 — 시크릿을 먼저 등록하세요.", file=sys.stderr)
         return 1
 
     me = _call("getMe", {})
-    print(f"봇 확인됨 — @{me.get('username')} ({me.get('first_name')})")
+    username = me.get("username", "")
+    print(f"봇 확인됨 — @{username} ({me.get('first_name')})")
 
-    # 토큰만 있고 대화방 id 가 없는 것이 가장 흔한 막힘이다.
-    # 브라우저에 토큰을 붙여 넣어 getUpdates 를 여는 대신(주소창 기록에 토큰이 남는다)
-    # 여기서 대신 물어보고 후보를 찍어 준다.
     if not os.getenv("TELEGRAM_CHAT_ID"):
-        print("\nTELEGRAM_CHAT_ID 가 비어 있습니다. 아래에서 골라 시크릿에 등록하세요.",
-              file=sys.stderr)
-        seen: dict[str, str] = {}
-        for u in _call("getUpdates", {}):
-            for key in ("message", "channel_post", "my_chat_member"):
-                chat = (u.get(key) or {}).get("chat") or {}
-                if chat.get("id") is not None:
-                    name = chat.get("title") or chat.get("username") or \
-                        chat.get("first_name") or ""
-                    seen[str(chat["id"])] = f"{chat.get('type', '')} {name}".strip()
-        if seen:
-            for cid, label in seen.items():
-                print(f"  TELEGRAM_CHAT_ID = {cid}   ({label})")
-        else:
-            print(f"  최근 대화가 없습니다. 텔레그램에서 @{me.get('username')} 에게 "
-                  "아무 메시지나 보낸 뒤(그룹이면 봇을 초대한 뒤) 이 워크플로를 다시 돌리세요.")
+        print("TELEGRAM_CHAT_ID 가 비어 있습니다.", file=sys.stderr)
+        _print_candidates(username)
         return 1
 
-    _call("sendMessage", {
-        "chat_id": os.getenv("TELEGRAM_CHAT_ID"),
-        "text": "🔋 이차전지 리포트 아카이브 — 알림 연결이 정상입니다.",
-    })
+    try:
+        _call("sendMessage", {
+            "chat_id": os.getenv("TELEGRAM_CHAT_ID"),
+            "text": "🔋 이차전지 리포트 아카이브 — 알림 연결이 정상입니다.",
+        })
+    except RuntimeError as exc:
+        # 값이 <있지만 틀린> 경우가 가장 답답하다. 예전에는 여기서 그냥 죽어서,
+        # 정작 후보를 보여 줘야 할 자리에 오류만 남았다(2026-09-22).
+        print(f"\n전송 실패 — {exc}", file=sys.stderr)
+        print("등록된 TELEGRAM_CHAT_ID 로는 보낼 수 없습니다. 흔한 원인:\n"
+              "  · chat.id 가 아닌 다른 숫자(update_id·message_id·봇 id)를 넣음\n"
+              "  · 그룹·채널인데 앞의 '-100' 을 빼고 넣음\n"
+              "  · 값 앞뒤에 따옴표나 공백이 섞임", file=sys.stderr)
+        _print_candidates(username)
+        return 1
+
     print("테스트 메시지를 보냈습니다. 텔레그램 대화방을 확인하세요.")
     return 0
 
