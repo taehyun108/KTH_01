@@ -307,7 +307,7 @@ function renderCards() {
         <span class="badge ${rel.cls}">${rel.label}</span>
       </div>`;
 
-    card.querySelector('.tg').onclick = (e) => { e.preventDefault(); requestSend(r); };
+    card.querySelector('.tg').onclick = (e) => { e.preventDefault(); requestSend(r, e.currentTarget); };
     card.querySelector('.fav').onclick = (e) => {
       e.preventDefault();
       if (favs.has(r.id)) favs.delete(r.id); else favs.add(r.id);
@@ -370,28 +370,168 @@ function toggleMaster() {
 
 function renderMasterBtn() {
   const b = document.getElementById('master-btn');
-  if (!b) return;
-  const on = isMaster();
-  b.textContent = on ? '🔓 마스터 해제' : '🔒 마스터';
-  b.classList.toggle('on', on);
-  b.title = on ? '마스터 모드 켜짐 — 카드에서 🗑로 영구 삭제' : '마스터 모드 켜기';
+  if (b) {
+    const on = isMaster();
+    b.textContent = on ? '🔓 마스터 해제' : '🔒 마스터';
+    b.classList.toggle('on', on);
+    b.title = on ? '마스터 모드 켜짐 — 카드에서 🗑로 영구 삭제' : '마스터 모드 켜기';
+  }
+  const t = document.getElementById('gh-token-btn');
+  if (t) {
+    const has = !!ghToken();
+    t.textContent = has ? '🔑 토큰 등록됨' : '🔑 토큰';
+    t.classList.toggle('on', has);
+    t.title = has
+      ? 'GitHub 토큰이 저장돼 있습니다 — URL 등록·텔레그램 전송이 로그인 없이 바로 처리됩니다. 눌러서 바꾸거나 지울 수 있습니다'
+      : 'GitHub 토큰을 저장하면 URL 등록·텔레그램 전송이 로그인 없이 바로 처리됩니다 (마스터 모드 필요)';
+  }
+  // 즐겨찾기 탭의 안내 문구 — 토큰 유무에 따라 실제로 벌어질 일이 다르다.
+  // requestSummary() 가 진행 중에 이 자리를 덮어쓰므로, 여기서는 '아직 아무것도
+  // 안 눌렀을 때'의 기본 안내만 맞춘다.
+  const ytHint = document.getElementById('yt-hint');
+  if (ytHint) {
+    ytHint.classList.remove('err');
+    ytHint.innerHTML = ghToken()
+      ? '✅ GitHub 토큰이 저장돼 있어 <b>로그인 없이 바로</b> 처리됩니다. 제출 후 1~3분쯤 걸릴 수 있어요.'
+      : '제출하면 GitHub 페이지가 열립니다 — <b>‘Submit new issue’</b>를 누르면 ' +
+        '1~3분 뒤 요약 리포트가 아카이브에 추가됩니다. (GitHub 로그인 필요)';
+  }
+}
+
+// ── GitHub 토큰으로 로그인 없이 바로 실행 ────────────────────────────
+// 이 브라우저에만 저장된다(다른 사람 브라우저에는 없으니 그 사람은 예전처럼
+// 로그인해서 직접 제출해야 한다). 토큰이 있으면 '즐겨찾기 URL 등록'과 카드의
+// 텔레그램 전송이 GitHub 새 이슈 페이지·로그인 화면 없이 API 로 바로 열리고,
+// 워크플로가 끝날 때까지 기다렸다가 결과를 그 자리에서 보여 준다.
+//
+// 실제 처리 권한은 지금과 똑같이 워크플로가 지킨다 — 세 워크플로(summarize-url·
+// send-report·delete-report) 모두 "이슈 작성자 == 저장소 소유자"만 처리한다.
+// API 로 이슈를 만들어도 작성자는 이 토큰의 주인이 되므로, 본인 토큰을 쓰는 한
+// 지금 안전장치와 동일하다 — 남이 이 토큰을 얻지 않는 한 남용될 수 없다.
+const LS_GH_TOKEN = 'bra_gh_token';
+function ghToken() { return (localStorage.getItem(LS_GH_TOKEN) || '').trim(); }
+
+function configureGhToken() {
+  if (!isMaster()) { window.alert('먼저 마스터 모드를 켜 주세요.'); return; }
+  const has = !!ghToken();
+  const next = window.prompt(
+    (has
+      ? '저장된 토큰이 있습니다. 바꿀 토큰을 입력하거나, 비워 두고 확인을 누르면 지웁니다.\n\n'
+      : 'GitHub 개인 토큰(Fine-grained PAT)을 입력하세요.\n' +
+        'github.com → Settings → Developer settings → Fine-grained tokens 에서 만들되,\n' +
+        `저장소를 ${REPO} 하나로 지정하고 'Issues: Read and write' 권한만 주면 됩니다.\n\n`) +
+    '이 브라우저에만 저장되며, 다른 곳으로 전송되지 않습니다.',
+    ''
+  );
+  if (next === null) return;   // 취소
+  const v = next.trim();
+  if (!v) {
+    if (has) { localStorage.removeItem(LS_GH_TOKEN); window.alert('토큰을 지웠습니다. 다음부터는 다시 GitHub 로그인이 필요합니다.'); }
+    renderMasterBtn();
+    return;
+  }
+  localStorage.setItem(LS_GH_TOKEN, v);
+  window.alert('토큰을 저장했습니다. 이제 이 브라우저에서는 URL 등록·텔레그램 전송이 로그인 없이 바로 처리됩니다.');
+  renderMasterBtn();
+}
+
+async function ghApiCall(path, opts = {}) {
+  const res = await fetch(`https://api.github.com${path}`, {
+    ...opts,
+    headers: {
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      'Authorization': `Bearer ${ghToken()}`,
+      ...(opts.headers || {}),
+    },
+  });
+  if (!res.ok) {
+    let msg = `HTTP ${res.status}`;
+    try { const d = await res.json(); if (d.message) msg = d.message; } catch { /* 본문 없음 */ }
+    const err = new Error(msg);
+    err.status = res.status;
+    throw err;
+  }
+  return res.status === 204 ? null : res.json();
+}
+
+const GH_POLL_MS = 4000;
+const GH_POLL_TIMEOUT_MS = 5 * 60 * 1000;   // 5분 — Gemini 영상 직접 분석은 몇 분 걸릴 수 있다
+
+/* 이슈를 만들고 닫힐 때까지 지켜본 뒤 마지막 댓글을 돌려준다.
+   summarize-url·send-report·delete-report 세 워크플로가 전부 '댓글 남기고
+   이슈 닫기'로 끝나는 같은 방식이라, 이 함수 하나로 셋 다 처리된다. */
+async function ghRunAndWait(title, body, onStatus) {
+  const issue = await ghApiCall(`/repos/${REPO}/issues`, {
+    method: 'POST', body: JSON.stringify({ title, body }),
+  });
+  onStatus?.(`⏳ 처리를 요청했습니다 (이슈 #${issue.number}) — 끝날 때까지 기다립니다…`);
+  const started = Date.now();
+  while (Date.now() - started < GH_POLL_TIMEOUT_MS) {
+    await new Promise((r) => setTimeout(r, GH_POLL_MS));
+    const cur = await ghApiCall(`/repos/${REPO}/issues/${issue.number}`);
+    if (cur.state === 'closed') {
+      const comments = await ghApiCall(`/repos/${REPO}/issues/${issue.number}/comments`);
+      return { issue: cur, message: comments.length ? comments[comments.length - 1].body : '' };
+    }
+  }
+  return { issue, timeout: true };
+}
+
+/* 토큰이 있으면 API 로 바로 실행해 기다리고, 없으면 예전처럼 '새 이슈' 페이지를
+   연다(사람이 로그인해서 직접 제출). 토큰이 있는데 실패하면(만료·권한 부족 등)
+   원인을 알리고 마찬가지로 새 이슈 페이지를 열어 준다 — 아예 막히지는 않는다. */
+async function runOrOpenIssue(title, body, onStatus) {
+  const openManually = () => window.open(
+    `https://github.com/${REPO}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`,
+    '_blank', 'noopener');
+  if (!ghToken()) { openManually(); return { opened: true }; }
+  try {
+    return await ghRunAndWait(title, body, onStatus);
+  } catch (err) {
+    const reason = err.status === 401 ? 'GitHub 토큰이 잘못됐거나 만료됐습니다.'
+      : err.status === 403 ? 'GitHub 토큰에 이 저장소의 Issues 쓰기 권한이 없습니다.'
+      : (err.message || '알 수 없는 오류');
+    onStatus?.(`⚠️ ${reason} 새 이슈 페이지로 대신 엽니다.`);
+    openManually();
+    return { fallback: true, error: reason };
+  }
 }
 
 // 텔레그램 전송 요청 — 카드의 📨 버튼.
 // 봇 토큰은 저장소 시크릿에만 있으므로 브라우저가 직접 보낼 수는 없다.
 // 삭제·요약과 같은 방식으로 GitHub 이슈를 열고, 워크플로가 리포트 전문(01~08)과
-// 유튜브 링크를 텔레그램으로 보낸다.
-function requestSend(r) {
+// 유튜브 링크를 텔레그램으로 보낸다. GitHub 토큰이 저장돼 있으면 로그인 없이
+// API 로 바로 처리되고, 끝날 때까지 기다렸다가 결과를 알려 준다.
+async function requestSend(r, btnEl) {
+  const skipLogin = !!ghToken();
   if (!window.confirm(
-      `이 리포트 전문을 텔레그램으로 보낼까요?\n\n${r.title}\n\n` +
-      '확인을 누르면 GitHub 요청 페이지가 열립니다.')) return;
-  const title = encodeURIComponent('[전송] ' + r.id);
-  const body = encodeURIComponent(
-    '아래 리포트의 전문(01 핵심 개요 ~ 08 용어 사전)과 영상 링크를 ' +
+      `이 리포트 전문을 텔레그램으로 보낼까요?\n\n${r.title}` +
+      (skipLogin ? '' : '\n\n확인을 누르면 GitHub 요청 페이지가 열립니다.'))) return;
+  const title = '[전송] ' + r.id;
+  const body = '아래 리포트의 전문(01 핵심 개요 ~ 08 용어 사전)과 영상 링크를 ' +
     '텔레그램으로 보내 주세요.\n\n' +
-    `- id: ${r.id}\n- 제목: ${r.title}\n- 영상: ${r.video || ''}\n`);
-  window.open(`https://github.com/${REPO}/issues/new?title=${title}&body=${body}`,
-              '_blank', 'noopener');
+    `- id: ${r.id}\n- 제목: ${r.title}\n- 영상: ${r.video || ''}\n`;
+
+  if (!skipLogin) {
+    window.open(`https://github.com/${REPO}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`,
+                '_blank', 'noopener');
+    return;
+  }
+
+  const originalText = btnEl ? btnEl.textContent : '';
+  const originalTitle = btnEl ? btnEl.title : '';
+  if (btnEl) { btnEl.disabled = true; btnEl.textContent = '⏳'; }
+  const result = await runOrOpenIssue(title, body, (s) => { if (btnEl) btnEl.title = s; });
+  if (btnEl) { btnEl.disabled = false; btnEl.textContent = originalText; btnEl.title = originalTitle; }
+
+  if (result.timeout) {
+    window.alert(`아직 처리 중입니다 — 이슈 #${result.issue.number} 에서 직접 확인해 주세요.\n` +
+      `https://github.com/${REPO}/issues/${result.issue.number}`);
+  } else if (result.message) {
+    window.alert(result.message);
+  }
+  // result.fallback 이면 runOrOpenIssue 가 이미 안내하고 새 창을 열었다
 }
 
 // 영구 삭제 요청 — GitHub 이슈를 열어 워크플로가 실제로 파일을 지우게 한다
@@ -413,9 +553,13 @@ function requestDelete(r) {
 // 서버까지 가지도 못하고 "올바른 유튜브 주소가 아닙니다"로 화면에서 막히고 있었다.
 const YT_RE = /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|shorts\/|embed\/|live\/)|youtu\.be\/)[\w-]{6,}/i;
 
-function requestSummary() {
+// GitHub 토큰이 저장돼 있으면 로그인 없이 API 로 바로 요약을 요청하고,
+// 워크플로가 끝날 때까지 기다렸다가 결과를 이 자리에 보여 준다.
+// 토큰이 없으면 예전처럼 '새 이슈' 페이지가 열려 직접 로그인해서 제출한다.
+async function requestSummary() {
   const input = document.getElementById('yt-url');
   const hint = document.getElementById('yt-hint');
+  const btn = document.getElementById('yt-submit');
   let url = (input.value || '').trim();
   if (!url) { input.focus(); return; }
   if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
@@ -425,17 +569,40 @@ function requestSummary() {
     return;
   }
   hint.classList.remove('err');
-  const title = encodeURIComponent('[요약] ' + url);
-  const body = encodeURIComponent(
-    '아래 유튜브 영상을 이차전지 리포트로 요약해 주세요.\n\n' + url + '\n');
-  window.open(`https://github.com/${REPO}/issues/new?title=${title}&body=${body}`, '_blank', 'noopener');
-  hint.innerHTML = '↗️ GitHub 페이지에서 <b>‘Submit new issue’</b>를 눌러 주세요. ' +
-    '제출 후 1~3분 뒤 이 목록에 리포트가 추가됩니다.';
+  const title = '[요약] ' + url;
+  const body = '아래 유튜브 영상을 이차전지 리포트로 요약해 주세요.\n\n' + url + '\n';
+
+  if (!ghToken()) {
+    window.open(`https://github.com/${REPO}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`,
+                '_blank', 'noopener');
+    hint.innerHTML = '↗️ GitHub 페이지에서 <b>‘Submit new issue’</b>를 눌러 주세요. ' +
+      '제출 후 1~3분 뒤 이 목록에 리포트가 추가됩니다.';
+    return;
+  }
+
+  if (btn) btn.disabled = true;
+  hint.innerHTML = '⏳ 요청을 보내는 중…';
+  const result = await runOrOpenIssue(title, body, (s) => { hint.innerHTML = s; });
+  if (btn) btn.disabled = false;
+
+  if (result.timeout) {
+    hint.innerHTML = `⏳ 아직 처리 중입니다 — <a href="https://github.com/${REPO}/issues/${result.issue.number}" ` +
+      `target="_blank" rel="noopener">이슈 #${result.issue.number}</a> 에서 확인해 주세요.`;
+  } else if (result.message) {
+    hint.innerHTML = result.message.replace(/\n/g, '<br>');
+    input.value = '';
+    reload();   // 새 리포트가 목록에 반영됐을 수 있으니 다시 불러온다
+  }
+  // result.fallback 이면 runOrOpenIssue 가 이미 안내하고 새 창을 열었다
 }
 
 function render() { renderStats(); renderPills(); renderChannels(); renderFavTools(); renderCards(); }
 
-async function init() {
+/* reports.json 을 다시 받아 화면을 갱신한다. init() 의 최초 로드와,
+   URL 등록·전송이 API 로 끝난 뒤의 '방금 반영됐을 수 있으니 새로고침'에서
+   함께 쓴다. 실패해도 기존 ALL 을 비우지 않는다 — 성공 뒤의 일시적 네트워크
+   오류로 화면이 통째로 빈 목록이 되면 안 된다. */
+async function reload() {
   try {
     const res = await fetch('../data/reports.json', { cache: 'no-cache' });
     const data = await res.json();
@@ -447,7 +614,14 @@ async function init() {
     pruneStaleIds();
     const stamp = document.getElementById('generated');
     if (stamp && data.generated_at) stamp.textContent = '최근 갱신: ' + data.generated_at.replace('T', ' ').slice(0, 16);
-  } catch (e) { ALL = []; console.error('reports.json 로드 실패', e); }
+  } catch (e) {
+    console.error('reports.json 로드 실패', e);
+  }
+  render();
+}
+
+async function init() {
+  await reload();
 
   // 주소에 ?p=3 이 있으면 그 페이지부터 — 새로고침·뒤로가기·링크 공유에 쓰인다
   const wanted = parseInt(new URL(window.location.href).searchParams.get('p') || '1', 10);
@@ -456,9 +630,12 @@ async function init() {
   const search = document.getElementById('search');
   search.addEventListener('input', () => { searchTerm = search.value.trim(); resetPage(); renderCards(); });
 
-  // 마스터 모드 토글
+  // 마스터 모드 토글 · GitHub 토큰 설정(로그인 없이 바로 실행)
   const mb = document.getElementById('master-btn');
-  if (mb) { mb.addEventListener('click', toggleMaster); renderMasterBtn(); }
+  if (mb) mb.addEventListener('click', toggleMaster);
+  const tb = document.getElementById('gh-token-btn');
+  if (tb) tb.addEventListener('click', configureGhToken);
+  renderMasterBtn();
 
   // 홈 버튼: 목록 최상단(홈) 상태로 되돌리며 새로고침
   const homeBtn = document.getElementById('home-btn');
@@ -488,7 +665,5 @@ async function init() {
       else { list.setAttribute('hidden', ''); toggle.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
     });
   }
-
-  render();
 }
 document.addEventListener('DOMContentLoaded', init);

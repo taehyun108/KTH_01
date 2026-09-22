@@ -846,6 +846,60 @@ def check_youtube_url_validation() -> list[str]:
     return out
 
 
+# GitHub 로그인 없이 바로 처리되는 경로(URL 등록·텔레그램 전송) — 2026-09-22.
+# 토큰을 이 브라우저에만 저장해 API 로 이슈를 만들고 끝날 때까지 지켜보는 방식이라,
+# ① 필요한 조각이 다 있는지 ② 토큰을 URL 에 실어 보내 로그에 남기지 않는지
+# ③ requestSummary·requestSend 가 실제로 이 경로를 쓰는지를 확인한다.
+# 실제 create→poll→close→comment 흐름 자체는 Node 로 코드를 그대로 실행해
+# 네트워크를 흉내 낸 시나리오 4개(무토큰·성공·401·타임아웃)로 이미 검증했다.
+def check_gh_token_flow() -> list[str]:
+    from pathlib import Path
+    js = (Path(__file__).resolve().parent.parent
+          / "site" / "assets" / "app.js").read_text(encoding="utf-8")
+    out = []
+    for needle, why in (
+        ("LS_GH_TOKEN", "토큰 저장 키가 없습니다"),
+        ("function ghToken()", "토큰 조회 함수가 없습니다"),
+        ("function configureGhToken()", "토큰 설정 UI 함수가 없습니다"),
+        ("function ghApiCall(", "GitHub API 호출 함수가 없습니다"),
+        ("function ghRunAndWait(", "이슈 생성·대기 함수가 없습니다"),
+        ("function runOrOpenIssue(", "토큰 유무에 따라 갈라 주는 함수가 없습니다"),
+    ):
+        if needle not in js:
+            out.append(f"  [{why}] {needle!r} 가 사라졌습니다")
+    if "getElementById('gh-token-btn')" not in js:
+        out.append("  [토큰 설정 버튼 배선] init() 이 gh-token-btn 을 연결하지 않습니다")
+
+    # 토큰은 반드시 Authorization 헤더로만 보낸다 — URL 쿼리에 실으면
+    # 브라우저 기록·Referer·서버 로그에 그대로 남는다.
+    if "Authorization" not in js or "Bearer ${ghToken()" not in js:
+        out.append("  [토큰을 Authorization 헤더로 보내지 않습니다]")
+    if re.search(r"[?&]token=\$\{ghToken", js):
+        out.append("  [토큰이 URL 쿼리로 새고 있습니다 — 헤더로만 보내야 합니다]")
+
+    # requestSummary·requestSend 가 실제로 이 경로를 쓰는지 — 함수만 만들어 두고
+    # 안 불러 쓰면 아무 의미가 없다. 통짜 주석 줄 속 언급까지 코드로 오인하지
+    # 않도록 걷어내고 검사한다(check_name_fix_actually_fixes 와 같은 함정).
+    # 줄 끝에 붙는 // 는 URL(https://...) 과 겹칠 수 있어 건드리지 않는다 —
+    # '//' 로 시작하는 줄 전체만 걷어낸다.
+    def _code_only(text: str) -> str:
+        return "\n".join(l for l in text.splitlines() if not l.strip().startswith("//"))
+
+    m = re.search(r"async function requestSummary\(\)[\s\S]*?\n\}", js)
+    if not m or "runOrOpenIssue" not in _code_only(m.group(0)):
+        out.append("  [requestSummary 가 runOrOpenIssue 를 쓰지 않습니다]")
+    m = re.search(r"async function requestSend\([\s\S]*?\n\}", js)
+    if not m or "runOrOpenIssue" not in _code_only(m.group(0)):
+        out.append("  [requestSend 가 runOrOpenIssue 를 쓰지 않습니다]")
+
+    # init() 을 두 번 부를 일이 없어야 한다 — '성공 후 init() 재호출'로 고치면
+    # 이벤트 리스너가 중복 등록된다. reload() 로 데이터만 다시 받고, 리스너
+    # 등록은 init() 에서 한 번만 하는 구조여야 한다.
+    if "async function reload()" not in js:
+        out.append("  [reload() 가 없습니다 — 재요청 뒤 init() 을 통째로 다시 부르면 리스너가 중복됩니다]")
+    return out
+
+
 def check_pagination() -> list[str]:
     """목록 페이지네이션 — 카드 수와 배선이 조용히 바뀌지 않게 막는다.
 
@@ -1330,6 +1384,7 @@ def main() -> int:
     fails += check_workflow_url_comment_honesty()
     fails += check_telegram()
     fails += check_send_report()
+    fails += check_gh_token_flow()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
@@ -1346,8 +1401,9 @@ def main() -> int:
              + 4     # 명칭 --fix 정확성(전제·판정일치·재교정·회귀방지)
              + 4     # URL 등록 댓글 정직성(always·id·output·확인)
              + 7     # 텔레그램(무시크릿2·연관도2·상한1·커밋순서2 외 배선)
-             + 9)    # 리포트 전문 전송(섹션4·링크1·상한2·권한2 외 버튼자리)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성·텔레그램·전문전송 — "
+             + 9     # 리포트 전문 전송(섹션4·링크1·상한2·권한2 외 버튼자리)
+             + 12)   # GitHub 토큰 경로(부품6·버튼배선1·헤더보안2·경로사용2·reload1)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성·텔레그램·전문전송·토큰경로 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)
