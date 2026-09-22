@@ -190,7 +190,13 @@ def _print_candidates(username: str) -> None:
     토큰이 남는다) 여기서 대신 물어본다.
     """
     seen: dict[str, str] = {}
-    for u in _call("getUpdates", {}):
+    # 채널에 봇을 관리자로 넣은 직후에는 my_chat_member 로만 흔적이 남는다.
+    # 어떤 종류를 받을지 <명시>하지 않으면 이전 호출의 설정이 그대로 이어져,
+    # 정작 채널을 붙인 다음에 후보가 안 잡히는 일이 생긴다.
+    updates = _call("getUpdates", {
+        "allowed_updates": ["message", "channel_post", "my_chat_member"],
+    })
+    for u in updates:
         for key in ("message", "channel_post", "my_chat_member"):
             chat = (u.get(key) or {}).get("chat") or {}
             if chat.get("id") is not None:
