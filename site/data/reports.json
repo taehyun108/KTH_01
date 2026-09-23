@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-23T07:50:07",
+  "generated_at": "2026-09-23T15:48:22",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -44,6 +44,36 @@
       "url": "2026-09-23-미국-원전-건설과-우버의-배민-인수-추진-시장에-미칠-영향은.html",
       "video": "https://www.youtube.com/watch?v=R-Bur7lIM-U",
       "video_id": "R-Bur7lIM-U",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-23-유가는-내렸는데-왜-원유-도입-비용은-그대로일까요",
+      "date": "2026-09-23",
+      "channel": "언더스탠딩",
+      "title": "유가는 내렸는데 왜 원유 도입 비용은 그대로일까요",
+      "summary": "국제 유가는 내렸지만 치솟은 유조선 운임 때문에 실제 원유 도입 부담은 여전한 상황이죠.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-09-23-유가는-내렸는데-왜-원유-도입-비용은-그대로일까요.html",
+      "video": "https://www.youtube.com/watch?v=glfpl64D0zg",
+      "video_id": "glfpl64D0zg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-23-쌓여가는-위스키-14억-리터-주류-시장에-부는-찬바람",
+      "date": "2026-09-23",
+      "channel": "언더스탠딩",
+      "title": "쌓여가는 위스키 14억 리터… 주류 시장에 부는 찬바람",
+      "summary": "전 세계 위스키 재고가 14억 리터에 달하면서 주류 시장이 얼어붙고 있는데요, 과잉 생산과 소비 감소가 겹친 결과입니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-23-쌓여가는-위스키-14억-리터-주류-시장에-부는-찬바람.html",
+      "video": "https://www.youtube.com/watch?v=I831qh7PBbA",
+      "video_id": "I831qh7PBbA",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
