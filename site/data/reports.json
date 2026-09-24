@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T16:10:02",
+  "generated_at": "2026-09-24T18:28:15",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -74,6 +74,21 @@
       "url": "2026-09-24-ai-발전이-가져올-사이버-보안-위협과-기업의-과제.html",
       "video": "https://www.youtube.com/watch?v=FoHxFYNNyNk",
       "video_id": "FoHxFYNNyNk",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-24-수도권-주택-공급과-반도체-자금-한국-경제가-나아갈-길은",
+      "date": "2026-09-24",
+      "channel": "언더스탠딩",
+      "title": "수도권 주택 공급과 반도체 자금, 한국 경제가 나아갈 길은",
+      "summary": "수도권 중심의 공급 정책이 수도권 집중과 저출산으로 이어지는 구조를 짚어보고, 반도체 자금을 생산적 투자로 돌려야 하는 이유를 알아봅니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-09-24-수도권-주택-공급과-반도체-자금-한국-경제가-나아갈-길은.html",
+      "video": "https://www.youtube.com/watch?v=9MLT5ibKsgs",
+      "video_id": "9MLT5ibKsgs",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
