@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T07:40:55",
+  "generated_at": "2026-09-24T16:10:02",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -44,6 +44,36 @@
       "url": "2026-09-24-성장해도-왜-청년들은-불행할까-부동산-불로소득이-가져온-경제적-그늘.html",
       "video": "https://www.youtube.com/watch?v=DW6BGemqsUQ",
       "video_id": "DW6BGemqsUQ",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-24-ai가-바꿀-경제의-규칙-효율적인-자원-배분과-새로운-기회",
+      "date": "2026-09-24",
+      "channel": "손에 잡히는 경제",
+      "title": "AI가 바꿀 경제의 규칙, 효율적인 자원 배분과 새로운 기회",
+      "summary": "인공지능과 알고리즘이 자원 배분과 경제의 규칙을 어떻게 바꿀 수 있는지 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-24-ai가-바꿀-경제의-규칙-효율적인-자원-배분과-새로운-기회.html",
+      "video": "https://www.youtube.com/watch?v=RhJ0y_So05k",
+      "video_id": "RhJ0y_So05k",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-24-ai-발전이-가져올-사이버-보안-위협과-기업의-과제",
+      "date": "2026-09-24",
+      "channel": "CNBC International",
+      "title": "AI 발전이 가져올 사이버 보안 위협과 기업의 과제",
+      "summary": "인공지능과 양자 컴퓨팅이 불러올 사이버 보안 위협과 기업들의 대응 방안을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-24-ai-발전이-가져올-사이버-보안-위협과-기업의-과제.html",
+      "video": "https://www.youtube.com/watch?v=FoHxFYNNyNk",
+      "video_id": "FoHxFYNNyNk",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
