@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-23T15:48:22",
+  "generated_at": "2026-09-24T02:07:47",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -77,6 +77,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-09-23-아프리카를-뒤흔든-초대형-정유-공장과-투자-열풍",
+      "date": "2026-09-23",
+      "channel": "슈카월드",
+      "title": "아프리카를 뒤흔든 초대형 정유 공장과 투자 열풍",
+      "summary": "아프리카 최대 부호가 세운 대규모 정유 공장이 아프리카 증시와 환율을 뒤흔들고 있는 소식을 전해 드려요.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-23-아프리카를-뒤흔든-초대형-정유-공장과-투자-열풍.html",
+      "video": "https://www.youtube.com/watch?v=92qTnyHoEnw",
+      "video_id": "92qTnyHoEnw",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-09-22-코스피-박스권-돌파-추격-매수보다-템포-조절이-필요한-이유",
@@ -719,6 +734,21 @@
       "url": "2026-09-17-m-a-시장의-룰이-바뀐다-50-1주-의무공개매수제-국회-상임위-통과.html",
       "video": "https://www.youtube.com/watch?v=-j2sAjRFKhY",
       "video_id": "-j2sAjRFKhY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-17-fomc-통과-이후의-증시-흐름과-섹터별-엇갈림",
+      "date": "2026-09-17",
+      "channel": "삼프로TV",
+      "title": "FOMC 통과 이후의 증시 흐름과 섹터별 엇갈림",
+      "summary": "FOMC(미국의 기준금리를 정하는 회의) 불확실성을 넘었지만 뚜렷한 주도주가 보이지 않는 국내 증시의 흐름을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-17-fomc-통과-이후의-증시-흐름과-섹터별-엇갈림.html",
+      "video": "https://www.youtube.com/watch?v=fEkipTgOAD0",
+      "video_id": "fEkipTgOAD0",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
@@ -1589,6 +1619,21 @@
       "url": "2026-09-10-인공지능이-바꾼-영상-산업-중국-숏폼-드라마의-놀라운-현주소.html",
       "video": "https://www.youtube.com/watch?v=gGJEoJlLErI",
       "video_id": "gGJEoJlLErI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-10-전쟁과-금리-불확실성-속에서도-든든하게-버텨-준-우리-시장",
+      "date": "2026-09-10",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "전쟁과 금리 불확실성 속에서도 든든하게 버텨 준 우리 시장",
+      "summary": "미국과 이란의 전쟁 가능성과 금리 결정을 앞두고 시장은 불확실성이 크지만, 코스닥은 이틀 연속 든든한 양선을 보였죠. 외국인 매도에도 불구하고 대기업들이 잘 버텨 준 하루였고요. 환율과 물가 지표를 차분히 지켜보며 현금을 확보해 두는 시점입니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-10-전쟁과-금리-불확실성-속에서도-든든하게-버텨-준-우리-시장.html",
+      "video": "https://www.youtube.com/watch?v=zQseAeqlvPg",
+      "video_id": "zQseAeqlvPg",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
