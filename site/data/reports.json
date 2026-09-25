@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-25T02:08:48",
+  "generated_at": "2026-09-25T15:59:02",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-25-시속-400km를-향하는-한국-고속철도-다음-과제는-에너지-효율입니다",
+      "date": "2026-09-25",
+      "channel": "손에 잡히는 경제",
+      "title": "시속 400km를 향하는 한국 고속철도, 다음 과제는 에너지 효율입니다",
+      "summary": "한국 고속철도가 시속 400km급 3세대 기술 개발에 나섰는데요, 에너지 효율과 경량화가 핵심 과제로 꼽힙니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-09-25-시속-400km를-향하는-한국-고속철도-다음-과제는-에너지-효율입니다.html",
+      "video": "https://www.youtube.com/watch?v=mQQMIuoalag",
+      "video_id": "mQQMIuoalag",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-09-24-10월-증시-어디로-마이크론-실적-금리-반도체에-달렸다",
