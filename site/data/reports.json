@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-26T07:49:43",
+  "generated_at": "2026-09-26T15:09:42",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-09-26-송나라화와-일본화로-읽는-사회-시스템의-두-얼굴",
+      "date": "2026-09-26",
+      "channel": "언더스탠딩",
+      "title": "송나라화와 일본화로 읽는 사회 시스템의 두 얼굴",
+      "summary": "역사 속 사회 시스템 비교를 통해 현대 국가의 경쟁과 안정 구조를 짚어보는 시간이죠.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-26-송나라화와-일본화로-읽는-사회-시스템의-두-얼굴.html",
+      "video": "https://www.youtube.com/watch?v=M1Pia49zf_8",
+      "video_id": "M1Pia49zf_8",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-26-ai-시장은-정말-거품일까요-거대한-자금-흐름과-앤스로픽-ipo-전망",
+      "date": "2026-09-26",
+      "channel": "Patrick Boyle",
+      "title": "AI 시장은 정말 거품일까요? 거대한 자금 흐름과 앤스로픽 IPO 전망",
+      "summary": "인공지능(AI) 열풍이 거품인지 짚어보고, 앤스로픽의 상장 계획과 엔비디아의 가치를 점검해 보는 시간입니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-09-26-ai-시장은-정말-거품일까요-거대한-자금-흐름과-앤스로픽-ipo-전망.html",
+      "video": "https://www.youtube.com/watch?v=T-oXyXwD6sE",
+      "video_id": "T-oXyXwD6sE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
     {
       "id": "2026-09-25-byd-실링6-시승으로-살펴본-자동차-시장과-변화",
       "date": "2026-09-25",
