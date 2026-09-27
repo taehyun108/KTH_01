@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-26T15:09:42",
+  "generated_at": "2026-09-27T02:21:35",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-09-26-추석-이후-증시-어디로-결정적-변수와-투자-심리-점검",
+      "date": "2026-09-26",
+      "channel": "삼프로TV",
+      "title": "추석 이후 증시 어디로? 결정적 변수와 투자 심리 점검",
+      "summary": "추석 연휴를 앞두고 증시를 둘러싼 투자 심리와 변수를 점검해 보는 시간입니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-26-추석-이후-증시-어디로-결정적-변수와-투자-심리-점검.html",
+      "video": "https://www.youtube.com/watch?v=mwz0IhjslsE",
+      "video_id": "mwz0IhjslsE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-26-시진핑-극진히-환대한-트럼프-무엇을-노리고-얻었나",
+      "date": "2026-09-26",
+      "channel": "박종훈의 지식한방",
+      "title": "시진핑 극진히 환대한 트럼프, 무엇을 노리고 얻었나?",
+      "summary": "미중 정상회담 이후 트럼프 대통령의 대중국 협상 전략과 공급망 변화를 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-09-26-시진핑-극진히-환대한-트럼프-무엇을-노리고-얻었나.html",
+      "video": "https://www.youtube.com/watch?v=3rNL9OlCPTg",
+      "video_id": "3rNL9OlCPTg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-09-25-byd-실링6-시승으로-살펴본-자동차-시장과-변화",
@@ -554,6 +584,21 @@
       "url": "2026-09-21-글로벌-지정학-리스크와-디지털자산-규제-동향.html",
       "video": "https://www.youtube.com/watch?v=AU349QYVmLg",
       "video_id": "AU349QYVmLg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-21-반도체-비중을-줄였다가-다시-늘린-이유와-시장을-보는-기준",
+      "date": "2026-09-21",
+      "channel": "삼프로TV",
+      "title": "반도체 비중을 줄였다가 다시 늘린 이유와 시장을 보는 기준",
+      "summary": "반도체 비중을 줄였다가 나흘 만에 다시 늘린 사연과, 지금 시장에서 지켜봐야 할 투자 기준을 전해 드립니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-21-반도체-비중을-줄였다가-다시-늘린-이유와-시장을-보는-기준.html",
+      "video": "https://www.youtube.com/watch?v=JGlyR6T_mX8",
+      "video_id": "JGlyR6T_mX8",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
