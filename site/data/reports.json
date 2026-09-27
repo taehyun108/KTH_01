@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-27T02:21:35",
+  "generated_at": "2026-09-27T08:24:46",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,51 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-09-27-가치평가의-대가-애스워드-다모다란이-말하는-ai-시대-투자자의-자세",
+      "date": "2026-09-27",
+      "channel": "삼프로TV",
+      "title": "가치평가의 대가 애스워드 다모다란이 말하는 AI 시대 투자자의 자세",
+      "summary": "뉴욕대학교 애스워드 다모다란 교수가 전하는 가치평가의 본질과 투자 환경 변화 이야기입니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-09-27-가치평가의-대가-애스워드-다모다란이-말하는-ai-시대-투자자의-자세.html",
+      "video": "https://www.youtube.com/watch?v=JIJl6F3cONk",
+      "video_id": "JIJl6F3cONk",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-27-폭락장은-반드시-옵니다-살아남는-투자자의-경험",
+      "date": "2026-09-27",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "폭락장은 반드시 옵니다, 살아남는 투자자의 경험",
+      "summary": "주식시장은 언젠가 폭락을 맞이하게 되는데요, 중요한 것은 지수를 맞추는 것이 아니라 틀렸을 때도 살아남는 경험을 쌓는 것입니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-27-폭락장은-반드시-옵니다-살아남는-투자자의-경험.html",
+      "video": "https://www.youtube.com/watch?v=6SUHvveCG90",
+      "video_id": "6SUHvveCG90",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-27-미국과-중동의-역사-이란-이라크-전쟁과-걸프전이-남긴-기록",
+      "date": "2026-09-27",
+      "channel": "손석희의 12시",
+      "title": "미국과 중동의 역사, 이란·이라크 전쟁과 걸프전이 남긴 기록",
+      "summary": "미국과 중동의 오랜 관계 속에서 이란-이라크 전쟁과 걸프전의 흐름을 짚어보고, 중동 질서가 글로벌 원유 공급과 배터리 산업에 미치는 배경을 살펴봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-09-27-미국과-중동의-역사-이란-이라크-전쟁과-걸프전이-남긴-기록.html",
+      "video": "https://www.youtube.com/watch?v=SLtQUF0UXmY",
+      "video_id": "SLtQUF0UXmY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-09-26-송나라화와-일본화로-읽는-사회-시스템의-두-얼굴",
       "date": "2026-09-26",
