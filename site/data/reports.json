@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-28T02:41:30",
+  "generated_at": "2026-09-28T08:47:07",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-28-고금리-버티는-미국-한국만-이자-폭탄을-맞는-이유",
+      "date": "2026-09-28",
+      "channel": "언더스탠딩",
+      "title": "고금리 버티는 미국, 한국만 이자 폭탄을 맞는 이유",
+      "summary": "미국은 장기 고정금리로 충격을 견디지만, 한국은 혼합형 대출과 전세 구조로 이자 폭탄을 맞고 있다는 소식입니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-28-고금리-버티는-미국-한국만-이자-폭탄을-맞는-이유.html",
+      "video": "https://www.youtube.com/watch?v=E4jMIKattCM",
+      "video_id": "E4jMIKattCM",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-09-28-국내-전기차-가격이-유독-저렴한-이유와-솔리다임-미국-상장-추진의-배경",
+      "date": "2026-09-28",
+      "channel": "손에 잡히는 경제",
+      "title": "국내 전기차 가격이 유독 저렴한 이유와 솔리다임 미국 상장 추진의 배경",
+      "summary": "국내 전기차 시장 가격 흐름과 SK하이닉스 손자회사 솔리다임의 미국 상장 추진 배경을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-09-28-국내-전기차-가격이-유독-저렴한-이유와-솔리다임-미국-상장-추진의-배경.html",
+      "video": "https://www.youtube.com/watch?v=zQjtq3sXQFg",
+      "video_id": "zQjtq3sXQFg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-09-27-가치평가의-대가-애스워드-다모다란이-말하는-ai-시대-투자자의-자세",
