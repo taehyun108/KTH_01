@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T08:45:45",
+  "generated_at": "2026-09-30T02:52:38",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-09-30-대형주는-숨-고르고-소부장은-달리고-지금-증시-흐름은",
+      "date": "2026-09-30",
+      "channel": "삼프로TV",
+      "title": "대형주는 숨 고르고, 소부장은 달리고… 지금 증시 흐름은?",
+      "summary": "국내 증시의 전반적인 흐름과 함께 대형주와 소부장 종목의 움직임을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-09-30-대형주는-숨-고르고-소부장은-달리고-지금-증시-흐름은.html",
+      "video": "https://www.youtube.com/watch?v=3kObJjjyJNI",
+      "video_id": "3kObJjjyJNI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-09-29-금리를-이기는-건-반도체뿐-흔들리는-증시-속-교체-매매-전략",
       "date": "2026-09-29",
@@ -614,6 +629,36 @@
       "url": "2026-09-23-아프리카를-뒤흔든-초대형-정유-공장과-투자-열풍.html",
       "video": "https://www.youtube.com/watch?v=92qTnyHoEnw",
       "video_id": "92qTnyHoEnw",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-23-추석-연휴-전-한국-증시-무엇이-바뀌었고-어디를-봐야-할까요",
+      "date": "2026-09-23",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "추석 연휴 전 한국 증시, 무엇이 바뀌었고 어디를 봐야 할까요",
+      "summary": "추석 연휴를 앞둔 한국 증시에서 반도체와 AI 인프라 등 시장의 흐름과 투자 기준을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-09-23-추석-연휴-전-한국-증시-무엇이-바뀌었고-어디를-봐야-할까요.html",
+      "video": "https://www.youtube.com/watch?v=NwQY2-s2R-Y",
+      "video_id": "NwQY2-s2R-Y",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-23-백악관-클라리티-법안-기다릴-수-없다-sec-cftc-규제-정비에-무게",
+      "date": "2026-09-23",
+      "channel": "삼프로TV",
+      "title": "백악관, '클라리티 법안 기다릴 수 없다'…SEC·CFTC 규제 정비에 무게",
+      "summary": "미국 백악관이 클라리티 법안을 기다리지 않고 SEC와 CFTC 규제를 정비하려는 움직임을 보이고 있어요.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-09-23-백악관-클라리티-법안-기다릴-수-없다-sec-cftc-규제-정비에-무게.html",
+      "video": "https://www.youtube.com/watch?v=fAqYtAPxGkE",
+      "video_id": "fAqYtAPxGkE",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
@@ -1499,6 +1544,21 @@
       "url": "2026-09-16-미국-10년물-국채금리-5-돌파-글로벌-시장이-긴장하는-이유.html",
       "video": "https://www.youtube.com/watch?v=fTMkcNJbm-4",
       "video_id": "fTMkcNJbm-4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-16-금리-더-올라도-미-증시-괜찮을까요-드러켄밀러의-진단",
+      "date": "2026-09-16",
+      "channel": "소수몽키",
+      "title": "금리 더 올라도 미 증시 괜찮을까요? 드러켄밀러의 진단",
+      "summary": "월가 초고수 드러켄밀러의 인터뷰를 통해 최근 금리 상승과 AI 인프라 투자 흐름을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-16-금리-더-올라도-미-증시-괜찮을까요-드러켄밀러의-진단.html",
+      "video": "https://www.youtube.com/watch?v=mo2ukCmz_uc",
+      "video_id": "mo2ukCmz_uc",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
