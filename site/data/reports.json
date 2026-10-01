@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-30T08:41:13",
+  "generated_at": "2026-10-01T02:52:28",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-01-4분기-증시-박스권-벗어날까-외국인-매도가-관건",
+      "date": "2026-10-01",
+      "channel": "삼프로TV",
+      "title": "4분기 증시, 박스권 벗어날까? 외국인 매도가 관건",
+      "summary": "미국 대선과 연준의 금리 행보를 앞두고 증시가 뚜렷한 방향성을 찾지 못하고 있는데요. 외국인의 수급 흐름과 4분기 리밸런싱 양상을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-01-4분기-증시-박스권-벗어날까-외국인-매도가-관건.html",
+      "video": "https://www.youtube.com/watch?v=7423mEzaC68",
+      "video_id": "7423mEzaC68",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-01-커버드콜-etf-투자-전략-코스피와-코스닥-중-어디가-좋을까요",
+      "date": "2026-10-01",
+      "channel": "삼프로TV",
+      "title": "커버드콜 ETF 투자 전략, 코스피와 코스닥 중 어디가 좋을까요?",
+      "summary": "최근 인기를 끌고 있는 커버드콜 ETF의 투자 트렌드와 코스피·코스닥 상품별 특징을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-01-커버드콜-etf-투자-전략-코스피와-코스닥-중-어디가-좋을까요.html",
+      "video": "https://www.youtube.com/watch?v=XjIIS_HydZs",
+      "video_id": "XjIIS_HydZs",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-09-30-대형주는-숨-고르고-소부장은-달리고-지금-증시-흐름은",
       "date": "2026-09-30",
@@ -47,6 +77,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-09-30-구글의-사상-첫-우주-데이터센터-실험-스페이스x-손에-달린-이유",
+      "date": "2026-09-30",
+      "channel": "소수몽키",
+      "title": "구글의 사상 첫 우주 데이터센터 실험, 스페이스X 손에 달린 이유",
+      "summary": "구글이 AI 칩을 실은 위성을 우주로 쏘아 올리며 우주 데이터센터 실험에 나섰는데요, 스페이스X의 로켓을 통한 발사 비용 절감이 성패를 가를 전망입니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-09-30-구글의-사상-첫-우주-데이터센터-실험-스페이스x-손에-달린-이유.html",
+      "video": "https://www.youtube.com/watch?v=kiQ_USot1go",
+      "video_id": "kiQ_USot1go",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-09-29-금리를-이기는-건-반도체뿐-흔들리는-증시-속-교체-매매-전략",
@@ -119,6 +164,21 @@
       "url": "2026-09-29-외국인-매도에도-반도체는-달랐다-소부장-강세의-배경.html",
       "video": "https://www.youtube.com/watch?v=BWcRHA4CaCg",
       "video_id": "BWcRHA4CaCg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-29-인공지능이-끌어올린-고금리-과연-인공지능은-버텨낼-수-있을까요",
+      "date": "2026-09-29",
+      "channel": "박종훈의 지식한방",
+      "title": "인공지능이 끌어올린 고금리, 과연 인공지능은 버텨낼 수 있을까요",
+      "summary": "인공지능 투자가 불러온 고금리 속에서, 인공지능 기업들이 거대한 자본 조달 비용을 어떻게 견뎌내고 있는지 차분히 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-29-인공지능이-끌어올린-고금리-과연-인공지능은-버텨낼-수-있을까요.html",
+      "video": "https://www.youtube.com/watch?v=tsDTfVGqCeE",
+      "video_id": "tsDTfVGqCeE",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
