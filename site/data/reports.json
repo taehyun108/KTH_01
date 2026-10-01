@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T02:52:28",
+  "generated_at": "2026-10-01T09:03:59",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-01-한국-전력망의-해외-진출-배터리-산업에-던지는-메시지",
+      "date": "2026-10-01",
+      "channel": "언더스탠딩",
+      "title": "한국 전력망의 해외 진출, 배터리 산업에 던지는 메시지",
+      "summary": "한국 전력망과 에너지 역량을 바탕으로 글로벌 시장에 진출해야 한다는 분석인데요, 배터리 산업에도 전력 인프라 확장이 중요한 시점입니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-01-한국-전력망의-해외-진출-배터리-산업에-던지는-메시지.html",
+      "video": "https://www.youtube.com/watch?v=7jiS9PznxDA",
+      "video_id": "7jiS9PznxDA",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-09-30-대형주는-숨-고르고-소부장은-달리고-지금-증시-흐름은",
