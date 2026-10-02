@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-02T03:13:49",
+  "generated_at": "2026-10-02T08:51:22",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -29,6 +29,36 @@
       "url": "2026-10-02-로빈후드의-수익-극대화-전략과-글로벌-디지털자산-시장의-흐름.html",
       "video": "https://www.youtube.com/watch?v=I9WZdCEqqi0",
       "video_id": "I9WZdCEqqi0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-02-지배주주만-배불리는-의무공개매수-일반-주주-보호가-흔들리는-이유",
+      "date": "2026-10-02",
+      "channel": "언더스탠딩",
+      "title": "지배주주만 배불리는 의무공개매수? 일반 주주 보호가 흔들리는 이유",
+      "summary": "국회 정무위를 통과한 의무공개매수 제도 법안의 쟁점과 일반 주주 보호의 한계를 짚어봅니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-10-02-지배주주만-배불리는-의무공개매수-일반-주주-보호가-흔들리는-이유.html",
+      "video": "https://www.youtube.com/watch?v=Sbsyqcwy17E",
+      "video_id": "Sbsyqcwy17E",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-02-국채금리-안정에-뉴욕증시-상승-메모리주-강세와-시장-흐름-점검",
+      "date": "2026-10-02",
+      "channel": "삼프로TV",
+      "title": "국채금리 안정에 뉴욕증시 상승... 메모리주 강세와 시장 흐름 점검",
+      "summary": "미국 국채금리가 하락하며 뉴욕증시가 상승 마감했고, 메모리 반도체 실적 호조가 전방 산업으로 이어지고 있습니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-10-02-국채금리-안정에-뉴욕증시-상승-메모리주-강세와-시장-흐름-점검.html",
+      "video": "https://www.youtube.com/watch?v=-QfEetlNAPA",
+      "video_id": "-QfEetlNAPA",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
