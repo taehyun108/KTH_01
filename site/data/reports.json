@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-03T02:50:31",
+  "generated_at": "2026-10-03T15:17:36",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -44,6 +44,36 @@
       "url": "2026-10-03-아부다비-투자-거인-2포인트제로-ai와-글로벌-확장에-나서다.html",
       "video": "https://www.youtube.com/watch?v=bLElMR7cgAc",
       "video_id": "bLElMR7cgAc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-03-미중-정상회담과-공급망-재편-글로벌-자금은-어디로-향할까요",
+      "date": "2026-10-03",
+      "channel": "손에 잡히는 경제",
+      "title": "미중 정상회담과 공급망 재편, 글로벌 자금은 어디로 향할까요",
+      "summary": "미중 정상회담 이후 공급망이 재편되고, AI와 에너지를 향한 글로벌 자금 흐름이 어떻게 이어지는지 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-10-03-미중-정상회담과-공급망-재편-글로벌-자금은-어디로-향할까요.html",
+      "video": "https://www.youtube.com/watch?v=Enxeloy-zkg",
+      "video_id": "Enxeloy-zkg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-03-50조-원이-증발한-인도-개미들의-옵션-투자-광풍",
+      "date": "2026-10-03",
+      "channel": "슈카월드",
+      "title": "50조 원이 증발한 인도 개미들의 옵션 투자 광풍",
+      "summary": "인도 개인투자자들이 옵션 시장에 몰리며 거대한 카지노처럼 변모했던 현상과, 그 이면에서 막대한 손실을 기록한 시장의 흐름을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-03-50조-원이-증발한-인도-개미들의-옵션-투자-광풍.html",
+      "video": "https://www.youtube.com/watch?v=0K52Ex714NU",
+      "video_id": "0K52Ex714NU",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
