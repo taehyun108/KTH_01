@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-02T08:51:22",
+  "generated_at": "2026-10-03T02:50:31",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-03-젤렌스키의-외교적-행보와-폴란드-우크라이나-관계",
+      "date": "2026-10-03",
+      "channel": "삼프로TV",
+      "title": "젤렌스키의 외교적 행보와 폴란드·우크라이나 관계",
+      "summary": "우크라이나와 폴란드를 둘러싼 지정학적 외교 갈등과 배터리 공급망의 맥락을 짚어 봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-10-03-젤렌스키의-외교적-행보와-폴란드-우크라이나-관계.html",
+      "video": "https://www.youtube.com/watch?v=5O-7ZQ0FNAQ",
+      "video_id": "5O-7ZQ0FNAQ",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-03-아부다비-투자-거인-2포인트제로-ai와-글로벌-확장에-나서다",
+      "date": "2026-10-03",
+      "channel": "CNBC International",
+      "title": "아부다비 투자 거인 2포인트제로, AI와 글로벌 확장에 나서다",
+      "summary": "아부다비의 투자 그룹 2포인트제로(2PointZero) 사미아 부아자 CEO가 밝힌 AI와 글로벌 자산 확장 전략을 살펴봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-03-아부다비-투자-거인-2포인트제로-ai와-글로벌-확장에-나서다.html",
+      "video": "https://www.youtube.com/watch?v=bLElMR7cgAc",
+      "video_id": "bLElMR7cgAc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-10-02-로빈후드의-수익-극대화-전략과-글로벌-디지털자산-시장의-흐름",
       "date": "2026-10-02",
@@ -929,6 +959,21 @@
       "url": "2026-09-22-지수-7000을-향한-고민과-ai-투자-환경의-재해석.html",
       "video": "https://www.youtube.com/watch?v=FpHyMaapAV4",
       "video_id": "FpHyMaapAV4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-22-고금리-시대-주식과-채권-비중은-어떻게-가져가야-할까요",
+      "date": "2026-09-22",
+      "channel": "삼프로TV",
+      "title": "고금리 시대, 주식과 채권 비중은 어떻게 가져가야 할까요",
+      "summary": "FOMC 점도표와 물가 전망을 바탕으로 고금리 시대의 투자 기준과 채권·주식 비중 조절 전략을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-22-고금리-시대-주식과-채권-비중은-어떻게-가져가야-할까요.html",
+      "video": "https://www.youtube.com/watch?v=GzM-p0xwwmA",
+      "video_id": "GzM-p0xwwmA",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
