@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-04T03:26:20",
+  "generated_at": "2026-10-04T16:01:36",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -44,6 +44,51 @@
       "url": "2026-10-04-천하를-건-지략과-결단의-드라마-초한지-이야기.html",
       "video": "https://www.youtube.com/watch?v=g90LJKrxAv4",
       "video_id": "g90LJKrxAv4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-04-노벨상-특수에도-문학동네가-지분을-매각한-까닭은-무엇일까요",
+      "date": "2026-10-04",
+      "channel": "언더스탠딩",
+      "title": "노벨상 특수에도 문학동네가 지분을 매각한 까닭은 무엇일까요",
+      "summary": "단행본 출판 시장의 구조적 한계와 지식 재산권 확장 전략을 살펴봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-04-노벨상-특수에도-문학동네가-지분을-매각한-까닭은-무엇일까요.html",
+      "video": "https://www.youtube.com/watch?v=ObXlohpX_Qc",
+      "video_id": "ObXlohpX_Qc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-04-합리적인-장례-절차를-위해-미리-알아두어야-할-것들",
+      "date": "2026-10-04",
+      "channel": "손에 잡히는 경제",
+      "title": "합리적인 장례 절차를 위해 미리 알아두어야 할 것들",
+      "summary": "장례 지도사가 들려주는 장례 절차와 비용, 그리고 준비 과정에 대한 이야기입니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-04-합리적인-장례-절차를-위해-미리-알아두어야-할-것들.html",
+      "video": "https://www.youtube.com/watch?v=iYxnoounuIA",
+      "video_id": "iYxnoounuIA",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-04-고금리-충격에-흔들리는-프랑스-국채-시장과-시사점",
+      "date": "2026-10-04",
+      "channel": "박종훈의 지식한방",
+      "title": "고금리 충격에 흔들리는 프랑스 국채 시장과 시사점",
+      "summary": "프랑스의 높은 부채와 고금리 부담이 유럽 시장 전체로 미치는 영향을 살펴봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-04-고금리-충격에-흔들리는-프랑스-국채-시장과-시사점.html",
+      "video": "https://www.youtube.com/watch?v=hl1bFB6AZWg",
+      "video_id": "hl1bFB6AZWg",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
