@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-03T15:17:36",
+  "generated_at": "2026-10-04T03:26:20",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-04-부자-시스템-만드는-법-씨앗에서-열매까지의-밸류체인",
+      "date": "2026-10-04",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "부자 시스템 만드는 법: 씨앗에서 열매까지의 밸류체인",
+      "summary": "자산을 모으는 것을 넘어 지키고 불리는 부자의 시스템을 밸류체인 관점에서 알아봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-04-부자-시스템-만드는-법-씨앗에서-열매까지의-밸류체인.html",
+      "video": "https://www.youtube.com/watch?v=sggr0UqDDDw",
+      "video_id": "sggr0UqDDDw",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-04-천하를-건-지략과-결단의-드라마-초한지-이야기",
+      "date": "2026-10-04",
+      "channel": "손석희의 12시",
+      "title": "천하를 건 지략과 결단의 드라마, 초한지 이야기",
+      "summary": "역사 속 항우와 유방의 초한전쟁을 통해 리더십과 조직 정비의 교훈을 짚어보는 시간입니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-10-04-천하를-건-지략과-결단의-드라마-초한지-이야기.html",
+      "video": "https://www.youtube.com/watch?v=g90LJKrxAv4",
+      "video_id": "g90LJKrxAv4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-10-03-젤렌스키의-외교적-행보와-폴란드-우크라이나-관계",
       "date": "2026-10-03",
@@ -419,6 +449,21 @@
       "url": "2026-09-28-메타의-ai-비서-뮤즈-와-에이전트-기기-출시로-커지는-ai-3차-변곡점-기대감.html",
       "video": "https://www.youtube.com/watch?v=4muqJe1bX-I",
       "video_id": "4muqJe1bX-I",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-28-미국의-경유-수출-금지-논란과-아시아-정유사들의-수혜-가능성",
+      "date": "2026-09-28",
+      "channel": "삼프로TV",
+      "title": "미국의 경유 수출 금지 논란과 아시아 정유사들의 수혜 가능성",
+      "summary": "미국의 경유 수출 금지 가능성과 아시아 정유사 수혜, 그리고 글로벌 에너지 공급망의 변화를 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-09-28-미국의-경유-수출-금지-논란과-아시아-정유사들의-수혜-가능성.html",
+      "video": "https://www.youtube.com/watch?v=Xt8IUVyR2S0",
+      "video_id": "Xt8IUVyR2S0",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
