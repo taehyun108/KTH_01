@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-04T18:12:01",
+  "generated_at": "2026-10-05T02:31:15",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-05-dmz-지뢰-폭발과-북한군-월경-남북-긴장-고조의-진실",
+      "date": "2026-10-05",
+      "channel": "삼프로TV",
+      "title": "DMZ 지뢰 폭발과 북한군 월경…남북 긴장 고조의 진실",
+      "summary": "DMZ 비무장지대에서 벌어진 북한군의 잇단 지뢰 폭발과 월경 사건을 통일연구원 조한범 위원의 분석으로 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-10-05-dmz-지뢰-폭발과-북한군-월경-남북-긴장-고조의-진실.html",
+      "video": "https://www.youtube.com/watch?v=Hf_9Zaq6zHA",
+      "video_id": "Hf_9Zaq6zHA",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-10-04-부자-시스템-만드는-법-씨앗에서-열매까지의-밸류체인",
       "date": "2026-10-04",
@@ -104,6 +119,21 @@
       "url": "2026-10-04-뉴욕증권거래소에서-만난-켄-피셔-내년-상반기-증시를-낙관하는-이유.html",
       "video": "https://www.youtube.com/watch?v=mbd_XtJTs3k",
       "video_id": "mbd_XtJTs3k",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-04-5-고금리-장기화-속-실적과-주가-방어-전략",
+      "date": "2026-10-04",
+      "channel": "삼프로TV",
+      "title": "5% 고금리 장기화 속 실적과 주가 방어 전략",
+      "summary": "고금리 장기화와 실적 흐름 속에서 미국 증시와 국내 소부장·반도체 섹터의 투자 전략을 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-10-04-5-고금리-장기화-속-실적과-주가-방어-전략.html",
+      "video": "https://www.youtube.com/watch?v=0ag6lKsq57w",
+      "video_id": "0ag6lKsq57w",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
@@ -989,6 +1019,36 @@
       "url": "2026-09-23-백악관-클라리티-법안-기다릴-수-없다-sec-cftc-규제-정비에-무게.html",
       "video": "https://www.youtube.com/watch?v=fAqYtAPxGkE",
       "video_id": "fAqYtAPxGkE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-23-반도체와-소부장-그리고-다가오는-추석-연휴-이후의-증시-전략",
+      "date": "2026-09-23",
+      "channel": "삼프로TV",
+      "title": "반도체와 소부장, 그리고 다가오는 추석 연휴 이후의 증시 전략",
+      "summary": "추석 연휴를 앞둔 증시 흐름과 반도체·소부장 중심의 투자 전략을 살펴봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-09-23-반도체와-소부장-그리고-다가오는-추석-연휴-이후의-증시-전략.html",
+      "video": "https://www.youtube.com/watch?v=5rd6vHEI82g",
+      "video_id": "5rd6vHEI82g",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-23-추석-앞둔-증시-숨-고르기-미중-통상-흐름과-반도체-태양광-점검하기",
+      "date": "2026-09-23",
+      "channel": "삼프로TV",
+      "title": "추석 앞둔 증시 숨 고르기, 미중 통상 흐름과 반도체·태양광 점검하기",
+      "summary": "추석 연휴를 앞두고 증시가 다소 숨 고르기에 들어갔는데요, 미중 정상회담과 통상 정책의 흐름을 차분히 짚어 봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-09-23-추석-앞둔-증시-숨-고르기-미중-통상-흐름과-반도체-태양광-점검하기.html",
+      "video": "https://www.youtube.com/watch?v=2hKGh8wqlh0",
+      "video_id": "2hKGh8wqlh0",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
