@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-06T09:06:34",
+  "generated_at": "2026-10-06T17:26:34",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -59,6 +59,36 @@
       "url": "2026-10-06-수도권-집값-어디를-봐야-할까요-김학렬-소장이-짚어본-세-가지-기준.html",
       "video": "https://www.youtube.com/watch?v=-a_wCDV-X8Q",
       "video_id": "-a_wCDV-X8Q",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-06-ai-전력-소모를-줄인다-뇌를-닮은-차세대-반도체가-온다",
+      "date": "2026-10-06",
+      "channel": "손에 잡히는 경제",
+      "title": "AI 전력 소모를 줄인다, 뇌를 닮은 차세대 반도체가 온다",
+      "summary": "AI 전력 대란의 해법으로 꼽히는 차세대 뉴로모픽 반도체의 원리와 산업적 파급 효과를 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-06-ai-전력-소모를-줄인다-뇌를-닮은-차세대-반도체가-온다.html",
+      "video": "https://www.youtube.com/watch?v=l94tFMfozbg",
+      "video_id": "l94tFMfozbg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-06-명륜진사갈비-고금리-논란의-진실-공정위가-겨냥한-진짜-표적은",
+      "date": "2026-10-06",
+      "channel": "언더스탠딩",
+      "title": "명륜진사갈비 고금리 논란의 진실, 공정위가 겨냥한 진짜 표적은?",
+      "summary": "공정거래위원회가 명륜당에 과징금을 부과했는데요, 핵심은 고금리 논란이 아니라 오너 일가 부당지원 문제라는 소식입니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-10-06-명륜진사갈비-고금리-논란의-진실-공정위가-겨냥한-진짜-표적은.html",
+      "video": "https://www.youtube.com/watch?v=idHXEoK5QXs",
+      "video_id": "idHXEoK5QXs",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
