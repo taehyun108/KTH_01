@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T03:15:05",
+  "generated_at": "2026-10-07T08:50:17",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -31,6 +31,66 @@
       "video_id": "Wpyp5v5Crkc",
       "pv": 6,
       "scope": "general",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-07-외국인-이탈과-환율-부담에-하락한-코스피-증시-격차의-이유",
+      "date": "2026-10-07",
+      "channel": "삼프로TV",
+      "title": "외국인 이탈과 환율 부담에 하락한 코스피, 증시 격차의 이유",
+      "summary": "미국과 일본 증시는 연일 최고치를 경신하는 반면, 국내 증시는 외국인 순매도와 환율 부담 속에 약세를 면치 못하고 있는 이유를 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-07-외국인-이탈과-환율-부담에-하락한-코스피-증시-격차의-이유.html",
+      "video": "https://www.youtube.com/watch?v=6E_PQvDGRa4",
+      "video_id": "6E_PQvDGRa4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-07-금리-5-시대에도-돈은-흐른다-ai와-반도체-소부장의-진짜-성장주-찾기",
+      "date": "2026-10-07",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "금리 5% 시대에도 돈은 흐른다, AI와 반도체 소부장의 진짜 성장주 찾기",
+      "summary": "금리 5% 시대, 돈이 몰리는 곳은 따로 있죠. AI와 반도체, 전력 인프라와 보안까지 실적이 증명된 핵심 산업의 흐름을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-07-금리-5-시대에도-돈은-흐른다-ai와-반도체-소부장의-진짜-성장주-찾기.html",
+      "video": "https://www.youtube.com/watch?v=EyqTcfrlIrg",
+      "video_id": "EyqTcfrlIrg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-07-전쟁은-길어지고-경제는-흔들리는데-러시아가-버티는-이유",
+      "date": "2026-10-07",
+      "channel": "언더스탠딩",
+      "title": "전쟁은 길어지고 경제는 흔들리는데, 러시아가 버티는 이유",
+      "summary": "러시아의 경제난과 전쟁 장기화 배경을 살펴봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-07-전쟁은-길어지고-경제는-흔들리는데-러시아가-버티는-이유.html",
+      "video": "https://www.youtube.com/watch?v=i2Wt3pUt6yI",
+      "video_id": "i2Wt3pUt6yI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-07-국채금리-숨고르기-속-증시-신고가-메모리-장비주-하락의-배경은",
+      "date": "2026-10-07",
+      "channel": "삼프로TV",
+      "title": "국채금리 숨고르기 속 증시 신고가…메모리·장비주 하락의 배경은?",
+      "summary": "국채금리가 숨고르기에 들어간 가운데 S&P500과 나스닥이 사상 최고치를 경신했는데요, 다만 메모리와 반도체 장비주는 조정을 받았습니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-10-07-국채금리-숨고르기-속-증시-신고가-메모리-장비주-하락의-배경은.html",
+      "video": "https://www.youtube.com/watch?v=LS2YoYe5JiQ",
+      "video_id": "LS2YoYe5JiQ",
+      "pv": 6,
+      "scope": "battery",
       "src": "gemini-video"
     },
     {
