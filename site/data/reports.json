@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T00:55:24",
+  "generated_at": "2026-10-07T03:15:05",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -109,6 +109,36 @@
       "src": "unavailable"
     },
     {
+      "id": "2026-10-06-미국-금리-쉽게-안-떨어진다-국채-수요에-생긴-구조적-변화",
+      "date": "2026-10-06",
+      "channel": "삼프로TV",
+      "title": "미국 금리 쉽게 안 떨어진다…국채 수요에 생긴 구조적 변화",
+      "summary": "미국 금리가 쉽게 떨어지지 않는 이유와 국채 시장에 생긴 구조적인 변화를 살펴봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-10-06-미국-금리-쉽게-안-떨어진다-국채-수요에-생긴-구조적-변화.html",
+      "video": "https://www.youtube.com/watch?v=7Gw-WumkJdQ",
+      "video_id": "7Gw-WumkJdQ",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-06-노란봉투법이-낳은-삼성바이오-노조의-삼성전자-교섭-요구와-신세계의-10억-달러-투자",
+      "date": "2026-10-06",
+      "channel": "삼프로TV",
+      "title": "노란봉투법이 낳은 삼성바이오 노조의 삼성전자 교섭 요구와 신세계의 10억 달러 투자",
+      "summary": "노란봉투법의 영향으로 삼성바이오로직스 노조가 2대 주주인 삼성전자에 단체교섭을 요구한 기현상이 벌어졌는데요. 그 배경과 파장을 짚어봅니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-10-06-노란봉투법이-낳은-삼성바이오-노조의-삼성전자-교섭-요구와-신세계의-10억-달러-투자.html",
+      "video": "https://www.youtube.com/watch?v=kCIAfXCh5WA",
+      "video_id": "kCIAfXCh5WA",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
       "id": "2026-10-05-dmz-지뢰-폭발과-북한군-월경-남북-긴장-고조의-진실",
       "date": "2026-10-05",
       "channel": "삼프로TV",
@@ -182,6 +212,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-10-05-나스닥-엔비디아-신고가-속-기묘한-쏠림-랠리",
+      "date": "2026-10-05",
+      "channel": "소수몽키",
+      "title": "나스닥·엔비디아 신고가 속 기묘한 쏠림 랠리",
+      "summary": "나스닥과 엔비디아는 신고가를 기록했으나 다수의 종목은 하락하는 극단적인 쏠림 장세가 이어지고 있습니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-05-나스닥-엔비디아-신고가-속-기묘한-쏠림-랠리.html",
+      "video": "https://www.youtube.com/watch?v=V3ZQ02Syf5U",
+      "video_id": "V3ZQ02Syf5U",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-10-04-부자-시스템-만드는-법-씨앗에서-열매까지의-밸류체인",
