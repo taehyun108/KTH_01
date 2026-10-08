@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-08T09:07:10",
+  "generated_at": "2026-10-08T18:03:52",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -59,6 +59,21 @@
       "url": "2026-10-08-알래스카-lng-투자-압박-90조-원-거대-사업의-딜레마.html",
       "video": "https://www.youtube.com/watch?v=_inJ1v-JEAg",
       "video_id": "_inJ1v-JEAg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-08-중국산-태양광-밀어내고-국산-우대-나선다-재생에너지-제도-개편의-의미는",
+      "date": "2026-10-08",
+      "channel": "언더스탠딩",
+      "title": "중국산 태양광 밀어내고 국산 우대 나선다…재생에너지 제도 개편의 의미는",
+      "summary": "재생에너지 계약시장에서 국산 설비를 우대하는 제도가 도입되는데요, 에너지 안보와 공급망 다변화 측면에서 어떤 의미가 있는지 짚어봅니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-10-08-중국산-태양광-밀어내고-국산-우대-나선다-재생에너지-제도-개편의-의미는.html",
+      "video": "https://www.youtube.com/watch?v=iB1Ci0CC2Pc",
+      "video_id": "iB1Ci0CC2Pc",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
