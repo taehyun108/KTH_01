@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-08T03:27:18",
+  "generated_at": "2026-10-08T09:07:10",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -32,6 +32,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-08-삼성전자-3분기-실적-발표와-누리호-5차-발사-성공-오늘의-주요-경제-뉴스",
+      "date": "2026-10-08",
+      "channel": "손에 잡히는 경제",
+      "title": "삼성전자 3분기 실적 발표와 누리호 5차 발사 성공, 오늘의 주요 경제 뉴스",
+      "summary": "삼성전자 잠정 실적부터 누리호 발사 성공, 아파트 장기수선충당금 이슈까지 주요 경제 소식을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-08-삼성전자-3분기-실적-발표와-누리호-5차-발사-성공-오늘의-주요-경제-뉴스.html",
+      "video": "https://www.youtube.com/watch?v=rJegWXQ460o",
+      "video_id": "rJegWXQ460o",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-08-알래스카-lng-투자-압박-90조-원-거대-사업의-딜레마",
+      "date": "2026-10-08",
+      "channel": "언더스탠딩",
+      "title": "알래스카 LNG 투자 압박, 90조 원 거대 사업의 딜레마",
+      "summary": "미국의 알래스카 LNG 투자 압박과 경제성 논란, 그리고 한국의 투자 딜레마를 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-10-08-알래스카-lng-투자-압박-90조-원-거대-사업의-딜레마.html",
+      "video": "https://www.youtube.com/watch?v=_inJ1v-JEAg",
+      "video_id": "_inJ1v-JEAg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-10-07-2026년-국정감사-산자중기위-산업통상부-생중계-중지-안내",
