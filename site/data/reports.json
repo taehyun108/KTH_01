@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-09T09:15:36",
+  "generated_at": "2026-10-09T17:34:34",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -77,6 +77,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-09-브렉시트-10년의-그늘-영국의-위기가-우리에게-남긴-교훈",
+      "date": "2026-10-09",
+      "channel": "손에 잡히는 경제",
+      "title": "브렉시트 10년의 그늘, 영국의 위기가 우리에게 남긴 교훈",
+      "summary": "브렉시트 10년을 맞은 영국의 경제와 복지 위기가 우리 경제에 던지는 시사점.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-09-브렉시트-10년의-그늘-영국의-위기가-우리에게-남긴-교훈.html",
+      "video": "https://www.youtube.com/watch?v=R4vYTmi7LRo",
+      "video_id": "R4vYTmi7LRo",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-10-08-템퍼스-ai-질주에-다시-뜨는-미국-바이오-최대-수혜주는",
