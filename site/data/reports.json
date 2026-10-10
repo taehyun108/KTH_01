@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-10T03:11:52",
+  "generated_at": "2026-10-10T08:36:55",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -29,6 +29,21 @@
       "url": "2026-10-10-2027년-k-배터리의-진짜-승부처는-어디일까요.html",
       "video": "https://www.youtube.com/watch?v=YtK9-GHu8QU",
       "video_id": "YtK9-GHu8QU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-10-이창용-전-한은-총재가-말하는-한국-경제의-명암",
+      "date": "2026-10-10",
+      "channel": "슈카월드",
+      "title": "이창용 전 한은 총재가 말하는 한국 경제의 명암",
+      "summary": "이창용 전 한국은행 총재가 들려주는 반도체 슈퍼사이클과 환율, 재정 정책의 진실입니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-10-이창용-전-한은-총재가-말하는-한국-경제의-명암.html",
+      "video": "https://www.youtube.com/watch?v=2hUkTmwYm3A",
+      "video_id": "2hUkTmwYm3A",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
