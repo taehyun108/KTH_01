@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-09T17:34:34",
+  "generated_at": "2026-10-10T03:11:52",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-10-2027년-k-배터리의-진짜-승부처는-어디일까요",
+      "date": "2026-10-10",
+      "channel": "삼프로TV",
+      "title": "2027년 K-배터리의 진짜 승부처는 어디일까요?",
+      "summary": "2027년을 향해 가는 이차전지 산업의 흐름과 배터리·에너지저장장치(ESS) 시장의 변화를 짚어봅니다.",
+      "category": "global-market",
+      "relation": "direct",
+      "url": "2026-10-10-2027년-k-배터리의-진짜-승부처는-어디일까요.html",
+      "video": "https://www.youtube.com/watch?v=YtK9-GHu8QU",
+      "video_id": "YtK9-GHu8QU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-10-09-jyp-신사옥-건립-무산-공공택지-분양-신뢰도에-던지는-과제",
       "date": "2026-10-09",
@@ -92,6 +107,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-10-09-사상-최고-찍은-미국-증시-한국은-왜-먼저-꺾였나",
+      "date": "2026-10-09",
+      "channel": "박종훈의 지식한방",
+      "title": "사상 최고 찍은 미국 증시, 한국은 왜 먼저 꺾였나?",
+      "summary": "전 세계 금리가 오르는 가운데 유독 한국 코스피만 크게 조정을 받은 이유와 고금리 충격이 찾아오는 순서를 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-09-사상-최고-찍은-미국-증시-한국은-왜-먼저-꺾였나.html",
+      "video": "https://www.youtube.com/watch?v=HguDflS-lkE",
+      "video_id": "HguDflS-lkE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-10-08-템퍼스-ai-질주에-다시-뜨는-미국-바이오-최대-수혜주는",
