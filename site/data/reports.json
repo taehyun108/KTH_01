@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-10T08:36:55",
+  "generated_at": "2026-10-10T16:25:24",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,51 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-10-찰리-멍거에게-배우는-주식투자의-진짜-본질과-기다림의-미학",
+      "date": "2026-10-10",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "찰리 멍거에게 배우는 주식투자의 진짜 본질과 기다림의 미학",
+      "summary": "주식시장에서 실패하는 투자자의 공통점은 조급함과 잦은 매매인데요, 찰리 멍거의 철학을 통해 올바른 투자 기준을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-10-찰리-멍거에게-배우는-주식투자의-진짜-본질과-기다림의-미학.html",
+      "video": "https://www.youtube.com/watch?v=XOWRvlKThVw",
+      "video_id": "XOWRvlKThVw",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-10-죽어도-잃지-않는-천재들의-투자-공식",
+      "date": "2026-10-10",
+      "channel": "언더스탠딩",
+      "title": "죽어도 잃지 않는 천재들의 투자 공식",
+      "summary": "투자에서 살아남는 천재들의 공식, 현금 보유와 레버리지 조절의 중요성을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-10-죽어도-잃지-않는-천재들의-투자-공식.html",
+      "video": "https://www.youtube.com/watch?v=QTJS93hW4LE",
+      "video_id": "QTJS93hW4LE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-10-ai가-바꾸는-일자리-시장-직업이-아니라-직무가-사라진다",
+      "date": "2026-10-10",
+      "channel": "손에 잡히는 경제",
+      "title": "AI가 바꾸는 일자리 시장, 직업이 아니라 직무가 사라진다",
+      "summary": "AI 시대 고용 시장의 변화와 직무 전환의 중요성을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-10-ai가-바꾸는-일자리-시장-직업이-아니라-직무가-사라진다.html",
+      "video": "https://www.youtube.com/watch?v=A0n0Ox2Y1T4",
+      "video_id": "A0n0Ox2Y1T4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-10-09-jyp-신사옥-건립-무산-공공택지-분양-신뢰도에-던지는-과제",
