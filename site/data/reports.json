@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-10T16:25:24",
+  "generated_at": "2026-10-11T02:39:22",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-11-삼프로tv-김동환-의장이-말하는-미디어-창업과-성장의-기록",
+      "date": "2026-10-11",
+      "channel": "삼프로TV",
+      "title": "삼프로TV 김동환 의장이 말하는 미디어 창업과 성장의 기록",
+      "summary": "구독자 300만 명을 달성한 삼프로TV의 김동환 의장이 출연해 팟캐스트 시절부터 유튜브로 전환하기까지의 과정과 미디어 산업의 비즈니스 현주소를 담담하게 전합니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-11-삼프로tv-김동환-의장이-말하는-미디어-창업과-성장의-기록.html",
+      "video": "https://www.youtube.com/watch?v=oofWLln4ZNY",
+      "video_id": "oofWLln4ZNY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-10-10-2027년-k-배터리의-진짜-승부처는-어디일까요",
       "date": "2026-10-10",
@@ -92,6 +107,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-10-10-다카이치-내각-1년-일본-외교와-한일-관계의-명암",
+      "date": "2026-10-10",
+      "channel": "삼프로TV",
+      "title": "다카이치 내각 1년, 일본 외교와 한일 관계의 명암",
+      "summary": "다카이치 내각 출범 1년을 맞아 일본 정치·외교의 변화와 한국에 미칠 영향을 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-10-10-다카이치-내각-1년-일본-외교와-한일-관계의-명암.html",
+      "video": "https://www.youtube.com/watch?v=RBG9l7LLKa4",
+      "video_id": "RBG9l7LLKa4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-10-09-jyp-신사옥-건립-무산-공공택지-분양-신뢰도에-던지는-과제",
@@ -724,6 +754,21 @@
       "src": "gemini-video"
     },
     {
+      "id": "2026-10-03-ai-시대의-보석-삼성전기-mlcc와-기판의-성장성",
+      "date": "2026-10-03",
+      "channel": "삼프로TV",
+      "title": "AI 시대의 보석, 삼성전기 MLCC와 기판의 성장성",
+      "summary": "AI 서버와 전력망 확대에 따라 삼성전기의 적층세라믹콘덴서(MLCC)와 기판 수요가 크게 늘어날 전망입니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-10-03-ai-시대의-보석-삼성전기-mlcc와-기판의-성장성.html",
+      "video": "https://www.youtube.com/watch?v=p61QUjftYr0",
+      "video_id": "p61QUjftYr0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
       "id": "2026-10-02-로빈후드의-수익-극대화-전략과-글로벌-디지털자산-시장의-흐름",
       "date": "2026-10-02",
       "channel": "삼프로TV",
@@ -899,6 +944,21 @@
       "url": "2026-09-30-구글의-사상-첫-우주-데이터센터-실험-스페이스x-손에-달린-이유.html",
       "video": "https://www.youtube.com/watch?v=kiQ_USot1go",
       "video_id": "kiQ_USot1go",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-30-실적보다-강력해진-거시-변수-금리-인상의-맥락을-읽는-법",
+      "date": "2026-09-30",
+      "channel": "삼프로TV",
+      "title": "실적보다 강력해진 거시 변수, 금리 인상의 맥락을 읽는 법",
+      "summary": "미국 중앙은행의 금리 인상 가능성이 커지면서 시장의 셈법이 복잡해지는 시기인데요, 연준의 행보가 전체 주식 시장에 미치는 영향을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-09-30-실적보다-강력해진-거시-변수-금리-인상의-맥락을-읽는-법.html",
+      "video": "https://www.youtube.com/watch?v=3-WbJD12y9k",
+      "video_id": "3-WbJD12y9k",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
