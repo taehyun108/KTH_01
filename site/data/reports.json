@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-11T02:39:22",
+  "generated_at": "2026-10-11T09:01:04",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -29,6 +29,21 @@
       "url": "2026-10-11-삼프로tv-김동환-의장이-말하는-미디어-창업과-성장의-기록.html",
       "video": "https://www.youtube.com/watch?v=oofWLln4ZNY",
       "video_id": "oofWLln4ZNY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-11-ai-시대의-증시-전망과-월스트리트의-투자-전략",
+      "date": "2026-10-11",
+      "channel": "삼프로TV",
+      "title": "AI 시대의 증시 전망과 월스트리트의 투자 전략",
+      "summary": "월스트리트 자산운용 매니저가 전하는 AI 시대 증시 전망과 투자 전략을 살펴보죠.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-11-ai-시대의-증시-전망과-월스트리트의-투자-전략.html",
+      "video": "https://www.youtube.com/watch?v=QlDu4iUrAjg",
+      "video_id": "QlDu4iUrAjg",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
