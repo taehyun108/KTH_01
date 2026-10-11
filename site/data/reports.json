@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-11T09:01:04",
+  "generated_at": "2026-10-11T16:48:01",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-11-데이터센터-전력난-인공지능-ai-산업과-배터리에-던지는-메시지",
+      "date": "2026-10-11",
+      "channel": "손에 잡히는 경제",
+      "title": "데이터센터 전력난, 인공지능(AI) 산업과 배터리에 던지는 메시지",
+      "summary": "데이터센터 전력 부족은 위기가 아니라 전력망과 연료전지 등 새로운 투자 기회로 이어지고 있습니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-11-데이터센터-전력난-인공지능-ai-산업과-배터리에-던지는-메시지.html",
+      "video": "https://www.youtube.com/watch?v=cX_f05OFBg8",
+      "video_id": "cX_f05OFBg8",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-10-10-2027년-k-배터리의-진짜-승부처는-어디일까요",
