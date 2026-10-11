@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-11T16:48:01",
+  "generated_at": "2026-10-11T18:58:12",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -62,6 +62,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-10-11-염증과-면역의-비밀-우리-몸은-어떻게-방어할까요",
+      "date": "2026-10-11",
+      "channel": "언더스탠딩",
+      "title": "염증과 면역의 비밀: 우리 몸은 어떻게 방어할까요?",
+      "summary": "우리 몸의 면역 체계와 염증 반응이 일어나는 과정을 이해하기 쉽게 풀어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-11-염증과-면역의-비밀-우리-몸은-어떻게-방어할까요.html",
+      "video": "https://www.youtube.com/watch?v=f02MPP7w7ao",
+      "video_id": "f02MPP7w7ao",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-10-10-2027년-k-배터리의-진짜-승부처는-어디일까요",
