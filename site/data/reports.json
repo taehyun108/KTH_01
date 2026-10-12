@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-12T03:07:47",
+  "generated_at": "2026-10-12T09:31:37",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -29,6 +29,51 @@
       "url": "2026-10-12-메모리-반도체-중심의-국내-증시-흐름과-투자-전략-점검.html",
       "video": "https://www.youtube.com/watch?v=0t2R-YHpYS8",
       "video_id": "0t2R-YHpYS8",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-12-고금리-시대-언제까지-계속될까요",
+      "date": "2026-10-12",
+      "channel": "손석희의 12시",
+      "title": "고금리 시대, 언제까지 계속될까요?",
+      "summary": "미국 국채금리가 5.3%를 기록한 가운데, 고금리 시대가 과연 언제까지 이어질지 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-12-고금리-시대-언제까지-계속될까요.html",
+      "video": "https://www.youtube.com/watch?v=LMSjq9CQM58",
+      "video_id": "LMSjq9CQM58",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-12-좋은-업황도-소용없는-급락장-삼성sdi-현대차-지금은-다르게-봐야-할까요",
+      "date": "2026-10-12",
+      "channel": "삼프로TV",
+      "title": "좋은 업황도 소용없는 급락장…삼성SDI·현대차 지금은 다르게 봐야 할까요",
+      "summary": "좋은 업황 속에서도 급락세를 보인 국내 증시와 주요 종목들의 흐름을 짚어보고, 이차전지 산업에 미치는 영향을 살펴봅니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-10-12-좋은-업황도-소용없는-급락장-삼성sdi-현대차-지금은-다르게-봐야-할까요.html",
+      "video": "https://www.youtube.com/watch?v=z8QVTQX1P94",
+      "video_id": "z8QVTQX1P94",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-12-한국인-노벨-과학상-수상자-언제-나올까",
+      "date": "2026-10-12",
+      "channel": "손석희의 12시",
+      "title": "한국인 노벨 과학상 수상자, 언제 나올까",
+      "summary": "한국이 노벨 과학상 수상자를 내지 못하는 이유와 기초과학 투자 현실을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-12-한국인-노벨-과학상-수상자-언제-나올까.html",
+      "video": "https://www.youtube.com/watch?v=QBDjN3Hjn3s",
+      "video_id": "QBDjN3Hjn3s",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
