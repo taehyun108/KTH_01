@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-12T09:31:37",
+  "generated_at": "2026-10-13T04:28:04",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-13-타랑-아민-앨프-뷰티-ceo가-말하는-기업의-성장과-호기심의-힘",
+      "date": "2026-10-13",
+      "channel": "CNBC International",
+      "title": "타랑 아민 앨프 뷰티 CEO가 말하는 기업의 성장과 호기심의 힘",
+      "summary": "이민자 가정에서 자라 이 앨프 뷰티(e.l.f. Beauty)를 세계적인 브랜드로 키워낸 타랑 아민(Tarang Amin) 최고경영자(CEO)의 경영 철학과 성공 비결을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-13-타랑-아민-앨프-뷰티-ceo가-말하는-기업의-성장과-호기심의-힘.html",
+      "video": "https://www.youtube.com/watch?v=6HchQ48X_cM",
+      "video_id": "6HchQ48X_cM",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-10-12-메모리-반도체-중심의-국내-증시-흐름과-투자-전략-점검",
       "date": "2026-10-12",
@@ -74,6 +89,36 @@
       "url": "2026-10-12-한국인-노벨-과학상-수상자-언제-나올까.html",
       "video": "https://www.youtube.com/watch?v=QBDjN3Hjn3s",
       "video_id": "QBDjN3Hjn3s",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-12-한국-증시-또-급락-언제-반등할까",
+      "date": "2026-10-12",
+      "channel": "박종훈의 지식한방",
+      "title": "한국 증시 또 급락, 언제 반등할까?",
+      "summary": "한국 증시가 최근 가파르게 떨어진 다섯 가지 이유와 반등의 실마리를 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-10-12-한국-증시-또-급락-언제-반등할까.html",
+      "video": "https://www.youtube.com/watch?v=hTRG4ehA6NU",
+      "video_id": "hTRG4ehA6NU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-12-메모리-공급-확대-우려와-환율-하락-국내-증시가-겪는-진통의-이유",
+      "date": "2026-10-12",
+      "channel": "삼프로TV",
+      "title": "메모리 공급 확대 우려와 환율 하락, 국내 증시가 겪는 진통의 이유",
+      "summary": "메모리 반도체 공급 증가 우려와 환율 하락이 국내 증시에 미치는 영향과 전망을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-12-메모리-공급-확대-우려와-환율-하락-국내-증시가-겪는-진통의-이유.html",
+      "video": "https://www.youtube.com/watch?v=RBQtbi3onlw",
+      "video_id": "RBQtbi3onlw",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
