@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-13T18:36:56",
+  "generated_at": "2026-10-14T02:44:14",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -62,6 +62,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-10-13-하반기-코스피-부진과-삼성전자의-차세대-반도체-전략",
+      "date": "2026-10-13",
+      "channel": "삼프로TV",
+      "title": "하반기 코스피 부진과 삼성전자의 차세대 반도체 전략",
+      "summary": "하반기 코스피가 부진한 흐름을 보인 가운데, 삼성전자의 차세대 전략과 반도체 시장의 변화를 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-13-하반기-코스피-부진과-삼성전자의-차세대-반도체-전략.html",
+      "video": "https://www.youtube.com/watch?v=dv2yiEhgVvU",
+      "video_id": "dv2yiEhgVvU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-10-12-메모리-반도체-중심의-국내-증시-흐름과-투자-전략-점검",
@@ -1184,6 +1199,21 @@
       "url": "2026-09-30-실적보다-강력해진-거시-변수-금리-인상의-맥락을-읽는-법.html",
       "video": "https://www.youtube.com/watch?v=3-WbJD12y9k",
       "video_id": "3-WbJD12y9k",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-30-금리-5-시대-반도체는-끝났을까요-돈이-몰리는-곳",
+      "date": "2026-09-30",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "금리 5% 시대, 반도체는 끝났을까요? 돈이 몰리는 곳",
+      "summary": "금리가 오르고 주가는 내리지만 기업들은 AI와 반도체 투자를 이어가고 있죠. 시장 전체의 위험과 개별 기업의 투자를 분리해서 봐야 할 때입니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-09-30-금리-5-시대-반도체는-끝났을까요-돈이-몰리는-곳.html",
+      "video": "https://www.youtube.com/watch?v=zcm7gOieqxA",
+      "video_id": "zcm7gOieqxA",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
@@ -2504,6 +2534,21 @@
       "url": "2026-09-18-연준의-금리-인상-시그널과-향후-시장-대응-전략.html",
       "video": "https://www.youtube.com/watch?v=zXitwW3RCm0",
       "video_id": "zXitwW3RCm0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-09-18-다시-문을-두드리는-코스피-7-000선-반도체-비중은-어떻게-다뤄야-할까요",
+      "date": "2026-09-18",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "다시 문을 두드리는 코스피 7,000선, 반도체 비중은 어떻게 다뤄야 할까요?",
+      "summary": "코스피가 7,000 선을 다시 두드리는 가운데, 반도체 비중을 무리하게 줄이기보다 포트폴리오 조정을 통해 대응해야 할 때입니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-09-18-다시-문을-두드리는-코스피-7-000선-반도체-비중은-어떻게-다뤄야-할까요.html",
+      "video": "https://www.youtube.com/watch?v=AlGZn4UPeOs",
+      "video_id": "AlGZn4UPeOs",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
