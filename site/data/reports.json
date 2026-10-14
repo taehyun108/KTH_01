@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-14T02:44:14",
+  "generated_at": "2026-10-14T07:46:44",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,51 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-14-중국-반도체-추격과-imf-성장률-상향-조정",
+      "date": "2026-10-14",
+      "channel": "손에 잡히는 경제",
+      "title": "중국 반도체 추격과 IMF 성장률 상향 조정",
+      "summary": "중국의 차세대 D램 개발 소식과 IMF의 한국 성장률 상향 조정 등 주요 경제 소식을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-14-중국-반도체-추격과-imf-성장률-상향-조정.html",
+      "video": "https://www.youtube.com/watch?v=p7qSeeiOr90",
+      "video_id": "p7qSeeiOr90",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-14-중국-반도체-공세와-k-프리덤의-위기-배터리-산업에-미치는-영향은",
+      "date": "2026-10-14",
+      "channel": "손석희의 12시",
+      "title": "중국 반도체 공세와 K-프리덤의 위기, 배터리 산업에 미치는 영향은",
+      "summary": "중국의 메모리 반도체 공세가 국내 반도체와 배터리 업계에 미치는 영향과 밸류체인 변화를 점검합니다.",
+      "category": "global-market",
+      "relation": "direct",
+      "url": "2026-10-14-중국-반도체-공세와-k-프리덤의-위기-배터리-산업에-미치는-영향은.html",
+      "video": "https://www.youtube.com/watch?v=ih6D5VDCoXI",
+      "video_id": "ih6D5VDCoXI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-14-반도체주-동반-약세와-금리-우려-속-뉴욕증시-하락-마감",
+      "date": "2026-10-14",
+      "channel": "삼프로TV",
+      "title": "반도체주 동반 약세와 금리 우려 속 뉴욕증시 하락 마감",
+      "summary": "반도체주 약세와 금리 우려 완화 속 뉴욕증시가 하락 마감했는데요, 중국 메모리 기술 추격과 주요 기업 실적에 시장의 눈이 쏠리고 있습니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-10-14-반도체주-동반-약세와-금리-우려-속-뉴욕증시-하락-마감.html",
+      "video": "https://www.youtube.com/watch?v=0Wdp1qmkFHE",
+      "video_id": "0Wdp1qmkFHE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-10-13-타랑-아민-앨프-뷰티-ceo가-말하는-기업의-성장과-호기심의-힘",
       "date": "2026-10-13",
