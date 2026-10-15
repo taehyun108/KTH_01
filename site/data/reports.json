@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T02:22:57",
+  "generated_at": "2026-10-15T07:34:55",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-15-끝없이-무너지는-코스피와-반도체-비정상적인-시장에서-대형주를-봐야-하는-이유",
+      "date": "2026-10-15",
+      "channel": "삼프로TV",
+      "title": "끝없이 무너지는 코스피와 반도체... 비정상적인 시장에서 대형주를 봐야 하는 이유",
+      "summary": "코스피가 연일 하락하는 가운데 대만 TSMC 호실적에도 국내 증시 수급은 오히려 부진한 이유를 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-15-끝없이-무너지는-코스피와-반도체-비정상적인-시장에서-대형주를-봐야-하는-이유.html",
+      "video": "https://www.youtube.com/watch?v=x0o1rvz9gTI",
+      "video_id": "x0o1rvz9gTI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-15-미국-물가와-환율-움직임부터-글로벌-공급망-변화까지-짚어보기",
+      "date": "2026-10-15",
+      "channel": "손에 잡히는 경제",
+      "title": "미국 물가와 환율 움직임부터 글로벌 공급망 변화까지 짚어보기",
+      "summary": "미국 9월 소비자물가 상승과 엔캐리 청산 조짐, 브라질 대선 구도와 대만의 미 드론 생산 움직임을 전해 드립니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-10-15-미국-물가와-환율-움직임부터-글로벌-공급망-변화까지-짚어보기.html",
+      "video": "https://www.youtube.com/watch?v=4Thtm8Fyz2I",
+      "video_id": "4Thtm8Fyz2I",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
     {
       "id": "2026-10-14-중국-반도체-추격과-imf-성장률-상향-조정",
       "date": "2026-10-14",
@@ -92,6 +122,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-14-미국-물가-충격과-클라우드-불확실성이-흔든-증시",
+      "date": "2026-10-14",
+      "channel": "삼프로TV",
+      "title": "미국 물가 충격과 클라우드 불확실성이 흔든 증시",
+      "summary": "미국 소비자물가지수 예상치 상회와 네오클라우드 불확실성으로 인한 증시 급락 소식입니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-14-미국-물가-충격과-클라우드-불확실성이-흔든-증시.html",
+      "video": "https://www.youtube.com/watch?v=e66Ec943kiM",
+      "video_id": "e66Ec943kiM",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-10-13-타랑-아민-앨프-뷰티-ceo가-말하는-기업의-성장과-호기심의-힘",
