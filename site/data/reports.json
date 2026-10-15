@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-14T15:59:33",
+  "generated_at": "2026-10-15T02:22:57",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -77,6 +77,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-10-14-트럼프의-투자-공약과-알래스카-lng의-전략적-의미",
+      "date": "2026-10-14",
+      "channel": "삼프로TV",
+      "title": "트럼프의 투자 공약과 알래스카 LNG의 전략적 의미",
+      "summary": "미국 대선을 앞두고 트럼프 전 대통령의 투자 공약과 대만·한국을 둘러싼 무역 이슈가 시장의 관심을 모으고 있습니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-10-14-트럼프의-투자-공약과-알래스카-lng의-전략적-의미.html",
+      "video": "https://www.youtube.com/watch?v=RvIxnUqv-DU",
+      "video_id": "RvIxnUqv-DU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-10-13-타랑-아민-앨프-뷰티-ceo가-말하는-기업의-성장과-호기심의-힘",
@@ -569,6 +584,21 @@
       "url": "2026-10-08-중국산-태양광-밀어내고-국산-우대-나선다-재생에너지-제도-개편의-의미는.html",
       "video": "https://www.youtube.com/watch?v=iB1Ci0CC2Pc",
       "video_id": "iB1Ci0CC2Pc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-08-경제학자-98-가-토지가치세를-지지하는-이유와-현실의-벽",
+      "date": "2026-10-08",
+      "channel": "Money & Macro",
+      "title": "경제학자 98%가 토지가치세를 지지하는 이유와 현실의 벽",
+      "summary": "경제학자들의 대다수가 토지가치세(LVT)를 지지하는 이유와 그 경제적 파급효과를 살펴봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-08-경제학자-98-가-토지가치세를-지지하는-이유와-현실의-벽.html",
+      "video": "https://www.youtube.com/watch?v=suiU5b9tmoE",
+      "video_id": "suiU5b9tmoE",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
