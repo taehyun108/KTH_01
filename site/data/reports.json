@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T01:47:55",
+  "generated_at": "2026-10-16T15:35:14",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -62,6 +62,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-16-테슬라는-왜-사이버캡의-에어컨까지-직접-바꿨을까요",
+      "date": "2026-10-16",
+      "channel": "언더스탠딩",
+      "title": "테슬라는 왜 사이버캡의 에어컨까지 직접 바꿨을까요?",
+      "summary": "테슬라 로보택시 사이버캡의 설계 혁신과 수직계열화 전략이 자동차 및 배터리 공급망에 주는 시사점.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-16-테슬라는-왜-사이버캡의-에어컨까지-직접-바꿨을까요.html",
+      "video": "https://www.youtube.com/watch?v=ZP-48IeHXNo",
+      "video_id": "ZP-48IeHXNo",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-16-증시-급락과-반대매매-폭탄-지금-투자자가-지켜야-할-원칙은",
+      "date": "2026-10-16",
+      "channel": "삼프로TV",
+      "title": "증시 급락과 반대매매 폭탄, 지금 투자자가 지켜야 할 원칙은?",
+      "summary": "최근 국내 증시가 큰 폭으로 하락하면서 신용 반대매매가 쏟아졌는데요, 무리한 레버리지보다는 현금을 확보하며 시장에서 살아남는 것이 최우선이라는 조언입니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-16-증시-급락과-반대매매-폭탄-지금-투자자가-지켜야-할-원칙은.html",
+      "video": "https://www.youtube.com/watch?v=85XbEvN4fls",
+      "video_id": "85XbEvN4fls",
+      "pv": 6,
+      "scope": "battery",
+      "src": "yt-dlp-captions"
     },
     {
       "id": "2026-10-15-끝없이-무너지는-코스피와-반도체-비정상적인-시장에서-대형주를-봐야-하는-이유",
