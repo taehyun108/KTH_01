@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-17T07:04:05",
+  "generated_at": "2026-10-17T14:27:00",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-17-싱가포르-부동산의-두-얼굴-공공주택과-자산-증식의-비밀",
+      "date": "2026-10-17",
+      "channel": "손에 잡히는 경제",
+      "title": "싱가포르 부동산의 두 얼굴, 공공주택과 자산 증식의 비밀",
+      "summary": "싱가포르 부동산 정책에서 배우는 공공과 민간의 조화와 시사점입니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-17-싱가포르-부동산의-두-얼굴-공공주택과-자산-증식의-비밀.html",
+      "video": "https://www.youtube.com/watch?v=WGpCcYX5jyk",
+      "video_id": "WGpCcYX5jyk",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-10-16-7일-연속-급락한-증시-지금이-저점일까요",
