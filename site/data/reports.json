@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T15:35:14",
+  "generated_at": "2026-10-17T02:05:18",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -92,6 +92,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "yt-dlp-captions"
+    },
+    {
+      "id": "2026-10-16-2026년-경제-및-금융시장-전망과-대응-전략",
+      "date": "2026-10-16",
+      "channel": "삼프로TV",
+      "title": "2026년 경제 및 금융시장 전망과 대응 전략",
+      "summary": "2026년 경제와 금융시장의 흐름을 짚어보고, 변동성 속에서 투자 전략을 세워보는 시간입니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-16-2026년-경제-및-금융시장-전망과-대응-전략.html",
+      "video": "https://www.youtube.com/watch?v=6ClPxISMQvw",
+      "video_id": "6ClPxISMQvw",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-10-15-끝없이-무너지는-코스피와-반도체-비정상적인-시장에서-대형주를-봐야-하는-이유",
@@ -449,6 +464,36 @@
       "url": "2026-10-12-메모리-공급-확대-우려와-환율-하락-국내-증시가-겪는-진통의-이유.html",
       "video": "https://www.youtube.com/watch?v=RBQtbi3onlw",
       "video_id": "RBQtbi3onlw",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-12-증시-단기-경고등과-글로벌-금리-환경-그리고-우리가-나아갈-길",
+      "date": "2026-10-12",
+      "channel": "삼프로TV",
+      "title": "증시 단기 경고등과 글로벌 금리 환경, 그리고 우리가 나아갈 길",
+      "summary": "글로벌 금리 변동성과 증시의 흐름을 짚어보고, 우리 시장이 가져야 할 투자 시각을 점검해 봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-12-증시-단기-경고등과-글로벌-금리-환경-그리고-우리가-나아갈-길.html",
+      "video": "https://www.youtube.com/watch?v=Ws-g5FGWVg4",
+      "video_id": "Ws-g5FGWVg4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-12-코스피-6-400선-하회-반도체-부진과-수급의-무게",
+      "date": "2026-10-12",
+      "channel": "삼프로TV",
+      "title": "코스피 6,400선 하회, 반도체 부진과 수급의 무게",
+      "summary": "코스피가 외국인 매도와 반도체 약세로 하락 마감한 가운데, 시장의 시선과 수급 흐름을 짚어 봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-12-코스피-6-400선-하회-반도체-부진과-수급의-무게.html",
+      "video": "https://www.youtube.com/watch?v=WjeFw0VgppE",
+      "video_id": "WjeFw0VgppE",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
