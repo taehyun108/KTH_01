@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-18T01:34:49",
+  "generated_at": "2026-10-18T07:20:29",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,51 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-18-괴테의-파우스트-인간-욕망과-성장의-기록",
+      "date": "2026-10-18",
+      "channel": "언더스탠딩",
+      "title": "괴테의 파우스트: 인간 욕망과 성장의 기록",
+      "summary": "주식 전문가가 2년마다 괴테의 파우스트를 다시 읽는 이유와 작품 속에 담긴 인간 욕망의 본질을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-18-괴테의-파우스트-인간-욕망과-성장의-기록.html",
+      "video": "https://www.youtube.com/watch?v=dUzYaIv6IVc",
+      "video_id": "dUzYaIv6IVc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-18-빚더미에-중독된-나라-그-끝은-어디인가",
+      "date": "2026-10-18",
+      "channel": "박종훈의 지식한방",
+      "title": "빚더미에 중독된 나라, 그 끝은 어디인가",
+      "summary": "저금리에 중독된 나라들이 어떻게 무너지는지 프랑스, 일본, 한국의 사례를 통해 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-10-18-빚더미에-중독된-나라-그-끝은-어디인가.html",
+      "video": "https://www.youtube.com/watch?v=uiG6TJFKmvY",
+      "video_id": "uiG6TJFKmvY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-18-댄-아이브스가-바라본-ai-혁명과-글로벌-투자-시장의-흐름",
+      "date": "2026-10-18",
+      "channel": "삼프로TV",
+      "title": "댄 아이브스가 바라본 AI 혁명과 글로벌 투자 시장의 흐름",
+      "summary": "기술주 분석가 댄 아이브스가 진단하는 미국 증시와 AI 혁명, 그리고 투자 기회에 대한 이야기입니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-18-댄-아이브스가-바라본-ai-혁명과-글로벌-투자-시장의-흐름.html",
+      "video": "https://www.youtube.com/watch?v=2JNxJOQKWFE",
+      "video_id": "2JNxJOQKWFE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-10-17-외국인은-왜-한국-반도체를-팔아치울까-증시-반등의-조건",
       "date": "2026-10-17",
