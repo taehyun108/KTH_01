@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-18T14:50:14",
+  "generated_at": "2026-10-19T01:47:43",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-19-미국-통화정책의-딜레마와-한국의-소득-구조-변화",
+      "date": "2026-10-19",
+      "channel": "손에 잡히는 경제",
+      "title": "미국 통화정책의 딜레마와 한국의 소득 구조 변화",
+      "summary": "미국의 물가와 고용 흐름, 한국의 1인당 국민소득 4만 달러 진입과 가처분소득 현황을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-19-미국-통화정책의-딜레마와-한국의-소득-구조-변화.html",
+      "video": "https://www.youtube.com/watch?v=8ygXQAPeIWc",
+      "video_id": "8ygXQAPeIWc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-19-반도체-급락과-증시-하락-이번-주-반등의-실마리는-어디에-있을까요",
+      "date": "2026-10-19",
+      "channel": "삼프로TV",
+      "title": "반도체 급락과 증시 하락, 이번 주 반등의 실마리는 어디에 있을까요",
+      "summary": "최근 증시 급락 배경과 반도체 수급 및 시장 반등 가능성을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-19-반도체-급락과-증시-하락-이번-주-반등의-실마리는-어디에-있을까요.html",
+      "video": "https://www.youtube.com/watch?v=FPCy7xSHMJ0",
+      "video_id": "FPCy7xSHMJ0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-10-18-괴테의-파우스트-인간-욕망과-성장의-기록",
       "date": "2026-10-18",
@@ -77,6 +107,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-10-18-일론-머스크의-d램-경고와-배터리-시장의-흐름",
+      "date": "2026-10-18",
+      "channel": "삼프로TV",
+      "title": "일론 머스크의 D램 경고와 배터리 시장의 흐름",
+      "summary": "일론 머스크의 D램 경고와 딥시크 쇼크, 미국 ESS 설치량 전망까지 배터리와 반도체 시장의 주요 뉴스를 정리해 드립니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-18-일론-머스크의-d램-경고와-배터리-시장의-흐름.html",
+      "video": "https://www.youtube.com/watch?v=cbetF8o2aWc",
+      "video_id": "cbetF8o2aWc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-10-17-외국인은-왜-한국-반도체를-팔아치울까-증시-반등의-조건",
@@ -629,6 +674,21 @@
       "url": "2026-10-12-코스피-6-400선-하회-반도체-부진과-수급의-무게.html",
       "video": "https://www.youtube.com/watch?v=WjeFw0VgppE",
       "video_id": "WjeFw0VgppE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-12-메타의-신제품-출시와-반도체-업계의-새로운-변화",
+      "date": "2026-10-12",
+      "channel": "삼프로TV",
+      "title": "메타의 신제품 출시와 반도체 업계의 새로운 변화",
+      "summary": "뉴욕 증시는 기술주 중심의 혼조세를 보였고, 반도체 업계의 신기술 발표와 실적 기대감이 시장의 주요 화두로 떠올랐습니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-12-메타의-신제품-출시와-반도체-업계의-새로운-변화.html",
+      "video": "https://www.youtube.com/watch?v=lD0frse8o_U",
+      "video_id": "lD0frse8o_U",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
