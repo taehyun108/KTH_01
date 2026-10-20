@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-20T02:11:11",
+  "generated_at": "2026-10-20T07:43:46",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -59,6 +59,21 @@
       "url": "2026-10-20-삼성전자와-sk하이닉스-ai-우려-과했다-10월-말-실적발표가-주가-반전의-열쇠가-될-수-있을까요.html",
       "video": "https://www.youtube.com/watch?v=GAdvcKv8Jb8",
       "video_id": "GAdvcKv8Jb8",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-20-반도체주-반등-속-뉴욕증시-혼조-마감-국채-금리와-인플레이션-전망-점검",
+      "date": "2026-10-20",
+      "channel": "삼프로TV",
+      "title": "반도체주 반등 속 뉴욕증시 혼조 마감… 국채 금리와 인플레이션 전망 점검",
+      "summary": "뉴욕증시 반도체주 반등 속 혼조 마감, 채권 금리 고점 머물며 시장은 차분한 흐름을 이어가고 있습니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-10-20-반도체주-반등-속-뉴욕증시-혼조-마감-국채-금리와-인플레이션-전망-점검.html",
+      "video": "https://www.youtube.com/watch?v=K3gLY120WDc",
+      "video_id": "K3gLY120WDc",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
