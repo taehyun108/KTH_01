@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-20T15:56:58",
+  "generated_at": "2026-10-21T02:18:17",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-21-코스피-폭락-정말-위기일까요-급등-후유증과-반등의-조건",
+      "date": "2026-10-21",
+      "channel": "삼프로TV",
+      "title": "코스피 폭락, 정말 위기일까요? 급등 후유증과 반등의 조건",
+      "summary": "코스피의 가파른 하락세가 과연 역사적 위기의 신호인지, 아니면 급등에 따른 자연스러운 후유증인지 살펴봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-10-21-코스피-폭락-정말-위기일까요-급등-후유증과-반등의-조건.html",
+      "video": "https://www.youtube.com/watch?v=qj5F8MHFNKs",
+      "video_id": "qj5F8MHFNKs",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-10-20-sk하이닉스-자회사-솔리다임-미국-상장-무엇이-문제일까요",
       "date": "2026-10-20",
@@ -122,6 +137,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-10-20-테슬라-신형-로드스터-공개-우주-기술과-만난-전기차의-미래",
+      "date": "2026-10-20",
+      "channel": "슈카월드",
+      "title": "테슬라 신형 로드스터 공개, 우주 기술과 만난 전기차의 미래",
+      "summary": "테슬라가 스페이스X 기술을 더한 신형 로드스터를 공개하며 전기차와 우주 기술의 융합 가능성을 보여주었습니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-20-테슬라-신형-로드스터-공개-우주-기술과-만난-전기차의-미래.html",
+      "video": "https://www.youtube.com/watch?v=-oFBRrYBD9I",
+      "video_id": "-oFBRrYBD9I",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-10-19-미국-통화정책의-딜레마와-한국의-소득-구조-변화",
@@ -692,6 +722,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-10-14-반도체-이익-전망과-채권-금리가-증시에-던지는-시사점",
+      "date": "2026-10-14",
+      "channel": "삼프로TV",
+      "title": "반도체 이익 전망과 채권 금리가 증시에 던지는 시사점",
+      "summary": "증시 조정 국면 속에서 채권 금리 움직임과 반도체 이익 전망이 시장에 던지는 의미를 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-10-14-반도체-이익-전망과-채권-금리가-증시에-던지는-시사점.html",
+      "video": "https://www.youtube.com/watch?v=bdc6CC7pdXw",
+      "video_id": "bdc6CC7pdXw",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-10-13-타랑-아민-앨프-뷰티-ceo가-말하는-기업의-성장과-호기심의-힘",
