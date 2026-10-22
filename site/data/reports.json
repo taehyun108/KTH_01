@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-21T16:10:58",
+  "generated_at": "2026-10-22T02:23:11",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-22-중간선거-해의-11월-증시-퀀트-투자-전략은-어떻게-세워야-할까",
+      "date": "2026-10-22",
+      "channel": "삼프로TV",
+      "title": "중간선거 해의 11월 증시, 퀀트 투자 전략은 어떻게 세워야 할까",
+      "summary": "미국 중간선거 해의 11월 증시 흐름을 바탕으로, 퀀트 투자 관점에서의 배팅 타이밍과 시장 대응 전략을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-22-중간선거-해의-11월-증시-퀀트-투자-전략은-어떻게-세워야-할까.html",
+      "video": "https://www.youtube.com/watch?v=DeKIUr87gBw",
+      "video_id": "DeKIUr87gBw",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-10-21-코스피-폭락-정말-위기일까요-급등-후유증과-반등의-조건",
       "date": "2026-10-21",
@@ -47,6 +62,51 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-10-21-k-전기차-위기에-여야가-꺼내-든-생산세액공제-카드",
+      "date": "2026-10-21",
+      "channel": "삼프로TV",
+      "title": "K-전기차 위기에 여야가 꺼내 든 '생산세액공제' 카드",
+      "summary": "국내 전기차 시장 위기를 타개하기 위해 여야가 국내 생산 세액공제 도입 법안을 발의했죠.",
+      "category": "korea-policy",
+      "relation": "indirect",
+      "url": "2026-10-21-k-전기차-위기에-여야가-꺼내-든-생산세액공제-카드.html",
+      "video": "https://www.youtube.com/watch?v=nfaSBwzGV40",
+      "video_id": "nfaSBwzGV40",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-21-메타-소송-비용-반영과-테슬라-마진-개선-뉴욕-증시-모닝브리핑",
+      "date": "2026-10-21",
+      "channel": "삼프로TV",
+      "title": "메타 소송 비용 반영과 테슬라 마진 개선… 뉴욕 증시 모닝브리핑",
+      "summary": "메타와 테슬라의 실적 발표와 뉴욕 증시 흐름을 앵커의 목소리로 차분하게 짚어 봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-21-메타-소송-비용-반영과-테슬라-마진-개선-뉴욕-증시-모닝브리핑.html",
+      "video": "https://www.youtube.com/watch?v=AVqXPwaziYo",
+      "video_id": "AVqXPwaziYo",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-21-엔비디아-공급망-확대와-ai-데이터센터-반도체-시장이-나아갈-길은",
+      "date": "2026-10-21",
+      "channel": "삼프로TV",
+      "title": "엔비디아 공급망 확대와 AI 데이터센터, 반도체 시장이 나아갈 길은?",
+      "summary": "엔비디아의 공급망 확대와 AI 데이터센터 투자 흐름이 반도체 및 관련 산업에 미치는 영향을 점검해 봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-21-엔비디아-공급망-확대와-ai-데이터센터-반도체-시장이-나아갈-길은.html",
+      "video": "https://www.youtube.com/watch?v=KLY4_VCgqe4",
+      "video_id": "KLY4_VCgqe4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-10-20-sk하이닉스-자회사-솔리다임-미국-상장-무엇이-문제일까요",
@@ -1229,6 +1289,21 @@
       "url": "2026-10-09-사상-최고-찍은-미국-증시-한국은-왜-먼저-꺾였나.html",
       "video": "https://www.youtube.com/watch?v=HguDflS-lkE",
       "video_id": "HguDflS-lkE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-09-미국-주식시장-4분기-전망-게임의-룰은-바뀌지-않았다",
+      "date": "2026-10-09",
+      "channel": "소수몽키",
+      "title": "미국 주식시장 4분기 전망: 게임의 룰은 바뀌지 않았다",
+      "summary": "미국 주식시장이 여러 악재 속에서도 이익 전망을 바탕으로 내년까지 강세장을 이어갈 것으로 보입니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-09-미국-주식시장-4분기-전망-게임의-룰은-바뀌지-않았다.html",
+      "video": "https://www.youtube.com/watch?v=Ob5TSrJbxbs",
+      "video_id": "Ob5TSrJbxbs",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
