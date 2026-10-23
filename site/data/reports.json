@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-22T07:43:06",
+  "generated_at": "2026-10-23T02:27:12",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,51 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-23-호재도-실적도-안-통하는-증시-반등의-실마리는-어디에-있을까요",
+      "date": "2026-10-23",
+      "channel": "삼프로TV",
+      "title": "호재도 실적도 안 통하는 증시, 반등의 실마리는 어디에 있을까요",
+      "summary": "좋은 실적이나 호재가 나와도 주가에 반영되지 않고 하락하는 국내 증시의 원인과 대응 전략을 살펴봅니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-10-23-호재도-실적도-안-통하는-증시-반등의-실마리는-어디에-있을까요.html",
+      "video": "https://www.youtube.com/watch?v=7JZef6xLb1s",
+      "video_id": "7JZef6xLb1s",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-23-흔들리는-시장-속-금리와-업종별-대응-전략",
+      "date": "2026-10-23",
+      "channel": "삼프로TV",
+      "title": "흔들리는 시장 속, 금리와 업종별 대응 전략",
+      "summary": "급락하는 시장 속에서 금리와 반도체, 이차전지 등 주요 변수를 점검하고 대응 전략을 짚어 봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-10-23-흔들리는-시장-속-금리와-업종별-대응-전략.html",
+      "video": "https://www.youtube.com/watch?v=p61M7qWCA9s",
+      "video_id": "p61M7qWCA9s",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-23-일론-머스크의-스페이스x-테라팹-추진-우주-데이터센터가-던지는-메시지",
+      "date": "2026-10-23",
+      "channel": "삼프로TV",
+      "title": "일론 머스크의 스페이스X 테라팹 추진, 우주 데이터센터가 던지는 메시지",
+      "summary": "스페이스X의 테라팹 추진 배경과 우주 데이터센터가 남기는 의미를 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-23-일론-머스크의-스페이스x-테라팹-추진-우주-데이터센터가-던지는-메시지.html",
+      "video": "https://www.youtube.com/watch?v=GrPFIU3SJAc",
+      "video_id": "GrPFIU3SJAc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-10-22-중간선거-해의-11월-증시-퀀트-투자-전략은-어떻게-세워야-할까",
       "date": "2026-10-22",
@@ -62,6 +107,51 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-10-22-sk하이닉스-솔리다임-상장-철회와-삼성전기의-대규모-ai-기판-투자",
+      "date": "2026-10-22",
+      "channel": "삼프로TV",
+      "title": "SK하이닉스 솔리다임 상장 철회와 삼성전기의 대규모 AI 기판 투자",
+      "summary": "SK하이닉스가 자회사 솔리다임의 미국 상장 추진을 철회했고요, 삼성전기는 빅테크로부터 3조 6천억 원의 투자를 이끌어 냈습니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-22-sk하이닉스-솔리다임-상장-철회와-삼성전기의-대규모-ai-기판-투자.html",
+      "video": "https://www.youtube.com/watch?v=kGsdIHtqmlg",
+      "video_id": "kGsdIHtqmlg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-22-실적은-좋은데-주가는-왜-ai-관련주-투매와-글로벌-증시-흐름",
+      "date": "2026-10-22",
+      "channel": "삼프로TV",
+      "title": "실적은 좋은데 주가는 왜? AI 관련주 투매와 글로벌 증시 흐름",
+      "summary": "블룸에너지와 웨스턴디지털 등 AI 관련 기업들이 좋은 실적을 내고도 주가가 급락한 배경을 살펴보고, 증시 전반의 투매 흐름을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-22-실적은-좋은데-주가는-왜-ai-관련주-투매와-글로벌-증시-흐름.html",
+      "video": "https://www.youtube.com/watch?v=COVlzkuxAc0",
+      "video_id": "COVlzkuxAc0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-22-흔들리는-장세-속-개인-etf-포트폴리오-점검과-신규-상품-특징",
+      "date": "2026-10-22",
+      "channel": "삼프로TV",
+      "title": "흔들리는 장세 속 개인 ETF 포트폴리오 점검과 신규 상품 특징",
+      "summary": "흔들리는 장세 속에서 개인 투자자의 ETF 포트폴리오 점검 방향과 신규 상장 ETF의 특징을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-10-22-흔들리는-장세-속-개인-etf-포트폴리오-점검과-신규-상품-특징.html",
+      "video": "https://www.youtube.com/watch?v=q45aDok8sSE",
+      "video_id": "q45aDok8sSE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-10-21-코스피-폭락-정말-위기일까요-급등-후유증과-반등의-조건",
