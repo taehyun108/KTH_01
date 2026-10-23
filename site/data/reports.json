@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-23T07:41:03",
+  "generated_at": "2026-10-23T15:57:45",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -104,6 +104,51 @@
       "url": "2026-10-23-기준금리-3-동결과-sk하이닉스-솔리다임-상장-철회-배경.html",
       "video": "https://www.youtube.com/watch?v=hhjj-W97mHM",
       "video_id": "hhjj-W97mHM",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-23-미국-원전-시장-열린다-한국-원전-기업엔-어떤-기회일까요",
+      "date": "2026-10-23",
+      "channel": "손에 잡히는 경제",
+      "title": "미국 원전 시장 열린다, 한국 원전 기업엔 어떤 기회일까요",
+      "summary": "미국의 원전 확대와 AI 전력 수요 증가가 한국 원전·에너지 관련 기업에 새로운 성장 기회가 되고 있습니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-10-23-미국-원전-시장-열린다-한국-원전-기업엔-어떤-기회일까요.html",
+      "video": "https://www.youtube.com/watch?v=JfoRc9GYSRo",
+      "video_id": "JfoRc9GYSRo",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-23-값싼-원전-전기가격-기업에-먼저-줘도-될까요",
+      "date": "2026-10-23",
+      "channel": "언더스탠딩",
+      "title": "값싼 원전 전기가격, 기업에 먼저 줘도 될까요?",
+      "summary": "국내 기업들의 원전 전력 직접구매(PPA) 요구를 둘러싼 쟁점과 전력시장 구조의 과제를 짚어봅니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-10-23-값싼-원전-전기가격-기업에-먼저-줘도-될까요.html",
+      "video": "https://www.youtube.com/watch?v=oVe45o8C1xM",
+      "video_id": "oVe45o8C1xM",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-23-구글-메타-삼성의-ai-조직-문화-인공지능-경쟁을-좌우하는-이유",
+      "date": "2026-10-23",
+      "channel": "언더스탠딩",
+      "title": "구글·메타·삼성의 AI 조직 문화, 인공지능 경쟁을 좌우하는 이유",
+      "summary": "글로벌 빅테크 기업들의 인공지능(AI) 개발 방식과 조직 문화가 산업에 미치는 영향입니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-23-구글-메타-삼성의-ai-조직-문화-인공지능-경쟁을-좌우하는-이유.html",
+      "video": "https://www.youtube.com/watch?v=E4iYYFaa3P4",
+      "video_id": "E4iYYFaa3P4",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
