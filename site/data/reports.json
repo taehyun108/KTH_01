@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-23T02:27:12",
+  "generated_at": "2026-10-23T07:41:03",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -62,6 +62,51 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-23-전-세계-웹사이트-뒤흔든-php-보안-취약점-우리나라는-괜찮을까요",
+      "date": "2026-10-23",
+      "channel": "손석희의 12시",
+      "title": "전 세계 웹사이트 뒤흔든 PHP 보안 취약점, 우리나라는 괜찮을까요",
+      "summary": "전 세계 웹사이트의 상당수가 사용하는 PHP에 치명적 보안 취약점이 발견되면서 국내 웹사이트와 기업들의 철저한 보안 점검과 업데이트가 시급해졌습니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-10-23-전-세계-웹사이트-뒤흔든-php-보안-취약점-우리나라는-괜찮을까요.html",
+      "video": "https://www.youtube.com/watch?v=-UXSwrk-Fc0",
+      "video_id": "-UXSwrk-Fc0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-23-메타-투자-확대와-시장-불안-그리고-흔들리는-증시",
+      "date": "2026-10-23",
+      "channel": "삼프로TV",
+      "title": "메타 투자 확대와 시장 불안, 그리고 흔들리는 증시",
+      "summary": "메타 등 빅테크의 AI 투자가 확대되는 반면 시장은 불확실성에 흔들리고 있으며, 금리와 환율 등 거시 지표 변화가 증시에 영향을 미치고 있습니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-23-메타-투자-확대와-시장-불안-그리고-흔들리는-증시.html",
+      "video": "https://www.youtube.com/watch?v=a4vLiofm0wU",
+      "video_id": "a4vLiofm0wU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-23-기준금리-3-동결과-sk하이닉스-솔리다임-상장-철회-배경",
+      "date": "2026-10-23",
+      "channel": "손에 잡히는 경제",
+      "title": "기준금리 3% 동결과 SK하이닉스 솔리다임 상장 철회 배경",
+      "summary": "한국은행의 기준금리 3% 동결과 SK하이닉스의 솔리다임 상장 철회 소식을 정리했어요.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-23-기준금리-3-동결과-sk하이닉스-솔리다임-상장-철회-배경.html",
+      "video": "https://www.youtube.com/watch?v=hhjj-W97mHM",
+      "video_id": "hhjj-W97mHM",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-10-22-중간선거-해의-11월-증시-퀀트-투자-전략은-어떻게-세워야-할까",
@@ -152,6 +197,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-22-증시-급락과-반도체-주가-공포-속에서-무엇을-봐야-할까요",
+      "date": "2026-10-22",
+      "channel": "언더스탠딩",
+      "title": "증시 급락과 반도체 주가, 공포 속에서 무엇을 봐야 할까요",
+      "summary": "최근 증시 급락의 원인과 외국인 수급 흐름, 한국 반도체 주가의 저평가 원인을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-22-증시-급락과-반도체-주가-공포-속에서-무엇을-봐야-할까요.html",
+      "video": "https://www.youtube.com/watch?v=fpTch4A9erE",
+      "video_id": "fpTch4A9erE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-10-21-코스피-폭락-정말-위기일까요-급등-후유증과-반등의-조건",
