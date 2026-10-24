@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-24T07:25:37",
+  "generated_at": "2026-10-24T14:55:26",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-24-공간이-마음을-바꾼다-가구-배치와-인지심리학의-비밀",
+      "date": "2026-10-24",
+      "channel": "언더스탠딩",
+      "title": "공간이 마음을 바꾼다: 가구 배치와 인지심리학의 비밀",
+      "summary": "공간과 인지심리학을 주제로, 물리적 환경과 가구 배치가 인간의 뇌와 행동에 미치는 영향을 심층적으로 살펴봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-24-공간이-마음을-바꾼다-가구-배치와-인지심리학의-비밀.html",
+      "video": "https://www.youtube.com/watch?v=rSx4UFWBgGY",
+      "video_id": "rSx4UFWBgGY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-24-미국-기업들은-왜-중국을-위해-로비했을까요-미중-관계의-숨겨진-이야기",
+      "date": "2026-10-24",
+      "channel": "손에 잡히는 경제",
+      "title": "미국 기업들은 왜 중국을 위해 로비했을까요? 미중 관계의 숨겨진 이야기",
+      "summary": "미국 대기업들의 중국 로비와 정치적 영향력이 줄어들면서 미중 갈등이 더욱 심화될 가능성을 짚어 봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-10-24-미국-기업들은-왜-중국을-위해-로비했을까요-미중-관계의-숨겨진-이야기.html",
+      "video": "https://www.youtube.com/watch?v=YHKxL6WeW0Q",
+      "video_id": "YHKxL6WeW0Q",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-10-23-호재도-실적도-안-통하는-증시-반등의-실마리는-어디에-있을까요",
