@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-23T15:57:45",
+  "generated_at": "2026-10-24T02:09:43",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -152,6 +152,51 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-10-23-국채-금리가-내리는데-주식은-왜-흔들릴까요",
+      "date": "2026-10-23",
+      "channel": "삼프로TV",
+      "title": "국채 금리가 내리는데 주식은 왜 흔들릴까요",
+      "summary": "미국 국채 금리 하락과 주식시장의 심리적 위축, 그리고 채권 투자 전략을 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-10-23-국채-금리가-내리는데-주식은-왜-흔들릴까요.html",
+      "video": "https://www.youtube.com/watch?v=v4POJBbqHaQ",
+      "video_id": "v4POJBbqHaQ",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-23-뒤집힌-시장에서-살아남는-법-변동성-장세의-투자-원칙",
+      "date": "2026-10-23",
+      "channel": "삼프로TV",
+      "title": "뒤집힌 시장에서 살아남는 법, 변동성 장세의 투자 원칙",
+      "summary": "변동성이 극심한 시장에서 투자자가 지켜야 할 원칙과 시장 대응 전략을 짚어 봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-10-23-뒤집힌-시장에서-살아남는-법-변동성-장세의-투자-원칙.html",
+      "video": "https://www.youtube.com/watch?v=BRhAgo6VIds",
+      "video_id": "BRhAgo6VIds",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-23-롤러코스피-채찍-효과-때문이다",
+      "date": "2026-10-23",
+      "channel": "손석희의 12시",
+      "title": "롤러코스피, 채찍 효과 때문이다?",
+      "summary": "최근 롤러코스터를 타는 증시의 배경을 공급망의 변동을 뜻하는 채찍 효과로 짚어 보았습니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-10-23-롤러코스피-채찍-효과-때문이다.html",
+      "video": "https://www.youtube.com/watch?v=zXGLV-Ir4P4",
+      "video_id": "zXGLV-Ir4P4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-10-22-중간선거-해의-11월-증시-퀀트-투자-전략은-어떻게-세워야-할까",
