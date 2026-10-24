@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-24T02:09:43",
+  "generated_at": "2026-10-24T07:25:37",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-24-코어위브-사태의-진실-ai-거품-붕괴인가-단순-노이즈인가",
+      "date": "2026-10-24",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "코어위브 사태의 진실: AI 거품 붕괴인가, 단순 노이즈인가?",
+      "summary": "AI 인프라 투자 거품론의 진실과 빅테크 설비투자의 진짜 흐름을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-24-코어위브-사태의-진실-ai-거품-붕괴인가-단순-노이즈인가.html",
+      "video": "https://www.youtube.com/watch?v=JpEdwOIJ7JU",
+      "video_id": "JpEdwOIJ7JU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-24-히틀러는-어떻게-전쟁-중에-복지를-유지했을까요",
+      "date": "2026-10-24",
+      "channel": "언더스탠딩",
+      "title": "히틀러는 어떻게 전쟁 중에 복지를 유지했을까요",
+      "summary": "나치 독일이 전쟁 중에도 국민의 복지와 일상을 유지하고 재정을 꾸려간 방식을 살펴보는 시간입니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-10-24-히틀러는-어떻게-전쟁-중에-복지를-유지했을까요.html",
+      "video": "https://www.youtube.com/watch?v=YQDGKxVCqLA",
+      "video_id": "YQDGKxVCqLA",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-10-23-호재도-실적도-안-통하는-증시-반등의-실마리는-어디에-있을까요",
       "date": "2026-10-23",
@@ -194,6 +224,21 @@
       "url": "2026-10-23-롤러코스피-채찍-효과-때문이다.html",
       "video": "https://www.youtube.com/watch?v=zXGLV-Ir4P4",
       "video_id": "zXGLV-Ir4P4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-23-인도-선관위-조작-논란-폭발한-인도-청년들",
+      "date": "2026-10-23",
+      "channel": "슈카월드",
+      "title": "인도 선관위 조작 논란, 폭발한 인도 청년들",
+      "summary": "인도 선관위의 유권자 명단 삭제 논란과 청년들의 불만을 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-10-23-인도-선관위-조작-논란-폭발한-인도-청년들.html",
+      "video": "https://www.youtube.com/watch?v=QXSy9FtQP1o",
+      "video_id": "QXSy9FtQP1o",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
@@ -1139,6 +1184,21 @@
       "url": "2026-10-13-하반기-코스피-부진과-삼성전자의-차세대-반도체-전략.html",
       "video": "https://www.youtube.com/watch?v=dv2yiEhgVvU",
       "video_id": "dv2yiEhgVvU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-13-코스피-6-000선-위기-속-지금-우리에게-필요한-투자-전략",
+      "date": "2026-10-13",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "코스피 6,000선 위기 속, 지금 우리에게 필요한 투자 전략",
+      "summary": "코스피 지수가 6,000선을 겨우 지킨 날, 흔들리는 시장 속에서 배터리 대장주와 소부장 종목의 흐름을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "direct",
+      "url": "2026-10-13-코스피-6-000선-위기-속-지금-우리에게-필요한-투자-전략.html",
+      "video": "https://www.youtube.com/watch?v=AcfcXXO9mog",
+      "video_id": "AcfcXXO9mog",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
