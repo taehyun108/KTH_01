@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-24T17:29:54",
+  "generated_at": "2026-10-25T01:51:38",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -92,6 +92,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-10-24-추락하는-일본-경제-꺾인-성장률과-고령화가-남긴-과제들",
+      "date": "2026-10-24",
+      "channel": "슈카월드",
+      "title": "추락하는 일본 경제, 꺾인 성장률과 고령화가 남긴 과제들",
+      "summary": "국제통화기금(IMF) 전망을 통해 살펴본 일본 경제의 정체와 저성장 배경, 그리고 고령화가 가져오는 산업 전반의 변화를 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-24-추락하는-일본-경제-꺾인-성장률과-고령화가-남긴-과제들.html",
+      "video": "https://www.youtube.com/watch?v=t-IIGGFe80U",
+      "video_id": "t-IIGGFe80U",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-24-낭만의-나라-프랑스가-마주한-경제적-위기와-거리의-시위",
+      "date": "2026-10-24",
+      "channel": "삼프로TV",
+      "title": "낭만의 나라 프랑스가 마주한 경제적 위기와 거리의 시위",
+      "summary": "프랑스의 깊어지는 재정 적자와 공공 서비스 부실, 그로 인한 대규모 시위의 배경을 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-10-24-낭만의-나라-프랑스가-마주한-경제적-위기와-거리의-시위.html",
+      "video": "https://www.youtube.com/watch?v=hZ08cHCGEQc",
+      "video_id": "hZ08cHCGEQc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-10-23-호재도-실적도-안-통하는-증시-반등의-실마리는-어디에-있을까요",
