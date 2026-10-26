@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-26T07:55:29",
+  "generated_at": "2026-10-26T17:42:57",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -92,6 +92,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-26-엔비디아가-그리는-ai의-미래-칩을-넘어-공장과-로봇까지-확장합니다",
+      "date": "2026-10-26",
+      "channel": "손에 잡히는 경제",
+      "title": "엔비디아가 그리는 AI의 미래, 칩을 넘어 공장과 로봇까지 확장합니다",
+      "summary": "엔비디아가 AI 데이터센터와 로봇 등 차세대 비전을 공개했는데요, 실제 수익성 입증이 관건입니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-26-엔비디아가-그리는-ai의-미래-칩을-넘어-공장과-로봇까지-확장합니다.html",
+      "video": "https://www.youtube.com/watch?v=pY-v0xGvhhI",
+      "video_id": "pY-v0xGvhhI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-26-중국-반도체-추격과-메모리-시장의-미래",
+      "date": "2026-10-26",
+      "channel": "언더스탠딩",
+      "title": "중국 반도체 추격과 메모리 시장의 미래",
+      "summary": "중국 반도체 기업의 추격과 메모리 시장의 변화가 산업 환경에 주는 영향",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-26-중국-반도체-추격과-메모리-시장의-미래.html",
+      "video": "https://www.youtube.com/watch?v=Ka0Sjrg9eHg",
+      "video_id": "Ka0Sjrg9eHg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-10-25-초한전쟁-그-이후의-이야기-한나라의-수도와-통치-체제",
