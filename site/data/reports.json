@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-27T08:01:07",
+  "generated_at": "2026-10-27T16:53:50",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-27-코스피-3-반등과-sk하이닉스-실적-기대감",
+      "date": "2026-10-27",
+      "channel": "삼프로TV",
+      "title": "코스피 3% 반등과 SK하이닉스 실적 기대감",
+      "summary": "코스피 3% 반등 배경과 SK하이닉스 실적 기대감 점검",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-10-27-코스피-3-반등과-sk하이닉스-실적-기대감.html",
+      "video": "https://www.youtube.com/watch?v=dzwyXb5Bf_k",
+      "video_id": "dzwyXb5Bf_k",
+      "pv": 6,
+      "scope": "battery",
+      "src": "yt-dlp-captions"
     },
     {
       "id": "2026-10-26-코스피-하락-속-이번-주-반등의-열쇠-삼성전자와-sk하이닉스-실적에-달렸다",
