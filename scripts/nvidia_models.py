@@ -29,8 +29,8 @@ import sys
 
 ENDPOINT = "https://integrate.api.nvidia.com/v1/chat/completions"
 
-# 사용자가 지정한 모델(2026-10-28). NVIDIA_MODEL 로 바꿀 수 있다.
-DEFAULT_MODEL = os.getenv("NVIDIA_MODEL", "nvidia/nemotron-3.5-super-vl-120b-a12b")
+# 사용자가 지정한 모델(2026-10-28, nemotron-3.5-super-vl 에서 교체). NVIDIA_MODEL 로 바꿀 수 있다.
+DEFAULT_MODEL = os.getenv("NVIDIA_MODEL", "meta/llama-3.2-90b-vision-instruct")
 TIMEOUT_SEC = int(os.getenv("NVIDIA_TIMEOUT_SEC", "180"))
 MAX_KEYS = 10
 
