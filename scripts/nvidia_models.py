@@ -29,13 +29,14 @@ import sys
 
 ENDPOINT = "https://integrate.api.nvidia.com/v1/chat/completions"
 
-# 두 번 틀렸다 — llama-3.2-90b-vision-instruct 는 타임아웃, 그다음 고른
-# llama-3.1-8b-instruct 는 2026-08-26 에 이미 단종(HTTP 410)이었다. 세 번째는
-# 추측이 아니라 list_models() 로 이 키의 실제 카탈로그를 조회해 골랐다
-# (2026-10-28). 후보 중 임베딩(*-embed-*)·안전성 분류기(*nemoguard*)·
-# 초대형(51B·253B)을 빼고, 범용 지시응답 7B 모델을 택했다.
-# NVIDIA_MODEL 로 바꿀 수 있다.
-DEFAULT_MODEL = os.getenv("NVIDIA_MODEL", "mistralai/mistral-7b-instruct-v0.3")
+# 세 번 틀린 뒤 probe_working_model() 로 실제 호출해 찾아낸 값이다
+# (2026-10-28). 순서대로: llama-3.2-90b-vision-instruct 는 타임아웃,
+# llama-3.1-8b-instruct 는 단종(HTTP 410), mistral-7b-instruct-v0.3 과
+# ibm/granite-3.0-8b·3b-instruct 는 카탈로그엔 있지만 이 계정엔 배포가 안
+# 돼 있었다(HTTP 404 "Function ... Not found for account") — list_models()
+# 가 돌려주는 목록만으로는 호출 가능 여부를 알 수 없었다.
+# NVIDIA_MODEL 로 바꿀 수 있다. 또 틀리면 probe_working_model() 을 다시 돌려라.
+DEFAULT_MODEL = os.getenv("NVIDIA_MODEL", "minimaxai/minimax-m3.1-flash")
 TIMEOUT_SEC = int(os.getenv("NVIDIA_TIMEOUT_SEC", "180"))
 MAX_KEYS = 10
 
