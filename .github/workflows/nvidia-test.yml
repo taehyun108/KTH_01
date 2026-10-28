@@ -35,8 +35,24 @@ jobs:
           print(f'등록된 키: {nm.key_count()}개')
           if nm.key_count() == 0:
               raise SystemExit('KTH_01_NVIDIA_API_KEY 시크릿이 비어 있습니다.')
-          text = nm.generate('다음 JSON 만 그대로 출력하라: {\"ok\": 1}')
-          print('응답:', text)
-          assert '1' in text, '응답에 예상한 값이 없습니다'
-          print('성공 — 키가 정상 작동합니다.')
+          print(f'시도할 모델: {nm.DEFAULT_MODEL}')
+          try:
+              text = nm.generate('다음 JSON 만 그대로 출력하라: {\"ok\": 1}')
+              print('응답:', text)
+              assert '1' in text, '응답에 예상한 값이 없습니다'
+              print('성공 — 키가 정상 작동합니다.')
+          except Exception as exc:
+              print(f'실패 — {exc}')
+              # 모델이 틀렸거나 은퇴했을 수 있다 — 추측하는 대신 지금 쓸 수
+              # 있는 모델 목록을 찍어, 다음에 고를 모델을 로그에서 바로 본다.
+              try:
+                  models = nm.list_models()
+                  small = [m for m in models if any(s in m.lower() for s in
+                           ('8b', '7b', '3b', '1b', 'mini', 'small', 'nano'))]
+                  print(f'이 키로 쓸 수 있는 모델 {len(models)}개 중 소형 후보:')
+                  for m in (small or models)[:30]:
+                      print(' ', m)
+              except Exception as list_exc:
+                  print(f'모델 목록 조회도 실패 — {list_exc}')
+              raise
           "

@@ -110,6 +110,22 @@ def _rotate() -> bool:
     return False
 
 
+def list_models() -> list[str]:
+    """이 키로 지금 실제 쓸 수 있는 모델 id 목록.
+
+    NIM 카탈로그는 모델을 수시로 은퇴시킨다 — DEFAULT_MODEL 을 문서·추측으로
+    적어 두면 또 '모델이 사라진 줄 모르고 계속 틀리는' 일이 반복된다
+    (2026-10-28 에 llama-3.2-90b-vision-instruct 는 타임아웃, 그다음 고른
+    llama-3.1-8b-instruct 는 8월에 이미 단종돼 있었다). 실패했을 때 이 목록을
+    찍어, 다음 모델은 추측이 아니라 지금 살아 있는 것 중에서 고르게 한다.
+    """
+    import requests
+    res = requests.get("https://integrate.api.nvidia.com/v1/models",
+                       headers={"Authorization": f"Bearer {token()}"}, timeout=30)
+    res.raise_for_status()
+    return sorted(m.get("id", "") for m in res.json().get("data", []))
+
+
 def available() -> bool:
     if _fails >= FAIL_LIMIT or not token():
         return False
