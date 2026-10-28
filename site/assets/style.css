@@ -101,10 +101,22 @@ html { -webkit-text-size-adjust: 100%; }
   margin: 16px 0 6px; padding: 14px 10px;
   background: #fbfdff; border: 1px solid var(--border); border-radius: 12px;
   overflow-x: auto;
+  /* 좌우로 밀 수 있다는 표시 — 더 볼 내용이 있는 쪽에만 그늘이 생기고
+     끝까지 밀면 사라진다. 예전에는 아무 표시가 없어서 폰에서는 그림이
+     그냥 잘린 것처럼 보였다(2026-10-28 제보). */
+  background-image:
+    linear-gradient(to right, #fbfdff 30%, rgba(251, 253, 255, 0)),
+    linear-gradient(to left,  #fbfdff 30%, rgba(251, 253, 255, 0)),
+    radial-gradient(farthest-side at 0 50%,   rgba(26, 34, 48, .15), rgba(26, 34, 48, 0)),
+    radial-gradient(farthest-side at 100% 50%, rgba(26, 34, 48, .15), rgba(26, 34, 48, 0));
+  background-position: 0 0, 100% 0, 0 0, 100% 0;
+  background-repeat: no-repeat;
+  background-size: 34px 100%, 34px 100%, 15px 100%, 15px 100%;
+  background-attachment: local, local, scroll, scroll;
 }
 .diagram svg {
   display: block; margin: 0 auto; height: auto;
-  width: 100%; min-width: 560px; max-width: 680px;
+  width: 100%; min-width: 520px; max-width: 680px;
 }
 .diagram text { font-family: inherit; }
 .fig-cap {
@@ -468,6 +480,9 @@ details.sec-card:not([open]) { padding: 14px 22px; }
   background: var(--surface); border: 1px solid var(--border);
   border-radius: 14px; padding: 13px 14px; box-shadow: var(--shadow);
   transition: border-color 0.15s ease, transform 0.15s ease;
+  /* 격자 칸은 기본값(min-width:auto)이라 안쪽 글이 길면 칸이 늘어난다.
+     그 때문에 768px 화면에서 페이지가 39px 가로로 넘쳤다. */
+  min-width: 0;
 }
 .gcard:hover { border-color: var(--accent); transform: translateY(-2px); }
 .gc-icon {
@@ -484,7 +499,12 @@ details.sec-card:not([open]) { padding: 14px 22px; }
   font-size: 0.92rem; font-weight: 700; color: #0f172a; line-height: 1.35;
   letter-spacing: -0.02em;
 }
-.gc-blurb { font-size: 0.79rem; color: var(--text-faint); line-height: 1.5; }
+/* word-break: keep-all 이라 긴 구절이 통째로 안 꺾인다. 칸보다 길면
+   넘치는 대신 그 안에서 꺾이게 둔다. */
+.gc-blurb {
+  font-size: 0.79rem; color: var(--text-faint); line-height: 1.5;
+  min-width: 0; overflow-wrap: anywhere;
+}
 .gc-meta { font-size: 0.7rem; color: #94a3b8; margin-top: 3px; }
 /* 카드로 눌러 열었을 때 어디로 왔는지 잠깐 표시 */
 details.sec-card:target { border-color: var(--accent); }
