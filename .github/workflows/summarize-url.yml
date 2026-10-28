@@ -16,6 +16,8 @@ on:
 permissions:
   contents: write   # 새 리포트/인덱스를 main 에 커밋
   issues: write     # 결과를 이슈에 댓글로 남기고 닫기
+  # GitHub Models 예비 추론 경로. 이 한 줄이 있어야 GITHUB_TOKEN 이 추론 권한을 얻는다.
+  models: read
 
 jobs:
   summarize:
@@ -38,7 +40,20 @@ jobs:
       - name: Summarize the submitted URL
         id: summarize
         env:
+          # ※ archive.yml 과 똑같이 넘긴다. 이 워크플로가 하나만 받고 있으면,
+          #   archive.yml 이 하루 먼저 돌며 KTH_01_GEMINI_API_KEY 의 한도를 다
+          #   써 버린 뒤에는 사용자가 즐겨찾기 탭에서 URL 을 제출해도 예비 경로
+          #   하나 없이 그대로 실패한다(2026-10-28 발견 — 두 워크플로가 같은
+          #   키를 나눠 쓰는데 한쪽만 예비 경로를 갖고 있었다).
           GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
+          GEMINI_API_KEY_2: ${{ secrets.KTH_01_GEMINI_API_KEY_2 }}
+          GEMINI_API_KEY_3: ${{ secrets.KTH_01_GEMINI_API_KEY_3 }}
+          GEMINI_API_KEY_4: ${{ secrets.KTH_01_GEMINI_API_KEY_4 }}
+          GEMINI_API_KEY_5: ${{ secrets.KTH_01_GEMINI_API_KEY_5 }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.KTH_01_OPENAI_API_KEY }}
+          OPENAI_API_KEY_2: ${{ secrets.KTH_01_OPENAI_API_KEY_2 }}
+          OPENAI_API_KEY_3: ${{ secrets.KTH_01_OPENAI_API_KEY_3 }}
           ISSUE_BODY: ${{ github.event.issue.body }}
           VIDEO_URL: ${{ inputs.video_url }}
         run: python scripts/summarize_url.py

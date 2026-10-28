@@ -268,6 +268,7 @@ def check_priority() -> list[str]:
 #   · 리포트 날짜는 <영상 게시일>이므로, 빈 칸을 채우는 건 그날 영상뿐이다 → 맨 앞에
 def check_daily_floor() -> list[str]:
     from run_pipeline import order_candidates, _empty_dates, DAILY_FLOOR_THAW
+    import run_pipeline
     import seen_store
 
     out = []
@@ -322,20 +323,24 @@ def check_daily_floor() -> list[str]:
         out.append(f"  [빈 날 당일 기록이 먼저 풀려야 함] → {got4}")
 
     # ④ 빈 날 계산이 '리포트가 있는 날'을 빈 날로 세면 안 된다
-    import run_pipeline
     today = _dt.date.today()
     have = (today - _dt.timedelta(days=1)).isoformat()
     gone = (today - _dt.timedelta(days=2)).isoformat()
-    orig = run_pipeline.load_existing
-    run_pipeline.load_existing = lambda: [{"date": have}]
-    try:
-        empty = _empty_dates(window=3)
-    finally:
-        run_pipeline.load_existing = orig
+    empty = _empty_dates([{"date": have}], window=3)
     if have in empty:
         out.append(f"  [리포트가 있는 날({have})을 빈 날로 세면 안 됨] → {sorted(empty)}")
     if gone not in empty or today.isoformat() not in empty:
         out.append(f"  [리포트가 없는 날은 빈 날이어야 함] → {sorted(empty)}")
+
+    # ④-b main() 이 아카이브를 <한 번만> 읽어 _seen_video_ids·_empty_dates 에 함께
+    # 넘기는가. 예전에는 둘이 각자 load_existing() 을 불러 reports.json(수백 KB)을
+    # 실행마다 두 번 읽고 파싱했다 — 함수가 reports 를 인자로 받는 지금 모양에서
+    # main() 이 load_existing() 을 두 번 이상 부르면 그 중복이 되살아난 것이다.
+    import inspect
+    body = inspect.getsource(run_pipeline.main)
+    if body.count("load_existing()") > 1:
+        out.append(f"  [main() 이 아카이브를 한 번만 읽어야 함] "
+                   f"load_existing() 을 {body.count('load_existing()')}번 부릅니다")
 
     if DAILY_FLOOR_THAW <= 0:
         out.append("  [기한 전 해제 상한이 0 이면 장치가 꺼진 것과 같음]")
@@ -1168,7 +1173,27 @@ def check_send_report() -> list[str]:
     return out
 
 
-# 키를 여러 개 돌려쓰는가, 그리고 영상을 끝까지 보는가.
+# archive.yml 과 summarize-url.yml 은 <같은> KTH_01_GEMINI_API_KEY 하루 한도를
+# 나눠 쓴다. archive.yml 이 하루 4회로 먼저 돌며 한도를 다 쓰면, 그 뒤에
+# 즐겨찾기 탭에서 URL 을 제출한 사람은 예비 경로 하나 없이 바로 실패한다
+# — 한쪽만 예비 경로(추가 키·GitHub Models·OpenAI)를 갖고 있으면 이 일이
+# 조용히 반복된다(2026-10-28 발견). 두 워크플로가 같은 것을 받는지 고정한다.
+def check_summarize_url_has_fallbacks() -> list[str]:
+    from pathlib import Path
+    wf = (Path(__file__).resolve().parent.parent
+          / ".github/workflows/summarize-url.yml").read_text(encoding="utf-8")
+    out = []
+    for name in ("GEMINI_API_KEY_2:", "GITHUB_TOKEN:", "OPENAI_API_KEY:",
+                 "OPENAI_API_KEY_2:"):
+        if name not in wf:
+            out.append(f"  [URL 요약도 {name[:-1]} 를 받아야 함] archive.yml 에만 있습니다")
+    if "models: read" not in wf:
+        out.append("  [URL 요약도 models: read 권한이 있어야 함] "
+                   "없으면 GITHUB_TOKEN 을 넘겨도 GitHub Models 가 거부합니다")
+    return out
+
+
+
 #
 # 둘은 한 쌍이다. 끝까지 보기로 하면 하루 예산이 훨씬 빨리 닳으므로,
 # 키를 더 넣어 벌충하지 못하면 발행이 오히려 줄어든다.
@@ -1551,11 +1576,12 @@ def main() -> int:
     fails += check_send_report()
     fails += check_multi_key_and_full_video()
     fails += check_openai_multi_key()
+    fails += check_summarize_url_has_fallbacks()
     fails += check_gh_token_flow()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
-             + 10    # 빈 날 메우기(순서 2 · 유지 1 · 해제 3 · 빈날우선 2 · 빈날계산 2)
+             + 11    # 빈 날 메우기(순서 2 · 유지 1 · 해제 3 · 빈날우선 2 · 빈날계산 2 · 단일로드 1)
              + 11    # 후보 재판정(되살림·상한·날짜창·API·스위치)
              + 13    # 영상 예산(비용3·미상1·분단위2·소진1·날짜1·상한1·워크플로1·배선3)
              + 7     # 텍스트 주력 전환(기본값·순서·되돌리기·예비·한도2)
@@ -1571,8 +1597,9 @@ def main() -> int:
              + 9     # 리포트 전문 전송(섹션4·링크1·상한2·권한2 외 버튼자리)
              + 12    # GitHub 토큰 경로(부품6·버튼배선1·헤더보안2·경로사용2·reload1)
              + 14    # 키 돌려쓰기·영상 전체(키4·예산3·기본값2·갈아타기2·예비3)
-             + 7)    # OpenAI 다중키(밑줄규칙1·중복1·로테이션2·소진1·배선2)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성·텔레그램·전문전송·토큰경로·키돌려쓰기·OpenAI다중키 — "
+             + 7     # OpenAI 다중키(밑줄규칙1·중복1·로테이션2·소진1·배선2)
+             + 5)    # URL 요약 예비경로 배선(키2·토큰1·OpenAI2·권한1 중 5개 확인)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성·텔레그램·전문전송·토큰경로·키돌려쓰기·OpenAI다중키·URL요약배선 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

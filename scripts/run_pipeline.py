@@ -96,14 +96,14 @@ def _regate(candidates: list[dict], cutoff: str) -> list[dict]:
     return matched + kept
 
 
-def _empty_dates(window: int = DAILY_FLOOR_WINDOW) -> set[str]:
+def _empty_dates(reports: list[dict], window: int = DAILY_FLOOR_WINDOW) -> set[str]:
     """최근 window 일 중 <리포트가 한 건도 없는> 날짜들.
 
     리포트 날짜는 영상 게시일 기준이므로(generate_report 참고), '오늘 실행했는가'가
     아니라 '그날 올라온 영상으로 만든 글이 있는가'를 본다 — 사용자가 목록에서
     보는 것이 바로 그것이다("16일자는 없고 17일자는 있네요").
     """
-    have = {(r.get("date") or "")[:10] for r in load_existing()}
+    have = {(r.get("date") or "")[:10] for r in reports}
     today = date.today()
     return {d for i in range(window)
             if (d := (today - timedelta(days=i)).isoformat()) not in have}
@@ -215,10 +215,10 @@ def _extract_video_id(url: str) -> str | None:
     return None
 
 
-def _seen_video_ids() -> set[str]:
+def _seen_video_ids(reports: list[dict]) -> set[str]:
     """이미 리포트가 만들어진 영상 id (중복 생성 방지). video_id 필드 우선, 없으면 URL 파싱."""
     seen = set()
-    for r in load_existing():
+    for r in reports:
         vid = r.get("video_id") or _extract_video_id(r.get("video", ""))
         if vid:
             seen.add(vid)
@@ -270,7 +270,11 @@ def main() -> int:
         # 이제야 설명글과 게시일이 손에 있다. 열거 단계에서 <제목만> 보고 내린
         # 판정을 여기서 다시 한다 — 순서가 거꾸로였던 것을 바로잡는 자리다.
         candidates = _regate(candidates, cutoff)
-    seen = _seen_video_ids()
+    # 아카이브를 여기서 한 번만 읽는다 — _seen_video_ids·_empty_dates 둘 다 이
+    # 리스트가 필요한데, 예전에는 각자 호출해 같은 reports.json
+    # (지금 580KB대)을 실행마다 두 번 읽고 파싱했다.
+    existing_reports = load_existing()
+    seen = _seen_video_ids(existing_reports)
     # 발행된 것뿐 아니라 <이미 판정이 끝난> 것도 제외한다. 그러지 않으면 30일 후보 풀
     # 안의 '무관' 영상을 매 실행 다시 Gemini 에 물어보며 하루치 쿼터를 거기서 다 쓴다.
     skip_store = seen_store.load()
@@ -290,7 +294,7 @@ def main() -> int:
 
     # 최근에 <통째로 빈 날>이 있으면 재시도 기한을 기다리지 않고 다시 집어 든다.
     # (2026-08-16 이 이 경우였다 — seen_store.thaw_oldest 주석 참고)
-    empty = _empty_dates()
+    empty = _empty_dates(existing_reports)
     thawed: set[str] = set()
     if empty:
         thawed = set(seen_store.thaw_oldest(skip_store, blocked, DAILY_FLOOR_THAW,

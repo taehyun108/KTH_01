@@ -1,0 +1,43 @@
+name: Test OpenAI key
+
+# 등록한 OpenAI 키가 실제로 호출되는지 가볍게 확인한다. 리포트 전체 경로를
+# 돌리지 않고 openai_models.generate() 하나만 불러 과금을 최소화한다.
+# (이 경로는 평소 Gemini·GitHub Models 가 모두 막혔을 때만 쓰이므로,
+#  실제로 한 번도 안 불려 보고 며칠 뒤 발행이 막혀서야 키 오타를 아는 것보다
+#  지금 바로 확인하는 편이 낫다)
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Call OpenAI once
+        env:
+          PYTHONUNBUFFERED: "1"
+          OPENAI_API_KEY: ${{ secrets.KTH_01_OPENAI_API_KEY }}
+          OPENAI_API_KEY_2: ${{ secrets.KTH_01_OPENAI_API_KEY_2 }}
+          OPENAI_API_KEY_3: ${{ secrets.KTH_01_OPENAI_API_KEY_3 }}
+        run: |
+          PYTHONPATH=scripts python -c "
+          import openai_models as om
+          print(f'등록된 키: {om.key_count()}개')
+          if om.key_count() == 0:
+              raise SystemExit('KTH_01_OPENAI_API_KEY 시크릿이 비어 있습니다.')
+          text = om.generate('다음 JSON 만 그대로 출력하라: {\"ok\": 1}')
+          print('응답:', text)
+          assert '1' in text, '응답에 예상한 값이 없습니다'
+          print('성공 — 키가 정상 작동합니다.')
+          "
