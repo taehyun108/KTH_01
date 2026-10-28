@@ -140,8 +140,8 @@ def usage() -> int:
     return _used
 
 
-def generate(prompt: str) -> str:
-    """프롬프트를 넘기고 응답 문자열을 받는다.
+def generate(prompt: str, model: str | None = None) -> str:
+    """프롬프트를 넘기고 응답 문자열을 받는다. model 을 안 주면 DEFAULT_MODEL.
 
     키가 여러 개면 401(키 오류)·429(한도·잔액)에서 다음 키로 갈아타며,
     전부 막혔을 때만 예외를 올린다.
@@ -155,6 +155,7 @@ def generate(prompt: str) -> str:
     global _fails, _used
     import requests
 
+    mdl = model or DEFAULT_MODEL
     while True:
         if not available():
             raise NvidiaUnavailable("키가 없거나 연속 실패로 접었습니다")
@@ -163,7 +164,7 @@ def generate(prompt: str) -> str:
                 ENDPOINT,
                 headers={"Authorization": f"Bearer {token()}",
                          "Content-Type": "application/json"},
-                json={"model": DEFAULT_MODEL,
+                json={"model": mdl,
                       "messages": [{"role": "user", "content": prompt}],
                       "temperature": 0.4,
                       "max_tokens": 8192},
@@ -198,6 +199,44 @@ def generate(prompt: str) -> str:
 
         _fails = 0
         _used += 1
-        print(f"  [예비] NVIDIA({DEFAULT_MODEL})로 처리했습니다 — {len(text):,}자",
+        print(f"  [예비] NVIDIA({mdl})로 처리했습니다 — {len(text):,}자",
               file=sys.stderr)
         return text
+
+
+# list_models() 가 돌려주는 목록에는 이 계정에서 실제로 호출 가능한지가 없다 —
+# 카탈로그엔 있어도 "Function ... Not found for account" 404 로만 드러난다
+# (2026-10-28 에 mistral-7b-instruct-v0.3 가 이 경우였다). 모델 하나를 추측해
+# 왕복하는 대신, 쓸 만한 순서로 여러 후보를 실제로 호출해 처음 성공하는 것을
+# 찾는다. 임베딩(*-embed-*)·안전성 분류기(*nemoguard*)·코드 전용·초대형은
+# 뺐다 — 우리가 필요한 건 JSON 을 돌려주는 범용 텍스트 응답이다.
+PROBE_CANDIDATES = [
+    "ibm/granite-3.0-8b-instruct",
+    "ibm/granite-3.0-3b-a800m-instruct",
+    "minimaxai/minimax-m3.1-flash",
+    "nvidia/mistral-nemo-minitron-8b-8k-instruct",
+    "nvidia/nemotron-nano-3-30b-a3b",
+    "google/codegemma-7b",
+    "meta/llama-3.2-11b-vision-instruct",
+]
+
+
+def probe_working_model(candidates: list[str] | None = None,
+                        prompt: str = '다음 JSON 만 그대로 출력하라: {"ok": 1}'
+                        ) -> tuple[str | None, list[tuple[str, str]]]:
+    """후보를 순서대로 실제 호출해, 처음 성공하는 모델 id 를 찾는다.
+
+    (성공한 모델 id 또는 None, [(시도한 모델, 실패 사유) ...]) 를 돌려준다.
+    한 후보의 실패가 다음 후보 시도를 막지 않도록 매번 _fails 를 0 으로 되돌린다
+    — 안 그러면 FAIL_LIMIT(3) 에 걸려 네 번째 후보부터는 시도조차 못 한다.
+    """
+    global _fails
+    tried: list[tuple[str, str]] = []
+    for m in (candidates or PROBE_CANDIDATES):
+        _fails = 0
+        try:
+            generate(prompt, model=m)
+            return m, tried
+        except NvidiaUnavailable as exc:
+            tried.append((m, str(exc)))
+    return None, tried

@@ -35,24 +35,26 @@ jobs:
           print(f'등록된 키: {nm.key_count()}개')
           if nm.key_count() == 0:
               raise SystemExit('KTH_01_NVIDIA_API_KEY 시크릿이 비어 있습니다.')
-          print(f'시도할 모델: {nm.DEFAULT_MODEL}')
+          print(f'먼저 지금 기본 모델({nm.DEFAULT_MODEL})부터 시도합니다.')
           try:
               text = nm.generate('다음 JSON 만 그대로 출력하라: {\"ok\": 1}')
               print('응답:', text)
               assert '1' in text, '응답에 예상한 값이 없습니다'
-              print('성공 — 키가 정상 작동합니다.')
+              print(f'성공 — {nm.DEFAULT_MODEL} 가 정상 작동합니다.')
           except Exception as exc:
-              print(f'실패 — {exc}')
-              # 모델이 틀렸거나 은퇴했을 수 있다 — 추측하는 대신 지금 쓸 수
-              # 있는 모델 목록을 찍어, 다음에 고를 모델을 로그에서 바로 본다.
-              try:
-                  models = nm.list_models()
-                  small = [m for m in models if any(s in m.lower() for s in
-                           ('8b', '7b', '3b', '1b', 'mini', 'small', 'nano'))]
-                  print(f'이 키로 쓸 수 있는 모델 {len(models)}개 중 소형 후보:')
-                  for m in (small or models)[:30]:
-                      print(' ', m)
-              except Exception as list_exc:
-                  print(f'모델 목록 조회도 실패 — {list_exc}')
-              raise
+              print(f'기본 모델 실패 — {exc}')
+              # 카탈로그 목록에 있다고 이 계정에서 실제 호출 가능하다는 뜻은
+              # 아니다('Function ... Not found for account' 404 로만 드러난다).
+              # 하나씩 추측해 왕복하는 대신 후보들을 자동으로 순서대로 호출해
+              # 처음 성공하는 것을 찾는다.
+              print('후보 모델을 순서대로 시도합니다...')
+              found, tried = nm.probe_working_model()
+              for m, reason in tried:
+                  print(f'  실패: {m} — {reason}')
+              if found:
+                  print(f'성공 — {found} 가 정상 작동합니다.')
+                  print(f'::notice::nvidia_models.py 의 DEFAULT_MODEL 을 {found!r} 로 바꾸세요')
+              else:
+                  print('모든 후보가 실패했습니다.')
+                  raise SystemExit(1)
           "
