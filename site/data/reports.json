@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-28T08:50:07",
+  "generated_at": "2026-10-28T17:35:31",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -59,6 +59,21 @@
       "url": "2026-10-28-알래스카-lng-청구서-한국은-어떤-선택을-해야-할까요.html",
       "video": "https://www.youtube.com/watch?v=b6-kyiV1QwE",
       "video_id": "b6-kyiV1QwE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-28-이스라엘-총선과-네타냐후의-재집권-중동-리스크가-경제에-던지는-경고",
+      "date": "2026-10-28",
+      "channel": "언더스탠딩",
+      "title": "이스라엘 총선과 네타냐후의 재집권… 중동 리스크가 경제에 던지는 경고",
+      "summary": "이스라엘 총선 결과와 중동 정세 불안이 국제 유가와 세계 경제에 미칠 영향",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-28-이스라엘-총선과-네타냐후의-재집권-중동-리스크가-경제에-던지는-경고.html",
+      "video": "https://www.youtube.com/watch?v=xn1WeMS0HAo",
+      "video_id": "xn1WeMS0HAo",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
