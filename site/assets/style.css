@@ -54,11 +54,18 @@ html { -webkit-text-size-adjust: 100%; }
 .home-btn:active { background: rgba(255,255,255,.34); }
 
 /* 인덱스: 제목과 같은 줄에 배치 */
-.header-top { display: flex; align-items: center; gap: 14px; }
+.header-top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 .header-top h1 { flex: 1 1 auto; min-width: 0; }
 
-/* 헤더 링크 묶음 (홈 · 용어집) */
-.top-nav { margin-left: auto; display: flex; gap: 7px; flex: 0 0 auto; }
+/* 헤더 링크 묶음 (홈 · 텔레그램 · 용어집 …)
+   ※ 예전에는 flex: 0 0 auto 였다. 버튼이 늘어나 묶음이 490px 이 되자 폰에서
+     줄어들 줄을 모르고, 대신 제목이 폭 0 까지 짜부라져 글자가 박스 밖으로
+     흘러 네비게이션과 겹쳐 보였다. 화면 밖으로도 112px 넘쳐 가로 스크롤이
+     생겼다(2026-10-28 제보). 줄바꿈을 허용해 넘치지 않게 한다. */
+.top-nav {
+  margin-left: auto; display: flex; flex-wrap: wrap; justify-content: flex-end;
+  gap: 7px; flex: 0 1 auto; min-width: 0;
+}
 .top-nav .home-btn { margin-left: 0; }
 
 /* 마스터 모드 버튼 */
@@ -560,6 +567,13 @@ details.sec-card:target { border-color: var(--accent); }
 @media (max-width: 720px) {
   .section-grid { grid-template-columns: 1fr; }
 }
+@media (max-width: 860px) {
+  /* 제목 옆에 버튼 여섯 개가 들어갈 자리가 없다. 제목을 한 줄 통째로 쓰고
+     버튼 묶음은 그 아래로 내린다 — 좁아질수록 버튼이 알아서 여러 줄이 된다. */
+  .header-top h1 { flex: 1 1 100%; }
+  .top-nav { margin-left: 0; width: 100%; justify-content: flex-start; }
+}
+
 @media (max-width: 640px) {
   body { font-size: 15px; }
   .site-header h1 { font-size: 1.3rem; }
