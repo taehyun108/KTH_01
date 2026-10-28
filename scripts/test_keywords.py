@@ -1269,10 +1269,24 @@ def check_multi_key_and_full_video() -> list[str]:
     elif fb.find("gh_models.available") > fb.find("openai_models"):
         out.append("  [무료 경로를 먼저 써야 함] OpenAI 가 앞에 있습니다")
 
+    # 전체 순서 — GitHub Models → NVIDIA → Gemini(텍스트) / Gemini 실패 시
+    # GitHub Models → NVIDIA → OpenAI(마지막, 과금). 사용자 지정(2026-10-28).
+    if "nvidia_models" not in fb:
+        out.append("  [NVIDIA 예비 경로] _fallback 에 연결이 없습니다")
+    elif not (fb.find("gh_models.available") < fb.find("nvidia_models")
+             < fb.find("openai_models")):
+        out.append("  [예비 경로 순서] GitHub Models → NVIDIA → OpenAI 순서가 아닙니다")
+    if "nvidia_models" not in gen:
+        out.append("  [NVIDIA] 텍스트 주경로(_generate)에 연결이 없습니다")
+    elif not (gen.find("gh_models.available") < gen.find("nvidia_models")
+             < gen.find("cfg = types.GenerateContentConfig")):
+        out.append("  [NVIDIA 는 GitHub Models 다음·Gemini 호출 이전이어야 함] 순서가 다릅니다")
+
     # 워크플로가 키들을 실제로 넘기는가
     wf = (Path(__file__).resolve().parent.parent
           / ".github/workflows/archive.yml").read_text(encoding="utf-8")
-    for name in ("GEMINI_API_KEY_2:", "OPENAI_API_KEY:", "OPENAI_API_KEY_2:"):
+    for name in ("GEMINI_API_KEY_2:", "NVIDIA_API_KEY:", "NVIDIA_API_KEY_2:",
+                 "OPENAI_API_KEY:", "OPENAI_API_KEY_2:"):
         if name not in wf:
             out.append(f"  [워크플로가 {name[:-1]} 를 넘겨야 함] 사라졌습니다")
     return out
@@ -1349,6 +1363,84 @@ def check_openai_multi_key() -> list[str]:
             if v is not None:
                 os.environ[k] = v
         importlib.reload(om)
+    return out
+
+
+# NVIDIA 도 같은 규칙(KEY, KEY_2 …)으로 여러 개를 돌려쓰는가. OpenAI 와 코드
+# 모양이 같지만 엔드포인트·모델이 다르므로 설정값 자체도 함께 확인한다.
+def check_nvidia_multi_key() -> list[str]:
+    import importlib
+    import os
+    import types
+    import nvidia_models as nvm
+
+    out = []
+    if "integrate.api.nvidia.com" not in nvm.ENDPOINT:
+        out.append(f"  [NVIDIA 엔드포인트가 아님] {nvm.ENDPOINT}")
+    saved = {k: os.environ.get(k) for k in os.environ if "NVIDIA" in k}
+    try:
+        for k in list(saved):
+            os.environ.pop(k, None)
+
+        # ① 밑줄 없는 이름은 인식되지 않아야 한다
+        os.environ["NVIDIA_API_KEY1"] = "nvapi-wrong"
+        nvm2 = importlib.reload(nvm)
+        if nvm2.key_count() != 0:
+            out.append("  [밑줄 없는 KEY1 은 인식되면 안 됨] 등록된 것으로 셌습니다")
+        os.environ.pop("NVIDIA_API_KEY1", None)
+
+        # ② KEY, KEY_2, KEY_3 — 중복은 하나로
+        os.environ["NVIDIA_API_KEY"] = "nvapi-aaa"
+        os.environ["NVIDIA_API_KEY_2"] = "nvapi-bbb"
+        os.environ["NVIDIA_API_KEY_3"] = "nvapi-aaa"
+        nvm2 = importlib.reload(nvm)
+        if nvm2.key_count() != 2:
+            out.append(f"  [같은 키는 하나로 세야 함] {nvm2.key_count()}개로 셌습니다")
+
+        # ③ 429 를 받으면 다음 키로 갈아타고, response_format 을 강제하지 않는다
+        #    (NIM 뒤 모델마다 json_object 지원 여부가 달라, 강제하면 400 이 날 수 있다)
+        calls = []
+
+        class _Resp:
+            def __init__(self, status, body="{}"):
+                self.status_code, self.text = status, body
+            def json(self):
+                import json as _j
+                return _j.loads(self.text)
+
+        seq = [_Resp(429), _Resp(200, '{"choices":[{"message":{"content":"{\\"ok\\":1}"}}]}')]
+
+        def fake_post(*a, **k):
+            calls.append((k["headers"]["Authorization"], "response_format" in k["json"]))
+            return seq.pop(0)
+
+        nvm2.requests = types.SimpleNamespace(post=fake_post)
+        import sys
+        sys.modules["requests"] = nvm2.requests
+        result = nvm2.generate("p")
+        if result != '{"ok":1}':
+            out.append(f"  [성공 응답을 그대로 돌려줘야 함] {result!r}")
+        if [c[0] for c in calls] != ["Bearer nvapi-aaa", "Bearer nvapi-bbb"]:
+            out.append(f"  [429 면 다음 키로 갈아타야 함] 호출 순서 {calls}")
+        if any(c[1] for c in calls):
+            out.append("  [response_format 을 강제하면 안 됨] NIM 모델마다 지원이 달라 400 위험")
+
+        # ④ 모든 키가 막히면 예외를 올린다
+        seq2 = [_Resp(429), _Resp(429)]
+        nvm2.requests.post = lambda *a, **k: seq2.pop(0)
+        try:
+            nvm2.generate("p")
+            out.append("  [키를 다 쓰면 예외를 올려야 함] 조용히 통과했습니다")
+        except nvm2.NvidiaUnavailable:
+            pass
+    finally:
+        for k in list(os.environ):
+            if "NVIDIA" in k:
+                os.environ.pop(k, None)
+        for k, v in saved.items():
+            if v is not None:
+                os.environ[k] = v
+        importlib.reload(nvm)
     return out
 
 
@@ -1576,6 +1668,7 @@ def main() -> int:
     fails += check_send_report()
     fails += check_multi_key_and_full_video()
     fails += check_openai_multi_key()
+    fails += check_nvidia_multi_key()
     fails += check_summarize_url_has_fallbacks()
     fails += check_gh_token_flow()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
@@ -1598,8 +1691,9 @@ def main() -> int:
              + 12    # GitHub 토큰 경로(부품6·버튼배선1·헤더보안2·경로사용2·reload1)
              + 14    # 키 돌려쓰기·영상 전체(키4·예산3·기본값2·갈아타기2·예비3)
              + 7     # OpenAI 다중키(밑줄규칙1·중복1·로테이션2·소진1·배선2)
+             + 8     # NVIDIA 다중키(엔드포인트1·밑줄규칙1·중복1·로테이션3·소진1·json강제1)
              + 5)    # URL 요약 예비경로 배선(키2·토큰1·OpenAI2·권한1 중 5개 확인)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성·텔레그램·전문전송·토큰경로·키돌려쓰기·OpenAI다중키·URL요약배선 — "
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성·텔레그램·전문전송·토큰경로·키돌려쓰기·OpenAI다중키·NVIDIA다중키·URL요약배선 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

@@ -436,8 +436,11 @@ def main() -> int:
     # 키를 여러 개 두는 이유가 바로 이 줄이다 — 몇 개를 썼는지 보여야 더 넣을지 안다.
     try:
         import gemini_keys
+        import nvidia_models
         import openai_models
         line = f"  Gemini 키: {gemini_keys.summary()}"
+        if nvidia_models.key_count():
+            line += f" · NVIDIA({nvidia_models.summary()}) 예비 {nvidia_models.usage()}건"
         if openai_models.key_count():
             line += f" · OpenAI({openai_models.summary()}) 예비 {openai_models.usage()}건(과금)"
         print(line)

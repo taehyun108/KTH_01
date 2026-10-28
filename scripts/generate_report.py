@@ -728,9 +728,10 @@ class _TextResp:
 def _fallback(prompt: str, why: str):
     """Gemini 가 막혔을 때 다른 경로로 대신 처리한다.
 
-    순서는 <공짜인 것 먼저>다 — GitHub Models(무료) → OpenAI(과금).
-    쓸 수 없으면 None 을 돌려준다 — 호출자는 원래 오류를 그대로 올린다.
-    즉 예비 경로가 없거나 실패해도 지금까지의 동작에서 나빠지는 것은 없다.
+    순서는 GitHub Models(무료) → NVIDIA → OpenAI(과금, 마지막) — 사용자 지정
+    (2026-10-28). 쓸 수 없으면 None 을 돌려준다 — 호출자는 원래 오류를
+    그대로 올린다. 즉 예비 경로가 없거나 실패해도 지금까지의 동작에서
+    나빠지는 것은 없다.
     """
     if gh_models.available():
         print(f"  [예비] Gemini {why} — GitHub Models 로 넘깁니다.", file=sys.stderr)
@@ -738,6 +739,14 @@ def _fallback(prompt: str, why: str):
             return _TextResp(gh_models.generate(prompt))
         except gh_models.GHModelsUnavailable as exc:
             print(f"  [예비] GitHub Models 실패 — {exc}", file=sys.stderr)
+
+    import nvidia_models
+    if nvidia_models.available():
+        print(f"  [예비] {why} — NVIDIA 로 넘깁니다.", file=sys.stderr)
+        try:
+            return _TextResp(nvidia_models.generate(prompt))
+        except nvidia_models.NvidiaUnavailable as exc:
+            print(f"  [예비] NVIDIA 실패 — {exc}", file=sys.stderr)
 
     import openai_models
     if openai_models.available():
@@ -771,7 +780,8 @@ TEXT_BACKEND = (os.getenv("TEXT_BACKEND") or "gh").strip().lower()
 def _generate(client, model: str, types, prompt: str, max_retries: int = 6):
     """429 는 서버 제안 대기 후 재시도. <하루> 한도 소진일 때만 실행을 접는다.
 
-    기본은 GitHub Models 를 먼저 부르고, 안 되면 Gemini 로 내려온다.
+    기본은 GitHub Models → NVIDIA 를 먼저 부르고, 안 되면 Gemini 로 내려온다
+    (NVIDIA 를 Gemini 보다 앞에 두는 순서는 사용자 지정, 2026-10-28).
     Gemini 한도(실측 하루 20건)를 영상 분석에 남겨 두기 위한 순서다.
     """
     global _throttle_fails
@@ -781,8 +791,17 @@ def _generate(client, model: str, types, prompt: str, max_retries: int = 6):
         try:
             return _TextResp(gh_models.generate(prompt))
         except gh_models.GHModelsUnavailable:
-            print("  [텍스트] GitHub Models 를 쓸 수 없어 Gemini 로 갑니다.",
+            print("  [텍스트] GitHub Models 를 쓸 수 없어 NVIDIA 로 갑니다.",
                   file=sys.stderr)
+
+    if TEXT_BACKEND == "gh":
+        import nvidia_models
+        if nvidia_models.available():
+            try:
+                return _TextResp(nvidia_models.generate(prompt))
+            except nvidia_models.NvidiaUnavailable as exc:
+                print(f"  [텍스트] NVIDIA 를 쓸 수 없어({exc}) Gemini 로 갑니다.",
+                      file=sys.stderr)
 
     cfg = types.GenerateContentConfig(
         response_mime_type="application/json", temperature=0.4, max_output_tokens=8192)

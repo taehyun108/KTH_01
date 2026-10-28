@@ -151,6 +151,8 @@ Actions 탭 → **Test Telegram notification** → `Run workflow`
 |---|---|
 | `KTH_01_GEMINI_API_KEY` | 지금까지 쓰던 것. 그대로 두세요 |
 | `KTH_01_GEMINI_API_KEY_2` ~ `_5` | 두 번째부터. 넣은 개수만큼 하루 처리량이 늘어납니다 |
+| `KTH_01_NVIDIA_API_KEY` | 텍스트 처리의 **2순위 예비** — GitHub Models 다음, Gemini 보다 앞 |
+| `KTH_01_NVIDIA_API_KEY_2` ~ `_3` | NVIDIA 도 여러 개 등록하면 한도·잔액이 바닥난 키를 건너뛰고 다음 키로 갈아탑니다 |
 | `KTH_01_OPENAI_API_KEY` | 마지막 예비. **유일하게 과금되는 경로**라 위가 다 막혔을 때만 쓰입니다 |
 | `KTH_01_OPENAI_API_KEY_2` ~ `_3` | OpenAI 도 여러 개 등록하면 한도·잔액이 바닥난 키를 건너뛰고 다음 키로 갈아탑니다 |
 
@@ -159,16 +161,31 @@ Actions 탭 → **Test Telegram notification** → `Run workflow`
 >
 > ⚠️ Gemini 키는 **서로 다른 구글 계정**에서 발급해야 합니다.
 > 같은 계정에서 키만 여러 개 만들면 한도는 **그대로 하나**입니다.
-> OpenAI 도 같은 조직·결제 계정의 키는 잔액을 공유하므로 효과가 없습니다.
+> NVIDIA·OpenAI 도 같은 조직·결제 계정의 키는 잔액을 공유하므로 효과가 없습니다.
 >
-> OpenAI는 영상을 직접 보지 못해 **자막·설명글이 있는 건에만** 쓰입니다.
-> 비용이 걱정되면 등록하지 않으셔도 됩니다 — 없으면 그냥 꺼져 있습니다.
+> NVIDIA·OpenAI 둘 다 영상을 직접 보지 못해 **자막·설명글이 있는 건에만**
+> 쓰입니다(영상 직접 분석은 Gemini 고유 기능이라 대체 경로가 없습니다).
+> 걱정되면 등록하지 않으셔도 됩니다 — 없으면 그냥 꺼져 있습니다.
 
-처리 순서는 **공짜인 것부터**입니다:
-GitHub Models(무료) → Gemini 1번 키 → 2번 키 → … → OpenAI(과금)
+처리 순서(텍스트)는 다음과 같습니다 — **사용자 지정으로 NVIDIA 가 Gemini 보다 앞**입니다:
+GitHub Models(무료) → NVIDIA 1번 키 → 2번 키 → … → Gemini 1번 키 → 2번 키 → … → OpenAI(과금, 마지막)
+
+Gemini 쿼터가 먼저 소진돼 넘어오는 예비 경로도 같은 순서입니다:
+GitHub Models → NVIDIA → OpenAI
+
+(영상 직접 분석은 이 순서와 무관하게 항상 Gemini 전용입니다.)
 
 실행 로그 끝에 `Gemini 키: 키 3개 중 1개 소진 · 지금 2/3번 키` 로 찍히니,
-더 넣을지 판단하실 수 있습니다.
+더 넣을지 판단하실 수 있습니다. NVIDIA·OpenAI 도 쓰인 횟수가 같은 줄에 남습니다.
+
+### 등록한 키가 실제로 작동하는지 바로 확인
+
+Actions 탭에서 각각 수동 실행해 보세요 — 리포트를 만들지 않고 호출 1건만
+확인하므로 가볍습니다.
+
+- **Test NVIDIA key** → `nvidia_models.generate()` 한 번 호출
+- **Test OpenAI key** → `openai_models.generate()` 한 번 호출
+
 
 ## 🎬 긴 영상 — 끝까지 봅니다
 
