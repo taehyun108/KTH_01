@@ -955,9 +955,15 @@ def check_gh_fallback() -> list[str]:
     out = []
     saved = {k: os.environ.get(k) for k in ("GITHUB_TOKEN", "GH_TOKEN")}
     saved_gap = GR.MIN_CALL_GAP_SEC
+    # import 가 finally 안쪽에서 쓰이는 이름을 만든다. 실패하면 finally 가
+    # UnboundLocalError 를 내면서 <진짜 원인>을 덮어, 검사 전체가 정체불명의
+    # 크래시로 끝난다(2026-10-28 에 requests 미설치로 실제로 그랬다).
     try:
         import requests
-        saved_post = requests.post
+    except ModuleNotFoundError:
+        return ["  [requests 미설치 — 이 검사를 건너뜁니다] pip install -r requirements.txt"]
+    saved_post = requests.post
+    try:
         GR.MIN_CALL_GAP_SEC = 0
         for k in ("GITHUB_TOKEN", "GH_TOKEN"):
             os.environ.pop(k, None)
