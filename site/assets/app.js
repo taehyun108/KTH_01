@@ -413,6 +413,14 @@ function renderMasterBtn() {
 const LS_GH_TOKEN = 'bra_gh_token';
 function ghToken() { return (localStorage.getItem(LS_GH_TOKEN) || '').trim(); }
 
+// 여기 넣은 값은 api.github.com 으로 <전송된다>. 그래서 GitHub 토큰이 아닌 것을
+// 받아 두면 남의 서비스 열쇠를 엉뚱한 회사 서버로 보내게 된다.
+// 실제로 OpenAI 키(sk-...)를 넣은 일이 있었다(2026-10-28). 입력 단계에서 막는다.
+const GH_TOKEN_PREFIXES = ['github_pat_', 'ghp_', 'gho_', 'ghu_', 'ghs_', 'ghr_'];
+function looksLikeGhToken(v) {
+  return GH_TOKEN_PREFIXES.some(p => v.startsWith(p));
+}
+
 function configureGhToken() {
   if (!isMaster()) { window.alert('먼저 마스터 모드를 켜 주세요.'); return; }
   const has = !!ghToken();
@@ -422,7 +430,9 @@ function configureGhToken() {
       : 'GitHub 개인 토큰(Fine-grained PAT)을 입력하세요.\n' +
         'github.com → Settings → Developer settings → Fine-grained tokens 에서 만들되,\n' +
         `저장소를 ${REPO} 하나로 지정하고 'Issues: Read and write' 권한만 주면 됩니다.\n\n`) +
-    '이 브라우저에만 저장되며, 다른 곳으로 전송되지 않습니다.',
+    '⚠ 반드시 GitHub 토큰이어야 합니다 (github_pat_ 또는 ghp_ 로 시작).\n' +
+    'OpenAI 등 다른 서비스의 키를 넣지 마세요 — 이 값은 github.com 으로 전송됩니다.\n\n' +
+    '이 브라우저에만 저장되고, 쓰일 때 github.com 외 다른 곳으로는 가지 않습니다.',
     ''
   );
   if (next === null) return;   // 취소
@@ -430,6 +440,20 @@ function configureGhToken() {
   if (!v) {
     if (has) { localStorage.removeItem(LS_GH_TOKEN); window.alert('토큰을 지웠습니다. 다음부터는 다시 GitHub 로그인이 필요합니다.'); }
     renderMasterBtn();
+    return;
+  }
+  if (!looksLikeGhToken(v)) {
+    const openai = v.startsWith('sk-');
+    window.alert(
+      (openai
+        ? '이것은 OpenAI 키로 보입니다 (sk- 로 시작).\n\n'
+        : 'GitHub 토큰 형식이 아닙니다.\n\n') +
+      '여기에 넣은 값은 github.com 으로 전송되므로, 다른 서비스의 키를 넣으면\n' +
+      '그 키가 엉뚱한 곳으로 새어 나갑니다. 저장하지 않았습니다.\n\n' +
+      (openai
+        ? '※ 이미 저장해 쓰신 적이 있다면 그 OpenAI 키는 폐기(revoke)하고 새로 발급하세요.\n\n'
+        : '') +
+      'GitHub 토큰은 github_pat_ 또는 ghp_ 로 시작합니다.');
     return;
   }
   localStorage.setItem(LS_GH_TOKEN, v);
@@ -488,12 +512,24 @@ async function runOrOpenIssue(title, body, onStatus) {
     `https://github.com/${REPO}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`,
     '_blank', 'noopener');
   if (!ghToken()) { openManually(); return { opened: true }; }
+  // 예전에 저장해 둔 값이 GitHub 토큰이 아닐 수 있다. 그대로 보내면 남의 서비스
+  // 열쇠를 github.com 에 넘기는 꼴이라, 보내기 전에 지우고 평소 경로로 돌린다.
+  if (!looksLikeGhToken(ghToken())) {
+    localStorage.removeItem(LS_GH_TOKEN);
+    renderMasterBtn();
+    onStatus?.('⚠️ 저장된 값이 GitHub 토큰이 아니어서 지웠습니다. 새 이슈 페이지로 대신 엽니다.');
+    openManually();
+    return { fallback: true, error: 'GitHub 토큰이 아님' };
+  }
   try {
     return await ghRunAndWait(title, body, onStatus);
   } catch (err) {
     const reason = err.status === 401 ? 'GitHub 토큰이 잘못됐거나 만료됐습니다.'
       : err.status === 403 ? 'GitHub 토큰에 이 저장소의 Issues 쓰기 권한이 없습니다.'
       : (err.message || '알 수 없는 오류');
+    // 401 은 그 값으로는 영영 안 된다는 뜻이다. 남겨 두면 누를 때마다 같은 값을
+    // github.com 으로 다시 보내게 되므로 지운다.
+    if (err.status === 401) { localStorage.removeItem(LS_GH_TOKEN); renderMasterBtn(); }
     onStatus?.(`⚠️ ${reason} 새 이슈 페이지로 대신 엽니다.`);
     openManually();
     return { fallback: true, error: reason };
