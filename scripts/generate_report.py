@@ -553,12 +553,33 @@ def _get_client():
     if _CLIENT is None:
         from google import genai
         from google.genai import types
+        import gemini_keys
+        key = gemini_keys.current() or os.environ["GEMINI_API_KEY"]
         _CLIENT = genai.Client(
-            api_key=os.environ["GEMINI_API_KEY"],
+            api_key=key,
             # HttpOptions.timeout 단위는 밀리초
             http_options=types.HttpOptions(timeout=REQUEST_TIMEOUT_SEC * 1000),
         )
     return _CLIENT
+
+
+def rotate_key(why: str) -> bool:
+    """지금 키의 하루 한도가 바닥났다 — 다음 키로 갈아탄다.
+
+    키마다 한도가 따로 매겨지므로, 남은 키가 있으면 그날 발행을 이어 갈 수 있다.
+    갈아탔으면 True. 전부 바닥났으면 False 이고, 호출자는 그때 접으면 된다.
+    """
+    global _CLIENT, _MODEL
+    import gemini_keys
+    if not gemini_keys.spend_and_rotate():
+        print(f"  [키] {why} — 등록된 키를 모두 썼습니다 ({gemini_keys.summary()})",
+              file=sys.stderr)
+        return False
+    # 클라이언트와 모델 선택을 모두 버린다. 모델 가용성은 키마다 다를 수 있다.
+    _CLIENT = None
+    _MODEL = ""
+    print(f"  [키] {why} — {gemini_keys.label()} 로 갈아탑니다", file=sys.stderr)
+    return True
 
 
 def _resolve_model(client) -> str:
@@ -705,18 +726,28 @@ class _TextResp:
 
 
 def _fallback(prompt: str, why: str):
-    """Gemini 가 막혔을 때 GitHub Models 로 대신 처리한다.
+    """Gemini 가 막혔을 때 다른 경로로 대신 처리한다.
 
+    순서는 <공짜인 것 먼저>다 — GitHub Models(무료) → OpenAI(과금).
     쓸 수 없으면 None 을 돌려준다 — 호출자는 원래 오류를 그대로 올린다.
     즉 예비 경로가 없거나 실패해도 지금까지의 동작에서 나빠지는 것은 없다.
     """
-    if not gh_models.available():
-        return None
-    print(f"  [예비] Gemini {why} — GitHub Models 로 넘깁니다.", file=sys.stderr)
-    try:
-        return _TextResp(gh_models.generate(prompt))
-    except gh_models.GHModelsUnavailable:
-        return None
+    if gh_models.available():
+        print(f"  [예비] Gemini {why} — GitHub Models 로 넘깁니다.", file=sys.stderr)
+        try:
+            return _TextResp(gh_models.generate(prompt))
+        except gh_models.GHModelsUnavailable as exc:
+            print(f"  [예비] GitHub Models 실패 — {exc}", file=sys.stderr)
+
+    import openai_models
+    if openai_models.available():
+        print(f"  [예비] {why} — OpenAI 로 넘깁니다(과금되는 경로입니다).",
+              file=sys.stderr)
+        try:
+            return _TextResp(openai_models.generate(prompt))
+        except openai_models.OpenAIUnavailable as exc:
+            print(f"  [예비] OpenAI 실패 — {exc}", file=sys.stderr)
+    return None
 
 
 # 텍스트(자막·설명글) 처리를 어디에 맡길지.
@@ -782,9 +813,14 @@ def _generate(client, model: str, types, prompt: str, max_retries: int = 6):
                 time.sleep(wait)
                 delay *= 1.4
                 continue
-            # 일일 쿼터 소진: Gemini 로는 더 못 간다. 접기 전에 예비 경로를 쓴다.
+            # 일일 쿼터 소진: 이 키로는 더 못 간다. 남은 키가 있으면 갈아타고,
+            # 다 썼을 때만 예비 경로로 넘긴다.
             if is_429 and _is_daily_quota(msg):
                 print(f"  [쿼터] {quota_detail(msg)}", file=sys.stderr)
+                if rotate_key("텍스트 하루 한도 소진"):
+                    client = _get_client()
+                    model = _resolve_model(client)
+                    continue
                 if (alt := _fallback(prompt, "일일 한도 소진")) is not None:
                     return alt
                 raise QuotaExhausted(msg)
@@ -844,9 +880,15 @@ def _is_transient(msg: str) -> bool:
 # ---------------------------------------------------------------------------
 # 러너(GitHub Actions) IP 는 유튜브에 차단되어 자막·설명을 못 가져온다. 하지만 Gemini 에
 # 유튜브 URL 을 넘기면 <구글 서버가> 영상을 가져와 처리하므로 이 차단을 우회할 수 있다.
-# 영상 토큰이 비싸므로 저해상도·저프레임·앞부분 한정으로 제한한다.
+# 영상 토큰이 비싸므로 저해상도·저프레임으로 제한한다.
 VIDEO_FPS = 0.2                 # 5초에 1프레임
-VIDEO_MAX_MINUTES = 40          # 긴 라이브는 앞 40분까지만
+# 영상을 어디까지 볼지(분). 0 이면 <끝까지> 본다.
+#   예전에는 40 이 박혀 있어서, 두 시간짜리 방송의 뒤 80분을 아예 안 보고
+#   요약했다. 리포트의 59%가 이 경로로 만들어지므로(2026-10-28 집계 445/756),
+#   "앞부분만 보고 쓴 글"이 그만큼 나왔다는 뜻이다.
+#   끝까지 보는 만큼 하루 예산(VIDEO_MINUTES_PER_DAY)이 빨리 닳으므로,
+#   키를 여러 개 등록해 처리량을 벌충한다(gemini_keys.py 참고).
+VIDEO_MAX_MINUTES = int(os.getenv("VIDEO_MAX_MINUTES", "0"))
 # 한 실행이 영상 분석을 독점하지 못하게 하는 <실행당> 상한.
 # 사용자가 URL 로 직접 요청한 경우(force=True)에는 이 상한과 무관하게 항상 시도한다.
 #
@@ -892,8 +934,11 @@ def _generate_from_video(client, model: str, types, prompt: str, video_url: str,
     """유튜브 URL 을 그대로 Gemini 에 넘겨 영상·음성 자체를 근거로 분석한다."""
     part = types.Part(
         file_data=types.FileData(file_uri=video_url),
-        video_metadata=types.VideoMetadata(fps=VIDEO_FPS,
-                                           end_offset=f"{VIDEO_MAX_MINUTES * 60}s"),
+        # end_offset 을 주지 않으면 끝까지 본다. 값이 있을 때만 잘라서 넘긴다.
+        video_metadata=(
+            types.VideoMetadata(fps=VIDEO_FPS,
+                                end_offset=f"{VIDEO_MAX_MINUTES * 60}s")
+            if VIDEO_MAX_MINUTES > 0 else types.VideoMetadata(fps=VIDEO_FPS)),
     )
     contents = [types.Content(role="user", parts=[part, types.Part(text=prompt)])]
     cfg = types.GenerateContentConfig(
@@ -914,8 +959,12 @@ def _generate_from_video(client, model: str, types, prompt: str, video_url: str,
                 raise
             is_429 = "RESOURCE_EXHAUSTED" in msg or "429" in msg
             # 영상 입력은 하루 한도가 따로 있고 텍스트보다 훨씬 빨리 바닥난다.
-            # 실행 전체를 세우지 말고 영상 분석만 접도록 별도 예외로 올린다.
+            # 남은 키가 있으면 갈아타고, 다 썼을 때만 영상 분석을 접는다.
             if is_429 and _is_daily_quota(msg):
+                if rotate_key("영상 하루 한도 소진"):
+                    client = _get_client()
+                    model = _resolve_model(client)
+                    continue
                 raise VideoQuotaExhausted(msg)
             transient = is_429 or "503" in msg or "UNAVAILABLE" in msg or "500" in msg
             if transient and attempt < max_retries - 1:

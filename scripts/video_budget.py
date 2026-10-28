@@ -62,14 +62,19 @@ def save(state: dict) -> None:
 
 
 def cost_minutes(duration_sec, cap_minutes: int) -> float:
-    """이 영상을 보는 데 잡아 둘 분. 길이를 모르면 넉넉히 잡는다."""
+    """이 영상을 보는 데 잡아 둘 분. 길이를 모르면 넉넉히 잡는다.
+
+    cap_minutes 가 0 이하이면 상한 없이 <영상 길이 전부>를 잡는다 —
+    끝까지 보기로 했으면 예산도 그만큼 잡아야 하루치가 맞는다.
+    """
+    capped = cap_minutes > 0
     try:
         sec = float(duration_sec)
     except (TypeError, ValueError):
-        return float(min(UNKNOWN_MINUTES, cap_minutes))
+        return float(min(UNKNOWN_MINUTES, cap_minutes) if capped else UNKNOWN_MINUTES)
     if sec <= 0:
-        return float(min(UNKNOWN_MINUTES, cap_minutes))
-    return min(sec / 60.0, float(cap_minutes))
+        return float(min(UNKNOWN_MINUTES, cap_minutes) if capped else UNKNOWN_MINUTES)
+    return min(sec / 60.0, float(cap_minutes)) if capped else sec / 60.0
 
 
 def left(state: dict) -> float:

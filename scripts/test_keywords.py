@@ -1168,6 +1168,91 @@ def check_send_report() -> list[str]:
     return out
 
 
+# 키를 여러 개 돌려쓰는가, 그리고 영상을 끝까지 보는가.
+#
+# 둘은 한 쌍이다. 끝까지 보기로 하면 하루 예산이 훨씬 빨리 닳으므로,
+# 키를 더 넣어 벌충하지 못하면 발행이 오히려 줄어든다.
+def check_multi_key_and_full_video() -> list[str]:
+    import importlib
+    import inspect
+    import os
+    from pathlib import Path
+    import gemini_keys
+    import video_budget as vb
+    import generate_report as G
+
+    out = []
+    saved = {k: os.environ.get(k) for k in os.environ
+             if "GEMINI" in k or "OPENAI" in k}
+    try:
+        for k in list(saved):
+            os.environ.pop(k, None)
+        os.environ["GEMINI_API_KEY"] = "k1"
+        os.environ["GEMINI_API_KEY_2"] = "k2"
+        os.environ["GEMINI_API_KEY_3"] = "k1"      # 같은 키 — 한도는 하나다
+        gk = importlib.reload(gemini_keys)
+
+        if gk.count() != 2:
+            out.append(f"  [같은 키는 하나로 세야 함] {gk.count()}개로 셌습니다")
+        if not gk.spend_and_rotate():
+            out.append("  [첫 키가 바닥나면 다음 키로 가야 함] 더 못 간다고 했습니다")
+        if gk.spend_and_rotate():
+            out.append("  [키를 다 쓰면 False 여야 함] 아직 남았다고 했습니다")
+
+        # 키가 하나도 없으면 0개 — 예전처럼 GEMINI_API_KEY 만 보던 경로도 살아야 한다
+        for k in ("GEMINI_API_KEY", "GEMINI_API_KEY_2", "GEMINI_API_KEY_3"):
+            os.environ.pop(k, None)
+        gk = importlib.reload(gemini_keys)
+        if gk.count() != 0 or gk.current() != "":
+            out.append("  [키가 없으면 0개·빈 값] 그렇지 않습니다")
+    finally:
+        for k in ("GEMINI_API_KEY", "GEMINI_API_KEY_2", "GEMINI_API_KEY_3"):
+            os.environ.pop(k, None)
+        for k, v in saved.items():
+            if v is not None:
+                os.environ[k] = v
+        importlib.reload(gemini_keys)
+
+    # 영상 예산 — 상한 0 은 '끝까지'라는 뜻이고, 예산도 길이 전부를 잡아야 한다.
+    # 여기서 0 을 '공짜'로 읽으면 하루 예산이 아무 일도 안 하게 된다.
+    if vb.cost_minutes(7200, 0) != 120.0:
+        out.append(f"  [상한 0 이면 길이 전부를 잡아야 함] {vb.cost_minutes(7200, 0)}")
+    if vb.cost_minutes(7200, 40) != 40.0:
+        out.append("  [상한이 있으면 그 값으로 잘라야 함]")
+    if vb.cost_minutes(None, 0) <= 0:
+        out.append("  [길이를 몰라도 0 분으로 잡으면 안 됨]")
+
+    # 기본값이 '끝까지'인가 — 여기에 숫자가 다시 박히면 뒷부분을 또 잃는다
+    if G.VIDEO_MAX_MINUTES != 0:
+        out.append(f"  [영상은 기본이 끝까지여야 함] 지금 {G.VIDEO_MAX_MINUTES}분에서 끊깁니다")
+    src = inspect.getsource(G._generate_from_video)
+    if "end_offset" in src and "VIDEO_MAX_MINUTES > 0" not in src:
+        out.append("  [상한이 없을 때는 end_offset 을 넣지 말아야 함]")
+
+    # 쿼터로 접기 전에 키를 갈아타는가 (갈아타기가 빠지면 키를 넣어도 소용없다)
+    gen = inspect.getsource(G._generate)
+    if "rotate_key" not in gen:
+        out.append("  [텍스트 한도 소진 시 키를 갈아타야 함] 갈아타기가 없습니다")
+    vid = inspect.getsource(G._generate_from_video)
+    if "rotate_key" not in vid:
+        out.append("  [영상 한도 소진 시 키를 갈아타야 함] 갈아타기가 없습니다")
+
+    # OpenAI 는 <마지막> 예비다 — 유일하게 과금되므로 무료 경로보다 뒤여야 한다
+    fb = inspect.getsource(G._fallback)
+    if "openai_models" not in fb:
+        out.append("  [OpenAI 예비 경로] 연결이 없습니다")
+    elif fb.find("gh_models.available") > fb.find("openai_models"):
+        out.append("  [무료 경로를 먼저 써야 함] OpenAI 가 앞에 있습니다")
+
+    # 워크플로가 키들을 실제로 넘기는가
+    wf = (Path(__file__).resolve().parent.parent
+          / ".github/workflows/archive.yml").read_text(encoding="utf-8")
+    for name in ("GEMINI_API_KEY_2:", "OPENAI_API_KEY:"):
+        if name not in wf:
+            out.append(f"  [워크플로가 {name[:-1]} 를 넘겨야 함] 사라졌습니다")
+    return out
+
+
 def check_workflow_models_perm() -> list[str]:
     from pathlib import Path
     wf = Path(__file__).resolve().parent.parent / ".github/workflows/archive.yml"
@@ -1390,6 +1475,7 @@ def main() -> int:
     fails += check_workflow_url_comment_honesty()
     fails += check_telegram()
     fails += check_send_report()
+    fails += check_multi_key_and_full_video()
     fails += check_gh_token_flow()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
@@ -1408,8 +1494,9 @@ def main() -> int:
              + 4     # URL 등록 댓글 정직성(always·id·output·확인)
              + 7     # 텔레그램(무시크릿2·연관도2·상한1·커밋순서2 외 배선)
              + 9     # 리포트 전문 전송(섹션4·링크1·상한2·권한2 외 버튼자리)
-             + 12)   # GitHub 토큰 경로(부품6·버튼배선1·헤더보안2·경로사용2·reload1)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성·텔레그램·전문전송·토큰경로 — "
+             + 12    # GitHub 토큰 경로(부품6·버튼배선1·헤더보안2·경로사용2·reload1)
+             + 13)   # 키 돌려쓰기·영상 전체(키4·예산3·기본값2·갈아타기2·예비2)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성·텔레그램·전문전송·토큰경로·키돌려쓰기 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

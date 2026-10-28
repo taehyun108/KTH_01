@@ -429,6 +429,16 @@ def main() -> int:
     except Exception:
         pass
     print(f"  후보 재판정: {REGATE_LAST}")
+    # 키를 여러 개 두는 이유가 바로 이 줄이다 — 몇 개를 썼는지 보여야 더 넣을지 안다.
+    try:
+        import gemini_keys
+        import openai_models
+        line = f"  Gemini 키: {gemini_keys.summary()}"
+        if openai_models.usage():
+            line += f" · OpenAI 예비 {openai_models.usage()}건(과금)"
+        print(line)
+    except Exception:  # noqa: BLE001
+        pass
     try:
         import yt_meta as _ym
         print(f"  공식 API: {_ym.LAST}")
