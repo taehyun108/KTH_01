@@ -29,13 +29,13 @@ import sys
 
 ENDPOINT = "https://integrate.api.nvidia.com/v1/chat/completions"
 
-# llama-3.2-90b-vision-instruct 는 테스트 호출(간단한 프롬프트)조차 180초
-# 타임아웃 안에 응답을 못 줬다(2026-10-28, ReadTimeout). 비전 모델은 90B 급이라
-# NIM 서버 콜드스타트·처리 지연이 크고, 실제 리포트 프롬프트(1만자 안팎)는
-# 그보다 훨씬 길어 사실상 쓸 수 없었다. 우리 쓰임새는 자막 텍스트 요약뿐이라
-# 이미지 인식이 필요 없으므로, 더 가볍고 빠른 순수 텍스트 모델로 바꾼다.
+# 두 번 틀렸다 — llama-3.2-90b-vision-instruct 는 타임아웃, 그다음 고른
+# llama-3.1-8b-instruct 는 2026-08-26 에 이미 단종(HTTP 410)이었다. 세 번째는
+# 추측이 아니라 list_models() 로 이 키의 실제 카탈로그를 조회해 골랐다
+# (2026-10-28). 후보 중 임베딩(*-embed-*)·안전성 분류기(*nemoguard*)·
+# 초대형(51B·253B)을 빼고, 범용 지시응답 7B 모델을 택했다.
 # NVIDIA_MODEL 로 바꿀 수 있다.
-DEFAULT_MODEL = os.getenv("NVIDIA_MODEL", "meta/llama-3.1-8b-instruct")
+DEFAULT_MODEL = os.getenv("NVIDIA_MODEL", "mistralai/mistral-7b-instruct-v0.3")
 TIMEOUT_SEC = int(os.getenv("NVIDIA_TIMEOUT_SEC", "180"))
 MAX_KEYS = 10
 
