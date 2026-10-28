@@ -1247,9 +1247,83 @@ def check_multi_key_and_full_video() -> list[str]:
     # 워크플로가 키들을 실제로 넘기는가
     wf = (Path(__file__).resolve().parent.parent
           / ".github/workflows/archive.yml").read_text(encoding="utf-8")
-    for name in ("GEMINI_API_KEY_2:", "OPENAI_API_KEY:"):
+    for name in ("GEMINI_API_KEY_2:", "OPENAI_API_KEY:", "OPENAI_API_KEY_2:"):
         if name not in wf:
             out.append(f"  [워크플로가 {name[:-1]} 를 넘겨야 함] 사라졌습니다")
+    return out
+
+
+# OpenAI 도 Gemini 와 같은 규칙(KEY, KEY_2, KEY_3 …)으로 여러 개를 돌려쓰는가.
+#   밑줄 없는 KEY1·KEY2 로 등록하면 인식되지 않는다 — 사용자가 실제로 헷갈렸던
+#   지점이라(2026-10-28), 이름 규칙과 로테이션 둘 다 고정해 둔다.
+def check_openai_multi_key() -> list[str]:
+    import importlib
+    import os
+    import types
+    import openai_models as om
+
+    out = []
+    saved = {k: os.environ.get(k) for k in os.environ if "OPENAI" in k}
+    try:
+        for k in list(saved):
+            os.environ.pop(k, None)
+
+        # ① 밑줄 없는 이름은 인식되지 않아야 한다 (사용자가 실제로 시도했던 형태)
+        os.environ["OPENAI_API_KEY1"] = "sk-wrong"
+        om2 = importlib.reload(om)
+        if om2.key_count() != 0:
+            out.append("  [밑줄 없는 KEY1 은 인식되면 안 됨] 등록된 것으로 셌습니다")
+        os.environ.pop("OPENAI_API_KEY1", None)
+
+        # ② KEY, KEY_2, KEY_3 — 중복은 하나로
+        os.environ["OPENAI_API_KEY"] = "sk-aaa"
+        os.environ["OPENAI_API_KEY_2"] = "sk-bbb"
+        os.environ["OPENAI_API_KEY_3"] = "sk-aaa"
+        om2 = importlib.reload(om)
+        if om2.key_count() != 2:
+            out.append(f"  [같은 키는 하나로 세야 함] {om2.key_count()}개로 셌습니다")
+
+        # ③ 401/429 를 받으면 다음 키로 갈아타고, 성공하면 결과를 돌려준다
+        calls = []
+
+        class _Resp:
+            def __init__(self, status, body="{}"):
+                self.status_code, self.text = status, body
+            def json(self):
+                import json as _j
+                return _j.loads(self.text)
+
+        seq = [_Resp(429), _Resp(200, '{"choices":[{"message":{"content":"{\\"ok\\":1}"}}]}')]
+
+        def fake_post(*a, **k):
+            calls.append(k["headers"]["Authorization"])
+            return seq.pop(0)
+
+        om2.requests = types.SimpleNamespace(post=fake_post)
+        import sys
+        sys.modules["requests"] = om2.requests
+        result = om2.generate("p")
+        if result != '{"ok":1}':
+            out.append(f"  [성공 응답을 그대로 돌려줘야 함] {result!r}")
+        if calls != ["Bearer sk-aaa", "Bearer sk-bbb"]:
+            out.append(f"  [429 면 다음 키로 갈아타야 함] 호출 순서 {calls}")
+
+        # ④ 모든 키가 막히면 예외를 올린다 (조용히 사라지면 안 된다)
+        seq2 = [_Resp(429), _Resp(429)]
+        om2.requests.post = lambda *a, **k: seq2.pop(0)
+        try:
+            om2.generate("p")
+            out.append("  [키를 다 쓰면 예외를 올려야 함] 조용히 통과했습니다")
+        except om2.OpenAIUnavailable:
+            pass
+    finally:
+        for k in list(os.environ):
+            if "OPENAI" in k:
+                os.environ.pop(k, None)
+        for k, v in saved.items():
+            if v is not None:
+                os.environ[k] = v
+        importlib.reload(om)
     return out
 
 
@@ -1476,6 +1550,7 @@ def main() -> int:
     fails += check_telegram()
     fails += check_send_report()
     fails += check_multi_key_and_full_video()
+    fails += check_openai_multi_key()
     fails += check_gh_token_flow()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
@@ -1495,8 +1570,9 @@ def main() -> int:
              + 7     # 텔레그램(무시크릿2·연관도2·상한1·커밋순서2 외 배선)
              + 9     # 리포트 전문 전송(섹션4·링크1·상한2·권한2 외 버튼자리)
              + 12    # GitHub 토큰 경로(부품6·버튼배선1·헤더보안2·경로사용2·reload1)
-             + 13)   # 키 돌려쓰기·영상 전체(키4·예산3·기본값2·갈아타기2·예비2)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성·텔레그램·전문전송·토큰경로·키돌려쓰기 — "
+             + 14    # 키 돌려쓰기·영상 전체(키4·예산3·기본값2·갈아타기2·예비3)
+             + 7)    # OpenAI 다중키(밑줄규칙1·중복1·로테이션2·소진1·배선2)
+    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성·텔레그램·전문전송·토큰경로·키돌려쓰기·OpenAI다중키 — "
           f"{total - len(fails)}/{total} 통과")
     if fails:
         print("실패:", file=sys.stderr)

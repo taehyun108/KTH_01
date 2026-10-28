@@ -434,8 +434,8 @@ def main() -> int:
         import gemini_keys
         import openai_models
         line = f"  Gemini 키: {gemini_keys.summary()}"
-        if openai_models.usage():
-            line += f" · OpenAI 예비 {openai_models.usage()}건(과금)"
+        if openai_models.key_count():
+            line += f" · OpenAI({openai_models.summary()}) 예비 {openai_models.usage()}건(과금)"
         print(line)
     except Exception:  # noqa: BLE001
         pass

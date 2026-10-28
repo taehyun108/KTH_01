@@ -87,7 +87,10 @@ jobs:
           # Gemini 한도 소진 시 예비 추론 경로(GitHub Models). 별도 키 없이 쓰는 토큰.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # 마지막 예비 경로. 유일하게 과금되므로 위가 다 막혔을 때만 쓰인다.
+          # 키 하나면 OPENAI_API_KEY 만 등록해도 된다 — 나머지는 없으면 건너뛴다.
           OPENAI_API_KEY: ${{ secrets.KTH_01_OPENAI_API_KEY }}
+          OPENAI_API_KEY_2: ${{ secrets.KTH_01_OPENAI_API_KEY_2 }}
+          OPENAI_API_KEY_3: ${{ secrets.KTH_01_OPENAI_API_KEY_3 }}
           # 설명글·영상 길이를 공식 API 로 가져옵니다(무료 10,000유닛/일, 후보 200건에 4유닛).
           # 없으면 그냥 건너뜁니다 — 지금까지와 똑같이 동작합니다.
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
@@ -118,6 +121,8 @@ jobs:
           GEMINI_API_KEY_5: ${{ secrets.KTH_01_GEMINI_API_KEY_5 }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.KTH_01_OPENAI_API_KEY }}
+          OPENAI_API_KEY_2: ${{ secrets.KTH_01_OPENAI_API_KEY_2 }}
+          OPENAI_API_KEY_3: ${{ secrets.KTH_01_OPENAI_API_KEY_3 }}
           # 상한(REGEN_MAX_IDLE)은 regenerate.py 의 기본값을 따른다 — 위와 같은 이유로
           # 여기에 숫자를 박지 않는다.
         run: python scripts/regenerate.py
