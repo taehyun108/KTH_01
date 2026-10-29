@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-28T17:35:31",
+  "generated_at": "2026-10-29T03:28:17",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,51 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-29-시장-상승세가-주춤한-이유와-최근-상장지수펀드-etf-시장의-흐름",
+      "date": "2026-10-29",
+      "channel": "삼프로TV",
+      "title": "시장 상승세가 주춤한 이유와 최근 상장지수펀드(ETF) 시장의 흐름",
+      "summary": "국내 시장의 주가 흐름이 정체된 이유와 상장지수펀드(ETF) 시장의 수급 특징을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-29-시장-상승세가-주춤한-이유와-최근-상장지수펀드-etf-시장의-흐름.html",
+      "video": "https://www.youtube.com/watch?v=feQzBanJ9yY",
+      "video_id": "feQzBanJ9yY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-29-반도체-호실적과-주주환원-국내-증시의-향방은",
+      "date": "2026-10-29",
+      "channel": "삼프로TV",
+      "title": "반도체 호실적과 주주환원, 국내 증시의 향방은?",
+      "summary": "SK하이닉스와 삼성전자의 실적 발표와 주주환원 정책이 국내 증시에 미치는 영향과 향후 전망을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-29-반도체-호실적과-주주환원-국내-증시의-향방은.html",
+      "video": "https://www.youtube.com/watch?v=kyGDMk3YzOY",
+      "video_id": "kyGDMk3YzOY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-29-코스피-급반등과-삼성전자-로봇주의-움직임",
+      "date": "2026-10-29",
+      "channel": "삼프로TV",
+      "title": "코스피 급반등과 삼성전자·로봇주의 움직임",
+      "summary": "코스피가 강한 반등세를 보인 가운데, 삼성전자의 실적 호조와 로봇 분야의 행보가 시장의 주목을 받고 있습니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-29-코스피-급반등과-삼성전자-로봇주의-움직임.html",
+      "video": "https://www.youtube.com/watch?v=qlJE6Mrs9qY",
+      "video_id": "qlJE6Mrs9qY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-10-28-반도체-시장의-진짜-수요와-공급-어디까지-왔을까요",
       "date": "2026-10-28",
@@ -77,6 +122,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-10-28-sk하이닉스-실적-호조와-메모리-반도체-시장의-흐름",
+      "date": "2026-10-28",
+      "channel": "삼프로TV",
+      "title": "SK하이닉스 실적 호조와 메모리 반도체 시장의 흐름",
+      "summary": "SK하이닉스의 실적과 HBM 공급 상황을 짚어보고, 메모리 반도체 시장이 배터리 공급망에 미치는 영향을 살펴봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-28-sk하이닉스-실적-호조와-메모리-반도체-시장의-흐름.html",
+      "video": "https://www.youtube.com/watch?v=1yW_6l_ENfs",
+      "video_id": "1yW_6l_ENfs",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-28-알파벳의-시간-외-급락과-글로벌-증시-흔들림",
+      "date": "2026-10-28",
+      "channel": "삼프로TV",
+      "title": "알파벳의 시간 외 급락과 글로벌 증시 흔들림",
+      "summary": "알파벳의 클라우드 실적 호조에도 불구하고 본업의 우려와 실망감이 커지며 미국 증시가 흔들렸습니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-10-28-알파벳의-시간-외-급락과-글로벌-증시-흔들림.html",
+      "video": "https://www.youtube.com/watch?v=LtT_k6wCOek",
+      "video_id": "LtT_k6wCOek",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-10-27-실거주-2년-못-채운-집주인-세입자에게-배상해야-하는-이유",
@@ -1684,6 +1759,21 @@
       "src": "gemini-video"
     },
     {
+      "id": "2026-10-14-금리-5-5-가-증시-충격-마지노선-월가-초고수들의-경고와-엇갈리는-전망",
+      "date": "2026-10-14",
+      "channel": "소수몽키",
+      "title": "금리 5.5%가 증시 충격 마지노선? 월가 초고수들의 경고와 엇갈리는 전망",
+      "summary": "미국 10년물 국채 금리가 오르면서 월가에서는 금리 고점과 5.5% 마지노선에 대한 논쟁이 이어지고 있는데요, 증시와 포트폴리오에 미칠 영향을 차분히 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-14-금리-5-5-가-증시-충격-마지노선-월가-초고수들의-경고와-엇갈리는-전망.html",
+      "video": "https://www.youtube.com/watch?v=PrEHp2DoRVU",
+      "video_id": "PrEHp2DoRVU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
       "id": "2026-10-13-타랑-아민-앨프-뷰티-ceo가-말하는-기업의-성장과-호기심의-힘",
       "date": "2026-10-13",
       "channel": "CNBC International",
@@ -2189,6 +2279,21 @@
       "url": "2026-10-09-미국-주식시장-4분기-전망-게임의-룰은-바뀌지-않았다.html",
       "video": "https://www.youtube.com/watch?v=Ob5TSrJbxbs",
       "video_id": "Ob5TSrJbxbs",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-09-실적-시즌-맞은-국내-증시와-반도체-금융권-보안-이슈-점검",
+      "date": "2026-10-09",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "실적 시즌 맞은 국내 증시와 반도체·금융권 보안 이슈 점검",
+      "summary": "실적 시즌을 맞은 국내 증시와 삼성전자·SK하이닉스의 흐름을 짚어보고, 금리와 해킹 이슈 속에서 투자자들이 살펴봐야 할 핵심 포인트를 정리해 드립니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-09-실적-시즌-맞은-국내-증시와-반도체-금융권-보안-이슈-점검.html",
+      "video": "https://www.youtube.com/watch?v=gfHo-oPYTVA",
+      "video_id": "gfHo-oPYTVA",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
