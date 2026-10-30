@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-30T03:44:18",
+  "generated_at": "2026-10-30T09:03:17",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -77,6 +77,51 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-30-11-12월-코스피-대응-전략-어닝서프라이즈와-박스권-장세",
+      "date": "2026-10-30",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "11~12월 코스피 대응 전략: 어닝서프라이즈와 박스권 장세",
+      "summary": "11~12월 코스피는 박스권 흐름이 예상되는 만큼 실적이 뒷받침되는 종목 중심의 대응이 필요한 시점입니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-30-11-12월-코스피-대응-전략-어닝서프라이즈와-박스권-장세.html",
+      "video": "https://www.youtube.com/watch?v=X5FGnBk5ff4",
+      "video_id": "X5FGnBk5ff4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-30-금리-발작-이-아니라-정상화-빅테크-회사채와-채권-시장이-흔들리는-이유",
+      "date": "2026-10-30",
+      "channel": "삼프로TV",
+      "title": "금리 '발작'이 아니라 '정상화': 빅테크 회사채와 채권 시장이 흔들리는 이유",
+      "summary": "금리가 급등하는 것이 아니라 정상화 단계라는 관점에서 빅테크 회사채와 채권 시장이 흔들리는 배경을 짚습니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-30-금리-발작-이-아니라-정상화-빅테크-회사채와-채권-시장이-흔들리는-이유.html",
+      "video": "https://www.youtube.com/watch?v=GMfV1tBQPcE",
+      "video_id": "GMfV1tBQPcE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-30-세금은-세계-최고인데-곳간은-텅-비었다-프랑스가-흔들리는-이유",
+      "date": "2026-10-30",
+      "channel": "언더스탠딩",
+      "title": "세금은 세계 최고인데 곳간은 텅 비었다… 프랑스가 흔들리는 이유",
+      "summary": "프랑스가 세계 최고 수준의 세금을 걷고도 재정 적자에 시달리는 이유와 구조적 경제 위기를 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-30-세금은-세계-최고인데-곳간은-텅-비었다-프랑스가-흔들리는-이유.html",
+      "video": "https://www.youtube.com/watch?v=02LnttLnoPE",
+      "video_id": "02LnttLnoPE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-10-29-시장-상승세가-주춤한-이유와-최근-상장지수펀드-etf-시장의-흐름",
@@ -194,6 +239,21 @@
       "url": "2026-10-29-실적이-좋아도-안심할-수-없는-시장-반도체와-증시의-진짜-흐름은.html",
       "video": "https://www.youtube.com/watch?v=9Wa9929qztg",
       "video_id": "9Wa9929qztg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-29-연준-금리-동결과-빅테크-실적-그리고-글로벌-산업계의-흐름",
+      "date": "2026-10-29",
+      "channel": "손석희의 12시",
+      "title": "연준 금리 동결과 빅테크 실적, 그리고 글로벌 산업계의 흐름",
+      "summary": "연준의 금리 동결과 빅테크 실적 발표가 글로벌 증시와 산업계에 던지는 의미를 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-10-29-연준-금리-동결과-빅테크-실적-그리고-글로벌-산업계의-흐름.html",
+      "video": "https://www.youtube.com/watch?v=NE8Wogm3RmQ",
+      "video_id": "NE8Wogm3RmQ",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
