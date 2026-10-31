@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-30T09:03:17",
+  "generated_at": "2026-10-31T03:07:14",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-10-31-1억-원의-투자금-과연-어디에-써야-할까요",
+      "date": "2026-10-31",
+      "channel": "삼프로TV",
+      "title": "1억 원의 투자금, 과연 어디에 써야 할까요",
+      "summary": "1억 원이 생긴다면 어떤 주식을 살 것인지 전문가들과 함께 유쾌하게 풀어보는 투자 이야기입니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-31-1억-원의-투자금-과연-어디에-써야-할까요.html",
+      "video": "https://www.youtube.com/watch?v=mW7c9jFN6VY",
+      "video_id": "mW7c9jFN6VY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-10-30-삼성전자-실적-실망과-체코-원전-재선정-그리고-수도권-주택-공급-소식",
       "date": "2026-10-30",
