@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-31T08:33:58",
+  "generated_at": "2026-10-31T16:26:40",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -92,6 +92,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-31-결혼식은-줄어드는데-웨딩홀은-왜-돈을-벌까요",
+      "date": "2026-10-31",
+      "channel": "언더스탠딩",
+      "title": "결혼식은 줄어드는데 웨딩홀은 왜 돈을 벌까요?",
+      "summary": "결혼 인구는 줄지만 식대와 비용이 오르며 호황을 누리는 웨딩 산업의 구조를 살펴봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-10-31-결혼식은-줄어드는데-웨딩홀은-왜-돈을-벌까요.html",
+      "video": "https://www.youtube.com/watch?v=INzQJSrFGW4",
+      "video_id": "INzQJSrFGW4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-10-31-미국-중간선거와-트럼프-경제정책-한국-경제가-받을-영향은",
+      "date": "2026-10-31",
+      "channel": "손에 잡히는 경제",
+      "title": "미국 중간선거와 트럼프 경제정책, 한국 경제가 받을 영향은?",
+      "summary": "미국 중간선거 결과가 트럼프 경제정책과 한국의 대미 투자에 미치는 영향",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-10-31-미국-중간선거와-트럼프-경제정책-한국-경제가-받을-영향은.html",
+      "video": "https://www.youtube.com/watch?v=Qa2mt8Adses",
+      "video_id": "Qa2mt8Adses",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-10-30-삼성전자-실적-실망과-체코-원전-재선정-그리고-수도권-주택-공급-소식",
