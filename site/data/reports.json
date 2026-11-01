@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-01T09:28:05",
+  "generated_at": "2026-11-01T17:33:29",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -59,6 +59,36 @@
       "url": "2026-11-01-일상을-바꿀-면도기의-기술-도루코-슬릭-모션-단독-특가.html",
       "video": "https://www.youtube.com/watch?v=bSlLHJftBho",
       "video_id": "bSlLHJftBho",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-01-노벨경제학상으로-보는-선택의-기술-시장-설계가-중요한-이유",
+      "date": "2026-11-01",
+      "channel": "언더스탠딩",
+      "title": "노벨경제학상으로 보는 선택의 기술, 시장 설계가 중요한 이유",
+      "summary": "노벨경제학상 이론으로 살펴보는 선택과 시장 설계의 중요성",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-01-노벨경제학상으로-보는-선택의-기술-시장-설계가-중요한-이유.html",
+      "video": "https://www.youtube.com/watch?v=rb-hs3EkVe4",
+      "video_id": "rb-hs3EkVe4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-01-하멜이-본-조선-그리고-17세기-동아시아-경제",
+      "date": "2026-11-01",
+      "channel": "손에 잡히는 경제",
+      "title": "하멜이 본 조선, 그리고 17세기 동아시아 경제",
+      "summary": "조선 시대에 표류해 13년을 머물렀던 하멜의 기록을 통해 당시 동아시아 경제와 무역의 실상을 살펴봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-01-하멜이-본-조선-그리고-17세기-동아시아-경제.html",
+      "video": "https://www.youtube.com/watch?v=Bhx6G9ic5_k",
+      "video_id": "Bhx6G9ic5_k",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
@@ -3224,6 +3254,21 @@
       "url": "2026-10-03-ai-시대의-보석-삼성전기-mlcc와-기판의-성장성.html",
       "video": "https://www.youtube.com/watch?v=p61QUjftYr0",
       "video_id": "p61QUjftYr0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-03-10월-검증의-시간-코스피가-올라갈-3가지-조건",
+      "date": "2026-10-03",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "10월 검증의 시간, 코스피가 올라갈 3가지 조건",
+      "summary": "10월 증시는 금리와 실적, 그리고 선거라는 삼중 관문을 통과해야 하는데요, 박스권을 뚫고 올라갈 기회를 찾고 있습니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-10-03-10월-검증의-시간-코스피가-올라갈-3가지-조건.html",
+      "video": "https://www.youtube.com/watch?v=usH8xHchuPw",
+      "video_id": "usH8xHchuPw",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
