@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-01T03:08:25",
+  "generated_at": "2026-11-01T09:28:05",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -44,6 +44,21 @@
       "url": "2026-11-01-미국-중간선거-톺아보기-역사와-제도에서-읽는-정치적-의미.html",
       "video": "https://www.youtube.com/watch?v=oRd_CoQf7YI",
       "video_id": "oRd_CoQf7YI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-01-일상을-바꿀-면도기의-기술-도루코-슬릭-모션-단독-특가",
+      "date": "2026-11-01",
+      "channel": "언더스탠딩",
+      "title": "일상을 바꿀 면도기의 기술, 도루코 슬릭 모션 단독 특가",
+      "summary": "국내 제조 면도기 브랜드 도루코의 슬릭 모션 제품이 쿠팡 최저가 대비 47% 할인된 가격으로 단독 판매됩니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-11-01-일상을-바꿀-면도기의-기술-도루코-슬릭-모션-단독-특가.html",
+      "video": "https://www.youtube.com/watch?v=bSlLHJftBho",
+      "video_id": "bSlLHJftBho",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
