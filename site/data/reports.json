@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-02T09:51:47",
+  "generated_at": "2026-11-02T21:03:48",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -89,6 +89,21 @@
       "url": "2026-11-02-단순-답변을-넘어-일까지-대신한다-ai-비서의-진화와-과제.html",
       "video": "https://www.youtube.com/watch?v=9PjDBbupocc",
       "video_id": "9PjDBbupocc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-02-세르비아-기차역-참사와-일대일로-중국의-유럽-진출에-생긴-균열",
+      "date": "2026-11-02",
+      "channel": "언더스탠딩",
+      "title": "세르비아 기차역 참사와 일대일로, 중국의 유럽 진출에 생긴 균열",
+      "summary": "세르비아 기차역 참사와 반정부 시위가 중국의 일대일로와 글로벌 인프라 전략에 미치는 영향",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-11-02-세르비아-기차역-참사와-일대일로-중국의-유럽-진출에-생긴-균열.html",
+      "video": "https://www.youtube.com/watch?v=bcx9qVQZj78",
+      "video_id": "bcx9qVQZj78",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
