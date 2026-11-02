@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-01T17:33:29",
+  "generated_at": "2026-11-02T03:27:07",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-11-02-업토버가-없토버가-된-비트코인-시장",
+      "date": "2026-11-02",
+      "channel": "삼프로TV",
+      "title": "업토버가 없토버가 된 비트코인 시장",
+      "summary": "거시경제 불확실성과 바이낸스 해킹 여파로 10월 비트코인은 하락세를 면치 못했죠.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-02-업토버가-없토버가-된-비트코인-시장.html",
+      "video": "https://www.youtube.com/watch?v=clPa21dNYXo",
+      "video_id": "clPa21dNYXo",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-11-01-농촌-고령화와-농지-전수조사-그-이면의-현실과-과제",
       "date": "2026-11-01",
@@ -89,6 +104,51 @@
       "url": "2026-11-01-하멜이-본-조선-그리고-17세기-동아시아-경제.html",
       "video": "https://www.youtube.com/watch?v=Bhx6G9ic5_k",
       "video_id": "Bhx6G9ic5_k",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-01-지금의-시장-조정을-침체로-보기-어려운-이유와-ai-확산-사이클",
+      "date": "2026-11-01",
+      "channel": "삼프로TV",
+      "title": "지금의 시장 조정을 침체로 보기 어려운 이유와 AI 확산 사이클",
+      "summary": "현재의 시장 조정을 경기 침체 초기나 닷컴 버블 붕괴로 보는 시각은 경계해야 하며, AI 확산에 따른 순환 사이클로 접근해야 한다는 분석을 전해 드립니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-01-지금의-시장-조정을-침체로-보기-어려운-이유와-ai-확산-사이클.html",
+      "video": "https://www.youtube.com/watch?v=pXb0rXF2B88",
+      "video_id": "pXb0rXF2B88",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-01-미-증시-3대-지수-하락-마감-ai-투자-불안과-실적-쇼크",
+      "date": "2026-11-01",
+      "channel": "삼프로TV",
+      "title": "미 증시 3대 지수 하락 마감, AI 투자 불안과 실적 쇼크",
+      "summary": "미국 증시가 빅테크 실적 발표와 중동 긴장 속에서 하락 마감했습니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-01-미-증시-3대-지수-하락-마감-ai-투자-불안과-실적-쇼크.html",
+      "video": "https://www.youtube.com/watch?v=bqD6uhxMXes",
+      "video_id": "bqD6uhxMXes",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-01-인텔-29-폭락과-빅테크-실적-부진-k-증시의-향방은",
+      "date": "2026-11-01",
+      "channel": "삼프로TV",
+      "title": "인텔 29% 폭락과 빅테크 실적 부진... K-증시의 향방은?",
+      "summary": "인텔의 주가 급락과 미국 빅테크의 AI 실적 부진이 국내 증시에 미칠 영향을 살펴보고, 로봇 산업을 향한 K-기업의 도전 움직임을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-01-인텔-29-폭락과-빅테크-실적-부진-k-증시의-향방은.html",
+      "video": "https://www.youtube.com/watch?v=XofFWZDjRbY",
+      "video_id": "XofFWZDjRbY",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
