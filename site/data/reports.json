@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-02T21:03:48",
+  "generated_at": "2026-11-03T04:39:43",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -107,6 +107,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-11-02-미국-중간선거-d-1-초접전-속-한진칼-지분-경쟁과-현대차-내수-판매-동향",
+      "date": "2026-11-02",
+      "channel": "삼프로TV",
+      "title": "미국 중간선거 D-1 초접전 속 한진칼 지분 경쟁과 현대차 내수 판매 동향",
+      "summary": "미국 중간선거 D-1 혼전 양상과 한진칼 경영권 분쟁, 현대차의 내수 판매 기아 역전 소식을 전해 드립니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-11-02-미국-중간선거-d-1-초접전-속-한진칼-지분-경쟁과-현대차-내수-판매-동향.html",
+      "video": "https://www.youtube.com/watch?v=6WpckBp6sMc",
+      "video_id": "6WpckBp6sMc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-02-미국-중간선거와-증시-방향성-그리고-배터리-산업에-미칠-영향",
+      "date": "2026-11-02",
+      "channel": "삼프로TV",
+      "title": "미국 중간선거와 증시 방향성, 그리고 배터리 산업에 미칠 영향",
+      "summary": "미국 중간선거 결과가 증시 방향을 가를 중요한 분기점이 될 것으로 보이고요, 이에 따라 전반적인 투자 전략을 점검해 볼 필요가 있습니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-11-02-미국-중간선거와-증시-방향성-그리고-배터리-산업에-미칠-영향.html",
+      "video": "https://www.youtube.com/watch?v=xDr7w4gDNrA",
+      "video_id": "xDr7w4gDNrA",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-11-01-농촌-고령화와-농지-전수조사-그-이면의-현실과-과제",
@@ -674,6 +704,21 @@
       "url": "2026-10-28-알파벳의-시간-외-급락과-글로벌-증시-흔들림.html",
       "video": "https://www.youtube.com/watch?v=LtT_k6wCOek",
       "video_id": "LtT_k6wCOek",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-28-반도체-이후를-준비할-때-2027년-시장을-이끌어갈-다음-주도주는-어디일까요",
+      "date": "2026-10-28",
+      "channel": "삼프로TV",
+      "title": "반도체 이후를 준비할 때: 2027년 시장을 이끌어갈 다음 주도주는 어디일까요",
+      "summary": "반도체 중심의 장세에서 벗어나 2027년 상반기를 내다보며 인공지능(AI) 소프트웨어, 보안, 클라우드, 그리고 소비재까지 시야를 넓혀야 할 때라는 분석을 전해 드립니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-10-28-반도체-이후를-준비할-때-2027년-시장을-이끌어갈-다음-주도주는-어디일까요.html",
+      "video": "https://www.youtube.com/watch?v=AJXGpwbf5BQ",
+      "video_id": "AJXGpwbf5BQ",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
@@ -2699,6 +2744,21 @@
       "url": "2026-10-10-다카이치-내각-1년-일본-외교와-한일-관계의-명암.html",
       "video": "https://www.youtube.com/watch?v=RBG9l7LLKa4",
       "video_id": "RBG9l7LLKa4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-10-금값-조정과-연준의-딜레마-그-속에-숨겨진-자산-시장의-진실",
+      "date": "2026-10-10",
+      "channel": "박종훈의 지식한방",
+      "title": "금값 조정과 연준의 딜레마, 그 속에 숨겨진 자산 시장의 진실",
+      "summary": "20년간 자산별 성적표를 통해 금 투자의 의미와 연준의 재정 지배 딜레마를 짚어 봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-10-10-금값-조정과-연준의-딜레마-그-속에-숨겨진-자산-시장의-진실.html",
+      "video": "https://www.youtube.com/watch?v=6M3_5AFWPXk",
+      "video_id": "6M3_5AFWPXk",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
