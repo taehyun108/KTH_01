@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-03T09:50:38",
+  "generated_at": "2026-11-03T18:50:16",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -29,6 +29,21 @@
       "url": "2026-11-03-공중제비-도는-테슬라-로드스터-그-안에-숨은-로켓-기술과-배터리.html",
       "video": "https://www.youtube.com/watch?v=R-Hvbz09_2c",
       "video_id": "R-Hvbz09_2c",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-03-테슬라-사이버캡의-비밀-무인택시-시대가-배터리에-던지는-메시지",
+      "date": "2026-11-03",
+      "channel": "언더스탠딩",
+      "title": "테슬라 사이버캡의 비밀, 무인택시 시대가 배터리에 던지는 메시지",
+      "summary": "테슬라의 무인택시 사이버캡이 열어갈 자율주행 시대, 그리고 배터리 산업에 미칠 영향입니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-03-테슬라-사이버캡의-비밀-무인택시-시대가-배터리에-던지는-메시지.html",
+      "video": "https://www.youtube.com/watch?v=Gomylx1buYY",
+      "video_id": "Gomylx1buYY",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
