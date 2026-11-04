@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-04T03:48:42",
+  "generated_at": "2026-11-04T09:36:06",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,51 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-04-블루웨이브-공포와-반등-그리고-증시를-누르는-불확실성",
+      "date": "2026-11-04",
+      "channel": "삼프로TV",
+      "title": "블루웨이브 공포와 반등, 그리고 증시를 누르는 불확실성",
+      "summary": "미국 대선 결과와 의회 구도 변화에 따른 시장의 변동성과, 이것이 배터리 공급망에 미치는 영향을 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-11-04-블루웨이브-공포와-반등-그리고-증시를-누르는-불확실성.html",
+      "video": "https://www.youtube.com/watch?v=kdsfE0vU8S8",
+      "video_id": "kdsfE0vU8S8",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-04-강남-주택시장-흔들리는-이유는-2027년-세제-데드라인과-풍선효과",
+      "date": "2026-11-04",
+      "channel": "언더스탠딩",
+      "title": "강남 주택시장 흔들리는 이유는? 2027년 세제 데드라인과 풍선효과",
+      "summary": "서울 아파트 시장에서 대출 규제와 세제 개정안으로 인해 지역별 격차가 달라지고 있는데요, 주택시장 흐름을 살펴봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-11-04-강남-주택시장-흔들리는-이유는-2027년-세제-데드라인과-풍선효과.html",
+      "video": "https://www.youtube.com/watch?v=0byWlKiYscc",
+      "video_id": "0byWlKiYscc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-04-95년-전통-미국-로펌의-붕괴-ai가-바꾸는-지식산업의-미래",
+      "date": "2026-11-04",
+      "channel": "손에 잡히는 경제",
+      "title": "95년 전통 미국 로펌의 붕괴… AI가 바꾸는 지식산업의 미래",
+      "summary": "95년 전통의 미국 대형 로펌이 AI 확산과 핵심 인재 이탈로 해산했는데요, 지식서비스 산업 전반의 구조적 변화를 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-04-95년-전통-미국-로펌의-붕괴-ai가-바꾸는-지식산업의-미래.html",
+      "video": "https://www.youtube.com/watch?v=WodfILBHcrY",
+      "video_id": "WodfILBHcrY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-11-03-공중제비-도는-테슬라-로드스터-그-안에-숨은-로켓-기술과-배터리",
