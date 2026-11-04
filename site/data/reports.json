@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-04T09:36:06",
+  "generated_at": "2026-11-04T19:03:32",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -89,6 +89,21 @@
       "url": "2026-11-04-95년-전통-미국-로펌의-붕괴-ai가-바꾸는-지식산업의-미래.html",
       "video": "https://www.youtube.com/watch?v=WodfILBHcrY",
       "video_id": "WodfILBHcrY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-04-천연가스-가격이-치솟는-진짜-이유와-에너지-시장-파장",
+      "date": "2026-11-04",
+      "channel": "언더스탠딩",
+      "title": "천연가스 가격이 치솟는 진짜 이유와 에너지 시장 파장",
+      "summary": "천연가스 가격 급등과 유럽의 사재기 배경, 그리고 국내 에너지 비용에 미치는 영향",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-04-천연가스-가격이-치솟는-진짜-이유와-에너지-시장-파장.html",
+      "video": "https://www.youtube.com/watch?v=-Zx0MNc3-BI",
+      "video_id": "-Zx0MNc3-BI",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
