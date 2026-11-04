@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-03T18:50:16",
+  "generated_at": "2026-11-04T03:48:42",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-11-04-미국-선거-불확실성과-반도체-시장의-흔들림-도대체-무슨-일이-있었을까요",
+      "date": "2026-11-04",
+      "channel": "삼프로TV",
+      "title": "미국 선거 불확실성과 반도체 시장의 흔들림, 도대체 무슨 일이 있었을까요",
+      "summary": "미국 대선과 중·미 갈등이 글로벌 증시와 국내 반도체·배터리 공급망에 미치는 영향과 투자 전략을 살펴봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-04-미국-선거-불확실성과-반도체-시장의-흔들림-도대체-무슨-일이-있었을까요.html",
+      "video": "https://www.youtube.com/watch?v=iYgP37nH-MY",
+      "video_id": "iYgP37nH-MY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-04-미-중간선거와-크립토-정책-규제-방향은-어떻게-흘러갈까",
+      "date": "2026-11-04",
+      "channel": "삼프로TV",
+      "title": "미 중간선거와 크립토 정책, 규제 방향은 어떻게 흘러갈까",
+      "summary": "미국 중간선거 결과에 따른 디지털자산 정책 변화와 규제 방향성을 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-11-04-미-중간선거와-크립토-정책-규제-방향은-어떻게-흘러갈까.html",
+      "video": "https://www.youtube.com/watch?v=v3sBBO25PgY",
+      "video_id": "v3sBBO25PgY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-11-03-공중제비-도는-테슬라-로드스터-그-안에-숨은-로켓-기술과-배터리",
       "date": "2026-11-03",
@@ -47,6 +77,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-11-03-삼성-파운드리-amd향-hbm-베이스-다이-수주와-주요-기업-실적-분석",
+      "date": "2026-11-03",
+      "channel": "삼프로TV",
+      "title": "삼성 파운드리, AMD향 HBM 베이스 다이 수주와 주요 기업 실적 분석",
+      "summary": "삼성전자가 미국 텍사스주 테일러 공장에서 AMD에 공급할 베이스 다이를 수주했습니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-03-삼성-파운드리-amd향-hbm-베이스-다이-수주와-주요-기업-실적-분석.html",
+      "video": "https://www.youtube.com/watch?v=OPDGyjDQqOU",
+      "video_id": "OPDGyjDQqOU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-03-미국-중간선거-d-day-7대-경합주-향방과-향후-정국-전망",
+      "date": "2026-11-03",
+      "channel": "삼프로TV",
+      "title": "미국 중간선거 D-DAY, 7대 경합주 향방과 향후 정국 전망",
+      "summary": "미국 중간선거와 경합주 여론조사를 바탕으로 향후 정국 변화를 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-11-03-미국-중간선거-d-day-7대-경합주-향방과-향후-정국-전망.html",
+      "video": "https://www.youtube.com/watch?v=sD8SDIyljww",
+      "video_id": "sD8SDIyljww",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-11-02-업토버가-없토버가-된-비트코인-시장",
@@ -644,6 +704,21 @@
       "url": "2026-10-29-연준-금리-동결과-빅테크-실적-그리고-글로벌-산업계의-흐름.html",
       "video": "https://www.youtube.com/watch?v=NE8Wogm3RmQ",
       "video_id": "NE8Wogm3RmQ",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-10-29-반도체-다시-움직이기-시작했다-대형주와-소부장-투자-전략",
+      "date": "2026-10-29",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "반도체 다시 움직이기 시작했다: 대형주와 소부장 투자 전략",
+      "summary": "반도체 시장의 최근 반등과 미국 증시의 흐름을 짚어보고, 대형주에서 소부장으로 이어지는 투자 전략을 알아봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-10-29-반도체-다시-움직이기-시작했다-대형주와-소부장-투자-전략.html",
+      "video": "https://www.youtube.com/watch?v=Gxh29FRx_r8",
+      "video_id": "Gxh29FRx_r8",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
