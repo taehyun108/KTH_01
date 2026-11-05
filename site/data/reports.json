@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-05T04:05:49",
+  "generated_at": "2026-11-05T09:47:38",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -29,6 +29,21 @@
       "url": "2026-11-05-미-중간선거-민주당-압승과-테슬라-합병설-국내-시장에-미칠-영향은.html",
       "video": "https://www.youtube.com/watch?v=C0ndaz2iqMs",
       "video_id": "C0ndaz2iqMs",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-05-국내-웹사이트-50만-곳이-무방비-상태라고요-사이버-보안의-현주소",
+      "date": "2026-11-05",
+      "channel": "언더스탠딩",
+      "title": "국내 웹사이트 50만 곳이 무방비 상태라고요? 사이버 보안의 현주소",
+      "summary": "국내 웹사이트의 사이버 보안 취약점과 정책적 한계를 짚어보는 시간입니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-11-05-국내-웹사이트-50만-곳이-무방비-상태라고요-사이버-보안의-현주소.html",
+      "video": "https://www.youtube.com/watch?v=DfhLUqZfGTo",
+      "video_id": "DfhLUqZfGTo",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
