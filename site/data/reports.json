@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-06T09:49:19",
+  "generated_at": "2026-11-06T18:37:58",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -179,6 +179,36 @@
       "url": "2026-11-06-폭락장에서-살아남는-법-지금은-아무것도-하지-마세요.html",
       "video": "https://www.youtube.com/watch?v=t4gNabMSnt8",
       "video_id": "t4gNabMSnt8",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-06-ai-산업의-앞길을-막는-규제-폭탄-데이터센터-과세가-현실화될까요",
+      "date": "2026-11-06",
+      "channel": "언더스탠딩",
+      "title": "AI 산업의 앞길을 막는 규제 폭탄, 데이터센터 과세가 현실화될까요?",
+      "summary": "AI 데이터센터를 향한 미국 정치권의 규제와 과세 움직임이 거세지고 있습니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-11-06-ai-산업의-앞길을-막는-규제-폭탄-데이터센터-과세가-현실화될까요.html",
+      "video": "https://www.youtube.com/watch?v=Oq6lVjtmQco",
+      "video_id": "Oq6lVjtmQco",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-06-외국인-2-7조-매도-폭탄-단순-차익실현일까-강제-매도일까",
+      "date": "2026-11-06",
+      "channel": "삼프로TV",
+      "title": "외국인 2.7조 매도 폭탄, 단순 차익실현일까 강제 매도일까?",
+      "summary": "외국인 투자자의 대규모 매도세가 이어지는 상황, 시장의 불안 요인과 향후 흐름을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-06-외국인-2-7조-매도-폭탄-단순-차익실현일까-강제-매도일까.html",
+      "video": "https://www.youtube.com/watch?v=iYbEpUYCdfk",
+      "video_id": "iYbEpUYCdfk",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
