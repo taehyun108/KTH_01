@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-06T18:37:58",
+  "generated_at": "2026-11-07T03:51:52",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-11-07-미국-중간선거-이후-증시-변동성-어떻게-봐야-할까요",
+      "date": "2026-11-07",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "미국 중간선거 이후, 증시 변동성 어떻게 봐야 할까요?",
+      "summary": "미국 중간선거 이후 증시가 흔들리고 있는데요, 과거 사례를 통해 지금의 시장 상황을 차분히 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-07-미국-중간선거-이후-증시-변동성-어떻게-봐야-할까요.html",
+      "video": "https://www.youtube.com/watch?v=SIoyStwegrE",
+      "video_id": "SIoyStwegrE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-07-오늘의-국제-경제-뉴스-시장의-주요-흐름과-이슈-점검",
+      "date": "2026-11-07",
+      "channel": "손석희의 12시",
+      "title": "오늘의 국제 경제 뉴스: 시장의 주요 흐름과 이슈 점검",
+      "summary": "글로벌 시장의 주요 이슈와 경제 흐름을 손석희의 12시에서 전해 드립니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-07-오늘의-국제-경제-뉴스-시장의-주요-흐름과-이슈-점검.html",
+      "video": "https://www.youtube.com/watch?v=cA9y00B_9q4",
+      "video_id": "cA9y00B_9q4",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-11-06-가상자산-시장의-변곡점-무기한-선물-소송과-클래리티-법안의-향방",
       "date": "2026-11-06",
@@ -212,6 +242,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-11-06-레조낙의-12조-원-승부수-ai-반도체-소재-시장을-흔들다",
+      "date": "2026-11-06",
+      "channel": "CNBC International",
+      "title": "레조낙의 12조 원 승부수, AI 반도체 소재 시장을 흔들다",
+      "summary": "일본의 소재 기업 레조낙이 AI 반도체 시장을 겨냥해 단행한 대규모 투자가 성과를 거두고 있습니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-06-레조낙의-12조-원-승부수-ai-반도체-소재-시장을-흔들다.html",
+      "video": "https://www.youtube.com/watch?v=iPEPUT_sCFA",
+      "video_id": "iPEPUT_sCFA",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-06-증시-급락-지금이-공포에-질려-팔아야-할-때일까요",
+      "date": "2026-11-06",
+      "channel": "삼프로TV",
+      "title": "증시 급락, 지금이 공포에 질려 팔아야 할 때일까요?",
+      "summary": "미국 증시 급락과 서킷 브레이커 발동, 지금이 과연 공포에 질려 팔아야 할 때일까요?",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-06-증시-급락-지금이-공포에-질려-팔아야-할-때일까요.html",
+      "video": "https://www.youtube.com/watch?v=-0llEDC3Svg",
+      "video_id": "-0llEDC3Svg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-11-05-미-중간선거-민주당-압승과-테슬라-합병설-국내-시장에-미칠-영향은",
@@ -584,6 +644,21 @@
       "url": "2026-11-02-미국-중간선거와-증시-방향성-그리고-배터리-산업에-미칠-영향.html",
       "video": "https://www.youtube.com/watch?v=xDr7w4gDNrA",
       "video_id": "xDr7w4gDNrA",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-02-반도체보다-더-걱정되는-섹터-시장-수급-변화와-투자-전략",
+      "date": "2026-11-02",
+      "channel": "삼프로TV",
+      "title": "반도체보다 더 걱정되는 섹터? 시장 수급 변화와 투자 전략",
+      "summary": "최근 증시 하락은 과도한 낙관론이 빠지는 건강한 과정일까요? 시장의 흐름과 투자 전략을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-02-반도체보다-더-걱정되는-섹터-시장-수급-변화와-투자-전략.html",
+      "video": "https://www.youtube.com/watch?v=EfSTpJ8e0P8",
+      "video_id": "EfSTpJ8e0P8",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
