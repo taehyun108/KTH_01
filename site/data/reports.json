@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-07T03:51:52",
+  "generated_at": "2026-11-07T17:14:50",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,51 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-07-sk하이닉스-지금-팔아야-할까요-고수가-알려주는-차트-읽는-법",
+      "date": "2026-11-07",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "SK하이닉스, 지금 팔아야 할까요? 고수가 알려주는 차트 읽는 법",
+      "summary": "주식 투자의 고수가 전하는 SK하이닉스 차트 분석과 투자 전략을 알아봅니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-11-07-sk하이닉스-지금-팔아야-할까요-고수가-알려주는-차트-읽는-법.html",
+      "video": "https://www.youtube.com/watch?v=Z4SzpZvroU8",
+      "video_id": "Z4SzpZvroU8",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-07-우주를-보는-눈-망원경의-진화와-암흑물질의-비밀",
+      "date": "2026-11-07",
+      "channel": "언더스탠딩",
+      "title": "우주를 보는 눈, 망원경의 진화와 암흑물질의 비밀",
+      "summary": "우주 망원경의 역사와 원리, 그리고 암흑물질 탐사를 통해 우주를 이해하려는 과학자들의 노력을 알아봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-07-우주를-보는-눈-망원경의-진화와-암흑물질의-비밀.html",
+      "video": "https://www.youtube.com/watch?v=YBcL0q0HbIA",
+      "video_id": "YBcL0q0HbIA",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-07-중국의-강도-높은-외환-통제-위안화-국제화와-한국-경제의-대응",
+      "date": "2026-11-07",
+      "channel": "손에 잡히는 경제",
+      "title": "중국의 강도 높은 외환 통제, 위안화 국제화와 한국 경제의 대응",
+      "summary": "중국이 외환 통제를 강화하며 자금 유출을 막고 위안화 영향력을 키우려 합니다. 한국 경제와 환율에는 어떤 변화가 생길까요?",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-07-중국의-강도-높은-외환-통제-위안화-국제화와-한국-경제의-대응.html",
+      "video": "https://www.youtube.com/watch?v=XNBZ0fWTH10",
+      "video_id": "XNBZ0fWTH10",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-11-06-가상자산-시장의-변곡점-무기한-선물-소송과-클래리티-법안의-향방",
