@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-08T09:15:57",
+  "generated_at": "2026-11-08T17:25:29",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-08-배터리-설계의-마법-공식-깁스-자유에너지-를-아시나요",
+      "date": "2026-11-08",
+      "channel": "언더스탠딩",
+      "title": "배터리 설계의 마법 공식, '깁스 자유에너지'를 아시나요?",
+      "summary": "배터리 성능을 결정짓는 핵심 원리, '깁스 자유에너지'가 무엇인지 쉽게 풀어드립니다.",
+      "category": "global-market",
+      "relation": "direct",
+      "url": "2026-11-08-배터리-설계의-마법-공식-깁스-자유에너지-를-아시나요.html",
+      "video": "https://www.youtube.com/watch?v=DFGTEMxUhgI",
+      "video_id": "DFGTEMxUhgI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-08-운전자-없는-로보택시-자율주행-시장의-승자는-누가-될까요",
+      "date": "2026-11-08",
+      "channel": "손에 잡히는 경제",
+      "title": "운전자 없는 로보택시, 자율주행 시장의 승자는 누가 될까요?",
+      "summary": "운전자 없는 로보택시 시대, 자율주행 기술이 자동차 산업의 판도를 어떻게 바꾸고 있을까요?",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-08-운전자-없는-로보택시-자율주행-시장의-승자는-누가-될까요.html",
+      "video": "https://www.youtube.com/watch?v=wfPSk6Lrp1I",
+      "video_id": "wfPSk6Lrp1I",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-11-07-미국-중간선거-이후-증시-변동성-어떻게-봐야-할까요",
