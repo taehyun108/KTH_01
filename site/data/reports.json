@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-08T17:25:29",
+  "generated_at": "2026-11-09T03:48:09",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,66 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-11-09-ai-데이터센터-폭발적-성장-뒤에-숨겨진-허수-와-시장의-경고",
+      "date": "2026-11-09",
+      "channel": "삼프로TV",
+      "title": "AI 데이터센터, 폭발적 성장 뒤에 숨겨진 '허수'와 시장의 경고",
+      "summary": "AI 데이터센터 열풍에 숨겨진 '허수'와 그로 인한 시장의 불안감을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-09-ai-데이터센터-폭발적-성장-뒤에-숨겨진-허수-와-시장의-경고.html",
+      "video": "https://www.youtube.com/watch?v=0grkDyYBgog",
+      "video_id": "0grkDyYBgog",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-09-외국인-매도세-언제-멈출까-증시-반등을-위한-수급-체크포인트",
+      "date": "2026-11-09",
+      "channel": "삼프로TV",
+      "title": "외국인 매도세, 언제 멈출까? 증시 반등을 위한 수급 체크포인트",
+      "summary": "증시의 흐름을 결정짓는 수급의 중요성과 외국인 매매 동향을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-09-외국인-매도세-언제-멈출까-증시-반등을-위한-수급-체크포인트.html",
+      "video": "https://www.youtube.com/watch?v=uSSCa0lXfeE",
+      "video_id": "uSSCa0lXfeE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-09-비트코인-7만-6천-달러-붕괴-시장을-흔드는-세-가지-변수",
+      "date": "2026-11-09",
+      "channel": "삼프로TV",
+      "title": "비트코인 7만 6천 달러 붕괴, 시장을 흔드는 세 가지 변수",
+      "summary": "비트코인 가격이 7만 6천 달러 선을 내주며 흔들리고 있는데요, 시장을 압박하는 요인들을 짚어 드립니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-09-비트코인-7만-6천-달러-붕괴-시장을-흔드는-세-가지-변수.html",
+      "video": "https://www.youtube.com/watch?v=qijw-Ul2ZBg",
+      "video_id": "qijw-Ul2ZBg",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-09-급락장에-무너진-투자심리-지금은-팔-때가-아니라-버틸-때",
+      "date": "2026-11-09",
+      "channel": "삼프로TV",
+      "title": "급락장에 무너진 투자심리…지금은 팔 때가 아니라 버틸 때?",
+      "summary": "최근 급락한 시장 상황을 두고 지금은 매도보다 버티기가 필요한 시점이라는 분석이 나왔는데요, 자세한 내용 전해 드립니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-09-급락장에-무너진-투자심리-지금은-팔-때가-아니라-버틸-때.html",
+      "video": "https://www.youtube.com/watch?v=PlZRQPNMhhE",
+      "video_id": "PlZRQPNMhhE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-11-08-기술주-급락-지금이-바닥일까-반드시-확인해야-할-두-가지-조건",
       "date": "2026-11-08",
@@ -77,6 +137,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-11-08-엔비디아의-위기와-조선업-역전-글로벌-시장의-변화를-읽다",
+      "date": "2026-11-08",
+      "channel": "삼프로TV",
+      "title": "엔비디아의 위기와 조선업 역전, 글로벌 시장의 변화를 읽다",
+      "summary": "글로벌 기술 패권 경쟁과 조선업 수주 현황, 그리고 배터리 산업에 미치는 영향을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-08-엔비디아의-위기와-조선업-역전-글로벌-시장의-변화를-읽다.html",
+      "video": "https://www.youtube.com/watch?v=_JZtm8h-b20",
+      "video_id": "_JZtm8h-b20",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-08-ai-반등에-증시가-혼조세-데이터센터-시장의-변화는",
+      "date": "2026-11-08",
+      "channel": "삼프로TV",
+      "title": "AI 반등에 증시가 혼조세… 데이터센터 시장의 변화는?",
+      "summary": "미국 증시가 AI 관련주 반등에 힘입어 혼조세로 마감했습니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-08-ai-반등에-증시가-혼조세-데이터센터-시장의-변화는.html",
+      "video": "https://www.youtube.com/watch?v=ZAFOuEKr_Tw",
+      "video_id": "ZAFOuEKr_Tw",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-11-07-미국-중간선거-이후-증시-변동성-어떻게-봐야-할까요",
@@ -674,6 +764,21 @@
       "url": "2026-11-03-미국-중간선거-d-day-7대-경합주-향방과-향후-정국-전망.html",
       "video": "https://www.youtube.com/watch?v=sD8SDIyljww",
       "video_id": "sD8SDIyljww",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-03-내년-증시-금리와-ai-속도전이-결정한다",
+      "date": "2026-11-03",
+      "channel": "삼프로TV",
+      "title": "내년 증시, 금리와 AI 속도전이 결정한다",
+      "summary": "내년 증시를 흔들 핵심 변수로 금리와 AI의 속도전을 꼽았습니다. 미국 중간선거 이후 시장의 흐름과 투자 전략을 짚어봤는데요.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-03-내년-증시-금리와-ai-속도전이-결정한다.html",
+      "video": "https://www.youtube.com/watch?v=0CIAiCgj0OA",
+      "video_id": "0CIAiCgj0OA",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
