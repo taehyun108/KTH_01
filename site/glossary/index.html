@@ -69,7 +69,7 @@
       <a class="gcard" href="#pack">
         <span class="gc-icon" aria-hidden="true">🚗</span>
         <span class="gc-body"><span class="gc-num">08</span><span class="gc-title">셀 → 모듈 → 팩 — 자동차에 실리기까지</span>
-        <span class="gc-blurb">셀을 묶어 모듈, 모듈을 묶어 팩</span><span class="gc-meta">그림 1 · 표 3</span></span>
+        <span class="gc-blurb">셀을 묶어 모듈, 모듈을 묶어 팩</span><span class="gc-meta">그림 2 · 표 3</span></span>
       </a>
       <a class="gcard" href="#app">
         <span class="gc-icon" aria-hidden="true">⚡</span>
@@ -3372,7 +3372,7 @@
 
     <!-- ══════════ 08 ══════════ -->
     <details class="sec-card full" id="pack">
-      <summary class="sec-head"><span class="sec-num">08</span><h2>셀 → 모듈 → 팩 — 자동차에 실리기까지</h2><span class="sec-meta">그림 1 · 표 3</span></summary>
+      <summary class="sec-head"><span class="sec-num">08</span><h2>셀 → 모듈 → 팩 — 자동차에 실리기까지</h2><span class="sec-meta">그림 2 · 표 3</span></summary>
       <p>셀 하나로는 자동차를 굴릴 수 없죠. 수백 개를 <strong>묶고 또 묶어야</strong> 비로소 차가 움직입니다.</p>
 
       <figure class="diagram">
@@ -3474,7 +3474,110 @@
       <h3 class="t-h">모듈·팩 속 숨은 부품들 — 무슨 역할을 하고, 고장 나면 뭐가 위험한가요</h3>
       <p>팩을 열어 보면 셀과 BMS만 있는 게 아닙니다. 눈에 잘 안 띄는 부품들이
         저마다 한 가지 위험을 막는 식으로 흩어져 있는데요. 어느 하나라도 제 역할을
-        못 하면 바로 그 틈으로 사고가 들어옵니다.</p>
+        못 하면 바로 그 틈으로 사고가 들어옵니다. 어디에 있는지 먼저 그림으로 보시죠.</p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 680 460" role="img"
+             aria-label="팩 내부 단면도. 위에서 BMS가 센싱 와이어로 모듈마다 연결되고, 각 모듈 안에는 셀과 버스바와 압축패드가 있고, 모듈 사이에는 방염판이 있고, 맨 아래에는 냉각판이 있고, 오른쪽 고전압 박스에는 퓨즈와 릴레이가 있고, 케이스 안쪽 전체를 절연재가 두르고, 뚜껑에는 벤트가 있습니다">
+          <text x="24" y="26" font-size="13" font-weight="700" fill="#1a2230">팩 내부를 열어 보면 — 부품이 있는 자리</text>
+
+          <defs>
+            <marker id="pm1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="#55617a"/></marker>
+            <marker id="pm2" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto">
+              <path d="M8 4 L0 0 L0 8 z" fill="#dc2626"/></marker>
+          </defs>
+
+          <!-- 바깥 케이스 -->
+          <rect x="30" y="56" width="620" height="380" rx="16" fill="#f8fbff" stroke="#0284c7" stroke-width="2.5"/>
+          <!-- 절연재·가스켓 — 케이스 안쪽을 두르는 점선 라이너 -->
+          <rect x="42" y="68" width="596" height="356" rx="12" fill="none" stroke="#a78bfa"
+                stroke-width="1.3" stroke-dasharray="5 4"/>
+
+          <!-- 뚜껑 벤트 -->
+          <g>
+            <circle cx="140" cy="78" r="6" fill="#fecaca" stroke="#dc2626" stroke-width="1.3"/>
+            <circle cx="230" cy="78" r="6" fill="#fecaca" stroke="#dc2626" stroke-width="1.3"/>
+            <circle cx="320" cy="78" r="6" fill="#fecaca" stroke="#dc2626" stroke-width="1.3"/>
+            <circle cx="410" cy="78" r="6" fill="#fecaca" stroke="#dc2626" stroke-width="1.3"/>
+            <g stroke="#dc2626" stroke-width="1.3" marker-end="url(#pm2)">
+              <path d="M140 70 L140 60"/><path d="M230 70 L230 60"/>
+              <path d="M320 70 L320 60"/><path d="M410 70 L410 60"/>
+            </g>
+          </g>
+          <text x="250" y="98" font-size="10" fill="#dc2626">벤트(압력배출구) — 압력이 치솟으면 위로 터집니다</text>
+
+          <!-- BMS -->
+          <rect x="270" y="110" width="140" height="36" rx="6" fill="#0284c7" stroke="#075985" stroke-width="1.5"/>
+          <text x="340" y="129" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">BMS</text>
+          <text x="340" y="142" text-anchor="middle" font-size="9" fill="#bae6fd">배터리 관리 시스템</text>
+
+          <!-- 센싱 와이어 — BMS에서 모듈마다로 -->
+          <g stroke="#55617a" stroke-width="1.3" stroke-dasharray="3 3" fill="none" marker-end="url(#pm1)">
+            <path d="M282 146 L130 168"/>
+            <path d="M340 146 L293 168"/>
+            <path d="M398 146 L456 168"/>
+          </g>
+          <text x="432" y="158" font-size="10" fill="#55617a">전압·온도 센싱 와이어</text>
+
+          <!-- 모듈 1·2·3 (셀 + 버스바 + 압축패드) -->
+          <!-- 모듈 1 -->
+          <rect x="50" y="170" width="150" height="190" rx="8" fill="#eef6ff" stroke="#0284c7" stroke-width="1.8"/>
+          <rect x="70" y="188" width="110" height="7" rx="2" fill="#f59e0b"/>
+          <g fill="#0284c7"><rect x="77" y="200" width="16" height="140" rx="3"/>
+            <rect x="97" y="200" width="16" height="140" rx="3"/><rect x="117" y="200" width="16" height="140" rx="3"/>
+            <rect x="137" y="200" width="16" height="140" rx="3"/><rect x="157" y="200" width="16" height="140" rx="3"/></g>
+          <g fill="#cbd5e1"><rect x="93" y="200" width="4" height="140"/><rect x="113" y="200" width="4" height="140"/>
+            <rect x="133" y="200" width="4" height="140"/><rect x="153" y="200" width="4" height="140"/></g>
+          <text x="54" y="183" font-size="9.5" fill="#b45309">버스바</text>
+          <text x="54" y="354" font-size="9.5" fill="#475569">압축·스웰링 패드</text>
+
+          <!-- 모듈 2 -->
+          <rect x="215" y="170" width="150" height="190" rx="8" fill="#eef6ff" stroke="#0284c7" stroke-width="1.8"/>
+          <rect x="235" y="188" width="110" height="7" rx="2" fill="#f59e0b"/>
+          <g fill="#0284c7"><rect x="242" y="200" width="16" height="140" rx="3"/>
+            <rect x="262" y="200" width="16" height="140" rx="3"/><rect x="282" y="200" width="16" height="140" rx="3"/>
+            <rect x="302" y="200" width="16" height="140" rx="3"/><rect x="322" y="200" width="16" height="140" rx="3"/></g>
+          <g fill="#cbd5e1"><rect x="258" y="200" width="4" height="140"/><rect x="278" y="200" width="4" height="140"/>
+            <rect x="298" y="200" width="4" height="140"/><rect x="318" y="200" width="4" height="140"/></g>
+
+          <!-- 방염판 -->
+          <rect x="368" y="170" width="6" height="190" fill="#dc2626"/>
+          <text x="371" y="164" text-anchor="middle" font-size="10" font-weight="700" fill="#dc2626">방염판</text>
+
+          <!-- 모듈 3 -->
+          <rect x="382" y="170" width="150" height="190" rx="8" fill="#eef6ff" stroke="#0284c7" stroke-width="1.8"/>
+          <rect x="402" y="188" width="110" height="7" rx="2" fill="#f59e0b"/>
+          <g fill="#0284c7"><rect x="409" y="200" width="16" height="140" rx="3"/>
+            <rect x="429" y="200" width="16" height="140" rx="3"/><rect x="449" y="200" width="16" height="140" rx="3"/>
+            <rect x="469" y="200" width="16" height="140" rx="3"/><rect x="489" y="200" width="16" height="140" rx="3"/></g>
+          <g fill="#cbd5e1"><rect x="425" y="200" width="4" height="140"/><rect x="445" y="200" width="4" height="140"/>
+            <rect x="465" y="200" width="4" height="140"/><rect x="485" y="200" width="4" height="140"/></g>
+
+          <!-- 고전압 박스 — 퓨즈·릴레이 -->
+          <rect x="548" y="170" width="92" height="190" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="1.8"/>
+          <text x="594" y="184" text-anchor="middle" font-size="10.5" font-weight="700" fill="#475569">고전압 박스</text>
+          <rect x="575" y="205" width="38" height="14" rx="3" fill="#fff" stroke="#b45309" stroke-width="1.5"/>
+          <path d="M575 212 L582 205 L588 219 L594 205 L600 219 L613 212" fill="none" stroke="#b45309" stroke-width="1.3"/>
+          <text x="594" y="236" text-anchor="middle" font-size="9" fill="#475569">퓨즈·서비스플러그</text>
+          <circle cx="594" cy="278" r="10" fill="#fff" stroke="#1d4ed8" stroke-width="1.8"/>
+          <path d="M594 278 L603 269" stroke="#1d4ed8" stroke-width="1.8"/>
+          <circle cx="585" cy="286" r="2" fill="#1d4ed8"/><circle cx="603" cy="269" r="2" fill="#1d4ed8"/>
+          <text x="594" y="300" text-anchor="middle" font-size="9" fill="#475569">릴레이·컨택터</text>
+
+          <!-- 냉각판 -->
+          <rect x="50" y="368" width="590" height="22" rx="4" fill="#0ea5e9" stroke="#0369a1" stroke-width="1"/>
+          <text x="345" y="383" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff">냉각판</text>
+
+          <text x="46" y="416" font-size="11.5" font-weight="700" fill="#0284c7">팩 하우징(케이스)</text>
+          <text x="320" y="416" font-size="11.5" font-weight="700" fill="#7c3aed">절연재·가스켓(점선)</text>
+        </svg>
+        <figcaption class="fig-cap">그림 15. 팩 내부에서 각 부품이 있는 자리 — BMS는 위에서 모듈마다
+          센싱 와이어로 연결되고, 버스바와 압축패드는 모듈 안에, 퓨즈·릴레이는 오른쪽
+          고전압 박스에, 냉각판은 맨 아래에, 절연재는 케이스 안쪽 전체를 두르고,
+          방염판은 모듈 사이를 막습니다.</figcaption>
+      </figure>
+
       <div class="tbl-scroll">
       <table class="glossary">
         <thead><tr><th>부품</th><th>어떤 역할을 하나요</th><th>고장 나면 어떤 위험이 있나요</th></tr></thead>
