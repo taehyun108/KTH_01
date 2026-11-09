@@ -69,7 +69,7 @@
       <a class="gcard" href="#pack">
         <span class="gc-icon" aria-hidden="true">🚗</span>
         <span class="gc-body"><span class="gc-num">08</span><span class="gc-title">셀 → 모듈 → 팩 — 자동차에 실리기까지</span>
-        <span class="gc-blurb">셀을 묶어 모듈, 모듈을 묶어 팩</span><span class="gc-meta">그림 1 · 표 1</span></span>
+        <span class="gc-blurb">셀을 묶어 모듈, 모듈을 묶어 팩</span><span class="gc-meta">그림 1 · 표 3</span></span>
       </a>
       <a class="gcard" href="#app">
         <span class="gc-icon" aria-hidden="true">⚡</span>
@@ -3372,7 +3372,7 @@
 
     <!-- ══════════ 08 ══════════ -->
     <details class="sec-card full" id="pack">
-      <summary class="sec-head"><span class="sec-num">08</span><h2>셀 → 모듈 → 팩 — 자동차에 실리기까지</h2><span class="sec-meta">그림 1 · 표 1</span></summary>
+      <summary class="sec-head"><span class="sec-num">08</span><h2>셀 → 모듈 → 팩 — 자동차에 실리기까지</h2><span class="sec-meta">그림 1 · 표 3</span></summary>
       <p>셀 하나로는 자동차를 굴릴 수 없죠. 수백 개를 <strong>묶고 또 묶어야</strong> 비로소 차가 움직입니다.</p>
 
       <figure class="diagram">
@@ -3470,6 +3470,99 @@
         </tbody>
       </table>
       </div>
+
+      <h3 class="t-h">모듈·팩 속 숨은 부품들 — 무슨 역할을 하고, 고장 나면 뭐가 위험한가요</h3>
+      <p>팩을 열어 보면 셀과 BMS만 있는 게 아닙니다. 눈에 잘 안 띄는 부품들이
+        저마다 한 가지 위험을 막는 식으로 흩어져 있는데요. 어느 하나라도 제 역할을
+        못 하면 바로 그 틈으로 사고가 들어옵니다.</p>
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th>부품</th><th>어떤 역할을 하나요</th><th>고장 나면 어떤 위험이 있나요</th></tr></thead>
+        <tbody>
+          <tr><td class="k">버스바<br /><span class="en">Busbar</span></td>
+            <td>셀과 셀, 모듈과 모듈 사이를 <strong>전기적으로 이어 주는</strong> 금속판입니다.</td>
+            <td>조임이 풀리거나 접촉이 나빠지면 그 한 지점만 뜨거워지는
+              <strong>국부 발열</strong>이 생기고, 방치하면 주변 셀까지 열을 받습니다.</td></tr>
+          <tr><td class="k">퓨즈·서비스 플러그<br /><span class="en">Fuse · MSD</span></td>
+            <td>전류가 정해진 값을 넘으면 <strong>스스로 끊어지거나</strong>, 정비 전
+              작업자가 손으로 고전압 회로를 끊는 안전장치죠.</td>
+            <td>녹는 지점이 안 맞거나 늦게 끊어지면 과전류가 그대로 흘러
+              단락·화재로 번질 수 있습니다.</td></tr>
+          <tr><td class="k">릴레이·컨택터<br /><span class="en">Relay · Contactor</span></td>
+            <td>BMS의 명령을 받아 팩 안의 고전압 회로를 <strong>여닫는 스위치</strong>입니다.</td>
+            <td>접점이 붙어 버리면(고착) 끄려 해도 전류가 계속 흐르고,
+              반대로 떨림이 생기면 아크가 튀어 접점이 타버립니다.</td></tr>
+          <tr><td class="k">전압·온도 센싱 와이어<br /><span class="en">CSC · FPCB</span></td>
+            <td>셀 하나하나의 전압·온도를 <strong>BMS에게 실시간으로 알려 주는</strong>
+              가느다란 배선 다발인데요.</td>
+            <td>선이 끊기거나 헐거워지면 BMS가 그 셀만 못 보게 되어(블라인드존),
+              과충전이나 이상 고온을 놓칠 수 있습니다.</td></tr>
+          <tr><td class="k">냉각판·열전달재<br /><span class="en">Cold Plate · TIM</span></td>
+            <td>셀에서 나는 열을 냉각수나 공기 쪽으로 옮기는 판과,
+              그 틈을 메우는 열전달 소재입니다.</td>
+            <td>틈이 생기거나 말라붙으면 그 구역 셀만 과열되어 수명이 빨리 줄고,
+              심하면 열폭주의 시작점이 될 수 있습니다.</td></tr>
+          <tr><td class="k">압축·스웰링 패드<br /><span class="en">Compression Pad</span></td>
+            <td>셀이 충방전하며 부풀었다 줄었다 하는 틈(스웰링)을 메워 눌러 줍니다.</td>
+            <td>누르는 힘이 모자라면 틈이 생겨 진동에 상하고, 너무 강하면
+              셀을 변형시켜 내부 단락을 부를 수 있습니다.</td></tr>
+          <tr><td class="k">절연재·가스켓<br /><span class="en">Insulation · Gasket</span></td>
+            <td>고전압이 흐르는 부위와 금속 케이스 사이를 갈라놓아
+              <strong>감전·합선을 막는</strong> 재료죠.</td>
+            <td>습기가 스며들거나 재료가 삭으면 절연이 깨지고,
+              감전 사고나 합선으로 이어질 수 있습니다.</td></tr>
+          <tr><td class="k">팩 하우징<br /><span class="en">Enclosure</span></td>
+            <td>모듈과 전자장치를 담아 물·먼지·충격에서 지키는 바깥 케이스입니다.</td>
+            <td>찌그러지거나 금이 가면 안의 모듈이 충격을 그대로 받고,
+              방수가 깨지면 습기가 들어가 합선을 부릅니다.</td></tr>
+          <tr><td class="k">벤트·방염판<br /><span class="en">Vent · Fire Barrier</span></td>
+            <td>셀 내부 압력이 치솟을 때 가스를 정해진 방향으로 터뜨려 보내는 구멍과,
+              그 불·열이 옆 셀로 못 넘어가게 막는 판입니다.</td>
+            <td>벤트가 막혀 있으면 셀이 예상 못 한 방향으로 터지고,
+              방염판이 얇거나 없으면 옆 셀로 불이 그대로 번집니다(열전이).</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="callout">
+        <p class="callout-title">왜 부품 하나까지 이렇게 따지나요</p>
+        <p>차 한 대에는 셀이 수백 개 들어가는데, 공통된 목표는 하나입니다 —
+          <strong>어느 한 곳에서 생긴 문제가 전체로 번지지 않게</strong> 막는 것이죠.
+          불이 옆 셀로 번지는 과정은 <a href="#degrade">14장 화재·노화</a>에서
+          더 자세히 다룹니다.</p>
+      </div>
+
+      <h3 class="t-h">어느 회사가 얼마나 만들까요 — 글로벌 셀 점유율</h3>
+      <p>셀을 실제로 누가 가장 많이 만드는지도 분기마다 바뀌는 숫자입니다.
+        SNE리서치가 집계한 <strong>2026년 1~8월 누적</strong>
+        (전기차에 실제로 쓰인 배터리량 기준)으로 보면 아래와 같습니다.</p>
+      <div class="tbl-scroll">
+      <table class="glossary">
+        <thead><tr><th>순위</th><th>회사</th><th>점유율</th><th>비고</th></tr></thead>
+        <tbody>
+          <tr><td class="k">1위</td><td>CATL<br /><span class="en">중국</span></td>
+            <td>39.4%</td><td>2020년대 내내 1위를 지키고 있습니다</td></tr>
+          <tr><td class="k">2위</td><td>BYD<br /><span class="en">중국</span></td>
+            <td>15.1%</td><td>상당 부분이 자사 전기차용입니다</td></tr>
+          <tr><td class="k">3위</td><td>LG에너지솔루션<br /><span class="en">한국</span></td>
+            <td>8.1%</td><td>한국 3사 중 가장 앞서 있습니다</td></tr>
+          <tr><td class="k">4위</td><td>CALB<br /><span class="en">중국</span></td>
+            <td>5.3%</td><td>—</td></tr>
+          <tr><td class="k">5위</td><td>궈쉬안<br /><span class="en">Gotion, 중국</span></td>
+            <td>4.9%</td><td>—</td></tr>
+          <tr><td class="k">6위</td><td>파나소닉<br /><span class="en">일본</span></td>
+            <td>3.5%</td><td>테슬라 공급 비중이 큽니다</td></tr>
+          <tr><td class="k">8위권</td><td>SK온<br /><span class="en">한국</span></td>
+            <td>—</td><td>물량이 줄며(전년대비 약 -9.8%) 순위도 밀렸습니다</td></tr>
+          <tr><td class="k">10위권</td><td>삼성SDI<br /><span class="en">한국</span></td>
+            <td>—</td><td>한국 3사 중 가장 비중이 작습니다</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="tbl-note">* SNE리서치 집계(2026년 1~8월 누적, 전체 844.2GWh)이며,
+        순위·점유율은 분기마다 바뀌니 큰 흐름을 보는 용도로 봐 주세요.
+        같은 기간 중국 바깥(한국·미국·유럽 등) 시장만 보면 한국 3사
+        합산 점유율이 <strong>전년 37.9%에서 26.8%로</strong> 떨어졌는데,
+        중국 업체들이 중국 밖에서도 빠르게 몸집을 키우고 있다는 뜻입니다.</p>
     </details>
     <!-- ══════════ 09 ══════════ -->
     <details class="sec-card full" id="app">
