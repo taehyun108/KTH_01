@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-09T10:07:01",
+  "generated_at": "2026-11-09T21:52:54",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -194,6 +194,21 @@
       "url": "2026-11-09-기술주-반등-투매는-끝났을까요-나스닥-시장-상황-점검.html",
       "video": "https://www.youtube.com/watch?v=Qe8YPDua9eM",
       "video_id": "Qe8YPDua9eM",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-09-뉴욕증시-3대-지수-상승-엔비디아는-왜-홀로-하락했을까요",
+      "date": "2026-11-09",
+      "channel": "삼프로TV",
+      "title": "뉴욕증시 3대 지수 상승, 엔비디아는 왜 홀로 하락했을까요?",
+      "summary": "뉴욕증시가 유가 하락과 기술주 반등에 힘입어 상승했는데요, 엔비디아는 홀로 하락세를 보였습니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-09-뉴욕증시-3대-지수-상승-엔비디아는-왜-홀로-하락했을까요.html",
+      "video": "https://www.youtube.com/watch?v=mZ3Mh4dyfAI",
+      "video_id": "mZ3Mh4dyfAI",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
