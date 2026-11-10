@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-10T10:13:25",
+  "generated_at": "2026-11-10T19:01:29",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -152,6 +152,51 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-10-데이터센터-거품-논란-전력난과-금융-리스크가-배터리-시장에-던지는-신호",
+      "date": "2026-11-10",
+      "channel": "언더스탠딩",
+      "title": "데이터센터 거품 논란, 전력난과 금융 리스크가 배터리 시장에 던지는 신호",
+      "summary": "데이터센터 투자가 과열되면서 전력 연결 지연과 금융 리스크가 커지고 있습니다. 배터리 산업에는 어떤 영향을 미칠까요?",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-10-데이터센터-거품-논란-전력난과-금융-리스크가-배터리-시장에-던지는-신호.html",
+      "video": "https://www.youtube.com/watch?v=hpZF_zMPXvk",
+      "video_id": "hpZF_zMPXvk",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-10-지수-급등에도-불안한-시장-반도체-이후의-투자-전략은",
+      "date": "2026-11-10",
+      "channel": "삼프로TV",
+      "title": "지수 급등에도 불안한 시장, 반도체 이후의 투자 전략은?",
+      "summary": "코스피 상승세 속에서 반도체 외에 어떤 산업으로 투자 자금이 이동할지 점검해 봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-10-지수-급등에도-불안한-시장-반도체-이후의-투자-전략은.html",
+      "video": "https://www.youtube.com/watch?v=D30148ZqjJs",
+      "video_id": "D30148ZqjJs",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-10-시장-급락은-멈췄나-바닥-확인을-위한-수급과-경기-지표-점검",
+      "date": "2026-11-10",
+      "channel": "삼프로TV",
+      "title": "시장 급락은 멈췄나? 바닥 확인을 위한 수급과 경기 지표 점검",
+      "summary": "미국 증시 반등과 함께 시장의 바닥 확인 가능성을 점검하고, 유가 하락과 경기 소비재의 흐름을 통해 향후 투자 전략을 살펴봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-10-시장-급락은-멈췄나-바닥-확인을-위한-수급과-경기-지표-점검.html",
+      "video": "https://www.youtube.com/watch?v=PE6AgAya4Fc",
+      "video_id": "PE6AgAya4Fc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "yt-dlp-captions"
     },
     {
       "id": "2026-11-09-ai-데이터센터-폭발적-성장-뒤에-숨겨진-허수-와-시장의-경고",
