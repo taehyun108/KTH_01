@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-11T09:48:58",
+  "generated_at": "2026-11-11T19:03:19",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -212,6 +212,51 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-11-데이터센터는-왜-혐오-시설이-되었나-ai-산업이-마주한-뜻밖의-암초",
+      "date": "2026-11-11",
+      "channel": "언더스탠딩",
+      "title": "데이터센터는 왜 혐오 시설이 되었나? AI 산업이 마주한 뜻밖의 암초",
+      "summary": "미국 내 데이터센터 건설을 향한 주민들의 반발이 거세지고 있는데요, AI 산업의 확장 속도에 어떤 변수가 될지 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-11-데이터센터는-왜-혐오-시설이-되었나-ai-산업이-마주한-뜻밖의-암초.html",
+      "video": "https://www.youtube.com/watch?v=TFKYVSvgjlo",
+      "video_id": "TFKYVSvgjlo",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-11-폭락장-이후의-반등-과연-찐반등일까-시장을-보는-핵심-기준",
+      "date": "2026-11-11",
+      "channel": "삼프로TV",
+      "title": "폭락장 이후의 반등, 과연 찐반등일까? 시장을 보는 핵심 기준",
+      "summary": "코스피 반등세 속에서 시장의 바닥론과 향후 투자 전략을 점검합니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-11-폭락장-이후의-반등-과연-찐반등일까-시장을-보는-핵심-기준.html",
+      "video": "https://www.youtube.com/watch?v=jCNfUmT7lbs",
+      "video_id": "jCNfUmT7lbs",
+      "pv": 6,
+      "scope": "battery",
+      "src": "yt-dlp-captions"
+    },
+    {
+      "id": "2026-11-11-급반등-이후-시장-지금-주목해야-할-주도주는-무엇일까",
+      "date": "2026-11-11",
+      "channel": "삼프로TV",
+      "title": "급반등 이후 시장, 지금 주목해야 할 주도주는 무엇일까?",
+      "summary": "시장 반등의 성격과 주도주 전략에 대해 유창희 대표가 전하는 분석입니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-11-급반등-이후-시장-지금-주목해야-할-주도주는-무엇일까.html",
+      "video": "https://www.youtube.com/watch?v=yFAAd8X_MzM",
+      "video_id": "yFAAd8X_MzM",
+      "pv": 6,
+      "scope": "battery",
+      "src": "yt-dlp-captions"
     },
     {
       "id": "2026-11-10-미국-중간선거-결과-한국-배터리-산업의-대미-투자에-미칠-영향은",
