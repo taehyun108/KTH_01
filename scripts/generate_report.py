@@ -1087,9 +1087,13 @@ def analyze(meta: dict[str, Any], transcript: str, transcript_source: str,
 
     client = _get_client()               # 시크릿 KTH_01_GEMINI_API_KEY → GEMINI_API_KEY
     model = _resolve_model(client)
-    if transcript_source == "video-description":
-        source_note = ("\n(상세 자막이 없어 영상 '설명글'을 바탕으로 작성 — 세부 수치는 제한적일 수 있음을 "
-                       "부드럽게 한 줄 언급)")
+    # ※ "unavailable"(자막 못 받음)은 설명글보다도 근거가 약한 경우다. 예전엔 이쪽이
+    #   else 로 빠져 '정식 자막 확보'와 같은 취급을 받았고, 2026-11-12 에 입력에 없던
+    #   '코스피 2,500선'을 모델이 지어내 본문 전체에 퍼뜨렸다.
+    if transcript_source in WEAK_SOURCES:
+        source_note = ("\n(상세 자막이 없어 제목·설명글만으로 작성 — 지수·가격·금액·퍼센트 같은 "
+                       "구체적 수치는 위에 <글자 그대로 적힌 것>만 쓰고, 없으면 만들지 말고 "
+                       "'구체적인 수치는 확인되지 않았다'고 적을 것)")
     else:
         source_note = ""  # 정식 자막 확보 → 별도 안내 불필요
 
@@ -1120,6 +1124,74 @@ def analyze(meta: dict[str, Any], transcript: str, transcript_source: str,
     data["_transcript_source"] = transcript_source
     data["_scope"] = scope
     return data
+
+
+# 근거가 약한 출처 — 자막 없이 제목·설명글만 본 경우.
+WEAK_SOURCES = ("video-description", "unavailable")
+
+_NUM_UNIT = re.compile(r"(\d[\d,]*(?:\.\d+)?)\s*(?:선|%|퍼센트|원|조|억|만|달러|포인트|p\b)")
+_NUM_ANY = re.compile(r"\d[\d,]*(?:\.\d+)?")
+_KOSPI_LEVEL = re.compile(r"코스피[^\d\n]{0,12}(\d[\d,]{3,})")
+
+
+def _norm_num(s: str) -> str:
+    return s.replace(",", "")
+
+
+def _all_strings(obj: Any) -> list[str]:
+    if isinstance(obj, str):
+        return [obj]
+    if isinstance(obj, dict):
+        return [s for v in obj.values() for s in _all_strings(v)]
+    if isinstance(obj, (list, tuple)):
+        return [s for v in obj for s in _all_strings(v)]
+    return []
+
+
+def unsupported_numbers(data: dict[str, Any], meta: dict[str, Any],
+                        transcript: str) -> list[str]:
+    """생성 결과의 '단위 붙은 수치'(2,500선·12%·3조 원…) 중 입력에 없던 것."""
+    src = " ".join([meta.get("title", ""), meta.get("description", ""), transcript or ""])
+    have = {_norm_num(n) for n in _NUM_ANY.findall(src)}
+    out = " ".join(_all_strings({k: v for k, v in data.items() if not k.startswith("_")}))
+    return sorted({m for m in map(_norm_num, _NUM_UNIT.findall(out)) if m not in have})
+
+
+def kospi_levels(text: str) -> list[int]:
+    return [int(_norm_num(m)) for m in _KOSPI_LEVEL.findall(text or "")
+            if int(_norm_num(m)) >= 1000]
+
+
+def verify_grounding(data: dict[str, Any], meta: dict[str, Any], transcript: str,
+                     reference: list[dict[str, Any]] | None = None,
+                     force: bool = False) -> None:
+    """환각 수치 방어선. 어긋나면 InsufficientContext — 발행하지 않고 다음에 재시도한다.
+
+    ① 근거 약한 출처(자막 없음)인데 입력에 없는 수치가 나오면 기각.
+    ② 코스피 지수가 최근 리포트들의 중앙값에서 30% 넘게 벗어나면 기각(출처 무관).
+    ③ 근거 약한 출처 + 배터리와 거리가 먼(context) 시황은 억지로 쓰지 않는다.
+    """
+    src = data.get("_transcript_source", "")
+    weak = src in WEAK_SOURCES
+    if weak:
+        bad = unsupported_numbers(data, meta, transcript)
+        if bad:
+            raise InsufficientContext(
+                f"자막 없이 입력에 없는 수치가 생성됨 — 환각 의심: {', '.join(bad[:5])}")
+        if data.get("relation") == "context" and not force:
+            raise InsufficientContext("자막 없이 거시 시황(context)만 쓸 근거가 없음")
+
+    levels = kospi_levels(" ".join(_all_strings(
+        {k: v for k, v in data.items() if not k.startswith("_")})))
+    if levels and reference:
+        ref = sorted(x for r in reference
+                     for x in kospi_levels(f"{r.get('title','')} {r.get('summary','')}"))
+        if len(ref) >= 3:
+            med = ref[len(ref) // 2]
+            for lv in levels:
+                if abs(lv - med) / med > 0.30:
+                    raise InsufficientContext(
+                        f"코스피 {lv:,} — 최근 리포트 중앙값 {med:,} 에서 30% 넘게 벗어남")
 
 
 # 요약이 영상 제목과 전혀 무관한지 검사 (환각 사후 탐지)
@@ -1398,6 +1470,12 @@ def process_video(meta: dict[str, Any], force: bool = False,
 
     # 생성된 요약이 원본과 실제로 겹치는지 확인 — 무관한 요약이 배포되는 것을 막는 2차 방어선
     verify_relevance(data, meta, transcript)
+    try:
+        from build_index import load_existing
+        recent = load_existing()[:300]
+    except Exception:  # noqa: BLE001
+        recent = []
+    verify_grounding(data, meta, transcript, reference=recent, force=force)
 
     # 리포트 날짜는 영상 실제 게시일 기준(누적 타임라인 정확화), 없으면 오늘
     pub = (meta.get("published") or "")[:10]
