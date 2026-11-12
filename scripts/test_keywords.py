@@ -1178,6 +1178,19 @@ def check_send_report() -> list[str]:
 # 즐겨찾기 탭에서 URL 을 제출한 사람은 예비 경로 하나 없이 바로 실패한다
 # — 한쪽만 예비 경로(추가 키·GitHub Models·OpenAI)를 갖고 있으면 이 일이
 # 조용히 반복된다(2026-10-28 발견). 두 워크플로가 같은 것을 받는지 고정한다.
+def check_writer_concurrency() -> list[str]:
+    """reports.json 을 쓰는 워크플로는 같은 concurrency 그룹이어야 서로 충돌하지 않는다."""
+    from pathlib import Path
+    root = Path(__file__).resolve().parent.parent / ".github/workflows"
+    out = []
+    for name in ("archive", "summarize-url", "delete-report"):
+        t = (root / f"{name}.yml").read_text(encoding="utf-8")
+        if "group: site-data-writer" not in t:
+            out.append(f"  [{name}.yml] site-data-writer 동시성 그룹이 없습니다 — "
+                       "동시 실행 시 reports.json 이 충돌합니다")
+    return out
+
+
 def check_hallucination_guards() -> list[str]:
     """2026-11-12: 자막 없이 입력에 없던 '코스피 2,500선'이 발행됐다."""
     import generate_report as g
@@ -1707,6 +1720,7 @@ def main() -> int:
     fails += check_summarize_url_has_fallbacks()
     fails += check_gh_token_flow()
     fails += check_hallucination_guards()
+    fails += check_writer_concurrency()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
@@ -1728,6 +1742,7 @@ def main() -> int:
              + 14    # 키 돌려쓰기·영상 전체(키4·예산3·기본값2·갈아타기2·예비3)
              + 7     # OpenAI 다중키(밑줄규칙1·중복1·로테이션2·소진1·배선2)
              + 8     # NVIDIA 다중키(엔드포인트1·밑줄규칙1·중복1·로테이션3·소진1·json강제1)
+             + 3     # 쓰기 워크플로 동시성 그룹(archive·summarize-url·delete-report)
              + 7     # 환각 수치 방어(없는수치·있는수치·정식자막·context·지수이탈·지수정상·배선)
              + 5)    # URL 요약 예비경로 배선(키2·토큰1·OpenAI2·권한1 중 5개 확인)
     print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성·텔레그램·전문전송·토큰경로·키돌려쓰기·OpenAI다중키·NVIDIA다중키·URL요약배선 — "
