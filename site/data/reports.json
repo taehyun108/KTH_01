@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-12T19:19:29",
+  "generated_at": "2026-11-12T21:33:34",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -194,6 +194,21 @@
       "url": "2026-11-12-ai-주도주-인프라를-넘어-수익화의-시대로.html",
       "video": "https://www.youtube.com/watch?v=f-KBB3g34Uo",
       "video_id": "f-KBB3g34Uo",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-12-엔비디아-젠슨-황-사임설과-테슬라-스페이스x-합병-이슈-시장의-반응은",
+      "date": "2026-11-12",
+      "channel": "삼프로TV",
+      "title": "엔비디아 젠슨 황 사임설과 테슬라·스페이스X 합병 이슈, 시장의 반응은?",
+      "summary": "엔비디아 젠슨 황의 거취와 테슬라·스페이스X 관련 이슈가 시장에 미치는 영향을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-12-엔비디아-젠슨-황-사임설과-테슬라-스페이스x-합병-이슈-시장의-반응은.html",
+      "video": "https://www.youtube.com/watch?v=Uk0ZY0x7ehg",
+      "video_id": "Uk0ZY0x7ehg",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
