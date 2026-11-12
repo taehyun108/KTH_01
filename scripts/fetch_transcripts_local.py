@@ -57,8 +57,9 @@ def _candidates() -> list[dict]:
 
 
 def _already_published() -> set[str]:
+    from build_index import load_existing
     from run_pipeline import _seen_video_ids
-    return _seen_video_ids()
+    return _seen_video_ids(load_existing())
 
 
 def _git(*args: str) -> tuple[int, str]:
