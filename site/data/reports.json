@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-12T10:10:04",
+  "generated_at": "2026-11-12T19:19:29",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -164,6 +164,36 @@
       "url": "2026-11-12-젠슨-황-악재에-흔들리는-증시-지금은-어디로-피신해야-할까.html",
       "video": "https://www.youtube.com/watch?v=6iXoqdhzLq0",
       "video_id": "6iXoqdhzLq0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-12-관광객-2천만-명-시대-한국-경제와-내수-시장의-변화",
+      "date": "2026-11-12",
+      "channel": "슈카월드",
+      "title": "관광객 2천만 명 시대, 한국 경제와 내수 시장의 변화",
+      "summary": "외국인 관광객 2천만 명 시대를 맞은 한국, 관광 산업이 우리 경제에 던지는 메시지를 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-11-12-관광객-2천만-명-시대-한국-경제와-내수-시장의-변화.html",
+      "video": "https://www.youtube.com/watch?v=-4vtbZjNJ4M",
+      "video_id": "-4vtbZjNJ4M",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-12-ai-주도주-인프라를-넘어-수익화의-시대로",
+      "date": "2026-11-12",
+      "channel": "삼프로TV",
+      "title": "AI 주도주, 인프라를 넘어 수익화의 시대로",
+      "summary": "AI 산업의 투자 흐름이 인프라 구축에서 실질적인 수익 창출 단계로 넘어가고 있습니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-12-ai-주도주-인프라를-넘어-수익화의-시대로.html",
+      "video": "https://www.youtube.com/watch?v=f-KBB3g34Uo",
+      "video_id": "f-KBB3g34Uo",
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
