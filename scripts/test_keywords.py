@@ -804,9 +804,9 @@ def check_category_guard() -> list[str]:
 
     # 인덱스를 다시 만들 때도 걸러야 지난 데이터가 고쳐진다
     import inspect
-    import build_index
-    if "normalize_category" not in inspect.getsource(build_index.merge):
-        out.append("  [build_index.merge 가 분류 값을 고정하지 않습니다]")
+    import report_archive
+    if "normalize_category" not in inspect.getsource(report_archive._fix_classification):
+        out.append("  [report_archive.merge 가 분류 값을 고정하지 않습니다]")
     return out
 
 
@@ -1381,6 +1381,61 @@ def check_writer_concurrency() -> list[str]:
     return out
 
 
+def check_report_archive() -> list[str]:
+    """reports.json 단일 입구 — 병합·삭제·원자적 기록·분류 보정."""
+    import json, tempfile
+    from pathlib import Path
+    import report_archive as ra
+    out = []
+    saved = (ra.REPORTS_JSON, ra.DATA_DIR, ra.NEWS_DIR, ra.MAX_REPORTS)
+    with tempfile.TemporaryDirectory() as d:
+        d = Path(d)
+        ra.DATA_DIR, ra.NEWS_DIR = d / "data", d / "news"
+        ra.REPORTS_JSON = ra.DATA_DIR / "reports.json"
+        ra.NEWS_DIR.mkdir(parents=True)
+        ra.MAX_REPORTS = None
+        try:
+            def rep(i, date, vid, cat="macro"):
+                (ra.NEWS_DIR / f"{i}.html").write_text("x", encoding="utf-8")
+                return {"id": i, "date": date, "url": f"{i}.html", "video_id": vid,
+                        "category": cat, "relation": "direct", "title": i}
+            ra.merge([rep("a", "2026-01-01", "va"), rep("b", "2026-01-03", "vb", cat="없는분류")])
+            ra.merge([rep("a", "2026-01-01", "va")])          # 같은 id 는 갱신(중복 안 생김)
+            got = ra.load()
+            if [r["id"] for r in got] != ["b", "a"]:
+                out.append(f"  [병합] 중복 없이 최신순이어야 하는데 {[r['id'] for r in got]}")
+            if got[0]["category"] == "없는분류":
+                out.append("  [분류 보정] 등록 안 된 카테고리가 그대로 남았습니다")
+            raw = ra.REPORTS_JSON.read_text(encoding="utf-8")
+            if '"generated_at"' not in raw or '"channels"' not in raw or raw.startswith('{"'):
+                out.append("  [기록 형식] generated_at·channels·들여쓰기가 있어야 합니다")
+            if list(ra.DATA_DIR.glob("*.tmp")):
+                out.append("  [원자적 기록] 임시 파일이 남았습니다")
+            gone = ra.remove_ids(["a"])
+            if [r["id"] for r in gone] != ["a"] or (ra.NEWS_DIR / "a.html").exists():
+                out.append("  [삭제] 인덱스와 HTML 이 함께 지워져야 합니다")
+            if [r["id"] for r in ra.load()] != ["b"]:
+                out.append("  [삭제 뒤 인덱스] b 만 남아야 합니다")
+            if ra.remove_ids(["없음"]) != []:
+                out.append("  [없는 id] 빈 목록이어야 합니다")
+            gone = ra.remove_video_ids(["vb"])
+            if len(gone) != 1 or ra.load() != []:
+                out.append("  [video_id 로 삭제] 지워지지 않았습니다")
+            ra.MAX_REPORTS = 1
+            ra.merge([rep("c", "2026-02-01", "vc"), rep("d", "2026-02-02", "vd")])
+            if [r["id"] for r in ra.load()] != ["d"] or (ra.NEWS_DIR / "c.html").exists():
+                out.append("  [보관 상한] 초과분의 인덱스와 HTML 이 정리돼야 합니다")
+        finally:
+            ra.REPORTS_JSON, ra.DATA_DIR, ra.NEWS_DIR, ra.MAX_REPORTS = saved
+    import build_index, delete_report, check_published, inspect
+    if build_index.load_existing is not ra.load or build_index.merge is not ra.merge:
+        out.append("  [build_index] 기존 이름이 report_archive 를 가리켜야 합니다")
+    for mod in (delete_report, check_published):
+        if "REPORTS_JSON.write_text" in inspect.getsource(mod):
+            out.append(f"  [{mod.__name__}] reports.json 을 직접 쓰고 있습니다 — report_archive 를 쓰세요")
+    return out
+
+
 def check_key_ring() -> list[str]:
     """공급자 공통 키 돌려쓰기 규칙 — 이름 규칙·중복·순서·소진·로그에 키 비노출."""
     import os
@@ -1946,6 +2001,7 @@ def main() -> int:
     fails += check_summarize_url_has_fallbacks()
     fails += check_gh_token_flow()
     fails += check_key_ring()
+    fails += check_report_archive()
     fails += check_hallucination_guards()
     fails += check_writer_concurrency()
     fails += check_stt_fallback()
@@ -1972,6 +2028,7 @@ def main() -> int:
              + 7     # OpenAI 다중키(밑줄규칙1·중복1·로테이션2·소진1·배선2)
              + 8     # NVIDIA 다중키(엔드포인트1·밑줄규칙1·중복1·로테이션3·소진1·json강제1)
              + 18    # 음성 인식 폴백(NVIDIA 5 포함: 공급자3·분할2·Groq헤더1·언어모델1·429대기2·401·키노출·게시대기3·배선)
+             + 10    # reports.json 단일 입구(병합·분류·형식·임시파일·삭제·없는id·video_id·보관상한·직접쓰기금지 외)
              + 8     # 키 돌려쓰기 공통 규칙(없음2·수집·회전·소진·요약·로그·공급자3 중 8개)
              + 8     # 자막 단일 입구(캐시·우회·API실패·stt사용·stt불필요·예외·짧음·약한출처)
              + 3     # 쓰기 워크플로 동시성 그룹(archive·summarize-url·delete-report)

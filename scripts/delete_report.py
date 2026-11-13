@@ -10,14 +10,11 @@
 """
 from __future__ import annotations
 
-import json
 import os
 import re
 import sys
 
-from build_index import load_existing
-from config import REPORTS_JSON, DATA_DIR, NEWS_DIR, CHANNELS
-from datetime import datetime
+import report_archive
 
 
 def _extract_id(text: str) -> str:
@@ -47,35 +44,14 @@ def main() -> int:
         return 1
 
     rid = rid.removesuffix(".html")
-    reports = load_existing()
-    keep = [r for r in reports if r.get("id") != rid]
-    if len(keep) == len(reports):
+    gone = report_archive.remove_ids([rid])
+    if not gone:
         _emit("notfound", f"아카이브에 없는 id 입니다: {rid}")
         return 0
 
-    removed = next(r for r in reports if r.get("id") == rid)
-
-    # HTML 파일 삭제
-    fname = removed.get("url") or f"{rid}.html"
-    f = NEWS_DIR / fname
-    if f.exists():
-        f.unlink()
-        print(f"  삭제: site/news/{fname}")
-
-    # 인덱스 갱신 (build_index.merge 는 삭제를 못 하므로 직접 기록)
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    REPORTS_JSON.write_text(
-        json.dumps(
-            {
-                "generated_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
-                "channels": [c["name"] for c in CHANNELS],
-                "reports": keep,
-            },
-            ensure_ascii=False, indent=2,
-        ),
-        encoding="utf-8",
-    )
-    _emit("ok", f"삭제 완료: {removed.get('title', rid)} (남은 {len(keep)}건)")
+    removed = gone[0]
+    print(f"  삭제: site/news/{removed.get('url') or rid + '.html'}")
+    _emit("ok", f"삭제 완료: {removed.get('title', rid)} (남은 {len(report_archive.load())}건)")
     return 0
 
 

@@ -20,16 +20,14 @@
 """
 from __future__ import annotations
 
-import json
 import sys
 
-from config import REPORTS_JSON
+import report_archive
 from fetch_history import is_short
 
 
 def published() -> list[dict]:
-    data = json.loads(REPORTS_JSON.read_text(encoding="utf-8"))
-    return data.get("reports", []) if isinstance(data, dict) else data
+    return report_archive.load()
 
 
 def main() -> int:
@@ -101,24 +99,16 @@ def _remove(bad: list, reports: list[dict]) -> int:
       멀쩡한 리포트까지 함께 버려진다. 그래서 막는 대신 치운다.
       사람이 눈으로 보고 신고할 때까지 남아 있는 것이 가장 나쁘다.
     """
-    from config import NEWS_DIR
     import seen_store
 
-    data = json.loads(REPORTS_JSON.read_text(encoding="utf-8"))
-    drop = {vid for vid, _, _ in bad}
-    kept = [r for r in data.get("reports", []) if r.get("video_id") not in drop]
-    data["reports"] = kept
+    report_archive.remove_video_ids({vid for vid, _, _ in bad})
+    kept = report_archive.load()
 
     store = seen_store.load()
     for vid, r, dur in bad:
-        f = NEWS_DIR / f"{r.get('id','')}.html"
-        if f.exists():
-            f.unlink()
         # 영구 차단 — 쇼츠는 영상의 성질이라 나중에 뒤집힐 판단이 아니다
         seen_store.record(store, vid, seen_store.REASON_SHORTS, r.get("title", ""))
     seen_store.save(store)
-    REPORTS_JSON.write_text(json.dumps(data, ensure_ascii=False, indent=1),
-                            encoding="utf-8")
     print(f"\n  → {len(bad)}건을 지우고 영구 차단했습니다 (남은 리포트 {len(kept)}건).")
     print("  앞 관문이 왜 샜는지는 따로 확인해야 합니다.")
     return 0
