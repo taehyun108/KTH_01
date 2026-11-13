@@ -51,8 +51,14 @@ def token() -> str:
     return (os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN") or "").strip()
 
 
+# 2026-11-13: models.github.ai 가 어떤 토큰으로 보내도(가짜 토큰 포함) 'OK' 만 돌려주고 옛 azure 주소는
+# 연결조차 안 된다 — 서비스 쪽 문제로 이 경로가 죽어 있었다(그동안 NVIDIA 가 사실상 첫 경로였다).
+# 기본값은 끈 상태다. 서비스가 돌아온 걸 확인하면 워크플로 env 에 GH_MODELS_ENABLED=1 만 넣으면 된다.
+ENABLED = os.getenv("GH_MODELS_ENABLED", "0").strip() == "1"
+
+
 def available() -> bool:
-    if _fails >= FAIL_LIMIT or not token():
+    if not ENABLED or _fails >= FAIL_LIMIT or not token():
         return False
     try:
         import requests  # noqa: F401

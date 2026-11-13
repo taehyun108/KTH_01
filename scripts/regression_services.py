@@ -15,6 +15,8 @@ def check_gh_fallback() -> list[str]:
     import os
     import gh_models as G
     import generate_report as GR
+    was_enabled = G.ENABLED
+    G.ENABLED = True          # 기본값은 꺼짐이다 — 이 검사는 켜진 경로의 동작을 본다
 
     out = []
     saved = {k: os.environ.get(k) for k in ("GITHUB_TOKEN", "GH_TOKEN")}
@@ -75,6 +77,7 @@ def check_gh_fallback() -> list[str]:
         if G.available():
             out.append("  [연속 실패 후에는 접어야 함] available()=True")
     finally:
+        G.ENABLED = was_enabled
         requests.post = saved_post
         GR.MIN_CALL_GAP_SEC = saved_gap
         G._fails = 0
@@ -684,4 +687,30 @@ def check_nvidia_timeout() -> list[str]:
         if saved is not None:
             os.environ["NVIDIA_TIMEOUT_SEC"] = saved
         importlib.reload(nvidia_models)
+    return out
+
+
+def check_gh_models_default_off() -> list[str]:
+    """GitHub Models 는 서비스 문제로 기본 꺼짐 — 토큰이 있어도 켜지 않으면 쓰지 않는다."""
+    import importlib
+    import os
+    import gh_models
+    out = []
+    saved = (os.environ.get("GH_MODELS_ENABLED"), os.environ.get("GITHUB_TOKEN"))
+    try:
+        os.environ.pop("GH_MODELS_ENABLED", None)
+        os.environ["GITHUB_TOKEN"] = "ghs_dummy"
+        g = importlib.reload(gh_models)
+        if g.available():
+            out.append("  [기본값] 토큰이 있어도 GH_MODELS_ENABLED 가 없으면 꺼져 있어야 합니다")
+        os.environ["GH_MODELS_ENABLED"] = "1"
+        if not importlib.reload(gh_models).available():
+            out.append("  [GH_MODELS_ENABLED=1] 켜면 쓸 수 있어야 합니다")
+    finally:
+        for k, v in zip(("GH_MODELS_ENABLED", "GITHUB_TOKEN"), saved):
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+        importlib.reload(gh_models)
     return out
