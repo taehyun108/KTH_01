@@ -21,54 +21,28 @@
 """
 from __future__ import annotations
 
-import os
+from key_ring import KeyRing
 
-# 환경변수에서 읽을 이름들. 워크플로가 시크릿을 이 이름으로 넘긴다.
 MAX_KEYS = 10
-
-_keys: list[str] = []
-_pos = 0
-_spent: set[int] = set()        # 이번 실행에서 하루 한도가 바닥난 키
-
-
-def _collect() -> list[str]:
-    out: list[str] = []
-    seen: set[str] = set()
-
-    def add(v: str) -> None:
-        v = (v or "").strip()
-        if v and v not in seen:      # 같은 키를 두 번 넣어 봐야 한도는 하나다
-            seen.add(v)
-            out.append(v)
-
-    for v in (os.getenv("GEMINI_API_KEYS") or "").split(","):
-        add(v)
-    add(os.getenv("GEMINI_API_KEY", ""))
-    for i in range(2, MAX_KEYS + 1):
-        add(os.getenv(f"GEMINI_API_KEY_{i}", ""))
-    return out
+_ring = KeyRing("GEMINI_API_KEY", max_keys=MAX_KEYS, csv_env="GEMINI_API_KEYS", noun="소진")
 
 
 def load() -> list[str]:
-    global _keys
-    if not _keys:
-        _keys = _collect()
-    return _keys
+    return _ring.keys()
 
 
 def count() -> int:
-    return len(load())
+    return _ring.count()
 
 
 def current() -> str:
     """지금 쓸 키. 하나도 없으면 빈 문자열."""
-    ks = load()
-    return ks[_pos] if _pos < len(ks) else ""
+    return _ring.current()
 
 
 def label() -> str:
     """로그용 표시 — 키 값은 절대 찍지 않는다."""
-    return f"{_pos + 1}/{count()}번 키"
+    return _ring.label()
 
 
 def spend_and_rotate() -> bool:
@@ -76,17 +50,8 @@ def spend_and_rotate() -> bool:
 
     넘어갈 키가 있으면 True. 전부 바닥났으면 False — 호출자는 그때 접으면 된다.
     """
-    global _pos
-    _spent.add(_pos)
-    for i in range(len(load())):
-        if i not in _spent:
-            _pos = i
-            return True
-    return False
+    return _ring.rotate()
 
 
 def summary() -> str:
-    n = count()
-    if n == 0:
-        return "등록된 키 없음"
-    return f"키 {n}개 중 {len(_spent)}개 소진 · 지금 {label()}"
+    return _ring.summary()

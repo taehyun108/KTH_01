@@ -27,6 +27,8 @@ import json
 import os
 import sys
 
+from key_ring import KeyRing
+
 ENDPOINT = "https://integrate.api.nvidia.com/v1/chat/completions"
 
 # 세 번 틀린 뒤 probe_working_model() 로 실제 호출해 찾아낸 값이다
@@ -47,67 +49,35 @@ _fails = 0
 # 이번 실행에서 이 경로를 몇 번 썼는지.
 _used = 0
 
-_keys: list[str] = []
-_pos = 0
-_spent: set[int] = set()        # 이번 실행에서 막힌(401·429) 키
+_ring = KeyRing("NVIDIA_API_KEY", max_keys=MAX_KEYS)
 
 
 class NvidiaUnavailable(Exception):
     """이 경로를 쓸 수 없다 — 호출자는 원래 오류를 그대로 올리면 된다."""
 
 
-def _collect() -> list[str]:
-    out: list[str] = []
-    seen: set[str] = set()
-
-    def add(v: str) -> None:
-        v = (v or "").strip()
-        if v and v not in seen:      # 같은 키를 두 번 넣어 봐야 한도는 하나다
-            seen.add(v)
-            out.append(v)
-
-    add(os.getenv("NVIDIA_API_KEY", ""))
-    for i in range(2, MAX_KEYS + 1):
-        add(os.getenv(f"NVIDIA_API_KEY_{i}", ""))
-    return out
-
-
-def _load() -> list[str]:
-    global _keys
-    if not _keys:
-        _keys = _collect()
-    return _keys
-
-
 def key_count() -> int:
-    return len(_load())
+    return _ring.count()
 
 
 def token() -> str:
-    ks = _load()
-    return ks[_pos] if _pos < len(ks) else ""
+    return _ring.current()
 
 
 def _label() -> str:
-    return f"{_pos + 1}/{key_count()}번 키"
+    return _ring.label()
 
 
 def summary() -> str:
-    n = key_count()
-    if n == 0:
-        return "등록된 키 없음"
-    return f"키 {n}개 중 {len(_spent)}개 막힘 · 지금 {_label()}"
+    return _ring.summary()
 
 
 def _rotate() -> bool:
     """지금 키를 막힌 것으로 표시하고 다음 키로 넘어간다. 더 없으면 False."""
-    global _pos, _fails
-    _spent.add(_pos)
-    for i in range(key_count()):
-        if i not in _spent:
-            _pos = i
-            _fails = 0
-            return True
+    global _fails
+    if _ring.rotate():
+        _fails = 0
+        return True
     return False
 
 

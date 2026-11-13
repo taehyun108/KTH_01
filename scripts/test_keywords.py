@@ -1381,6 +1381,42 @@ def check_writer_concurrency() -> list[str]:
     return out
 
 
+def check_key_ring() -> list[str]:
+    """공급자 공통 키 돌려쓰기 규칙 — 이름 규칙·중복·순서·소진·로그에 키 비노출."""
+    import os
+    from key_ring import KeyRing
+    import gemini_keys, openai_models, nvidia_models
+    out = []
+    names = ("KR_X", "KR_X_2", "KR_X_3", "KR_X3", "KR_X_CSV")
+    saved = {k: os.environ.pop(k, None) for k in names}
+    try:
+        if KeyRing("KR_X").count() != 0 or KeyRing("KR_X").summary() != "등록된 키 없음":
+            out.append("  [키 없음] 0개·'등록된 키 없음' 이어야 합니다")
+        os.environ.update({"KR_X": "k1", "KR_X_2": "k2", "KR_X_3": "k1", "KR_X3": "bad", "KR_X_CSV": "c1, k2"})
+        r = KeyRing("KR_X", csv_env="KR_X_CSV", noun="소진")
+        if r.keys() != ["c1", "k2", "k1"]:
+            out.append(f"  [수집 규칙] CSV→기본→번호 순, 중복 제거, 밑줄 없는 이름 무시여야 하는데 {r.keys()}")
+        if r.current() != "c1" or not r.rotate() or r.current() != "k2":
+            out.append("  [회전] 첫 키 소진 뒤 두 번째 키로 가야 합니다")
+        if not r.rotate() or r.rotate():
+            out.append("  [소진] 마지막 키까지 쓰면 False 여야 합니다")
+        if r.spent() != 3 or "3개 소진" not in r.summary():
+            out.append(f"  [요약] 소진 개수·단어가 틀립니다: {r.summary()}")
+        if any(k in r.label() + r.summary() for k in ("c1", "k1", "k2")):
+            out.append("  [로그] 키 값이 노출됩니다")
+    finally:
+        for k in names:
+            os.environ.pop(k, None)
+        for k, v in saved.items():
+            if v is not None:
+                os.environ[k] = v
+    for mod, want in ((gemini_keys, "GEMINI_API_KEY"), (openai_models, "OPENAI_API_KEY"),
+                      (nvidia_models, "NVIDIA_API_KEY")):
+        if mod._ring.base != want or mod._ring.max_keys != 10:
+            out.append(f"  [{mod.__name__}] KeyRing 설정이 {want}·10 이 아닙니다")
+    return out
+
+
 def check_hallucination_guards() -> list[str]:
     """2026-11-12: 자막 없이 입력에 없던 '코스피 2,500선'이 발행됐다."""
     import generate_report as g
@@ -1909,6 +1945,7 @@ def main() -> int:
     fails += check_nvidia_multi_key()
     fails += check_summarize_url_has_fallbacks()
     fails += check_gh_token_flow()
+    fails += check_key_ring()
     fails += check_hallucination_guards()
     fails += check_writer_concurrency()
     fails += check_stt_fallback()
@@ -1935,6 +1972,7 @@ def main() -> int:
              + 7     # OpenAI 다중키(밑줄규칙1·중복1·로테이션2·소진1·배선2)
              + 8     # NVIDIA 다중키(엔드포인트1·밑줄규칙1·중복1·로테이션3·소진1·json강제1)
              + 18    # 음성 인식 폴백(NVIDIA 5 포함: 공급자3·분할2·Groq헤더1·언어모델1·429대기2·401·키노출·게시대기3·배선)
+             + 8     # 키 돌려쓰기 공통 규칙(없음2·수집·회전·소진·요약·로그·공급자3 중 8개)
              + 8     # 자막 단일 입구(캐시·우회·API실패·stt사용·stt불필요·예외·짧음·약한출처)
              + 3     # 쓰기 워크플로 동시성 그룹(archive·summarize-url·delete-report)
              + 7     # 환각 수치 방어(없는수치·있는수치·정식자막·context·지수이탈·지수정상·배선)
