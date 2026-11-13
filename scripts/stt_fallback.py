@@ -1,7 +1,9 @@
 """자막이 끝내 없는 영상의 음성을 호스팅 음성 인식으로 받아 적는다.
 
-공급자(자동 선택, STT_PROVIDER 로 고정 가능):
+공급자(자동 선택 순서, STT_PROVIDER 로 고정 가능):
   groq        GROQ_API_KEY        — 무료 한도가 크다(시간당 오디오 약 2시간). whisper-large-v3
+  nvidia      NVIDIA_API_KEY      — 이미 등록한 키. 호스팅 whisper-large-v3 → canary → parakeet 순
+                                    (2026-11-13 시험: 한국어 유사도 98%·91%·89%). pip install nvidia-riva-client 필요
   elevenlabs  ELEVENLABS_API_KEY  — 무료 월 한도가 작다(약 1만 자)
 
 집 PC 에서만 쓴다. Actions 러너는 유튜브 오디오 다운로드가 막혀 있다.
@@ -26,11 +28,19 @@ CHUNK_SEC = int(os.getenv("STT_CHUNK_SEC", "900"))
 TIMEOUT_SEC = int(os.getenv("STT_TIMEOUT_SEC", "900"))
 MAX_RETRY_429 = 4
 
+# NVIDIA 호스팅 음성 인식: 이름으로 함수 ID 를 찾아(목록 API) 한국어로 보낸다.
+NVIDIA_ASR_PREFERENCE = ("ai-whisper-large-v3", "ai-canary-1b-asr",
+                         "ai-parakeet-1_1b-rnnt-multilingual-asr")
+NVIDIA_CHUNK_SEC = 60        # 16kHz 모노 16비트 wav 60초 ≈ 1.9MB — gRPC 기본 4MB 한도 안
+NVIDIA_CALL_TIMEOUT = 120    # 응답 없는 호출이 전체를 붙잡지 않게(2026-11-13 시험에서 모델 6개가 그랬다)
+_nvidia_ids: dict[str, str] = {}
+
 PROVIDERS = {
     "groq": {"env": "GROQ_API_KEY",
              "url": "https://api.groq.com/openai/v1/audio/transcriptions",
              "model": os.getenv("GROQ_STT_MODEL", "whisper-large-v3"),
              "lang": "ko", "source": "stt-groq"},
+    "nvidia": {"env": "NVIDIA_API_KEY", "lang": "ko-KR", "source": "stt-nvidia"},
     "elevenlabs": {"env": "ELEVENLABS_API_KEY",
                    "url": "https://api.elevenlabs.io/v1/speech-to-text",
                    "model": os.getenv("STT_MODEL", "scribe_v1"),
@@ -71,19 +81,82 @@ def old_enough(published: str, min_hours: float, now: datetime | None = None) ->
     return (now - t).total_seconds() >= min_hours * 3600
 
 
-def split_audio(path: Path, out_dir: Path, chunk_sec: int = CHUNK_SEC) -> list[Path]:
-    """16kHz 모노 32kbps mp3 로 줄여 chunk_sec 단위로 자른다. 순서대로 돌려준다."""
-    pattern = out_dir / "chunk_%03d.mp3"
+def split_audio(path: Path, out_dir: Path, chunk_sec: int = CHUNK_SEC,
+                fmt: str = "mp3") -> list[Path]:
+    """16kHz 모노로 줄여 chunk_sec 단위로 자른다(mp3 32kbps 또는 wav 16비트). 순서대로 돌려준다."""
+    pattern = out_dir / f"chunk_%03d.{fmt}"
+    codec = ["-b:a", "32k"] if fmt == "mp3" else ["-sample_fmt", "s16"]
     cmd = ["ffmpeg", "-loglevel", "error", "-y", "-i", str(path), "-vn", "-ac", "1",
-           "-ar", "16000", "-b:a", "32k", "-f", "segment",
+           "-ar", "16000", *codec, "-f", "segment",
            "-segment_time", str(chunk_sec), "-reset_timestamps", "1", str(pattern)]
     p = subprocess.run(cmd, capture_output=True, text=True)
     if p.returncode != 0:
         raise RuntimeError(f"ffmpeg 실패: {p.stderr.strip()[:120]}")
-    parts = sorted(out_dir.glob("chunk_*.mp3"))
+    parts = sorted(out_dir.glob(f"chunk_*.{fmt}"))
     if not parts:
         raise RuntimeError("오디오를 자르지 못했습니다")
     return parts
+
+
+def _nvidia_function_ids(key: str) -> list[tuple[str, str]]:
+    """선호 순서대로 (이름, 함수 ID). 목록 API 에서 ACTIVE 인 것만. NVIDIA_ASR_FUNCTION_ID 로 고정 가능."""
+    import requests
+
+    pinned = os.getenv("NVIDIA_ASR_FUNCTION_ID", "").strip()
+    if pinned:
+        return [("지정", pinned)]
+    if not _nvidia_ids:
+        r = requests.get("https://api.nvcf.nvidia.com/v2/nvcf/functions",
+                         headers={"Authorization": f"Bearer {key}"}, timeout=30)
+        if r.status_code != 200:
+            raise RuntimeError(f"NVIDIA 함수 목록 HTTP {r.status_code}")
+        for f in r.json().get("functions", []):
+            if f.get("status") == "ACTIVE":
+                _nvidia_ids[f.get("name", "")] = f["id"]
+    found = [(n, _nvidia_ids[n]) for n in NVIDIA_ASR_PREFERENCE if n in _nvidia_ids]
+    if not found:
+        raise RuntimeError("NVIDIA 에서 쓸 수 있는 음성 인식 모델을 찾지 못했습니다")
+    return found
+
+
+def _nvidia_chunk(fid: str, key: str, wav: Path) -> str:
+    """wav 한 조각을 Riva gRPC 로 받아 적는다. 응답이 없으면 NVIDIA_CALL_TIMEOUT 초 뒤 포기."""
+    import concurrent.futures as cf
+
+    def call() -> str:
+        import riva.client
+        auth = riva.client.Auth(use_ssl=True, uri="grpc.nvcf.nvidia.com:443",
+                                metadata_args=[["function-id", fid],
+                                               ["authorization", f"Bearer {key}"]])
+        cfg = riva.client.RecognitionConfig(language_code=PROVIDERS["nvidia"]["lang"],
+                                            max_alternatives=1, enable_automatic_punctuation=True)
+        riva.client.add_audio_file_specs_to_config(cfg, str(wav))
+        resp = riva.client.ASRService(auth).offline_recognize(wav.read_bytes(), cfg)
+        return " ".join(r.alternatives[0].transcript for r in resp.results).strip()
+
+    ex = cf.ThreadPoolExecutor(max_workers=1)
+    try:
+        return ex.submit(call).result(timeout=NVIDIA_CALL_TIMEOUT)
+    except cf.TimeoutError as exc:
+        raise RuntimeError(f"NVIDIA 응답이 {NVIDIA_CALL_TIMEOUT}초 안에 오지 않았습니다") from exc
+    except ImportError as exc:
+        raise RuntimeError("pip install nvidia-riva-client 가 필요합니다") from exc
+    finally:
+        ex.shutdown(wait=False)
+
+
+def _transcribe_nvidia(path: Path, key: str) -> str:
+    """선호 모델 순서로 시도하고, 한 모델이 실패하면 다음 모델로 넘어간다(조각 전체를 같은 모델로)."""
+    last = ""
+    with tempfile.TemporaryDirectory() as tmp:
+        parts = split_audio(path, Path(tmp), NVIDIA_CHUNK_SEC, fmt="wav")
+        for name, fid in _nvidia_function_ids(key):
+            try:
+                texts = [_nvidia_chunk(fid, key, p) for p in parts]
+                return " ".join(t for t in texts if t).strip()
+            except RuntimeError as exc:
+                last = f"{name}: {str(exc)[:100]}"
+    raise RuntimeError(f"NVIDIA 음성 인식이 모두 실패했습니다 — {last}")
 
 
 def _post(name: str, path: Path) -> str:
@@ -124,7 +197,9 @@ def transcribe_file(path: Path, chunk_sec: int = CHUNK_SEC) -> str:
     """오디오 파일 하나를 (필요하면 잘라서) 받아 적는다. 실패하면 RuntimeError."""
     name = provider()
     if name is None:
-        raise RuntimeError("음성 인식 키(GROQ_API_KEY 또는 ELEVENLABS_API_KEY)가 없습니다")
+        raise RuntimeError("음성 인식 키(GROQ_API_KEY·NVIDIA_API_KEY·ELEVENLABS_API_KEY)가 없습니다")
+    if name == "nvidia":
+        return _transcribe_nvidia(path, os.getenv("NVIDIA_API_KEY", "").strip())
     with tempfile.TemporaryDirectory() as tmp:
         parts = split_audio(path, Path(tmp), chunk_sec)
         texts = [_post(name, p) for p in parts]

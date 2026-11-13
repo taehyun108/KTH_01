@@ -1186,7 +1186,7 @@ def check_stt_fallback() -> list[str]:
     import stt_fallback as st
     import requests
     out = []
-    keys = ("GROQ_API_KEY", "ELEVENLABS_API_KEY", "STT_PROVIDER")
+    keys = ("GROQ_API_KEY", "ELEVENLABS_API_KEY", "STT_PROVIDER", "NVIDIA_API_KEY", "NVIDIA_ASR_FUNCTION_ID")
     saved = {k: os.environ.pop(k, None) for k in keys}
     orig_post, orig_sleep = requests.post, st.time.sleep
     try:
@@ -1235,6 +1235,59 @@ def check_stt_fallback() -> list[str]:
                 out.append("  [429 뒤 재시도] 결과를 받지 못했습니다")
         if waits != [7.0]:
             out.append(f"  [429 대기] retry-after 7초를 따라야 하는데 {waits}")
+
+        # NVIDIA 공급자: 선택 순서·모델 우선순위·모델 실패 시 다음 모델·wav 분할
+        os.environ.pop("GROQ_API_KEY"); os.environ.pop("ELEVENLABS_API_KEY")
+        os.environ["NVIDIA_API_KEY"] = "nv-key-1"
+        if st.provider() != "nvidia":
+            out.append("  [NVIDIA 키만] provider() 가 nvidia 가 아닙니다")
+        os.environ["GROQ_API_KEY"] = "gq-key-1"
+        if st.provider() != "groq":
+            out.append("  [Groq+NVIDIA] groq 가 먼저여야 합니다")
+        os.environ.pop("GROQ_API_KEY")
+        fl = {"functions": [
+            {"name": "ai-parakeet-1_1b-rnnt-multilingual-asr", "id": "id-parakeet", "status": "ACTIVE"},
+            {"name": "ai-canary-1b-asr", "id": "id-canary", "status": "ACTIVE"},
+            {"name": "ai-whisper-large-v3", "id": "id-whisper", "status": "ACTIVE"},
+            {"name": "ai-parakeet-ctc-0_6b-es", "id": "id-es", "status": "ACTIVE"}]}
+        had_get = hasattr(requests, "get")
+        orig_get = getattr(requests, "get", None)
+        requests.get = lambda url, **kw: R(200, fl)
+        st._nvidia_ids.clear()
+        ids = [n for n, _ in st._nvidia_function_ids("nv-key-1")]
+        if ids != ["ai-whisper-large-v3", "ai-canary-1b-asr", "ai-parakeet-1_1b-rnnt-multilingual-asr"]:
+            out.append(f"  [NVIDIA 모델 우선순위] whisper→canary→parakeet 여야 하는데 {ids}")
+        fl["functions"][2]["status"] = "INACTIVE"
+        st._nvidia_ids.clear()
+        if "ai-whisper-large-v3" in [n for n, _ in st._nvidia_function_ids("nv-key-1")]:
+            out.append("  [비활성 모델] INACTIVE 인 whisper 가 후보에 들어갔습니다")
+        fl["functions"][2]["status"] = "ACTIVE"
+        st._nvidia_ids.clear()
+        if had_get:
+            requests.get = orig_get
+        else:
+            del requests.get
+        tried = []
+        orig_chunk = st._nvidia_chunk
+        def fake_chunk(fid, key, wav):
+            tried.append(fid)
+            if fid == "id-whisper":
+                raise RuntimeError("Unavailable model")
+            return "안녕"
+        st._nvidia_chunk = fake_chunk
+        st._nvidia_ids.update({"ai-whisper-large-v3": "id-whisper", "ai-canary-1b-asr": "id-canary"})
+        with tempfile.TemporaryDirectory() as d:
+            wav = Path(d) / "a.wav"
+            subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "lavfi", "-i",
+                            "sine=frequency=440:duration=20", str(wav)], check=True)
+            parts = st.split_audio(wav, Path(d), 8, fmt="wav")
+            if len(parts) != 3 or parts[0].suffix != ".wav":
+                out.append(f"  [wav 분할] 20초/8초 → 3조각 wav 여야 하는데 {len(parts)}조각")
+            res = st._transcribe_nvidia(wav, "nv-key-1")
+        st._nvidia_chunk = orig_chunk
+        st._nvidia_ids.clear()
+        if "id-canary" not in tried or tried[0] != "id-whisper":
+            out.append(f"  [모델 실패 시 다음 모델] whisper 실패 뒤 canary 로 넘어가야 하는데 {tried}")
 
         requests.post = lambda url, **kw: R(401, {"detail": "bad"})
         try:
@@ -1663,8 +1716,8 @@ def check_workflow_push_retry() -> list[str]:
         if needle not in wf:
             out.append(f"  [{why}] {needle!r} 가 사라졌습니다")
     # 예약이 걸러졌을 때를 대비해 하루 여러 번 돌아야 한다
-    if wf.count("- cron:") < 4:
-        out.append("  [예약을 넉넉히] GitHub 는 예약을 건너뛸 수 있어 4회 이상이어야 합니다")
+    if wf.count("- cron:") < 8:
+        out.append("  [예약을 넉넉히] GitHub 는 예약을 건너뛸 수 있어 3시간 간격(8회)이어야 합니다")
     return out
 
 
@@ -1829,7 +1882,7 @@ def main() -> int:
              + 14    # 키 돌려쓰기·영상 전체(키4·예산3·기본값2·갈아타기2·예비3)
              + 7     # OpenAI 다중키(밑줄규칙1·중복1·로테이션2·소진1·배선2)
              + 8     # NVIDIA 다중키(엔드포인트1·밑줄규칙1·중복1·로테이션3·소진1·json강제1)
-             + 13    # 음성 인식 폴백(공급자3·분할2·Groq헤더1·언어모델1·429대기2·401·키노출·게시대기3·배선)
+             + 18    # 음성 인식 폴백(NVIDIA 5 포함: 공급자3·분할2·Groq헤더1·언어모델1·429대기2·401·키노출·게시대기3·배선)
              + 3     # 쓰기 워크플로 동시성 그룹(archive·summarize-url·delete-report)
              + 7     # 환각 수치 방어(없는수치·있는수치·정식자막·context·지수이탈·지수정상·배선)
              + 5)    # URL 요약 예비경로 배선(키2·토큰1·OpenAI2·권한1 중 5개 확인)
