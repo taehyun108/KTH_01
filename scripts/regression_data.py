@@ -64,27 +64,50 @@ def check_transcripts_module() -> list[str]:
 
 
 def check_stt_fallback() -> list[str]:
-    """자막 없는 영상의 음성 인식 폴백(Groq·ElevenLabs) — 키 노출·분할·한도 대기·비용 상한."""
-    import os, subprocess, tempfile
+    """자막 없는 영상의 음성 인식 폴백(Groq·NVIDIA) — 키 노출·분할·한도 대기·비용 상한."""
+    import os, shutil, subprocess, tempfile
     from datetime import datetime, timedelta, timezone
     from pathlib import Path
     import stt_fallback as st
     import requests
     out = []
-    keys = ("GROQ_API_KEY", "ELEVENLABS_API_KEY", "STT_PROVIDER", "NVIDIA_API_KEY", "NVIDIA_ASR_FUNCTION_ID")
+    keys = ("GROQ_API_KEY", "STT_PROVIDER", "NVIDIA_API_KEY", "NVIDIA_ASR_FUNCTION_ID")
     saved = {k: os.environ.pop(k, None) for k in keys}
-    orig_post, orig_sleep = requests.post, st.time.sleep
+    orig_post, orig_sleep, orig_split = requests.post, st.time.sleep, st.split_audio
+    # ※ GitHub 러너에는 ffmpeg 이 없다. 2026-11-13 에 이 검사가 ffmpeg 을 직접 불러 러너에서 죽었고,
+    #   그 바람에 뒤의 파이프라인 단계가 통째로 건너뛰어졌다. ffmpeg 이 없으면 분할만 흉내 낸다
+    #   (음성 인식은 집 PC 전용 기능이라 러너에서 진짜 분할을 확인할 이유가 없다).
+    has_ffmpeg = shutil.which("ffmpeg") is not None
+
+    def make_audio(path):
+        if has_ffmpeg:
+            subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "lavfi", "-i",
+                            "sine=frequency=440:duration=20", str(path)], check=True)
+        else:
+            path.write_bytes(b"x")
+
+    def fake_split(path, out_dir, chunk_sec=900, fmt="mp3"):
+        parts = []
+        for i in range(-(-20 // chunk_sec)):        # 20초짜리 가짜 음성
+            f = out_dir / f"chunk_{i:03d}.{fmt}"
+            f.write_bytes(b"x")
+            parts.append(f)
+        return parts
+
     try:
+        if not has_ffmpeg:
+            st.split_audio = fake_split
         if st.available():
             out.append("  [키 없음] available() 이 True 입니다")
-        os.environ["ELEVENLABS_API_KEY"] = "el-key-1"
+        os.environ["NVIDIA_API_KEY"] = "nv-key-0"
         os.environ["GROQ_API_KEY"] = "gq-key-1"
         if st.provider() != "groq":
             out.append("  [키 둘 다] 무료 한도가 큰 groq 가 우선이어야 합니다")
-        os.environ["STT_PROVIDER"] = "elevenlabs"
-        if st.provider() != "elevenlabs":
+        os.environ["STT_PROVIDER"] = "nvidia"
+        if st.provider() != "nvidia":
             out.append("  [STT_PROVIDER] 지정한 공급자가 선택되지 않았습니다")
         os.environ.pop("STT_PROVIDER")
+        os.environ.pop("NVIDIA_API_KEY")
 
         class R:
             def __init__(s, code, body, headers=None):
@@ -97,8 +120,7 @@ def check_stt_fallback() -> list[str]:
 
         with tempfile.TemporaryDirectory() as d:
             wav = Path(d) / "a.wav"
-            subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "lavfi", "-i",
-                            "sine=frequency=440:duration=20", str(wav)], check=True)
+            make_audio(wav)
             text = st.transcribe_file(wav, chunk_sec=8)
         if len(calls) != 3:
             out.append(f"  [20초를 8초 단위로] 3조각이어야 하는데 {len(calls)}번 요청했습니다")
@@ -122,7 +144,7 @@ def check_stt_fallback() -> list[str]:
             out.append(f"  [429 대기] retry-after 7초를 따라야 하는데 {waits}")
 
         # NVIDIA 공급자: 선택 순서·모델 우선순위·모델 실패 시 다음 모델·wav 분할
-        os.environ.pop("GROQ_API_KEY"); os.environ.pop("ELEVENLABS_API_KEY")
+        os.environ.pop("GROQ_API_KEY")
         os.environ["NVIDIA_API_KEY"] = "nv-key-1"
         if st.provider() != "nvidia":
             out.append("  [NVIDIA 키만] provider() 가 nvidia 가 아닙니다")
@@ -163,8 +185,7 @@ def check_stt_fallback() -> list[str]:
         st._nvidia_ids.update({"ai-whisper-large-v3": "id-whisper", "ai-canary-1b-asr": "id-canary"})
         with tempfile.TemporaryDirectory() as d:
             wav = Path(d) / "a.wav"
-            subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "lavfi", "-i",
-                            "sine=frequency=440:duration=20", str(wav)], check=True)
+            make_audio(wav)
             parts = st.split_audio(wav, Path(d), 8, fmt="wav")
             if len(parts) != 3 or parts[0].suffix != ".wav":
                 out.append(f"  [wav 분할] 20초/8초 → 3조각 wav 여야 하는데 {len(parts)}조각")
@@ -184,7 +205,7 @@ def check_stt_fallback() -> list[str]:
             if "gq-key-1" in str(exc):
                 out.append("  [오류 메시지] API 키가 메시지에 노출됩니다")
     finally:
-        requests.post, st.time.sleep = orig_post, orig_sleep
+        requests.post, st.time.sleep, st.split_audio = orig_post, orig_sleep, orig_split
         for k, v in saved.items():
             if v is None: os.environ.pop(k, None)
             else: os.environ[k] = v

@@ -4,7 +4,6 @@
   groq        GROQ_API_KEY        — 무료 한도가 크다(시간당 오디오 약 2시간). whisper-large-v3
   nvidia      NVIDIA_API_KEY      — 이미 등록한 키. 호스팅 whisper-large-v3 → canary → parakeet 순
                                     (2026-11-13 시험: 한국어 유사도 98%·91%·89%). pip install nvidia-riva-client 필요
-  elevenlabs  ELEVENLABS_API_KEY  — 무료 월 한도가 작다(약 1만 자)
 
 집 PC 에서만 쓴다. Actions 러너는 유튜브 오디오 다운로드가 막혀 있다.
 키는 환경변수로만 받는다(저장소·채팅에 적지 말 것).
@@ -41,10 +40,6 @@ PROVIDERS = {
              "model": os.getenv("GROQ_STT_MODEL", "whisper-large-v3"),
              "lang": "ko", "source": "stt-groq"},
     "nvidia": {"env": "NVIDIA_API_KEY", "lang": "ko-KR", "source": "stt-nvidia"},
-    "elevenlabs": {"env": "ELEVENLABS_API_KEY",
-                   "url": "https://api.elevenlabs.io/v1/speech-to-text",
-                   "model": os.getenv("STT_MODEL", "scribe_v1"),
-                   "lang": "kor", "source": "stt-elevenlabs"},
 }
 
 
@@ -166,11 +161,9 @@ def _post(name: str, path: Path) -> str:
     key = os.getenv(cfg["env"], "").strip()
     if not key:
         raise RuntimeError(f"{cfg['env']} 가 없습니다")
-    headers = ({"xi-api-key": key} if name == "elevenlabs"
-               else {"Authorization": f"Bearer {key}"})
-    data = ({"model_id": cfg["model"], "language_code": cfg["lang"]} if name == "elevenlabs"
-            else {"model": cfg["model"], "language": cfg["lang"],
-                  "response_format": "json", "temperature": "0"})
+    headers = {"Authorization": f"Bearer {key}"}
+    data = {"model": cfg["model"], "language": cfg["lang"],
+            "response_format": "json", "temperature": "0"}
     for attempt in range(MAX_RETRY_429 + 1):
         with open(path, "rb") as f:
             res = requests.post(cfg["url"], headers=headers, data=data,
@@ -197,7 +190,7 @@ def transcribe_file(path: Path, chunk_sec: int = CHUNK_SEC) -> str:
     """오디오 파일 하나를 (필요하면 잘라서) 받아 적는다. 실패하면 RuntimeError."""
     name = provider()
     if name is None:
-        raise RuntimeError("음성 인식 키(GROQ_API_KEY·NVIDIA_API_KEY·ELEVENLABS_API_KEY)가 없습니다")
+        raise RuntimeError("음성 인식 키(GROQ_API_KEY 또는 NVIDIA_API_KEY)가 없습니다")
     if name == "nvidia":
         return _transcribe_nvidia(path, os.getenv("NVIDIA_API_KEY", "").strip())
     with tempfile.TemporaryDirectory() as tmp:

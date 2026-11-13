@@ -143,7 +143,7 @@ def main() -> int:
     ap.add_argument("--no-push", action="store_true", help="커밋·푸시하지 않음")
     ap.add_argument("--dry-run", action="store_true", help="받지 않고 대상만 출력")
     ap.add_argument("--stt", action="store_true",
-                    help="자막이 끝내 없으면 음성 인식(GROQ_API_KEY·NVIDIA_API_KEY·ELEVENLABS_API_KEY 중 하나 필요)으로 받아 적음")
+                    help="자막이 끝내 없으면 음성 인식(GROQ_API_KEY 또는 NVIDIA_API_KEY 필요)으로 받아 적음")
     ap.add_argument("--stt-after-hours", type=float, default=12,
                     help="게시 후 이 시간이 지난 영상만 음성 인식(자동 자막이 붙을 시간을 준다)")
     ap.add_argument("--stt-max-minutes", type=int, default=90, help="이보다 긴 영상은 건너뜀(비용 상한)")
@@ -153,7 +153,7 @@ def main() -> int:
     if args.stt:
         import stt_fallback
         if not stt_fallback.available():
-            print("--stt 는 환경변수 GROQ_API_KEY(무료 한도 큼)·NVIDIA_API_KEY·ELEVENLABS_API_KEY 중 하나가 필요합니다. 키는 채팅·저장소에 적지 마십시오.",
+            print("--stt 는 환경변수 GROQ_API_KEY(무료 한도 큼) 또는 NVIDIA_API_KEY 가 필요합니다. 키는 채팅·저장소에 적지 마십시오.",
                   file=sys.stderr)
             return 1
 
