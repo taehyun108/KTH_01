@@ -89,6 +89,26 @@ def run(label: str, fn, text: str, model: str, price=None) -> None:
     print(f"  {label:42} {time.time() - t:5.1f}s in{tin:>5} out{tout:>5}{cost}  {judge(raw, text)}")
 
 
+def probe_github(token: str) -> None:
+    """GitHub Models 가 'OK' 만 돌려주는 원인을 가른다 — 주소·토큰·헤더를 바꿔 가며 응답 형식을 본다."""
+    import requests
+    body = {"model": "openai/gpt-4.1-mini", "messages": [{"role": "user", "content": "한 단어로 답: 안녕"}],
+            "max_tokens": 20}
+    cases = [
+        ("models.github.ai + GITHUB_TOKEN", "https://models.github.ai/inference/chat/completions", token),
+        ("models.github.ai + 가짜 토큰(대조)", "https://models.github.ai/inference/chat/completions", "ghp_invalid"),
+        ("models.inference.ai.azure.com + GITHUB_TOKEN", "https://models.inference.ai.azure.com/chat/completions", token),
+    ]
+    for label, url, tok in cases:
+        try:
+            r = requests.post(url, json=body, timeout=30, headers={
+                "Authorization": f"Bearer {tok}", "Content-Type": "application/json",
+                "Accept": "application/json", "X-GitHub-Api-Version": "2022-11-28"})
+            print(f"  {label:44} HTTP {r.status_code} {r.headers.get('content-type')} {r.text[:90]!r}")
+        except Exception as exc:  # noqa: BLE001
+            print(f"  {label:44} 실패 {exc.__class__.__name__}")
+
+
 def main() -> None:
     cached = transcript_cache.get("fryDxgcKcxQ")
     if not cached:
@@ -105,6 +125,8 @@ def main() -> None:
             run(m, lambda m=m: chat("https://api.openai.com/v1/chat/completions", k, m, p, True), text, m, PRICE.get(m))
     t = os.getenv("GITHUB_TOKEN", "")
     if t and want("github"):
+        print("[GitHub Models — 원인 진단]")
+        probe_github(t)
         print("[GitHub Models — 무료, 한도 있음]")
         for m in GITHUB:
             run(m, lambda m=m: chat("https://models.github.ai/inference/chat/completions", t, m, p, False,

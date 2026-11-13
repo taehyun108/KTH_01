@@ -331,7 +331,10 @@ _MODEL_BLOCKED: set[str] = set()
 #
 # GEMINI_MODEL 환경변수로 못 박을 수 있다(코드 수정 없이 워크플로에서 교체 가능).
 # 고른 모델이 404 면 _note_model_gone 이 자동으로 다음 후보로 넘어간다.
-_MODEL_PREFS = ("gemini-flash-lite-latest", "gemini-2.0-flash-lite",
+# 2026-11-13: 이 키의 모델 목록과 벤치마크(핵심 수치 3/3·환각 0건·2.4초) 기준으로 3.5 flash-lite 를 맨 앞에 둔다.
+# 'gemini-flash-lite-latest'·2.5 계열은 이 키에서 404(더 이상 쓸 수 없음)였다.
+_MODEL_PREFS = ("gemini-3.5-flash-lite", "gemini-3.1-flash-lite",
+                "gemini-flash-lite-latest", "gemini-2.0-flash-lite",
                 "gemini-2.5-flash-lite", "flash-lite",
                 "gemini-2.0-flash", "gemini-2.5-flash",
                 "gemini-flash-latest", "2.5-flash", "flash",

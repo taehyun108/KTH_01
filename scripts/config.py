@@ -242,7 +242,7 @@ def normalize_relation(value: str) -> tuple[str, bool]:
 # 아래 값은 목록 조회 실패 시의 최종 폴백입니다.
 #   ※ 예전 폴백이던 gemini-2.5-flash 는 이 키로 404('no longer available to
 #     new users')가 납니다. 폴백이 곧바로 실패하는 값이면 폴백이 아닙니다.
-GEMINI_MODEL = "gemini-flash-lite-latest"
+GEMINI_MODEL = "gemini-3.5-flash-lite"   # 2026-11-13 확인: 이 키의 목록에 있고 벤치마크 환각 0건
 
 # 모델을 못 박고 싶을 때 쓰는 환경변수. 비어 있으면 자동 선택에 맡깁니다.
 # 무료 한도는 모델마다 크게 다르므로(2026-08-10 실측: gemini-3.6-flash 는 하루 20건)

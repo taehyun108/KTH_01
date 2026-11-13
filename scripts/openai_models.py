@@ -33,7 +33,10 @@ from key_ring import KeyRing
 ENDPOINT = "https://api.openai.com/v1/chat/completions"
 
 # 자막 요약·관련성 판정에는 작은 모델로 충분하다. 비용이 곧 이 경로의 제약이다.
-DEFAULT_MODEL = os.getenv("OPENAI_MODEL", "gpt-4.1-mini")
+# 2026-11-13 같은 실전 과제(방송 자막 요약)로 비교: gpt-4o-mini 3.7초·건당 약 $0.0007·핵심 수치 3/3·환각 0건,
+# 기존 gpt-4.1-mini 는 약 $0.0019 에 수치 하나를 놓치고 하나를 지어냈다. gpt-6-luna 는 비용이 비슷한데
+# 출력 토큰을 4배 쓰고 2배 느리다. 바꾸기 전에 scripts/model_benchmark.py 로 다시 재 보라.
+DEFAULT_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 TIMEOUT_SEC = int(os.getenv("OPENAI_TIMEOUT_SEC", "180"))
 MAX_KEYS = 10
 
