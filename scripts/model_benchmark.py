@@ -48,7 +48,11 @@ def chat(url: str, key: str, model: str, p: str, openai_style: bool,
         r = requests.post(url, headers=hdr, json=body, timeout=90)
     if r.status_code != 200:
         raise RuntimeError(f"HTTP {r.status_code} {r.text[:120]}".replace("\n", " "))
-    j = r.json()
+    try:
+        j = r.json()
+    except ValueError:
+        raise RuntimeError(f"HTTP {r.status_code} JSON 아님 type={r.headers.get('content-type')} "
+                           f"body={r.text[:100]!r}") from None
     u = j.get("usage", {})
     return j["choices"][0]["message"]["content"], u.get("prompt_tokens", 0), u.get("completion_tokens", 0)
 
