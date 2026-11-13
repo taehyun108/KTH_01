@@ -1179,58 +1179,85 @@ def check_send_report() -> list[str]:
 # — 한쪽만 예비 경로(추가 키·GitHub Models·OpenAI)를 갖고 있으면 이 일이
 # 조용히 반복된다(2026-10-28 발견). 두 워크플로가 같은 것을 받는지 고정한다.
 def check_stt_fallback() -> list[str]:
-    """자막 없는 영상의 음성 인식 폴백(ElevenLabs) — 키 노출·비용 상한·대기 시간."""
-    import os, sys, tempfile
+    """자막 없는 영상의 음성 인식 폴백(Groq·ElevenLabs) — 키 노출·분할·한도 대기·비용 상한."""
+    import os, subprocess, tempfile
     from datetime import datetime, timedelta, timezone
     from pathlib import Path
     import stt_fallback as st
-    out = []
-    saved = os.environ.get("ELEVENLABS_API_KEY")
-    os.environ.pop("ELEVENLABS_API_KEY", None)
-    if st.available():
-        out.append("  [키 없음] available() 이 True 입니다")
-    os.environ["ELEVENLABS_API_KEY"] = "test-key-abc123"
-    if not st.available():
-        out.append("  [키 있음] available() 이 False 입니다")
-
     import requests
-    calls = []
-    class R:
-        def __init__(s, code, body): s.status_code = code; s._b = body; s.text = str(body)
-        def json(s): return s._b
-    orig = requests.post
+    out = []
+    keys = ("GROQ_API_KEY", "ELEVENLABS_API_KEY", "STT_PROVIDER")
+    saved = {k: os.environ.pop(k, None) for k in keys}
+    orig_post, orig_sleep = requests.post, st.time.sleep
     try:
-        def ok(url, **kw): calls.append((url, kw)); return R(200, {"text": " 안녕하세요 "})
+        if st.available():
+            out.append("  [키 없음] available() 이 True 입니다")
+        os.environ["ELEVENLABS_API_KEY"] = "el-key-1"
+        os.environ["GROQ_API_KEY"] = "gq-key-1"
+        if st.provider() != "groq":
+            out.append("  [키 둘 다] 무료 한도가 큰 groq 가 우선이어야 합니다")
+        os.environ["STT_PROVIDER"] = "elevenlabs"
+        if st.provider() != "elevenlabs":
+            out.append("  [STT_PROVIDER] 지정한 공급자가 선택되지 않았습니다")
+        os.environ.pop("STT_PROVIDER")
+
+        class R:
+            def __init__(s, code, body, headers=None):
+                s.status_code, s._b, s.text, s.headers = code, body, str(body), headers or {}
+            def json(s): return s._b
+        calls = []
+        def ok(url, **kw):
+            calls.append((url, kw)); return R(200, {"text": f" 조각{len(calls)} "})
         requests.post = ok
+
         with tempfile.TemporaryDirectory() as d:
-            f = Path(d) / "a.m4a"; f.write_bytes(b"x")
-            if st.transcribe_file(f) != "안녕하세요":
-                out.append("  [응답 text] 파싱이 잘못됐습니다")
+            wav = Path(d) / "a.wav"
+            subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "lavfi", "-i",
+                            "sine=frequency=440:duration=20", str(wav)], check=True)
+            text = st.transcribe_file(wav, chunk_sec=8)
+        if len(calls) != 3:
+            out.append(f"  [20초를 8초 단위로] 3조각이어야 하는데 {len(calls)}번 요청했습니다")
+        if text != "조각1 조각2 조각3":
+            out.append(f"  [조각 이어붙이기] 순서·공백이 잘못됐습니다: {text!r}")
         url, kw = calls[0]
-        if kw["headers"].get("xi-api-key") != "test-key-abc123":
-            out.append("  [헤더] xi-api-key 로 키가 전달되지 않았습니다")
-        if kw["data"].get("language_code") != "kor":
-            out.append("  [언어] 한국어(kor)로 요청되지 않았습니다")
+        if "groq.com" not in url or kw["headers"].get("Authorization") != "Bearer gq-key-1":
+            out.append("  [Groq] 주소 또는 Authorization 헤더가 잘못됐습니다")
+        if kw["data"].get("language") != "ko" or kw["data"].get("model") != "whisper-large-v3":
+            out.append("  [Groq] 언어(ko)·모델이 잘못됐습니다")
+
+        seq = iter([R(429, "slow", {"retry-after": "7"}), R(200, {"text": "다시 성공"})])
+        waits = []
+        requests.post = lambda url, **kw: next(seq)
+        st.time.sleep = lambda s: waits.append(s)
+        with tempfile.TemporaryDirectory() as d:
+            f = Path(d) / "c.mp3"; f.write_bytes(b"x")
+            if st._post("groq", f) != "다시 성공":
+                out.append("  [429 뒤 재시도] 결과를 받지 못했습니다")
+        if waits != [7.0]:
+            out.append(f"  [429 대기] retry-after 7초를 따라야 하는데 {waits}")
+
         requests.post = lambda url, **kw: R(401, {"detail": "bad"})
         try:
             with tempfile.TemporaryDirectory() as d:
-                f = Path(d) / "a.m4a"; f.write_bytes(b"x")
-                st.transcribe_file(f)
+                f = Path(d) / "c.mp3"; f.write_bytes(b"x")
+                st._post("groq", f)
             out.append("  [HTTP 401] 예외가 나지 않았습니다")
         except RuntimeError as exc:
-            if "test-key-abc123" in str(exc):
+            if "gq-key-1" in str(exc):
                 out.append("  [오류 메시지] API 키가 메시지에 노출됩니다")
     finally:
-        requests.post = orig
-        if saved is None: os.environ.pop("ELEVENLABS_API_KEY", None)
-        else: os.environ["ELEVENLABS_API_KEY"] = saved
+        requests.post, st.time.sleep = orig_post, orig_sleep
+        for k, v in saved.items():
+            if v is None: os.environ.pop(k, None)
+            else: os.environ[k] = v
 
     now = datetime(2026, 11, 13, 12, tzinfo=timezone.utc)
-    young = (now - timedelta(hours=2)).isoformat()
-    old = (now - timedelta(hours=30)).isoformat()
-    if st.old_enough(young, 12, now): out.append("  [2시간 전 영상] 기다려야 하는데 통과했습니다")
-    if not st.old_enough(old, 12, now): out.append("  [30시간 전 영상] 통과해야 하는데 막혔습니다")
-    if not st.old_enough("", 12, now): out.append("  [게시 시각 모름] 막으면 안 됩니다")
+    if st.old_enough((now - timedelta(hours=2)).isoformat(), 12, now):
+        out.append("  [2시간 전 영상] 기다려야 하는데 통과했습니다")
+    if not st.old_enough((now - timedelta(hours=30)).isoformat(), 12, now):
+        out.append("  [30시간 전 영상] 통과해야 하는데 막혔습니다")
+    if not st.old_enough("", 12, now):
+        out.append("  [게시 시각 모름] 막으면 안 됩니다")
     src = (Path(__file__).resolve().parent / "fetch_transcripts_local.py").read_text(encoding="utf-8")
     if "stt_fallback.old_enough" not in src or "stt_used < args.stt_limit" not in src:
         out.append("  [fetch_transcripts_local] 대기 시간·건수 상한 배선이 없습니다")
@@ -1802,7 +1829,7 @@ def main() -> int:
              + 14    # 키 돌려쓰기·영상 전체(키4·예산3·기본값2·갈아타기2·예비3)
              + 7     # OpenAI 다중키(밑줄규칙1·중복1·로테이션2·소진1·배선2)
              + 8     # NVIDIA 다중키(엔드포인트1·밑줄규칙1·중복1·로테이션3·소진1·json강제1)
-             + 9     # 음성 인식 폴백(키2·text·헤더·언어·401·키노출·대기3·배선 중 9개 확인)
+             + 13    # 음성 인식 폴백(공급자3·분할2·Groq헤더1·언어모델1·429대기2·401·키노출·게시대기3·배선)
              + 3     # 쓰기 워크플로 동시성 그룹(archive·summarize-url·delete-report)
              + 7     # 환각 수치 방어(없는수치·있는수치·정식자막·context·지수이탈·지수정상·배선)
              + 5)    # URL 요약 예비경로 배선(키2·토큰1·OpenAI2·권한1 중 5개 확인)

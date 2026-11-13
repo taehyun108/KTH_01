@@ -1,27 +1,60 @@
-"""자막이 끝내 없는 영상의 음성을 호스팅 음성 인식(ElevenLabs Scribe)으로 받아 적는다.
+"""자막이 끝내 없는 영상의 음성을 호스팅 음성 인식으로 받아 적는다.
+
+공급자(자동 선택, STT_PROVIDER 로 고정 가능):
+  groq        GROQ_API_KEY        — 무료 한도가 크다(시간당 오디오 약 2시간). whisper-large-v3
+  elevenlabs  ELEVENLABS_API_KEY  — 무료 월 한도가 작다(약 1만 자)
 
 집 PC 에서만 쓴다. Actions 러너는 유튜브 오디오 다운로드가 막혀 있다.
-키는 환경변수 ELEVENLABS_API_KEY 로만 받는다(저장소·채팅에 적지 말 것).
+키는 환경변수로만 받는다(저장소·채팅에 적지 말 것).
 
-비용을 아끼고 정확도를 지키려고 '자막이 없을 때만', '올라온 지 한참 지난 영상만' 쓴다.
+비용·정확도를 지키려고 '자막이 없을 때만', '올라온 지 한참 지난 영상만' 쓴다.
 유튜브 자동 자막은 방송 몇 시간 뒤에 붙는 경우가 많아, 먼저 기다렸다 받는 편이 공짜다.
+
+긴 오디오는 ffmpeg 로 잘라 보낸다. Groq 무료는 파일당 25MB 라서
+16kHz 모노 32kbps 로 줄인 뒤 CHUNK_SEC 단위로 나눈다(15분 ≈ 3.6MB).
 """
 from __future__ import annotations
 
 import os
+import subprocess
 import tempfile
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-ENDPOINT = "https://api.elevenlabs.io/v1/speech-to-text"
-MODEL = os.getenv("STT_MODEL", "scribe_v1")
-LANGUAGE = os.getenv("STT_LANGUAGE", "kor")
+CHUNK_SEC = int(os.getenv("STT_CHUNK_SEC", "900"))
 TIMEOUT_SEC = int(os.getenv("STT_TIMEOUT_SEC", "900"))
-SOURCE = "stt-elevenlabs"
+MAX_RETRY_429 = 4
+
+PROVIDERS = {
+    "groq": {"env": "GROQ_API_KEY",
+             "url": "https://api.groq.com/openai/v1/audio/transcriptions",
+             "model": os.getenv("GROQ_STT_MODEL", "whisper-large-v3"),
+             "lang": "ko", "source": "stt-groq"},
+    "elevenlabs": {"env": "ELEVENLABS_API_KEY",
+                   "url": "https://api.elevenlabs.io/v1/speech-to-text",
+                   "model": os.getenv("STT_MODEL", "scribe_v1"),
+                   "lang": "kor", "source": "stt-elevenlabs"},
+}
+
+
+def provider() -> str | None:
+    """사용할 공급자. STT_PROVIDER 가 있으면 그것, 없으면 키가 있는 첫 번째(groq 우선)."""
+    want = os.getenv("STT_PROVIDER", "").strip().lower()
+    names = [want] if want in PROVIDERS else list(PROVIDERS)
+    for n in names:
+        if os.getenv(PROVIDERS[n]["env"], "").strip():
+            return n
+    return None
 
 
 def available() -> bool:
-    return bool(os.getenv("ELEVENLABS_API_KEY", "").strip())
+    return provider() is not None
+
+
+def source_label() -> str:
+    p = provider()
+    return PROVIDERS[p]["source"] if p else "stt"
 
 
 def old_enough(published: str, min_hours: float, now: datetime | None = None) -> bool:
@@ -38,28 +71,64 @@ def old_enough(published: str, min_hours: float, now: datetime | None = None) ->
     return (now - t).total_seconds() >= min_hours * 3600
 
 
-def transcribe_file(path: Path) -> str:
-    """오디오 파일 하나를 받아 적는다. 실패하면 RuntimeError."""
+def split_audio(path: Path, out_dir: Path, chunk_sec: int = CHUNK_SEC) -> list[Path]:
+    """16kHz 모노 32kbps mp3 로 줄여 chunk_sec 단위로 자른다. 순서대로 돌려준다."""
+    pattern = out_dir / "chunk_%03d.mp3"
+    cmd = ["ffmpeg", "-loglevel", "error", "-y", "-i", str(path), "-vn", "-ac", "1",
+           "-ar", "16000", "-b:a", "32k", "-f", "segment",
+           "-segment_time", str(chunk_sec), "-reset_timestamps", "1", str(pattern)]
+    p = subprocess.run(cmd, capture_output=True, text=True)
+    if p.returncode != 0:
+        raise RuntimeError(f"ffmpeg 실패: {p.stderr.strip()[:120]}")
+    parts = sorted(out_dir.glob("chunk_*.mp3"))
+    if not parts:
+        raise RuntimeError("오디오를 자르지 못했습니다")
+    return parts
+
+
+def _post(name: str, path: Path) -> str:
     import requests
 
-    key = os.getenv("ELEVENLABS_API_KEY", "").strip()
+    cfg = PROVIDERS[name]
+    key = os.getenv(cfg["env"], "").strip()
     if not key:
-        raise RuntimeError("ELEVENLABS_API_KEY 가 없습니다")
-    with open(path, "rb") as f:
-        res = requests.post(
-            ENDPOINT,
-            headers={"xi-api-key": key},
-            data={"model_id": MODEL, "language_code": LANGUAGE},
-            files={"file": (path.name, f)},
-            timeout=TIMEOUT_SEC,
-        )
-    if res.status_code != 200:
-        # 응답 본문에 키는 실리지 않는다(요청 헤더에만 있다).
-        raise RuntimeError(f"HTTP {res.status_code} {res.text[:160].replace(chr(10), ' ')}")
-    try:
-        return (res.json().get("text") or "").strip()
-    except ValueError as exc:
-        raise RuntimeError("응답을 읽지 못했습니다") from exc
+        raise RuntimeError(f"{cfg['env']} 가 없습니다")
+    headers = ({"xi-api-key": key} if name == "elevenlabs"
+               else {"Authorization": f"Bearer {key}"})
+    data = ({"model_id": cfg["model"], "language_code": cfg["lang"]} if name == "elevenlabs"
+            else {"model": cfg["model"], "language": cfg["lang"],
+                  "response_format": "json", "temperature": "0"})
+    for attempt in range(MAX_RETRY_429 + 1):
+        with open(path, "rb") as f:
+            res = requests.post(cfg["url"], headers=headers, data=data,
+                                files={"file": (path.name, f)}, timeout=TIMEOUT_SEC)
+        if res.status_code == 429 and attempt < MAX_RETRY_429:
+            # 시간당 오디오 한도에 닿았다 — 안내된 시간만큼 기다렸다 다시 보낸다.
+            try:
+                wait = float(res.headers.get("retry-after", ""))
+            except ValueError:
+                wait = 30.0 * (attempt + 1)
+            time.sleep(min(wait, 3700))
+            continue
+        if res.status_code != 200:
+            # 응답 본문에 키는 실리지 않는다(요청 헤더에만 있다).
+            raise RuntimeError(f"HTTP {res.status_code} {res.text[:160].replace(chr(10), ' ')}")
+        try:
+            return (res.json().get("text") or "").strip()
+        except ValueError as exc:
+            raise RuntimeError("응답을 읽지 못했습니다") from exc
+    raise RuntimeError("한도 대기를 여러 번 했지만 계속 429 입니다")
+
+
+def transcribe_file(path: Path, chunk_sec: int = CHUNK_SEC) -> str:
+    """오디오 파일 하나를 (필요하면 잘라서) 받아 적는다. 실패하면 RuntimeError."""
+    name = provider()
+    if name is None:
+        raise RuntimeError("음성 인식 키(GROQ_API_KEY 또는 ELEVENLABS_API_KEY)가 없습니다")
+    with tempfile.TemporaryDirectory() as tmp:
+        parts = split_audio(path, Path(tmp), chunk_sec)
+        texts = [_post(name, p) for p in parts]
+    return " ".join(t for t in texts if t).strip()
 
 
 def download_audio(video_id: str, out_dir: Path, max_minutes: int = 0) -> Path:
