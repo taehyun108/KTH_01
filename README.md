@@ -37,7 +37,7 @@ kth_01/
 │  └─ run_pipeline.py            #   오케스트레이터
 ├─ .github/workflows/
 │  ├─ pages.yml                  #   site/ → GitHub Pages 배포
-│  ├─ archive.yml                #   하루 4회 파이프라인 실행 + 커밋 + 텔레그램 알림
+│  ├─ archive.yml                #   하루 8회(3시간 간격) 파이프라인 실행 + 커밋 + 텔레그램 알림
 │  ├─ telegram-test.yml          #   텔레그램 연결 확인(수동)
 │  └─ send-report.yml            #   카드 📨 → 리포트 전문 텔레그램 전송
 └─ requirements.txt
@@ -112,7 +112,7 @@ GitHub 저장소 → **Settings → Secrets and variables → Actions → New re
 ### 3. 연결 확인
 
 Actions 탭 → **Test Telegram notification** → `Run workflow`
-→ 대화방에 테스트 메시지가 오면 끝입니다. 이후 하루 4회 파이프라인이
+→ 대화방에 테스트 메시지가 오면 끝입니다. 이후 하루 8회 파이프라인이
 새 리포트를 자동으로 보냅니다.
 
 > `TELEGRAM_CHAT_ID` 를 아직 모르면, 토큰만 등록한 상태로 이 워크플로를 돌리세요.
@@ -151,7 +151,7 @@ Actions 탭 → **Test Telegram notification** → `Run workflow`
 |---|---|
 | `KTH_01_GEMINI_API_KEY` | 지금까지 쓰던 것. 그대로 두세요 |
 | `KTH_01_GEMINI_API_KEY_2` ~ `_5` | 두 번째부터. 넣은 개수만큼 하루 처리량이 늘어납니다 |
-| `KTH_01_NVIDIA_API_KEY` | 텍스트 처리의 **2순위 예비** — GitHub Models 다음, Gemini 보다 앞 |
+| `KTH_01_NVIDIA_API_KEY` | 텍스트 처리의 **1순위**(무료) — Gemini 보다 앞 |
 | `KTH_01_NVIDIA_API_KEY_2` ~ `_3` | NVIDIA 도 여러 개 등록하면 한도·잔액이 바닥난 키를 건너뛰고 다음 키로 갈아탑니다 |
 | `KTH_01_OPENAI_API_KEY` | 마지막 예비. **유일하게 과금되는 경로**라 위가 다 막혔을 때만 쓰입니다 |
 | `KTH_01_OPENAI_API_KEY_2` ~ `_3` | OpenAI 도 여러 개 등록하면 한도·잔액이 바닥난 키를 건너뛰고 다음 키로 갈아탑니다 |
@@ -168,10 +168,15 @@ Actions 탭 → **Test Telegram notification** → `Run workflow`
 > 걱정되면 등록하지 않으셔도 됩니다 — 없으면 그냥 꺼져 있습니다.
 
 처리 순서(텍스트)는 다음과 같습니다 — **사용자 지정으로 NVIDIA 가 Gemini 보다 앞**입니다:
-GitHub Models(무료) → NVIDIA 1번 키 → 2번 키 → … → Gemini 1번 키 → 2번 키 → … → OpenAI(과금, 마지막)
+NVIDIA 1번 키 → 2번 키 → … → Gemini 1번 키 → 2번 키 → … → OpenAI(과금, 마지막)
 
 Gemini 쿼터가 먼저 소진돼 넘어오는 예비 경로도 같은 순서입니다:
-GitHub Models → NVIDIA → OpenAI
+NVIDIA → OpenAI
+
+> GitHub Models(무료)는 2026-11-13 현재 서비스가 응답하지 않아 **꺼 두었습니다.**
+> 돌아온 것을 확인하면 워크플로 env 에 `GH_MODELS_ENABLED=1` 을 넣으면 맨 앞 경로로 다시 켜집니다.
+> 기본 모델: NVIDIA `minimax-m3.1-flash` · Gemini `gemini-3.5-flash-lite` · OpenAI `gpt-4o-mini`
+> (같은 과제로 비용·정확도를 재려면 Actions 의 **Benchmark models** 를 수동 실행).
 
 (영상 직접 분석은 이 순서와 무관하게 항상 Gemini 전용입니다.)
 
@@ -202,7 +207,7 @@ Actions 탭에서 각각 수동 실행해 보세요 — 리포트를 만들지 �
 1. `scripts/config.py` 의 `CHANNELS[].channel_id` 를 실제 유튜브 채널 ID 로 채웁니다.
    - 채널 페이지 → "정보" 탭 또는 페이지 소스에서 `channel_id` 확인
 2. 저장소 **Settings → Secrets and variables → Actions** 에 `KTH_01_GEMINI_API_KEY` 등록.
-3. Actions 탭에서 **Build report archive** 수동 실행하거나 스케줄(하루 4회) 대기.
+3. Actions 탭에서 **Build report archive** 수동 실행하거나 스케줄(하루 8회) 대기.
 
 ## 🧪 로컬 실행
 

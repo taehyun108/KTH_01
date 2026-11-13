@@ -9,28 +9,6 @@ import os
 import sys
 
 
-def github() -> None:
-    import requests
-    tok = os.getenv("GITHUB_TOKEN", "")
-    r = requests.get("https://models.github.ai/catalog/models", timeout=30,
-                     headers={"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json",
-                              "X-GitHub-Api-Version": "2022-11-28"})
-    print(f"[GitHub Models] HTTP {r.status_code}")
-    if r.status_code != 200:
-        print("  ", r.text[:160].replace("\n", " "))
-        return
-    try:
-        data = r.json()
-    except ValueError:
-        print("   JSON 이 아닌 응답:", r.headers.get("content-type"), r.text[:200].replace("\n", " "))
-        return
-    if isinstance(data, dict):
-        data = data.get("models") or data.get("data") or list(data.values())
-    for m in sorted(data, key=lambda x: x.get("id", "")):
-        print(f"  {m.get('id'):45} tier={m.get('rate_limit_tier','?'):7} ctx={m.get('limits',{}).get('max_input_tokens','?')}"
-              f" out={m.get('limits',{}).get('max_output_tokens','?')} cap={','.join(m.get('capabilities',[]))[:30]}")
-
-
 def gemini() -> None:
     key = os.getenv("GEMINI_API_KEY", "")
     if not key:
@@ -69,7 +47,7 @@ def nvidia() -> None:
 
 
 if __name__ == "__main__":
-    for fn in (github, gemini, openai, nvidia):
+    for fn in (gemini, openai, nvidia):
         try:
             fn()
         except Exception as exc:  # noqa: BLE001

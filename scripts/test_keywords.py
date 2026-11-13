@@ -688,14 +688,16 @@ def check_model_order() -> list[str]:
     from generate_report import _MODEL_PREFS
     out = []
     prefs = list(_MODEL_PREFS)
-    try:
-        lite = min(i for i, m in enumerate(prefs) if "lite" in m)
-        latest = prefs.index("gemini-flash-latest")
-    except ValueError:
-        return ["  [선호 목록에 lite 계열과 gemini-flash-latest 가 모두 있어야 함]"]
-    if lite > latest:
-        out.append(f"  [Lite 계열이 gemini-flash-latest 보다 앞이어야 함] "
-                   f"lite={lite} latest={latest}")
+    lite = [i for i, m in enumerate(prefs) if "lite" in m]
+    full = [i for i, m in enumerate(prefs) if "lite" not in m]
+    if not lite or not full:
+        return ["  [선호 목록에 lite 계열과 일반 flash 계열이 모두 있어야 함]"]
+    if max(lite) > min(full):
+        out.append(f"  [Lite 계열이 한도가 작은 일반 모델보다 전부 앞이어야 함] {prefs}")
+    # 이 키에서 404 로 확인된 모델은 목록에 두지 않는다(실행마다 하나씩 찔러 보며 시간을 버린다)
+    dead = [m for m in prefs if any(x in m for x in ("2.0", "2.5", "latest"))]
+    if dead:
+        out.append(f"  [죽은 모델이 선호 목록에 남아 있음] {dead}")
     return out
 
 

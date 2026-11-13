@@ -5,13 +5,12 @@ on:
   workflow_dispatch:
     inputs:
       only:
-        description: "공급자 하나만(openai·github·nvidia·gemini). 비우면 전부"
+        description: "공급자 하나만(openai·nvidia·gemini). 비우면 전부"
         required: false
         default: ""
 
 permissions:
   contents: read
-  models: read
 
 jobs:
   bench:
@@ -27,7 +26,6 @@ jobs:
         env:
           PYTHONUNBUFFERED: "1"
           BENCH_ONLY: ${{ github.event.inputs.only }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.KTH_01_OPENAI_API_KEY }}
           NVIDIA_API_KEY: ${{ secrets.KTH_01_NVIDIA_API_KEY }}

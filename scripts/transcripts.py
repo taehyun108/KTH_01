@@ -11,6 +11,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import sys
 from typing import Callable
@@ -157,6 +158,11 @@ def _transcript_api(video_id: str) -> str:
     return " ".join(c["text"] for c in chunks).strip()
 
 
+def _network_blocked() -> bool:
+    return (os.getenv("GITHUB_ACTIONS") == "true"
+            and os.getenv("TRANSCRIPT_NETWORK", "0").strip() != "1")
+
+
 def get_transcript(video_id: str, use_cache: bool = True) -> tuple[str, str]:
     """자막 텍스트와 소스 표기를 반환. (text, source)
 
@@ -173,6 +179,12 @@ def get_transcript(video_id: str, use_cache: bool = True) -> tuple[str, str]:
         text, src = cached
         print(f"  [자막] {video_id}: 캐시 사용 ({len(text)}자, 출처 {src})")
         return text, src
+
+    # GitHub Actions 러너에서는 유튜브가 IP 를 막아 아래 두 단계가 <항상> 실패한다
+    # (실행 로그마다 RequestBlocked). 후보마다 몇 초씩 버리고 로그만 어지럽히므로 러너에서는 건너뛴다.
+    # 막힘이 풀렸는지는 transcript-check.yml 이 따로 확인한다. 다시 켜려면 TRANSCRIPT_NETWORK=1.
+    if _network_blocked():
+        return "", "unavailable"
 
     # 러너 IP 가 차단되면 이 호출은 후보 수백 건에 대해 전부 같은 이유로 실패한다.
     # 건당 1초씩만 잡아도 2분 넘게 버리므로, 연속으로 막히면 이번 실행에서는 접는다.

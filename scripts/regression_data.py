@@ -18,6 +18,8 @@ def check_transcripts_module() -> list[str]:
     out = []
     orig = (tr._transcript_api, tr._ytdlp_transcript, tr.transcript_cache.get)
     long = "가" * 100
+    import os
+    os.environ.pop("GITHUB_ACTIONS", None)      # 러너에서도 '집 PC' 경로의 동작을 검사한다(끝나면 harness 가 되돌린다)
     try:
         tr.reset_state()
         order = []
@@ -52,6 +54,16 @@ def check_transcripts_module() -> list[str]:
             out.append("  [stt 예외] ('', 'unavailable') 이어야 합니다")
         if tr.acquire("none", stt=lambda v: "짧음") != ("", "unavailable"):
             out.append("  [stt 결과가 너무 짧음] 근거로 쓰면 안 됩니다")
+        order.clear()
+        os.environ["GITHUB_ACTIONS"] = "true"
+        if tr.acquire("fail") != ("", "unavailable") or order:
+            out.append(f"  [Actions 러너] 항상 막히는 자막 네트워크 시도를 건너뛰어야 하는데 {order}")
+        if tr.acquire("hit")[1] != "local-cache":
+            out.append("  [Actions 러너] 캐시는 그대로 써야 합니다")
+        os.environ["TRANSCRIPT_NETWORK"] = "1"
+        if tr.acquire("fail")[1] != "yt-dlp-captions":
+            out.append("  [TRANSCRIPT_NETWORK=1] 다시 켤 수 있어야 합니다")
+        os.environ.pop("GITHUB_ACTIONS"); os.environ.pop("TRANSCRIPT_NETWORK")
         if "unavailable" not in tr.WEAK_SOURCES or "yt-dlp-captions" in tr.WEAK_SOURCES:
             out.append("  [WEAK_SOURCES] unavailable 만 약한 출처여야 합니다")
         import generate_report as g

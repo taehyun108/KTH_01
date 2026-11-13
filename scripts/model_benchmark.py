@@ -21,7 +21,6 @@ PRICE = {  # 100만 토큰당 USD (입력, 출력) — 2026-11 검색 기준, Op
     "gpt-4.1-mini": (0.40, 1.60), "gpt-4o-mini": (0.15, 0.60), "gpt-5.6-terra": (2.0, 12.0),
 }
 OPENAI = ["gpt-6-luna", "gpt-5.6-luna", "gpt-4o-mini", "gpt-4.1-mini"]
-GITHUB = ["openai/gpt-4.1-mini", "openai/gpt-4.1", "openai/gpt-4o-mini", "openai/gpt-5-mini", "openai/gpt-5-nano"]
 NVIDIA = ["minimaxai/minimax-m3.1-flash", "deepseek-ai/deepseek-v4.1-flash"]
 GEMINI = ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-3.5-flash", "gemini-flash-lite-latest", "gemini-2.5-flash-lite"]
 
@@ -89,37 +88,6 @@ def run(label: str, fn, text: str, model: str, price=None) -> None:
     print(f"  {label:42} {time.time() - t:5.1f}s in{tin:>5} out{tout:>5}{cost}  {judge(raw, text)}")
 
 
-def probe_github(token: str) -> None:
-    """GitHub Models 가 'OK' 만 돌려주는 원인을 가른다 — 주소·토큰을 바꿔 가며 응답 형식을 본다."""
-    import requests
-    body = {"model": "openai/gpt-4.1-mini", "messages": [{"role": "user", "content": "한 단어로 답: 안녕"}],
-            "max_tokens": 20}
-    hdr = lambda tok: {"Authorization": f"Bearer {tok}", "Content-Type": "application/json",  # noqa: E731
-                       "Accept": "application/json", "X-GitHub-Api-Version": "2022-11-28"}
-    base = "https://models.github.ai"
-    posts = [
-        ("POST /inference/chat/completions", f"{base}/inference/chat/completions", token),
-        ("POST 같은 주소 + 가짜 토큰(대조)", f"{base}/inference/chat/completions", "ghp_invalid"),
-        ("POST /inference/v1/chat/completions", f"{base}/inference/v1/chat/completions", token),
-        ("POST /orgs/taehyun108/inference/...", f"{base}/orgs/taehyun108/inference/chat/completions", token),
-        ("POST /chat/completions", f"{base}/chat/completions", token),
-        ("POST 옛 azure 주소", "https://models.inference.ai.azure.com/chat/completions", token),
-    ]
-    for label, url, tok in posts:
-        try:
-            r = requests.post(url, json=body, timeout=30, headers=hdr(tok))
-            print(f"  {label:42} HTTP {r.status_code} {r.headers.get('content-type')} {r.text[:80]!r}")
-        except Exception as exc:  # noqa: BLE001
-            print(f"  {label:42} 실패 {exc.__class__.__name__}")
-    for label, url in (("GET /catalog/models", f"{base}/catalog/models"), ("GET /", f"{base}/")):
-        try:
-            r = requests.get(url, timeout=30, headers=hdr(token))
-            print(f"  {label:42} HTTP {r.status_code} {r.headers.get('content-type')} "
-                  f"server={r.headers.get('server')} {r.text[:60]!r}")
-        except Exception as exc:  # noqa: BLE001
-            print(f"  {label:42} 실패 {exc.__class__.__name__}")
-
-
 def main() -> None:
     cached = transcript_cache.get("fryDxgcKcxQ")
     if not cached:
@@ -134,14 +102,6 @@ def main() -> None:
         print("[OpenAI]")
         for m in OPENAI:
             run(m, lambda m=m: chat("https://api.openai.com/v1/chat/completions", k, m, p, True), text, m, PRICE.get(m))
-    t = os.getenv("GITHUB_TOKEN", "")
-    if t and want("github"):
-        print("[GitHub Models — 원인 진단]")
-        probe_github(t)
-        print("[GitHub Models — 무료, 한도 있음]")
-        for m in GITHUB:
-            run(m, lambda m=m: chat("https://models.github.ai/inference/chat/completions", t, m, p, False,
-                                              {"Accept": "application/json", "X-GitHub-Api-Version": "2022-11-28"}), text, m)
     k = os.getenv("NVIDIA_API_KEY", "")
     if k and want("nvidia"):
         print("[NVIDIA — 무료 체험]")
