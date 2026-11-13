@@ -8,6 +8,7 @@ from __future__ import annotations
 import difflib
 import os
 import re
+import signal
 import subprocess
 import sys
 import tempfile
@@ -55,10 +56,23 @@ def list_functions(key: str) -> dict[str, str]:
     return out
 
 
+CALL_TIMEOUT = 25
+
+
+class _Timeout(Exception):
+    pass
+
+
+def _alarm(_sig, _frm):
+    raise _Timeout(f"{CALL_TIMEOUT}초 안에 응답이 없습니다")
+
+
 def try_one(label: str, fid: str, key: str, wav: Path) -> bool:
     import riva.client
+    signal.signal(signal.SIGALRM, _alarm)
     ok = False
     for lang in LANGS:
+        signal.alarm(CALL_TIMEOUT)
         try:
             auth = riva.client.Auth(use_ssl=True, uri="grpc.nvcf.nvidia.com:443",
                                     metadata_args=[["function-id", fid],
@@ -72,9 +86,11 @@ def try_one(label: str, fid: str, key: str, wav: Path) -> bool:
             sim = difflib.SequenceMatcher(None, norm(REF), norm(text)).ratio()
             print(f"  {label} [{lang}] 유사도 {sim:.0%}  →  {text[:90]!r}")
             ok = ok or sim >= 0.6
-        except Exception as exc:  # noqa: BLE001
+        except (Exception, _Timeout) as exc:  # noqa: BLE001
             msg = " ".join(str(exc).split())[:150]
             print(f"  {label} [{lang}] 실패 — {exc.__class__.__name__}: {msg}")
+        finally:
+            signal.alarm(0)
     return ok
 
 
@@ -87,7 +103,7 @@ def main() -> int:
         wav = make_audio(Path(tmp))
         print(f"테스트 음성 {wav.stat().st_size:,} bytes, 기준 문장: {REF}")
         funcs = list_functions(key)
-        print(f"이름으로 찾은 후보 {len(funcs)}개")
+        print(f"이름으로 찾은 후보 {len(funcs)}개: {list(funcs)[:8]}")
         cands = {**funcs, **{k: v for k, v in FALLBACK_IDS.items() if v not in funcs.values()}}
         good = [k for k, v in cands.items() if try_one(k, v, key, wav)]
     print("\n=== 결과 ===")
