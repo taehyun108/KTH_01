@@ -663,3 +663,25 @@ def check_writer_concurrency() -> list[str]:
             out.append(f"  [{name}.yml] site-data-writer 동시성 그룹이 없습니다 — "
                        "동시 실행 시 reports.json 이 충돌합니다")
     return out
+
+
+def check_nvidia_timeout() -> list[str]:
+    """응답 없는 NVIDIA 요청이 3분을 붙잡지 않게 — 기본 상한은 60~120초 사이."""
+    import importlib
+    import os
+    import nvidia_models
+    out = []
+    saved = os.environ.pop("NVIDIA_TIMEOUT_SEC", None)
+    try:
+        m = importlib.reload(nvidia_models)
+        if not 60 <= m.TIMEOUT_SEC <= 120:
+            out.append(f"  [NVIDIA 타임아웃] 기본값이 60~120초여야 하는데 {m.TIMEOUT_SEC}초입니다")
+        os.environ["NVIDIA_TIMEOUT_SEC"] = "45"
+        if importlib.reload(nvidia_models).TIMEOUT_SEC != 45:
+            out.append("  [NVIDIA 타임아웃] 환경변수로 바꿀 수 있어야 합니다")
+    finally:
+        os.environ.pop("NVIDIA_TIMEOUT_SEC", None)
+        if saved is not None:
+            os.environ["NVIDIA_TIMEOUT_SEC"] = saved
+        importlib.reload(nvidia_models)
+    return out

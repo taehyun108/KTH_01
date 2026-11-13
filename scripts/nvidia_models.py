@@ -39,7 +39,9 @@ ENDPOINT = "https://integrate.api.nvidia.com/v1/chat/completions"
 # 가 돌려주는 목록만으로는 호출 가능 여부를 알 수 없었다.
 # NVIDIA_MODEL 로 바꿀 수 있다. 또 틀리면 probe_working_model() 을 다시 돌려라.
 DEFAULT_MODEL = os.getenv("NVIDIA_MODEL", "minimaxai/minimax-m3.1-flash")
-TIMEOUT_SEC = int(os.getenv("NVIDIA_TIMEOUT_SEC", "180"))
+# 2026-11-13: 180초 기본값 때문에 응답 없는 요청 하나가 3분을 통째로 붙잡았다(ReadTimeout 뒤 Gemini 로 감).
+# 90초로 줄인다. 너무 줄이면 긴 리포트 생성이 정상인데도 잘리므로 60초까지는 내리지 않는다.
+TIMEOUT_SEC = int(os.getenv("NVIDIA_TIMEOUT_SEC", "90"))
 MAX_KEYS = 10
 
 # 연속 실패하면 접는다 — 키가 전부 틀렸거나 잔액이 없으면 매번 같은 이유로 실패한다.
