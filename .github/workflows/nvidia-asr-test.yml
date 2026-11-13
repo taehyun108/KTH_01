@@ -1,0 +1,28 @@
+name: Test NVIDIA ASR (Korean)
+
+# 등록한 NVIDIA 키로 호스팅 음성 인식이 한국어를 받아 적는지 한 번 확인한다.
+# 키는 시크릿에만 있다. 결과는 로그에서 읽는다.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          sudo apt-get update -y >/dev/null && sudo apt-get install -y ffmpeg >/dev/null
+          pip install requests gTTS nvidia-riva-client
+      - name: Probe NVIDIA ASR
+        env:
+          PYTHONUNBUFFERED: "1"
+          NVIDIA_API_KEY: ${{ secrets.KTH_01_NVIDIA_API_KEY }}
+        run: python scripts/nvidia_asr_probe.py
