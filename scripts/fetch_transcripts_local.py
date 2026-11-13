@@ -181,36 +181,25 @@ def main() -> int:
         print("새로 받을 자막이 없습니다.")
     else:
         # 여기서 임포트해야 Gemini 관련 모듈을 건드리지 않는다(PC 에 API 키 불필요)
-        from generate_report import _transcript_api, _ytdlp_transcript
+        from transcripts import acquire
 
         ok = fail = stt_used = 0
         for i, c in enumerate(todo, 1):
             vid, title = c["video_id"], c.get("title", "")
-            text, source = "", ""
-            try:
-                text = _transcript_api(vid)
-                source = "youtube-transcript-api"
-            except Exception as exc:  # noqa: BLE001
-                brief = " ".join(str(exc).split())[:80]
-                print(f"  [{i}/{len(todo)}] {vid}: transcript-api 실패 — {brief}")
 
-            # 예외 없이 빈/짧은 결과가 오는 경우도 있다(자막 트랙은 있는데 내용이 없는 등).
-            # 예전에는 예외일 때만 폴백해서, 이런 영상은 폴백을 시도조차 못 하고 버려졌다.
-            if len(text) <= transcript_cache.MIN_CHARS:
-                text, source = _ytdlp_transcript(vid)
-                if source == "unavailable":
-                    text = ""
+            # 음성 인식은 자막이 끝내 없을 때만, 충분히 지난 영상만, 건수 상한 안에서.
+            def stt(video_id: str, c=c) -> str:
+                nonlocal stt_used
+                if not (args.stt and stt_used < args.stt_limit
+                        and stt_fallback.old_enough(c.get("published", ""), args.stt_after_hours)):
+                    return ""
+                stt_used += 1
+                return stt_fallback.transcribe_youtube(video_id, args.stt_max_minutes)
 
-            # 자막이 끝내 없을 때만, 충분히 지난 영상만, 건수 상한 안에서 음성 인식.
-            if (not text and args.stt and stt_used < args.stt_limit
-                    and stt_fallback.old_enough(c.get("published", ""), args.stt_after_hours)):
-                try:
-                    stt_used += 1
-                    text = stt_fallback.transcribe_youtube(vid, args.stt_max_minutes)
-                    source = stt_fallback.source_label()
-                except Exception as exc:  # noqa: BLE001
-                    brief = " ".join(str(exc).split())[:100]
-                    print(f"  [{i}/{len(todo)}] {vid}: 음성 인식 실패 — {brief}")
+            text, source = acquire(vid, use_cache=False, stt=stt if args.stt else None,
+                                   stt_source=stt_fallback.source_label() if args.stt else "stt")
+            if source == "unavailable":
+                text = ""
 
             if text and transcript_cache.put(vid, text, source or "local", title):
                 ok += 1

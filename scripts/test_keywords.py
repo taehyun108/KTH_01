@@ -1178,6 +1178,57 @@ def check_send_report() -> list[str]:
 # 즐겨찾기 탭에서 URL 을 제출한 사람은 예비 경로 하나 없이 바로 실패한다
 # — 한쪽만 예비 경로(추가 키·GitHub Models·OpenAI)를 갖고 있으면 이 일이
 # 조용히 반복된다(2026-10-28 발견). 두 워크플로가 같은 것을 받는지 고정한다.
+def check_transcripts_module() -> list[str]:
+    """자막 확보 사다리의 단일 입구 — 순서·캐시 우회·약한 출처·음성 인식 호출 조건."""
+    import transcripts as tr
+    out = []
+    orig = (tr._transcript_api, tr._ytdlp_transcript, tr.transcript_cache.get)
+    long = "가" * 100
+    try:
+        tr.reset_state()
+        order = []
+        tr.transcript_cache.get = lambda v: (long, "local-cache") if v == "hit" else None
+        def api(v):
+            order.append("api")
+            if v in ("fail", "none"): raise RuntimeError("blocked")
+            return long
+        def ytdlp(v):
+            order.append("yt")
+            return ("", "unavailable") if v == "none" else (long, "yt-dlp-captions")
+        tr._transcript_api, tr._ytdlp_transcript = api, ytdlp
+
+        if tr.acquire("hit") != (long, "local-cache") or order:
+            out.append("  [캐시 적중] 캐시를 쓰고 네트워크는 건드리지 않아야 합니다")
+        order.clear()
+        if tr.acquire("hit", use_cache=False)[1] != "youtube-transcript-api":
+            out.append("  [use_cache=False] 캐시를 건너뛰고 API 로 가야 합니다")
+        order.clear()
+        if tr.acquire("fail")[1] != "yt-dlp-captions" or order != ["api", "yt"]:
+            out.append(f"  [API 실패] yt-dlp 로 넘어가야 하는데 {order}")
+        calls = []
+        r = tr.acquire("none", stt=lambda v: calls.append(v) or long, stt_source="stt-x")
+        if r != (long, "stt-x") or calls != ["none"]:
+            out.append(f"  [자막 없음 + stt] 음성 인식 결과를 써야 하는데 {r[1]}")
+        calls.clear()
+        tr.acquire("fail", stt=lambda v: calls.append(v) or long)
+        if calls:
+            out.append("  [자막 있음] 음성 인식을 부르면 안 됩니다(비용)")
+        def boom(v): raise RuntimeError("quota")
+        if tr.acquire("none", stt=boom) != ("", "unavailable"):
+            out.append("  [stt 예외] ('', 'unavailable') 이어야 합니다")
+        if tr.acquire("none", stt=lambda v: "짧음") != ("", "unavailable"):
+            out.append("  [stt 결과가 너무 짧음] 근거로 쓰면 안 됩니다")
+        if "unavailable" not in tr.WEAK_SOURCES or "yt-dlp-captions" in tr.WEAK_SOURCES:
+            out.append("  [WEAK_SOURCES] unavailable 만 약한 출처여야 합니다")
+        import generate_report as g
+        if g.WEAK_SOURCES is not tr.WEAK_SOURCES:
+            out.append("  [generate_report] WEAK_SOURCES 가 단일 정의가 아닙니다")
+    finally:
+        tr._transcript_api, tr._ytdlp_transcript, tr.transcript_cache.get = orig
+        tr.reset_state()
+    return out
+
+
 def check_stt_fallback() -> list[str]:
     """자막 없는 영상의 음성 인식 폴백(Groq·ElevenLabs) — 키 노출·분할·한도 대기·비용 상한."""
     import os, subprocess, tempfile
@@ -1861,6 +1912,7 @@ def main() -> int:
     fails += check_hallucination_guards()
     fails += check_writer_concurrency()
     fails += check_stt_fallback()
+    fails += check_transcripts_module()
     total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
              + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
              + 1     # 처리 우선순위
@@ -1883,6 +1935,7 @@ def main() -> int:
              + 7     # OpenAI 다중키(밑줄규칙1·중복1·로테이션2·소진1·배선2)
              + 8     # NVIDIA 다중키(엔드포인트1·밑줄규칙1·중복1·로테이션3·소진1·json강제1)
              + 18    # 음성 인식 폴백(NVIDIA 5 포함: 공급자3·분할2·Groq헤더1·언어모델1·429대기2·401·키노출·게시대기3·배선)
+             + 8     # 자막 단일 입구(캐시·우회·API실패·stt사용·stt불필요·예외·짧음·약한출처)
              + 3     # 쓰기 워크플로 동시성 그룹(archive·summarize-url·delete-report)
              + 7     # 환각 수치 방어(없는수치·있는수치·정식자막·context·지수이탈·지수정상·배선)
              + 5)    # URL 요약 예비경로 배선(키2·토큰1·OpenAI2·권한1 중 5개 확인)

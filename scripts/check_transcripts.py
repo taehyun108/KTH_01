@@ -14,7 +14,7 @@ import os
 import sys
 
 from build_index import load_existing
-from generate_report import _transcript_api, _ytdlp_transcript
+from transcripts import _transcript_api, _ytdlp_transcript
 from run_pipeline import _extract_video_id
 
 
