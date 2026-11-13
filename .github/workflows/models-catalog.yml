@@ -1,0 +1,28 @@
+name: List available models
+
+# 등록한 키로 지금 쓸 수 있는 모델 목록을 공급자별로 확인한다(수동). 키 값은 출력하지 않는다.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  models: read
+
+jobs:
+  list:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: List models
+        env:
+          PYTHONUNBUFFERED: "1"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.KTH_01_OPENAI_API_KEY }}
+          NVIDIA_API_KEY: ${{ secrets.KTH_01_NVIDIA_API_KEY }}
+        run: PYTHONPATH=scripts python scripts/models_catalog.py
