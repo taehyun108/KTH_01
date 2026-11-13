@@ -6,7 +6,15 @@
 왜 필요한가: 키워드를 손볼 때마다 한쪽을 고치면 다른 쪽이 조용히 망가졌다.
 CI 에서 매번 돌려 회귀를 즉시 잡는다.
 
-실행: python scripts/test_keywords.py
+실행: python scripts/test_keywords.py   (CI 단계 이름·명령은 그대로)
+
+구성
+  · 이 파일          — 키워드·쇼츠·명칭·후보 선별·예산 등 파이프라인 판단 검사
+  · regression_services.py — 외부 공급자·알림·워크플로 배선 검사
+  · regression_data.py     — 자막·음성 인식·아카이브·환각 수치 방어 검사
+  · test_harness.py        — check_* 자동 수집, 검사별 환경 격리, 집계
+
+새 검사는 check_ 로 시작하는 함수만 추가하면 된다(손으로 목록·개수를 올리지 않는다).
 """
 from __future__ import annotations
 
@@ -851,58 +859,6 @@ def check_youtube_url_validation() -> list[str]:
     return out
 
 
-# GitHub 로그인 없이 바로 처리되는 경로(URL 등록·텔레그램 전송) — 2026-09-22.
-# 토큰을 이 브라우저에만 저장해 API 로 이슈를 만들고 끝날 때까지 지켜보는 방식이라,
-# ① 필요한 조각이 다 있는지 ② 토큰을 URL 에 실어 보내 로그에 남기지 않는지
-# ③ requestSummary·requestSend 가 실제로 이 경로를 쓰는지를 확인한다.
-# 실제 create→poll→close→comment 흐름 자체는 Node 로 코드를 그대로 실행해
-# 네트워크를 흉내 낸 시나리오 4개(무토큰·성공·401·타임아웃)로 이미 검증했다.
-def check_gh_token_flow() -> list[str]:
-    from pathlib import Path
-    js = (Path(__file__).resolve().parent.parent
-          / "site" / "assets" / "app.js").read_text(encoding="utf-8")
-    out = []
-    for needle, why in (
-        ("LS_GH_TOKEN", "토큰 저장 키가 없습니다"),
-        ("function ghToken()", "토큰 조회 함수가 없습니다"),
-        ("function configureGhToken()", "토큰 설정 UI 함수가 없습니다"),
-        ("function ghApiCall(", "GitHub API 호출 함수가 없습니다"),
-        ("function ghRunAndWait(", "이슈 생성·대기 함수가 없습니다"),
-        ("function runOrOpenIssue(", "토큰 유무에 따라 갈라 주는 함수가 없습니다"),
-    ):
-        if needle not in js:
-            out.append(f"  [{why}] {needle!r} 가 사라졌습니다")
-    if "getElementById('gh-token-btn')" not in js:
-        out.append("  [토큰 설정 버튼 배선] init() 이 gh-token-btn 을 연결하지 않습니다")
-
-    # 토큰은 반드시 Authorization 헤더로만 보낸다 — URL 쿼리에 실으면
-    # 브라우저 기록·Referer·서버 로그에 그대로 남는다.
-    if "Authorization" not in js or "Bearer ${ghToken()" not in js:
-        out.append("  [토큰을 Authorization 헤더로 보내지 않습니다]")
-    if re.search(r"[?&]token=\$\{ghToken", js):
-        out.append("  [토큰이 URL 쿼리로 새고 있습니다 — 헤더로만 보내야 합니다]")
-
-    # requestSummary·requestSend 가 실제로 이 경로를 쓰는지 — 함수만 만들어 두고
-    # 안 불러 쓰면 아무 의미가 없다. 통짜 주석 줄 속 언급까지 코드로 오인하지
-    # 않도록 걷어내고 검사한다(check_name_fix_actually_fixes 와 같은 함정).
-    # 줄 끝에 붙는 // 는 URL(https://...) 과 겹칠 수 있어 건드리지 않는다 —
-    # '//' 로 시작하는 줄 전체만 걷어낸다.
-    def _code_only(text: str) -> str:
-        return "\n".join(l for l in text.splitlines() if not l.strip().startswith("//"))
-
-    m = re.search(r"async function requestSummary\(\)[\s\S]*?\n\}", js)
-    if not m or "runOrOpenIssue" not in _code_only(m.group(0)):
-        out.append("  [requestSummary 가 runOrOpenIssue 를 쓰지 않습니다]")
-    m = re.search(r"async function requestSend\([\s\S]*?\n\}", js)
-    if not m or "runOrOpenIssue" not in _code_only(m.group(0)):
-        out.append("  [requestSend 가 runOrOpenIssue 를 쓰지 않습니다]")
-
-    # init() 을 두 번 부를 일이 없어야 한다 — '성공 후 init() 재호출'로 고치면
-    # 이벤트 리스너가 중복 등록된다. reload() 로 데이터만 다시 받고, 리스너
-    # 등록은 init() 에서 한 번만 하는 구조여야 한다.
-    if "async function reload()" not in js:
-        out.append("  [reload() 가 없습니다 — 재요청 뒤 init() 을 통째로 다시 부르면 리스너가 중복됩니다]")
-    return out
 
 
 def check_pagination() -> list[str]:
@@ -948,841 +904,33 @@ def check_stop_reason() -> list[str]:
     return []
 
 
-# API 키 없는 예비 추론 경로(GitHub Models).
-# 가장 중요한 성질은 '잘 되는 것'이 아니라 <없거나 실패해도 지금보다 나빠지지 않는 것>이다.
-# Gemini 한도가 바닥나면 넘어가고, 예비도 막히면 예전처럼 QuotaExhausted 로 끝나야 한다.
-def check_gh_fallback() -> list[str]:
-    import json as _json
-    import os
-    import gh_models as G
-    import generate_report as GR
 
-    out = []
-    saved = {k: os.environ.get(k) for k in ("GITHUB_TOKEN", "GH_TOKEN")}
-    saved_gap = GR.MIN_CALL_GAP_SEC
-    # import 가 finally 안쪽에서 쓰이는 이름을 만든다. 실패하면 finally 가
-    # UnboundLocalError 를 내면서 <진짜 원인>을 덮어, 검사 전체가 정체불명의
-    # 크래시로 끝난다(2026-10-28 에 requests 미설치로 실제로 그랬다).
-    try:
-        import requests
-    except ModuleNotFoundError:
-        return ["  [requests 미설치 — 이 검사를 건너뜁니다] pip install -r requirements.txt"]
-    saved_post = requests.post
-    try:
-        GR.MIN_CALL_GAP_SEC = 0
-        for k in ("GITHUB_TOKEN", "GH_TOKEN"):
-            os.environ.pop(k, None)
 
-        # 토큰이 없으면 조용히 비활성 — 호출자는 원래 오류를 그대로 받는다
-        G._fails = 0
-        if G.available():
-            out.append("  [토큰 없으면 비활성이어야 함] available()=True")
-        if GR._fallback("p", "테스트") is not None:
-            out.append("  [토큰 없으면 None 이어야 함] _fallback 이 값을 돌려줬습니다")
 
-        # 토큰이 있으면 응답을 정상 파싱한다
-        os.environ["GITHUB_TOKEN"] = "ghs_dummy"
-        G._fails = 0
 
-        class _Ok:
-            status_code = 200
-            text = '{"choices":[{"message":{"content":"{\\"ok\\":1}"}}]}'
 
-            def json(self):
-                return _json.loads(self.text)
 
-        requests.post = lambda *a, **k: _Ok()
-        if G.generate("p") != '{"ok":1}':
-            out.append("  [정상 응답을 그대로 돌려줘야 함] 파싱 결과가 다릅니다")
 
-        # 403(워크플로 권한 누락)이면 조용히 물러나 원래 오류가 살아나야 한다
-        class _Denied:
-            status_code = 403
-            text = '{"message":"Resource not accessible by integration"}'
 
-            def json(self):
-                return _json.loads(self.text)
 
-        requests.post = lambda *a, **k: _Denied()
-        G._fails = 0
-        try:
-            G.generate("p")
-            out.append("  [403 이면 GHModelsUnavailable 이어야 함] 예외가 안 났습니다")
-        except G.GHModelsUnavailable:
-            pass
 
-        # 연속 실패하면 스스로 접는다(같은 이유로 매번 시간 버리지 않도록)
-        G._fails = G.FAIL_LIMIT
-        if G.available():
-            out.append("  [연속 실패 후에는 접어야 함] available()=True")
-    finally:
-        requests.post = saved_post
-        GR.MIN_CALL_GAP_SEC = saved_gap
-        G._fails = 0
-        for k, v in saved.items():
-            if v is None:
-                os.environ.pop(k, None)
-            else:
-                os.environ[k] = v
-    return out
 
 
-# 워크플로에 권한 한 줄이 없으면 예비 경로는 403 으로 전부 실패한다.
-# 코드만 있고 권한이 빠지는 조합이 가장 알아채기 어렵다.
-# 텔레그램 알림이 <이차전지와 연결되는 글만> 보내는가, 그리고 <커밋 뒤>에 도는가.
-#
-# 두 번째가 특히 중요하다. 커밋 앞에서 보내면, 커밋이나 push 가 실패한 날
-# 존재하지 않는 리포트 링크를 대화방에 뿌리게 된다.
-# 시크릿이 없는 저장소에서도 파이프라인이 멀쩡히 끝나야 한다는 것도 함께 고정한다.
-def check_telegram() -> list[str]:
-    import os
-    from pathlib import Path
-    import telegram_notify as tg
 
-    out = []
-    rows = [
-        {"id": "a", "relation": "direct", "title": "t", "summary": "s",
-         "channel": "c", "date": "2026-09-01", "url": "a.html", "video": "v"},
-        {"id": "b", "relation": "context", "title": "t", "summary": "s",
-         "channel": "c", "date": "2026-09-02", "url": "b.html", "video": "v"},
-        {"id": "c", "relation": "indirect", "title": "t", "summary": "s",
-         "channel": "c", "date": "2026-09-03", "url": "c.html", "video": "v"},
-    ]
 
-    sent: list[str] = []
-    orig_call, orig_sleep = tg._call, tg.time.sleep
-    keep = {k: os.environ.get(k) for k in ("TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID")}
-    try:
-        tg.time.sleep = lambda _s: None
 
-        # ① 시크릿이 없으면 아무것도 보내지 않고, 예외도 내지 않는다
-        for k in keep:
-            os.environ.pop(k, None)
-        tg._call = lambda m, p: out.append("  [시크릿 없이 전송 시도함] 네트워크를 건드렸습니다")
-        if tg.send_reports(rows) != 0:
-            out.append("  [시크릿 없으면 0건] 0이 아닌 값을 돌려줬습니다")
 
-        # ② 시크릿이 있으면 direct/indirect 만 나간다 (context 는 배터리 무관)
-        os.environ["TELEGRAM_BOT_TOKEN"] = "t"
-        os.environ["TELEGRAM_CHAT_ID"] = "1"
-        tg._call = lambda m, p: sent.append(p["text"]) or {}
-        tg.send_reports(rows)
-        if len(sent) != 2:
-            out.append(f"  [direct·indirect 2건만 발송] {len(sent)}건 나갔습니다")
-        if any("b.html" in t for t in sent):
-            out.append("  [context 는 제외] 배터리와 무관한 글이 나갔습니다")
 
-        # ③ 상한을 넘으면 <최신> 것을 남긴다 (입력은 오래된 것부터)
-        sent.clear()
-        many = [dict(rows[0], id=str(i), url=f"{i}.html") for i in range(5)]
-        tg.MAX_PER_RUN, cap = 2, tg.MAX_PER_RUN
-        tg.send_reports(many)
-        tg.MAX_PER_RUN = cap
-        if not (len(sent) == 2 and "3.html" in sent[0] and "4.html" in sent[1]):
-            out.append("  [상한 초과 시 최신 것을 남김] 오래된 쪽이 남았습니다")
-    finally:
-        tg._call, tg.time.sleep = orig_call, orig_sleep
-        for k, v in keep.items():
-            os.environ[k] = v if v is not None else os.environ.pop(k, "")
-            if not v:
-                os.environ.pop(k, None)
 
-    # ④ 알림 단계는 커밋 <뒤>에 온다 — 사이트에 올라간 것만 알려야 한다
-    wf = (Path(__file__).resolve().parent.parent
-          / ".github/workflows/archive.yml").read_text(encoding="utf-8")
-    commit_at, notify_at = wf.find("Commit new reports"), wf.find("Notify Telegram")
-    if notify_at < 0:
-        out.append("  [archive.yml 에 텔레그램 알림 단계] 사라졌습니다")
-    elif notify_at < commit_at:
-        out.append("  [알림은 커밋 뒤] 커밋 앞으로 옮겨져 죽은 링크가 나갈 수 있습니다")
-    if "TELEGRAM_BOT_TOKEN" not in wf:
-        out.append("  [알림 단계에 TELEGRAM_BOT_TOKEN 전달] 사라졌습니다")
 
-    # ⑤ 무엇이 새로 나왔는지 파이프라인이 넘겨 주는가 (알림이 읽는 통로)
-    rp = (Path(__file__).resolve().parent / "run_pipeline.py").read_text(encoding="utf-8")
-    if "new_ids" not in rp:
-        out.append("  [run_pipeline 이 new_ids 를 기록] 사라져 알림이 보낼 것을 못 찾습니다")
-    return out
 
 
-# 카드의 📨 버튼이 리포트 <전문>을 보내는가.
-#
-# 목록 알림은 제목·요약만 보내지만 이 경로는 01~08 을 통째로 옮긴다.
-# 발행 HTML 을 정규식으로 읽는 구조라, 렌더러가 바뀌면 조용히 0섹션이 되어
-# '보냈다'는 말만 남고 알맹이가 빈 메시지가 나간다. 실제 발행물로 고정한다.
-def check_send_report() -> list[str]:
-    from pathlib import Path
-    import send_report as sr
-    import telegram_notify as tg
-    from build_index import load_existing
-    from config import NEWS_DIR
 
-    out = []
-    # ① 실제 발행물에서 섹션이 실제로 뽑히는가 (최근 것 몇 건)
-    checked = 0
-    for r in load_existing()[:5]:
-        f = NEWS_DIR / r.get("url", "")
-        if not f.exists():
-            continue
-        checked += 1
-        secs = sr.extract_sections(f.read_text(encoding="utf-8"))
-        if len(secs) < 4:
-            out.append(f"  [발행물에서 01~08 을 읽어야 함] {r['id']} → {len(secs)}섹션")
-            continue
-        nums = [n for n, _, _ in secs]
-        if "01" not in nums or "08" not in nums:
-            out.append(f"  [01 핵심 개요·08 용어 사전이 있어야 함] {r['id']} → {nums}")
-        if any(not lines for _, _, lines in secs):
-            out.append(f"  [본문이 빈 섹션이 있음] {r['id']}")
-        # ② 유튜브 링크가 반드시 들어간다
-        body = "\n".join(tg.split_message(sr.build_message(r, secs)))
-        if r.get("video") and r["video"] not in body:
-            out.append(f"  [유튜브 링크가 빠짐] {r['id']}")
-        if "<b>01." not in body:
-            out.append(f"  [섹션 번호·제목이 빠짐] {r['id']}")
-    if not checked:
-        out.append("  [검사할 발행물을 못 찾음]")
 
-    # ③ 메시지 상한(4096자)을 넘는 조각이 나오면 전송이 통째로 거부된다
-    long_parts = ["가" * 5000, "나" * 300, "다" * 4000]
-    chunks = tg.split_message(long_parts)
-    if any(len(c) > tg.MAX_CHARS for c in chunks):
-        out.append(f"  [한 메시지가 {tg.MAX_CHARS}자를 넘으면 안 됨] "
-                   f"→ {[len(c) for c in chunks]}")
-    if "".join(chunks).count("가") != 5000:
-        out.append("  [나눠 보내면서 글자가 사라짐]")
 
-    # ④ 권한은 워크플로가 지킨다 — 소유자가 연 이슈만 처리
-    wf = (Path(__file__).resolve().parent.parent
-          / ".github/workflows/send-report.yml").read_text(encoding="utf-8")
-    if "github.event.issue.user.login == github.repository_owner" not in wf:
-        out.append("  [소유자가 연 이슈만 처리해야 함] 조건이 사라졌습니다")
-    if "[전송]" not in wf:
-        out.append("  [제목 '[전송]' 으로 거르는 조건] 사라졌습니다")
 
-    # ⑤ 사이트 버튼이 즐겨찾기 <왼쪽>에 있는가 (요청한 자리다)
-    js = (Path(__file__).resolve().parent.parent
-          / "site/assets/app.js").read_text(encoding="utf-8")
-    tg_at, fav_at = js.find('icon-btn tg'), js.find('icon-btn fav')
-    if tg_at < 0:
-        out.append("  [카드에 텔레그램 버튼] 사라졌습니다")
-    elif tg_at > fav_at:
-        out.append("  [텔레그램 버튼은 즐겨찾기 왼쪽] 순서가 바뀌었습니다")
-    if "requestSend" not in js:
-        out.append("  [버튼 동작(requestSend)] 사라졌습니다")
-    return out
 
 
-# archive.yml 과 summarize-url.yml 은 <같은> KTH_01_GEMINI_API_KEY 하루 한도를
-# 나눠 쓴다. archive.yml 이 하루 4회로 먼저 돌며 한도를 다 쓰면, 그 뒤에
-# 즐겨찾기 탭에서 URL 을 제출한 사람은 예비 경로 하나 없이 바로 실패한다
-# — 한쪽만 예비 경로(추가 키·GitHub Models·OpenAI)를 갖고 있으면 이 일이
-# 조용히 반복된다(2026-10-28 발견). 두 워크플로가 같은 것을 받는지 고정한다.
-def check_transcripts_module() -> list[str]:
-    """자막 확보 사다리의 단일 입구 — 순서·캐시 우회·약한 출처·음성 인식 호출 조건."""
-    import transcripts as tr
-    out = []
-    orig = (tr._transcript_api, tr._ytdlp_transcript, tr.transcript_cache.get)
-    long = "가" * 100
-    try:
-        tr.reset_state()
-        order = []
-        tr.transcript_cache.get = lambda v: (long, "local-cache") if v == "hit" else None
-        def api(v):
-            order.append("api")
-            if v in ("fail", "none"): raise RuntimeError("blocked")
-            return long
-        def ytdlp(v):
-            order.append("yt")
-            return ("", "unavailable") if v == "none" else (long, "yt-dlp-captions")
-        tr._transcript_api, tr._ytdlp_transcript = api, ytdlp
-
-        if tr.acquire("hit") != (long, "local-cache") or order:
-            out.append("  [캐시 적중] 캐시를 쓰고 네트워크는 건드리지 않아야 합니다")
-        order.clear()
-        if tr.acquire("hit", use_cache=False)[1] != "youtube-transcript-api":
-            out.append("  [use_cache=False] 캐시를 건너뛰고 API 로 가야 합니다")
-        order.clear()
-        if tr.acquire("fail")[1] != "yt-dlp-captions" or order != ["api", "yt"]:
-            out.append(f"  [API 실패] yt-dlp 로 넘어가야 하는데 {order}")
-        calls = []
-        r = tr.acquire("none", stt=lambda v: calls.append(v) or long, stt_source="stt-x")
-        if r != (long, "stt-x") or calls != ["none"]:
-            out.append(f"  [자막 없음 + stt] 음성 인식 결과를 써야 하는데 {r[1]}")
-        calls.clear()
-        tr.acquire("fail", stt=lambda v: calls.append(v) or long)
-        if calls:
-            out.append("  [자막 있음] 음성 인식을 부르면 안 됩니다(비용)")
-        def boom(v): raise RuntimeError("quota")
-        if tr.acquire("none", stt=boom) != ("", "unavailable"):
-            out.append("  [stt 예외] ('', 'unavailable') 이어야 합니다")
-        if tr.acquire("none", stt=lambda v: "짧음") != ("", "unavailable"):
-            out.append("  [stt 결과가 너무 짧음] 근거로 쓰면 안 됩니다")
-        if "unavailable" not in tr.WEAK_SOURCES or "yt-dlp-captions" in tr.WEAK_SOURCES:
-            out.append("  [WEAK_SOURCES] unavailable 만 약한 출처여야 합니다")
-        import generate_report as g
-        if g.WEAK_SOURCES is not tr.WEAK_SOURCES:
-            out.append("  [generate_report] WEAK_SOURCES 가 단일 정의가 아닙니다")
-    finally:
-        tr._transcript_api, tr._ytdlp_transcript, tr.transcript_cache.get = orig
-        tr.reset_state()
-    return out
-
-
-def check_stt_fallback() -> list[str]:
-    """자막 없는 영상의 음성 인식 폴백(Groq·ElevenLabs) — 키 노출·분할·한도 대기·비용 상한."""
-    import os, subprocess, tempfile
-    from datetime import datetime, timedelta, timezone
-    from pathlib import Path
-    import stt_fallback as st
-    import requests
-    out = []
-    keys = ("GROQ_API_KEY", "ELEVENLABS_API_KEY", "STT_PROVIDER", "NVIDIA_API_KEY", "NVIDIA_ASR_FUNCTION_ID")
-    saved = {k: os.environ.pop(k, None) for k in keys}
-    orig_post, orig_sleep = requests.post, st.time.sleep
-    try:
-        if st.available():
-            out.append("  [키 없음] available() 이 True 입니다")
-        os.environ["ELEVENLABS_API_KEY"] = "el-key-1"
-        os.environ["GROQ_API_KEY"] = "gq-key-1"
-        if st.provider() != "groq":
-            out.append("  [키 둘 다] 무료 한도가 큰 groq 가 우선이어야 합니다")
-        os.environ["STT_PROVIDER"] = "elevenlabs"
-        if st.provider() != "elevenlabs":
-            out.append("  [STT_PROVIDER] 지정한 공급자가 선택되지 않았습니다")
-        os.environ.pop("STT_PROVIDER")
-
-        class R:
-            def __init__(s, code, body, headers=None):
-                s.status_code, s._b, s.text, s.headers = code, body, str(body), headers or {}
-            def json(s): return s._b
-        calls = []
-        def ok(url, **kw):
-            calls.append((url, kw)); return R(200, {"text": f" 조각{len(calls)} "})
-        requests.post = ok
-
-        with tempfile.TemporaryDirectory() as d:
-            wav = Path(d) / "a.wav"
-            subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "lavfi", "-i",
-                            "sine=frequency=440:duration=20", str(wav)], check=True)
-            text = st.transcribe_file(wav, chunk_sec=8)
-        if len(calls) != 3:
-            out.append(f"  [20초를 8초 단위로] 3조각이어야 하는데 {len(calls)}번 요청했습니다")
-        if text != "조각1 조각2 조각3":
-            out.append(f"  [조각 이어붙이기] 순서·공백이 잘못됐습니다: {text!r}")
-        url, kw = calls[0]
-        if "groq.com" not in url or kw["headers"].get("Authorization") != "Bearer gq-key-1":
-            out.append("  [Groq] 주소 또는 Authorization 헤더가 잘못됐습니다")
-        if kw["data"].get("language") != "ko" or kw["data"].get("model") != "whisper-large-v3":
-            out.append("  [Groq] 언어(ko)·모델이 잘못됐습니다")
-
-        seq = iter([R(429, "slow", {"retry-after": "7"}), R(200, {"text": "다시 성공"})])
-        waits = []
-        requests.post = lambda url, **kw: next(seq)
-        st.time.sleep = lambda s: waits.append(s)
-        with tempfile.TemporaryDirectory() as d:
-            f = Path(d) / "c.mp3"; f.write_bytes(b"x")
-            if st._post("groq", f) != "다시 성공":
-                out.append("  [429 뒤 재시도] 결과를 받지 못했습니다")
-        if waits != [7.0]:
-            out.append(f"  [429 대기] retry-after 7초를 따라야 하는데 {waits}")
-
-        # NVIDIA 공급자: 선택 순서·모델 우선순위·모델 실패 시 다음 모델·wav 분할
-        os.environ.pop("GROQ_API_KEY"); os.environ.pop("ELEVENLABS_API_KEY")
-        os.environ["NVIDIA_API_KEY"] = "nv-key-1"
-        if st.provider() != "nvidia":
-            out.append("  [NVIDIA 키만] provider() 가 nvidia 가 아닙니다")
-        os.environ["GROQ_API_KEY"] = "gq-key-1"
-        if st.provider() != "groq":
-            out.append("  [Groq+NVIDIA] groq 가 먼저여야 합니다")
-        os.environ.pop("GROQ_API_KEY")
-        fl = {"functions": [
-            {"name": "ai-parakeet-1_1b-rnnt-multilingual-asr", "id": "id-parakeet", "status": "ACTIVE"},
-            {"name": "ai-canary-1b-asr", "id": "id-canary", "status": "ACTIVE"},
-            {"name": "ai-whisper-large-v3", "id": "id-whisper", "status": "ACTIVE"},
-            {"name": "ai-parakeet-ctc-0_6b-es", "id": "id-es", "status": "ACTIVE"}]}
-        had_get = hasattr(requests, "get")
-        orig_get = getattr(requests, "get", None)
-        requests.get = lambda url, **kw: R(200, fl)
-        st._nvidia_ids.clear()
-        ids = [n for n, _ in st._nvidia_function_ids("nv-key-1")]
-        if ids != ["ai-whisper-large-v3", "ai-canary-1b-asr", "ai-parakeet-1_1b-rnnt-multilingual-asr"]:
-            out.append(f"  [NVIDIA 모델 우선순위] whisper→canary→parakeet 여야 하는데 {ids}")
-        fl["functions"][2]["status"] = "INACTIVE"
-        st._nvidia_ids.clear()
-        if "ai-whisper-large-v3" in [n for n, _ in st._nvidia_function_ids("nv-key-1")]:
-            out.append("  [비활성 모델] INACTIVE 인 whisper 가 후보에 들어갔습니다")
-        fl["functions"][2]["status"] = "ACTIVE"
-        st._nvidia_ids.clear()
-        if had_get:
-            requests.get = orig_get
-        else:
-            del requests.get
-        tried = []
-        orig_chunk = st._nvidia_chunk
-        def fake_chunk(fid, key, wav):
-            tried.append(fid)
-            if fid == "id-whisper":
-                raise RuntimeError("Unavailable model")
-            return "안녕"
-        st._nvidia_chunk = fake_chunk
-        st._nvidia_ids.update({"ai-whisper-large-v3": "id-whisper", "ai-canary-1b-asr": "id-canary"})
-        with tempfile.TemporaryDirectory() as d:
-            wav = Path(d) / "a.wav"
-            subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-f", "lavfi", "-i",
-                            "sine=frequency=440:duration=20", str(wav)], check=True)
-            parts = st.split_audio(wav, Path(d), 8, fmt="wav")
-            if len(parts) != 3 or parts[0].suffix != ".wav":
-                out.append(f"  [wav 분할] 20초/8초 → 3조각 wav 여야 하는데 {len(parts)}조각")
-            res = st._transcribe_nvidia(wav, "nv-key-1")
-        st._nvidia_chunk = orig_chunk
-        st._nvidia_ids.clear()
-        if "id-canary" not in tried or tried[0] != "id-whisper":
-            out.append(f"  [모델 실패 시 다음 모델] whisper 실패 뒤 canary 로 넘어가야 하는데 {tried}")
-
-        requests.post = lambda url, **kw: R(401, {"detail": "bad"})
-        try:
-            with tempfile.TemporaryDirectory() as d:
-                f = Path(d) / "c.mp3"; f.write_bytes(b"x")
-                st._post("groq", f)
-            out.append("  [HTTP 401] 예외가 나지 않았습니다")
-        except RuntimeError as exc:
-            if "gq-key-1" in str(exc):
-                out.append("  [오류 메시지] API 키가 메시지에 노출됩니다")
-    finally:
-        requests.post, st.time.sleep = orig_post, orig_sleep
-        for k, v in saved.items():
-            if v is None: os.environ.pop(k, None)
-            else: os.environ[k] = v
-
-    now = datetime(2026, 11, 13, 12, tzinfo=timezone.utc)
-    if st.old_enough((now - timedelta(hours=2)).isoformat(), 12, now):
-        out.append("  [2시간 전 영상] 기다려야 하는데 통과했습니다")
-    if not st.old_enough((now - timedelta(hours=30)).isoformat(), 12, now):
-        out.append("  [30시간 전 영상] 통과해야 하는데 막혔습니다")
-    if not st.old_enough("", 12, now):
-        out.append("  [게시 시각 모름] 막으면 안 됩니다")
-    src = (Path(__file__).resolve().parent / "fetch_transcripts_local.py").read_text(encoding="utf-8")
-    if "stt_fallback.old_enough" not in src or "stt_used < args.stt_limit" not in src:
-        out.append("  [fetch_transcripts_local] 대기 시간·건수 상한 배선이 없습니다")
-    return out
-
-
-def check_writer_concurrency() -> list[str]:
-    """reports.json 을 쓰는 워크플로는 같은 concurrency 그룹이어야 서로 충돌하지 않는다."""
-    from pathlib import Path
-    root = Path(__file__).resolve().parent.parent / ".github/workflows"
-    out = []
-    for name in ("archive", "summarize-url", "delete-report"):
-        t = (root / f"{name}.yml").read_text(encoding="utf-8")
-        if "group: site-data-writer" not in t:
-            out.append(f"  [{name}.yml] site-data-writer 동시성 그룹이 없습니다 — "
-                       "동시 실행 시 reports.json 이 충돌합니다")
-    return out
-
-
-def check_report_archive() -> list[str]:
-    """reports.json 단일 입구 — 병합·삭제·원자적 기록·분류 보정."""
-    import json, tempfile
-    from pathlib import Path
-    import report_archive as ra
-    out = []
-    saved = (ra.REPORTS_JSON, ra.DATA_DIR, ra.NEWS_DIR, ra.MAX_REPORTS)
-    with tempfile.TemporaryDirectory() as d:
-        d = Path(d)
-        ra.DATA_DIR, ra.NEWS_DIR = d / "data", d / "news"
-        ra.REPORTS_JSON = ra.DATA_DIR / "reports.json"
-        ra.NEWS_DIR.mkdir(parents=True)
-        ra.MAX_REPORTS = None
-        try:
-            def rep(i, date, vid, cat="macro"):
-                (ra.NEWS_DIR / f"{i}.html").write_text("x", encoding="utf-8")
-                return {"id": i, "date": date, "url": f"{i}.html", "video_id": vid,
-                        "category": cat, "relation": "direct", "title": i}
-            ra.merge([rep("a", "2026-01-01", "va"), rep("b", "2026-01-03", "vb", cat="없는분류")])
-            ra.merge([rep("a", "2026-01-01", "va")])          # 같은 id 는 갱신(중복 안 생김)
-            got = ra.load()
-            if [r["id"] for r in got] != ["b", "a"]:
-                out.append(f"  [병합] 중복 없이 최신순이어야 하는데 {[r['id'] for r in got]}")
-            if got[0]["category"] == "없는분류":
-                out.append("  [분류 보정] 등록 안 된 카테고리가 그대로 남았습니다")
-            raw = ra.REPORTS_JSON.read_text(encoding="utf-8")
-            if '"generated_at"' not in raw or '"channels"' not in raw or raw.startswith('{"'):
-                out.append("  [기록 형식] generated_at·channels·들여쓰기가 있어야 합니다")
-            if list(ra.DATA_DIR.glob("*.tmp")):
-                out.append("  [원자적 기록] 임시 파일이 남았습니다")
-            gone = ra.remove_ids(["a"])
-            if [r["id"] for r in gone] != ["a"] or (ra.NEWS_DIR / "a.html").exists():
-                out.append("  [삭제] 인덱스와 HTML 이 함께 지워져야 합니다")
-            if [r["id"] for r in ra.load()] != ["b"]:
-                out.append("  [삭제 뒤 인덱스] b 만 남아야 합니다")
-            if ra.remove_ids(["없음"]) != []:
-                out.append("  [없는 id] 빈 목록이어야 합니다")
-            gone = ra.remove_video_ids(["vb"])
-            if len(gone) != 1 or ra.load() != []:
-                out.append("  [video_id 로 삭제] 지워지지 않았습니다")
-            ra.MAX_REPORTS = 1
-            ra.merge([rep("c", "2026-02-01", "vc"), rep("d", "2026-02-02", "vd")])
-            if [r["id"] for r in ra.load()] != ["d"] or (ra.NEWS_DIR / "c.html").exists():
-                out.append("  [보관 상한] 초과분의 인덱스와 HTML 이 정리돼야 합니다")
-        finally:
-            ra.REPORTS_JSON, ra.DATA_DIR, ra.NEWS_DIR, ra.MAX_REPORTS = saved
-    import build_index, delete_report, check_published, inspect
-    if build_index.load_existing is not ra.load or build_index.merge is not ra.merge:
-        out.append("  [build_index] 기존 이름이 report_archive 를 가리켜야 합니다")
-    for mod in (delete_report, check_published):
-        if "REPORTS_JSON.write_text" in inspect.getsource(mod):
-            out.append(f"  [{mod.__name__}] reports.json 을 직접 쓰고 있습니다 — report_archive 를 쓰세요")
-    return out
-
-
-def check_key_ring() -> list[str]:
-    """공급자 공통 키 돌려쓰기 규칙 — 이름 규칙·중복·순서·소진·로그에 키 비노출."""
-    import os
-    from key_ring import KeyRing
-    import gemini_keys, openai_models, nvidia_models
-    out = []
-    names = ("KR_X", "KR_X_2", "KR_X_3", "KR_X3", "KR_X_CSV")
-    saved = {k: os.environ.pop(k, None) for k in names}
-    try:
-        if KeyRing("KR_X").count() != 0 or KeyRing("KR_X").summary() != "등록된 키 없음":
-            out.append("  [키 없음] 0개·'등록된 키 없음' 이어야 합니다")
-        os.environ.update({"KR_X": "k1", "KR_X_2": "k2", "KR_X_3": "k1", "KR_X3": "bad", "KR_X_CSV": "c1, k2"})
-        r = KeyRing("KR_X", csv_env="KR_X_CSV", noun="소진")
-        if r.keys() != ["c1", "k2", "k1"]:
-            out.append(f"  [수집 규칙] CSV→기본→번호 순, 중복 제거, 밑줄 없는 이름 무시여야 하는데 {r.keys()}")
-        if r.current() != "c1" or not r.rotate() or r.current() != "k2":
-            out.append("  [회전] 첫 키 소진 뒤 두 번째 키로 가야 합니다")
-        if not r.rotate() or r.rotate():
-            out.append("  [소진] 마지막 키까지 쓰면 False 여야 합니다")
-        if r.spent() != 3 or "3개 소진" not in r.summary():
-            out.append(f"  [요약] 소진 개수·단어가 틀립니다: {r.summary()}")
-        if any(k in r.label() + r.summary() for k in ("c1", "k1", "k2")):
-            out.append("  [로그] 키 값이 노출됩니다")
-    finally:
-        for k in names:
-            os.environ.pop(k, None)
-        for k, v in saved.items():
-            if v is not None:
-                os.environ[k] = v
-    for mod, want in ((gemini_keys, "GEMINI_API_KEY"), (openai_models, "OPENAI_API_KEY"),
-                      (nvidia_models, "NVIDIA_API_KEY")):
-        if mod._ring.base != want or mod._ring.max_keys != 10:
-            out.append(f"  [{mod.__name__}] KeyRing 설정이 {want}·10 이 아닙니다")
-    return out
-
-
-def check_hallucination_guards() -> list[str]:
-    """2026-11-12: 자막 없이 입력에 없던 '코스피 2,500선'이 발행됐다."""
-    import generate_report as g
-    out = []
-    meta = {"title": "코스피 흔들리는 이유", "description": ""}
-    bad = {"title": "코스피 2,500선 위태", "meta_description": "코스피가 2,500선 아래로",
-           "_transcript_source": "unavailable", "relation": "indirect"}
-
-    def raises(data, tr="", ref=None, force=False):
-        try:
-            g.verify_grounding(data, meta, tr, reference=ref, force=force)
-        except g.InsufficientContext:
-            return True
-        return False
-
-    if not raises(bad):
-        out.append("  [자막 없음 + 입력에 없는 '2,500선'] 기각되지 않았습니다")
-    if raises(bad, tr="오늘 코스피는 2,500선에서 마감했다"):
-        out.append("  [입력에 실제로 있는 수치] 잘못 기각됐습니다")
-    if raises(dict(bad, _transcript_source="youtube-transcript-api")):
-        out.append("  [정식 자막 출처] 약한 출처 규칙이 잘못 적용됐습니다")
-    if not raises(dict(bad, title="반도체 약세", meta_description="약세", relation="context")):
-        out.append("  [자막 없음 + context] 기각되지 않았습니다")
-    ref = [{"title": f"코스피 {v}선 돌파", "summary": ""} for v in (6000, 6400, 7000)]
-    gem = dict(bad, _transcript_source="gemini-video")
-    if not raises(gem, ref=ref):
-        out.append("  [코스피 2,500 vs 최근 중앙값 6,400] 기각되지 않았습니다")
-    if raises(dict(gem, title="코스피 5,300선 하회", meta_description="5,300"), ref=ref):
-        out.append("  [코스피 5,300 (중앙값 -17%)] 잘못 기각됐습니다")
-    src = open(g.__file__, encoding="utf-8").read()
-    if 'transcript_source in WEAK_SOURCES' not in src:
-        out.append("  [source_note] unavailable 이 약한 출처로 취급되지 않습니다")
-    return out
-
-
-def check_summarize_url_has_fallbacks() -> list[str]:
-    from pathlib import Path
-    wf = (Path(__file__).resolve().parent.parent
-          / ".github/workflows/summarize-url.yml").read_text(encoding="utf-8")
-    out = []
-    for name in ("GEMINI_API_KEY_2:", "GITHUB_TOKEN:", "OPENAI_API_KEY:",
-                 "OPENAI_API_KEY_2:"):
-        if name not in wf:
-            out.append(f"  [URL 요약도 {name[:-1]} 를 받아야 함] archive.yml 에만 있습니다")
-    if "models: read" not in wf:
-        out.append("  [URL 요약도 models: read 권한이 있어야 함] "
-                   "없으면 GITHUB_TOKEN 을 넘겨도 GitHub Models 가 거부합니다")
-    return out
-
-
-
-#
-# 둘은 한 쌍이다. 끝까지 보기로 하면 하루 예산이 훨씬 빨리 닳으므로,
-# 키를 더 넣어 벌충하지 못하면 발행이 오히려 줄어든다.
-def check_multi_key_and_full_video() -> list[str]:
-    import importlib
-    import inspect
-    import os
-    from pathlib import Path
-    import gemini_keys
-    import video_budget as vb
-    import generate_report as G
-
-    out = []
-    saved = {k: os.environ.get(k) for k in os.environ
-             if "GEMINI" in k or "OPENAI" in k}
-    try:
-        for k in list(saved):
-            os.environ.pop(k, None)
-        os.environ["GEMINI_API_KEY"] = "k1"
-        os.environ["GEMINI_API_KEY_2"] = "k2"
-        os.environ["GEMINI_API_KEY_3"] = "k1"      # 같은 키 — 한도는 하나다
-        gk = importlib.reload(gemini_keys)
-
-        if gk.count() != 2:
-            out.append(f"  [같은 키는 하나로 세야 함] {gk.count()}개로 셌습니다")
-        if not gk.spend_and_rotate():
-            out.append("  [첫 키가 바닥나면 다음 키로 가야 함] 더 못 간다고 했습니다")
-        if gk.spend_and_rotate():
-            out.append("  [키를 다 쓰면 False 여야 함] 아직 남았다고 했습니다")
-
-        # 키가 하나도 없으면 0개 — 예전처럼 GEMINI_API_KEY 만 보던 경로도 살아야 한다
-        for k in ("GEMINI_API_KEY", "GEMINI_API_KEY_2", "GEMINI_API_KEY_3"):
-            os.environ.pop(k, None)
-        gk = importlib.reload(gemini_keys)
-        if gk.count() != 0 or gk.current() != "":
-            out.append("  [키가 없으면 0개·빈 값] 그렇지 않습니다")
-    finally:
-        for k in ("GEMINI_API_KEY", "GEMINI_API_KEY_2", "GEMINI_API_KEY_3"):
-            os.environ.pop(k, None)
-        for k, v in saved.items():
-            if v is not None:
-                os.environ[k] = v
-        importlib.reload(gemini_keys)
-
-    # 영상 예산 — 상한 0 은 '끝까지'라는 뜻이고, 예산도 길이 전부를 잡아야 한다.
-    # 여기서 0 을 '공짜'로 읽으면 하루 예산이 아무 일도 안 하게 된다.
-    if vb.cost_minutes(7200, 0) != 120.0:
-        out.append(f"  [상한 0 이면 길이 전부를 잡아야 함] {vb.cost_minutes(7200, 0)}")
-    if vb.cost_minutes(7200, 40) != 40.0:
-        out.append("  [상한이 있으면 그 값으로 잘라야 함]")
-    if vb.cost_minutes(None, 0) <= 0:
-        out.append("  [길이를 몰라도 0 분으로 잡으면 안 됨]")
-
-    # 기본값이 '끝까지'인가 — 여기에 숫자가 다시 박히면 뒷부분을 또 잃는다
-    if G.VIDEO_MAX_MINUTES != 0:
-        out.append(f"  [영상은 기본이 끝까지여야 함] 지금 {G.VIDEO_MAX_MINUTES}분에서 끊깁니다")
-    src = inspect.getsource(G._generate_from_video)
-    if "end_offset" in src and "VIDEO_MAX_MINUTES > 0" not in src:
-        out.append("  [상한이 없을 때는 end_offset 을 넣지 말아야 함]")
-
-    # 쿼터로 접기 전에 키를 갈아타는가 (갈아타기가 빠지면 키를 넣어도 소용없다)
-    gen = inspect.getsource(G._generate)
-    if "rotate_key" not in gen:
-        out.append("  [텍스트 한도 소진 시 키를 갈아타야 함] 갈아타기가 없습니다")
-    vid = inspect.getsource(G._generate_from_video)
-    if "rotate_key" not in vid:
-        out.append("  [영상 한도 소진 시 키를 갈아타야 함] 갈아타기가 없습니다")
-
-    # OpenAI 는 <마지막> 예비다 — 유일하게 과금되므로 무료 경로보다 뒤여야 한다
-    fb = inspect.getsource(G._fallback)
-    if "openai_models" not in fb:
-        out.append("  [OpenAI 예비 경로] 연결이 없습니다")
-    elif fb.find("gh_models.available") > fb.find("openai_models"):
-        out.append("  [무료 경로를 먼저 써야 함] OpenAI 가 앞에 있습니다")
-
-    # 전체 순서 — GitHub Models → NVIDIA → Gemini(텍스트) / Gemini 실패 시
-    # GitHub Models → NVIDIA → OpenAI(마지막, 과금). 사용자 지정(2026-10-28).
-    if "nvidia_models" not in fb:
-        out.append("  [NVIDIA 예비 경로] _fallback 에 연결이 없습니다")
-    elif not (fb.find("gh_models.available") < fb.find("nvidia_models")
-             < fb.find("openai_models")):
-        out.append("  [예비 경로 순서] GitHub Models → NVIDIA → OpenAI 순서가 아닙니다")
-    if "nvidia_models" not in gen:
-        out.append("  [NVIDIA] 텍스트 주경로(_generate)에 연결이 없습니다")
-    elif not (gen.find("gh_models.available") < gen.find("nvidia_models")
-             < gen.find("cfg = types.GenerateContentConfig")):
-        out.append("  [NVIDIA 는 GitHub Models 다음·Gemini 호출 이전이어야 함] 순서가 다릅니다")
-
-    # 워크플로가 키들을 실제로 넘기는가
-    wf = (Path(__file__).resolve().parent.parent
-          / ".github/workflows/archive.yml").read_text(encoding="utf-8")
-    for name in ("GEMINI_API_KEY_2:", "NVIDIA_API_KEY:", "NVIDIA_API_KEY_2:",
-                 "OPENAI_API_KEY:", "OPENAI_API_KEY_2:"):
-        if name not in wf:
-            out.append(f"  [워크플로가 {name[:-1]} 를 넘겨야 함] 사라졌습니다")
-    return out
-
-
-# OpenAI 도 Gemini 와 같은 규칙(KEY, KEY_2, KEY_3 …)으로 여러 개를 돌려쓰는가.
-#   밑줄 없는 KEY1·KEY2 로 등록하면 인식되지 않는다 — 사용자가 실제로 헷갈렸던
-#   지점이라(2026-10-28), 이름 규칙과 로테이션 둘 다 고정해 둔다.
-def check_openai_multi_key() -> list[str]:
-    import importlib
-    import os
-    import types
-    import openai_models as om
-
-    out = []
-    saved = {k: os.environ.get(k) for k in os.environ if "OPENAI" in k}
-    try:
-        for k in list(saved):
-            os.environ.pop(k, None)
-
-        # ① 밑줄 없는 이름은 인식되지 않아야 한다 (사용자가 실제로 시도했던 형태)
-        os.environ["OPENAI_API_KEY1"] = "sk-wrong"
-        om2 = importlib.reload(om)
-        if om2.key_count() != 0:
-            out.append("  [밑줄 없는 KEY1 은 인식되면 안 됨] 등록된 것으로 셌습니다")
-        os.environ.pop("OPENAI_API_KEY1", None)
-
-        # ② KEY, KEY_2, KEY_3 — 중복은 하나로
-        os.environ["OPENAI_API_KEY"] = "sk-aaa"
-        os.environ["OPENAI_API_KEY_2"] = "sk-bbb"
-        os.environ["OPENAI_API_KEY_3"] = "sk-aaa"
-        om2 = importlib.reload(om)
-        if om2.key_count() != 2:
-            out.append(f"  [같은 키는 하나로 세야 함] {om2.key_count()}개로 셌습니다")
-
-        # ③ 401/429 를 받으면 다음 키로 갈아타고, 성공하면 결과를 돌려준다
-        calls = []
-
-        class _Resp:
-            def __init__(self, status, body="{}"):
-                self.status_code, self.text = status, body
-            def json(self):
-                import json as _j
-                return _j.loads(self.text)
-
-        seq = [_Resp(429), _Resp(200, '{"choices":[{"message":{"content":"{\\"ok\\":1}"}}]}')]
-
-        def fake_post(*a, **k):
-            calls.append(k["headers"]["Authorization"])
-            return seq.pop(0)
-
-        om2.requests = types.SimpleNamespace(post=fake_post)
-        import sys
-        sys.modules["requests"] = om2.requests
-        result = om2.generate("p")
-        if result != '{"ok":1}':
-            out.append(f"  [성공 응답을 그대로 돌려줘야 함] {result!r}")
-        if calls != ["Bearer sk-aaa", "Bearer sk-bbb"]:
-            out.append(f"  [429 면 다음 키로 갈아타야 함] 호출 순서 {calls}")
-
-        # ④ 모든 키가 막히면 예외를 올린다 (조용히 사라지면 안 된다)
-        seq2 = [_Resp(429), _Resp(429)]
-        om2.requests.post = lambda *a, **k: seq2.pop(0)
-        try:
-            om2.generate("p")
-            out.append("  [키를 다 쓰면 예외를 올려야 함] 조용히 통과했습니다")
-        except om2.OpenAIUnavailable:
-            pass
-    finally:
-        for k in list(os.environ):
-            if "OPENAI" in k:
-                os.environ.pop(k, None)
-        for k, v in saved.items():
-            if v is not None:
-                os.environ[k] = v
-        importlib.reload(om)
-    return out
-
-
-# NVIDIA 도 같은 규칙(KEY, KEY_2 …)으로 여러 개를 돌려쓰는가. OpenAI 와 코드
-# 모양이 같지만 엔드포인트·모델이 다르므로 설정값 자체도 함께 확인한다.
-def check_nvidia_multi_key() -> list[str]:
-    import importlib
-    import os
-    import types
-    import nvidia_models as nvm
-
-    out = []
-    if "integrate.api.nvidia.com" not in nvm.ENDPOINT:
-        out.append(f"  [NVIDIA 엔드포인트가 아님] {nvm.ENDPOINT}")
-    saved = {k: os.environ.get(k) for k in os.environ if "NVIDIA" in k}
-    try:
-        for k in list(saved):
-            os.environ.pop(k, None)
-
-        # ① 밑줄 없는 이름은 인식되지 않아야 한다
-        os.environ["NVIDIA_API_KEY1"] = "nvapi-wrong"
-        nvm2 = importlib.reload(nvm)
-        if nvm2.key_count() != 0:
-            out.append("  [밑줄 없는 KEY1 은 인식되면 안 됨] 등록된 것으로 셌습니다")
-        os.environ.pop("NVIDIA_API_KEY1", None)
-
-        # ② KEY, KEY_2, KEY_3 — 중복은 하나로
-        os.environ["NVIDIA_API_KEY"] = "nvapi-aaa"
-        os.environ["NVIDIA_API_KEY_2"] = "nvapi-bbb"
-        os.environ["NVIDIA_API_KEY_3"] = "nvapi-aaa"
-        nvm2 = importlib.reload(nvm)
-        if nvm2.key_count() != 2:
-            out.append(f"  [같은 키는 하나로 세야 함] {nvm2.key_count()}개로 셌습니다")
-
-        # ③ 429 를 받으면 다음 키로 갈아타고, response_format 을 강제하지 않는다
-        #    (NIM 뒤 모델마다 json_object 지원 여부가 달라, 강제하면 400 이 날 수 있다)
-        calls = []
-
-        class _Resp:
-            def __init__(self, status, body="{}"):
-                self.status_code, self.text = status, body
-            def json(self):
-                import json as _j
-                return _j.loads(self.text)
-
-        seq = [_Resp(429), _Resp(200, '{"choices":[{"message":{"content":"{\\"ok\\":1}"}}]}')]
-
-        def fake_post(*a, **k):
-            calls.append((k["headers"]["Authorization"], "response_format" in k["json"]))
-            return seq.pop(0)
-
-        nvm2.requests = types.SimpleNamespace(post=fake_post)
-        import sys
-        sys.modules["requests"] = nvm2.requests
-        result = nvm2.generate("p")
-        if result != '{"ok":1}':
-            out.append(f"  [성공 응답을 그대로 돌려줘야 함] {result!r}")
-        if [c[0] for c in calls] != ["Bearer nvapi-aaa", "Bearer nvapi-bbb"]:
-            out.append(f"  [429 면 다음 키로 갈아타야 함] 호출 순서 {calls}")
-        if any(c[1] for c in calls):
-            out.append("  [response_format 을 강제하면 안 됨] NIM 모델마다 지원이 달라 400 위험")
-
-        # ④ 모든 키가 막히면 예외를 올린다
-        seq2 = [_Resp(429), _Resp(429)]
-        nvm2.requests.post = lambda *a, **k: seq2.pop(0)
-        try:
-            nvm2.generate("p")
-            out.append("  [키를 다 쓰면 예외를 올려야 함] 조용히 통과했습니다")
-        except nvm2.NvidiaUnavailable:
-            pass
-    finally:
-        for k in list(os.environ):
-            if "NVIDIA" in k:
-                os.environ.pop(k, None)
-        for k, v in saved.items():
-            if v is not None:
-                os.environ[k] = v
-        importlib.reload(nvm)
-    return out
-
-
-def check_workflow_models_perm() -> list[str]:
-    from pathlib import Path
-    wf = Path(__file__).resolve().parent.parent / ".github/workflows/archive.yml"
-    text = wf.read_text(encoding="utf-8")
-    out = []
-    if "models: read" not in text:
-        out.append("  [워크플로에 'models: read' 권한이 있어야 함] 사라졌습니다")
-    if "GITHUB_TOKEN" not in text:
-        out.append("  [파이프라인 단계에 GITHUB_TOKEN 을 넘겨야 함] 사라졌습니다")
-    return out
 
 
 # 쇼츠가 RSS 를 타고 되살아나지 않는가.
@@ -1841,57 +989,8 @@ def check_shorts_guard_wired() -> list[str]:
     return out
 
 
-# 워크플로가 리포트를 push 하지 못해 통째로 잃는 일을 막는 장치.
-# 2026-08-11 아침 실행이 실제로 이렇게 날아갔다 — 커밋까지 다 해 놓고
-# 마지막 push 한 줄에서 'fetch first' 로 거부당해 그 실행의 결과물이 전부 버려졌다.
-# 실행 도중 사람이 main 에 커밋하면 언제든 재현되는 상황이다.
-def check_workflow_push_retry() -> list[str]:
-    from pathlib import Path
-    wf = (Path(__file__).resolve().parent.parent
-          / ".github/workflows/archive.yml").read_text(encoding="utf-8")
-    out = []
-    for needle, why in (
-        ("git fetch origin main", "push 거부 시 원격을 받아 와야 한다"),
-        ("git rebase origin/main", "받아 온 것을 붙여야 한다"),
-        ("rebase --abort", "충돌 시 깨끗이 되돌려야 한다"),
-    ):
-        if needle not in wf:
-            out.append(f"  [{why}] {needle!r} 가 사라졌습니다")
-    # 예약이 걸러졌을 때를 대비해 하루 여러 번 돌아야 한다
-    if wf.count("- cron:") < 8:
-        out.append("  [예약을 넉넉히] GitHub 는 예약을 건너뛸 수 있어 3시간 간격(8회)이어야 합니다")
-    return out
 
 
-# URL 직접 등록이 '성공했다'고 말해 놓고 실제로는 커밋되지 않던 사고를 막는다.
-# 2026-09-17: 이슈 #10 에서 '명칭 검사' 가 (이 리포트와 무관한, 사이트 어딘가에
-# 남아 있던 옛 이름 하나 때문에) 실패하자 'if 조건 없는' 커밋 단계가 통째로
-# skip 됐다. 그런데 '결과 댓글' 단계는 그걸 모르고 summarize 단계의 출력만
-# 보고 "✅ 요약 완료"에 리포트 링크까지 달아 이슈를 닫아 버렸다 — 그 링크는
-# 존재하지 않는 페이지였다. archive.yml 의 '커밋은 always(), 명칭검사는 경고만'
-# 원칙과 어긋난 상태였다.
-def check_workflow_url_comment_honesty() -> list[str]:
-    from pathlib import Path
-    wf = (Path(__file__).resolve().parent.parent
-          / ".github/workflows/summarize-url.yml").read_text(encoding="utf-8")
-    out = []
-    # 1) 커밋 단계가 archive.yml 과 같은 원칙(always)이어야, 이 리포트와 무관한
-    #    옛 위반 하나가 새 등록을 영영 막는 일이 재발하지 않는다
-    import re as _re
-    m = _re.search(r"- name: Commit new report\n((?:.+\n)+?)\n", wf)
-    commit_block = m.group(1) if m else ""
-    if "if: always()" not in commit_block:
-        out.append("  [Commit new report 단계에 if: always() 가 없습니다 — "
-                    "무관한 옛 명칭 위반이 새 등록을 다시 막을 수 있습니다]")
-    if 'id: commit' not in commit_block:
-        out.append("  [Commit new report 단계에 id: commit 이 없습니다]")
-    if "committed=" not in commit_block or "GITHUB_OUTPUT" not in commit_block:
-        out.append("  [커밋 단계가 실제로 커밋했는지를 출력으로 남기지 않습니다]")
-    # 2) 결과 댓글이 그 출력을 실제로 확인해야 한다 — summarize 의 자기 신고만
-    #    믿으면 커밋이 안 됐어도 성공했다고 말해 버린다
-    if "steps.commit.outputs.committed" not in wf:
-        out.append("  [결과 댓글이 steps.commit.outputs.committed 를 확인하지 않습니다]")
-    return out
 
 
 # 공식 YouTube Data API 로 설명글과 길이를 채우는 경로.
@@ -1955,7 +1054,41 @@ def check_shorts() -> list[str]:
     return out
 
 
+def check_harness_isolation() -> list[str]:
+    """검사 하나가 환경변수·requests 를 바꿔 놓아도 다음 검사에 새지 않아야 한다."""
+    import os
+    import types
+    import test_harness as th
+    out = []
+    os.environ.pop("HARNESS_PROBE", None)
+    had_requests = "requests" in sys.modules
+    before = sys.modules.get("requests")
+
+    def dirty() -> list[str]:
+        os.environ["HARNESS_PROBE"] = "1"
+        sys.modules["requests"] = types.SimpleNamespace()
+        return ["  [더러운 검사] 실패 한 건"]
+
+    if th.isolated(dirty) != ["  [더러운 검사] 실패 한 건"]:
+        out.append("  [격리] 검사 결과가 그대로 전달돼야 합니다")
+    if "HARNESS_PROBE" in os.environ:
+        out.append("  [격리] 환경변수가 되돌아가지 않았습니다")
+    if sys.modules.get("requests") is not before or ("requests" in sys.modules) != had_requests:
+        out.append("  [격리] sys.modules['requests'] 가 되돌아가지 않았습니다")
+    fails, n, bad = th.run([("ok", lambda: []), ("bad", lambda: ["x"]),
+                            ("boom", lambda: 1 / 0)])
+    if (n, bad) != (3, 2) or len(fails) != 2:
+        out.append(f"  [집계] 검사 3개·실패 2개여야 하는데 {n}·{bad}")
+    mine = [n for n, _ in th.collect(globals(), __name__)]
+    if "check_harness_isolation" not in mine or "check_names" not in mine:
+        out.append("  [자동 수집] check_* 함수가 모이지 않았습니다")
+    return out
+
+
 def main() -> int:
+    import importlib
+    import test_harness as th
+
     fails: list[str] = []
     for title, desc, expect in CASES:
         hits = match_candidate(title, desc)
@@ -1964,78 +1097,18 @@ def main() -> int:
             want = "잡혀야" if expect else "걸러져야"
             fails.append(f"  [{want} 함] {title[:46]!r} → hits={hits[:5]}")
 
-    fails += check_shorts()
-    fails += check_shorts_not_revived()
-    fails += check_shorts_guard_wired()
-    fails += check_names()
-    fails += check_name_fix_actually_fixes()
-    fails += check_evidence()
-    fails += check_model_errors()
-    fails += check_unblock()
-    fails += check_priority()
-    fails += check_daily_floor()
-    fails += check_regate()
-    fails += check_video_budget()
-    fails += check_text_backend()
-    fails += check_local_push()
-    fails += check_handoff()
-    fails += check_transient()
-    fails += check_quota_parse()
-    fails += check_model_order()
-    fails += check_regen_guard()
-    fails += check_tone_prompt()
-    fails += check_stop_reason()
-    fails += check_gh_fallback()
-    fails += check_workflow_models_perm()
-    fails += check_workflow_push_retry()
-    fails += check_yt_meta()
-    fails += check_category_guard()
-    fails += check_pagination()
-    fails += check_youtube_url_validation()
-    fails += check_workflow_url_comment_honesty()
-    fails += check_telegram()
-    fails += check_send_report()
-    fails += check_multi_key_and_full_video()
-    fails += check_openai_multi_key()
-    fails += check_nvidia_multi_key()
-    fails += check_summarize_url_has_fallbacks()
-    fails += check_gh_token_flow()
-    fails += check_key_ring()
-    fails += check_report_archive()
-    fails += check_hallucination_guards()
-    fails += check_writer_concurrency()
-    fails += check_stt_fallback()
-    fails += check_transcripts_module()
-    total = (len(CASES) + len(SHORTS_CASES) + len(NAME_CASES)
-             + len(EVIDENCE_CASES) + len(MODEL_ERR_CASES) + len(UNBLOCK_CASES)
-             + 1     # 처리 우선순위
-             + 11    # 빈 날 메우기(순서 2 · 유지 1 · 해제 3 · 빈날우선 2 · 빈날계산 2 · 단일로드 1)
-             + 11    # 후보 재판정(되살림·상한·날짜창·API·스위치)
-             + 13    # 영상 예산(비용3·미상1·분단위2·소진1·날짜1·상한1·워크플로1·배선3)
-             + 7     # 텍스트 주력 전환(기본값·순서·되돌리기·예비·한도2)
-             + 5     # 말투 프롬프트(목록·경고·스펙·버전)
-             + 4     # PC 자막 수집 git 처리
-             + len(HANDOFF_CASES) + len(TRANSIENT_CASES) + 1 + 2 + 2 + 6 + 5 + 4 + 8
-             + 5     # 목록 페이지네이션(카드수·슬라이스·요소·스타일·초기화)
-             + 17    # 분류 값 고정(카테고리10·정상1·relation4·데이터1·인덱스1)
-             + 8     # 유튜브 URL 검증(watch·shorts·youtu.be·embed·live·소문자형·타도메인·잡문자)
-             + 4     # 명칭 --fix 정확성(전제·판정일치·재교정·회귀방지)
-             + 4     # URL 등록 댓글 정직성(always·id·output·확인)
-             + 7     # 텔레그램(무시크릿2·연관도2·상한1·커밋순서2 외 배선)
-             + 9     # 리포트 전문 전송(섹션4·링크1·상한2·권한2 외 버튼자리)
-             + 12    # GitHub 토큰 경로(부품6·버튼배선1·헤더보안2·경로사용2·reload1)
-             + 14    # 키 돌려쓰기·영상 전체(키4·예산3·기본값2·갈아타기2·예비3)
-             + 7     # OpenAI 다중키(밑줄규칙1·중복1·로테이션2·소진1·배선2)
-             + 8     # NVIDIA 다중키(엔드포인트1·밑줄규칙1·중복1·로테이션3·소진1·json강제1)
-             + 18    # 음성 인식 폴백(NVIDIA 5 포함: 공급자3·분할2·Groq헤더1·언어모델1·429대기2·401·키노출·게시대기3·배선)
-             + 10    # reports.json 단일 입구(병합·분류·형식·임시파일·삭제·없는id·video_id·보관상한·직접쓰기금지 외)
-             + 8     # 키 돌려쓰기 공통 규칙(없음2·수집·회전·소진·요약·로그·공급자3 중 8개)
-             + 8     # 자막 단일 입구(캐시·우회·API실패·stt사용·stt불필요·예외·짧음·약한출처)
-             + 3     # 쓰기 워크플로 동시성 그룹(archive·summarize-url·delete-report)
-             + 7     # 환각 수치 방어(없는수치·있는수치·정식자막·context·지수이탈·지수정상·배선)
-             + 5)    # URL 요약 예비경로 배선(키2·토큰1·OpenAI2·권한1 중 5개 확인)
-    print(f"키워드·쇼츠·명칭·근거·모델·해제·우선순위·빈날메우기·후보재판정·영상예산·텍스트주력·PC업로드·쿼터양보·보류판정·모델한도·안전장치·예비경로·쇼츠부활·푸시복구·공식API·페이지네이션·분류고정·URL검증·명칭교정·등록정직성·텔레그램·전문전송·토큰경로·키돌려쓰기·OpenAI다중키·NVIDIA다중키·URL요약배선 — "
-          f"{total - len(fails)}/{total} 통과")
+    # 검사는 check_* 이름으로 자동 수집한다 — 새 검사는 함수만 추가하면 돌고 집계에도 들어간다.
+    checks = th.collect(globals(), __name__)
+    for modname in ("regression_services", "regression_data"):
+        mod = importlib.import_module(modname)
+        checks += th.collect(vars(mod), modname)
+    more, n_checks, n_bad = th.run(checks)
+    fails += more
+
+    n_cases = sum(len(t) for t in (CASES, SHORTS_CASES, NAME_CASES, EVIDENCE_CASES,
+                                   MODEL_ERR_CASES, UNBLOCK_CASES, HANDOFF_CASES, TRANSIENT_CASES))
+    print(f"검사 {n_checks}개 중 {n_checks - n_bad}개 통과 · 데이터 사례 {n_cases}건 확인 · "
+          f"실패 항목 {len(fails)}건")
     if fails:
         print("실패:", file=sys.stderr)
         for f in fails:
