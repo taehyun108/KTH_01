@@ -24,7 +24,7 @@ OPENAI = ["gpt-6-luna", "gpt-5.6-luna", "gpt-4o-mini", "gpt-4.1-mini"]
 GITHUB = ["openai/gpt-4.1-mini", "openai/gpt-4.1", "openai/gpt-4o-mini", "openai/gpt-5-mini", "openai/gpt-5-nano"]
 NVIDIA = ["minimaxai/minimax-m3.1-flash", "deepseek-ai/deepseek-v4.1-flash", "google/gemma-4-31b-it",
           "nvidia/nemotron-3-super-120b-a12b"]
-GEMINI = ["gemini-3.1-flash-lite", "gemini-flash-lite-latest", "gemini-2.5-flash-lite", "gemini-2.5-flash"]
+GEMINI = ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-3.5-flash", "gemini-flash-lite-latest", "gemini-2.5-flash-lite"]
 
 
 def prompt(text: str) -> str:
@@ -93,23 +93,25 @@ def main() -> None:
     text = g.trim_transcript(cached[0], 6000)
     p = prompt(text)
     print(f"과제 입력 {len(text):,}자 (자막 앞부분 + 뒷부분)")
+    only = os.getenv("BENCH_ONLY", "").lower()      # 예: BENCH_ONLY=gemini
+    want = lambda n: not only or only == n  # noqa: E731
     k = os.getenv("OPENAI_API_KEY", "")
-    if k:
+    if k and want("openai"):
         print("[OpenAI]")
         for m in OPENAI:
             run(m, lambda m=m: chat("https://api.openai.com/v1/chat/completions", k, m, p, True), text, m, PRICE.get(m))
     t = os.getenv("GITHUB_TOKEN", "")
-    if t:
+    if t and want("github"):
         print("[GitHub Models — 무료, 한도 있음]")
         for m in GITHUB:
             run(m, lambda m=m: chat("https://models.github.ai/inference/chat/completions", t, m, p, False), text, m)
     k = os.getenv("NVIDIA_API_KEY", "")
-    if k:
+    if k and want("nvidia"):
         print("[NVIDIA — 무료 체험]")
         for m in NVIDIA:
             run(m, lambda m=m: chat("https://integrate.api.nvidia.com/v1/chat/completions", k, m, p, False), text, m)
     k = os.getenv("GEMINI_API_KEY", "")
-    if k:
+    if k and want("gemini"):
         print("[Gemini]")
         for m in GEMINI:
             run(m, lambda m=m: gemini_call(k, m, p), text, m)
