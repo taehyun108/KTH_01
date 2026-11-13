@@ -41,11 +41,13 @@ ENDPOINT = "https://integrate.api.nvidia.com/v1/chat/completions"
 DEFAULT_MODEL = os.getenv("NVIDIA_MODEL", "minimaxai/minimax-m3.1-flash")
 # 2026-11-13: 180초 기본값 때문에 응답 없는 요청 하나가 3분을 통째로 붙잡았다(ReadTimeout 뒤 Gemini 로 감).
 # 90초로 줄인다. 너무 줄이면 긴 리포트 생성이 정상인데도 잘리므로 60초까지는 내리지 않는다.
-TIMEOUT_SEC = int(os.getenv("NVIDIA_TIMEOUT_SEC", "90"))
+# 2026-11-13 실행: 프롬프트 8천~1만 자에도 90초를 다 채우고 실패(2회) + 503(1회) — 한 번도 응답하지 못했다.
+# 응답할 때는 수 초 안에 오므로 60초로 줄이고, 아래 FAIL_LIMIT 도 2회로 줄여 실행당 낭비를 최대 2분으로 묶는다.
+TIMEOUT_SEC = int(os.getenv("NVIDIA_TIMEOUT_SEC", "60"))
 MAX_KEYS = 10
 
 # 연속 실패하면 접는다 — 키가 전부 틀렸거나 잔액이 없으면 매번 같은 이유로 실패한다.
-FAIL_LIMIT = 3
+FAIL_LIMIT = 2
 _fails = 0
 
 # 이번 실행에서 이 경로를 몇 번 썼는지.

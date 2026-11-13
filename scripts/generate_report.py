@@ -1098,6 +1098,41 @@ def slugify(title: str) -> str:
     return s[:60] or "report"
 
 
+def _as_text(v: Any) -> str:
+    """모델이 문자열 자리에 목록·숫자를 보내도 문자열로 맞춘다."""
+    if v is None:
+        return ""
+    if isinstance(v, (list, tuple)):
+        return ", ".join(_as_text(x) for x in v if x not in (None, ""))
+    if isinstance(v, dict):
+        return ", ".join(_as_text(x) for x in v.values() if x not in (None, ""))
+    return v if isinstance(v, str) else str(v)
+
+
+def normalize_fields(data: dict[str, Any]) -> dict[str, Any]:
+    """렌더링이 문자열을 기대하는 자리를 전부 문자열로 고정한다.
+
+    ※ 2026-11-13: gemini-3.5-flash-lite 가 '관련 종목' 같은 자리에 목록(["삼성전자", "SK하이닉스"])을
+      보냈고, html.escape 가 "'list' object has no attribute 'replace'" 로 죽어 한 실행에서 6건을 잃었다.
+      모델이 바뀔 때마다 형태가 조금씩 달라지므로, 프롬프트에 기대지 않고 여기서 맞춘다.
+    """
+    for k in ("title", "meta_description", "summary", "battery_implication"):
+        if k in data:
+            data[k] = _as_text(data[k])
+    ov = data.get("overview")
+    if not isinstance(ov, dict):
+        ov = {"topic": _as_text(ov)}
+    data["overview"] = {k: _as_text(ov.get(k)) for k in
+                        ("topic", "channel", "key_figures", "impact", "tickers")}
+    secs = data.get("sections")
+    data["sections"] = [{"heading": _as_text(x.get("heading")), "body": _as_text(x.get("body"))}
+                        for x in (secs if isinstance(secs, list) else []) if isinstance(x, dict)]
+    gl = data.get("glossary")
+    data["glossary"] = [{k: _as_text(x.get(k)) for k in ("term", "desc", "analogy")}
+                        for x in (gl if isinstance(gl, list) else []) if isinstance(x, dict)]
+    return data
+
+
 def _sec_card(num: str, heading: str, body_html: str, full: bool = False) -> str:
     cls = "sec-card full" if full else "sec-card"
     return (f'<section class="{cls}"><div class="sec-head">'
@@ -1288,6 +1323,8 @@ def process_video(meta: dict[str, Any], force: bool = False,
         (DRAFTS_DIR / f"{meta['video_id']}.json").write_text(
             json.dumps({"meta": meta, "reason": "무관"}, ensure_ascii=False, indent=2))
         return None
+
+    normalize_fields(data)
 
     # 생성된 요약이 원본과 실제로 겹치는지 확인 — 무관한 요약이 배포되는 것을 막는 2차 방어선
     verify_relevance(data, meta, transcript)

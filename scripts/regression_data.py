@@ -339,3 +339,29 @@ def check_transcript_trim_limit() -> list[str]:
     if "생략" not in got or not got.startswith("A") or not got.rstrip().endswith("C") or len(got) > 30100:
         out.append("  [6만 자 방송] 앞·뒤를 남기고 상한 안으로 줄여야 합니다")
     return out
+
+
+def check_normalize_fields() -> list[str]:
+    """모델이 문자열 자리에 목록·숫자·None 을 보내도 렌더링이 죽지 않아야 한다(2026-11-13 에 6건 유실)."""
+    import generate_report as g
+    out = []
+    data = {"title": "제목", "meta_description": ["한 줄", "요약"], "summary": None,
+            "battery_implication": 7, "_transcript_source": "gemini-video", "relation": "indirect",
+            "overview": {"topic": "주제", "channel": "채널", "key_figures": ["3조 원", "12%"],
+                         "impact": {"a": "영향"}, "tickers": ["삼성전자", "SK하이닉스"]},
+            "sections": [{"heading": ["소제목"], "body": ["문장 하나.", "문장 둘."]}, "잘못된 항목"],
+            "glossary": [{"term": "HBM", "desc": ["설명"], "analogy": None}]}
+    g.normalize_fields(data)
+    if data["overview"]["tickers"] != "삼성전자, SK하이닉스":
+        out.append(f"  [목록 → 문자열] tickers 가 {data['overview']['tickers']!r}")
+    if data["summary"] != "" or data["battery_implication"] != "7":
+        out.append("  [None·숫자] 문자열로 맞춰지지 않았습니다")
+    if len(data["sections"]) != 1 or data["sections"][0]["body"] != "문장 하나., 문장 둘.":
+        out.append("  [sections] 잘못된 항목 제거·본문 문자열화가 안 됐습니다")
+    try:
+        page = g.render_html(data, {"channel": "삼프로TV", "video_id": "abc"}, "2026-11-13")
+        if "SK하이닉스" not in page:
+            out.append("  [렌더링] 내용이 빠졌습니다")
+    except Exception as exc:  # noqa: BLE001
+        out.append(f"  [렌더링] 목록 필드에서 죽었습니다 — {exc.__class__.__name__}: {exc}")
+    return out
