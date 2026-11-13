@@ -90,23 +90,34 @@ def run(label: str, fn, text: str, model: str, price=None) -> None:
 
 
 def probe_github(token: str) -> None:
-    """GitHub Models 가 'OK' 만 돌려주는 원인을 가른다 — 주소·토큰·헤더를 바꿔 가며 응답 형식을 본다."""
+    """GitHub Models 가 'OK' 만 돌려주는 원인을 가른다 — 주소·토큰을 바꿔 가며 응답 형식을 본다."""
     import requests
     body = {"model": "openai/gpt-4.1-mini", "messages": [{"role": "user", "content": "한 단어로 답: 안녕"}],
             "max_tokens": 20}
-    cases = [
-        ("models.github.ai + GITHUB_TOKEN", "https://models.github.ai/inference/chat/completions", token),
-        ("models.github.ai + 가짜 토큰(대조)", "https://models.github.ai/inference/chat/completions", "ghp_invalid"),
-        ("models.inference.ai.azure.com + GITHUB_TOKEN", "https://models.inference.ai.azure.com/chat/completions", token),
+    hdr = lambda tok: {"Authorization": f"Bearer {tok}", "Content-Type": "application/json",  # noqa: E731
+                       "Accept": "application/json", "X-GitHub-Api-Version": "2022-11-28"}
+    base = "https://models.github.ai"
+    posts = [
+        ("POST /inference/chat/completions", f"{base}/inference/chat/completions", token),
+        ("POST 같은 주소 + 가짜 토큰(대조)", f"{base}/inference/chat/completions", "ghp_invalid"),
+        ("POST /inference/v1/chat/completions", f"{base}/inference/v1/chat/completions", token),
+        ("POST /orgs/taehyun108/inference/...", f"{base}/orgs/taehyun108/inference/chat/completions", token),
+        ("POST /chat/completions", f"{base}/chat/completions", token),
+        ("POST 옛 azure 주소", "https://models.inference.ai.azure.com/chat/completions", token),
     ]
-    for label, url, tok in cases:
+    for label, url, tok in posts:
         try:
-            r = requests.post(url, json=body, timeout=30, headers={
-                "Authorization": f"Bearer {tok}", "Content-Type": "application/json",
-                "Accept": "application/json", "X-GitHub-Api-Version": "2022-11-28"})
-            print(f"  {label:44} HTTP {r.status_code} {r.headers.get('content-type')} {r.text[:90]!r}")
+            r = requests.post(url, json=body, timeout=30, headers=hdr(tok))
+            print(f"  {label:42} HTTP {r.status_code} {r.headers.get('content-type')} {r.text[:80]!r}")
         except Exception as exc:  # noqa: BLE001
-            print(f"  {label:44} 실패 {exc.__class__.__name__}")
+            print(f"  {label:42} 실패 {exc.__class__.__name__}")
+    for label, url in (("GET /catalog/models", f"{base}/catalog/models"), ("GET /", f"{base}/")):
+        try:
+            r = requests.get(url, timeout=30, headers=hdr(token))
+            print(f"  {label:42} HTTP {r.status_code} {r.headers.get('content-type')} "
+                  f"server={r.headers.get('server')} {r.text[:60]!r}")
+        except Exception as exc:  # noqa: BLE001
+            print(f"  {label:42} 실패 {exc.__class__.__name__}")
 
 
 def main() -> None:
