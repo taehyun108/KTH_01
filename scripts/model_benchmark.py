@@ -22,8 +22,7 @@ PRICE = {  # 100만 토큰당 USD (입력, 출력) — 2026-11 검색 기준, Op
 }
 OPENAI = ["gpt-6-luna", "gpt-5.6-luna", "gpt-4o-mini", "gpt-4.1-mini"]
 GITHUB = ["openai/gpt-4.1-mini", "openai/gpt-4.1", "openai/gpt-4o-mini", "openai/gpt-5-mini", "openai/gpt-5-nano"]
-NVIDIA = ["minimaxai/minimax-m3.1-flash", "deepseek-ai/deepseek-v4.1-flash", "google/gemma-4-31b-it",
-          "nvidia/nemotron-3-super-120b-a12b"]
+NVIDIA = ["minimaxai/minimax-m3.1-flash", "deepseek-ai/deepseek-v4.1-flash"]
 GEMINI = ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-3.5-flash", "gemini-flash-lite-latest", "gemini-2.5-flash-lite"]
 
 
@@ -33,7 +32,8 @@ def prompt(text: str) -> str:
             "자막에 없는 수치·지수는 절대 만들지 마라.\n\n--- 자막 ---\n" + text)
 
 
-def chat(url: str, key: str, model: str, p: str, openai_style: bool) -> tuple[str, int, int]:
+def chat(url: str, key: str, model: str, p: str, openai_style: bool,
+         extra: dict | None = None) -> tuple[str, int, int]:
     import requests
     body = {"model": model, "messages": [{"role": "user", "content": p}]}
     if openai_style:
@@ -41,12 +41,11 @@ def chat(url: str, key: str, model: str, p: str, openai_style: bool) -> tuple[st
     else:
         body["max_tokens"] = 2000
         body["temperature"] = 0.4
-    r = requests.post(url, headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
-                      json=body, timeout=90)
+    hdr = {"Authorization": f"Bearer {key}", "Content-Type": "application/json", **(extra or {})}
+    r = requests.post(url, headers=hdr, json=body, timeout=90)
     if r.status_code == 400 and openai_style and "max_completion_tokens" in r.text:
         body.pop("max_completion_tokens"); body["max_tokens"] = 2000
-        r = requests.post(url, headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
-                          json=body, timeout=90)
+        r = requests.post(url, headers=hdr, json=body, timeout=90)
     if r.status_code != 200:
         raise RuntimeError(f"HTTP {r.status_code} {r.text[:120]}".replace("\n", " "))
     j = r.json()
@@ -104,7 +103,8 @@ def main() -> None:
     if t and want("github"):
         print("[GitHub Models — 무료, 한도 있음]")
         for m in GITHUB:
-            run(m, lambda m=m: chat("https://models.github.ai/inference/chat/completions", t, m, p, False), text, m)
+            run(m, lambda m=m: chat("https://models.github.ai/inference/chat/completions", t, m, p, False,
+                                              {"Accept": "application/json", "X-GitHub-Api-Version": "2022-11-28"}), text, m)
     k = os.getenv("NVIDIA_API_KEY", "")
     if k and want("nvidia"):
         print("[NVIDIA — 무료 체험]")
