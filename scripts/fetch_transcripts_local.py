@@ -142,7 +142,20 @@ def main() -> int:
     ap.add_argument("--limit", type=int, default=DEFAULT_LIMIT, help="이번에 받을 최대 건수")
     ap.add_argument("--no-push", action="store_true", help="커밋·푸시하지 않음")
     ap.add_argument("--dry-run", action="store_true", help="받지 않고 대상만 출력")
+    ap.add_argument("--stt", action="store_true",
+                    help="자막이 끝내 없으면 음성 인식(ElevenLabs, ELEVENLABS_API_KEY 필요)으로 받아 적음")
+    ap.add_argument("--stt-after-hours", type=float, default=12,
+                    help="게시 후 이 시간이 지난 영상만 음성 인식(자동 자막이 붙을 시간을 준다)")
+    ap.add_argument("--stt-max-minutes", type=int, default=90, help="이보다 긴 영상은 건너뜀(비용 상한)")
+    ap.add_argument("--stt-limit", type=int, default=5, help="이번 실행에서 음성 인식할 최대 건수")
     args = ap.parse_args()
+
+    if args.stt:
+        import stt_fallback
+        if not stt_fallback.available():
+            print("--stt 는 환경변수 ELEVENLABS_API_KEY 가 필요합니다(키는 채팅·저장소에 적지 마십시오).",
+                  file=sys.stderr)
+            return 1
 
     if problems := _check_env():
         print("실행에 필요한 준비물이 빠져 있습니다:\n" + "\n".join(problems), file=sys.stderr)
@@ -170,7 +183,7 @@ def main() -> int:
         # 여기서 임포트해야 Gemini 관련 모듈을 건드리지 않는다(PC 에 API 키 불필요)
         from generate_report import _transcript_api, _ytdlp_transcript
 
-        ok = fail = 0
+        ok = fail = stt_used = 0
         for i, c in enumerate(todo, 1):
             vid, title = c["video_id"], c.get("title", "")
             text, source = "", ""
@@ -187,6 +200,17 @@ def main() -> int:
                 text, source = _ytdlp_transcript(vid)
                 if source == "unavailable":
                     text = ""
+
+            # 자막이 끝내 없을 때만, 충분히 지난 영상만, 건수 상한 안에서 음성 인식.
+            if (not text and args.stt and stt_used < args.stt_limit
+                    and stt_fallback.old_enough(c.get("published", ""), args.stt_after_hours)):
+                try:
+                    stt_used += 1
+                    text = stt_fallback.transcribe_youtube(vid, args.stt_max_minutes)
+                    source = stt_fallback.SOURCE
+                except Exception as exc:  # noqa: BLE001
+                    brief = " ".join(str(exc).split())[:100]
+                    print(f"  [{i}/{len(todo)}] {vid}: 음성 인식 실패 — {brief}")
 
             if text and transcript_cache.put(vid, text, source or "local", title):
                 ok += 1
