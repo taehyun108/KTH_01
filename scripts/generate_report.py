@@ -262,7 +262,12 @@ MIN_CONTEXT_CHARS = 200
 # 그냥 앞부분만 자르면 영상 후반의 결론을 잃는다. 그래서 <앞 + 뒤>를 함께 보낸다.
 # 경제·시사 영상은 앞에서 주제를 세우고 뒤에서 결론을 내리는 구성이 많아,
 # 가운데를 덜어 내는 편이 손실이 가장 적다.
-MAX_TRANSCRIPT_CHARS = int(os.getenv("MAX_TRANSCRIPT_CHARS", "12000"))
+#
+# 2026-11-13: 12,000자 → 30,000자. 12,000자로는 2~4만 자짜리 방송 자막의 가운데 절반 이상이 잘렸다.
+# 지금은 하루 토큰 한도에 묶인 Gemini 무료 티어가 주력이 아니고(NVIDIA → Gemini → OpenAI),
+# 대부분의 방송(약 2.7만 자)이 통째로 들어간다. 입력이 약 2.5배가 되므로 OpenAI 폴백 비용도 비례해 늘어난다.
+# 되돌리려면 환경변수 MAX_TRANSCRIPT_CHARS=12000 만 주면 된다.
+MAX_TRANSCRIPT_CHARS = int(os.getenv("MAX_TRANSCRIPT_CHARS", "30000"))
 _TAIL_RATIO = 0.3      # 상한의 30% 는 끝부분에 배정
 
 

@@ -290,3 +290,19 @@ def check_hallucination_guards() -> list[str]:
     if 'transcript_source in WEAK_SOURCES' not in src:
         out.append("  [source_note] unavailable 이 약한 출처로 취급되지 않습니다")
     return out
+
+
+def check_transcript_trim_limit() -> list[str]:
+    """자막 상한 — 통상 방송(약 2.7만 자)은 통째로 들어가고, 더 길면 앞·뒤를 남긴다."""
+    import generate_report as g
+    out = []
+    if g.MAX_TRANSCRIPT_CHARS != 30000:
+        out.append(f"  [자막 상한] 기본값이 30,000자여야 하는데 {g.MAX_TRANSCRIPT_CHARS:,}자입니다")
+    whole = "가" * 27000
+    if g.trim_transcript(whole) != whole:
+        out.append("  [2.7만 자 방송] 잘리면 안 됩니다(가운데 내용이 사라집니다)")
+    long = "A" * 20000 + "B" * 20000 + "C" * 20000
+    got = g.trim_transcript(long)
+    if "생략" not in got or not got.startswith("A") or not got.rstrip().endswith("C") or len(got) > 30100:
+        out.append("  [6만 자 방송] 앞·뒤를 남기고 상한 안으로 줄여야 합니다")
+    return out
