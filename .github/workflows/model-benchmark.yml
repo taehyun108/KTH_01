@@ -1,0 +1,28 @@
+name: Benchmark models
+
+# 후보 모델에 같은 실전 과제를 시켜 비용·속도·충실도를 비교한다(수동). 키 값은 출력하지 않는다.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  models: read
+
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Run benchmark
+        env:
+          PYTHONUNBUFFERED: "1"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.KTH_01_GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.KTH_01_OPENAI_API_KEY }}
+          NVIDIA_API_KEY: ${{ secrets.KTH_01_NVIDIA_API_KEY }}
+        run: PYTHONPATH=scripts python scripts/model_benchmark.py
