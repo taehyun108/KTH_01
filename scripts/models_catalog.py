@@ -19,7 +19,14 @@ def github() -> None:
     if r.status_code != 200:
         print("  ", r.text[:160].replace("\n", " "))
         return
-    for m in sorted(r.json(), key=lambda x: x.get("id", "")):
+    try:
+        data = r.json()
+    except ValueError:
+        print("   JSON 이 아닌 응답:", r.headers.get("content-type"), r.text[:200].replace("\n", " "))
+        return
+    if isinstance(data, dict):
+        data = data.get("models") or data.get("data") or list(data.values())
+    for m in sorted(data, key=lambda x: x.get("id", "")):
         print(f"  {m.get('id'):45} tier={m.get('rate_limit_tier','?'):7} ctx={m.get('limits',{}).get('max_input_tokens','?')}"
               f" out={m.get('limits',{}).get('max_output_tokens','?')} cap={','.join(m.get('capabilities',[]))[:30]}")
 
@@ -30,7 +37,8 @@ def gemini() -> None:
         print("[Gemini] 키 없음"); return
     from google import genai
     print("[Gemini] generateContent 지원 모델")
-    for m in genai.Client(api_key=key).models.list():
+    client = genai.Client(api_key=key)          # 참조를 잡아 둬야 요청 중 닫히지 않는다
+    for m in client.models.list():
         acts = getattr(m, "supported_actions", None) or []
         if "generateContent" in acts:
             print("  ", m.name.split("/")[-1])
