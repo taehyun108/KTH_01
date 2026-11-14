@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-14T09:06:31",
+  "generated_at": "2026-11-14T12:34:37",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -47,6 +47,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-14-집은-그대로인데-수억-원-통지서-재건축-초과이익-환수제-논란의-모든-것",
+      "date": "2026-11-14",
+      "channel": "언더스탠딩",
+      "title": "집은 그대로인데 수억 원 통지서? 재건축 초과이익 환수제 논란의 모든 것",
+      "summary": "재건축 초과이익 환수제 부담금을 두고 계산 방식과 납부 주체를 둘러싼 논란이 커지고 있습니다.",
+      "category": "korea-policy",
+      "relation": "indirect",
+      "url": "2026-11-14-집은-그대로인데-수억-원-통지서-재건축-초과이익-환수제-논란의-모든-것.html",
+      "video": "https://www.youtube.com/watch?v=U7l-DQskiUM",
+      "video_id": "U7l-DQskiUM",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-11-13-데이터센터는-지었는데-전기가-없다-인공지능-성패-쥔-전력-인프라의-비밀",
