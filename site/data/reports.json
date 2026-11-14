@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-14T04:08:24",
+  "generated_at": "2026-11-14T09:06:31",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -29,6 +29,21 @@
       "url": "2026-11-14-데이터센터-건설주-완전-정복-gs건설과-삼성e-a-비교-분석.html",
       "video": "https://www.youtube.com/watch?v=c9IrjtmkYrE",
       "video_id": "c9IrjtmkYrE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-14-로봇주-무조건-사야-하나요-슈퍼개미의-실전-종목-선정과-검증",
+      "date": "2026-11-14",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "로봇주 무조건 사야 하나요? 슈퍼개미의 실전 종목 선정과 검증",
+      "summary": "주식 초보인 두 연구원이 로봇 관련 유망 종목을 직접 선정하고, 이세무사에게 검증받는 과정을 다룹니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-11-14-로봇주-무조건-사야-하나요-슈퍼개미의-실전-종목-선정과-검증.html",
+      "video": "https://www.youtube.com/watch?v=9v1VKnX8lQs",
+      "video_id": "9v1VKnX8lQs",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
@@ -359,6 +374,21 @@
       "url": "2026-11-12-미국-연준-빅스텝-가능성과-한국-증시-영향.html",
       "video": "https://www.youtube.com/watch?v=c5CfAmQikXI",
       "video_id": "c5CfAmQikXI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-12-국고채-입찰-담합에-금융사-과징금-1조-6천억-원-치열한-공방의-의미",
+      "date": "2026-11-12",
+      "channel": "손에 잡히는 경제",
+      "title": "국고채 입찰 담합에 금융사 과징금 1조 6천억 원…치열한 공방의 의미",
+      "summary": "재정경제부가 국고채 입찰 담합 혐의로 주요 금융사 15곳에 역대 최대 규모인 1조 6천억 원의 과징금을 부과했는데요. 금리 경쟁을 해친 점을 지적받은 금융사들은 제도가 가진 특수성을 들며 반발하고 있습니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-11-12-국고채-입찰-담합에-금융사-과징금-1조-6천억-원-치열한-공방의-의미.html",
+      "video": "https://www.youtube.com/watch?v=paF4E62F2jI",
+      "video_id": "paF4E62F2jI",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
