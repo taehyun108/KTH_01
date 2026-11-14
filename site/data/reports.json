@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-13T09:43:14",
+  "generated_at": "2026-11-14T04:08:24",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-11-14-데이터센터-건설주-완전-정복-gs건설과-삼성e-a-비교-분석",
+      "date": "2026-11-14",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "데이터센터 건설주 완전 정복, GS건설과 삼성E&A 비교 분석",
+      "summary": "인공지능 데이터센터 건설을 둘러싼 국내 건설사들의 수주 환경과 전략을 짚어보고, GS건설과 삼성E&A의 차이점을 살펴봅니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-11-14-데이터센터-건설주-완전-정복-gs건설과-삼성e-a-비교-분석.html",
+      "video": "https://www.youtube.com/watch?v=c9IrjtmkYrE",
+      "video_id": "c9IrjtmkYrE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-11-13-데이터센터는-지었는데-전기가-없다-인공지능-성패-쥔-전력-인프라의-비밀",
       "date": "2026-11-13",
@@ -1097,6 +1112,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-11-09-반도체-주가-지금이-바닥일까요-과거-충격과-비교해-보는-투자-전략",
+      "date": "2026-11-09",
+      "channel": "삼프로TV",
+      "title": "반도체 주가, 지금이 바닥일까요? 과거 충격과 비교해 보는 투자 전략",
+      "summary": "최근 반도체 시장의 주가 하락이 과도한 것인지, 과거 충격 사례와 비교해 바닥을 가늠해 보는 시간입니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-09-반도체-주가-지금이-바닥일까요-과거-충격과-비교해-보는-투자-전략.html",
+      "video": "https://www.youtube.com/watch?v=8eVQC_Gt1BM",
+      "video_id": "8eVQC_Gt1BM",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-11-08-기술주-급락-지금이-바닥일까-반드시-확인해야-할-두-가지-조건",
