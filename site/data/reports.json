@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-14T12:34:37",
+  "generated_at": "2026-11-15T09:42:41",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-11-15-자율주행의-승부처는-기술에서-가격으로-한국의-과제는-무엇일까요",
+      "date": "2026-11-15",
+      "channel": "언더스탠딩",
+      "title": "자율주행의 승부처는 기술에서 가격으로, 한국의 과제는 무엇일까요",
+      "summary": "자율주행 기술의 상용화 흐름과 가격 경쟁, 그리고 한국 시장의 현실을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-15-자율주행의-승부처는-기술에서-가격으로-한국의-과제는-무엇일까요.html",
+      "video": "https://www.youtube.com/watch?v=PlmuR8-saqQ",
+      "video_id": "PlmuR8-saqQ",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-15-우리가-몰랐던-아프리카의-진짜-모습과-경제적-가능성",
+      "date": "2026-11-15",
+      "channel": "삼프로TV",
+      "title": "우리가 몰랐던 아프리카의 진짜 모습과 경제적 가능성",
+      "summary": "우리가 몰랐던 아프리카의 진짜 모습과 사회·경제적 가능성을 짚어봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-15-우리가-몰랐던-아프리카의-진짜-모습과-경제적-가능성.html",
+      "video": "https://www.youtube.com/watch?v=6kEXheLAxts",
+      "video_id": "6kEXheLAxts",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-11-14-데이터센터-건설주-완전-정복-gs건설과-삼성e-a-비교-분석",
       "date": "2026-11-14",
