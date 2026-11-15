@@ -49,11 +49,15 @@ TIMEOUT_SEC = int(os.getenv("NVIDIA_TIMEOUT_SEC", "60"))
 # 리포트 한 건은 출력이 수천 토큰이라 생성에만 1분이 넘는데, 그동안 한 글자도 안 오니 읽기 타임아웃에 걸렸다
 # (벤치마크는 출력이 짧아 통과했다). 스트리밍으로 받으면 TIMEOUT_SEC 는 '조각 사이 간격'에만 적용되고,
 # 전체 길이는 TOTAL_SEC 로 따로 묶는다.
-TOTAL_SEC = int(os.getenv("NVIDIA_TOTAL_SEC", "240"))
+# 2026-11-15 실전 크기 시험(프롬프트 31,344자, model-benchmark only=nvidia-long):
+#   minimax-m3.1-flash 는 조각은 오지만 240초 안에 끝내지 못했고, deepseek-v4.1-flash 는 60초간 한 글자도 없었다.
+#   → 무료 NVIDIA 는 지금 이 크기의 리포트를 감당하지 못한다. 오래 기다려 봐야 낭비라 전체 상한을 90초로 두고,
+#     한 번 실패하면 그 실행에서는 접는다(FAIL_LIMIT=1) — 실행당 낭비는 최대 90초.
+TOTAL_SEC = int(os.getenv("NVIDIA_TOTAL_SEC", "90"))
 MAX_KEYS = 10
 
 # 연속 실패하면 접는다 — 키가 전부 틀렸거나 잔액이 없으면 매번 같은 이유로 실패한다.
-FAIL_LIMIT = 2
+FAIL_LIMIT = 1
 _fails = 0
 
 # 이번 실행에서 이 경로를 몇 번 썼는지.
