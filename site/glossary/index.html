@@ -3477,105 +3477,91 @@
         못 하면 바로 그 틈으로 사고가 들어옵니다. 어디에 있는지 먼저 그림으로 보시죠.</p>
 
       <figure class="diagram">
-        <svg viewBox="0 0 680 460" role="img"
-             aria-label="팩 내부 단면도. 위에서 BMS가 센싱 와이어로 모듈마다 연결되고, 각 모듈 안에는 셀과 버스바와 압축패드가 있고, 모듈 사이에는 방염판이 있고, 맨 아래에는 냉각판이 있고, 오른쪽 고전압 박스에는 퓨즈와 릴레이가 있고, 케이스 안쪽 전체를 절연재가 두르고, 뚜껑에는 벤트가 있습니다">
-          <text x="24" y="26" font-size="13" font-weight="700" fill="#1a2230">팩 내부를 열어 보면 — 부품이 있는 자리</text>
-
-          <defs>
-            <marker id="pm1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-              <path d="M0 0 L8 4 L0 8 z" fill="#55617a"/></marker>
-            <marker id="pm2" markerWidth="8" markerHeight="8" refX="2" refY="4" orient="auto">
-              <path d="M8 4 L0 0 L0 8 z" fill="#dc2626"/></marker>
-          </defs>
-
-          <!-- 바깥 케이스 -->
-          <rect x="30" y="56" width="620" height="380" rx="16" fill="#f8fbff" stroke="#0284c7" stroke-width="2.5"/>
-          <!-- 절연재·가스켓 — 케이스 안쪽을 두르는 점선 라이너 -->
-          <rect x="42" y="68" width="596" height="356" rx="12" fill="none" stroke="#a78bfa"
-                stroke-width="1.3" stroke-dasharray="5 4"/>
-
-          <!-- 뚜껑 벤트 -->
-          <g>
-            <circle cx="140" cy="78" r="6" fill="#fecaca" stroke="#dc2626" stroke-width="1.3"/>
-            <circle cx="230" cy="78" r="6" fill="#fecaca" stroke="#dc2626" stroke-width="1.3"/>
-            <circle cx="320" cy="78" r="6" fill="#fecaca" stroke="#dc2626" stroke-width="1.3"/>
-            <circle cx="410" cy="78" r="6" fill="#fecaca" stroke="#dc2626" stroke-width="1.3"/>
-            <g stroke="#dc2626" stroke-width="1.3" marker-end="url(#pm2)">
-              <path d="M140 70 L140 60"/><path d="M230 70 L230 60"/>
-              <path d="M320 70 L320 60"/><path d="M410 70 L410 60"/>
-            </g>
+        <svg viewBox="0 0 680 620" role="img"
+             aria-label="팩을 층별로 들어 올린 입체 분해도. 맨 위는 벤트가 달린 뚜껑, 그 아래 BMS 기판이 센싱 와이어로 모듈마다 연결되고, 가운데 층에는 셀·버스바·압축패드가 든 모듈 세 개와 모듈 사이 방염판, 오른쪽 끝에 퓨즈와 릴레이가 든 고전압 박스가 있고, 그 아래 냉각판, 맨 아래에 절연재를 두른 팩 하우징이 있습니다">
+          <defs><marker id="pk-up" markerWidth="8" markerHeight="8" refX="4" refY="1" orient="auto"><path d="M0 8 L4 0 L8 8 z" fill="#dc2626"/></marker><clipPath id="pk-open"><polygon points="252.0,310.4 581.8,500.8 524.8,533.7 195.0,343.3"/></clipPath></defs>
+          <text x="24" y="26" font-size="13" fill="#1a2230" text-anchor="start" font-weight="700">팩을 층층이 들어 올려 보면 — 부품이 있는 자리</text>
+          <path d="M185.3 343.3 L185.3 88.5" stroke="#94a3b8" stroke-width="0.9" fill="none" stroke-dasharray="2 4"/>
+          <path d="M524.8 539.3 L524.8 284.5" stroke="#94a3b8" stroke-width="0.9" fill="none" stroke-dasharray="2 4"/>
+          <path d="M591.5 500.8 L591.5 246.0" stroke="#94a3b8" stroke-width="0.9" fill="none" stroke-dasharray="2 4"/>
+          <polygon points="524.8,539.3 185.3,343.3 185.3,368.5 524.8,564.5" fill="#bfdbfe" stroke="#0369a1" stroke-width="1.4" stroke-linejoin="round" /><polygon points="591.5,500.8 524.8,539.3 524.8,564.5 591.5,526.0" fill="#93c5fd" stroke="#0369a1" stroke-width="1.4" stroke-linejoin="round" /><polygon points="252.0,304.8 591.5,500.8 524.8,539.3 185.3,343.3" fill="#dbeafe" stroke="#0369a1" stroke-width="1.4" stroke-linejoin="round" />
+          <g clip-path="url(#pk-open)">
+          <polygon points="252.0,331.4 581.8,521.8 524.8,554.7 195.0,364.3" fill="#eff6ff" stroke="none" stroke-width="1" stroke-linejoin="round" />
+          <polygon points="252.0,310.4 581.8,500.8 581.8,521.8 252.0,331.4" fill="#a5c8f0" stroke="#0369a1" stroke-width="0.8" stroke-linejoin="round" />
+          <polygon points="252.0,310.4 195.0,343.3 195.0,364.3 252.0,331.4" fill="#8fb8e6" stroke="#0369a1" stroke-width="0.8" stroke-linejoin="round" />
           </g>
-          <text x="250" y="98" font-size="10" fill="#dc2626">벤트(압력배출구) — 압력이 치솟으면 위로 터집니다</text>
-
-          <!-- BMS -->
-          <rect x="270" y="110" width="140" height="36" rx="6" fill="#0284c7" stroke="#075985" stroke-width="1.5"/>
-          <text x="340" y="129" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff">BMS</text>
-          <text x="340" y="142" text-anchor="middle" font-size="9" fill="#bae6fd">배터리 관리 시스템</text>
-
-          <!-- 센싱 와이어 — BMS에서 모듈마다로 -->
-          <g stroke="#55617a" stroke-width="1.3" stroke-dasharray="3 3" fill="none" marker-end="url(#pm1)">
-            <path d="M282 146 L130 168"/>
-            <path d="M340 146 L293 168"/>
-            <path d="M398 146 L456 168"/>
-          </g>
-          <text x="432" y="158" font-size="10" fill="#55617a">전압·온도 센싱 와이어</text>
-
-          <!-- 모듈 1·2·3 (셀 + 버스바 + 압축패드) -->
-          <!-- 모듈 1 -->
-          <rect x="50" y="170" width="150" height="190" rx="8" fill="#eef6ff" stroke="#0284c7" stroke-width="1.8"/>
-          <rect x="70" y="188" width="110" height="7" rx="2" fill="#f59e0b"/>
-          <g fill="#0284c7"><rect x="77" y="200" width="16" height="140" rx="3"/>
-            <rect x="97" y="200" width="16" height="140" rx="3"/><rect x="117" y="200" width="16" height="140" rx="3"/>
-            <rect x="137" y="200" width="16" height="140" rx="3"/><rect x="157" y="200" width="16" height="140" rx="3"/></g>
-          <g fill="#cbd5e1"><rect x="93" y="200" width="4" height="140"/><rect x="113" y="200" width="4" height="140"/>
-            <rect x="133" y="200" width="4" height="140"/><rect x="153" y="200" width="4" height="140"/></g>
-          <text x="54" y="183" font-size="9.5" fill="#b45309">버스바</text>
-          <text x="54" y="354" font-size="9.5" fill="#475569">압축·스웰링 패드</text>
-
-          <!-- 모듈 2 -->
-          <rect x="215" y="170" width="150" height="190" rx="8" fill="#eef6ff" stroke="#0284c7" stroke-width="1.8"/>
-          <rect x="235" y="188" width="110" height="7" rx="2" fill="#f59e0b"/>
-          <g fill="#0284c7"><rect x="242" y="200" width="16" height="140" rx="3"/>
-            <rect x="262" y="200" width="16" height="140" rx="3"/><rect x="282" y="200" width="16" height="140" rx="3"/>
-            <rect x="302" y="200" width="16" height="140" rx="3"/><rect x="322" y="200" width="16" height="140" rx="3"/></g>
-          <g fill="#cbd5e1"><rect x="258" y="200" width="4" height="140"/><rect x="278" y="200" width="4" height="140"/>
-            <rect x="298" y="200" width="4" height="140"/><rect x="318" y="200" width="4" height="140"/></g>
-
-          <!-- 방염판 -->
-          <rect x="368" y="170" width="6" height="190" fill="#dc2626"/>
-          <text x="371" y="164" text-anchor="middle" font-size="10" font-weight="700" fill="#dc2626">방염판</text>
-
-          <!-- 모듈 3 -->
-          <rect x="382" y="170" width="150" height="190" rx="8" fill="#eef6ff" stroke="#0284c7" stroke-width="1.8"/>
-          <rect x="402" y="188" width="110" height="7" rx="2" fill="#f59e0b"/>
-          <g fill="#0284c7"><rect x="409" y="200" width="16" height="140" rx="3"/>
-            <rect x="429" y="200" width="16" height="140" rx="3"/><rect x="449" y="200" width="16" height="140" rx="3"/>
-            <rect x="469" y="200" width="16" height="140" rx="3"/><rect x="489" y="200" width="16" height="140" rx="3"/></g>
-          <g fill="#cbd5e1"><rect x="425" y="200" width="4" height="140"/><rect x="445" y="200" width="4" height="140"/>
-            <rect x="465" y="200" width="4" height="140"/><rect x="485" y="200" width="4" height="140"/></g>
-
-          <!-- 고전압 박스 — 퓨즈·릴레이 -->
-          <rect x="548" y="170" width="92" height="190" rx="8" fill="#f1f5f9" stroke="#475569" stroke-width="1.8"/>
-          <text x="594" y="184" text-anchor="middle" font-size="10.5" font-weight="700" fill="#475569">고전압 박스</text>
-          <rect x="575" y="205" width="38" height="14" rx="3" fill="#fff" stroke="#b45309" stroke-width="1.5"/>
-          <path d="M575 212 L582 205 L588 219 L594 205 L600 219 L613 212" fill="none" stroke="#b45309" stroke-width="1.3"/>
-          <text x="594" y="236" text-anchor="middle" font-size="9" fill="#475569">퓨즈·서비스플러그</text>
-          <circle cx="594" cy="278" r="10" fill="#fff" stroke="#1d4ed8" stroke-width="1.8"/>
-          <path d="M594 278 L603 269" stroke="#1d4ed8" stroke-width="1.8"/>
-          <circle cx="585" cy="286" r="2" fill="#1d4ed8"/><circle cx="603" cy="269" r="2" fill="#1d4ed8"/>
-          <text x="594" y="300" text-anchor="middle" font-size="9" fill="#475569">릴레이·컨택터</text>
-
-          <!-- 냉각판 -->
-          <rect x="50" y="368" width="590" height="22" rx="4" fill="#0ea5e9" stroke="#0369a1" stroke-width="1"/>
-          <text x="345" y="383" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff">냉각판</text>
-
-          <text x="46" y="416" font-size="11.5" font-weight="700" fill="#0284c7">팩 하우징(케이스)</text>
-          <text x="320" y="416" font-size="11.5" font-weight="700" fill="#7c3aed">절연재·가스켓(점선)</text>
+          <polygon points="252.0,310.4 581.8,500.8 524.8,533.7 195.0,343.3" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-linejoin="round" stroke-dasharray="5 3"/>
+          <polygon points="523.6,487.5 196.2,298.5 196.2,304.8 523.6,493.8" fill="#0ea5e9" stroke="#075985" stroke-width="1.2" stroke-linejoin="round" /><polygon points="580.6,454.6 523.6,487.5 523.6,493.8 580.6,460.9" fill="#0284c7" stroke="#075985" stroke-width="1.2" stroke-linejoin="round" /><polygon points="253.2,265.6 580.6,454.6 523.6,487.5 196.2,298.5" fill="#7dd3fc" stroke="#075985" stroke-width="1.2" stroke-linejoin="round" />
+          <polyline points="256.8,277.5 560.0,452.5 550.3,458.1 247.2,283.1 236.8,289.1 540.0,464.1 529.6,470.0 226.5,295.0 216.8,300.6 519.9,475.6" fill="none" stroke="#e0f2fe" stroke-width="2.2" stroke-linejoin="round"/>
+          <polygon points="281.1,269.8 190.2,217.3 190.2,260.7 281.1,313.2" fill="#0284c7" stroke="#075985" stroke-width="1.2" stroke-linejoin="round" /><polygon points="338.1,236.9 281.1,269.8 281.1,313.2 338.1,280.3" fill="#0369a1" stroke="#075985" stroke-width="1.2" stroke-linejoin="round" /><polygon points="247.2,184.4 338.1,236.9 281.1,269.8 190.2,217.3" fill="#e0f2fe" stroke="#075985" stroke-width="1.2" stroke-linejoin="round" /><polygon points="247.5,191.6 258.0,197.6 213.1,223.5 202.6,217.5" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="261.0,199.4 271.5,205.5 226.6,231.4 216.1,225.3" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="258.0,197.6 261.0,199.4 216.1,225.3 213.1,223.5" fill="#cbd5e1" stroke="none" stroke-width="1" stroke-linejoin="round" /><path d="M208.6 227.9 L208.6 271.3" stroke="#7dd3fc" stroke-width="0.8" fill="none" /><polygon points="274.5,207.2 285.0,213.3 240.2,239.2 229.7,233.1" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="271.5,205.5 274.5,207.2 229.7,233.1 226.6,231.4" fill="#cbd5e1" stroke="none" stroke-width="1" stroke-linejoin="round" /><path d="M222.1 235.7 L222.1 279.1" stroke="#7dd3fc" stroke-width="0.8" fill="none" /><polygon points="288.1,215.0 298.6,221.1 253.7,247.0 243.2,240.9" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="285.0,213.3 288.1,215.0 243.2,240.9 240.2,239.2" fill="#cbd5e1" stroke="none" stroke-width="1" stroke-linejoin="round" /><path d="M235.6 243.6 L235.6 286.9" stroke="#7dd3fc" stroke-width="0.8" fill="none" /><polygon points="301.6,222.8 312.1,228.9 267.3,254.8 256.7,248.7" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="298.6,221.1 301.6,222.8 256.7,248.7 253.7,247.0" fill="#cbd5e1" stroke="none" stroke-width="1" stroke-linejoin="round" /><path d="M249.2 251.4 L249.2 294.8" stroke="#7dd3fc" stroke-width="0.8" fill="none" /><polygon points="315.1,230.7 325.7,236.7 280.8,262.6 270.3,256.6" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="312.1,228.9 315.1,230.7 270.3,256.6 267.3,254.8" fill="#cbd5e1" stroke="none" stroke-width="1" stroke-linejoin="round" /><path d="M262.7 259.2 L262.7 302.6" stroke="#7dd3fc" stroke-width="0.8" fill="none" /><polygon points="316.3,240.4 237.5,194.9 237.5,197.0 316.3,242.5" fill="#d97706" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" /><polygon points="321.1,237.6 316.3,240.4 316.3,242.5 321.1,239.7" fill="#b45309" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" /><polygon points="242.3,192.1 321.1,237.6 316.3,240.4 237.5,194.9" fill="#fbbf24" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" /><polygon points="285.9,257.9 207.1,212.4 207.1,214.5 285.9,260.0" fill="#d97706" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" /><polygon points="290.8,255.1 285.9,257.9 285.9,260.0 290.8,257.2" fill="#b45309" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" /><polygon points="212.0,209.6 290.8,255.1 285.9,257.9 207.1,212.4" fill="#fbbf24" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" />
+          <polygon points="378.1,325.8 287.2,273.3 287.2,316.7 378.1,369.2" fill="#0284c7" stroke="#075985" stroke-width="1.2" stroke-linejoin="round" /><polygon points="435.1,292.9 378.1,325.8 378.1,369.2 435.1,336.3" fill="#0369a1" stroke="#075985" stroke-width="1.2" stroke-linejoin="round" /><polygon points="344.1,240.4 435.1,292.9 378.1,325.8 287.2,273.3" fill="#e0f2fe" stroke="#075985" stroke-width="1.2" stroke-linejoin="round" /><polygon points="344.4,247.6 355.0,253.6 310.1,279.5 299.6,273.5" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="358.0,255.4 368.5,261.5 323.6,287.4 313.1,281.3" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="355.0,253.6 358.0,255.4 313.1,281.3 310.1,279.5" fill="#cbd5e1" stroke="none" stroke-width="1" stroke-linejoin="round" /><path d="M305.5 283.9 L305.5 327.3" stroke="#7dd3fc" stroke-width="0.8" fill="none" /><polygon points="371.5,263.2 382.0,269.3 337.2,295.2 326.7,289.1" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="368.5,261.5 371.5,263.2 326.7,289.1 323.6,287.4" fill="#cbd5e1" stroke="none" stroke-width="1" stroke-linejoin="round" /><path d="M319.1 291.7 L319.1 335.1" stroke="#7dd3fc" stroke-width="0.8" fill="none" /><polygon points="385.1,271.0 395.6,277.1 350.7,303.0 340.2,296.9" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="382.0,269.3 385.1,271.0 340.2,296.9 337.2,295.2" fill="#cbd5e1" stroke="none" stroke-width="1" stroke-linejoin="round" /><path d="M332.6 299.6 L332.6 342.9" stroke="#7dd3fc" stroke-width="0.8" fill="none" /><polygon points="398.6,278.8 409.1,284.9 364.3,310.8 353.7,304.7" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="395.6,277.1 398.6,278.8 353.7,304.7 350.7,303.0" fill="#cbd5e1" stroke="none" stroke-width="1" stroke-linejoin="round" /><path d="M346.2 307.4 L346.2 350.8" stroke="#7dd3fc" stroke-width="0.8" fill="none" /><polygon points="412.1,286.7 422.7,292.7 377.8,318.6 367.3,312.6" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="409.1,284.9 412.1,286.7 367.3,312.6 364.3,310.8" fill="#cbd5e1" stroke="none" stroke-width="1" stroke-linejoin="round" /><path d="M359.7 315.2 L359.7 358.6" stroke="#7dd3fc" stroke-width="0.8" fill="none" /><polygon points="413.3,296.4 334.4,250.9 334.4,253.0 413.3,298.5" fill="#d97706" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" /><polygon points="418.1,293.6 413.3,296.4 413.3,298.5 418.1,295.7" fill="#b45309" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" /><polygon points="339.3,248.1 418.1,293.6 413.3,296.4 334.4,250.9" fill="#fbbf24" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" /><polygon points="382.9,313.9 304.1,268.4 304.1,270.5 382.9,316.0" fill="#d97706" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" /><polygon points="387.8,311.1 382.9,313.9 382.9,316.0 387.8,313.2" fill="#b45309" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" /><polygon points="309.0,265.6 387.8,311.1 382.9,313.9 304.1,268.4" fill="#fbbf24" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" />
+          <polygon points="384.2,327.2 379.9,324.8 379.9,373.8 384.2,376.2" fill="#dc2626" stroke="#7f1d1d" stroke-width="0.8" stroke-linejoin="round" /><polygon points="447.2,290.8 384.2,327.2 384.2,376.2 447.2,339.8" fill="#b91c1c" stroke="#7f1d1d" stroke-width="0.8" stroke-linejoin="round" /><polygon points="443.0,288.3 447.2,290.8 384.2,327.2 379.9,324.8" fill="#f87171" stroke="#7f1d1d" stroke-width="0.8" stroke-linejoin="round" />
+          <polygon points="483.0,386.4 392.0,333.9 392.0,377.2 483.0,429.8" fill="#0284c7" stroke="#075985" stroke-width="1.2" stroke-linejoin="round" /><polygon points="540.0,353.4 483.0,386.4 483.0,429.8 540.0,396.8" fill="#0369a1" stroke="#075985" stroke-width="1.2" stroke-linejoin="round" /><polygon points="449.0,300.9 540.0,353.4 483.0,386.4 392.0,333.9" fill="#e0f2fe" stroke="#075985" stroke-width="1.2" stroke-linejoin="round" /><polygon points="449.3,308.1 459.8,314.2 415.0,340.1 404.5,334.0" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="462.9,315.9 473.4,322.0 428.5,347.9 418.0,341.8" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="459.8,314.2 462.9,315.9 418.0,341.8 415.0,340.1" fill="#cbd5e1" stroke="none" stroke-width="1" stroke-linejoin="round" /><path d="M410.4 344.5 L410.4 387.9" stroke="#7dd3fc" stroke-width="0.8" fill="none" /><polygon points="476.4,323.8 486.9,329.8 442.0,355.7 431.5,349.7" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="473.4,322.0 476.4,323.8 431.5,349.7 428.5,347.9" fill="#cbd5e1" stroke="none" stroke-width="1" stroke-linejoin="round" /><path d="M424.0 352.3 L424.0 395.7" stroke="#7dd3fc" stroke-width="0.8" fill="none" /><polygon points="489.9,331.6 500.4,337.6 455.6,363.5 445.1,357.5" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="486.9,329.8 489.9,331.6 445.1,357.5 442.0,355.7" fill="#cbd5e1" stroke="none" stroke-width="1" stroke-linejoin="round" /><path d="M437.5 360.1 L437.5 403.5" stroke="#7dd3fc" stroke-width="0.8" fill="none" /><polygon points="503.5,339.4 514.0,345.5 469.1,371.4 458.6,365.3" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="500.4,337.6 503.5,339.4 458.6,365.3 455.6,363.5" fill="#cbd5e1" stroke="none" stroke-width="1" stroke-linejoin="round" /><path d="M451.0 367.9 L451.0 411.3" stroke="#7dd3fc" stroke-width="0.8" fill="none" /><polygon points="517.0,347.2 527.5,353.3 482.7,379.2 472.2,373.1" fill="#38bdf8" stroke="#075985" stroke-width="0.6" stroke-linejoin="round" /><polygon points="514.0,345.5 517.0,347.2 472.2,373.1 469.1,371.4" fill="#cbd5e1" stroke="none" stroke-width="1" stroke-linejoin="round" /><path d="M464.6 375.7 L464.6 419.1" stroke="#7dd3fc" stroke-width="0.8" fill="none" /><polygon points="518.1,356.9 439.3,311.4 439.3,313.5 518.1,359.0" fill="#d97706" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" /><polygon points="523.0,354.1 518.1,356.9 518.1,359.0 523.0,356.2" fill="#b45309" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" /><polygon points="444.2,308.6 523.0,354.1 518.1,356.9 439.3,311.4" fill="#fbbf24" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" /><polygon points="487.8,374.4 409.0,328.9 409.0,331.0 487.8,376.5" fill="#d97706" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" /><polygon points="492.7,371.6 487.8,374.4 487.8,376.5 492.7,373.8" fill="#b45309" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" /><polygon points="413.9,326.1 492.7,371.6 487.8,374.4 409.0,328.9" fill="#fbbf24" stroke="#92400e" stroke-width="0.6" stroke-linejoin="round" />
+          <polygon points="529.6,423.1 490.2,400.3 490.2,433.9 529.6,456.7" fill="#cbd5e1" stroke="#475569" stroke-width="1.2" stroke-linejoin="round" /><polygon points="586.6,390.2 529.6,423.1 529.6,456.7 586.6,423.8" fill="#94a3b8" stroke="#475569" stroke-width="1.2" stroke-linejoin="round" /><polygon points="547.2,367.4 586.6,390.2 529.6,423.1 490.2,400.3" fill="#f1f5f9" stroke="#475569" stroke-width="1.2" stroke-linejoin="round" />
+          <polygon points="560.0,390.2 532.7,374.4 532.7,382.8 560.0,398.6" fill="#f59e0b" stroke="#92400e" stroke-width="0.8" stroke-linejoin="round" /><polygon points="574.5,381.8 560.0,390.2 560.0,398.6 574.5,390.2" fill="#d97706" stroke="#92400e" stroke-width="0.8" stroke-linejoin="round" /><polygon points="547.2,366.0 574.5,381.8 560.0,390.2 532.7,374.4" fill="#fde68a" stroke="#92400e" stroke-width="0.8" stroke-linejoin="round" />
+          <polygon points="529.6,403.5 502.4,387.7 502.4,400.3 529.6,416.1" fill="#3b82f6" stroke="#1e3a8a" stroke-width="0.8" stroke-linejoin="round" /><polygon points="550.3,391.6 529.6,403.5 529.6,416.1 550.3,404.2" fill="#1d4ed8" stroke="#1e3a8a" stroke-width="0.8" stroke-linejoin="round" /><polygon points="523.0,375.8 550.3,391.6 529.6,403.5 502.4,387.7" fill="#93c5fd" stroke="#1e3a8a" stroke-width="0.8" stroke-linejoin="round" />
+          <path d="M264.1 165.5 L264.1 225.0" stroke="#475569" stroke-width="1.2" fill="none" stroke-dasharray="3 3"/>
+          <circle cx="264.1" cy="225.0" r="2.6" fill="#475569"/>
+          <path d="M361.1 221.5 L361.1 281.0" stroke="#475569" stroke-width="1.2" fill="none" stroke-dasharray="3 3"/>
+          <circle cx="361.1" cy="281.0" r="2.6" fill="#475569"/>
+          <path d="M466.0 282.0 L466.0 341.5" stroke="#475569" stroke-width="1.2" fill="none" stroke-dasharray="3 3"/>
+          <circle cx="466.0" cy="341.5" r="2.6" fill="#475569"/>
+          <polygon points="463.0,301.3 220.5,161.3 220.5,166.2 463.0,306.2" fill="#15803d" stroke="#14532d" stroke-width="1.1" stroke-linejoin="round" /><polygon points="507.8,275.4 463.0,301.3 463.0,306.2 507.8,280.3" fill="#166534" stroke="#14532d" stroke-width="1.1" stroke-linejoin="round" /><polygon points="265.3,135.4 507.8,275.4 463.0,301.3 220.5,161.3" fill="#16a34a" stroke="#14532d" stroke-width="1.1" stroke-linejoin="round" />
+          <polygon points="278.7,178.1 250.8,162.0 250.8,164.8 278.7,180.9" fill="#1e293b" stroke="#0f172a" stroke-width="0.5" stroke-linejoin="round" /><polygon points="299.3,166.2 278.7,178.1 278.7,180.9 299.3,169.0" fill="#0f172a" stroke="#0f172a" stroke-width="0.5" stroke-linejoin="round" /><polygon points="271.4,150.1 299.3,166.2 278.7,178.1 250.8,162.0" fill="#334155" stroke="#0f172a" stroke-width="0.5" stroke-linejoin="round" />
+          <polygon points="320.5,198.8 302.3,188.2 302.3,191.1 320.5,201.6" fill="#1e293b" stroke="#0f172a" stroke-width="0.5" stroke-linejoin="round" /><polygon points="335.1,190.3 320.5,198.8 320.5,201.6 335.1,193.1" fill="#0f172a" stroke="#0f172a" stroke-width="0.5" stroke-linejoin="round" /><polygon points="316.9,179.8 335.1,190.3 320.5,198.8 302.3,188.2" fill="#334155" stroke="#0f172a" stroke-width="0.5" stroke-linejoin="round" />
+          <polygon points="373.2,234.8 336.9,213.8 336.9,216.6 373.2,237.6" fill="#1e293b" stroke="#0f172a" stroke-width="0.5" stroke-linejoin="round" /><polygon points="397.5,220.8 373.2,234.8 373.2,237.6 397.5,223.6" fill="#0f172a" stroke="#0f172a" stroke-width="0.5" stroke-linejoin="round" /><polygon points="361.1,199.8 397.5,220.8 373.2,234.8 336.9,213.8" fill="#334155" stroke="#0f172a" stroke-width="0.5" stroke-linejoin="round" />
+          <polygon points="417.5,254.7 399.3,244.2 399.3,247.0 417.5,257.5" fill="#1e293b" stroke="#0f172a" stroke-width="0.5" stroke-linejoin="round" /><polygon points="432.0,246.3 417.5,254.7 417.5,257.5 432.0,249.1" fill="#0f172a" stroke="#0f172a" stroke-width="0.5" stroke-linejoin="round" /><polygon points="413.9,235.8 432.0,246.3 417.5,254.7 399.3,244.2" fill="#334155" stroke="#0f172a" stroke-width="0.5" stroke-linejoin="round" />
+          <polygon points="457.5,280.6 433.3,266.6 433.3,269.4 457.5,283.4" fill="#1e293b" stroke="#0f172a" stroke-width="0.5" stroke-linejoin="round" /><polygon points="476.9,269.4 457.5,280.6 457.5,283.4 476.9,272.2" fill="#0f172a" stroke="#0f172a" stroke-width="0.5" stroke-linejoin="round" /><polygon points="452.7,255.4 476.9,269.4 457.5,280.6 433.3,266.6" fill="#334155" stroke="#0f172a" stroke-width="0.5" stroke-linejoin="round" />
+          <g fill-opacity="0.42"><polygon points="524.8,278.2 185.3,82.2 185.3,88.5 524.8,284.5" fill="#b6c2d2" stroke="#475569" stroke-width="1.3" stroke-linejoin="round" /><polygon points="591.5,239.7 524.8,278.2 524.8,284.5 591.5,246.0" fill="#94a3b8" stroke="#475569" stroke-width="1.3" stroke-linejoin="round" /><polygon points="252.0,43.7 591.5,239.7 524.8,278.2 185.3,82.2" fill="#cbd5e1" stroke="#475569" stroke-width="1.3" stroke-linejoin="round" /></g>
+          <ellipse cx="273.2" cy="94.5" rx="10" ry="5.8" fill="#fecaca" stroke="#dc2626" stroke-width="1.3"/>
+          <path d="M273.2 92.5 L273.2 74.5" stroke="#dc2626" stroke-width="1.6"/>
+          <path d="M268.7 75.5 L273.2 66.5 L277.7 75.5 z" fill="#dc2626"/>
+          <ellipse cx="364.2" cy="147.0" rx="10" ry="5.8" fill="#fecaca" stroke="#dc2626" stroke-width="1.3"/>
+          <path d="M364.2 145.0 L364.2 127.0" stroke="#dc2626" stroke-width="1.6"/>
+          <path d="M359.7 128.0 L364.2 119.0 L368.7 128.0 z" fill="#dc2626"/>
+          <ellipse cx="455.1" cy="199.5" rx="10" ry="5.8" fill="#fecaca" stroke="#dc2626" stroke-width="1.3"/>
+          <path d="M455.1 197.5 L455.1 179.5" stroke="#dc2626" stroke-width="1.6"/>
+          <path d="M450.6 180.5 L455.1 171.5 L459.6 180.5 z" fill="#dc2626"/>
+          <path d="M170 72.2 L182.3 85.0" stroke="#dc2626" stroke-width="1" fill="none"/><circle cx="182.3" cy="85.0" r="2" fill="#dc2626"/><text x="166" y="76.2" font-size="11.5" fill="#dc2626" text-anchor="end" font-weight="700">뚜껑 · 벤트</text><text x="166" y="89.2" font-size="9.5" fill="#55617a" text-anchor="end">압력이 치솟으면 위로 배출</text>
+          <path d="M170 143.3 L217.5 163.4" stroke="#15803d" stroke-width="1" fill="none"/><circle cx="217.5" cy="163.4" r="2" fill="#15803d"/><text x="166" y="147.3" font-size="11.5" fill="#15803d" text-anchor="end" font-weight="700">BMS</text><text x="166" y="160.3" font-size="9.5" fill="#55617a" text-anchor="end">전압·온도를 감시하는 두뇌</text>
+          <path d="M170 230.9 L187.2 236.9" stroke="#0369a1" stroke-width="1" fill="none"/><circle cx="187.2" cy="236.9" r="2" fill="#0369a1"/><text x="166" y="234.9" font-size="11.5" fill="#0369a1" text-anchor="end" font-weight="700">모듈</text><text x="166" y="247.9" font-size="9.5" fill="#55617a" text-anchor="end">셀 여러 장을 묶은 덩어리</text>
+          <path d="M170 304.8 L193.2 302.0" stroke="#0284c7" stroke-width="1" fill="none"/><circle cx="193.2" cy="302.0" r="2" fill="#0284c7"/><text x="166" y="308.8" font-size="11.5" fill="#0284c7" text-anchor="end" font-weight="700">냉각판</text><text x="166" y="321.8" font-size="9.5" fill="#55617a" text-anchor="end">냉각수가 돌며 열을 뺌</text>
+          <path d="M170 367.9 L182.3 355.9" stroke="#0369a1" stroke-width="1" fill="none"/><circle cx="182.3" cy="355.9" r="2" fill="#0369a1"/><text x="166" y="371.9" font-size="11.5" fill="#0369a1" text-anchor="end" font-weight="700">팩 하우징</text><text x="166" y="384.9" font-size="9.5" fill="#55617a" text-anchor="end">충격·물·먼지를 막는 케이스</text>
+          <circle cx="245.6" cy="214.3" r="8" fill="#fff" stroke="#1a2230" stroke-width="1.2"/><text x="245.6" y="217.9" font-size="10.5" fill="#1a2230" text-anchor="middle" font-weight="700">1</text>
+          <path d="M349.0 271.5 L349.0 291.5" stroke="#1a2230" stroke-width="1" fill="none"/><circle cx="349.0" cy="291.5" r="1.8" fill="#1a2230"/><circle cx="349.0" cy="271.5" r="8" fill="#fff" stroke="#1a2230" stroke-width="1.2"/><text x="349.0" y="275.1" font-size="10.5" fill="#1a2230" text-anchor="middle" font-weight="700">2</text>
+          <path d="M490.5 329.2 L476.5 353.2" stroke="#1a2230" stroke-width="1" fill="none"/><circle cx="476.5" cy="353.2" r="1.8" fill="#1a2230"/><circle cx="490.5" cy="329.2" r="8" fill="#fff" stroke="#1a2230" stroke-width="1.2"/><text x="490.5" y="332.8" font-size="10.5" fill="#1a2230" text-anchor="middle" font-weight="700">3</text>
+          <path d="M376.0 398.2 L382.0 372.2" stroke="#1a2230" stroke-width="1" fill="none"/><circle cx="382.0" cy="372.2" r="1.8" fill="#1a2230"/><circle cx="376.0" cy="398.2" r="8" fill="#fff" stroke="#1a2230" stroke-width="1.2"/><text x="376.0" y="401.8" font-size="10.5" fill="#1a2230" text-anchor="middle" font-weight="700">4</text>
+          <path d="M248.1 191.7 L264.1 197.7" stroke="#1a2230" stroke-width="1" fill="none"/><circle cx="264.1" cy="197.7" r="1.8" fill="#1a2230"/><circle cx="248.1" cy="191.7" r="8" fill="#fff" stroke="#1a2230" stroke-width="1.2"/><text x="248.1" y="195.29999999999998" font-size="10.5" fill="#1a2230" text-anchor="middle" font-weight="700">5</text>
+          <path d="M575.3 355.9 L553.3 377.9" stroke="#1a2230" stroke-width="1" fill="none"/><circle cx="553.3" cy="377.9" r="1.8" fill="#1a2230"/><circle cx="575.3" cy="355.9" r="8" fill="#fff" stroke="#1a2230" stroke-width="1.2"/><text x="575.3" y="359.5" font-size="10.5" fill="#1a2230" text-anchor="middle" font-weight="700">6</text>
+          <path d="M570.0 385.5 L526.0 389.5" stroke="#1a2230" stroke-width="1" fill="none"/><circle cx="526.0" cy="389.5" r="1.8" fill="#1a2230"/><circle cx="570.0" cy="385.5" r="8" fill="#fff" stroke="#1a2230" stroke-width="1.2"/><text x="570.0" y="389.1" font-size="10.5" fill="#1a2230" text-anchor="middle" font-weight="700">7</text>
+          <circle cx="32" cy="464.4" r="7.5" fill="#fff" stroke="#1a2230" stroke-width="1.1"/>
+          <text x="32" y="468" font-size="10" fill="#1a2230" text-anchor="middle" font-weight="700">1</text>
+          <text x="46" y="468" font-size="10" fill="#1a2230" text-anchor="start">셀 — 전기를 담는 낱개 배터리</text>
+          <circle cx="32" cy="481.4" r="7.5" fill="#fff" stroke="#1a2230" stroke-width="1.1"/>
+          <text x="32" y="485" font-size="10" fill="#1a2230" text-anchor="middle" font-weight="700">2</text>
+          <text x="46" y="485" font-size="10" fill="#1a2230" text-anchor="start">버스바 — 셀끼리 잇는 구리 띠</text>
+          <circle cx="32" cy="498.4" r="7.5" fill="#fff" stroke="#1a2230" stroke-width="1.1"/>
+          <text x="32" y="502" font-size="10" fill="#1a2230" text-anchor="middle" font-weight="700">3</text>
+          <text x="46" y="502" font-size="10" fill="#1a2230" text-anchor="start">압축·스웰링 패드 — 셀 사이 완충재</text>
+          <circle cx="32" cy="515.4" r="7.5" fill="#fff" stroke="#1a2230" stroke-width="1.1"/>
+          <text x="32" y="519" font-size="10" fill="#1a2230" text-anchor="middle" font-weight="700">4</text>
+          <text x="46" y="519" font-size="10" fill="#1a2230" text-anchor="start">방염판 — 옆 모듈로 불이 번지는 것을 막음</text>
+          <circle cx="32" cy="532.4" r="7.5" fill="#fff" stroke="#1a2230" stroke-width="1.1"/>
+          <text x="32" y="536" font-size="10" fill="#1a2230" text-anchor="middle" font-weight="700">5</text>
+          <text x="46" y="536" font-size="10" fill="#1a2230" text-anchor="start">센싱 와이어 — 전압·온도를 BMS로 전달</text>
+          <circle cx="32" cy="549.4" r="7.5" fill="#fff" stroke="#1a2230" stroke-width="1.1"/>
+          <text x="32" y="553" font-size="10" fill="#1a2230" text-anchor="middle" font-weight="700">6</text>
+          <text x="46" y="553" font-size="10" fill="#1a2230" text-anchor="start">퓨즈·서비스플러그 — 과전류 때 끊어짐</text>
+          <circle cx="32" cy="566.4" r="7.5" fill="#fff" stroke="#1a2230" stroke-width="1.1"/>
+          <text x="32" y="570" font-size="10" fill="#1a2230" text-anchor="middle" font-weight="700">7</text>
+          <text x="46" y="570" font-size="10" fill="#1a2230" text-anchor="start">릴레이·컨택터 — 고전압을 잇고 끊는 스위치</text>
+          <path d="M24 583 L40 583" stroke="#7c3aed" stroke-width="1.8" stroke-dasharray="5 3"/>
+          <text x="46" y="587" font-size="10" fill="#7c3aed" text-anchor="start">절연재·가스켓 — 케이스 안쪽 둘레</text>
         </svg>
-        <figcaption class="fig-cap">그림 15. 팩 내부에서 각 부품이 있는 자리 — BMS는 위에서 모듈마다
-          센싱 와이어로 연결되고, 버스바와 압축패드는 모듈 안에, 퓨즈·릴레이는 오른쪽
-          고전압 박스에, 냉각판은 맨 아래에, 절연재는 케이스 안쪽 전체를 두르고,
-          방염판은 모듈 사이를 막습니다.</figcaption>
+        <figcaption class="fig-cap">그림 15. 팩을 층층이 들어 올린 모습 — 맨 위 뚜껑에는 벤트가,
+          그 아래 BMS는 센싱 와이어로 모듈마다 연결되고, 버스바와 압축패드는 모듈 안에,
+          방염판은 모듈 사이에, 퓨즈·릴레이는 오른쪽 끝 고전압 박스에, 냉각판은 모듈 바로
+          밑에, 절연재는 맨 아래 하우징 안쪽 둘레를 두릅니다.</figcaption>
       </figure>
 
       <div class="tbl-scroll">
