@@ -714,3 +714,107 @@ def check_gh_models_default_off() -> list[str]:
                 os.environ[k] = v
         importlib.reload(gh_models)
     return out
+
+
+def check_nvidia_streaming() -> list[str]:
+    """NVIDIA 는 스트리밍으로 받는다 — 긴 리포트 생성이 읽기 타임아웃에 걸리지 않게(2026-11-15)."""
+    import importlib
+    import os
+    import sys
+    import types
+    import nvidia_models
+
+    out = []
+    saved = os.environ.get("NVIDIA_API_KEY")
+    os.environ["NVIDIA_API_KEY"] = "nvapi-test"
+    try:
+        m = importlib.reload(nvidia_models)
+        sent = {}
+
+        class _Stream:
+            status_code, text = 200, ""
+            headers = {"content-type": "text/event-stream; charset=utf-8"}
+
+            def __init__(self, lines):
+                self._lines = lines
+
+            def iter_lines(self):
+                return iter(self._lines)
+
+        lines = [b'data: {"choices":[{"delta":{"role":"assistant"}}]}', b"",
+                 b'data: {"choices":[{"delta":{"content":"{\\"a\\":"}}]}',
+                 b": keep-alive", b'data: {"choices":[{"delta":{"content":"1}"}}]}',
+                 b'data: {"choices":[]}', b"data: [DONE]", b'data: {"choices":[{"delta":{"content":"X"}}]}']
+
+        def fake_post(*a, **k):
+            sent.update(k)
+            return _Stream(lines)
+
+        sys.modules["requests"] = types.SimpleNamespace(post=fake_post)
+        got = m.generate("p")
+        if got != '{"a":1}':
+            out.append(f"  [스트림 조립] {got!r}")
+        if not (sent.get("stream") and sent.get("json", {}).get("stream")):
+            out.append("  [스트리밍 요청] stream=True 로 보내지 않았습니다")
+
+        # 조각이 하나도 없으면 성공으로 치지 않는다
+        lines[:] = [b"data: [DONE]"]
+        try:
+            m.generate("p")
+            out.append("  [빈 스트림] 성공으로 처리했습니다")
+        except m.NvidiaUnavailable:
+            pass
+
+        # 전체 시간 상한
+        m._fails, m.TOTAL_SEC = 0, -1
+        lines[:] = [b'data: {"choices":[{"delta":{"content":"a"}}]}'] * 3
+        try:
+            m.generate("p")
+            out.append("  [전체 시간 상한] 넘겨도 계속 읽었습니다")
+        except m.NvidiaUnavailable:
+            pass
+    finally:
+        if saved is None:
+            os.environ.pop("NVIDIA_API_KEY", None)
+        else:
+            os.environ["NVIDIA_API_KEY"] = saved
+        importlib.reload(nvidia_models)
+    return out
+
+
+def check_rss_fail_streak() -> list[str]:
+    """RSS 가 연달아 실패하면(IP 차단) 재시도를 줄인다 — 15개 채널 × 6회로 29분을 날린 일(2026-11-15)."""
+    import sys
+    import types
+    import fetch_rss as fr
+
+    out, calls = [], []
+    ok = {"v": False}
+
+    class _R:
+        def __init__(self, good):
+            self.status_code, self.content = (200, b"<feed/>") if good else (404, b"")
+
+    def fake_get(url, **k):
+        calls.append(url)
+        return _R(ok["v"])
+
+    sys.modules["requests"] = types.SimpleNamespace(get=fake_get)
+    orig_sleep, fr.time.sleep = fr.time.sleep, lambda s: None
+    fr._rss_fail_streak = 0
+    try:
+        counts = []
+        for i in range(4):
+            calls.clear()
+            fr._fetch_rss_bytes(f"u{i}")
+            counts.append(len(calls))
+        if counts != [fr.RSS_MAX_TRIES, 2, 1, 1]:
+            out.append(f"  [연속 실패 시 재시도 축소] 시도 횟수가 {counts} 입니다")
+        ok["v"] = True
+        fr._fetch_rss_bytes("u-ok")
+        if fr._rss_fail_streak != 0:
+            out.append("  [성공하면 원래대로] 연속 실패 수가 지워지지 않았습니다")
+    finally:
+        fr.time.sleep = orig_sleep
+        fr._rss_fail_streak = 0
+    return out

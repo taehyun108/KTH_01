@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       only:
-        description: "공급자 하나만(openai·nvidia·gemini). 비우면 전부"
+        description: "공급자 하나만(openai·nvidia·gemini), nvidia-long 은 실전 크기 NVIDIA 시험. 비우면 전부"
         required: false
         default: ""
 

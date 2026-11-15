@@ -74,22 +74,36 @@ RSS_HEADERS = {
     "Cookie": "CONSENT=YES+cb.20210328-17-p0.en+FX+000; SOCS=CAISEwgDEgk0ODE3Nzk3MjQaAmVuIAEaBgiA_LyaBg",
 }
 RSS_MAX_TRIES = 6
+# 채널이 연달아 실패하면 채널 문제가 아니라 유튜브가 이 IP 를 통째로 막은 것이다.
+# ※ 2026-11-15 03:03Z 실행: 15개 채널이 전부 404 였는데 채널마다 6회씩(약 57초) 재시도해
+#   채널 점검 14분 + 수집 15분 = 29분을 날렸다(후보는 어차피 공식 API 열거로 채워졌다).
+#   첫 채널은 끝까지 시도하고, 연속 실패가 쌓이면 2회 → 1회로 줄인다. 한 번 성공하면 원래대로 돌아온다.
+_rss_fail_streak = 0
+
+
+def _tries_now() -> int:
+    return RSS_MAX_TRIES if _rss_fail_streak == 0 else (2 if _rss_fail_streak == 1 else 1)
 
 
 def _fetch_rss_bytes(url: str) -> tuple[bytes | None, Any]:
     """비-200 응답이면 백오프하며 재시도. (content, last_status)"""
+    global _rss_fail_streak
     import requests
 
     last = None
-    for attempt in range(RSS_MAX_TRIES):
+    tries = _tries_now()
+    for attempt in range(tries):
         try:
             r = requests.get(url, headers=RSS_HEADERS, timeout=20)
             last = r.status_code
             if r.status_code == 200 and r.content:
+                _rss_fail_streak = 0
                 return r.content, last
         except Exception as exc:  # noqa: BLE001
             last = f"err:{exc.__class__.__name__}"
-        time.sleep(2.5 * (attempt + 1) + random.random() * 1.5)
+        if attempt < tries - 1:
+            time.sleep(2.5 * (attempt + 1) + random.random() * 1.5)
+    _rss_fail_streak += 1
     return None, last
 
 
@@ -104,7 +118,8 @@ def fetch_channel(channel: dict[str, str]) -> list[dict[str, Any]]:
 
     content, status = _fetch_rss_bytes(RSS_URL.format(channel_id=cid))
     if content is None:
-        print(f"  [rss] {channel['name']}: 실패 status={status} (재시도 {RSS_MAX_TRIES}회 소진)",
+        print(f"  [rss] {channel['name']}: 실패 status={status}"
+              + (" (연속 실패 — 재시도를 줄였습니다)" if _rss_fail_streak > 1 else f" (재시도 {RSS_MAX_TRIES}회 소진)"),
               file=sys.stderr)
         return []
 

@@ -107,6 +107,20 @@ def main() -> None:
         print("[NVIDIA — 무료 체험]")
         for m in NVIDIA:
             run(m, lambda m=m: chat("https://integrate.api.nvidia.com/v1/chat/completions", k, m, p, False), text, m)
+    if os.getenv("NVIDIA_API_KEY", "") and only == "nvidia-long":
+        # 실전 크기: 리포트 전체 형식(JSON_SPEC) + 자막 3만 자 — 출력이 길어 타임아웃이 나는지 본다.
+        import nvidia_models
+        long_p = g.JSON_SPEC + "\n\n--- 자막 ---\n" + g.trim_transcript(cached[0], 30000)
+        print(f"[NVIDIA 실전 크기] 프롬프트 {len(long_p):,}자 · 조각 간격 {nvidia_models.TIMEOUT_SEC}s · 전체 {nvidia_models.TOTAL_SEC}s")
+        for m in NVIDIA:
+            t = time.time()
+            try:
+                raw = nvidia_models.generate(long_p, m)
+                ok = "JSON✓" if raw.strip().lstrip("`json\n ").startswith("{") else "JSON✗"
+                print(f"  {m:42} {time.time() - t:5.1f}s 출력 {len(raw):,}자 {ok}")
+            except Exception as exc:  # noqa: BLE001
+                print(f"  {m:42} {time.time() - t:5.1f}s 실패 — {exc}")
+            nvidia_models._fails = 0
     k = os.getenv("GEMINI_API_KEY", "")
     if k and want("gemini"):
         print("[Gemini]")

@@ -24,6 +24,7 @@ build.nvidia.com(NIM API 카탈로그) 키는 OpenAI 호환 엔드포인트를 �
 from __future__ import annotations
 
 import json
+import time
 import os
 import sys
 
@@ -44,6 +45,11 @@ DEFAULT_MODEL = os.getenv("NVIDIA_MODEL", "minimaxai/minimax-m3.1-flash")
 # 2026-11-13 실행: 프롬프트 8천~1만 자에도 90초를 다 채우고 실패(2회) + 503(1회) — 한 번도 응답하지 못했다.
 # 응답할 때는 수 초 안에 오므로 60초로 줄이고, 아래 FAIL_LIMIT 도 2회로 줄여 실행당 낭비를 최대 2분으로 묶는다.
 TIMEOUT_SEC = int(os.getenv("NVIDIA_TIMEOUT_SEC", "60"))
+# 2026-11-15: 타임아웃이 계속된 진짜 이유는 '응답 전체를 한 번에' 기다렸기 때문으로 보인다.
+# 리포트 한 건은 출력이 수천 토큰이라 생성에만 1분이 넘는데, 그동안 한 글자도 안 오니 읽기 타임아웃에 걸렸다
+# (벤치마크는 출력이 짧아 통과했다). 스트리밍으로 받으면 TIMEOUT_SEC 는 '조각 사이 간격'에만 적용되고,
+# 전체 길이는 TOTAL_SEC 로 따로 묶는다.
+TOTAL_SEC = int(os.getenv("NVIDIA_TOTAL_SEC", "240"))
 MAX_KEYS = 10
 
 # 연속 실패하면 접는다 — 키가 전부 틀렸거나 잔액이 없으면 매번 같은 이유로 실패한다.
@@ -115,6 +121,31 @@ def usage() -> int:
     return _used
 
 
+def _read_body(res) -> str:
+    """스트림(SSE)이면 조각을 이어 붙이고, 아니면 일반 JSON 응답으로 읽는다."""
+    ctype = (getattr(res, "headers", None) or {}).get("content-type", "")
+    if "event-stream" not in ctype.lower():
+        return res.json()["choices"][0]["message"]["content"] or ""
+    start, parts = time.time(), []
+    for raw in res.iter_lines():
+        if time.time() - start > TOTAL_SEC:
+            raise NvidiaUnavailable(f"응답이 {TOTAL_SEC}초를 넘겼습니다")
+        line = raw.decode("utf-8", "replace") if isinstance(raw, bytes) else (raw or "")
+        if not line.startswith("data:"):
+            continue
+        data = line[5:].strip()
+        if data == "[DONE]":
+            break
+        try:
+            choice = (json.loads(data).get("choices") or [{}])[0]
+        except json.JSONDecodeError:
+            continue
+        piece = (choice.get("delta") or {}).get("content")
+        if piece:
+            parts.append(piece)
+    return "".join(parts)
+
+
 def generate(prompt: str, model: str | None = None) -> str:
     """프롬프트를 넘기고 응답 문자열을 받는다. model 을 안 주면 DEFAULT_MODEL.
 
@@ -142,8 +173,9 @@ def generate(prompt: str, model: str | None = None) -> str:
                 json={"model": mdl,
                       "messages": [{"role": "user", "content": prompt}],
                       "temperature": 0.4,
-                      "max_tokens": 8192},
-                timeout=TIMEOUT_SEC,
+                      "max_tokens": 8192,
+                      "stream": True},
+                timeout=TIMEOUT_SEC, stream=True,
             )
         except Exception as exc:  # noqa: BLE001
             _fails += 1
@@ -167,10 +199,19 @@ def generate(prompt: str, model: str | None = None) -> str:
             raise NvidiaUnavailable(f"HTTP {res.status_code} {detail}")
 
         try:
-            text = res.json()["choices"][0]["message"]["content"]
-        except (KeyError, IndexError, ValueError, json.JSONDecodeError) as exc:
+            text = _read_body(res)
+        except NvidiaUnavailable:
+            _fails += 1
+            raise
+        except (KeyError, IndexError, ValueError, TypeError, json.JSONDecodeError) as exc:
             _fails += 1
             raise NvidiaUnavailable("응답을 읽지 못했습니다") from exc
+        except Exception as exc:  # noqa: BLE001 — 스트림 도중 끊김·타임아웃
+            _fails += 1
+            raise NvidiaUnavailable(f"응답 도중 끊김 — {exc.__class__.__name__}") from exc
+        if not text.strip():
+            _fails += 1
+            raise NvidiaUnavailable("빈 응답")
 
         _fails = 0
         _used += 1

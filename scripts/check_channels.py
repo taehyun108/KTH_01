@@ -67,6 +67,12 @@ def main() -> int:
         print("  우리가 부르는 이름을 쓴 것이면 그대로 두셔도 됩니다.")
         print("  전혀 다른 채널이면 channel_id 를 잘못 넣은 것입니다.")
 
+    if bad and len(bad) == len(CHANNELS):
+        # 전부 실패면 채널 id 문제가 아니라 유튜브가 이 러너 IP 를 막은 것이다.
+        print("\n모든 채널이 실패했습니다 — 채널 문제가 아니라 유튜브가 이 IP 의 RSS 를 막은 것으로 보입니다.")
+        print("  수집은 공식 API 열거로 계속됩니다. 다음 실행에서 풀리는지 보십시오.")
+        return 0 if warn_only else 1
+
     if not bad:
         print("\n모든 채널 정상")
         return 0
