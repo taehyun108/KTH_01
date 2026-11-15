@@ -264,7 +264,7 @@ MIN_CONTEXT_CHARS = 200
 # 가운데를 덜어 내는 편이 손실이 가장 적다.
 #
 # 2026-11-13: 12,000자 → 30,000자. 12,000자로는 2~4만 자짜리 방송 자막의 가운데 절반 이상이 잘렸다.
-# 지금은 하루 토큰 한도에 묶인 Gemini 무료 티어가 주력이 아니고(NVIDIA → Gemini → OpenAI),
+# Gemini 가 주력이고(Gemini → NVIDIA(예비) → OpenAI),
 # 대부분의 방송(약 2.7만 자)이 통째로 들어간다. 입력이 약 2.5배가 되므로 OpenAI 폴백 비용도 비례해 늘어난다.
 # 되돌리려면 환경변수 MAX_TRANSCRIPT_CHARS=12000 만 주면 된다.
 MAX_TRANSCRIPT_CHARS = int(os.getenv("MAX_TRANSCRIPT_CHARS", "30000"))
@@ -552,8 +552,8 @@ class _TextResp:
 def _fallback(prompt: str, why: str):
     """Gemini 가 막혔을 때 다른 경로로 대신 처리한다.
 
-    순서는 GitHub Models(무료) → NVIDIA → OpenAI(과금, 마지막) — 사용자 지정
-    (2026-10-28). 쓸 수 없으면 None 을 돌려준다 — 호출자는 원래 오류를
+    순서는 GitHub Models(무료) → NVIDIA → OpenAI(과금, 마지막).
+    (2026-11-15: NVIDIA 는 주경로에서 빠지고 여기서만 쓴다.) 쓸 수 없으면 None 을 돌려준다 — 호출자는 원래 오류를
     그대로 올린다. 즉 예비 경로가 없거나 실패해도 지금까지의 동작에서
     나빠지는 것은 없다.
     """
@@ -604,9 +604,8 @@ TEXT_BACKEND = (os.getenv("TEXT_BACKEND") or "gh").strip().lower()
 def _generate(client, model: str, types, prompt: str, max_retries: int = 6):
     """429 는 서버 제안 대기 후 재시도. <하루> 한도 소진일 때만 실행을 접는다.
 
-    기본은 GitHub Models → NVIDIA 를 먼저 부르고, 안 되면 Gemini 로 내려온다
-    (NVIDIA 를 Gemini 보다 앞에 두는 순서는 사용자 지정, 2026-10-28).
-    Gemini 한도(실측 하루 20건)를 영상 분석에 남겨 두기 위한 순서다.
+    기본은 Gemini 가 먼저다(2026-11-15 사용자 지정 — NVIDIA 가 응답하지 못해 순서를 되돌림).
+    Gemini 한도가 바닥나면 _fallback 이 GitHub Models → NVIDIA → OpenAI 순으로 받는다.
     """
     global _throttle_fails
 
@@ -618,14 +617,9 @@ def _generate(client, model: str, types, prompt: str, max_retries: int = 6):
             print("  [텍스트] GitHub Models 를 쓸 수 없어 NVIDIA 로 갑니다.",
                   file=sys.stderr)
 
-    if TEXT_BACKEND == "gh":
-        import nvidia_models
-        if nvidia_models.available():
-            try:
-                return _TextResp(nvidia_models.generate(prompt))
-            except nvidia_models.NvidiaUnavailable as exc:
-                print(f"  [텍스트] NVIDIA 를 쓸 수 없어({exc}) Gemini 로 갑니다.",
-                      file=sys.stderr)
+    # 2026-11-15: NVIDIA 를 주경로에서 뺐다. 실전 크기(프롬프트 3만 자)에서 minimax 는 240초에도 끝내지 못했고
+    # deepseek 는 60초간 무응답이라, 매 실행 앞에서 시간만 쓰고 Gemini 로 내려왔다.
+    # 이제 Gemini 가 먼저이고, NVIDIA 는 Gemini 한도가 바닥났을 때 OpenAI(과금) 앞의 예비로만 남는다(_fallback).
 
     cfg = types.GenerateContentConfig(
         response_mime_type="application/json", temperature=0.4, max_output_tokens=8192)

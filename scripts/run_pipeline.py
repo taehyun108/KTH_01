@@ -428,7 +428,7 @@ def main() -> int:
         import gh_models as _gh
         from generate_report import TEXT_BACKEND
         who = ("Gemini(주력)" if TEXT_BACKEND != "gh"
-               else "GitHub Models(주력)" if _gh.ENABLED else "NVIDIA(주력, GitHub Models 는 서비스 문제로 꺼 둠)")
+               else "GitHub Models(주력)" if _gh.ENABLED else "Gemini(주력) → 한도 소진 시 NVIDIA → OpenAI(GitHub Models 는 꺼 둠)")
         print(f"  텍스트 처리: {who}"
               + (f" · 남은 한도 {_gh.LAST_QUOTA}" if _gh.LAST_QUOTA else ""))
     except Exception:

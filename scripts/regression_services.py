@@ -379,18 +379,15 @@ def check_multi_key_and_full_video() -> list[str]:
     elif fb.find("gh_models.available") > fb.find("openai_models"):
         out.append("  [무료 경로를 먼저 써야 함] OpenAI 가 앞에 있습니다")
 
-    # 전체 순서 — GitHub Models → NVIDIA → Gemini(텍스트) / Gemini 실패 시
-    # GitHub Models → NVIDIA → OpenAI(마지막, 과금). 사용자 지정(2026-10-28).
+    # 전체 순서 — Gemini(텍스트 주경로) / Gemini 가 막히면 GitHub Models → NVIDIA → OpenAI(마지막, 과금).
+    # 2026-11-15: NVIDIA 가 실전 크기에서 응답하지 못해 주경로에서 뺐다(사용자 지정).
     if "nvidia_models" not in fb:
         out.append("  [NVIDIA 예비 경로] _fallback 에 연결이 없습니다")
     elif not (fb.find("gh_models.available") < fb.find("nvidia_models")
              < fb.find("openai_models")):
         out.append("  [예비 경로 순서] GitHub Models → NVIDIA → OpenAI 순서가 아닙니다")
-    if "nvidia_models" not in gen:
-        out.append("  [NVIDIA] 텍스트 주경로(_generate)에 연결이 없습니다")
-    elif not (gen.find("gh_models.available") < gen.find("nvidia_models")
-             < gen.find("cfg = types.GenerateContentConfig")):
-        out.append("  [NVIDIA 는 GitHub Models 다음·Gemini 호출 이전이어야 함] 순서가 다릅니다")
+    if "nvidia_models" in gen:
+        out.append("  [NVIDIA 는 주경로(_generate)에 있으면 안 됨] Gemini 보다 앞에서 시간을 씁니다 — _fallback 에서만 쓰세요")
 
     # 워크플로가 키들을 실제로 넘기는가
     wf = (Path(__file__).resolve().parent.parent

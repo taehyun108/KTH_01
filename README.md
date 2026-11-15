@@ -151,7 +151,7 @@ Actions 탭 → **Test Telegram notification** → `Run workflow`
 |---|---|
 | `KTH_01_GEMINI_API_KEY` | 지금까지 쓰던 것. 그대로 두세요 |
 | `KTH_01_GEMINI_API_KEY_2` ~ `_5` | 두 번째부터. 넣은 개수만큼 하루 처리량이 늘어납니다 |
-| `KTH_01_NVIDIA_API_KEY` | 텍스트 처리의 **1순위**(무료) — Gemini 보다 앞 |
+| `KTH_01_NVIDIA_API_KEY` | 텍스트 처리의 **예비**(무료) — Gemini 한도가 바닥났을 때 OpenAI 앞에서만 시도 |
 | `KTH_01_NVIDIA_API_KEY_2` ~ `_3` | NVIDIA 도 여러 개 등록하면 한도·잔액이 바닥난 키를 건너뛰고 다음 키로 갈아탑니다 |
 | `KTH_01_OPENAI_API_KEY` | 마지막 예비. **유일하게 과금되는 경로**라 위가 다 막혔을 때만 쓰입니다 |
 | `KTH_01_OPENAI_API_KEY_2` ~ `_3` | OpenAI 도 여러 개 등록하면 한도·잔액이 바닥난 키를 건너뛰고 다음 키로 갈아탑니다 |
@@ -167,11 +167,9 @@ Actions 탭 → **Test Telegram notification** → `Run workflow`
 > 쓰입니다(영상 직접 분석은 Gemini 고유 기능이라 대체 경로가 없습니다).
 > 걱정되면 등록하지 않으셔도 됩니다 — 없으면 그냥 꺼져 있습니다.
 
-처리 순서(텍스트)는 다음과 같습니다 — **사용자 지정으로 NVIDIA 가 Gemini 보다 앞**입니다:
-NVIDIA 1번 키 → 2번 키 → … → Gemini 1번 키 → 2번 키 → … → OpenAI(과금, 마지막)
-
-Gemini 쿼터가 먼저 소진돼 넘어오는 예비 경로도 같은 순서입니다:
-NVIDIA → OpenAI
+처리 순서(텍스트)는 다음과 같습니다 — **2026-11-15 부터 Gemini 가 먼저**입니다
+(NVIDIA 가 실전 크기 리포트에서 응답하지 못해 주경로에서 뺐습니다):
+Gemini 1번 키 → 2번 키 → … → (한도 소진 시) NVIDIA → OpenAI(과금, 마지막)
 
 > GitHub Models(무료)는 2026-11-13 현재 서비스가 응답하지 않아 **꺼 두었습니다.**
 > 돌아온 것을 확인하면 워크플로 env 에 `GH_MODELS_ENABLED=1` 을 넣으면 맨 앞 경로로 다시 켜집니다.
