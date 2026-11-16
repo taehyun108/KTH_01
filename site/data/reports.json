@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-15T13:03:23",
+  "generated_at": "2026-11-16T00:23:31",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-11-16-엔비디아-실적과-옵션-만기-앞둔-증시-이번-주-시장-전망은",
+      "date": "2026-11-16",
+      "channel": "삼프로TV",
+      "title": "엔비디아 실적과 옵션 만기 앞둔 증시...이번 주 시장 전망은?",
+      "summary": "엔비디아 실적 발표와 미국 옵션 만기 등 굵직한 일정을 앞둔 이번 주 증시 흐름과 전망을 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-11-16-엔비디아-실적과-옵션-만기-앞둔-증시-이번-주-시장-전망은.html",
+      "video": "https://www.youtube.com/watch?v=LagAldYbD8M",
+      "video_id": "LagAldYbD8M",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-11-15-자율주행의-승부처는-기술에서-가격으로-한국의-과제는-무엇일까요",
       "date": "2026-11-15",
@@ -62,6 +77,51 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-11-15-엔비디아-흔들리고-금리는-오르고-흔들리는-글로벌-증시의-숨은-그림자",
+      "date": "2026-11-15",
+      "channel": "삼프로TV",
+      "title": "엔비디아 흔들리고 금리는 오르고... 흔들리는 글로벌 증시의 숨은 그림자",
+      "summary": "엔비디아의 약세와 금리 상승 속에서 시장의 리스크 요인을 살펴보고, 배터리 산업에 미치는 영향을 짚어 봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-15-엔비디아-흔들리고-금리는-오르고-흔들리는-글로벌-증시의-숨은-그림자.html",
+      "video": "https://www.youtube.com/watch?v=mLfghqfrG1g",
+      "video_id": "mLfghqfrG1g",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-15-670조-ai-금융-흔들-젠슨-황-복귀-청원-확산과-수출-1조-달러-돌파",
+      "date": "2026-11-15",
+      "channel": "삼프로TV",
+      "title": "670조 AI 금융 흔들…젠슨 황 복귀 청원 확산과 수출 1조 달러 돌파",
+      "summary": "AI 금융 시장의 위험성과 전문직 시험 AI 부정행위, 그리고 수출 1조 달러 돌파 소식을 전해 드립니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-15-670조-ai-금융-흔들-젠슨-황-복귀-청원-확산과-수출-1조-달러-돌파.html",
+      "video": "https://www.youtube.com/watch?v=ue4sG-vBq7Y",
+      "video_id": "ue4sG-vBq7Y",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-15-ai-버블-붕괴일까-열광기-전-조정일까-주목해야-할-매크로-변수",
+      "date": "2026-11-15",
+      "channel": "삼프로TV",
+      "title": "AI 버블 붕괴일까, 열광기 전 조정일까? 주목해야 할 매크로 변수",
+      "summary": "AI 산업의 자본 사이클과 매크로 변수를 짚어 보고 버블 국면을 점검해 봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-11-15-ai-버블-붕괴일까-열광기-전-조정일까-주목해야-할-매크로-변수.html",
+      "video": "https://www.youtube.com/watch?v=UihZAstNiGU",
+      "video_id": "UihZAstNiGU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-11-14-데이터센터-건설주-완전-정복-gs건설과-삼성e-a-비교-분석",
@@ -1904,6 +1964,21 @@
       "url": "2026-11-04-미국-중간선거-종료-증시-급등과-반도체의-엇갈린-운명.html",
       "video": "https://www.youtube.com/watch?v=fbLSL-Vz4O0",
       "video_id": "fbLSL-Vz4O0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-04-ai는-흔들리고-실적은-버틴다-지금-시장-무엇을-봐야-할까",
+      "date": "2026-11-04",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "AI는 흔들리고 실적은 버틴다, 지금 시장 무엇을 봐야 할까?",
+      "summary": "AI와 반도체 시장이 흔들리는 이유와 앞으로 살펴봐야 할 투자 포인트를 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-04-ai는-흔들리고-실적은-버틴다-지금-시장-무엇을-봐야-할까.html",
+      "video": "https://www.youtube.com/watch?v=GDW5-pHV4zI",
+      "video_id": "GDW5-pHV4zI",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
