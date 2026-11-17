@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-17T10:55:16",
+  "generated_at": "2026-11-17T15:22:09",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -134,6 +134,51 @@
       "url": "2026-11-17-지수-하락-장세-섣부른-매도보다-버티기가-중요한-이유.html",
       "video": "https://www.youtube.com/watch?v=XpIrmzb-5_A",
       "video_id": "XpIrmzb-5_A",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-17-현대차-고급화-전략이-흔들리는-이유와-완성차-시장의-고민",
+      "date": "2026-11-17",
+      "channel": "언더스탠딩",
+      "title": "현대차 고급화 전략이 흔들리는 이유와 완성차 시장의 고민",
+      "summary": "현대차의 판매 부진과 고급화 전략의 문제점, 그리고 배터리·전기차 전략에 미치는 영향입니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-11-17-현대차-고급화-전략이-흔들리는-이유와-완성차-시장의-고민.html",
+      "video": "https://www.youtube.com/watch?v=HCLJqLCO8yY",
+      "video_id": "HCLJqLCO8yY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-17-중간선거-끝난-직후-태세전환하는-연준-2018년-연말-쇼크가-재현될까요",
+      "date": "2026-11-17",
+      "channel": "소수몽키",
+      "title": "중간선거 끝난 직후 태세전환하는 연준, 2018년 연말 쇼크가 재현될까요",
+      "summary": "중간선거가 끝난 직후 연준의 매파적 태세 전환과 2018년 당시와의 유사성을 짚어보고, 금리와 환율 상승이 자산 시장에 미치는 영향을 다룹니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-11-17-중간선거-끝난-직후-태세전환하는-연준-2018년-연말-쇼크가-재현될까요.html",
+      "video": "https://www.youtube.com/watch?v=MQ8gneRrYuw",
+      "video_id": "MQ8gneRrYuw",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-17-주식은-올랐지만-금리가-다시-높아졌다",
+      "date": "2026-11-17",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "주식은 올랐지만 금리가 다시 높아졌다",
+      "summary": "주식 시장은 올랐지만 금리와 물가 부담이 여전한데요, 거시 지표를 바탕으로 앞으로의 장세를 차분히 짚어 봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-17-주식은-올랐지만-금리가-다시-높아졌다.html",
+      "video": "https://www.youtube.com/watch?v=quVTQ5RaYDo",
+      "video_id": "quVTQ5RaYDo",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
