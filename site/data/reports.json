@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-17T01:07:48",
+  "generated_at": "2026-11-17T03:13:43",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -29,6 +29,36 @@
       "url": "2026-11-17-외국인마저-돌아선-코스피-5-000선-향방은-어디로.html",
       "video": "https://www.youtube.com/watch?v=LfrqRcZwzro",
       "video_id": "LfrqRcZwzro",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-17-공포가-큰-시장-반등의-실마리를-찾는-법",
+      "date": "2026-11-17",
+      "channel": "삼프로TV",
+      "title": "공포가 큰 시장, 반등의 실마리를 찾는 법",
+      "summary": "코스피 변동성이 높은 시기, 시장 흐름을 차분히 짚어 보고 대응 전략을 나누어 봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-11-17-공포가-큰-시장-반등의-실마리를-찾는-법.html",
+      "video": "https://www.youtube.com/watch?v=G-DfszxECas",
+      "video_id": "G-DfszxECas",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-17-코스닥-하락장-속에서-살아남는-실전-대응-전략",
+      "date": "2026-11-17",
+      "channel": "삼프로TV",
+      "title": "코스닥 하락장 속에서 살아남는 실전 대응 전략",
+      "summary": "하락장 속 코스닥 시장의 바닥 시그널과 대응 전략을 살펴봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-11-17-코스닥-하락장-속에서-살아남는-실전-대응-전략.html",
+      "video": "https://www.youtube.com/watch?v=gJudhfVxejM",
+      "video_id": "gJudhfVxejM",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
