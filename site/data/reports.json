@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-18T02:36:43",
+  "generated_at": "2026-11-18T04:53:06",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -44,6 +44,36 @@
       "url": "2026-11-18-엔비디아-실적-발표와-국내-반도체-증시-흐름-점검.html",
       "video": "https://www.youtube.com/watch?v=AbbCGe2z4Og",
       "video_id": "AbbCGe2z4Og",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-18-외국인-수급과-엔비디아-실적을-통해-알아보는-증시-흐름과-투자-전략",
+      "date": "2026-11-18",
+      "channel": "삼프로TV",
+      "title": "외국인 수급과 엔비디아 실적을 통해 알아보는 증시 흐름과 투자 전략",
+      "summary": "외국인 수급과 미국 실적에 따른 증시 흐름을 짚어보고, 변동성이 큰 시장에서 자산 관리를 어떻게 해야 할지 살펴봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-11-18-외국인-수급과-엔비디아-실적을-통해-알아보는-증시-흐름과-투자-전략.html",
+      "video": "https://www.youtube.com/watch?v=6QsR2Jre64w",
+      "video_id": "6QsR2Jre64w",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-18-반도체-목표-주가-하향-주가-바닥은-어디일까요",
+      "date": "2026-11-18",
+      "channel": "삼프로TV",
+      "title": "반도체 목표 주가 하향, 주가 바닥은 어디일까요",
+      "summary": "반도체 대표 기업들의 목표 주가가 낮아졌지만, 주가 흐름과 밸류에이션 조정을 냉정하게 짚어보는 시간이었습니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-11-18-반도체-목표-주가-하향-주가-바닥은-어디일까요.html",
+      "video": "https://www.youtube.com/watch?v=rQBECS1zytU",
+      "video_id": "rQBECS1zytU",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
