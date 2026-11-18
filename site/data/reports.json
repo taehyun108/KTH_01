@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-17T15:22:09",
+  "generated_at": "2026-11-18T00:00:34",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -179,6 +179,36 @@
       "url": "2026-11-17-주식은-올랐지만-금리가-다시-높아졌다.html",
       "video": "https://www.youtube.com/watch?v=quVTQ5RaYDo",
       "video_id": "quVTQ5RaYDo",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-17-엔비디아-역대-최대-실적과-애플의-메모리-장기-계약",
+      "date": "2026-11-17",
+      "channel": "삼프로TV",
+      "title": "엔비디아 역대 최대 실적과 애플의 메모리 장기 계약",
+      "summary": "엔비디아의 사상 최대 실적 발표와 함께 애플이 삼성전자와 메모리 장기 계약을 마무리하고 있다는 소식이 전해졌습니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-17-엔비디아-역대-최대-실적과-애플의-메모리-장기-계약.html",
+      "video": "https://www.youtube.com/watch?v=tB7T2h2hbYc",
+      "video_id": "tB7T2h2hbYc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-17-엔비디아-호실적-뒤에-남은-고민-ai-투자는-계속-이어질까요",
+      "date": "2026-11-17",
+      "channel": "삼프로TV",
+      "title": "엔비디아 호실적 뒤에 남은 고민… AI 투자는 계속 이어질까요",
+      "summary": "엔비디아의 탄탄한 실적과 AI 투자 지속성을 짚어보고, 글로벌 반도체와 밸류체인에 미치는 영향을 차분히 정리합니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-17-엔비디아-호실적-뒤에-남은-고민-ai-투자는-계속-이어질까요.html",
+      "video": "https://www.youtube.com/watch?v=E2-V6z2WQzo",
+      "video_id": "E2-V6z2WQzo",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
