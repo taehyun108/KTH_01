@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-18T10:29:36",
+  "generated_at": "2026-11-18T14:45:49",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -152,6 +152,21 @@
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-18-스페이스x의-ai-전환과-테슬라-합병-논란-우리에게-주는-의미는",
+      "date": "2026-11-18",
+      "channel": "언더스탠딩",
+      "title": "스페이스X의 AI 전환과 테슬라 합병 논란, 우리에게 주는 의미는",
+      "summary": "스페이스X의 AI 기업 변신과 테슬라 합병 이슈가 국내외 시장에 던지는 의미를 짚어봅니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-18-스페이스x의-ai-전환과-테슬라-합병-논란-우리에게-주는-의미는.html",
+      "video": "https://www.youtube.com/watch?v=NssIoVZGVS8",
+      "video_id": "NssIoVZGVS8",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
     },
     {
       "id": "2026-11-17-외국인마저-돌아선-코스피-5-000선-향방은-어디로",
