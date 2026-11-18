@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-18T00:00:34",
+  "generated_at": "2026-11-18T02:36:43",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-11-18-코스피-5-000선-이탈-지금은-단기-매매보다-차분한-대응이-필요한-이유",
+      "date": "2026-11-18",
+      "channel": "삼프로TV",
+      "title": "코스피 5,000선 이탈, 지금은 단기 매매보다 차분한 대응이 필요한 이유",
+      "summary": "코스피가 9개월 만에 5,000선을 내어준 가운데, 지금은 단기 매매보다 차분한 대응이 필요한 시점이라는 분석을 전해 드립니다.",
+      "category": "korea-market",
+      "relation": "indirect",
+      "url": "2026-11-18-코스피-5-000선-이탈-지금은-단기-매매보다-차분한-대응이-필요한-이유.html",
+      "video": "https://www.youtube.com/watch?v=kZc5iQ0bXfY",
+      "video_id": "kZc5iQ0bXfY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-18-엔비디아-실적-발표와-국내-반도체-증시-흐름-점검",
+      "date": "2026-11-18",
+      "channel": "삼프로TV",
+      "title": "엔비디아 실적 발표와 국내 반도체·증시 흐름 점검",
+      "summary": "엔비디아 실적과 국내 증시 반도체 흐름을 점검하고, 지수 조정 구간에서의 투자 전략을 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-11-18-엔비디아-실적-발표와-국내-반도체-증시-흐름-점검.html",
+      "video": "https://www.youtube.com/watch?v=AbbCGe2z4Og",
+      "video_id": "AbbCGe2z4Og",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-11-17-외국인마저-돌아선-코스피-5-000선-향방은-어디로",
       "date": "2026-11-17",
