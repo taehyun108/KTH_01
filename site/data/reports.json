@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-19T10:49:35",
+  "generated_at": "2026-11-19T14:54:25",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -134,6 +134,21 @@
       "url": "2026-11-19-텍사스-데이터센터-인허가-재개-전력기기-반등에도-순서가-있다.html",
       "video": "https://www.youtube.com/watch?v=G_CPMSwOIP0",
       "video_id": "G_CPMSwOIP0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-19-공매도-압박-버텨낸-증시-옵션-만기-이후-반등을-노리는-이유",
+      "date": "2026-11-19",
+      "channel": "삼프로TV",
+      "title": "공매도 압박 버텨낸 증시, 옵션 만기 이후 반등을 노리는 이유",
+      "summary": "최근 증시를 둘러싼 공매도와 옵션 만기 부담이 줄어들면서, 시장이 바닥을 다지고 반등을 모색하는 흐름을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-19-공매도-압박-버텨낸-증시-옵션-만기-이후-반등을-노리는-이유.html",
+      "video": "https://www.youtube.com/watch?v=vC7v55f8sdo",
+      "video_id": "vC7v55f8sdo",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
