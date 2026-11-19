@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-19T14:54:25",
+  "generated_at": "2026-11-19T22:11:38",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -149,6 +149,21 @@
       "url": "2026-11-19-공매도-압박-버텨낸-증시-옵션-만기-이후-반등을-노리는-이유.html",
       "video": "https://www.youtube.com/watch?v=vC7v55f8sdo",
       "video_id": "vC7v55f8sdo",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-19-앤트로픽-상장-첫날-차익-실현-미-증시와-ai-투자-열기의-명암",
+      "date": "2026-11-19",
+      "channel": "삼프로TV",
+      "title": "앤트로픽 상장 첫날 차익 실현…미 증시와 AI 투자 열기의 명암",
+      "summary": "앤트로픽 상장 직후 차익 실현 매물로 증시가 흔들리고, 인공지능 투자 열기와 물가 부담 사이의 고민이 이어지고 있죠.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-19-앤트로픽-상장-첫날-차익-실현-미-증시와-ai-투자-열기의-명암.html",
+      "video": "https://www.youtube.com/watch?v=X1D0cQjwrkU",
+      "video_id": "X1D0cQjwrkU",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
