@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-20T10:11:49",
+  "generated_at": "2026-11-20T23:23:59",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -104,6 +104,21 @@
       "url": "2026-11-20-폭락장-계좌-수습과-포트폴리오-대응-전략.html",
       "video": "https://www.youtube.com/watch?v=Tzc0KuusVbI",
       "video_id": "Tzc0KuusVbI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-20-애플의-조력자에서-ai-전기차-플랫폼-강자로-폭스콘의-변신",
+      "date": "2026-11-20",
+      "channel": "CNBC International",
+      "title": "애플의 조력자에서 AI·전기차 플랫폼 강자로, 폭스콘의 변신",
+      "summary": "폭스콘이 애플 아이폰 중심의 사업 구조를 넘어 AI 인프라와 전기차 시장으로 영역을 넓히고 있습니다.",
+      "category": "global-market",
+      "relation": "indirect",
+      "url": "2026-11-20-애플의-조력자에서-ai-전기차-플랫폼-강자로-폭스콘의-변신.html",
+      "video": "https://www.youtube.com/watch?v=gleqEIsAvVg",
+      "video_id": "gleqEIsAvVg",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
