@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-20T01:55:10",
+  "generated_at": "2026-11-20T04:22:22",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -29,6 +29,36 @@
       "url": "2026-11-20-ai-버블-우려-속-반도체주-주가-조정과-향후-대응-전략.html",
       "video": "https://www.youtube.com/watch?v=QwhGDJbSGvU",
       "video_id": "QwhGDJbSGvU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-20-지금은-버티면서-모을-때-금리와-환율이-가르는-시장의-방향",
+      "date": "2026-11-20",
+      "channel": "삼프로TV",
+      "title": "지금은 버티면서 모을 때…금리와 환율이 가르는 시장의 방향",
+      "summary": "시장 상황에 대한 불안감이 여전한 가운데 금리와 환율 흐름을 꼼꼼히 살피며 차분히 접근하자고 조언하는 시장 브리핑.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-11-20-지금은-버티면서-모을-때-금리와-환율이-가르는-시장의-방향.html",
+      "video": "https://www.youtube.com/watch?v=axY9mi3lmok",
+      "video_id": "axY9mi3lmok",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-20-다음-금융은-시작됐다-ai와-함께-열리는-핀테크의-미래",
+      "date": "2026-11-20",
+      "channel": "삼프로TV",
+      "title": "다음 금융은 시작됐다, AI와 함께 열리는 핀테크의 미래",
+      "summary": "핀테크 산업의 현재와 AI 도입에 따른 변화를 짚어보고, 국내 최대 핀테크 박람회 '코리아 핀테크 위크 2026'의 주요 내용을 살펴봅니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-11-20-다음-금융은-시작됐다-ai와-함께-열리는-핀테크의-미래.html",
+      "video": "https://www.youtube.com/watch?v=LaNmkC9HkS4",
+      "video_id": "LaNmkC9HkS4",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
