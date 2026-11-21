@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-20T23:23:59",
+  "generated_at": "2026-11-21T01:44:48",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -2699,6 +2699,21 @@
       "url": "2026-11-04-ai는-흔들리고-실적은-버틴다-지금-시장-무엇을-봐야-할까.html",
       "video": "https://www.youtube.com/watch?v=GDW5-pHV4zI",
       "video_id": "GDW5-pHV4zI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-04-미국-대선-이후의-증시-흐름과-앞으로-주목할-핵심-변수들",
+      "date": "2026-11-04",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "미국 대선 이후의 증시 흐름과 앞으로 주목할 핵심 변수들",
+      "summary": "미국 대선 결과에 따른 증시 변동성은 단기적일 뿐이며, 결국 본질적인 경제 지표를 봐야 한다는 분석이에요.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-11-04-미국-대선-이후의-증시-흐름과-앞으로-주목할-핵심-변수들.html",
+      "video": "https://www.youtube.com/watch?v=K1mQLhUc1f0",
+      "video_id": "K1mQLhUc1f0",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
