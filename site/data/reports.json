@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-21T13:50:42",
+  "generated_at": "2026-11-22T03:33:13",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-11-22-코스피-47-폭락-진짜-바닥은-어디일까요",
+      "date": "2026-11-22",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "코스피 -47% 폭락… 진짜 바닥은 어디일까요",
+      "summary": "코스피가 고점 대비 47% 하락하며 금융위기와 맞먹는 공포 국면에 접어든 가운데, 향후 시장의 바닥을 가늠하고 대응하는 방법을 차분히 짚어 봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-22-코스피-47-폭락-진짜-바닥은-어디일까요.html",
+      "video": "https://www.youtube.com/watch?v=qPT3AVLpy98",
+      "video_id": "qPT3AVLpy98",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-11-21-위기를-맞은-위키피디아-정보-플랫폼의-신뢰-흔들리나",
       "date": "2026-11-21",
