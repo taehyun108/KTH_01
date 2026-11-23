@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T04:02:48",
+  "generated_at": "2026-11-23T11:00:27",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -74,6 +74,51 @@
       "url": "2026-11-23-인공지능과-데이터센터-바닥을-논하기-전에-짚어봐야-할-점들.html",
       "video": "https://www.youtube.com/watch?v=z11QfkoEwns",
       "video_id": "z11QfkoEwns",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-23-코스피-연속-급락과-ai-버블-논란-과거-위기와-어떻게-다를까요",
+      "date": "2026-11-23",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "코스피 연속 급락과 AI 버블 논란, 과거 위기와 어떻게 다를까요",
+      "summary": "코스피와 코스닥이 연속 급락하며 시장이 큰 충격을 받았는데요, 현재의 하락 장세가 과거 역사적 위기와 어떻게 다른지 차분히 짚어봅니다.",
+      "category": "macro",
+      "relation": "direct",
+      "url": "2026-11-23-코스피-연속-급락과-ai-버블-논란-과거-위기와-어떻게-다를까요.html",
+      "video": "https://www.youtube.com/watch?v=nwBHZTP5dYc",
+      "video_id": "nwBHZTP5dYc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-23-급락장의-매수-타이밍보다-중요한-내-계좌-점검법",
+      "date": "2026-11-23",
+      "channel": "삼프로TV",
+      "title": "급락장의 매수 타이밍보다 중요한 내 계좌 점검법",
+      "summary": "급락장이 찾아왔을 때 무작정 저가 매수에 나서기보다, 보유한 종목들의 비중과 성격을 먼저 점검해야 한다는 조언입니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-11-23-급락장의-매수-타이밍보다-중요한-내-계좌-점검법.html",
+      "video": "https://www.youtube.com/watch?v=vyuznP_KIJE",
+      "video_id": "vyuznP_KIJE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-23-증시-조정-속-기관-매물-출회-1월-반등을-기대하는-이유",
+      "date": "2026-11-23",
+      "channel": "삼프로TV",
+      "title": "증시 조정 속 기관 매물 출회, 1월 반등을 기대하는 이유",
+      "summary": "증시 조정 국면 속에서 기관 투자자의 매물 출회 배경과 향후 시장 반등 시점을 짚어 봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-23-증시-조정-속-기관-매물-출회-1월-반등을-기대하는-이유.html",
+      "video": "https://www.youtube.com/watch?v=sTGJtw_hGUU",
+      "video_id": "sTGJtw_hGUU",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
