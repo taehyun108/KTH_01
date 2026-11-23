@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-22T03:33:13",
+  "generated_at": "2026-11-23T01:17:20",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -19,6 +19,36 @@
   ],
   "reports": [
     {
+      "id": "2026-11-23-손경제-브리핑-10조-원-증안펀드와-국산-전기차-세액공제-확대-검토",
+      "date": "2026-11-23",
+      "channel": "손에 잡히는 경제",
+      "title": "[손경제 브리핑] 10조 원 증안펀드와 국산 전기차 세액공제 확대 검토",
+      "summary": "정부가 증시 안정을 위해 10조 원 규모의 증안펀드 투입을 준비하고, 중국산 공세에 맞서 국산 전기차 세액공제 확대를 검토합니다.",
+      "category": "korea-policy",
+      "relation": "indirect",
+      "url": "2026-11-23-손경제-브리핑-10조-원-증안펀드와-국산-전기차-세액공제-확대-검토.html",
+      "video": "https://www.youtube.com/watch?v=1Z3eOkZPm34",
+      "video_id": "1Z3eOkZPm34",
+      "pv": 6,
+      "scope": "battery",
+      "src": "unavailable"
+    },
+    {
+      "id": "2026-11-23-폭락했다고-바로-팔-때-아니다-반등을-결정할-핵심-변수는",
+      "date": "2026-11-23",
+      "channel": "삼프로TV",
+      "title": "폭락했다고 바로 팔 때 아니다…반등을 결정할 핵심 변수는?",
+      "summary": "최근 증시 폭락 속에서 하락의 원인과 향후 반등을 결정할 핵심 변수를 짚어 봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-11-23-폭락했다고-바로-팔-때-아니다-반등을-결정할-핵심-변수는.html",
+      "video": "https://www.youtube.com/watch?v=ME_JkAGPmXI",
+      "video_id": "ME_JkAGPmXI",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
       "id": "2026-11-22-코스피-47-폭락-진짜-바닥은-어디일까요",
       "date": "2026-11-22",
       "channel": "슈퍼개미 이세무사TV",
@@ -29,6 +59,36 @@
       "url": "2026-11-22-코스피-47-폭락-진짜-바닥은-어디일까요.html",
       "video": "https://www.youtube.com/watch?v=qPT3AVLpy98",
       "video_id": "qPT3AVLpy98",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-22-흔들리는-ai-신화와-증안펀드-가동-준비",
+      "date": "2026-11-22",
+      "channel": "삼프로TV",
+      "title": "흔들리는 AI 신화와 증안펀드 가동 준비",
+      "summary": "나스닥 급락과 공포지수 상승 속에 증권시장안정펀드 가동 준비 소식이 전해졌습니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-11-22-흔들리는-ai-신화와-증안펀드-가동-준비.html",
+      "video": "https://www.youtube.com/watch?v=YQ5YCnAwbbY",
+      "video_id": "YQ5YCnAwbbY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-22-증시-폭락과-금리-향방-지금-우리의-투자-전략은",
+      "date": "2026-11-22",
+      "channel": "삼프로TV",
+      "title": "증시 폭락과 금리 향방, 지금 우리의 투자 전략은?",
+      "summary": "증시 폭락 속에서 자산 시장의 변동성과 금리 향방을 점검하고, 포트폴리오 재조정 방향을 짚어 봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-22-증시-폭락과-금리-향방-지금-우리의-투자-전략은.html",
+      "video": "https://www.youtube.com/watch?v=7ZLBGymBqeA",
+      "video_id": "7ZLBGymBqeA",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
