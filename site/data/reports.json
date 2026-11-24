@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T12:46:18",
+  "generated_at": "2026-11-24T23:37:04",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -122,6 +122,36 @@
       "pv": 6,
       "scope": "battery",
       "src": "unavailable"
+    },
+    {
+      "id": "2026-11-24-결국-증시-바닥은-트럼프의-입에서-나오는-이유",
+      "date": "2026-11-24",
+      "channel": "소수몽키",
+      "title": "결국 증시 바닥은 트럼프의 입에서 나오는 이유",
+      "summary": "2018년 트럼프 1기 중간선거 직후와 유사한 증시 흐름을 짚어보고, 연말까지 시장 불확실성을 가늠해 보는 시간입니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-24-결국-증시-바닥은-트럼프의-입에서-나오는-이유.html",
+      "video": "https://www.youtube.com/watch?v=2O2Zf9m0Pw8",
+      "video_id": "2O2Zf9m0Pw8",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-24-균열은-이미-시작됐다-국장-팔고-미장으로-가기-전-생각해-볼-점",
+      "date": "2026-11-24",
+      "channel": "삼프로TV",
+      "title": "균열은 이미 시작됐다, 국장 팔고 미장으로 가기 전 생각해 볼 점",
+      "summary": "글로벌 증시 조정 국면에서 한국과 미국의 주가 하락 시차를 짚어보고, 신중한 투자 전략을 고민해 보는 시간입니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-24-균열은-이미-시작됐다-국장-팔고-미장으로-가기-전-생각해-볼-점.html",
+      "video": "https://www.youtube.com/watch?v=YUzwVL3oZIc",
+      "video_id": "YUzwVL3oZIc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
     },
     {
       "id": "2026-11-23-손경제-브리핑-10조-원-증안펀드와-국산-전기차-세액공제-확대-검토",
