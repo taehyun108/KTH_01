@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T11:00:27",
+  "generated_at": "2026-11-24T01:46:46",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,21 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-11-24-급반등-이후-시장을-결정할-핵심-변수",
+      "date": "2026-11-24",
+      "channel": "삼프로TV",
+      "title": "급반등 이후 시장을 결정할 핵심 변수",
+      "summary": "엔비디아의 반등 이후, 시장의 향방을 가를 핵심 변수와 투자 전략을 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-11-24-급반등-이후-시장을-결정할-핵심-변수.html",
+      "video": "https://www.youtube.com/watch?v=vcHvXcQw7e0",
+      "video_id": "vcHvXcQw7e0",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-11-23-손경제-브리핑-10조-원-증안펀드와-국산-전기차-세액공제-확대-검토",
       "date": "2026-11-23",
@@ -119,6 +134,36 @@
       "url": "2026-11-23-증시-조정-속-기관-매물-출회-1월-반등을-기대하는-이유.html",
       "video": "https://www.youtube.com/watch?v=sTGJtw_hGUU",
       "video_id": "sTGJtw_hGUU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-23-나스닥-20-엔비디아-반토막-극단적-공포-구간에-진입한-증시",
+      "date": "2026-11-23",
+      "channel": "소수몽키",
+      "title": "나스닥 -20%·엔비디아 반토막, 극단적 공포 구간에 진입한 증시",
+      "summary": "나스닥이 고점 대비 20% 하락하며 약세장에 진입하고, 반도체 대표 지수와 엔비디아가 반토막 수준으로 급락하며 시장 전반에 극단적 공포와 불확실성이 커진 상황을 짚어 봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-11-23-나스닥-20-엔비디아-반토막-극단적-공포-구간에-진입한-증시.html",
+      "video": "https://www.youtube.com/watch?v=6amgLtc9IgU",
+      "video_id": "6amgLtc9IgU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-23-최태원-sk-회장-재산분할금-9-440억-원-전액-현금-납부-및-화해권고-신청",
+      "date": "2026-11-23",
+      "channel": "삼프로TV",
+      "title": "최태원 SK 회장, 재산분할금 9,440억 원 전액 현금 납부 및 화해권고 신청",
+      "summary": "최태원 SK그룹 회장이 이혼 소송 재산분할금 9,440억 원을 전액 현금으로 납부하겠다고 밝혔습니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-11-23-최태원-sk-회장-재산분할금-9-440억-원-전액-현금-납부-및-화해권고-신청.html",
+      "video": "https://www.youtube.com/watch?v=pssXKLyr05c",
+      "video_id": "pssXKLyr05c",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
@@ -434,6 +479,21 @@
       "url": "2026-11-19-앤트로픽-상장-첫날-차익-실현-미-증시와-ai-투자-열기의-명암.html",
       "video": "https://www.youtube.com/watch?v=X1D0cQjwrkU",
       "video_id": "X1D0cQjwrkU",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-19-미국-금리-인하-기대-약화와-지주사-의료기기-리포트-점검",
+      "date": "2026-11-19",
+      "channel": "슈퍼개미 이세무사TV",
+      "title": "미국 금리 인하 기대 약화와 지주사·의료기기 리포트 점검",
+      "summary": "미국 금리 인하 기대가 약해지고 지주사 중심의 반등 흐름을 점검하는 모닝 브리핑입니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-19-미국-금리-인하-기대-약화와-지주사-의료기기-리포트-점검.html",
+      "video": "https://www.youtube.com/watch?v=JE09r1UybUo",
+      "video_id": "JE09r1UybUo",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
