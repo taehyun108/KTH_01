@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25T01:37:30",
+  "generated_at": "2026-11-25T03:48:17",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,66 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-11-25-증시를-흔드는-금리와-환율-남은-한-해-어떻게-읽어야-할까요",
+      "date": "2026-11-25",
+      "channel": "삼프로TV",
+      "title": "증시를 흔드는 금리와 환율, 남은 한 해 어떻게 읽어야 할까요",
+      "summary": "미국 증시와 금리 이슈가 국내 시장과 반도체·배터리 등 주요 업종에 미치는 영향을 짚어봅니다.",
+      "category": "macro",
+      "relation": "indirect",
+      "url": "2026-11-25-증시를-흔드는-금리와-환율-남은-한-해-어떻게-읽어야-할까요.html",
+      "video": "https://www.youtube.com/watch?v=Iaa__vuffDQ",
+      "video_id": "Iaa__vuffDQ",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-25-디지털자산기본법-정부안과-원화-스테이블코인-규제-미국-제도와-무엇이-다를까요",
+      "date": "2026-11-25",
+      "channel": "삼프로TV",
+      "title": "디지털자산기본법 정부안과 원화 스테이블코인 규제, 미국 제도와 무엇이 다를까요",
+      "summary": "디지털자산기본법 정부안과 원화 스테이블코인의 규제 방향을 미국 지니어스법과 비교해 짚어봅니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-11-25-디지털자산기본법-정부안과-원화-스테이블코인-규제-미국-제도와-무엇이-다를까요.html",
+      "video": "https://www.youtube.com/watch?v=Zhlpe49FL5M",
+      "video_id": "Zhlpe49FL5M",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-25-디지털자산기본법-정부안의-주요-쟁점과-거래소-지분-구조-분석",
+      "date": "2026-11-25",
+      "channel": "삼프로TV",
+      "title": "디지털자산기본법 정부안의 주요 쟁점과 거래소 지분 구조 분석",
+      "summary": "디지털자산기본법 정부안이 공개되면서 거래소 지분 한도와 상장 공시를 둘러싼 쟁점이 주목받고 있습니다.",
+      "category": "korea-policy",
+      "relation": "context",
+      "url": "2026-11-25-디지털자산기본법-정부안의-주요-쟁점과-거래소-지분-구조-분석.html",
+      "video": "https://www.youtube.com/watch?v=CJslrxQHNbE",
+      "video_id": "CJslrxQHNbE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-25-금리와-환율-변동성-속에서-점검하는-증시-흐름과-업종별-투자-전략",
+      "date": "2026-11-25",
+      "channel": "삼프로TV",
+      "title": "금리와 환율 변동성 속에서 점검하는 증시 흐름과 업종별 투자 전략",
+      "summary": "금리 변동성과 변동성 장세 속에서 증시 흐름과 화장품·반도체 등 주요 업종의 투자 전략을 짚어봅니다.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-25-금리와-환율-변동성-속에서-점검하는-증시-흐름과-업종별-투자-전략.html",
+      "video": "https://www.youtube.com/watch?v=gmodBGqiDLQ",
+      "video_id": "gmodBGqiDLQ",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-11-24-급반등-이후-시장을-결정할-핵심-변수",
       "date": "2026-11-24",
