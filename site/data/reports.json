@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25T11:38:56",
+  "generated_at": "2026-11-25T18:46:31",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -119,6 +119,21 @@
       "url": "2026-11-25-증시-변동성이-커진-장세-지금-우리-시장에-필요한-대응-전략.html",
       "video": "https://www.youtube.com/watch?v=aoNPLI-O9QY",
       "video_id": "aoNPLI-O9QY",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-25-ai가-글을-대신-쓰는-시대-왜-말의-힘이-다시-커질까요",
+      "date": "2026-11-25",
+      "channel": "언더스탠딩",
+      "title": "AI가 글을 대신 쓰는 시대, 왜 말의 힘이 다시 커질까요?",
+      "summary": "AI 시대 글쓰기의 가치가 낮아지면서, 목소리와 대화 같은 비언어적 소통의 힘이 커지고 있어요.",
+      "category": "global-market",
+      "relation": "context",
+      "url": "2026-11-25-ai가-글을-대신-쓰는-시대-왜-말의-힘이-다시-커질까요.html",
+      "video": "https://www.youtube.com/watch?v=LivyGdY2LQM",
+      "video_id": "LivyGdY2LQM",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
