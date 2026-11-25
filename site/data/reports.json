@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T23:37:04",
+  "generated_at": "2026-11-25T01:37:30",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -149,6 +149,21 @@
       "url": "2026-11-24-균열은-이미-시작됐다-국장-팔고-미장으로-가기-전-생각해-볼-점.html",
       "video": "https://www.youtube.com/watch?v=YUzwVL3oZIc",
       "video_id": "YUzwVL3oZIc",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-24-미-중-통상-마찰과-유럽의-하이브리드-제동-그리고-국내-산업의-고민",
+      "date": "2026-11-24",
+      "channel": "삼프로TV",
+      "title": "미·중 통상 마찰과 유럽의 하이브리드 제동, 그리고 국내 산업의 고민",
+      "summary": "미국과 유럽의 통상 정책 변화가 국내 완성차와 배터리 공급망에 미치는 영향을 짚어봅니다.",
+      "category": "global-policy",
+      "relation": "indirect",
+      "url": "2026-11-24-미-중-통상-마찰과-유럽의-하이브리드-제동-그리고-국내-산업의-고민.html",
+      "video": "https://www.youtube.com/watch?v=-zCxk8cTefE",
+      "video_id": "-zCxk8cTefE",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
