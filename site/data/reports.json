@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25T03:48:17",
+  "generated_at": "2026-11-25T11:38:56",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -74,6 +74,51 @@
       "url": "2026-11-25-금리와-환율-변동성-속에서-점검하는-증시-흐름과-업종별-투자-전략.html",
       "video": "https://www.youtube.com/watch?v=gmodBGqiDLQ",
       "video_id": "gmodBGqiDLQ",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-25-코스피-하락-닷컴버블과-비교하면-안-되는-이유",
+      "date": "2026-11-25",
+      "channel": "삼프로TV",
+      "title": "코스피 하락, 닷컴버블과 비교하면 안 되는 이유",
+      "summary": "최근 코스피 하락을 닷컴버블과 비교하는 것은 무리라며, 내년 상반기 증시 반등을 기대하는 이유를 전해 드립니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-25-코스피-하락-닷컴버블과-비교하면-안-되는-이유.html",
+      "video": "https://www.youtube.com/watch?v=ndChrW-zsdE",
+      "video_id": "ndChrW-zsdE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-25-폭락장-반도체-대응법-언제-팔지는-지수-위치-보고-결정하세요",
+      "date": "2026-11-25",
+      "channel": "삼프로TV",
+      "title": "폭락장 반도체 대응법, 언제 팔지는 지수 위치 보고 결정하세요",
+      "summary": "코스피와 코스닥이 큰 폭으로 하락한 폭락장에서, 지수 위치를 기준으로 한 반도체와 주요 종목의 대응 전략을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-11-25-폭락장-반도체-대응법-언제-팔지는-지수-위치-보고-결정하세요.html",
+      "video": "https://www.youtube.com/watch?v=1fBlONhdXu8",
+      "video_id": "1fBlONhdXu8",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-25-증시-변동성이-커진-장세-지금-우리-시장에-필요한-대응-전략",
+      "date": "2026-11-25",
+      "channel": "삼프로TV",
+      "title": "증시 변동성이 커진 장세, 지금 우리 시장에 필요한 대응 전략",
+      "summary": "국내 증시의 변동성 확대와 수급 공백 속에서 섣부른 매매를 자제하고 대응하는 전략을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-11-25-증시-변동성이-커진-장세-지금-우리-시장에-필요한-대응-전략.html",
+      "video": "https://www.youtube.com/watch?v=aoNPLI-O9QY",
+      "video_id": "aoNPLI-O9QY",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
