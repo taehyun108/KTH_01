@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25T18:46:31",
+  "generated_at": "2026-11-26T01:17:16",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -18,6 +18,36 @@
     "The Wall Street Journal"
   ],
   "reports": [
+    {
+      "id": "2026-11-26-국내-증시-반등의-이면-실적보다-수급과-제도가-더-중요한-이유",
+      "date": "2026-11-26",
+      "channel": "삼프로TV",
+      "title": "국내 증시 반등의 이면, 실적보다 수급과 제도가 더 중요한 이유",
+      "summary": "미국 증시 반등에도 국내 증시는 밸류에이션 매력 대비 수급과 펀더멘털 숙제가 남아 있다는 분석입니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-26-국내-증시-반등의-이면-실적보다-수급과-제도가-더-중요한-이유.html",
+      "video": "https://www.youtube.com/watch?v=kLLgdkWNy3Q",
+      "video_id": "kLLgdkWNy3Q",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-26-미국의-과잉생산-관세-카드와-글로벌-무역-갈등",
+      "date": "2026-11-26",
+      "channel": "손에 잡히는 경제",
+      "title": "미국의 과잉생산 관세 카드와 글로벌 무역 갈등",
+      "summary": "미국이 한국 등 14개 경제권을 상대로 과잉생산 관세 카드 검토에 나섰습니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-11-26-미국의-과잉생산-관세-카드와-글로벌-무역-갈등.html",
+      "video": "https://www.youtube.com/watch?v=vIlN162ruCE",
+      "video_id": "vIlN162ruCE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
     {
       "id": "2026-11-25-증시를-흔드는-금리와-환율-남은-한-해-어떻게-읽어야-할까요",
       "date": "2026-11-25",
@@ -134,6 +164,21 @@
       "url": "2026-11-25-ai가-글을-대신-쓰는-시대-왜-말의-힘이-다시-커질까요.html",
       "video": "https://www.youtube.com/watch?v=LivyGdY2LQM",
       "video_id": "LivyGdY2LQM",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-25-미국-무역법-301조-과잉생산-관세-발표-한국은-15-상한-유지",
+      "date": "2026-11-25",
+      "channel": "삼프로TV",
+      "title": "미국, 무역법 301조 '과잉생산 관세' 발표…한국은 15% 상한 유지",
+      "summary": "미국이 한국 등 14개 경제주체에 무역법 301조에 따른 과잉생산 관세 예고를 발표한 가운데, 한국은 기존 상한선인 15%를 유지하기로 했습니다.",
+      "category": "global-policy",
+      "relation": "context",
+      "url": "2026-11-25-미국-무역법-301조-과잉생산-관세-발표-한국은-15-상한-유지.html",
+      "video": "https://www.youtube.com/watch?v=elji86PkSgs",
+      "video_id": "elji86PkSgs",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
