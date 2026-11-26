@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-26T11:11:46",
+  "generated_at": "2026-11-26T15:51:15",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -104,6 +104,21 @@
       "url": "2026-11-26-live몽당연필-시장-흐름-점검과-2027년-글로벌-테마-투자-전략.html",
       "video": "https://www.youtube.com/watch?v=u7A2hilmYog",
       "video_id": "u7A2hilmYog",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-26-미국-휴장-앞둔-국내-증시-수급-흐름과-향후-시나리오",
+      "date": "2026-11-26",
+      "channel": "삼프로TV",
+      "title": "미국 휴장 앞둔 국내 증시 수급 흐름과 향후 시나리오",
+      "summary": "미국 휴장을 앞둔 국내 증시의 수급 흐름과 향후 시나리오를 점검해 봅니다.",
+      "category": "macro",
+      "relation": "context",
+      "url": "2026-11-26-미국-휴장-앞둔-국내-증시-수급-흐름과-향후-시나리오.html",
+      "video": "https://www.youtube.com/watch?v=KjGSl6-7Ww8",
+      "video_id": "KjGSl6-7Ww8",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
