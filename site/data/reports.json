@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-26T15:51:15",
+  "generated_at": "2026-11-26T23:02:48",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -119,6 +119,21 @@
       "url": "2026-11-26-미국-휴장-앞둔-국내-증시-수급-흐름과-향후-시나리오.html",
       "video": "https://www.youtube.com/watch?v=KjGSl6-7Ww8",
       "video_id": "KjGSl6-7Ww8",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-26-로봇-ai-인프라-etf와-변동성-장세-속-연금-계좌-커버드콜-전략",
+      "date": "2026-11-26",
+      "channel": "삼프로TV",
+      "title": "로봇·AI 인프라 ETF와 변동성 장세 속 연금 계좌 커버드콜 전략",
+      "summary": "로봇주와 인공지능(AI) 인프라 ETF 흐름을 점검하고 변동성 장세 속 연금 계좌의 커버드콜 전략을 짚어봅니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-11-26-로봇-ai-인프라-etf와-변동성-장세-속-연금-계좌-커버드콜-전략.html",
+      "video": "https://www.youtube.com/watch?v=LB4G3JHPqF8",
+      "video_id": "LB4G3JHPqF8",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
