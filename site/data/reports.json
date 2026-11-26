@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-26T01:17:16",
+  "generated_at": "2026-11-26T03:05:14",
   "channels": [
     "삼프로TV",
     "슈카월드",
@@ -44,6 +44,21 @@
       "url": "2026-11-26-미국의-과잉생산-관세-카드와-글로벌-무역-갈등.html",
       "video": "https://www.youtube.com/watch?v=vIlN162ruCE",
       "video_id": "vIlN162ruCE",
+      "pv": 6,
+      "scope": "battery",
+      "src": "gemini-video"
+    },
+    {
+      "id": "2026-11-26-주식-시장-바닥을-잡기-전에-꼭-확인해야-할-것들",
+      "date": "2026-11-26",
+      "channel": "삼프로TV",
+      "title": "주식 시장 바닥을 잡기 전에 꼭 확인해야 할 것들",
+      "summary": "하창완 대표가 전하는 증시 바닥 판단의 신중함과 이차전지 및 소부장 시장 흐름에 대한 분석입니다.",
+      "category": "korea-market",
+      "relation": "context",
+      "url": "2026-11-26-주식-시장-바닥을-잡기-전에-꼭-확인해야-할-것들.html",
+      "video": "https://www.youtube.com/watch?v=22RNv0HPDZo",
+      "video_id": "22RNv0HPDZo",
       "pv": 6,
       "scope": "battery",
       "src": "gemini-video"
